@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import {
   InputOTP,
@@ -27,7 +27,7 @@ export default function OtpConfirmation() {
   }, [timeLeft]);
 
   // OTPni tasdiqlash
-  const handleVerify = async (e) => {
+  const handleVerify = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -64,7 +64,7 @@ export default function OtpConfirmation() {
   };
 
   // Vaqtni formatlash
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
