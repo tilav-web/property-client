@@ -1,0 +1,34 @@
+{
+  "back": "ortga",
+  "login": "kirish",
+  "search": "qidiruv",
+  "search_placeholder": "Shahar, mahalla yoki bino",
+  "buy": "Sotib olish",
+  "rent_apartments": "Kvartira ijarasi",
+  "rent_space": "Joy ijarasi",
+  "find_agent": "Agent topish",
+  "mortgage": "Ipoteka",
+  "new_projects": "Yangi loyihalar",
+  "favorites": "Sevimlilar",
+  "sell_or_rent": "Sotish / Ijaraga berish",
+  "categories": {
+    "flats": "Kvartiralar",
+    "dacha": "Dacha",
+    "rooms": "Xonalar",
+    "office": "Ofis",
+    "land": "Yer",
+    "business": "Biznes uchun",
+    "basement": "Podval",
+    "building": "Bino"
+  },
+  "hero": {
+    "title": "O‘zbekistonning yuragida orzu xonadonlari",
+    "search": {
+      "search_placeholder": "Shahar yoki tuman",
+      "dropdown_menu": {
+        "first": "Ko‘chmas mulk turi",
+        "secound": "Yotoq xonalar soni va Vannaxonalar soni"
+      }
+    }
+  }
+}

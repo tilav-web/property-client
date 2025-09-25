@@ -1,0 +1,49 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import RootLayout from "./layouts/root-layout";
+import SubLayout from "./layouts/sub-layout";
+import Main from "./pages/main/main";
+import RoleChecked from "./pages/auth/role-checked";
+import Register from "./pages/auth/register";
+import OtpConfirmation from "./pages/auth/otp-confirmation";
+import Profile from "./pages/profile/profile";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: (
+          <SubLayout>
+            <Main />
+          </SubLayout>
+        ),
+      },
+      {
+        path: "/auth",
+        element: <RoleChecked />,
+      },
+      {
+        path: "/auth/register",
+        element: <Register />,
+      },
+      {
+        path: "/auth/otp",
+        element: <OtpConfirmation />,
+      },
+      {
+        path: "/profile",
+        element: (
+          <SubLayout>
+            <Profile />
+          </SubLayout>
+        ),
+      },
+    ],
+  },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
+}
