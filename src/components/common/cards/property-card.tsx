@@ -1,17 +1,13 @@
-import { cardImage, cardImageLink, courtSvg } from "@/utils/shared";
-import {
-  Camera,
-  CirclePlay,
-  ClipboardPenLine,
-  MapPin,
-  ShieldCheck,
-} from "lucide-react";
+import { cardImage, cardImageLink } from "@/utils/shared";
+import { Camera, CirclePlay, MapPin, ShieldCheck } from "lucide-react";
 import { Badge } from "../../ui/badge";
 import CallButton from "../buttons/call-button";
 import MailButton from "../buttons/mail-button";
 import WhatsAppButton from "../buttons/whats-app-button";
 import HeartButton from "../buttons/heart-button";
 import EllipsisVerticalButton from "../buttons/ellipsis-vertical-button";
+import OnlineContractButton from "../buttons/online-contract-button";
+import BidPriceButton from "../buttons/bid-price-button";
 
 export default function PropertyCard() {
   return (
@@ -72,14 +68,8 @@ export default function PropertyCard() {
       <div className="bg-[#B7B7B7] p-3 lg:p-2 rounded-b-xl">
         <div className="flex flex-col lg:flex-row items-center gap-3 justify-between">
           <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-            <button className="bg-[#FF990063] flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0">
-              <img src={courtSvg} alt="Court svg" className="w-4 h-4" />
-              <span className="whitespace-nowrap">Ваша цена</span>
-            </button>
-            <button className="bg-white flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0">
-              <ClipboardPenLine className="w-4 h-4" />
-              <span className="whitespace-nowrap">Онлайн контракт</span>
-            </button>
+            <BidPriceButton />
+            <OnlineContractButton />
           </div>
           <div className="flex flex-wrap gap-2 justify-center lg:justify-end">
             <CallButton />
