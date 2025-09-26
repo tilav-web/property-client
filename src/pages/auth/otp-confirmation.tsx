@@ -5,12 +5,14 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { useNavigate } from "react-router-dom";
 
 export default function OtpConfirmation() {
   const [otp, setOtp] = useState("");
   const [timeLeft, setTimeLeft] = useState(120); // 2 daqiqa
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Vaqt hisobi
   useEffect(() => {
@@ -43,7 +45,7 @@ export default function OtpConfirmation() {
     // Simulyatsiya
     setTimeout(() => {
       setIsLoading(false);
-      alert("OTP muvaffaqiyatli tasdiqlandi!");
+      navigate('/profile')
     }, 2000);
   };
 
