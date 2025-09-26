@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeftToLine } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-export default function BackButton() {
+export default function BackButton({ className }: { className?: string }) {
   const handleBack = () => {
     if (window.history.length > 1) {
       window.history.back();
@@ -14,7 +14,11 @@ export default function BackButton() {
   const { t } = useTranslation();
 
   return (
-    <Button className="capitalize" variant={"ghost"} onClick={handleBack}>
+    <Button
+      className={`capitalize ${className}`}
+      variant={"ghost"}
+      onClick={handleBack}
+    >
       <ArrowLeftToLine />
       {t("back")}
     </Button>

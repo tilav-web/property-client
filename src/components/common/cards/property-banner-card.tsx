@@ -1,5 +1,5 @@
+import { Badge } from "@/components/ui/badge";
 import { bannerImage1, emaarImage } from "@/utils/shared";
-import { Badge } from "../ui/badge";
 import { Mail, MapPin, MousePointer2, Phone } from "lucide-react";
 
 export default function PropertyBannerCard() {

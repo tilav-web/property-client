@@ -1,6 +1,6 @@
 import HeroSection from "@/components/common/hero-section";
-import PropertyCard from "@/components/common/property-card";
-import PropertyBannerCard from "@/components/common/property-banner-card";
+import PropertyCard from "@/components/common/cards/property-card";
+import PropertyBannerCard from "@/components/common/cards/property-banner-card";
 import { Button } from "@/components/ui/button";
 import { categories } from "@/constants/mack-data";
 import { asideImage } from "@/utils/shared";

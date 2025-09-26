@@ -3,21 +3,20 @@ import {
   Camera,
   CirclePlay,
   ClipboardPenLine,
-  EllipsisVertical,
-  Heart,
-  Mail,
   MapPin,
-  Phone,
   ShieldCheck,
 } from "lucide-react";
-import { Badge } from "../ui/badge";
+import { Badge } from "../../ui/badge";
+import CallButton from "../buttons/call-button";
+import MailButton from "../buttons/mail-button";
+import WhatsAppButton from "../buttons/whats-app-button";
+import HeartButton from "../buttons/heart-button";
+import EllipsisVerticalButton from "../buttons/ellipsis-vertical-button";
 
 export default function PropertyCard() {
   return (
     <div className="bg-white rounded-xl overflow-hidden">
-      {/* Asosiy kontent */}
       <div className="flex flex-col lg:flex-row items-stretch gap-4 p-4 lg:p-2">
-        {/* Rasm qismi */}
         <div className="w-full lg:max-w-[320px] h-[240px] relative">
           <img
             className="w-full h-full object-cover"
@@ -42,8 +41,6 @@ export default function PropertyCard() {
             <CirclePlay className="w-3 h-3" />
           </Badge>
         </div>
-
-        {/* Ma'lumotlar qismi */}
         <div className="flex-1 flex flex-col justify-between gap-3">
           <div className="flex flex-col gap-2">
             <p className="text-sm text-gray-600">Квартира</p>
@@ -59,8 +56,6 @@ export default function PropertyCard() {
             <p className="text-sm">Ташкент Мирзо Улугбек 25/2</p>
           </div>
         </div>
-
-        {/* Link rasm (faqat desktopda ko'rinadi) */}
         <div className="hidden lg:block">
           <div className="w-[95px] h-[125px] border rounded overflow-hidden">
             <img
@@ -69,14 +64,13 @@ export default function PropertyCard() {
               className="w-full h-full object-cover"
             />
           </div>
-          <p className="text-center text-[#B78A00] uppercase text-sm">Премиум</p>
+          <p className="text-center text-[#B78A00] uppercase text-sm">
+            Премиум
+          </p>
         </div>
       </div>
-
-      {/* Pastki buttonlar qismi */}
       <div className="bg-[#B7B7B7] p-3 lg:p-2 rounded-b-xl">
         <div className="flex flex-col lg:flex-row items-center gap-3 justify-between">
-          {/* Chap tomondagi buttonlar */}
           <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
             <button className="bg-[#FF990063] flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0">
               <img src={courtSvg} alt="Court svg" className="w-4 h-4" />
@@ -87,26 +81,12 @@ export default function PropertyCard() {
               <span className="whitespace-nowrap">Онлайн контракт</span>
             </button>
           </div>
-
-          {/* O'ng tomondagi buttonlar */}
           <div className="flex flex-wrap gap-2 justify-center lg:justify-end">
-            <button className="bg-white flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0">
-              <Phone className="w-4 h-4" />
-              <span className="hidden sm:inline">Вызов</span>
-            </button>
-            <button className="bg-white flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0">
-              <Mail className="w-4 h-4" />
-              <span className="hidden sm:inline">Email</span>
-            </button>
-            <button className="bg-white flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0">
-              <span className="whitespace-nowrap">WhatsApp</span>
-            </button>
-            <button className="bg-white flex items-center gap-2 p-2 rounded border border-black">
-              <Heart className="w-4 h-4" />
-            </button>
-            <button className="bg-[#FAD397] flex items-center gap-2 p-2 rounded border border-black">
-              <EllipsisVertical className="w-4 h-4" />
-            </button>
+            <CallButton />
+            <MailButton />
+            <WhatsAppButton />
+            <HeartButton />
+            <EllipsisVerticalButton />
           </div>
         </div>
       </div>

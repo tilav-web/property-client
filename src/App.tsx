@@ -6,6 +6,7 @@ import RoleChecked from "./pages/auth/role-checked";
 import Register from "./pages/auth/register";
 import OtpConfirmation from "./pages/auth/otp-confirmation";
 import Profile from "./pages/profile/profile";
+import Property from "./pages/property/property";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,14 @@ const router = createBrowserRouter([
         element: (
           <SubLayout>
             <Main />
+          </SubLayout>
+        ),
+      },
+      {
+        path: "/property",
+        element: (
+          <SubLayout>
+            <Property />
           </SubLayout>
         ),
       },

@@ -1,6 +1,6 @@
+import { Badge } from "@/components/ui/badge";
 import { miniCardImage } from "@/utils/shared";
 import { Heart, MapPin, Star } from "lucide-react";
-import { Badge } from "../ui/badge";
 
 export default function PropertyMiniCard() {
   return (

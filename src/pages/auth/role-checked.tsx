@@ -1,4 +1,4 @@
-import BackButton from "@/components/common/back-button";
+import BackButton from "@/components/common/buttons/back-button";
 import { Button } from "@/components/ui/button";
 import { roleImage1, roleImage2, roleImage3 } from "@/utils/shared";
 import { ArrowRightToLine } from "lucide-react";

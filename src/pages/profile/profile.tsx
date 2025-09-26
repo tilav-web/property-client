@@ -1,5 +1,5 @@
-import BackButton from "@/components/common/back-button";
-import PropertyCard from "@/components/common/property-card";
+import BackButton from "@/components/common/buttons/back-button";
+import PropertyCard from "@/components/common/cards/property-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountDetails from "./_components/account_details";
 
