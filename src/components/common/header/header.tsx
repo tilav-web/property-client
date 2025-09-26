@@ -48,11 +48,8 @@ export default function Header() {
   return (
     <header className="w-full bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
       <div className="container mx-auto">
-        {/* Top Section */}
         <div className="flex items-center justify-between gap-4 py-3 px-4 lg:px-6">
-          {/* Logo and Mobile Menu */}
           <div className="flex items-center gap-4">
-            {/* Mobile Menu */}
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="lg:hidden">
@@ -103,8 +100,6 @@ export default function Header() {
                 </div>
               </SheetContent>
             </Sheet>
-
-            {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">L</span>
@@ -114,8 +109,6 @@ export default function Header() {
               </span>
             </Link>
           </div>
-
-          {/* Search Bar - Desktop */}
           <div className="hidden lg:block flex-1 max-w-2xl mx-8">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -126,10 +119,7 @@ export default function Header() {
               />
             </div>
           </div>
-
-          {/* Right Controls */}
           <div className="flex items-center gap-2">
-            {/* Mobile Search */}
             <Button
               variant="ghost"
               size="icon"
@@ -138,24 +128,18 @@ export default function Header() {
             >
               <Search className="h-4 w-4" />
             </Button>
-
-            {/* Sell/Rent Button */}
             <Button
               variant="default"
               className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
             >
               <span className="font-semibold">{t("sell_or_rent")}</span>
             </Button>
-
-            {/* Favorites */}
             <Button variant="ghost" size="icon" className="relative">
               <Heart className="h-4 w-4" />
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                 3
               </span>
             </Button>
-
-            {/* Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -184,9 +168,11 @@ export default function Header() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-
-            {/* Login/User */}
-            <DropdownMenu>
+            <Link to={'/auth'} className="flex items-center gap-2 hover:underline transition-all">
+              <User className="h-4 w-4" />
+              <span className="hidden sm:block">{t("login")}</span>
+            </Link>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
@@ -212,11 +198,9 @@ export default function Header() {
                   <span>Chiqish</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
           </div>
         </div>
-
-        {/* Mobile Search */}
         {isSearchOpen && (
           <div className="lg:hidden px-4 pb-3">
             <div className="relative">
@@ -229,8 +213,6 @@ export default function Header() {
             </div>
           </div>
         )}
-
-        {/* Navigation - Desktop */}
         <nav className="hidden lg:flex items-center justify-between py-3 px-6 border-t border-gray-100">
           <div className="flex items-center gap-1 flex-1">
             {navItems.map((item) => (

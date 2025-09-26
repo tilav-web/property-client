@@ -1,9 +1,13 @@
 import BackButton from "@/components/common/back-button";
+import { Button } from "@/components/ui/button";
 import { roleImage1, roleImage2, roleImage3 } from "@/utils/shared";
+import { ArrowRightToLine } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function RoleChecked() {
   const [selectedRole, setSelectedRole] = useState<string>();
+  const navigate = useNavigate();
 
   const roles = [
     { id: "role1", image: roleImage1, label: "Физической" },
@@ -22,7 +26,7 @@ export default function RoleChecked() {
           Choose one of the available roles below
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           {roles.map((role) => (
             <div key={role.id} className="flex flex-col items-center">
               {/* Hidden Checkbox */}
@@ -113,6 +117,16 @@ export default function RoleChecked() {
               </span>
             </div>
           ))}
+        </div>
+        <div className="flex items-center justify-end">
+          <Button
+            onClick={() => navigate("/auth/register")}
+            disabled={!selectedRole}
+            variant={"outline"}
+          >
+            Davom etish
+            <ArrowRightToLine />
+          </Button>
         </div>
       </div>
     </div>

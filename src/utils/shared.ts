@@ -8,6 +8,7 @@ import roleImage1 from "@/assets/images/role-image1.png";
 import roleImage2 from "@/assets/images/role-image-2.png";
 import roleImage3 from "@/assets/images/role-image3.png";
 import imageCard from "@/assets/images/image-card.jpg";
+import registerHouseImage from "@/assets/images/register-house-image.jpg";
 import miniCardImage from "@/assets/images/mini-card-image.jpg";
 import courtSvg from "@/assets/icons/court.svg";
 
@@ -24,4 +25,5 @@ export {
   roleImage3,
   miniCardImage,
   imageCard,
+  registerHouseImage,
 };
