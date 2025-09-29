@@ -6,7 +6,7 @@ export default function SubLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
-      <main className="container mx-auto select-none pb-12">{children}</main>
+      <main className="container mx-auto select-none pb-12 px-4">{children}</main>
       <Footer />
     </>
   );

@@ -12,7 +12,7 @@ import BidPriceButton from "../buttons/bid-price-button";
 export default function PropertyCard() {
   return (
     <div className="bg-white rounded-xl overflow-hidden">
-      <div className="flex flex-col lg:flex-row items-stretch gap-4 p-4 lg:p-2">
+      <div className="flex flex-col lg:flex-row items-stretch gap-4 lg:p-2">
         <div className="w-full lg:max-w-[320px] h-[240px] relative">
           <img
             className="w-full h-full object-cover"

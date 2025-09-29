@@ -29,8 +29,8 @@ export default function Main() {
         img={mainImage}
         title={"O‘zbekistonning yuragida orzu xonadonlari"}
       />
-      <div className="flex items-stretch gap-4 mb-4">
-        <div className="flex-1">
+      <div className="flex items-stretch gap-4 mb-4 flex-col md:flex-row mt-4">
+        <div className="flex-1 flex flex-col gap-4">
           <PropertyCard />
           <PropertyCard />
           <PropertyCard />
