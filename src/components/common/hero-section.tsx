@@ -12,9 +12,11 @@ import { useState, useEffect } from "react";
 export default function HeroSection({
   img,
   title,
+  className,
 }: {
   title: string;
   img: string;
+  className?: string;
 }) {
   const { t } = useTranslation();
   const [, setIsMobile] = useState(false);
@@ -27,10 +29,10 @@ export default function HeroSection({
     };
 
     checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    
+    window.addEventListener("resize", checkScreenSize);
+
     return () => {
-      window.removeEventListener('resize', checkScreenSize);
+      window.removeEventListener("resize", checkScreenSize);
     };
   }, []);
 
@@ -46,7 +48,7 @@ export default function HeroSection({
         <div className="absolute w-full h-full flex items-center justify-between">
           <div className="flex-1 flex items-center justify-center pb-24 pr-12">
             <h1
-              className="text-6xl max-w-[550px] text-center"
+              className={`text-6xl max-w-[550px] text-center ${className}`}
               style={{ fontFamily: "Edu NSW ACT Foundation" }}
             >
               {title}
@@ -106,7 +108,7 @@ export default function HeroSection({
           >
             {title}
           </h1>
-          <button 
+          <button
             onClick={toggleMobileSearch}
             className="p-2 rounded-full bg-gray-100"
           >
@@ -129,13 +131,16 @@ export default function HeroSection({
             <div className="space-y-3">
               {/* Search Input */}
               <div className="relative">
-                <Search className="absolute left-3 top-3 text-gray-400" size={20} />
+                <Search
+                  className="absolute left-3 top-3 text-gray-400"
+                  size={20}
+                />
                 <Input
                   className="pl-10 py-6 border border-gray-300 rounded-lg"
                   placeholder={t("hero.search.search_placeholder")}
                 />
               </div>
-              
+
               {/* Filter Options */}
               <div className="flex flex-col space-y-3">
                 <DropdownMenu>
@@ -149,7 +154,7 @@ export default function HeroSection({
                     <DropdownMenuItem></DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                
+
                 <DropdownMenu>
                   <DropdownMenuTrigger className="flex justify-between items-center p-3 border border-gray-300 rounded-lg">
                     <span className="text-gray-500">
@@ -162,7 +167,7 @@ export default function HeroSection({
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-              
+
               {/* Search Button */}
               <button className="w-full py-3 bg-yellow-400 rounded-lg font-medium flex items-center justify-center gap-2">
                 <Search size={18} />

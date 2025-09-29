@@ -10,14 +10,11 @@ export default function PropertyBannerCard({
 }) {
   return (
     <div className="w-full h-[302px] relative my-2 rounded-md overflow-hidden">
-      {/* Asosiy banner rasmi */}
       <img
         className="w-full h-full object-cover"
         src={property.images[0]}
         alt={property.title}
       />
-
-      {/* Yuqori chapdagi badge’lar */}
       <div className="flex flex-col absolute top-2 left-2 gap-1">
         <Badge className="uppercase bg-black/10">Vne plana</Badge>
         {property.delivery_date && (
@@ -31,8 +28,6 @@ export default function PropertyBannerCard({
           </Badge>
         )}
       </div>
-
-      {/* Pastki chap qism - asosiy info */}
       <div className="absolute bottom-2 left-2 text-white">
         <p className="text-2xl">{property.title}</p>
         <div className="flex items-center gap-1 mb-4">
@@ -40,7 +35,6 @@ export default function PropertyBannerCard({
           <p>{property.address}</p>
         </div>
         {property.beds && <p>{property.beds}</p>}
-
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">
             <p>Start narx:</p>
@@ -49,14 +43,12 @@ export default function PropertyBannerCard({
             </p>
           </div>
           {property.payment_plans && (
-            <Badge className="bg-white text-blue-900">
+            <Badge className="bg-white text-blue-900 hidden md:block">
               {property.payment_plans} ta to‘lov rejasi
             </Badge>
           )}
         </div>
       </div>
-
-      {/* Yuqori o‘ngda logotip */}
       {property.logo && (
         <div className="absolute top-2 right-2 h-[54px] w-[70px]">
           <img
@@ -66,18 +58,16 @@ export default function PropertyBannerCard({
           />
         </div>
       )}
-
-      {/* Pastki o‘ng qism - tugmalar */}
-      <div className="absolute bottom-2 right-2 flex items-center gap-4">
-        <button className="flex items-center bg-white rounded px-3 py-1 gap-2">
+      <div className="absolute bottom-2 right-2 items-center gap-4 hidden sm:flex">
+        <button className="flex items-center bg-white rounded px-3 py-1 gap-2 w-full mg:w-auto">
           <Phone size={18} />
           <span>Qo‘ng‘iroq</span>
         </button>
-        <button className="flex items-center bg-white rounded px-3 py-1 gap-2">
+        <button className="flex items-center bg-white rounded px-3 py-1 gap-2 w-full mg:w-auto">
           <Mail size={18} />
           <span>Email</span>
         </button>
-        <button className="flex items-center bg-white rounded px-3 py-1 gap-2">
+        <button className="flex items-center bg-white rounded px-3 py-1 gap-2 w-full mg:w-auto">
           <MousePointer2 size={18} />
           <span>WhatsApp</span>
         </button>

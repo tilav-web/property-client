@@ -22,12 +22,13 @@ import {
   Star,
   LogIn,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 export default function Header() {
   const { t } = useTranslation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const navigate = useNavigate();
 
   const navItems = [
     { icon: Home, label: t("buy"), href: "/buy" },
@@ -134,7 +135,12 @@ export default function Header() {
             >
               <span className="font-semibold">{t("sell_or_rent")}</span>
             </Button>
-            <Button variant="ghost" size="icon" className="relative">
+            <Button
+              onClick={() => navigate("/favorites")}
+              variant="ghost"
+              size="icon"
+              className="relative"
+            >
               <Heart className="h-4 w-4" />
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                 3
@@ -168,7 +174,10 @@ export default function Header() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Link to={'/auth'} className="flex items-center gap-2 hover:underline transition-all">
+            <Link
+              to={"/auth"}
+              className="flex items-center gap-2 hover:underline transition-all"
+            >
               <User className="h-4 w-4" />
               <span className="hidden sm:block">{t("login")}</span>
             </Link>

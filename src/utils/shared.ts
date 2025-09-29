@@ -1,4 +1,5 @@
 import mainImage from "@/assets/images/main-image.jpg";
+import heroImage from "@/assets/images/hero-image.jpg";
 import cardImage from "@/assets/images/card-image.jpg";
 import cardImageLink from "@/assets/images/link.png";
 import asideImage from "@/assets/images/aside-image.jpg";
@@ -26,4 +27,5 @@ export {
   miniCardImage,
   imageCard,
   registerHouseImage,
+  heroImage,
 };

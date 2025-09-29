@@ -19,15 +19,12 @@ export default function PropertyCard({
   return (
     <div className="bg-white rounded-xl overflow-hidden">
       <div className="flex flex-col lg:flex-row items-stretch gap-4 lg:p-2">
-        {/* Chap tomonda asosiy rasm */}
         <div className="w-full lg:max-w-[320px] h-[240px] relative">
           <img
             className="w-full h-full object-cover"
             src={property.images[0]}
             alt={property.title}
           />
-
-          {/* Yuqori chap badge’lar */}
           <div className="absolute top-2 left-2 flex flex-col gap-2">
             {property.is_verified && (
               <Badge className="bg-[#00A663] rounded border-white text-xs flex items-center gap-1">
@@ -41,13 +38,9 @@ export default function PropertyCard({
               </Badge>
             )}
           </div>
-
-          {/* Lokatsiya tugmasi */}
           <button className="p-2 bg-white border absolute right-4 bottom-4 rounded-md">
             <MapPin className="w-4 h-4" />
           </button>
-
-          {/* Media hisoblagichi */}
           <Badge className="bg-black/80 rounded-none absolute bottom-0 left-0 text-xs flex items-center gap-1">
             <Camera className="w-3 h-3" />
             <span>{property.photo_count || 0}</span>
@@ -55,8 +48,6 @@ export default function PropertyCard({
             <span>{property.video_count || 0}</span>
           </Badge>
         </div>
-
-        {/* O‘rta qism */}
         <div className="flex-1 flex flex-col justify-between gap-3">
           <div className="flex flex-col gap-2">
             <p className="text-sm text-gray-600">{property.category}</p>
@@ -72,8 +63,6 @@ export default function PropertyCard({
             <p className="text-sm">{property.address}</p>
           </div>
         </div>
-
-        {/* O‘ng tomonda logo va premium yozuvi */}
         <div className="hidden lg:block">
           {property.logo && (
             <div className="w-[95px] h-[125px] border rounded overflow-hidden">
@@ -91,8 +80,6 @@ export default function PropertyCard({
           )}
         </div>
       </div>
-
-      {/* Pastki tugmalar */}
       <div className="bg-[#B7B7B7] p-3 lg:p-2 rounded-b-xl">
         <div className="flex flex-col lg:flex-row items-center gap-3 justify-between">
           <div className="flex flex-wrap gap-2 justify-center lg:justify-start">

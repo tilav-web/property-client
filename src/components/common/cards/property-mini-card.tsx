@@ -32,7 +32,6 @@ export default function PropertyMiniCard({
           <MapPin size={18} />
         </button>
       </div>
-      
       <div className="p-3">
         <div className="flex items-start justify-between mb-2">
           <p className="font-semibold text-sm line-clamp-2 flex-1 mr-2">
@@ -55,12 +54,10 @@ export default function PropertyMiniCard({
             <span className="text-sm">{property?.rating}</span>
           </div>
         </div>
-        
         <div className="flex items-center gap-1 text-gray-600 mb-3">
           <MapPin size={14} />
           <p className="text-xs line-clamp-1">{property?.address}</p>
         </div>
-        
         <p className="font-bold text-lg">
           {property?.price.toLocaleString()} {property?.currency}
           {property?.price_type === "umumiy summa" ? "" : " / oy"}

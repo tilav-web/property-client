@@ -1,7 +1,9 @@
 import PropertyBannerCard from "@/components/common/cards/property-banner-card";
 import PropertyImageCard from "@/components/common/cards/property-image-card";
 import PropertyMiniCard from "@/components/common/cards/property-mini-card";
+import HeroSection from "@/components/common/hero-section";
 import { property, user } from "@/constants/mack-data";
+import { heroImage } from "@/utils/shared";
 
 export default function RentApartments() {
   const propertyWithAuthor = { ...property, author: user };
@@ -11,10 +13,7 @@ export default function RentApartments() {
 
     if (six === 0) {
       return (
-        <div
-          key={index}
-          className="contents"
-        >
+        <div key={index} className="contents">
           <div className="w-full lg:w-1/2">
             <PropertyImageCard />
           </div>
@@ -34,7 +33,15 @@ export default function RentApartments() {
 
   return (
     <div className="py-12">
-      <div className="flex flex-wrap -mx-2 items-stretch gap-y-4">{properties}</div>
+      <HeroSection
+        title="Dream apartments in the
+ heart of Uzbekistan"
+        img={heroImage}
+        className="text-white"
+      />
+      <div className="flex flex-wrap -mx-2 items-stretch gap-y-4">
+        {properties}
+      </div>
     </div>
   );
 }
