@@ -7,6 +7,8 @@ import Register from "./pages/auth/register";
 import OtpConfirmation from "./pages/auth/otp-confirmation";
 import Profile from "./pages/profile/profile";
 import Property from "./pages/property/property";
+import Favorites from "./pages/favorites/favorites";
+import RentApartments from "./pages/rent-apartments/rent-apartments";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,22 @@ const router = createBrowserRouter([
         element: (
           <SubLayout>
             <Property />
+          </SubLayout>
+        ),
+      },
+      {
+        path: "/rent-apartments",
+        element: (
+          <SubLayout>
+            <RentApartments />
+          </SubLayout>
+        ),
+      },
+      {
+        path: "/favorites",
+        element: (
+          <SubLayout>
+            <Favorites />
           </SubLayout>
         ),
       },

@@ -21,6 +21,7 @@ export const user: IUser = {
   phone: "+998901234567",
   photo: "",
   role: "",
+  lan: "uz",
 };
 
 export const property: IProperty = {

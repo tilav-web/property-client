@@ -9,54 +9,61 @@ export default function PropertyMiniCard({
   property: IProperty & { author: IUser };
 }) {
   return (
-    <div className="p-2 max-w-[302px] rounded-md shadow-xl">
-      <div className="w-[285px] h-[240px] relative">
+    <div className="rounded-md shadow-xl h-full overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+      <div className="w-full h-48 relative">
         <img
           className="w-full h-full object-cover"
           src={property?.images[0]}
           alt={property?.title}
         />
-        <div className="absolute top-1 flex items-center justify-between w-full px-2">
-          {property?.is_guest_choice && (
-            <Badge className="rounded border-white bg-black/50 text-white uppercase">
-              Выбор гостей
+        <div className="absolute top-2 flex items-center justify-between w-full px-2">
+          {property?.is_guest_choice ? (
+            <Badge className="rounded border-white bg-black/50 text-white uppercase text-xs">
+              Mehmon tanlovi
             </Badge>
+          ) : (
+            <span></span>
           )}
           <button className="p-1 rounded bg-white/40 border">
             <Heart size={18} />
           </button>
         </div>
-        <button className="border-white border p-2 rounded bg-white/60 absolute right-2 bottom-1">
+        <button className="border-white border p-2 rounded bg-white/60 absolute right-2 bottom-2">
           <MapPin size={18} />
         </button>
       </div>
-      <div>
-        <div className="flex items-start justify-between">
-          <p>{property?.title}</p>
-          <div className="flex items-center pr-2">
+      
+      <div className="p-3">
+        <div className="flex items-start justify-between mb-2">
+          <p className="font-semibold text-sm line-clamp-2 flex-1 mr-2">
+            {property?.title}
+          </p>
+          <div className="flex items-center gap-1 flex-shrink-0">
             <div className="flex items-center">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                   key={i}
-                  size={18}
+                  size={14}
                   className={
                     i < Math.round(property?.rating)
-                      ? "text-yellow-500"
+                      ? "text-yellow-500 fill-yellow-500"
                       : "text-gray-300"
                   }
                 />
               ))}
             </div>
-            <span>{property?.rating}</span>
+            <span className="text-sm">{property?.rating}</span>
           </div>
         </div>
-        <div className="flex items-center gap-1 opacity-60 mb-4">
-          <MapPin />
-          <p>{property?.address}</p>
+        
+        <div className="flex items-center gap-1 text-gray-600 mb-3">
+          <MapPin size={14} />
+          <p className="text-xs line-clamp-1">{property?.address}</p>
         </div>
-        <p className="font-bold">
-          {property?.price.toLocaleString()} {property?.currency}{" "}
-          {property?.price_type === "umumiy summa" ? "" : "за месяц"}
+        
+        <p className="font-bold text-lg">
+          {property?.price.toLocaleString()} {property?.currency}
+          {property?.price_type === "umumiy summa" ? "" : " / oy"}
         </p>
       </div>
     </div>

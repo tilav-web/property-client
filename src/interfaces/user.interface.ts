@@ -6,4 +6,5 @@ export interface IUser {
   phone: string;
   photo: string;
   role: string;
+  lan: string;
 }
