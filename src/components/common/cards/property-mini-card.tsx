@@ -1,20 +1,27 @@
 import { Badge } from "@/components/ui/badge";
-import { miniCardImage } from "@/utils/shared";
+import type { IProperty } from "@/interfaces/property.interface";
+import type { IUser } from "@/interfaces/user.interface";
 import { Heart, MapPin, Star } from "lucide-react";
 
-export default function PropertyMiniCard() {
+export default function PropertyMiniCard({
+  property,
+}: {
+  property: IProperty & { author: IUser };
+}) {
   return (
     <div className="p-2 max-w-[302px] rounded-md shadow-xl">
       <div className="w-[285px] h-[240px] relative">
         <img
           className="w-full h-full object-cover"
-          src={miniCardImage}
-          alt="mini card image"
+          src={property?.images[0]}
+          alt={property?.title}
         />
         <div className="absolute top-1 flex items-center justify-between w-full px-2">
-          <Badge className="rounded border-white bg-black/50 text-white uppercase">
-            Выбор гостей
-          </Badge>
+          {property?.is_guest_choice && (
+            <Badge className="rounded border-white bg-black/50 text-white uppercase">
+              Выбор гостей
+            </Badge>
+          )}
           <button className="p-1 rounded bg-white/40 border">
             <Heart size={18} />
           </button>
@@ -23,25 +30,34 @@ export default function PropertyMiniCard() {
           <MapPin size={18} />
         </button>
       </div>
-      <div className="">
+      <div>
         <div className="flex items-start justify-between">
-          <p>Уютная и красивая</p>
+          <p>{property?.title}</p>
           <div className="flex items-center pr-2">
             <div className="flex items-center">
-              <Star size={18} />
-              <Star size={18} />
-              <Star size={18} />
-              <Star size={18} />
-              <Star size={18} />
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  size={18}
+                  className={
+                    i < Math.round(property?.rating)
+                      ? "text-yellow-500"
+                      : "text-gray-300"
+                  }
+                />
+              ))}
             </div>
-            <span>4.7</span>
+            <span>{property?.rating}</span>
           </div>
         </div>
         <div className="flex items-center gap-1 opacity-60 mb-4">
           <MapPin />
-          <p>Ташкент Мирзо Улугбек 25/2</p>
+          <p>{property?.address}</p>
         </div>
-        <p className="font-bold">5 000 000 UZS за месяц</p>
+        <p className="font-bold">
+          {property?.price.toLocaleString()} {property?.currency}{" "}
+          {property?.price_type === "umumiy summa" ? "" : "за месяц"}
+        </p>
       </div>
     </div>
   );

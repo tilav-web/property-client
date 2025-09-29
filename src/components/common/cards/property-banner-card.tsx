@@ -1,44 +1,81 @@
 import { Badge } from "@/components/ui/badge";
-import { bannerImage1, emaarImage } from "@/utils/shared";
-import { Mail, MapPin, MousePointer2, Phone } from "lucide-react";
+import type { IProperty } from "@/interfaces/property.interface";
+import type { IUser } from "@/interfaces/user.interface";
+import { MapPin, Mail, MousePointer2, Phone } from "lucide-react";
 
-export default function PropertyBannerCard() {
+export default function PropertyBannerCard({
+  property,
+}: {
+  property: IProperty & { author: IUser };
+}) {
   return (
     <div className="w-full h-[302px] relative my-2 rounded-md overflow-hidden">
-      <img className="w-full h-full" src={bannerImage1} alt="banner image" />
+      {/* Asosiy banner rasmi */}
+      <img
+        className="w-full h-full object-cover"
+        src={property.images[0]}
+        alt={property.title}
+      />
+
+      {/* Yuqori chapdagi badge’lar */}
       <div className="flex flex-col absolute top-2 left-2 gap-1">
-        <Badge className="uppercase bg-black/10">Вне плана</Badge>
-        <Badge className="uppercase bg-black/10">Дата доставки: Q3 2029</Badge>
-        <Badge className="uppercase bg-red-400">
-          Продажи начались: 22 июня 2025 года
-        </Badge>
+        <Badge className="uppercase bg-black/10">Vne plana</Badge>
+        {property.delivery_date && (
+          <Badge className="uppercase bg-black/10">
+            Topshirish: {property.delivery_date}
+          </Badge>
+        )}
+        {property.sales_date && (
+          <Badge className="uppercase bg-red-400">
+            Sotuv boshlandi: {property.sales_date}
+          </Badge>
+        )}
       </div>
+
+      {/* Pastki chap qism - asosiy info */}
       <div className="absolute bottom-2 left-2 text-white">
-        <p className="text-2xl">Альберо</p>
+        <p className="text-2xl">{property.title}</p>
         <div className="flex items-center gap-1 mb-4">
           <MapPin size={18} />
-          <p>Ташкент, Мирзо Улугбек 1-5, Узбекистан</p>
+          <p>{property.address}</p>
         </div>
-        <p>1 - 3 кровати</p>
+        {property.beds && <p>{property.beds}</p>}
+
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">
-            <p>Запуск цена:</p>
-            <p>2.8m uzs</p>
+            <p>Start narx:</p>
+            <p>
+              {property.price.toLocaleString()} {property.currency}
+            </p>
           </div>
-          <Badge className="bg-white text-blue-900">2 планы оплаты</Badge>
+          {property.payment_plans && (
+            <Badge className="bg-white text-blue-900">
+              {property.payment_plans} ta to‘lov rejasi
+            </Badge>
+          )}
         </div>
       </div>
-      <div className="absolute top-2 right-2 h-[54px] w-[70px]">
-        <img className="w-full h-full object-cover" src={emaarImage} alt="" />
-      </div>
-      <div className=" absolute bottom-2 right-2 flex items-center gap-4">
+
+      {/* Yuqori o‘ngda logotip */}
+      {property.logo && (
+        <div className="absolute top-2 right-2 h-[54px] w-[70px]">
+          <img
+            className="w-full h-full object-cover"
+            src={property.logo}
+            alt="logo"
+          />
+        </div>
+      )}
+
+      {/* Pastki o‘ng qism - tugmalar */}
+      <div className="absolute bottom-2 right-2 flex items-center gap-4">
         <button className="flex items-center bg-white rounded px-3 py-1 gap-2">
           <Phone size={18} />
-          <span>Вызов</span>
+          <span>Qo‘ng‘iroq</span>
         </button>
         <button className="flex items-center bg-white rounded px-3 py-1 gap-2">
           <Mail size={18} />
-          <span>Вызов</span>
+          <span>Email</span>
         </button>
         <button className="flex items-center bg-white rounded px-3 py-1 gap-2">
           <MousePointer2 size={18} />

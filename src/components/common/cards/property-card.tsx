@@ -1,4 +1,3 @@
-import { cardImage, cardImageLink } from "@/utils/shared";
 import { Camera, CirclePlay, MapPin, ShieldCheck } from "lucide-react";
 import { Badge } from "../../ui/badge";
 import CallButton from "../buttons/call-button";
@@ -9,62 +8,91 @@ import EllipsisVerticalButton from "../buttons/ellipsis-vertical-button";
 import OnlineContractButton from "../buttons/online-contract-button";
 import BidPriceButton from "../buttons/bid-price-button";
 
-export default function PropertyCard() {
+import type { IProperty } from "@/interfaces/property.interface";
+import type { IUser } from "@/interfaces/user.interface";
+
+export default function PropertyCard({
+  property,
+}: {
+  property: IProperty & { author: IUser };
+}) {
   return (
     <div className="bg-white rounded-xl overflow-hidden">
       <div className="flex flex-col lg:flex-row items-stretch gap-4 lg:p-2">
+        {/* Chap tomonda asosiy rasm */}
         <div className="w-full lg:max-w-[320px] h-[240px] relative">
           <img
             className="w-full h-full object-cover"
-            src={cardImage}
-            alt="Property image"
+            src={property.images[0]}
+            alt={property.title}
           />
+
+          {/* Yuqori chap badge’lar */}
           <div className="absolute top-2 left-2 flex flex-col gap-2">
-            <Badge className="bg-[#00A663] rounded border-white text-xs">
-              <ShieldCheck className="w-3 h-3" />
-              <span className="uppercase">Проверенный</span>
-            </Badge>
-            <Badge className="bg-[#333]/70 rounded uppercase w-full border-white text-xs">
-              Новый
-            </Badge>
+            {property.is_verified && (
+              <Badge className="bg-[#00A663] rounded border-white text-xs flex items-center gap-1">
+                <ShieldCheck className="w-3 h-3" />
+                <span className="uppercase">Tasdiqlangan</span>
+              </Badge>
+            )}
+            {property.is_new && (
+              <Badge className="bg-[#333]/70 rounded uppercase w-full border-white text-xs">
+                Yangi
+              </Badge>
+            )}
           </div>
+
+          {/* Lokatsiya tugmasi */}
           <button className="p-2 bg-white border absolute right-4 bottom-4 rounded-md">
             <MapPin className="w-4 h-4" />
           </button>
-          <Badge className="bg-black/80 rounded-none absolute bottom-0 left-0 text-xs">
+
+          {/* Media hisoblagichi */}
+          <Badge className="bg-black/80 rounded-none absolute bottom-0 left-0 text-xs flex items-center gap-1">
             <Camera className="w-3 h-3" />
-            <span>20</span>
+            <span>{property.photo_count || 0}</span>
             <CirclePlay className="w-3 h-3" />
+            <span>{property.video_count || 0}</span>
           </Badge>
         </div>
+
+        {/* O‘rta qism */}
         <div className="flex-1 flex flex-col justify-between gap-3">
           <div className="flex flex-col gap-2">
-            <p className="text-sm text-gray-600">Квартира</p>
+            <p className="text-sm text-gray-600">{property.category}</p>
             <p className="text-xl lg:text-2xl font-bold text-[#FF0000]">
-              300 000 000 UZS
+              {property.price.toLocaleString()} {property.currency}
             </p>
           </div>
           <p className="text-sm lg:text-base text-gray-700">
-            Много этажный / Керпичный / 3 комнатный
+            {property.description}
           </p>
           <div className="flex items-center gap-2 text-gray-500">
             <MapPin className="w-4 h-4" />
-            <p className="text-sm">Ташкент Мирзо Улугбек 25/2</p>
+            <p className="text-sm">{property.address}</p>
           </div>
         </div>
+
+        {/* O‘ng tomonda logo va premium yozuvi */}
         <div className="hidden lg:block">
-          <div className="w-[95px] h-[125px] border rounded overflow-hidden">
-            <img
-              src={cardImageLink}
-              alt="property image"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <p className="text-center text-[#B78A00] uppercase text-sm">
-            Премиум
-          </p>
+          {property.logo && (
+            <div className="w-[95px] h-[125px] border rounded overflow-hidden">
+              <img
+                src={property.logo}
+                alt="logo"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
+          {property.is_premium && (
+            <p className="text-center text-[#B78A00] uppercase text-sm">
+              Premium
+            </p>
+          )}
         </div>
       </div>
+
+      {/* Pastki tugmalar */}
       <div className="bg-[#B7B7B7] p-3 lg:p-2 rounded-b-xl">
         <div className="flex flex-col lg:flex-row items-center gap-3 justify-between">
           <div className="flex flex-wrap gap-2 justify-center lg:justify-start">

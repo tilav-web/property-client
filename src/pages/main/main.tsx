@@ -2,7 +2,7 @@ import HeroSection from "@/components/common/hero-section";
 import PropertyCard from "@/components/common/cards/property-card";
 import PropertyBannerCard from "@/components/common/cards/property-banner-card";
 import { Button } from "@/components/ui/button";
-import { categories } from "@/constants/mack-data";
+import { categories, property, user } from "@/constants/mack-data";
 import { asideImage } from "@/utils/shared";
 import { useTranslation } from "react-i18next";
 import { mainImage } from "@/utils/shared";
@@ -31,10 +31,10 @@ export default function Main() {
       />
       <div className="flex items-stretch gap-4 mb-4 flex-col md:flex-row mt-4">
         <div className="flex-1 flex flex-col gap-4">
-          <PropertyCard />
-          <PropertyCard />
-          <PropertyCard />
-          <PropertyCard />
+          <PropertyCard property={{ ...property, author: user }} />
+          <PropertyCard property={{ ...property, author: user }} />
+          <PropertyCard property={{ ...property, author: user }} />
+          <PropertyCard property={{ ...property, author: user }} />
         </div>
         <div className="max-w-[395px] w-full">
           <img className="w-full h-[629px] mb-2" src={asideImage} alt="image" />
@@ -64,7 +64,7 @@ export default function Main() {
           </div>
         </div>
       </div>
-      <PropertyBannerCard />
+      <PropertyBannerCard property={{ ...property, author: user }} />
     </>
   );
 }
