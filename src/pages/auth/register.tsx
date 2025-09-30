@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [isLoading] = useState(false);
   const navigate = useNavigate();
@@ -91,12 +92,12 @@ export default function Register() {
             </div>
           </div>
           <form className="space-y-6">
-            <div>
+            <div className="flex flex-col gap-2">
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
-                Email manzil
+                Email
               </label>
               <input
                 id="email"
@@ -108,6 +109,23 @@ export default function Register() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="email@example.com"
+              />
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Parol
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                placeholder="********"
               />
             </div>
             <div className="flex items-start">
@@ -137,7 +155,7 @@ export default function Register() {
             </div>
             <div>
               <button
-              onClick={() => navigate('/auth/otp')}
+                onClick={() => navigate("/auth/otp")}
                 disabled={isLoading || !agreeToTerms}
                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
@@ -149,7 +167,7 @@ export default function Register() {
             <p className="text-sm text-gray-600">
               Hisobingiz bormi{" "}
               <Link
-                to="/"
+                to="/auth/login"
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Kirish

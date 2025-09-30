@@ -29,3 +29,13 @@ export {
   registerHouseImage,
   heroImage,
 };
+
+export const API_ENDPOINTS = {
+  USER: {
+    base: "/users",
+    login: "/users/login",
+    register: "/users/register",
+    otpConfirm: "/users/confirm-otp",
+    otpResend: "/users/resend-otp",
+  },
+};

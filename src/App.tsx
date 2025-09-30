@@ -9,6 +9,7 @@ import Profile from "./pages/profile/profile";
 import Property from "./pages/property/property";
 import Favorites from "./pages/favorites/favorites";
 import RentApartments from "./pages/rent-apartments/rent-apartments";
+import Login from "./pages/auth/login";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "/auth/otp",
         element: <OtpConfirmation />,
+      },
+      {
+        path: "/auth/login",
+        element: <Login />,
       },
       {
         path: "/profile",
