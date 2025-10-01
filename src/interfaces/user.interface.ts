@@ -1,10 +1,16 @@
 export interface IUser {
-  id: string;
+  _id: string;
   first_name: string;
   last_name: string;
-  email: string;
-  phone: string;
-  photo: string;
-  role: string;
-  lan: string;
+  email: {
+    value: string;
+    isVerified: boolean;
+  };
+  phone: {
+    value: string;
+    isVerified: boolean;
+  };
+  avatar: string;
+  role: "physical" | "seller" | "legal";
+  lan: "uz" | "en" | "ru";
 }

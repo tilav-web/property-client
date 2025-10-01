@@ -8,6 +8,7 @@ import bannerImage1 from "@/assets/images/banner-image1.jpg";
 import roleImage1 from "@/assets/images/role-image1.png";
 import roleImage2 from "@/assets/images/role-image-2.png";
 import roleImage3 from "@/assets/images/role-image3.png";
+import defaultImageAvatar from "@/assets/images/default-avatar.png";
 import imageCard from "@/assets/images/image-card.jpg";
 import registerHouseImage from "@/assets/images/register-house-image.jpg";
 import miniCardImage from "@/assets/images/mini-card-image.jpg";
@@ -28,6 +29,7 @@ export {
   imageCard,
   registerHouseImage,
   heroImage,
+  defaultImageAvatar,
 };
 
 export const API_ENDPOINTS = {
@@ -37,5 +39,10 @@ export const API_ENDPOINTS = {
     register: "/users/register",
     otpConfirm: "/users/confirm-otp",
     otpResend: "/users/resend-otp",
+    refreshToken: "/users/refresh-token",
+    me: "/users/me",
   },
 };
+
+// .ENV
+export const serverUrl = import.meta.env.VITE_API_URL;

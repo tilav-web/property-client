@@ -11,6 +11,7 @@ class UserService {
       return res.data;
     } catch (error) {
       console.error(error);
+      throw error;
     }
   }
 
@@ -32,6 +33,7 @@ class UserService {
       return res.data;
     } catch (error) {
       console.error(error);
+      throw error;
     }
   }
 
@@ -44,6 +46,7 @@ class UserService {
       return res.data;
     } catch (error) {
       console.error(error);
+      throw error;
     }
   }
 
@@ -53,6 +56,27 @@ class UserService {
       return res.data;
     } catch (error) {
       console.error(error);
+      throw error;
+    }
+  }
+
+  async findMe() {
+    try {
+      const res = await apiInstance.get(API_ENDPOINTS.USER.me);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async update(dto: FormData) {
+    try {
+      const res = await apiInstance.put(API_ENDPOINTS.USER.base, dto);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   }
 }

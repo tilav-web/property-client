@@ -14,21 +14,34 @@ import {
   Search,
   Menu,
   Heart,
-  User,
   Home,
   Building,
   Handshake,
   Calculator,
   Star,
   LogIn,
+  User,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import Login from "@/pages/auth/login";
+import { useUserStore } from "@/stores/user.store";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { defaultImageAvatar, serverUrl } from "@/utils/shared";
 
 export default function Header() {
   const { t } = useTranslation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navigate = useNavigate();
+  const { user } = useUserStore();
 
   const navItems = [
     { icon: Home, label: t("buy"), href: "/buy" },
@@ -174,40 +187,66 @@ export default function Header() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Link
-              to={"/auth"}
-              className="flex items-center gap-2 hover:underline transition-all"
-            >
-              <User className="h-4 w-4" />
-              <span className="hidden sm:block">{t("login")}</span>
-            </Link>
-            {/* <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="flex items-center gap-2"
-                >
-                  <User className="h-4 w-4" />
-                  <span className="hidden sm:block">{t("login")}</span>
-                  <ChevronDown className="h-3 w-3 hidden sm:block" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem className="flex items-center gap-2">
-                  <User className="h-4 w-4" />
-                  <span>Profil</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center gap-2">
-                  <Heart className="h-4 w-4" />
-                  <span>Sevimlilar</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center gap-2 text-red-600">
-                  <LogIn className="h-4 w-4" />
-                  <span>Chiqish</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu> */}
+
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar>
+                    <AvatarImage
+                      src={`${
+                        user?.avatar
+                          ? `${serverUrl}/${user?.avatar}`
+                          : defaultImageAvatar
+                      }`}
+                    />
+                    <AvatarFallback>
+                      {user?.first_name?.slice(0, 1) ?? ""}
+                      {user?.last_name?.slice(0, 1) ?? ""}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem
+                    onClick={() => navigate("/profile")}
+                    className="flex items-center gap-2"
+                  >
+                    <User className="h-4 w-4" />
+                    <span>Profil</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => navigate("/")}
+                    className="flex items-center gap-2"
+                  >
+                    <Heart className="h-4 w-4" />
+                    <span>Sevimlilar</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="flex items-center gap-2 text-red-600">
+                    <LogIn className="h-4 w-4" />
+                    <span>Chiqish</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="flex items-center gap-2"
+                  >
+                    <User className="h-4 w-4" />
+                    <span className="hidden sm:block">{t("login")}</span>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Hisobingizga kiring!</DialogTitle>
+                    <DialogDescription></DialogDescription>
+                  </DialogHeader>
+                  <Login />
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
         </div>
         {isSearchOpen && (

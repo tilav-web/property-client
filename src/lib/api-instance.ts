@@ -1,9 +1,10 @@
 import { handleStorage } from "@/utils/handle-storage";
+import { API_ENDPOINTS, serverUrl } from "@/utils/shared";
 import axios, { AxiosError, type AxiosRequestConfig } from "axios";
 import { toast } from "sonner";
 
 const apiInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: serverUrl,
   withCredentials: true,
 });
 
@@ -29,7 +30,7 @@ apiInstance.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const res = await apiInstance.post("/inspectors/refresh_token");
+        const res = await apiInstance.post(API_ENDPOINTS.USER.refreshToken);
         const access_token = res.data;
         handleStorage({ key: "access_token", value: access_token });
         originalRequest.headers = originalRequest.headers || {};
@@ -37,7 +38,7 @@ apiInstance.interceptors.response.use(
         return apiInstance(originalRequest);
       } catch (error) {
         handleStorage({ key: "access_token", value: "" });
-        window.location.href = "/auth";
+        window.location.href = "/auth/register";
         return Promise.reject(error);
       }
     }
