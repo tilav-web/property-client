@@ -10,10 +10,14 @@ export default function RoleChecked() {
   const navigate = useNavigate();
 
   const roles = [
-    { id: "role1", image: roleImage1, label: "Физической" },
-    { id: "role2", image: roleImage2, label: "Продать/здать" },
-    { id: "role3", image: roleImage3, label: "Юридической" },
+    { id: "physical", image: roleImage1, label: "Физической" },
+    { id: "seller", image: roleImage2, label: "Продать/здать" },
+    { id: "legal", image: roleImage3, label: "Юридической" },
   ];
+
+  const handleContinue = () => {
+    navigate(`/auth/register?role=${selectedRole}`);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 select-none">
@@ -29,7 +33,6 @@ export default function RoleChecked() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           {roles.map((role) => (
             <div key={role.id} className="flex flex-col items-center">
-              {/* Hidden Checkbox */}
               <input
                 type="radio"
                 id={role.id}
@@ -39,7 +42,6 @@ export default function RoleChecked() {
                 className="absolute opacity-0 w-0 h-0"
               />
 
-              {/* Custom Checkbox Label */}
               <label
                 htmlFor={role.id}
                 className={`
@@ -48,7 +50,6 @@ export default function RoleChecked() {
                   ${selectedRole === role.id ? "scale-105" : ""}
                 `}
               >
-                {/* Image Container */}
                 <div
                   className={`
                   w-full h-64 md:h-80 rounded-2xl overflow-hidden 
@@ -60,7 +61,6 @@ export default function RoleChecked() {
                   }
                 `}
                 >
-                  {/* Image */}
                   <img
                     src={role.image}
                     alt={role.label}
@@ -70,7 +70,6 @@ export default function RoleChecked() {
                     `}
                   />
                 </div>
-                {/* Check Indicator */}
                 <div
                   className={`
                   absolute top-4 right-4 w-8 h-8 rounded-full 
@@ -105,8 +104,6 @@ export default function RoleChecked() {
                   </svg>
                 </div>
               </label>
-
-              {/* Role Label */}
               <span
                 className={`
                 mt-4 text-lg font-semibold transition-colors duration-300
@@ -120,7 +117,7 @@ export default function RoleChecked() {
         </div>
         <div className="flex items-center justify-end">
           <Button
-            onClick={() => navigate("/auth/register")}
+            onClick={handleContinue}
             disabled={!selectedRole}
             variant={"outline"}
           >

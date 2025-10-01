@@ -79,6 +79,16 @@ class UserService {
       throw error;
     }
   }
+
+  async logout() {
+    try {
+      const res = await apiInstance.post(API_ENDPOINTS.USER.logout);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }
 
 export const userService = new UserService();

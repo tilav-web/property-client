@@ -162,7 +162,7 @@ export default function Login() {
         <p className="text-sm text-gray-600">
           Hisobingiz yo'qmi?{" "}
           <Link
-            to="/auth/register"
+            to="/auth"
             className="font-medium text-blue-600 hover:text-blue-500"
           >
             Ro'yxatdan o'tish

@@ -37,8 +37,7 @@ apiInstance.interceptors.response.use(
         originalRequest.headers["Authorization"] = `Bearer ${access_token}`;
         return apiInstance(originalRequest);
       } catch (error) {
-        handleStorage({ key: "access_token", value: "" });
-        window.location.href = "/auth/register";
+        handleStorage({ key: "access_token", value: null });
         return Promise.reject(error);
       }
     }
@@ -49,8 +48,6 @@ apiInstance.interceptors.response.use(
       toast.error(errorData.error, {
         description: errorData.message || "Xato haqida ma’lumot yo‘q",
       });
-    } else {
-      toast.error("Xatolik", { description: "Nomalum xatolik" });
     }
 
     return Promise.reject(error);

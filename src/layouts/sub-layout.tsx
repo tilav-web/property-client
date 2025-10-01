@@ -18,7 +18,7 @@ export default function SubLayout({ children }: { children: ReactNode }) {
         logout()
       }
     })();
-  }, [setUser]);
+  }, [setUser, logout]);
 
   if (user === undefined) return <Loading />;
 

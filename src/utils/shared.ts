@@ -41,6 +41,7 @@ export const API_ENDPOINTS = {
     otpResend: "/users/resend-otp",
     refreshToken: "/users/refresh-token",
     me: "/users/me",
+    logout: "/users/logout",
   },
 };
 

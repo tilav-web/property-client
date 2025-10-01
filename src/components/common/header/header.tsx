@@ -36,12 +36,26 @@ import Login from "@/pages/auth/login";
 import { useUserStore } from "@/stores/user.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { defaultImageAvatar, serverUrl } from "@/utils/shared";
+import { userService } from "@/services/user.service";
+import { toast } from "sonner";
+import { handleStorage } from "@/utils/handle-storage";
 
 export default function Header() {
   const { t } = useTranslation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navigate = useNavigate();
-  const { user } = useUserStore();
+  const { user, logout } = useUserStore();
+
+  const logoutSystem = async () => {
+    try {
+      const data = await userService.logout();
+      handleStorage({ key: "access_token", value: null });
+      logout();
+      toast.success("Seccess", { description: data.message });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const navItems = [
     { icon: Home, label: t("buy"), href: "/buy" },
@@ -220,7 +234,10 @@ export default function Header() {
                     <Heart className="h-4 w-4" />
                     <span>Sevimlilar</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="flex items-center gap-2 text-red-600">
+                  <DropdownMenuItem
+                    onClick={logoutSystem}
+                    className="flex items-center gap-2 text-red-600"
+                  >
                     <LogIn className="h-4 w-4" />
                     <span>Chiqish</span>
                   </DropdownMenuItem>

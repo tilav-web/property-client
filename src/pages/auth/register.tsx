@@ -1,13 +1,41 @@
+import { registerSchema } from "@/schemas/register.schema";
+import { userService } from "@/services/user.service";
 import { registerHouseImage } from "@/utils/shared";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
-  const [isLoading] = useState(false);
+  const [params] = useSearchParams();
+  const role = params.get("role");
   const navigate = useNavigate();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      agreeToTerms: false,
+    },
+    validationSchema: registerSchema,
+    onSubmit: async (values) => {
+      try {
+        if (!role)
+          return toast.error("Error", {
+            description: "Ortga qayting va role tanlang!",
+          });
+        const data = await userService.register({
+          role,
+          email: values.email,
+          password: values.password,
+        });
+        toast.success("Success", {
+          description: data.message,
+        });
+        navigate(`/auth/otp?id=${data?.user?._id}`);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center">
@@ -30,7 +58,7 @@ export default function Register() {
           </h2>
           <div className="space-y-3 mb-6">
             <button
-              disabled={isLoading}
+              disabled={formik.isSubmitting}
               className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 transition-colors"
             >
               <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
@@ -55,7 +83,7 @@ export default function Register() {
             </button>
 
             <button
-              disabled={isLoading}
+              disabled={formik.isSubmitting}
               className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 transition-colors"
             >
               <svg
@@ -69,7 +97,7 @@ export default function Register() {
             </button>
 
             <button
-              disabled={isLoading}
+              disabled={formik.isSubmitting}
               className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 transition-colors"
             >
               <svg
@@ -91,7 +119,7 @@ export default function Register() {
               <span className="px-2 bg-white text-gray-500">yoki</span>
             </div>
           </div>
-          <form className="space-y-6">
+          <form onSubmit={formik.handleSubmit} className="space-y-6">
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="email"
@@ -101,13 +129,14 @@ export default function Register() {
               </label>
               <input
                 id="email"
-                name="email"
                 type="email"
                 autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                {...formik.getFieldProps("email")}
+                className={`mt-1 block w-full px-3 py-2 border ${
+                  formik.touched.email && formik.errors.email
+                    ? "border-red-500"
+                    : "border-gray-300"
+                } rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
                 placeholder="email@example.com"
               />
               <label
@@ -118,13 +147,14 @@ export default function Register() {
               </label>
               <input
                 id="password"
-                name="password"
                 type="password"
                 autoComplete="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                {...formik.getFieldProps("password")}
+                className={`mt-1 block w-full px-3 py-2 border ${
+                  formik.touched.password && formik.errors.password
+                    ? "border-red-500"
+                    : "border-gray-300"
+                } rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
                 placeholder="********"
               />
             </div>
@@ -132,11 +162,13 @@ export default function Register() {
               <div className="flex items-center h-5">
                 <input
                   id="agree-to-terms"
-                  name="agree-to-terms"
                   type="checkbox"
-                  checked={agreeToTerms}
-                  onChange={(e) => setAgreeToTerms(e.target.checked)}
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  {...formik.getFieldProps("agreeToTerms")}
+                  className={`w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 ${
+                    formik.touched.agreeToTerms && formik.errors.agreeToTerms
+                      ? "border-red-500"
+                      : ""
+                  }`}
                 />
               </div>
               <div className="ml-3 text-sm">
@@ -155,25 +187,14 @@ export default function Register() {
             </div>
             <div>
               <button
-                onClick={() => navigate("/auth/otp")}
-                disabled={isLoading || !agreeToTerms}
+                type="submit"
+                disabled={formik.isSubmitting || !formik.isValid}
                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                {isLoading ? "Kirilmoqda..." : "Davom etish"}
+                {formik.isSubmitting ? "Kirilmoqda..." : "Davom etish"}
               </button>
             </div>
           </form>
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Hisobingiz bormi{" "}
-              <Link
-                to="/auth/login"
-                className="font-medium text-blue-600 hover:text-blue-500"
-              >
-                Kirish
-              </Link>
-            </p>
-          </div>
         </div>
       </div>
     </div>

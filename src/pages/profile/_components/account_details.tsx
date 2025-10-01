@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUserStore } from "@/stores/user.store";
 import { profileSchema } from "@/schemas/profile.schema";
-import { serverUrl } from "@/utils/shared";
+import { defaultImageAvatar, serverUrl } from "@/utils/shared";
 import { userService } from "@/services/user.service";
 
 export default function AccountDetails() {
@@ -74,12 +74,6 @@ export default function AccountDetails() {
     fileInputRef.current?.click();
   };
 
-  const getInitials = () => {
-    return `${formik.values.first_name?.charAt(
-      0
-    )}${formik.values.last_name?.charAt(0)}`?.toUpperCase();
-  };
-
   return (
     <div className="my-4 max-w-4xl px-4">
       {/* Profil rasmi qismi */}
@@ -93,9 +87,11 @@ export default function AccountDetails() {
                 className="w-full h-full object-cover rounded-lg"
               />
             ) : (
-              <span className="text-lg font-semibold text-gray-600">
-                {getInitials()}
-              </span>
+              <img
+                src={defaultImageAvatar}
+                alt="Profile"
+                className="w-full h-full object-cover rounded-lg"
+              />
             )}
           </div>
 

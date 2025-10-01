@@ -1,75 +1,59 @@
-import { useState, useEffect, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "sonner";
+import { userService } from "@/services/user.service";
+import { useUserStore } from "@/stores/user.store";
+import { handleStorage } from "@/utils/handle-storage";
 
 export default function OtpConfirmation() {
   const [otp, setOtp] = useState("");
-  const [timeLeft, setTimeLeft] = useState(120); // 2 daqiqa
-  const [isResendDisabled, setIsResendDisabled] = useState(true);
+  const [params] = useSearchParams();
+  const id = params.get("id");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { setUser } = useUserStore();
 
-  // Vaqt hisobi
-  useEffect(() => {
-    if (timeLeft === 0) {
-      setIsResendDisabled(false);
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      setTimeLeft(timeLeft - 1);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [timeLeft]);
-
-  // OTPni tasdiqlash
   const handleVerify = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    if (otp.length !== 6) {
-      alert("Iltimos, 6 xonalik kodni to'liq kiriting");
+    try {
+      if (otp.length !== 6) {
+        toast.error("Error", {
+          description: "Iltimos, 6 xonalik kodni to'liq kiriting",
+        });
+        setIsLoading(false);
+        return;
+      }
+      if (!id || !otp) return;
+      const data = await userService.otpConfirm({ id, code: otp });
+      setUser(data.user);
+      handleStorage({ key: "access_token", value: data.access_token });
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    } finally {
       setIsLoading(false);
-      return;
     }
-
-    // Tasdiqlash logikasi
-    console.log("OTP Code:", otp);
-
-    // Simulyatsiya
-    setTimeout(() => {
-      setIsLoading(false);
-      navigate('/profile')
-    }, 2000);
   };
 
-  // Yangi OTP so'rash
-  const handleResendOTP = () => {
-    setIsLoading(true);
-    setIsResendDisabled(true);
-    setTimeLeft(120);
+  const handleResendOTP = async () => {
     setOtp("");
-
-    // Yangi OTP yuborish logikasi
-    console.log("Yangi OTP so'ralmoqda...");
-
-    setTimeout(() => {
+    try {
+      setIsLoading(true);
+      if (!id) return;
+      const data = await userService.optResend(id);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
       setIsLoading(false);
-      alert("Yangi kod emailingizga yuborildi!");
-    }, 1500);
-  };
-
-  // Vaqtni formatlash
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
+    }
   };
 
   return (
@@ -136,28 +120,14 @@ export default function OtpConfirmation() {
                 <p>6 xonalik kodni kiriting</p>
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-600">
-                  Kod amal qilish vaqti:{" "}
-                  <span
-                    className={`font-mono font-bold ${
-                      timeLeft < 30 ? "text-red-600" : "text-gray-900"
-                    }`}
-                  >
-                    {formatTime(timeLeft)}
-                  </span>
-                </p>
-              </div>
-              <div className="text-center">
                 <Button
                   type="button"
                   variant="link"
                   onClick={handleResendOTP}
-                  disabled={isResendDisabled || isLoading}
+                  disabled={isLoading}
                   className="text-blue-600 hover:text-blue-500 disabled:text-gray-400 disabled:cursor-not-allowed"
                 >
-                  {isResendDisabled
-                    ? "Kodni qayta yuborish"
-                    : "Kodni qayta yuborish"}
+                  Kodni qayta yuborish
                 </Button>
               </div>
               <Button
