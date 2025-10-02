@@ -127,11 +127,6 @@ export default function PropertyCard({
               Premium
             </p>
           )}
-          {property.is_guest_choice && (
-            <p className="text-center text-[#0066CC] uppercase text-sm mt-1">
-              Mehmon tanlovi
-            </p>
-          )}
         </div>
       </div>
       <div className="bg-[#B7B7B7] p-3 lg:p-2 rounded-b-xl">

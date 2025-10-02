@@ -43,6 +43,9 @@ export const API_ENDPOINTS = {
     me: "/users/me",
     logout: "/users/logout",
   },
+  PROPERTIES: {
+    base: "/properties",
+  },
 };
 
 // .ENV

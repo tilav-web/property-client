@@ -19,7 +19,7 @@ export type PropertyCategory =
   | "shop"
   | "garage";
 
-export type ConstructionStatus = "READY" | "UNDER_CONSTRUCTION" | "PLANNED";
+export type ConstructionStatus = "ready" | "under_construction" | "planned";
 
 export type PropertyPriceType = "sale" | "rent" | "total_price";
 

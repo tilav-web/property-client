@@ -3,11 +3,8 @@ import PropertyCard from "@/components/common/cards/property-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountDetails from "./_components/account_details";
 import { property } from "@/constants/mack-data";
-import { useUserStore } from "@/stores/user.store";
 
 export default function Profile() {
-  const { user } = useUserStore();
-
   return (
     <div className="py-4">
       <BackButton />
@@ -29,8 +26,8 @@ export default function Profile() {
           <AccountDetails />
         </TabsContent>
         <TabsContent className="min-h-96" value="saved_properties">
-          <PropertyCard property={{ ...property, author: user }} />
-          <PropertyCard property={{ ...property, author: user }} />
+          <PropertyCard property={{ ...property }} />
+          <PropertyCard property={{ ...property }} />
         </TabsContent>
         <TabsContent className="min-h-96" value="notification"></TabsContent>
         <TabsContent

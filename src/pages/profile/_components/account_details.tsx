@@ -82,7 +82,7 @@ export default function AccountDetails() {
           <div className="w-20 h-20 bg-gray-200 flex items-center justify-center rounded-lg border-2 border-gray-300">
             {previewAvatar || user?.avatar ? (
               <img
-                src={previewAvatar || `${serverUrl}/${user?.avatar}`}
+                src={previewAvatar || `${serverUrl}/uploads/${user?.avatar}`}
                 alt="Profile"
                 className="w-full h-full object-cover rounded-lg"
               />

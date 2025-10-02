@@ -209,9 +209,10 @@ export default function Header() {
                     <AvatarImage
                       src={`${
                         user?.avatar
-                          ? `${serverUrl}/${user?.avatar}`
+                          ? `${serverUrl}/uploads/${user?.avatar}`
                           : defaultImageAvatar
                       }`}
+                      className="object-cover"
                     />
                     <AvatarFallback>
                       {user?.first_name?.slice(0, 1) ?? ""}
