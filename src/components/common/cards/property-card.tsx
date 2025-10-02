@@ -8,21 +8,58 @@ import EllipsisVerticalButton from "../buttons/ellipsis-vertical-button";
 import OnlineContractButton from "../buttons/online-contract-button";
 import BidPriceButton from "../buttons/bid-price-button";
 
-import type { IProperty } from "@/interfaces/property.interface";
-import type { IUser } from "@/interfaces/user.interface";
+import type { IProperty, PropertyCategory } from "@/interfaces/property.interface";
 
 export default function PropertyCard({
   property,
 }: {
-  property: IProperty & { author?: IUser | null };
+  property: IProperty;
 }) {
+  // Rasm URL'ini olish
+  const mainImage = property.photos && property.photos.length > 0 
+    ? property.photos[0].file_path 
+    : property.logo || "/default-property.jpg";
+
+  // Rasmlar va videolar sonini hisoblash
+  const photoCount = property.photos?.length || 0;
+  const videoCount = property.videos?.length || 0;
+
+  // Narx formati
+  const getPriceDisplay = () => {
+    const formattedPrice = property.price.toLocaleString();
+    switch (property.price_type) {
+      case "sale":
+        return `${formattedPrice} so'm`;
+      case "rent":
+        return `${formattedPrice} so'm/oy`;
+      case "total_price":
+        return `${formattedPrice} so'm (umumiy)`;
+      default:
+        return `${formattedPrice} so'm`;
+    }
+  };
+
+  // Kategoriya nomini formatlash
+  const getCategoryDisplay = () => {
+    const categoryMap: Record<PropertyCategory, string> = {
+      apartment: "Kvartira",
+      house: "Uy",
+      villa: "Villa",
+      office: "Ofis",
+      land: "Yer",
+      shop: "Do'kon",
+      garage: "Garaj"
+    };
+    return categoryMap[property.category] || property.category;
+  };
+
   return (
     <div className="bg-white rounded-xl overflow-hidden">
       <div className="flex flex-col lg:flex-row items-stretch gap-4 lg:p-2">
         <div className="w-full lg:max-w-[320px] h-[240px] relative">
           <img
             className="w-full h-full object-cover"
-            src={property.images[0]}
+            src={mainImage}
             alt={property.title}
           />
           <div className="absolute top-2 left-2 flex flex-col gap-2">
@@ -43,24 +80,36 @@ export default function PropertyCard({
           </button>
           <Badge className="bg-black/80 rounded-none absolute bottom-0 left-0 text-xs flex items-center gap-1">
             <Camera className="w-3 h-3" />
-            <span>{property.photo_count || 0}</span>
+            <span>{photoCount}</span>
             <CirclePlay className="w-3 h-3" />
-            <span>{property.video_count || 0}</span>
+            <span>{videoCount}</span>
           </Badge>
         </div>
         <div className="flex-1 flex flex-col justify-between gap-3">
           <div className="flex flex-col gap-2">
-            <p className="text-sm text-gray-600">{property.category}</p>
+            <p className="text-sm text-gray-600">{getCategoryDisplay()}</p>
             <p className="text-xl lg:text-2xl font-bold text-[#FF0000]">
-              {property.price.toLocaleString()} {property.currency}
+              {getPriceDisplay()}
             </p>
           </div>
-          <p className="text-sm lg:text-base text-gray-700">
+          <p className="text-sm lg:text-base text-gray-700 line-clamp-2">
             {property.description}
           </p>
           <div className="flex items-center gap-2 text-gray-500">
             <MapPin className="w-4 h-4" />
             <p className="text-sm">{property.address}</p>
+          </div>
+          {/* Qo'shimcha mulk ma'lumotlari */}
+          <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+            {property.area > 0 && (
+              <span>Maydon: {property.area} m²</span>
+            )}
+            {property.bedrooms > 0 && (
+              <span>{property.bedrooms} xona</span>
+            )}
+            {property.bathrooms > 0 && (
+              <span>{property.bathrooms} hammom</span>
+            )}
           </div>
         </div>
         <div className="hidden lg:block">
@@ -76,6 +125,11 @@ export default function PropertyCard({
           {property.is_premium && (
             <p className="text-center text-[#B78A00] uppercase text-sm">
               Premium
+            </p>
+          )}
+          {property.is_guest_choice && (
+            <p className="text-center text-[#0066CC] uppercase text-sm mt-1">
+              Mehmon tanlovi
             </p>
           )}
         </div>
