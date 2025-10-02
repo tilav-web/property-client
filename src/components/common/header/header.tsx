@@ -228,7 +228,7 @@ export default function Header() {
                     <span>Profil</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/favorites")}
                     className="flex items-center gap-2"
                   >
                     <Heart className="h-4 w-4" />

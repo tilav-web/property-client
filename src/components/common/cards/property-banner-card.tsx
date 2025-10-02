@@ -6,7 +6,7 @@ import { MapPin, Mail, MousePointer2, Phone } from "lucide-react";
 export default function PropertyBannerCard({
   property,
 }: {
-  property: IProperty & { author: IUser };
+  property: IProperty & { author?: IUser | null };
 }) {
   return (
     <div className="w-full h-[302px] relative my-2 rounded-md overflow-hidden">

@@ -2,10 +2,13 @@ import PropertyBannerCard from "@/components/common/cards/property-banner-card";
 import PropertyImageCard from "@/components/common/cards/property-image-card";
 import PropertyMiniCard from "@/components/common/cards/property-mini-card";
 import HeroSection from "@/components/common/hero-section";
-import { property, user } from "@/constants/mack-data";
+import { property } from "@/constants/mack-data";
+import { useUserStore } from "@/stores/user.store";
 import { heroImage } from "@/utils/shared";
 
 export default function RentApartments() {
+  const { user } = useUserStore();
+
   const propertyWithAuthor = { ...property, author: user };
 
   const properties = Array.from({ length: 20 }, (_, index) => {

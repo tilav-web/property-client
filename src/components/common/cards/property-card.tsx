@@ -14,7 +14,7 @@ import type { IUser } from "@/interfaces/user.interface";
 export default function PropertyCard({
   property,
 }: {
-  property: IProperty & { author: IUser };
+  property: IProperty & { author?: IUser | null };
 }) {
   return (
     <div className="bg-white rounded-xl overflow-hidden">

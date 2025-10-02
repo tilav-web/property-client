@@ -2,13 +2,16 @@ import HeroSection from "@/components/common/hero-section";
 import PropertyCard from "@/components/common/cards/property-card";
 import PropertyBannerCard from "@/components/common/cards/property-banner-card";
 import { Button } from "@/components/ui/button";
-import { categories, property, user } from "@/constants/mack-data";
+import { categories, property } from "@/constants/mack-data";
 import { asideImage } from "@/utils/shared";
 import { useTranslation } from "react-i18next";
 import { mainImage } from "@/utils/shared";
+import { useUserStore } from "@/stores/user.store";
 
 export default function Main() {
   const { t } = useTranslation();
+  const { user } = useUserStore();
+
   return (
     <>
       <div className="shadow-xl my-4">

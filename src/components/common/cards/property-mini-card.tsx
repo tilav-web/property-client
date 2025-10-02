@@ -6,7 +6,7 @@ import { Heart, MapPin, Star } from "lucide-react";
 export default function PropertyMiniCard({
   property,
 }: {
-  property: IProperty & { author: IUser };
+  property: IProperty & { author?: IUser | null };
 }) {
   return (
     <div className="rounded-md shadow-xl h-full overflow-hidden hover:shadow-2xl transition-shadow duration-300">

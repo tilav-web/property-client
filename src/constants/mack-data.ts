@@ -1,5 +1,4 @@
 import type { IProperty } from "@/interfaces/property.interface";
-import type { IUser } from "@/interfaces/user.interface";
 import { bannerImage1, emaarImage } from "@/utils/shared";
 
 export const categories = [
@@ -12,17 +11,6 @@ export const categories = [
   { key: "basement", count: "22 000" },
   { key: "building", count: "9 560" },
 ];
-
-export const user: IUser = {
-  id: "1",
-  first_name: "John",
-  last_name: "Doe",
-  email: "john@gmail.com",
-  phone: "+998901234567",
-  photo: "",
-  role: "",
-  lan: "uz",
-};
 
 export const property: IProperty = {
   id: "550e8400-e29b-41d4-a716-446655440000",
@@ -40,7 +28,7 @@ export const property: IProperty = {
   is_premium: true,
   is_verified: true,
   is_new: true,
-  is_guest_choice: false,
+  is_guest_choice: true,
   delivery_date: "2029-yil 3-chorak",
   sales_date: "2025-yil 22-iyun",
   rating: 4.7,
