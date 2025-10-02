@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import type { IProperty } from "@/interfaces/property.interface";
+import { serverUrl } from "@/utils/shared";
 import { MapPin, Mail, MousePointer2, Phone } from "lucide-react";
 
 export default function PropertyBannerCard({
@@ -7,11 +8,15 @@ export default function PropertyBannerCard({
 }: {
   property: IProperty;
 }) {
-  // Rasm URL'ini olish - photos arrayidan birinchi rasm yoki logo
-  const mainImage =
-    property.photos && property.photos.length > 0
-      ? property.photos[0].file_path
-      : property.logo || "/default-property.jpg";
+  const mainImage = (() => {
+    if (!property?.photos || property.photos.length === 0) return null;
+
+    const mainPhoto = property.photos.find((photo) =>
+      photo.file_name.startsWith("banner-")
+    );
+
+    return mainPhoto?.file_path || property.photos[0]?.file_path || null;
+  })();
 
   // Yetkazib berish sanasini formatlash
   const formatDate = (date: Date | string | undefined) => {
@@ -24,14 +29,14 @@ export default function PropertyBannerCard({
     <div className="w-full h-[302px] relative my-2 rounded-md overflow-hidden">
       <img
         className="w-full h-full object-cover"
-        src={mainImage}
+        src={`${serverUrl}/uploads/${mainImage}`}
         alt={property.title}
       />
       <div className="flex flex-col absolute top-2 left-2 gap-1">
         <Badge className="uppercase bg-black/10">
-          {property.construction_status === "UNDER_CONSTRUCTION"
+          {property.construction_status === "under_construction"
             ? "Qurilmoqda"
-            : property.construction_status === "PLANNED"
+            : property.construction_status === "planned"
             ? "Rejalashtirilgan"
             : "Tayyor"}
         </Badge>

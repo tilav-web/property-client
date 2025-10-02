@@ -2,15 +2,19 @@ import HeroSection from "@/components/common/hero-section";
 import PropertyCard from "@/components/common/cards/property-card";
 import PropertyBannerCard from "@/components/common/cards/property-banner-card";
 import { Button } from "@/components/ui/button";
-import { categories, property } from "@/constants/mack-data";
+import { categories } from "@/constants/mack-data";
 import { asideImage } from "@/utils/shared";
 import { useTranslation } from "react-i18next";
 import { mainImage } from "@/utils/shared";
-import { useUserStore } from "@/stores/user.store";
+import { useQuery } from "@tanstack/react-query";
+import { propertyService } from "@/services/property.service";
 
 export default function Main() {
   const { t } = useTranslation();
-  const { user } = useUserStore();
+  const { data } = useQuery({
+    queryKey: ["properties"],
+    queryFn: () => propertyService.findAll({ limit: 9, sample: false }),
+  });
 
   return (
     <>
@@ -32,42 +36,96 @@ export default function Main() {
         img={mainImage}
         title={"O‘zbekistonning yuragida orzu xonadonlari"}
       />
-      <div className="flex items-stretch gap-4 mb-4 flex-col md:flex-row mt-4">
-        <div className="flex-1 flex flex-col gap-4">
-          <PropertyCard property={{ ...property, author: user }} />
-          <PropertyCard property={{ ...property, author: user }} />
-          <PropertyCard property={{ ...property, author: user }} />
-          <PropertyCard property={{ ...property, author: user }} />
-        </div>
-        <div className="max-w-[395px] w-full">
-          <img className="w-full h-[629px] mb-2" src={asideImage} alt="image" />
-          <p className="text-center mb-12">Популярные поиски</p>
-          <div className="px-6">
-            <p>
-              Аренда квартир — особенно в районах Ташкента: Чиланзар, Сергели,
-              Мирзо-Улугбек, Юнусабад, Миробад, Яшнабад. Эти районы чаще всего
-              фигурируют в поиске жизни, как на карте, так и в текстовых
-              запросах. Кроме аренды квартир, популярны запросы по аренде и
-              покупке домов, продаже земли, а также аренде и продаже помещений.
-            </p>
-            <ul className="list-disc pl-8">
-              <li>
-                Вы получаете максимально релевантные результаты по районам,
-                которых больше всего хотят найти.
-              </li>
-              <li>
-                Обновлённые фильтры позволяют выбрать жильё по типу (квартира,
-                дом, участок, помещение) и не тратить время на лишние параметры.
-              </li>
-              <li>
-                Мы рекомендуем сразу просматривать объекты в самых
-                востребованных районах — это сэкономит ваши усилия и нервы.
-              </li>
-            </ul>
+      <div>
+        <div className="flex items-stretch gap-4 mb-4 flex-col md:flex-row mt-4">
+          <div className="flex-1 flex flex-col gap-4">
+            {data?.properties?.slice(0, 4)?.map((property) => {
+              return <PropertyCard key={property?._id} property={property} />;
+            })}
+          </div>
+          <div className="max-w-[395px] w-full">
+            <img
+              className="w-full h-[629px] mb-2"
+              src={asideImage}
+              alt="image"
+            />
+            <p className="text-center mb-12">Популярные поиски</p>
+            <div className="px-6">
+              <p>
+                Аренда квартир — особенно в районах Ташкента: Чиланзар, Сергели,
+                Мирзо-Улугбек, Юнусабад, Миробад, Яшнабад. Эти районы чаще всего
+                фигурируют в поиске жизни, как на карте, так и в текстовых
+                запросах. Кроме аренды квартир, популярны запросы по аренде и
+                покупке домов, продаже земли, а также аренде и продаже
+                помещений.
+              </p>
+              <ul className="list-disc pl-8">
+                <li>
+                  Вы получаете максимально релевантные результаты по районам,
+                  которых больше всего хотят найти.
+                </li>
+                <li>
+                  Обновлённые фильтры позволяют выбрать жильё по типу (квартира,
+                  дом, участок, помещение) и не тратить время на лишние
+                  параметры.
+                </li>
+                <li>
+                  Мы рекомендуем сразу просматривать объекты в самых
+                  востребованных районах — это сэкономит ваши усилия и нервы.
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+        {data?.properties?.slice(4, 5)[0] && (
+          <PropertyBannerCard property={data?.properties?.slice(4, 5)[0]} />
+        )}
       </div>
-      <PropertyBannerCard property={{ ...property, author: user }} />
+      <div>
+        <div className="flex items-stretch gap-4 mb-4 flex-col md:flex-row mt-4">
+          <div className="flex-1 flex flex-col gap-4">
+            {data?.properties?.slice(5, 8)?.map((property) => {
+              return <PropertyCard key={property?._id} property={property} />;
+            })}
+          </div>
+          <div className="max-w-[395px] w-full">
+            <img
+              className="w-full h-[629px] mb-2"
+              src={asideImage}
+              alt="image"
+            />
+            <p className="text-center mb-12">Популярные поиски</p>
+            <div className="px-6">
+              <p>
+                Аренда квартир — особенно в районах Ташкента: Чиланзар, Сергели,
+                Мирзо-Улугбек, Юнусабад, Миробад, Яшнабад. Эти районы чаще всего
+                фигурируют в поиске жизни, как на карте, так и в текстовых
+                запросах. Кроме аренды квартир, популярны запросы по аренде и
+                покупке домов, продаже земли, а также аренде и продаже
+                помещений.
+              </p>
+              <ul className="list-disc pl-8">
+                <li>
+                  Вы получаете максимально релевантные результаты по районам,
+                  которых больше всего хотят найти.
+                </li>
+                <li>
+                  Обновлённые фильтры позволяют выбрать жильё по типу (квартира,
+                  дом, участок, помещение) и не тратить время на лишние
+                  параметры.
+                </li>
+                <li>
+                  Мы рекомендуем сразу просматривать объекты в самых
+                  востребованных районах — это сэкономит ваши усилия и нервы.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        {data?.properties?.slice(8)[0] && (
+          <PropertyBannerCard property={data?.properties?.slice(4, 5)[0]} />
+        )}
+      </div>
     </>
   );
 }

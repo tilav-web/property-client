@@ -8,17 +8,23 @@ import EllipsisVerticalButton from "../buttons/ellipsis-vertical-button";
 import OnlineContractButton from "../buttons/online-contract-button";
 import BidPriceButton from "../buttons/bid-price-button";
 
-import type { IProperty, PropertyCategory } from "@/interfaces/property.interface";
+import type {
+  IProperty,
+  PropertyCategory,
+} from "@/interfaces/property.interface";
+import { serverUrl } from "@/utils/shared";
 
-export default function PropertyCard({
-  property,
-}: {
-  property: IProperty;
-}) {
+export default function PropertyCard({ property }: { property: IProperty }) {
   // Rasm URL'ini olish
-  const mainImage = property.photos && property.photos.length > 0 
-    ? property.photos[0].file_path 
-    : property.logo || "/default-property.jpg";
+  const photoImages =
+    property?.photos
+      ?.filter((p) => p.file_name.startsWith("photo-"))
+      .map((p) => `${serverUrl}/uploads/${p.file_path}`) || [];
+
+  const mainImage =
+    photoImages.length > 0
+      ? photoImages[Math.floor(Math.random() * photoImages.length)]
+      : "/default-property.jpg";
 
   // Rasmlar va videolar sonini hisoblash
   const photoCount = property.photos?.length || 0;
@@ -48,7 +54,7 @@ export default function PropertyCard({
       office: "Ofis",
       land: "Yer",
       shop: "Do'kon",
-      garage: "Garaj"
+      garage: "Garaj",
     };
     return categoryMap[property.category] || property.category;
   };
@@ -101,15 +107,9 @@ export default function PropertyCard({
           </div>
           {/* Qo'shimcha mulk ma'lumotlari */}
           <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-            {property.area > 0 && (
-              <span>Maydon: {property.area} m²</span>
-            )}
-            {property.bedrooms > 0 && (
-              <span>{property.bedrooms} xona</span>
-            )}
-            {property.bathrooms > 0 && (
-              <span>{property.bathrooms} hammom</span>
-            )}
+            {property.area > 0 && <span>Maydon: {property.area} m²</span>}
+            {property.bedrooms > 0 && <span>{property.bedrooms} xona</span>}
+            {property.bathrooms > 0 && <span>{property.bathrooms} hammom</span>}
           </div>
         </div>
         <div className="hidden lg:block">

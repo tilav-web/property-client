@@ -22,6 +22,7 @@ export interface FindAllParams {
   is_guest_choice?: boolean;
   rating?: number;
   radius?: number;
+  sample?: boolean;
 }
 
 class PropertyService {
