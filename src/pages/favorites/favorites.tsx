@@ -1,15 +1,56 @@
 import PropertyCard from "@/components/common/cards/property-card";
-import { property } from "@/constants/mack-data";
-import { useUserStore } from "@/stores/user.store";
+import type { IProperty } from "@/interfaces/property.interface";
+import { userService } from "@/services/user.service";
+import { useQuery } from "@tanstack/react-query";
+import { Heart } from "lucide-react";
+import BoxLoading from "@/components/common/loadings/box-loading";
 
 export default function Favorites() {
-  const { user } = useUserStore();
+  const { data, isLoading } = useQuery({
+    queryKey: ["likes"],
+    queryFn: () => userService.findLikes(),
+  });
+
+  if (isLoading) {
+    return <BoxLoading />;
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+        {/* Icon */}
+        <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+          <Heart className="w-12 h-12 text-gray-400" />
+        </div>
+
+        {/* Title */}
+        <h2 className="text-2xl font-bold text-gray-900 mb-3">
+          Hali sevimlilaringiz yo'q
+        </h2>
+
+        {/* Description */}
+        <p className="text-gray-600 max-w-md mb-8 leading-relaxed">
+          Sevimli uylaringizni, kvartiralaringizni saqlash uchun ularni like
+          bosing. Siz like bosgan barcha ob'ektlar shu yerda ko'rinadi.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col gap-4 py-4">
-      <PropertyCard property={{ ...property, author: user }} />
-      <PropertyCard property={{ ...property, author: user }} />
-      <PropertyCard property={{ ...property, author: user }} />
-      <PropertyCard property={{ ...property, author: user }} />
+    <div className="py-6 w-full">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Sevimlilar</h1>
+        <p className="text-gray-600">Siz like bosgan {data.length} ta ob'ekt</p>
+      </div>
+
+      {/* Properties Grid */}
+      <div className="flex flex-col gap-4">
+        {data.map((property: IProperty) => (
+          <PropertyCard key={property._id} property={property} />
+        ))}
+      </div>
     </div>
   );
 }

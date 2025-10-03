@@ -1,5 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import type { IProperty } from "@/interfaces/property.interface";
+import { userService } from "@/services/user.service";
+import { useUserStore } from "@/stores/user.store";
 import { Heart, MapPin, Star } from "lucide-react";
 
 export default function PropertyMiniCard({
@@ -12,6 +14,8 @@ export default function PropertyMiniCard({
     property.photos && property.photos.length > 0
       ? property.photos[0].file_path
       : property.logo || "/default-property.jpg";
+
+  const { user, setUser } = useUserStore();
 
   // Narx formati
   const getPriceDisplay = () => {
@@ -31,6 +35,15 @@ export default function PropertyMiniCard({
   // Reytingni hisoblash (agar mavjud bo'lmasa)
   const rating = property.rating || 0;
 
+  const handleLike = async (id: string) => {
+    try {
+      const data = await userService.handleLike(id);
+      setUser(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="rounded-md shadow-xl h-full overflow-hidden hover:shadow-2xl transition-shadow duration-300">
       <div className="w-full h-48 relative">
@@ -47,8 +60,18 @@ export default function PropertyMiniCard({
           ) : (
             <span></span>
           )}
-          <button className="p-1 rounded bg-white/40 border">
-            <Heart size={18} />
+          <button
+            onClick={() => handleLike(property?._id)}
+            className="p-1 rounded bg-white/40 border"
+          >
+            <Heart
+              size={18}
+              className={`${
+                user?.likes?.includes(property?._id)
+                  ? "fill-red-500 text-red-500"
+                  : ""
+              }`}
+            />
           </button>
         </div>
         <button className="border-white border p-2 rounded bg-white/60 absolute right-2 bottom-2">
@@ -102,10 +125,10 @@ export default function PropertyMiniCard({
         <p className="font-bold text-lg">{getPriceDisplay()}</p>
 
         {/* Qurilish holati */}
-        {property.construction_status !== "READY" && (
+        {property.construction_status !== "ready" && (
           <div className="mt-2">
             <Badge variant="outline" className="text-xs">
-              {property.construction_status === "UNDER_CONSTRUCTION"
+              {property.construction_status === "under_construction"
                 ? "🏗️ Qurilmoqda"
                 : "📋 Rejalashtirilgan"}
             </Badge>

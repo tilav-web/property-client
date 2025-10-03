@@ -2,36 +2,16 @@ import PropertyBannerCard from "@/components/common/cards/property-banner-card";
 import PropertyImageCard from "@/components/common/cards/property-image-card";
 import PropertyMiniCard from "@/components/common/cards/property-mini-card";
 import HeroSection from "@/components/common/hero-section";
-import { property } from "@/constants/mack-data";
-import { useUserStore } from "@/stores/user.store";
+import type { IProperty } from "@/interfaces/property.interface";
+import { propertyService } from "@/services/property.service";
 import { heroImage } from "@/utils/shared";
+import { useQuery } from "@tanstack/react-query";
 
 export default function RentApartments() {
-  const { user } = useUserStore();
-
-  const propertyWithAuthor = { ...property, author: user };
-
-  const properties = Array.from({ length: 20 }, (_, index) => {
-    const six = (index + 1) % 7;
-
-    if (six === 0) {
-      return (
-        <div key={index} className="contents">
-          <div className="w-full lg:w-1/2">
-            <PropertyImageCard />
-          </div>
-          <div className="w-full">
-            <PropertyBannerCard property={propertyWithAuthor} />
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div key={index} className="w-full sm:w-1/2 lg:w-1/4 px-2">
-        <PropertyMiniCard property={propertyWithAuthor} />
-      </div>
-    );
+  const { data } = useQuery({
+    queryKey: ["properties/rent"],
+    queryFn: () =>
+      propertyService.findAll({ limit: 24, sample: true, price_type: "rent" }),
   });
 
   return (
@@ -43,7 +23,28 @@ export default function RentApartments() {
         className="text-white"
       />
       <div className="flex flex-wrap -mx-2 items-stretch gap-y-4">
-        {properties}
+        {data?.properties?.map((property: IProperty, index: number) => {
+          const six = (index + 1) % 7;
+
+          if (six === 0) {
+            return (
+              <div key={index} className="contents">
+                <div className="w-full lg:w-1/2">
+                  <PropertyImageCard />
+                </div>
+                <div className="w-full">
+                  <PropertyBannerCard property={property} />
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div key={index} className="w-full sm:w-1/2 lg:w-1/4 px-2">
+              <PropertyMiniCard property={property} />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

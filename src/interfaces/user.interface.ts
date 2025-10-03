@@ -13,4 +13,5 @@ export interface IUser {
   avatar: string;
   role: "physical" | "seller" | "legal";
   lan: "uz" | "en" | "ru";
+  likes: string[];
 }

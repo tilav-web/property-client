@@ -1,6 +1,6 @@
 import BackButton from "@/components/common/buttons/back-button";
 import { Badge } from "@/components/ui/badge";
-import { miniCardImage } from "@/utils/shared";
+import { serverUrl } from "@/utils/shared";
 import {
   Bath,
   Bed,
@@ -32,6 +32,14 @@ import { Slider } from "@/components/ui/slider";
 import { useQuery } from "@tanstack/react-query";
 import { propertyService } from "@/services/property.service";
 import { useParams } from "react-router-dom";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import type { IFile } from "@/interfaces/file.interface";
 
 // Amenities ikonlari
 const amenityIcons = {
@@ -93,6 +101,78 @@ function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
   );
 }
 
+// Image Carousel komponenti
+function ImageCarousel({ images }: { images: IFile[] }) {
+  return (
+    <div className="w-full h-full">
+      {" "}
+      {/* Balandlikni o'rab oluvchi div */}
+      <Carousel className="w-full h-full">
+        <CarouselContent className="h-full">
+          {images.map((media) => (
+            <CarouselItem key={media._id} className="h-full">
+              <div className="w-full h-full">
+                <img
+                  src={`${serverUrl}/uploads${media.file_path}`}
+                  alt={media.original_name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious className="left-2" />
+        <CarouselNext className="right-2" />
+      </Carousel>
+    </div>
+  );
+}
+
+// Video Carousel komponenti
+function VideoCarousel({ videos }: { videos: IFile[] }) {
+  if (videos.length === 0) return null;
+
+  if (videos.length === 1) {
+    return (
+      <div className="w-full h-full rounded-xl overflow-hidden">
+        <video
+          src={`${serverUrl}/uploads${videos[0].file_path}`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+        >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    );
+  }
+
+  return (
+    <Carousel className="w-full h-full">
+      <CarouselContent className="h-full">
+        {videos.map((video) => (
+          <CarouselItem key={video._id} className="h-full">
+            <video
+              src={`${serverUrl}/uploads${video.file_path}`}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover rounded-xl"
+            >
+              Your browser does not support the video tag.
+            </video>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious className="left-2" />
+      <CarouselNext className="right-2" />
+    </Carousel>
+  );
+}
+
 export default function Property() {
   const [purchasePrice, setPurchasePrice] = useState(1200000);
   const [citizenshipStatus, setCitizenshipStatus] = useState("citizen");
@@ -150,12 +230,18 @@ export default function Property() {
   };
 
   const { data: property } = useQuery({
-    queryKey: ["property"],
+    queryKey: ["property", id],
     queryFn: () => {
       if (!id) return;
       return propertyService.findById(id);
     },
   });
+
+  const photos = property?.photos?.filter((photo: IFile) =>
+    photo?.file_name?.startsWith("photo-")
+  );
+
+  const videos = property?.videos || [];
 
   return (
     <div className="py-8">
@@ -164,12 +250,9 @@ export default function Property() {
       {/* Rasmlar qismi */}
       <div className="flex flex-col lg:flex-row items-stretch gap-4 h-auto lg:h-[600px] mb-8">
         <div className="lg:w-2/3 flex flex-col lg:flex-row gap-4">
+          {/* Asosiy rasm/slider */}
           <div className="lg:w-2/3 relative rounded-xl overflow-hidden shadow-lg">
-            <img
-              className="w-full h-64 lg:h-full object-cover transition-transform hover:scale-105 duration-300"
-              src={miniCardImage}
-              alt="Property image"
-            />
+            {photos && photos?.length > 0 && <ImageCarousel images={photos} />}
             <div className="absolute top-4 left-4 flex flex-col gap-2">
               {property?.is_verified && (
                 <Badge className="bg-[#00A663] rounded border-white text-xs px-3 py-1.5 backdrop-blur-sm">
@@ -197,29 +280,44 @@ export default function Property() {
               )}
             </Badge>
           </div>
+
+          {/* Qolgan rasmlar */}
           <div className="lg:w-1/3 flex flex-row lg:flex-col gap-3">
-            <div className="flex-1 rounded-xl overflow-hidden shadow-md">
-              <img
-                className="w-full h-full min-h-[140px] object-cover transition-transform hover:scale-105 duration-300"
-                src={miniCardImage}
-                alt="Property photo 1"
-              />
-            </div>
-            <div className="flex-1 rounded-xl overflow-hidden shadow-md">
-              <img
-                className="w-full h-full min-h-[140px] object-cover transition-transform hover:scale-105 duration-300"
-                src={miniCardImage}
-                alt="Property photo 2"
-              />
-            </div>
+            {photos?.slice(0, 2).map((photo: IFile, index: number) => (
+              <div
+                key={photo?._id}
+                className="flex-1 rounded-xl overflow-hidden shadow-md"
+              >
+                <img
+                  className="w-full h-full min-h-[140px] object-cover transition-transform hover:scale-105 duration-300"
+                  src={`${serverUrl}/uploads${photo?.file_path}`}
+                  alt={`Property photo ${index + 2}`}
+                />
+              </div>
+            ))}
+            {videos.length > 0 && (
+              <div className="flex-1 rounded-xl overflow-hidden shadow-md relative">
+                <VideoCarousel videos={videos} />
+                <div className="absolute top-2 right-2">
+                  <Badge className="bg-black/70 text-white">
+                    <CirclePlay className="w-3 h-3 mr-1" />
+                    Video
+                  </Badge>
+                </div>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* O'ng tomondagi rasm (agar mavjud bo'lsa) */}
         <div className="lg:w-1/3 rounded-xl overflow-hidden shadow-lg">
-          <img
-            className="w-full h-64 lg:h-full object-cover transition-transform hover:scale-105 duration-300"
-            src={miniCardImage}
-            alt="Property overview"
-          />
+          {photos?.length >= 3 && photos[2] && (
+            <img
+              className="w-full h-64 lg:h-full object-cover transition-transform hover:scale-105 duration-300"
+              src={`${serverUrl}/uploads${photos[2]?.file_path}`}
+              alt="Property overview"
+            />
+          )}
         </div>
       </div>
 
@@ -246,7 +344,7 @@ export default function Property() {
             </div>
             <div className="font-bold flex items-center justify-end gap-8">
               <p className="text-4xl text-red-500">
-                {formatPrice(property?.price)}
+                {formatPrice(property?.price || 0)}
               </p>
               <BidPriceButton />
             </div>
@@ -286,7 +384,7 @@ export default function Property() {
               <div className="flex items-center gap-4">
                 <span className="text-gray-600 text-sm">Тип недвижимости</span>
                 <p className="font-medium text-gray-800 capitalize">
-                  {getCategoryLabel(property?.category)}
+                  {getCategoryLabel(property?.category || "")}
                 </p>
               </div>
             </div>
@@ -296,7 +394,7 @@ export default function Property() {
               <div className="flex items-center gap-4">
                 <span className="text-gray-600 text-sm">Спальни</span>
                 <p className="font-medium text-gray-800">
-                  {property?.bedrooms}
+                  {property?.bedrooms || 0}
                 </p>
               </div>
             </div>
@@ -306,7 +404,7 @@ export default function Property() {
               <div className="flex items-center gap-4">
                 <span className="text-gray-600 text-sm">Этаж</span>
                 <p className="font-medium text-gray-800">
-                  {property?.floor_level}
+                  {property?.floor_level || 0}
                 </p>
               </div>
             </div>
@@ -318,7 +416,7 @@ export default function Property() {
               <div className="flex items-center gap-4">
                 <span className="text-gray-600 text-sm">Площадь</span>
                 <p className="font-medium text-gray-800">
-                  {property?.area} кв. м
+                  {property?.area || 0} кв. м
                 </p>
               </div>
             </div>
@@ -328,7 +426,7 @@ export default function Property() {
               <div className="flex items-center gap-4">
                 <span className="text-gray-600 text-sm">Ванные комнаты</span>
                 <p className="font-medium text-gray-800">
-                  {property?.bathrooms}
+                  {property?.bathrooms || 0}
                 </p>
               </div>
             </div>
@@ -338,7 +436,7 @@ export default function Property() {
               <div className="flex items-center gap-4">
                 <span className="text-gray-600 text-sm">Парковочные места</span>
                 <p className="font-medium text-gray-800">
-                  {property?.parking_spaces}
+                  {property?.parking_spaces || 0}
                 </p>
               </div>
             </div>
@@ -349,9 +447,9 @@ export default function Property() {
         <div>
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Удобства</h3>
           <div className="grid grid-cols-2 gap-3">
-            {property?.amenities?.map((amenity) => (
+            {property?.amenities?.map((amenity: string, index: number) => (
               <div
-                key={amenity}
+                key={`${amenity}-${index}`}
                 className="flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50"
               >
                 {amenityIcons[amenity as keyof typeof amenityIcons]}
@@ -364,6 +462,7 @@ export default function Property() {
         </div>
       </div>
 
+      {/* Qolgan kodlar bir xil */}
       {/* Price Analysis */}
       <div className="max-w-5xl mb-8">
         <div className="mb-6">

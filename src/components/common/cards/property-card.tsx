@@ -67,9 +67,10 @@ export default function PropertyCard({ property }: { property: IProperty }) {
       <div className="flex flex-col lg:flex-row items-stretch gap-4 lg:p-2">
         <div className="w-full lg:max-w-[320px] h-[240px] relative">
           <img
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover cursor-pointer"
             src={mainImage}
             alt={property.title}
+            onClick={() => navigate(`/property/${property?._id}`)}
           />
           <div className="absolute top-2 left-2 flex flex-col gap-2">
             {property.is_verified && (
@@ -153,7 +154,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
               <MailButton mail={property?.author?.email?.value} />
             )}
             <WhatsAppButton />
-            <HeartButton />
+            <HeartButton id={property?._id} />
             <EllipsisVerticalButton />
           </div>
         </div>

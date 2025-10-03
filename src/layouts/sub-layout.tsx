@@ -1,6 +1,6 @@
 import Footer from "@/components/common/footer/footer";
 import Header from "@/components/common/header/header";
-import Loading from "@/components/common/loading";
+import Loading from "@/components/common/loadings/loading";
 import { userService } from "@/services/user.service";
 import { useUserStore } from "@/stores/user.store";
 import { useEffect, type ReactNode } from "react";

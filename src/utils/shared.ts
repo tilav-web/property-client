@@ -42,6 +42,8 @@ export const API_ENDPOINTS = {
     refreshToken: "/users/refresh-token",
     me: "/users/me",
     logout: "/users/logout",
+    like: "/users/like",
+    likes: "/users/likes",
   },
   PROPERTIES: {
     base: "/properties",

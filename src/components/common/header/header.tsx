@@ -162,17 +162,20 @@ export default function Header() {
             >
               <span className="font-semibold">{t("sell_or_rent")}</span>
             </Button>
-            <Button
-              onClick={() => navigate("/favorites")}
-              variant="ghost"
-              size="icon"
-              className="relative"
-            >
-              <Heart className="h-4 w-4" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                3
-              </span>
-            </Button>
+            {user?.likes && user?.likes?.length > 0 && (
+              <Button
+                onClick={() => navigate("/favorites")}
+                variant="ghost"
+                size="icon"
+                className="relative"
+              >
+                <Heart className="h-4 w-4" />
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  {user?.likes?.length}
+                </span>
+              </Button>
+            )}
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
