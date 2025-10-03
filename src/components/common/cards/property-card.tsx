@@ -13,6 +13,7 @@ import type {
   PropertyCategory,
 } from "@/interfaces/property.interface";
 import { serverUrl } from "@/utils/shared";
+import { useNavigate } from "react-router-dom";
 
 export default function PropertyCard({ property }: { property: IProperty }) {
   // Rasm URL'ini olish
@@ -59,6 +60,8 @@ export default function PropertyCard({ property }: { property: IProperty }) {
     return categoryMap[property.category] || property.category;
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className="bg-white rounded-xl overflow-hidden">
       <div className="flex flex-col lg:flex-row items-stretch gap-4 lg:p-2">
@@ -81,7 +84,14 @@ export default function PropertyCard({ property }: { property: IProperty }) {
               </Badge>
             )}
           </div>
-          <button className="p-2 bg-white border absolute right-4 bottom-4 rounded-md">
+          <button
+            onClick={() =>
+              navigate(
+                `/map?lng=${property?.location?.coordinates[0]}&lat=${property?.location?.coordinates[1]}`
+              )
+            }
+            className="p-2 bg-white border absolute right-4 bottom-4 rounded-md"
+          >
             <MapPin className="w-4 h-4" />
           </button>
           <Badge className="bg-black/80 rounded-none absolute bottom-0 left-0 text-xs flex items-center gap-1">
@@ -136,8 +146,12 @@ export default function PropertyCard({ property }: { property: IProperty }) {
             <OnlineContractButton />
           </div>
           <div className="flex flex-wrap gap-2 justify-center lg:justify-end">
-            <CallButton />
-            <MailButton />
+            {property?.author?.phone?.value && (
+              <CallButton phone={property?.author?.phone?.value} />
+            )}
+            {property?.author?.email?.value && (
+              <MailButton mail={property?.author?.email?.value} />
+            )}
             <WhatsAppButton />
             <HeartButton />
             <EllipsisVerticalButton />

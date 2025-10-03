@@ -37,5 +37,17 @@ class PropertyService {
       throw error;
     }
   }
+
+  async findById(id: string) {
+    try {
+      const res = await apiInstance.get(
+        `${API_ENDPOINTS.PROPERTIES.base}/${id}`
+      );
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }
 export const propertyService = new PropertyService();

@@ -8,11 +8,8 @@ import {
   Building2,
   Camera,
   CirclePlay,
-  Dumbbell,
-  Eye,
   MapPin,
   Maximize,
-  PawPrint,
   Rotate3D,
   Shield,
   ShieldCheck,
@@ -21,8 +18,8 @@ import {
   Warehouse,
   Waves,
 } from "lucide-react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useEffect, useState } from "react";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import OnlineContractButton from "@/components/common/buttons/online-contract-button";
 import CallButton from "@/components/common/buttons/call-button";
 import MailButton from "@/components/common/buttons/mail-button";
@@ -32,27 +29,71 @@ import EllipsisVerticalButton from "@/components/common/buttons/ellipsis-vertica
 import BidPriceButton from "@/components/common/buttons/bid-price-button";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import { Slider } from "@/components/ui/slider";
+import { useQuery } from "@tanstack/react-query";
+import { propertyService } from "@/services/property.service";
+import { useParams } from "react-router-dom";
 
-function MapCenter({ center }: { center: [number, number] }) {
-  const map = useMap();
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
-    return () => {
-      document.head.removeChild(link);
-    };
-  }, []);
-  useEffect(() => {
-    map.setView(center, 15);
-  }, [center, map]);
-  return null;
+// Amenities ikonlari
+const amenityIcons = {
+  pool: <Waves className="w-4 h-4 flex-shrink-0" />,
+  balcony: <Building className="w-4 h-4 flex-shrink-0" />,
+  security: <Shield className="w-4 h-4 flex-shrink-0" />,
+  air_conditioning: <Shirt className="w-4 h-4 flex-shrink-0" />,
+  parking: <Warehouse className="w-4 h-4 flex-shrink-0" />,
+  elevator: <UserCheck className="w-4 h-4 flex-shrink-0" />,
+};
+
+const amenityLabels = {
+  pool: "Бассейн",
+  balcony: "Балкон",
+  security: "Безопасность",
+  air_conditioning: "Кондиционер",
+  parking: "Парковка",
+  elevator: "Лифт",
+};
+
+function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS || "",
+  });
+
+  if (!coordinates) {
+    return (
+      <div className="w-full h-[600px] rounded-xl bg-gray-200 flex items-center justify-center">
+        Нет координат
+      </div>
+    );
+  }
+
+  const [lng, lat] = coordinates;
+
+  if (loadError)
+    return (
+      <div className="w-full h-[600px] rounded-xl bg-gray-200 flex items-center justify-center">
+        Xarita yuklanmadi
+      </div>
+    );
+  if (!isLoaded)
+    return (
+      <div className="w-full h-[600px] rounded-xl bg-gray-200 flex items-center justify-center">
+        Xarita yuklanmoqda...
+      </div>
+    );
+
+  return (
+    <div className="w-full h-[600px] rounded-xl overflow-hidden">
+      <GoogleMap
+        mapContainerStyle={{ width: "100%", height: "100%" }}
+        center={{ lat, lng }}
+        zoom={15}
+      >
+        <Marker position={{ lat, lng }} />
+      </GoogleMap>
+    </div>
+  );
 }
 
 export default function Property() {
-  const location: [number, number] = [41.2995, 69.2401];
-
   const [purchasePrice, setPurchasePrice] = useState(1200000);
   const [citizenshipStatus, setCitizenshipStatus] = useState("citizen");
   const [downPayment, setDownPayment] = useState(240000);
@@ -60,7 +101,6 @@ export default function Property() {
   const [loanTerm, setLoanTerm] = useState(5);
   const [interestRate, setInterestRate] = useState(17.5);
 
-  // Calculate monthly payment
   const calculateMonthlyPayment = () => {
     const principal = loanAmount;
     const monthlyRate = interestRate / 100 / 12;
@@ -78,7 +118,6 @@ export default function Property() {
     return monthlyPayment;
   };
 
-  // Update loan amount when purchase price or down payment changes
   useEffect(() => {
     setLoanAmount(purchasePrice - downPayment);
   }, [purchasePrice, downPayment]);
@@ -87,14 +126,42 @@ export default function Property() {
   const monthlyPaymentPercentage = (monthlyPayment / purchasePrice) * 100;
   const downPaymentPercentage = Math.round((downPayment / purchasePrice) * 100);
   const loanAmountPercentage = Math.round((loanAmount / purchasePrice) * 100);
+  const { id } = useParams();
 
   const formatNumber = (num: number) => {
     return new Intl.NumberFormat("ru-RU").format(Math.round(num));
   };
 
+  const formatPrice = (price: number) => {
+    return `${formatNumber(price)} UZS`;
+  };
+
+  const getCategoryLabel = (category: string) => {
+    const categories = {
+      apartment: "Квартира",
+      house: "Дом",
+      villa: "Вилла",
+      office: "Офис",
+      land: "Земля",
+      shop: "Магазин",
+      garage: "Гараж",
+    };
+    return categories[category as keyof typeof categories] || category;
+  };
+
+  const { data: property } = useQuery({
+    queryKey: ["property"],
+    queryFn: () => {
+      if (!id) return;
+      return propertyService.findById(id);
+    },
+  });
+
   return (
     <div className="py-8">
       <BackButton className="mb-6" />
+
+      {/* Rasmlar qismi */}
       <div className="flex flex-col lg:flex-row items-stretch gap-4 h-auto lg:h-[600px] mb-8">
         <div className="lg:w-2/3 flex flex-col lg:flex-row gap-4">
           <div className="lg:w-2/3 relative rounded-xl overflow-hidden shadow-lg">
@@ -104,21 +171,30 @@ export default function Property() {
               alt="Property image"
             />
             <div className="absolute top-4 left-4 flex flex-col gap-2">
-              <Badge className="bg-[#00A663] rounded border-white text-xs px-3 py-1.5 backdrop-blur-sm">
-                <ShieldCheck className="w-3 h-3 mr-1" />
-                <span className="uppercase">Проверенный</span>
-              </Badge>
-              <Badge className="bg-[#333]/80 rounded uppercase border-white text-xs px-3 py-1.5 backdrop-blur-sm w-full">
-                Новый
-              </Badge>
+              {property?.is_verified && (
+                <Badge className="bg-[#00A663] rounded border-white text-xs px-3 py-1.5 backdrop-blur-sm">
+                  <ShieldCheck className="w-3 h-3 mr-1" />
+                  <span className="uppercase">Проверенный</span>
+                </Badge>
+              )}
+              {property?.is_new && (
+                <Badge className="bg-[#333]/80 rounded uppercase border-white text-xs px-3 py-1.5 backdrop-blur-sm w-full">
+                  Новый
+                </Badge>
+              )}
             </div>
             <button className="absolute right-4 bottom-4 p-2 bg-white/90 backdrop-blur-sm border-0 rounded shadow-lg hover:bg-white transition-all hover:scale-110">
               <MapPin className="w-4 h-4 text-gray-700" />
             </button>
             <Badge className="absolute bottom-4 left-4 bg-black/80 rounded-full px-3 py-1.5 backdrop-blur-sm">
               <Camera className="w-3 h-3 mr-1" />
-              <span>20</span>
-              <CirclePlay className="w-3 h-3 ml-2" />
+              <span>{property?.photos?.length || 0}</span>
+              {property?.videos && property?.videos?.length > 0 && (
+                <>
+                  <CirclePlay className="w-3 h-3 ml-2" />
+                  <span>{property?.videos?.length}</span>
+                </>
+              )}
             </Badge>
           </div>
           <div className="lg:w-1/3 flex flex-row lg:flex-col gap-3">
@@ -146,72 +222,41 @@ export default function Property() {
           />
         </div>
       </div>
+
+      {/* Xarita va asosiy ma'lumotlar */}
       <div className="flex flex-col lg:flex-row items-start gap-4 mb-8">
-        <div className="w-2/4 -z-1 h-[600px]">
-          <MapContainer
-            center={location}
-            zoom={15}
-            style={{ height: "100%", width: "100%" }}
-            scrollWheelZoom={false}
-            className="rounded-xl"
-          >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker position={location}>
-              <Popup>
-                <div className="text-center min-w-[150px]">
-                  <h3 className="font-semibold text-sm">Tashkent</h3>
-                  <p className="text-xs text-gray-600 mt-1">
-                    Проверенный объект
-                  </p>
-                  <div className="mt-2 flex gap-2">
-                    <button className="flex-1 bg-blue-600 text-white py-1 px-2 rounded text-xs hover:bg-blue-700">
-                      Маршрут
-                    </button>
-                    <button className="flex-1 bg-gray-600 text-white py-1 px-2 rounded text-xs hover:bg-gray-700">
-                      Подробнее
-                    </button>
-                  </div>
-                </div>
-              </Popup>
-            </Marker>
-            <MapCenter center={location} />
-          </MapContainer>
+        <div className="w-full lg:w-1/2">
+          <PropertyMap coordinates={property?.location?.coordinates} />
         </div>
-        <div className="w-full lg:w-2/4">
+        <div className="w-full lg:w-1/2">
           <div className="mb-12">
             <div className="flex items-center justify-between font-bold mb-4">
               <OnlineContractButton />
               <div className="flex items-center gap-3">
-                <CallButton />
-                <MailButton />
+                {property?.author?.phone?.value && (
+                  <CallButton phone={property?.author?.phone?.value} />
+                )}
+                {property?.author?.email?.value && (
+                  <MailButton mail={property?.author?.email?.value} />
+                )}
                 <WhatsAppButton />
                 <HeartButton />
                 <EllipsisVerticalButton />
               </div>
             </div>
             <div className="font-bold flex items-center justify-end gap-8">
-              <p className="text-4xl text-red-500">300 000 000 UZS</p>
+              <p className="text-4xl text-red-500">
+                {formatPrice(property?.price)}
+              </p>
               <BidPriceButton />
             </div>
           </div>
-          <div className="opacity-50">
-            <h2 className="mb-4">
-              Полный вид на парк/частичный вид на залив, верхний этаж, сдается в
-              аренду
-            </h2>
+          <div>
+            <h2 className="mb-4 text-xl font-semibold">{property?.title}</h2>
+            <p className="mb-4">{property?.description}</p>
 
-            <p className="mb-4">
-              Компания Премиум с гордостью представляет эту прекрасную квартиру
-              с 3 спальнями и услугами горничной, расположенную на верхнем этаже
-              в Harbour Gate Tower 2, Dubai Creek Harbour (The Lagoons) . Из
-              квартиры открывается великолепный вид на парк.
-            </p>
-
-            <h3 className="mb-2">Детали устройства:</h3>
-            <ul className="">
+            <h3 className="mb-2 font-medium">Детали устройства:</h3>
+            <ul className="space-y-1">
               <li className="before:content-['-'] before:mr-2 before:text-gray-800">
                 Вид на парк и ручей
               </li>
@@ -228,6 +273,8 @@ export default function Property() {
           </div>
         </div>
       </div>
+
+      {/* Property details */}
       <div className="max-w-5xl mb-8">
         <h2 className="text-xl font-semibold text-gray-800 mb-6">
           Сведения о недвижимости
@@ -238,7 +285,9 @@ export default function Property() {
               <Building2 className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
                 <span className="text-gray-600 text-sm">Тип недвижимости</span>
-                <p className="font-medium text-gray-800">Квартира</p>
+                <p className="font-medium text-gray-800 capitalize">
+                  {getCategoryLabel(property?.category)}
+                </p>
               </div>
             </div>
 
@@ -246,15 +295,19 @@ export default function Property() {
               <Bed className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
                 <span className="text-gray-600 text-sm">Спальни</span>
-                <p className="font-medium text-gray-800">4</p>
+                <p className="font-medium text-gray-800">
+                  {property?.bedrooms}
+                </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <Rotate3D className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">Ширина улицы</span>
-                <p className="font-medium text-gray-800">0</p>
+                <span className="text-gray-600 text-sm">Этаж</span>
+                <p className="font-medium text-gray-800">
+                  {property?.floor_level}
+                </p>
               </div>
             </div>
           </div>
@@ -263,11 +316,9 @@ export default function Property() {
             <div className="flex items-center gap-3">
               <Maximize className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
-                  Размер объекта недвижимости
-                </span>
+                <span className="text-gray-600 text-sm">Площадь</span>
                 <p className="font-medium text-gray-800">
-                  152 кв. м / 1638 кв.
+                  {property?.area} кв. м
                 </p>
               </div>
             </div>
@@ -276,67 +327,44 @@ export default function Property() {
               <Bath className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
                 <span className="text-gray-600 text-sm">Ванные комнаты</span>
-                <p className="font-medium text-gray-800">4</p>
+                <p className="font-medium text-gray-800">
+                  {property?.bathrooms}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Warehouse className="w-5 h-5 text-gray-500" />
+              <div className="flex items-center gap-4">
+                <span className="text-gray-600 text-sm">Парковочные места</span>
+                <p className="font-medium text-gray-800">
+                  {property?.parking_spaces}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Amenities */}
         <div>
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Удобства</h3>
           <div className="grid grid-cols-2 gap-3">
-            <div className="flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
-              <UserCheck className="w-4 h-4 flex-shrink-0" />
-              <span className="text-sm">Комната для прислуги</span>
-            </div>
-
-            <div className="flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
-              <Building className="w-4 h-4 flex-shrink-0" />
-              <span className="text-sm">Балкон</span>
-            </div>
-
-            <div className="flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
-              <Waves className="w-4 h-4 flex-shrink-0" />
-              <span className="text-sm">Общий Бассейн</span>
-            </div>
-
-            <div className="flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
-              <Shield className="w-4 h-4 flex-shrink-0" />
-              <span className="text-sm">Безопасность</span>
-            </div>
-
-            <div className="flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
-              <Warehouse className="w-4 h-4 flex-shrink-0" />
-              <span className="text-sm">Встроенные шкафы</span>
-            </div>
-
-            <div className="flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
-              <Shirt className="w-4 h-4 flex-shrink-0" />
-              <span className="text-sm">Встроенная гардеробная</span>
-            </div>
-
-            <div className="flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
-              <Eye className="w-4 h-4 flex-shrink-0" />
-              <span className="text-sm">Вид на воду</span>
-            </div>
-
-            <div className="flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
-              <MapPin className="w-4 h-4 flex-shrink-0" />
-              <span className="text-sm">Вид на достопримечательность</span>
-            </div>
-
-            <div className="flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
-              <PawPrint className="w-4 h-4 flex-shrink-0" />
-              <span className="text-sm">Разрешены домашние животные</span>
-            </div>
-
-            <div className="flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50">
-              <Dumbbell className="w-4 h-4 flex-shrink-0" />
-              <span className="text-sm">Общий Тренажерный зал</span>
-            </div>
+            {property?.amenities?.map((amenity) => (
+              <div
+                key={amenity}
+                className="flex items-center gap-3 p-2 rounded-md transition-colors text-gray-700 hover:bg-gray-50"
+              >
+                {amenityIcons[amenity as keyof typeof amenityIcons]}
+                <span className="text-sm">
+                  {amenityLabels[amenity as keyof typeof amenityLabels]}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
+
+      {/* Price Analysis */}
       <div className="max-w-5xl mb-8">
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-2">
@@ -425,6 +453,8 @@ export default function Property() {
           </ResponsiveContainer>
         </div>
       </div>
+
+      {/* Mortgage Calculator */}
       <div className="w-full">
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-gray-900">

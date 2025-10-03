@@ -10,6 +10,7 @@ import Property from "./pages/property/property";
 import Favorites from "./pages/favorites/favorites";
 import RentApartments from "./pages/rent-apartments/rent-apartments";
 import Login from "./pages/auth/login";
+import Map from "./pages/map/map";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/property",
+        path: "/property/:id",
         element: (
           <SubLayout>
             <Property />
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "/auth",
         element: <RoleChecked />,
+      },
+      {
+        path: "/map",
+        element: <Map />,
       },
       {
         path: "/auth/register",
