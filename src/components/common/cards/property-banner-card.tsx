@@ -2,12 +2,14 @@ import { Badge } from "@/components/ui/badge";
 import type { IProperty } from "@/interfaces/property.interface";
 import { serverUrl } from "@/utils/shared";
 import { MapPin, Mail, MousePointer2, Phone } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function PropertyBannerCard({
   property,
 }: {
   property: IProperty;
 }) {
+  const navigate = useNavigate();
   const mainImage = (() => {
     if (!property?.photos || property.photos.length === 0) return null;
 
@@ -31,6 +33,7 @@ export default function PropertyBannerCard({
         className="w-full h-full object-cover"
         src={`${serverUrl}/uploads/${mainImage}`}
         alt={property.title}
+        onClick={() => navigate(`/property/${property?._id}`)}
       />
       <div className="flex flex-col absolute top-2 left-2 gap-1">
         <Badge className="uppercase bg-black/10">

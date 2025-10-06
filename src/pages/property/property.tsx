@@ -338,7 +338,7 @@ export default function Property() {
                   <MailButton mail={property?.author?.email?.value} />
                 )}
                 <WhatsAppButton />
-                <HeartButton />
+                <HeartButton id={property?._id} />
                 <EllipsisVerticalButton />
               </div>
             </div>
