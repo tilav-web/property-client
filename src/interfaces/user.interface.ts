@@ -11,7 +11,9 @@ export interface IUser {
     isVerified: boolean;
   };
   avatar: string;
-  role: "physical" | "seller" | "legal";
+  role: UserRole;
   lan: "uz" | "en" | "ru";
   likes: string[];
 }
+
+export type UserRole = "physical" | "seller" | "legal";

@@ -11,6 +11,10 @@ import Favorites from "./pages/favorites/favorites";
 import RentApartments from "./pages/rent-apartments/rent-apartments";
 import Login from "./pages/auth/login";
 import Map from "./pages/map/map";
+import SellerLayout from "./layouts/seller-layout";
+import SellerDashboard from "./pages/seller/dashboard/seller-dashboard";
+import Unauthorized from "./pages/unauthorized/unauthorized";
+import SellerProfile from "./pages/seller/profile/seller-profile";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +80,26 @@ const router = createBrowserRouter([
             <Profile />
           </SubLayout>
         ),
+      },
+      {
+        path: "/seller",
+        element: (
+          <SellerLayout>
+            <SellerDashboard />
+          </SellerLayout>
+        ),
+      },
+      {
+        path: "/seller/profile",
+        element: (
+          <SellerLayout>
+            <SellerProfile />
+          </SellerLayout>
+        ),
+      },
+      {
+        path: "/unauthorized",
+        element: <Unauthorized />,
       },
     ],
   },
