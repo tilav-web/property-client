@@ -27,7 +27,7 @@ export default function SellerLayout({ children }: { children: ReactNode }) {
 
   return (
     <RoleGuard roles={["seller"]}>
-      <div className="flex min-h-screen bg-background">
+      <div className="flex min-h-screen bg-gray-50">
         {/* Desktop Sidebar */}
         <div className="hidden md:block w-64 flex-shrink-0">
           <Sidebar isOpen={true} onClose={() => setIsSidebarOpen(false)} />
