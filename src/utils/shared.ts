@@ -48,6 +48,10 @@ export const API_ENDPOINTS = {
   PROPERTIES: {
     base: "/properties",
   },
+  SELLER: {
+    base: "/sellers",
+    me: "/sellers/me",
+  },
 };
 
 // .ENV

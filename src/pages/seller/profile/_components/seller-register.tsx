@@ -11,19 +11,38 @@ import BusinessTypeTab from "./tabs/business-type.tab";
 
 import BankAccountNumberTab from "./tabs/bank-account-number.tab";
 import { Slider } from "@/components/ui/slider";
-import { useSearchParams } from "react-router-dom";
 import UserDetailsTab from "./tabs/user-details.tab";
 import BusisessDetailsTab from "./tabs/business-details/busisess-details.tab";
 import CommissionerTab from "./tabs/commissioner.tab";
+import { sellerService } from "@/services/seller.service";
+import { useSellerStore } from "@/stores/seller.store";
 
 export default function SellerRegister() {
   const [selectedTab, setSelectedTab] = useState<string>("business_type");
-  const [params] = useSearchParams();
-  const business_type = params.get("business_type");
+  const { seller, setSeller, logout, handleLoading } = useSellerStore();
 
   useEffect(() => {
-    if (business_type) return setSelectedTab("user_details");
-  }, [business_type]);
+    (async () => {
+      try {
+        if (seller) return;
+        handleLoading(true);
+        const data = await sellerService.findSeller();
+        console.log(data);
+        
+        setSeller(data);
+        if (!data?.business_type) return setSelectedTab("business_type");
+        if (data?.business_type && !data.passport)
+          return setSelectedTab("user_details");
+        if (!data?.mchj && !data?.ytt && !data?.self_employed)
+          return setSelectedTab("busisess_details");
+      } catch (error) {
+        logout();
+        console.error(error);
+      } finally {
+        handleLoading(false);
+      }
+    })();
+  }, [setSeller, logout, handleLoading]);
 
   const handleSelectTab = (tab: string) => {
     setSelectedTab(tab);

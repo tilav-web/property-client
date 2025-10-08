@@ -12,8 +12,11 @@ export interface IUser {
   };
   avatar: string;
   role: UserRole;
-  lan: "uz" | "en" | "ru";
+  lan: UserLan;
   likes: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export type UserRole = "physical" | "seller" | "legal";
+export type UserLan = "uz" | "en" | "ru";

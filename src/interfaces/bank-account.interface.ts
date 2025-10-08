@@ -8,4 +8,6 @@ export interface IBankAccount {
   mfo: string;
   owner_full_name: string;
   swift_code: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

@@ -1,0 +1,35 @@
+import type { SellerBusinessType } from "@/interfaces/seller.interface";
+import type { UserLan } from "@/interfaces/user.interface";
+import apiInstance from "@/lib/api-instance";
+import { API_ENDPOINTS } from "@/utils/shared";
+
+class SellerService {
+  async createSeller(dto: {
+    first_name: string;
+    last_name: string;
+    phone: string;
+    lan: UserLan;
+    passport: string;
+    business_type: SellerBusinessType;
+  }) {
+    try {
+      const res = await apiInstance.post(API_ENDPOINTS.SELLER.base, dto);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async findSeller() {
+    try {
+      const res = await apiInstance.get(API_ENDPOINTS.SELLER.me);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+}
+
+export const sellerService = new SellerService();

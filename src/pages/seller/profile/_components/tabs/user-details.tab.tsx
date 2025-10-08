@@ -11,17 +11,39 @@ import { useUserStore } from "@/stores/user.store";
 import NextButton from "@/components/common/buttons/next-button";
 import { Check, X } from "lucide-react";
 import BackTabsButton from "../buttons/back-tabs-button";
+import { useFormik } from "formik";
+import { useSearchParams } from "react-router-dom";
+import { sellerService } from "@/services/seller.service";
+import type { SellerBusinessType } from "@/interfaces/seller.interface";
+import { useSellerStore } from "@/stores/seller.store";
 
 export default function UserDetailsTab({
   handleSelectTab,
 }: {
   handleSelectTab: (tab: string) => void;
 }) {
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
+  const { setSeller, seller } = useSellerStore();
+  const [params] = useSearchParams();
+  const business_type = params.get("business_type") as SellerBusinessType;
 
-  const handleSelectUserDetails = () => {
-    handleSelectTab("busisess_details");
-  };
+  const formik = useFormik({
+    initialValues: {
+      first_name: user?.first_name || "",
+      last_name: user?.last_name || "",
+      phone: user?.phone.value || "+998 ",
+      passport: seller?.passport || "",
+      lan: user?.lan || "en",
+      business_type,
+    },
+    onSubmit: async (values) => {
+      const data = await sellerService.createSeller(values);
+      setUser(data.user);
+      setSeller(data.seller);
+      handleSelectTab("busisess_details");
+    },
+    enableReinitialize: true,
+  });
 
   return (
     <div className="space-y-6">
@@ -34,6 +56,10 @@ export default function UserDetailsTab({
           <Label htmlFor="first_name">Ism</Label>
           <Input
             id="first_name"
+            name="first_name"
+            value={formik.values.first_name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             defaultValue={user?.first_name || ""}
             className="bg-gray-50"
           />
@@ -43,6 +69,10 @@ export default function UserDetailsTab({
           <Label htmlFor="last_name">Familiya</Label>
           <Input
             id="last_name"
+            name="last_name"
+            value={formik.values.last_name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             defaultValue={user?.last_name || ""}
             className="bg-gray-50"
           />
@@ -55,6 +85,7 @@ export default function UserDetailsTab({
           <Input
             id="email"
             type="email"
+            disabled
             defaultValue={user?.email?.value || ""}
             className="bg-gray-50 flex-1 pr-6"
           />
@@ -82,7 +113,11 @@ export default function UserDetailsTab({
           <div className="flex items-center gap-2 relative">
             <Input
               id="phone"
+              name="phone"
               type="tel"
+              value={formik.values.phone}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               defaultValue={user?.phone?.value || ""}
               className="bg-gray-50 flex-1 pr-6"
             />
@@ -104,10 +139,14 @@ export default function UserDetailsTab({
           </div>
         </div>
         <div className="space-y-2 flex-1">
-          <Label htmlFor="pasport">Pasport</Label>
+          <Label htmlFor="passport">Passport</Label>
           <Input
+            id="passport"
+            name="passport"
+            value={formik.values.passport}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             placeholder="AA xxxxxxx"
-            id="pasport"
             className="bg-gray-50 flex-1 pr-6"
           />
         </div>
@@ -116,9 +155,13 @@ export default function UserDetailsTab({
       <div className="flex items-end justify-between">
         <div className="space-y-2">
           <Label htmlFor="language">Til</Label>
-          <Select defaultValue={user?.lan || "uz"}>
+          <Select
+            name="lan"
+            value={formik.values.lan}
+            onValueChange={(value) => formik.setFieldValue("lan", value)}
+          >
             <SelectTrigger className="bg-gray-50">
-              <SelectValue />
+              <SelectValue placeholder="Tilni tanlang" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="uz">O'zbekcha</SelectItem>
@@ -129,7 +172,7 @@ export default function UserDetailsTab({
         </div>
         <div className="flex items-center gap-2">
           <BackTabsButton onClick={() => handleSelectTab("business_type")} />
-          <NextButton loading={false} onClick={handleSelectUserDetails} />
+          <NextButton loading={false} onClick={formik.handleSubmit} />
         </div>
       </div>
     </div>
