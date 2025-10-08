@@ -1,7 +1,31 @@
+import NextButton from "@/components/common/buttons/next-button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
-export default function BusinessTypeTab() {
+export default function BusinessTypeTab({
+  handleSelectTab,
+}: {
+  handleSelectTab: (tab: string) => void;
+}) {
+  const [businessType, setBusinessType] = useState<string>("ytt");
+  const [params, setSearchParams] = useSearchParams();
+  const business_type = params.get("business_type");
+
+  useEffect(() => {
+    if (business_type) {
+      setBusinessType(business_type);
+    }
+  }, [business_type, setSearchParams]);
+
+  const handleSelectBusinessType = () => {
+    setSearchParams({
+      business_type: businessType,
+    });
+    handleSelectTab("user_details");
+  };
+
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-gray-900">
@@ -9,7 +33,11 @@ export default function BusinessTypeTab() {
       </h3>
       <p className="text-sm text-gray-600">Quyidagilardan birini tanlang</p>
 
-      <RadioGroup defaultValue="ytt" className="flex flex-col gap-4">
+      <RadioGroup
+        value={businessType}
+        onValueChange={(value) => setBusinessType(value)}
+        className="flex flex-col gap-4"
+      >
         <div className="flex items-center h-12 px-2 gap-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
           <RadioGroupItem
             value="ytt"
@@ -52,6 +80,9 @@ export default function BusinessTypeTab() {
           </Label>
         </div>
       </RadioGroup>
+      <div className="flex justify-end">
+        <NextButton onClick={handleSelectBusinessType} loading={false} />
+      </div>
     </div>
   );
 }

@@ -1,9 +1,20 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUserStore } from "@/stores/user.store";
+import BackTabsButton from "../buttons/back-tabs-button";
+import NextButton from "@/components/common/buttons/next-button";
 
-export default function BankAccountNumberTab() {
+export default function BankAccountNumberTab({
+  handleSelectTab,
+}: {
+  handleSelectTab: (tab: string) => void;
+}) {
   const { user } = useUserStore();
+
+  const handleSelectBankAccountNumber = () => {
+    handleSelectTab('commissioner')
+  };
+
   return (
     <div className="space-y-6">
       <h3 className="text-lg font-semibold text-gray-900">Bank hisob raqami</h3>
@@ -73,6 +84,10 @@ export default function BankAccountNumberTab() {
             className="bg-gray-50"
           />
         </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <BackTabsButton onClick={() => handleSelectTab("busisess_details")} />
+        <NextButton loading={false} onClick={handleSelectBankAccountNumber} />
       </div>
     </div>
   );
