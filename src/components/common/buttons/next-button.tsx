@@ -13,6 +13,7 @@ export default function NextButton({
     <Button
       onClick={onClick}
       className="bg-blue-500 hover:bg-blue-500 active:bg-blue-800"
+      type="button"
     >
       <p>Davom etish</p>
       {loading ? <Spinner /> : <ArrowRightToLine />}

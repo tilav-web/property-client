@@ -51,6 +51,9 @@ export const API_ENDPOINTS = {
   SELLER: {
     base: "/sellers",
     me: "/sellers/me",
+    create_ytt: "/sellers/ytt",
+    create_mchj: "/sellers/mchj",
+    create_self_employed: "/sellers/self-employed",
   },
 };
 

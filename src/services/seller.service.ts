@@ -30,6 +30,37 @@ class SellerService {
       throw error;
     }
   }
+
+  async createYttSeller(dto: FormData) {
+    try {
+      const res = await apiInstance.post(API_ENDPOINTS.SELLER.create_ytt, dto);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+  async createMchjSeller(dto: FormData) {
+    try {
+      const res = await apiInstance.post(API_ENDPOINTS.SELLER.create_mchj, dto);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+  async createSelfEmployedSeller(dto: FormData) {
+    try {
+      const res = await apiInstance.post(
+        API_ENDPOINTS.SELLER.create_self_employed,
+        dto
+      );
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }
 
 export const sellerService = new SellerService();

@@ -20,6 +20,7 @@ import { useSellerStore } from "@/stores/seller.store";
 export default function SellerRegister() {
   const [selectedTab, setSelectedTab] = useState<string>("business_type");
   const { seller, setSeller, logout, handleLoading } = useSellerStore();
+  console.log(seller);
 
   useEffect(() => {
     (async () => {
@@ -27,14 +28,23 @@ export default function SellerRegister() {
         if (seller) return;
         handleLoading(true);
         const data = await sellerService.findSeller();
-        console.log(data);
-        
         setSeller(data);
         if (!data?.business_type) return setSelectedTab("business_type");
         if (data?.business_type && !data.passport)
           return setSelectedTab("user_details");
-        if (!data?.mchj && !data?.ytt && !data?.self_employed)
+        if (
+          (data?.business_type === "mchj" && !data?.mchj) ||
+          (data?.business_type === "ytt" && !data?.ytt) ||
+          (data?.business_type === "self_employed" && !data?.self_employed)
+        )
           return setSelectedTab("busisess_details");
+
+        if (
+          (data?.business_type === "mchj" && data?.mchj) ||
+          (data?.business_type === "ytt" && data?.ytt) ||
+          (data?.business_type === "self_employed" && data?.self_employed)
+        )
+          return setSelectedTab("bank_account_number");
       } catch (error) {
         logout();
         console.error(error);

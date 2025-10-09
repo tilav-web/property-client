@@ -6,9 +6,9 @@ export interface ISeller {
   user: IUser;
   passport: string;
   business_type: SellerBusinessType;
-  ytt?: string;
-  mchj?: string;
-  self_employed?: string;
+  ytt?: IYttSeller;
+  mchj?: IMchjSeller;
+  self_employed?: ISelfEmployedSeller;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -56,7 +56,7 @@ export interface ISelfEmployedSeller {
   first_name: string; // Ism
   last_name: string; // Familiya
   middle_name: string; // Otasining ismi
-  birth_date: Date; // Tug‘ilgan sana
+  birth_date: string; // Tug‘ilgan sana
   jshshir: string; // JShShIR
   registration_number: string; // Ro‘yxatdan o‘tish raqami
   registration_address: string; // Biznes ro‘yxatdan o‘tgan manzil
