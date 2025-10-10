@@ -61,6 +61,12 @@ export const API_ENDPOINTS = {
   COMMISSIONERS: {
     base: "/commissioners",
   },
+  REGION: {
+    base: "/regions",
+  },
+  DISTRICT: {
+    base: "/districts",
+  },
 };
 
 // .ENV

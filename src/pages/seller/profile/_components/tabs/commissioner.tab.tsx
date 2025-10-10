@@ -57,7 +57,7 @@ export default function CommissionerTab({
   const [file, setFile] = useState<FileState>({
     contract_file: null,
   });
-  const { setSeller } = useSellerStore();
+  const { seller, setSeller } = useSellerStore();
 
   // Default qiymatlarni o'rnatish
   const getDefaultStartDate = () => {
@@ -72,7 +72,7 @@ export default function CommissionerTab({
 
   const formik = useFormik<FormValues>({
     initialValues: {
-      contract_number: "",
+      contract_number: seller?.commissioner?.contract_number ?? "",
       contract_start_date: getDefaultStartDate(),
       contract_end_date: getDefaultEndDate(),
     },

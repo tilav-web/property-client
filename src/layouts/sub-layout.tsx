@@ -1,27 +1,12 @@
 import Footer from "@/components/common/footer/footer";
 import Header from "@/components/common/header/header";
 import Loading from "@/components/common/loadings/loading";
-import { userService } from "@/services/user.service";
 import { useUserStore } from "@/stores/user.store";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 export default function SubLayout({ children }: { children: ReactNode }) {
-  const { setUser, user, logout } = useUserStore();
-  useEffect(() => {
-    (async () => {
-      try {
-        if (user || user === null) return;
-        const data = await userService.findMe();
-        setUser(data);
-      } catch (error) {
-        console.error(error);
-        logout()
-      }
-    })();
-  }, [setUser, logout]);
-
+  const { user } = useUserStore();
   if (user === undefined) return <Loading />;
-
   return (
     <>
       <Header />

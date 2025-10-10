@@ -15,6 +15,9 @@ import SellerLayout from "./layouts/seller-layout";
 import SellerDashboard from "./pages/seller/dashboard/seller-dashboard";
 import Unauthorized from "./pages/unauthorized/unauthorized";
 import SellerProfile from "./pages/seller/profile/seller-profile";
+import Inquiries from "./pages/seller/inquiries/inquiries";
+import Feedback from "./pages/seller/feedback/feedback";
+import SellerProperties from "./pages/seller/properties/seller-properties";
 
 const router = createBrowserRouter([
   {
@@ -94,6 +97,30 @@ const router = createBrowserRouter([
         element: (
           <SellerLayout>
             <SellerProfile />
+          </SellerLayout>
+        ),
+      },
+      {
+        path: "/seller/inquiries",
+        element: (
+          <SellerLayout>
+            <Inquiries />
+          </SellerLayout>
+        ),
+      },
+      {
+        path: "/seller/feedback",
+        element: (
+          <SellerLayout>
+            <Feedback />
+          </SellerLayout>
+        ),
+      },
+      {
+        path: "/seller/properties",
+        element: (
+          <SellerLayout>
+            <SellerProperties />
           </SellerLayout>
         ),
       },

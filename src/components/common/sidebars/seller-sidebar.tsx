@@ -1,13 +1,54 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useSellerStore } from "@/stores/seller.store";
 import { useUserStore } from "@/stores/user.store";
-import { Home, Settings, User, X } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import {
+  ArrowLeftToLine,
+  Building2,
+  Home,
+  Pointer,
+  Settings,
+  Stars,
+  User,
+  X,
+} from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
+
+const registerMenuItems = {
+  seller: [
+    {
+      to: "/seller/profile",
+      icon: <User className="h-5 w-5" />,
+      text: "Shaxsiy malumotlar",
+    },
+  ],
+  physical: [],
+  legal: [],
+};
 
 const menuItems = {
   seller: [
     { to: "/seller", icon: <Home className="h-5 w-5" />, text: "Bosh sahifa" },
-    { to: "/seller/profile", icon: <User className="h-5 w-5" />, text: "Shaxsiy malumotlar" },
+    {
+      to: "/seller/inquiries",
+      icon: <Pointer className="h-5 w-5" />,
+      text: "Faoliyatlar",
+    },
+    {
+      to: "/seller/feedback",
+      icon: <Stars className="h-5 w-5" />,
+      text: "Fikrlar",
+    },
+    {
+      to: "/seller/properties",
+      icon: <Building2 className="h-5 w-5" />,
+      text: "Mulklar",
+    },
+    {
+      to: "/seller/profile",
+      icon: <User className="h-5 w-5" />,
+      text: "Shaxsiy malumotlar",
+    },
   ],
   physical: [],
   legal: [],
@@ -20,6 +61,7 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { user } = useUserStore();
+  const { seller } = useSellerStore();
 
   return (
     <aside
@@ -44,25 +86,42 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </Button>
       </div>
       <nav className="flex-1 px-4 py-6 space-y-2">
-        {user?.role &&
-          menuItems[user?.role]?.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              onClick={onClose} // Close sidebar on navigation for mobile
-              className={({ isActive }) =>
-                cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-primary-foreground/10",
-                  isActive && "bg-primary-foreground/20"
-                )
-              }
-            >
-              {item.icon}
-              <span>{item.text}</span>
-            </NavLink>
-          ))}
+        {user?.role && seller?.status === "approved"
+          ? menuItems[user?.role]?.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                onClick={onClose} // Close sidebar on navigation for mobile
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-primary-foreground/10",
+                    isActive && "bg-primary-foreground/20"
+                  )
+                }
+              >
+                {item.icon}
+                <span>{item.text}</span>
+              </NavLink>
+            ))
+          : user?.role &&
+            registerMenuItems[user?.role]?.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                onClick={onClose} // Close sidebar on navigation for mobile
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-primary-foreground/10",
+                    isActive && "bg-primary-foreground/20"
+                  )
+                }
+              >
+                {item.icon}
+                <span>{item.text}</span>
+              </NavLink>
+            ))}
       </nav>
-      <div className="p-4 border-t border-primary-foreground/20">
+      <div className="p-4 border-t border-primary-foreground/20 space-y-4">
         <NavLink
           to="/settings"
           onClick={onClose} // Close sidebar on navigation for mobile
@@ -71,6 +130,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <Settings className="h-5 w-5" />
           <span>Sozlamalar</span>
         </NavLink>
+        <Link
+          to="/"
+          onClick={onClose}
+          className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all bg-red-300/30"
+        >
+          <ArrowLeftToLine className="h-5 w-5" />
+          <span>Ortga</span>
+        </Link>
       </div>
     </aside>
   );

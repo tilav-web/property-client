@@ -2,26 +2,29 @@ import SellerHeader from "@/components/common/header/seller-header";
 import Loading from "@/components/common/loadings/loading";
 import Sidebar from "@/components/common/sidebars/seller-sidebar";
 import RoleGuard from "@/guards/role-guard";
-import { userService } from "@/services/user.service";
+import { sellerService } from "@/services/seller.service";
+import { useSellerStore } from "@/stores/seller.store";
 import { useUserStore } from "@/stores/user.store";
 import { useEffect, useState, type ReactNode } from "react";
 
 export default function SellerLayout({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user } = useUserStore();
 
-  const { setUser, user, logout } = useUserStore();
+  const { seller, setSeller, logout } = useSellerStore();
+
   useEffect(() => {
     (async () => {
       try {
-        if (user || user === null) return;
-        const data = await userService.findMe();
-        setUser(data);
+        if (seller || seller === null) return;
+        const data = await sellerService.findSeller();
+        setSeller(data);
       } catch (error) {
         console.error(error);
         logout();
       }
     })();
-  }, [setUser, logout]);
+  }, [setSeller, logout]);
 
   if (user === undefined) return <Loading />;
 

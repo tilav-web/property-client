@@ -1,4 +1,5 @@
 import type { IBankAccount } from "./bank-account.interface";
+import type { ICommissioner } from "./commissioner.interface";
 import type { IFile } from "./file.interface";
 import type { IUser } from "./user.interface";
 
@@ -11,11 +12,18 @@ export interface ISeller {
   mchj?: IMchjSeller;
   self_employed?: ISelfEmployedSeller;
   bank_account: IBankAccount;
+  commissioner: ICommissioner;
+  status: SellerStatus;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export type SellerBusinessType = "ytt" | "mchj" | "self_employed";
+export type SellerStatus =
+  | "in_progress"
+  | "completed"
+  | "approved"
+  | "rejected";
 
 export interface IYttSeller {
   _id: string;
@@ -40,7 +48,7 @@ export interface IMchjSeller {
   stir: string; // STIR
   oked: string; // OKED
   registration_address: string; // Biznes ro'yxatdan o'tgan manzil
-  mchj_license: string; // MCHJ guvohnomasi (fayl URL)
+  mchj_license: IFile | null; // MCHJ guvohnomasi (fayl URL)
   is_vat_payer: boolean; // QQS mavjudmi
   ustav_file?: IFile | null; // Ustav fayli
   director_appointment_file?: IFile | null; // Direktor tayinlash hujjati

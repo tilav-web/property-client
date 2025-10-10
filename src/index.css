@@ -135,3 +135,7 @@
 button {
   cursor: pointer;
 }
+
+html {
+  overflow-y: hidden;
+}
