@@ -18,6 +18,10 @@ import SellerProfile from "./pages/seller/profile/seller-profile";
 import Inquiries from "./pages/seller/inquiries/inquiries";
 import Feedback from "./pages/seller/feedback/feedback";
 import SellerProperties from "./pages/seller/properties/seller-properties";
+import { lazy, Suspense } from "react";
+const CreateProperty = lazy(
+  () => import("./pages/seller/properties/_components/create-property")
+);
 
 const router = createBrowserRouter([
   {
@@ -122,6 +126,16 @@ const router = createBrowserRouter([
           <SellerLayout>
             <SellerProperties />
           </SellerLayout>
+        ),
+      },
+      {
+        path: "/seller/properties/create",
+        element: (
+          <Suspense fallback={<p>Loading...</p>}>
+            <SellerLayout>
+              <CreateProperty />
+            </SellerLayout>
+          </Suspense>
         ),
       },
       {

@@ -1,9 +1,9 @@
-import CreateProperty from "./_components/create-property";
-
 export default function SellerProperties() {
   return (
     <div>
-      <CreateProperty />
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae modi
+      veritatis hic. Nihil dicta officiis, suscipit soluta consequatur corporis
+      neque!
     </div>
   );
 }
