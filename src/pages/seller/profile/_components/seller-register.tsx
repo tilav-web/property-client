@@ -16,10 +16,12 @@ import BusisessDetailsTab from "./tabs/business-details/busisess-details.tab";
 import CommissionerTab from "./tabs/commissioner.tab";
 import { sellerService } from "@/services/seller.service";
 import { useSellerStore } from "@/stores/seller.store";
+import FinishTab from "./tabs/finish.tab";
 
 export default function SellerRegister() {
   const [selectedTab, setSelectedTab] = useState<string>("business_type");
   const { seller, setSeller, logout, handleLoading } = useSellerStore();
+  console.log(seller);
 
   useEffect(() => {
     (async () => {
@@ -46,7 +48,14 @@ export default function SellerRegister() {
         )
           return setSelectedTab("bank_account_number");
 
-        if (data?.bank_account) return setSelectedTab("commissioner");
+        if (
+          (data?.bank_account && !data?.commissioner) ||
+          data?.status !== "completed"
+        )
+          return setSelectedTab("commissioner");
+
+        if (data?.commissioner && data?.status === "completed")
+          return setSelectedTab("finish_tab");
       } catch (error) {
         logout();
         console.error(error);
@@ -136,6 +145,7 @@ export default function SellerRegister() {
                   {selectedTab === "busisess_details" && "40%"}
                   {selectedTab === "bank_account_number" && "60%"}
                   {selectedTab === "commissioner" && "80%"}
+                  {selectedTab === "finish_tab" && "100%"}
                 </p>
               </div>
 
@@ -198,6 +208,9 @@ export default function SellerRegister() {
             value="commissioner"
           >
             <CommissionerTab handleSelectTab={handleSelectTab} />
+          </TabsContent>
+          <TabsContent className="bg-white rounded-2xl p-4" value="finish_tab">
+            <FinishTab />
           </TabsContent>
         </Tabs>
       </div>

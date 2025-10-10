@@ -7,6 +7,8 @@ import NextButton from "@/components/common/buttons/next-button";
 import { Upload, FileText, X, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import { useSellerStore } from "@/stores/seller.store";
+import { toast } from "sonner";
+import { commissionerService } from "@/services/commissioner.service";
 
 // Validation schema
 const validationSchema = Yup.object({
@@ -55,7 +57,7 @@ export default function CommissionerTab({
   const [file, setFile] = useState<FileState>({
     contract_file: null,
   });
-  const { seller } = useSellerStore();
+  const { setSeller } = useSellerStore();
 
   // Default qiymatlarni o'rnatish
   const getDefaultStartDate = () => {
@@ -77,43 +79,18 @@ export default function CommissionerTab({
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        // FormData yaratish
         const formData = new FormData();
-
-        // Seller ID ni qo'shish
-        if (seller?._id) {
-          formData.append("seller", seller._id);
-        }
-
-        // DTO ni FormData ga qo'shish
         Object.entries(values).forEach(([key, value]) => {
           formData.append(key, value);
         });
 
-        // Predefined qiymatlarni qo'shish
-        Object.entries(predefinedValues).forEach(([key, value]) => {
-          formData.append(key, value);
-        });
-
-        // Faylni qo'shish
         if (file.contract_file) {
           formData.append("contract_file", file.contract_file);
         }
 
-        // API ga so'rov yuborish
-        console.log("Komissioner ma'lumotlari:", {
-          ...values,
-          ...predefinedValues,
-        });
-        console.log("Fayl:", file);
-
-        // Bu yerda haqiqiy API so'rovi bo'ladi
-        // await commissionerService.createCommissioner(formData);
-
-        // Muvaffaqiyatli yuborilgandan keyin keyingi tabga o'tamiz
-        // handleSelectTab('next_tab');
-
-        alert("Komissioner ma'lumotlari muvaffaqiyatli saqlandi!");
+        const data = await commissionerService.create(formData);
+        setSeller(data);
+        handleSelectTab("finish_tab");
       } catch (error) {
         console.error("Komissioner ma'lumotlarini saqlashda xatolik:", error);
       }
@@ -124,26 +101,20 @@ export default function CommissionerTab({
     const uploadedFile = event.target.files?.[0];
     if (uploadedFile) {
       // Fayl turini tekshirish
-      const allowedTypes = [
-        "application/pdf",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "image/jpeg",
-        "image/jpg",
-        "image/png",
-        "image/webp",
-      ];
+      const allowedTypes = ["application/pdf"];
 
       if (!allowedTypes.includes(uploadedFile.type)) {
-        alert(
-          "Faqat PDF, DOC, DOCX, JPG, PNG formatidagi fayllar qabul qilinadi"
-        );
+        toast("Error", {
+          description: "Faqat PDF  formatidagi fayl qabul qilinadi",
+        });
         return;
       }
 
       // Fayl hajmini tekshirish (masalan, 10MB)
       if (uploadedFile.size > 10 * 1024 * 1024) {
-        alert("Fayl hajmi 10MB dan oshmasligi kerak");
+        toast("Error", {
+          description: "Fayl hajmi 10MB dan oshmasligi kerak",
+        });
         return;
       }
 
@@ -157,14 +128,6 @@ export default function CommissionerTab({
 
   const getFileName = () => {
     return file.contract_file ? file.contract_file.name : "Fayl tanlanmagan";
-  };
-
-  const handleSubmit = () => {
-    if (!file.contract_file) {
-      alert("Shartnoma fayli yuklanishi shart");
-      return;
-    }
-    formik.handleSubmit();
   };
 
   return (
@@ -379,7 +342,7 @@ export default function CommissionerTab({
           <BackTabsButton
             onClick={() => handleSelectTab("bank_account_number")}
           />
-          <NextButton loading={false} onClick={handleSubmit} />
+          <NextButton loading={false} onClick={formik.handleSubmit} />
         </div>
       </form>
     </div>
