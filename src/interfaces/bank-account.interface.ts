@@ -1,8 +1,6 @@
-import type { IUser } from "./user.interface";
-
 export interface IBankAccount {
   _id: string;
-  author: IUser;
+  seller: string;
   account_number: string;
   bank_name: string;
   mfo: string;

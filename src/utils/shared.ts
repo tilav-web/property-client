@@ -55,6 +55,9 @@ export const API_ENDPOINTS = {
     create_mchj: "/sellers/mchj",
     create_self_employed: "/sellers/self-employed",
   },
+  BANK_ACCOUNT: {
+    base: "bank-accounts",
+  },
 };
 
 // .ENV

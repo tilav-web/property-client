@@ -1,3 +1,4 @@
+import type { IBankAccount } from "./bank-account.interface";
 import type { IFile } from "./file.interface";
 import type { IUser } from "./user.interface";
 
@@ -9,6 +10,7 @@ export interface ISeller {
   ytt?: IYttSeller;
   mchj?: IMchjSeller;
   self_employed?: ISelfEmployedSeller;
+  bank_account: IBankAccount;
   createdAt?: Date;
   updatedAt?: Date;
 }

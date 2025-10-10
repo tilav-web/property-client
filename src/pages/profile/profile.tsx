@@ -2,7 +2,6 @@ import BackButton from "@/components/common/buttons/back-button";
 import PropertyCard from "@/components/common/cards/property-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountDetails from "./_components/account_details";
-import { property } from "@/constants/mack-data";
 
 export default function Profile() {
   return (
@@ -26,8 +25,8 @@ export default function Profile() {
           <AccountDetails />
         </TabsContent>
         <TabsContent className="min-h-96" value="saved_properties">
-          <PropertyCard property={{ ...property }} />
-          <PropertyCard property={{ ...property }} />
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque quam
+          labore soluta
         </TabsContent>
         <TabsContent className="min-h-96" value="notification"></TabsContent>
         <TabsContent
