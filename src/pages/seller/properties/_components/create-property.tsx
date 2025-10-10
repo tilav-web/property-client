@@ -551,6 +551,10 @@ export default function CreateProperty() {
     mapRef.current = map;
   };
 
+  const handleMapUnmount = () => {
+    mapRef.current = null;
+  };
+
   const handleSubmit = async (
     values: PropertyFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
@@ -1026,6 +1030,7 @@ export default function CreateProperty() {
                     zoom={10}
                     onClick={(e) => handleMapClick(e)}
                     onLoad={handleMapLoad}
+                    onUnmount={handleMapUnmount}
                   >
                     {markerPosition && <Marker position={markerPosition} />}
                   </GoogleMap>
