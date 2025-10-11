@@ -1,19 +1,10 @@
-"use client"
+"use client";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Home } from "lucide-react";
+import { ErrorMessage } from "formik";
+import FormField from "../form-field";
 
-import { Field, ErrorMessage, type FieldProps } from "formik"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Home } from "lucide-react"
-
-interface InfoTabProps {
-  values: {
-    description: string
-  }
-}
-
-export default function InfoTab({ values }: InfoTabProps) {
+export default function InfoTab({ values }: { values: { description: string } }) {
   return (
     <Card>
       <CardHeader>
@@ -23,23 +14,19 @@ export default function InfoTab({ values }: InfoTabProps) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
+        <FormField
+          name="title"
+          label="Sarlavha"
+          type="text"
+          required
+          placeholder="Masalan: Yangi qurilayotgan loyiha markazda..."
+        />
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-            Sarlavha *
-          </label>
-          <Field as={Input} id="title" name="title" placeholder="Masalan: Yangi qurilayotgan loyiha markazda..." />
-          <ErrorMessage name="title" component="div" className="text-red-500 text-sm mt-1" />
-        </div>
-
-        <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-            Tavsif *
-          </label>
-          <Field
-            as={Textarea}
-            id="description"
+          <FormField
             name="description"
-            rows={3}
+            label="Tavsif"
+            type="textarea"
+            required
             placeholder="Mulkning batafsil tavsifini yozing..."
           />
           <div className="flex justify-between text-sm text-gray-500 mt-1">
@@ -47,51 +34,31 @@ export default function InfoTab({ values }: InfoTabProps) {
             <ErrorMessage name="description" component="span" className="text-red-500" />
           </div>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-              Kategoriya *
-            </label>
-            <Field name="category">
-              {({ field, form }: FieldProps) => (
-                <Select onValueChange={(value) => form.setFieldValue(field.name, value)} value={field.value}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Kategoriya tanlang" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="apartment">Kvartira</SelectItem>
-                    <SelectItem value="house">Uy</SelectItem>
-                    <SelectItem value="commercial">Tijorat</SelectItem>
-                    <SelectItem value="land">Yer uchastkasi</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            </Field>
-            <ErrorMessage name="category" component="div" className="text-red-500 text-sm mt-1" />
-          </div>
-
-          <div>
-            <label htmlFor="construction_status" className="block text-sm font-medium text-gray-700 mb-1">
-              Qurilish Holati
-            </label>
-            <Field name="construction_status">
-              {({ field, form }: FieldProps) => (
-                <Select onValueChange={(value) => form.setFieldValue(field.name, value)} value={field.value}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Holatni tanlang" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ready">Tayyor</SelectItem>
-                    <SelectItem value="under_construction">Qurilmoqda</SelectItem>
-                    <SelectItem value="planned">Rejalashtirilgan</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
-            </Field>
-          </div>
+          <FormField
+            name="category"
+            label="Kategoriya"
+            type="select"
+            required
+            options={[
+              { value: "apartment", label: "Kvartira" },
+              { value: "house", label: "Uy" },
+              { value: "commercial", label: "Tijorat" },
+              { value: "land", label: "Yer uchastkasi" },
+            ]}
+          />
+          <FormField
+            name="construction_status"
+            label="Qurilish Holati"
+            type="select"
+            options={[
+              { value: "ready", label: "Tayyor" },
+              { value: "under_construction", label: "Qurilmoqda" },
+              { value: "planned", label: "Rejalashtirilgan" },
+            ]}
+          />
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
