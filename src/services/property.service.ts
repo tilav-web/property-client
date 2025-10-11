@@ -49,5 +49,15 @@ class PropertyService {
       throw error;
     }
   }
+
+  async create(dto: FormData) {
+    try {
+      const res = await apiInstance.post(API_ENDPOINTS.PROPERTIES.base, dto);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }
 export const propertyService = new PropertyService();

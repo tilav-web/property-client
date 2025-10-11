@@ -1,9 +1,140 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Plus } from "lucide-react";
+import type { IProperty } from "@/interfaces/property.interface";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import PropertyCard from "@/components/common/cards/property-card";
+
 export default function SellerProperties() {
+  const [properties, setProperties] = useState<IProperty[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  // Property ma'lumotlarini yuklash
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        setLoading(true);
+        // Bu yerda o'z API chaqiruvingizni qo'llashingiz mumkin
+        // const response = await fetch('/api/seller/properties');
+        // const data = await response.json();
+        // setProperties(data);
+
+        // Hozircha bo'sh array, siz o'z ma'lumotlaringizni qo'shasiz
+        setProperties([]);
+      } catch (err) {
+        setError("Xatolik yuz berdi");
+        console.error("Error fetching properties:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, []);
+
+  // Yangi property yaratish sahifasiga o'tish
+  const handleCreateProperty = () => {
+    navigate("/seller/properties/create");
+  };
+
+  // Loading holati
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Mening Propertylarim</h1>
+          <Button disabled>
+            <Plus className="w-4 h-4 mr-2" />
+            Yuklanmoqda...
+          </Button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, index) => (
+            <Skeleton key={index} className="h-80 rounded-xl" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Xatolik holati
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Mening Propertylarim</h1>
+          <Button onClick={handleCreateProperty}>
+            <Plus className="w-4 h-4 mr-2" />
+            Yangi Property
+          </Button>
+        </div>
+        <div className="text-center py-12">
+          <p className="text-red-500 text-lg">{error}</p>
+          <Button onClick={() => window.location.reload()} className="mt-4">
+            Qayta Yuklash
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae modi
-      veritatis hic. Nihil dicta officiis, suscipit soluta consequatur corporis
-      neque!
+    <div className="container mx-auto px-4 py-8">
+      {/* Sarlavha va yangi property tugmasi */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+            Mening Propertylarim
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Jami: {properties.length} ta property
+          </p>
+        </div>
+        <Button
+          onClick={handleCreateProperty}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+          size="lg"
+        >
+          <Plus className="w-5 h-5 mr-2" />
+          Yangi Property
+        </Button>
+      </div>
+
+      {/* Propertylar ro'yxati */}
+      {properties.length === 0 ? (
+        // Propertylar bo'lmaganda
+        <div className="text-center py-12 bg-gray-50 rounded-xl">
+          <div className="max-w-md mx-auto">
+            <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Plus className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              Propertylar topilmadi
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Hozircha hech qanday property qo'shmagansiz. Birinchi
+              propertyingizni qo'shish uchun pastdagi tugmani bosing.
+            </p>
+            <Button
+              onClick={handleCreateProperty}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Birinchi Propertyni Qo'shish
+            </Button>
+          </div>
+        </div>
+      ) : (
+        // Propertylar mavjud bo'lganda
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {properties.map((property) => (
+            <PropertyCard key={property._id} property={property} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
