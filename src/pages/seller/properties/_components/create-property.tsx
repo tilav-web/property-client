@@ -366,7 +366,7 @@ const LocationUpdater = ({
   regions,
   districts,
   setFieldValue,
-  setSelectedRegionCode,
+  setSelectedRegion,
   findClosestRegion,
   findClosestDistrict,
   fetchAddress,
@@ -375,7 +375,7 @@ const LocationUpdater = ({
   regions: IRegion[] | undefined;
   districts: IDistrict[] | undefined;
   setFieldValue: SetFieldValueType;
-  setSelectedRegionCode: (code: string | null) => void;
+  setSelectedRegion: (id: string | null) => void;
   findClosestRegion: (
     lat: number,
     lng: number,
@@ -402,18 +402,18 @@ const LocationUpdater = ({
     if (regions) {
       const closestRegion = findClosestRegion(lat, lng, regions);
       if (closestRegion) {
-        setFieldValue("region", closestRegion.code);
-        setSelectedRegionCode(closestRegion.code);
+        setFieldValue("region", closestRegion._id);
+        setSelectedRegion(closestRegion._id);
       } else {
         setFieldValue("region", "");
-        setSelectedRegionCode(null);
+        setSelectedRegion(null);
       }
     }
 
     if (districts) {
       const closestDistrict = findClosestDistrict(lat, lng, districts);
       if (closestDistrict) {
-        setFieldValue("district", closestDistrict.code);
+        setFieldValue("district", closestDistrict._id);
       } else {
         setFieldValue("district", "");
       }
@@ -423,7 +423,7 @@ const LocationUpdater = ({
     regions,
     districts,
     setFieldValue,
-    setSelectedRegionCode,
+    setSelectedRegion,
     findClosestRegion,
     findClosestDistrict,
     fetchAddress,
@@ -448,16 +448,14 @@ export default function CreateProperty() {
     queryFn: () => regionService.findAll(),
   });
 
-  const [selectedRegionCode, setSelectedRegionCode] = useState<string | null>(
-    null
-  );
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const { data: districts, isLoading: districtsLoading } = useQuery({
-    queryKey: ["districts", selectedRegionCode],
+    queryKey: ["districts", selectedRegion],
     queryFn: () =>
-      selectedRegionCode
-        ? districtService.findAllByRegionCode(selectedRegionCode)
+      selectedRegion
+        ? districtService.findAllByRegionId(selectedRegion)
         : Promise.resolve([]),
-    enabled: !!selectedRegionCode,
+    enabled: !!selectedRegion,
   });
 
   const { isLoaded, loadError } = useLoadScript({
@@ -618,7 +616,7 @@ export default function CreateProperty() {
               regions={regions}
               districts={districts}
               setFieldValue={setFieldValue}
-              setSelectedRegionCode={setSelectedRegionCode}
+              setSelectedRegion={setSelectedRegion}
               findClosestRegion={findClosestRegion}
               findClosestDistrict={findClosestDistrict}
               fetchAddress={fetchAddress}
@@ -1054,7 +1052,7 @@ export default function CreateProperty() {
                         <Select
                           onValueChange={(value) => {
                             form.setFieldValue(field.name, value);
-                            setSelectedRegionCode(value);
+                            setSelectedRegion(value);
                             form.setFieldValue("district", "");
 
                             const selectedRegionObject = regions?.find(
@@ -1080,7 +1078,7 @@ export default function CreateProperty() {
                           </SelectTrigger>
                           <SelectContent>
                             {regions?.map((region: IRegion) => (
-                              <SelectItem key={region._id} value={region.code}>
+                              <SelectItem key={region._id} value={region._id}>
                                 {region.name}
                               </SelectItem>
                             ))}
@@ -1110,9 +1108,7 @@ export default function CreateProperty() {
                           }
                           value={field.value}
                           disabled={
-                            districtsLoading ||
-                            !districts ||
-                            !selectedRegionCode
+                            districtsLoading || !districts || !selectedRegion
                           }
                         >
                           <SelectTrigger>
@@ -1128,7 +1124,7 @@ export default function CreateProperty() {
                             {districts?.map((district: IDistrict) => (
                               <SelectItem
                                 key={district._id}
-                                value={district.code}
+                                value={district._id}
                               >
                                 {district.name}
                               </SelectItem>
