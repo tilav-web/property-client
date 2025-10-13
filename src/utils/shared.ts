@@ -47,6 +47,7 @@ export const API_ENDPOINTS = {
   },
   PROPERTIES: {
     base: "/properties",
+    my: "/properties/my",
   },
   SELLER: {
     base: "/sellers",

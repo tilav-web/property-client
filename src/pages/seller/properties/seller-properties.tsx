@@ -1,47 +1,33 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 import type { IProperty } from "@/interfaces/property.interface";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import PropertyCard from "@/components/common/cards/property-card";
+import { useQuery } from "@tanstack/react-query";
+import { propertyService } from "@/services/property.service";
 
 export default function SellerProperties() {
-  const [properties, setProperties] = useState<IProperty[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: properties,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["properties/my"],
+    queryFn: async () => {
+      const data = await propertyService.findMyProperties();
+      return data;
+    },
+  });
+
   const navigate = useNavigate();
-
-  // Property ma'lumotlarini yuklash
-  useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        setLoading(true);
-        // Bu yerda o'z API chaqiruvingizni qo'llashingiz mumkin
-        // const response = await fetch('/api/seller/properties');
-        // const data = await response.json();
-        // setProperties(data);
-
-        // Hozircha bo'sh array, siz o'z ma'lumotlaringizni qo'shasiz
-        setProperties([]);
-      } catch (err) {
-        setError("Xatolik yuz berdi");
-        console.error("Error fetching properties:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProperties();
-  }, []);
-
   // Yangi property yaratish sahifasiga o'tish
   const handleCreateProperty = () => {
     navigate("/seller/properties/create");
   };
 
   // Loading holati
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
@@ -72,7 +58,7 @@ export default function SellerProperties() {
           </Button>
         </div>
         <div className="text-center py-12">
-          <p className="text-red-500 text-lg">{error}</p>
+          <p className="text-red-500 text-lg">{error.message}</p>
           <Button onClick={() => window.location.reload()} className="mt-4">
             Qayta Yuklash
           </Button>
@@ -129,8 +115,8 @@ export default function SellerProperties() {
         </div>
       ) : (
         // Propertylar mavjud bo'lganda
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {properties.map((property) => (
+        <div className="grid grid-cols-1 gap-6">
+          {properties.map((property: IProperty) => (
             <PropertyCard key={property._id} property={property} />
           ))}
         </div>

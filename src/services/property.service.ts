@@ -38,6 +38,16 @@ class PropertyService {
     }
   }
 
+  async findMyProperties() {
+    try {
+      const res = await apiInstance.get(API_ENDPOINTS.PROPERTIES.my);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
   async findById(id: string) {
     try {
       const res = await apiInstance.get(

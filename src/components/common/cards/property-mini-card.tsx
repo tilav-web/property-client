@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import type { IProperty } from "@/interfaces/property.interface";
 import { userService } from "@/services/user.service";
 import { useUserStore } from "@/stores/user.store";
+import { serverUrl } from "@/utils/shared";
 import { Heart, MapPin, Star } from "lucide-react";
 
 export default function PropertyMiniCard({
@@ -12,7 +13,7 @@ export default function PropertyMiniCard({
   // Rasm URL'ini olish
   const mainImage =
     property.photos && property.photos.length > 0
-      ? property.photos[0].file_path
+      ? `${serverUrl}/uploads${property.photos[0].file_path}`
       : property.logo || "/default-property.jpg";
 
   const { user, setUser } = useUserStore();

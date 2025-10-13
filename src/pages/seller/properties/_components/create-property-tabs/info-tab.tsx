@@ -1,10 +1,20 @@
 "use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home } from "lucide-react";
-import { ErrorMessage } from "formik";
-import FormField from "../form-field";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { useCreatePropertyStore } from "@/stores/create-property.store";
 
-export default function InfoTab({ values }: { values: { description: string } }) {
+export default function InfoTab() {
+  const { data, updateData } = useCreatePropertyStore();
+
+  // umumiy handler
+  const handleChange = (key: string, value: string) => {
+    updateData({ [key]: value });
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -13,50 +23,79 @@ export default function InfoTab({ values }: { values: { description: string } })
           Asosiy Maʼlumotlar
         </CardTitle>
       </CardHeader>
+
       <CardContent className="space-y-4">
-        <FormField
-          name="title"
-          label="Sarlavha"
-          type="text"
-          required
-          placeholder="Masalan: Yangi qurilayotgan loyiha markazda..."
-        />
+        {/* Sarlavha */}
         <div>
-          <FormField
-            name="description"
-            label="Tavsif"
-            type="textarea"
-            required
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Sarlavha *
+          </label>
+          <Input
+            type="text"
+            placeholder="Masalan: Yangi qurilayotgan loyiha markazda..."
+            value={data?.title ?? ""}
+            onChange={(e) => handleChange("title", e.target.value)}
+          />
+        </div>
+
+        {/* Tavsif */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Tavsif *
+          </label>
+          <Textarea
             placeholder="Mulkning batafsil tavsifini yozing..."
+            value={data?.description ?? ""}
+            onChange={(e) => handleChange("description", e.target.value)}
+            maxLength={140}
           />
           <div className="flex justify-between text-sm text-gray-500 mt-1">
-            <span>{values.description.length}/140</span>
-            <ErrorMessage name="description" component="span" className="text-red-500" />
+            <span>{data?.description?.length ?? 0}/140</span>
           </div>
         </div>
+
+        {/* Select maydonlar */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            name="category"
-            label="Kategoriya"
-            type="select"
-            required
-            options={[
-              { value: "apartment", label: "Kvartira" },
-              { value: "house", label: "Uy" },
-              { value: "commercial", label: "Tijorat" },
-              { value: "land", label: "Yer uchastkasi" },
-            ]}
-          />
-          <FormField
-            name="construction_status"
-            label="Qurilish Holati"
-            type="select"
-            options={[
-              { value: "ready", label: "Tayyor" },
-              { value: "under_construction", label: "Qurilmoqda" },
-              { value: "planned", label: "Rejalashtirilgan" },
-            ]}
-          />
+          {/* Kategoriya */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Kategoriya *
+            </label>
+            <Select
+              value={data?.category ?? ""}
+              onValueChange={(value) => handleChange("category", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Tanlang" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="apartment">Kvartira</SelectItem>
+                <SelectItem value="house">Uy</SelectItem>
+                <SelectItem value="commercial">Tijorat</SelectItem>
+                <SelectItem value="land">Yer uchastkasi</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Qurilish holati */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Qurilish Holati
+            </label>
+            <Select
+              value={data?.construction_status ?? ""}
+              onValueChange={(value) => handleChange("construction_status", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Tanlang" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ready">Tayyor</SelectItem>
+                <SelectItem value="under_construction">Qurilmoqda</SelectItem>
+                <SelectItem value="planned">Rejalashtirilgan</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </CardContent>
     </Card>

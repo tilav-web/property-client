@@ -1,9 +1,31 @@
-"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DollarSign } from "lucide-react";
-import FormField from "../form-field";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { useCreatePropertyStore } from "@/stores/create-property.store";
 
 export default function PriceTab() {
+  const { data, updateData } = useCreatePropertyStore();
+
+  // umumiy qiymatni yangilash funksiyasi
+  const handleChange = (key: string, value: string) => {
+    // raqamli qiymatlarni son ko‘rinishiga o‘tkazamiz
+    const parsed =
+      key === "price" || key === "area" || key === "payment_plans"
+        ? value === ""
+          ? undefined
+          : Number(value)
+        : value;
+
+    updateData({ [key]: parsed });
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -12,41 +34,58 @@ export default function PriceTab() {
           Narx va Maydon
         </CardTitle>
       </CardHeader>
+
       <CardContent className="space-y-4">
+        {/* 1-qator: Narx va Narx turi */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            name="price"
-            label="Narx"
-            type="number"
-            required
-            placeholder="0"
-          />
-          <FormField
-            name="price_type"
-            label="Narx Turi"
-            type="select"
-            required
-            options={[
-              { value: "sale", label: "Sotuv" },
-              { value: "rent", label: "Ijaraga" },
-              { value: "total_price", label: "Umumiy narx" },
-            ]}
-          />
+          {/* Narx */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Narx *
+            </label>
+            <Input
+              type="number"
+              placeholder="0"
+              value={data?.price ?? ""}
+              onChange={(e) => handleChange("price", e.target.value)}
+            />
+          </div>
+
+          {/* Narx turi */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Narx turi *
+            </label>
+            <Select
+              value={data?.price_type ?? ""}
+              onValueChange={(value) => handleChange("price_type", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Tanlang" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="sale">Sotuv</SelectItem>
+                <SelectItem value="rent">Ijaraga</SelectItem>
+                <SelectItem value="total_price">Umumiy narx</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
+
+        {/* 2-qator: Maydon va To‘lov rejalari */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            name="area"
-            label="Maydon (m²)"
-            type="number"
-            required
-            placeholder="0"
-          />
-          <FormField
-            name="payment_plans"
-            label="Toʻlov Rejalari"
-            type="number"
-            placeholder="0"
-          />
+          {/* Maydon */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Maydon (m²) *
+            </label>
+            <Input
+              type="number"
+              placeholder="0"
+              value={data?.area ?? ""}
+              onChange={(e) => handleChange("area", e.target.value)}
+            />
+          </div>
         </div>
       </CardContent>
     </Card>
