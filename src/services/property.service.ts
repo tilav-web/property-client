@@ -2,6 +2,7 @@ import type {
   ConstructionStatus,
   PropertyCategory,
   PropertyPriceType,
+  PropertyType,
 } from "@/interfaces/property.interface";
 import apiInstance from "@/lib/api-instance";
 import { API_ENDPOINTS } from "@/utils/shared";
@@ -15,6 +16,7 @@ export interface FindAllParams {
   category?: PropertyCategory;
   search?: string;
   price_type?: PropertyPriceType;
+  property_type?: PropertyType;
   construction_status?: ConstructionStatus;
   is_premium?: boolean;
   is_verified?: boolean;

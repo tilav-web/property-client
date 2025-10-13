@@ -8,15 +8,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
+import {
+  propertyType,
+  type PropertyType,
+} from "@/interfaces/property.interface";
 
 export default function HeroSection({
   img,
   title,
   className,
+  handlePropertyType,
+  property_type,
 }: {
   title: string;
   img: string;
   className?: string;
+  handlePropertyType: (value: PropertyType) => void;
+  property_type?: PropertyType;
 }) {
   const { t } = useTranslation();
   const [, setIsMobile] = useState(false);
@@ -71,13 +79,22 @@ export default function HeroSection({
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex w-full max-w-[190px] items-center gap-1 borser-r px-2 border-r-2 border-black h-full">
-              <span className="opacity-50">
-                {t("hero.search.dropdown_menu.first")}
+              <span className="opacity-50 flex-1 text-start">
+                {property_type ?? t("hero.search.dropdown_menu.first")}
               </span>
               <ChevronDown />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem></DropdownMenuItem>
+              {propertyType.map((item) => {
+                return (
+                  <DropdownMenuItem
+                    onClick={() => handlePropertyType(item)}
+                    key={item}
+                  >
+                    {item}
+                  </DropdownMenuItem>
+                );
+              })}
             </DropdownMenuContent>
           </DropdownMenu>
           <DropdownMenu>

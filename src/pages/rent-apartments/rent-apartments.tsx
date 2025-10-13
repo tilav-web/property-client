@@ -2,17 +2,45 @@ import PropertyBannerCard from "@/components/common/cards/property-banner-card";
 import PropertyImageCard from "@/components/common/cards/property-image-card";
 import PropertyMiniCard from "@/components/common/cards/property-mini-card";
 import HeroSection from "@/components/common/hero-section";
-import type { IProperty } from "@/interfaces/property.interface";
+import type { IProperty, PropertyType } from "@/interfaces/property.interface";
 import { propertyService } from "@/services/property.service";
 import { heroImage } from "@/utils/shared";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export default function RentApartments() {
-  const { data } = useQuery({
+  const [params] = useSearchParams();
+  const category = params.get("category");
+  const [property_type, setPropertyType] = useState<PropertyType | undefined>();
+  const { data, refetch } = useQuery({
     queryKey: ["properties/rent"],
     queryFn: () =>
-      propertyService.findAll({ limit: 24, sample: true, price_type: "rent" }),
+      propertyService.findAll({
+        limit: 24,
+        sample: true,
+        price_type: "rent",
+        category:
+          category === "villa" ||
+          category === "shop" ||
+          category === "office" ||
+          category === "land" ||
+          category === "house" ||
+          category === "garage" ||
+          category === "apartment"
+            ? category
+            : "apartment",
+        property_type,
+      }),
   });
+
+  useEffect(() => {
+    refetch();
+  }, [category, refetch, property_type]);
+
+  const handlePropertyType = (value: PropertyType) => {
+    setPropertyType(value);
+  };
 
   return (
     <div className="py-12">
@@ -21,6 +49,8 @@ export default function RentApartments() {
  heart of Uzbekistan"
         img={heroImage}
         className="text-white"
+        handlePropertyType={handlePropertyType}
+        property_type={property_type}
       />
       <div className="flex flex-wrap -mx-2 items-stretch gap-y-4">
         {data?.properties?.map((property: IProperty, index: number) => {

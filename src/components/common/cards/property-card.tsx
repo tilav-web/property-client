@@ -16,6 +16,7 @@ import type {
 import { serverUrl } from "@/utils/shared";
 import { useNavigate } from "react-router-dom";
 import { isNewProperty } from "@/utils/is-new-property";
+import { useCurrentLanguage } from "@/hooks/use-language";
 
 export default function PropertyCard({ property }: { property: IProperty }) {
   // Rasm URL'ini olish
@@ -75,6 +76,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
   };
 
   const navigate = useNavigate();
+  const { getLocalizedText } = useCurrentLanguage();
 
   return (
     <div className="bg-white rounded-xl overflow-hidden">
@@ -83,7 +85,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
           <img
             className="w-full h-full object-cover cursor-pointer"
             src={mainImage}
-            alt={property.title}
+            alt={getLocalizedText(property.title)}
             onClick={() => navigate(`/property/${property?._id}`)}
           />
           <div className="absolute top-2 left-2 flex flex-col gap-2">
@@ -136,11 +138,11 @@ export default function PropertyCard({ property }: { property: IProperty }) {
             </p>
           </div>
           <p className="text-sm lg:text-base text-gray-700 line-clamp-2">
-            {property.description}
+            {getLocalizedText(property.description)}
           </p>
           <div className="flex items-center gap-2 text-gray-500">
             <MapPin className="w-4 h-4" />
-            <p className="text-sm">{property.address}</p>
+            <p className="text-sm">{getLocalizedText(property.address)}</p>
           </div>
           {/* Qo'shimcha mulk ma'lumotlari */}
           <div className="flex flex-wrap gap-4 text-sm text-gray-600">

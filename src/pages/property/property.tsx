@@ -40,6 +40,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import type { IFile } from "@/interfaces/file.interface";
+import { useCurrentLanguage } from "@/hooks/use-language";
 
 // Amenities ikonlari
 const amenityIcons = {
@@ -243,6 +244,7 @@ export default function Property() {
 
   const videos = property?.videos || [];
 
+  const { getLocalizedText } = useCurrentLanguage();
   return (
     <div className="py-8">
       <BackButton className="mb-6" />
@@ -350,8 +352,10 @@ export default function Property() {
             </div>
           </div>
           <div>
-            <h2 className="mb-4 text-xl font-semibold">{property?.title}</h2>
-            <p className="mb-4">{property?.description}</p>
+            <h2 className="mb-4 text-xl font-semibold">
+              {getLocalizedText(property?.title)}
+            </h2>
+            <p className="mb-4">{getLocalizedText(property?.description)}</p>
 
             <h3 className="mb-2 font-medium">Детали устройства:</h3>
             <ul className="space-y-1">

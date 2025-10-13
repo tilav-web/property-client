@@ -51,42 +51,48 @@ export type PropertyPriceType = "sale" | "rent" | "total_price";
 export const propertyPriceType = ["sale", "rent", "total_price"];
 
 export type PropertyType = "sale" | "rent" | "commercial";
-export const propertyType = ["sale", "rent", "commercial"];
+export const propertyType: PropertyType[] = ["sale", "rent", "commercial"];
 
 export interface ILocation {
   type: "Point";
   coordinates: [number, number];
 }
 
+export interface ILanguage {
+  uz: string;
+  ru: string;
+  en: string;
+}
+
 export interface IProperty {
   _id: string;
   author: IUser;
-  title: string;
-  description: string;
+
+  // 3 til uchun yangi interfeyslar
+  title: ILanguage;
+  description: ILanguage;
+  address: ILanguage;
+
   category: PropertyCategory;
   property_type: PropertyType;
-  location: {
-    type: string;
-    coordinates: [number, number];
-  };
-  address: string;
+  location: ILocation;
   price: number;
   rating: number;
-  price_type: string;
+  price_type: PropertyPriceType;
   area: number;
   bedrooms: number;
   bathrooms: number;
   floor_level?: number;
-  total_floors?: number; // ✅ Yangi qo'shildi
-  amenities: string[];
-  construction_status: string;
+  total_floors?: number;
+  amenities: Amenities[];
+  construction_status: ConstructionStatus;
   year_built?: number;
   parking_spaces: number;
   is_premium: boolean;
   is_verified: boolean;
-  is_active: boolean; // ✅ Yangi qo'shildi
-  view_count: number; // ✅ Yangi qo'shildi
-  expires_at?: Date; // ✅ Yangi qo'shildi
+  is_active: boolean;
+  view_count: number;
+  expires_at?: Date;
   delivery_date?: Date;
   sales_date?: Date;
   payment_plans: number;

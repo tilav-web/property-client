@@ -1,10 +1,12 @@
 import { Badge } from "@/components/ui/badge";
+import { useCurrentLanguage } from "@/hooks/use-language";
 import type { IProperty } from "@/interfaces/property.interface";
 import { userService } from "@/services/user.service";
 import { useUserStore } from "@/stores/user.store";
 import { isNewProperty } from "@/utils/is-new-property";
 import { serverUrl } from "@/utils/shared";
 import { Heart, MapPin, Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function PropertyMiniCard({
   property,
@@ -18,6 +20,7 @@ export default function PropertyMiniCard({
       : property.logo || "/default-property.jpg";
 
   const { user, setUser } = useUserStore();
+  const { getLocalizedText } = useCurrentLanguage();
 
   // Narx formati
   const getPriceDisplay = () => {
@@ -45,14 +48,16 @@ export default function PropertyMiniCard({
       console.error(error);
     }
   };
+  const navigate = useNavigate();
 
   return (
     <div className="rounded-md shadow-xl h-full overflow-hidden hover:shadow-2xl transition-shadow duration-300">
       <div className="w-full h-48 relative">
         <img
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover cursor-pointer"
           src={mainImage}
-          alt={property.title}
+          alt={getLocalizedText(property.title)}
+          onClick={() => navigate(`/property/${property?._id}`)}
         />
         <div className="absolute top-2 flex items-center justify-between w-full px-2">
           <span></span>
@@ -70,7 +75,14 @@ export default function PropertyMiniCard({
             />
           </button>
         </div>
-        <button className="border-white border p-2 rounded bg-white/60 absolute right-2 bottom-2">
+        <button
+          onClick={() =>
+            navigate(
+              `/map?lng=${property.location.coordinates[0]}&lat=${property.location.coordinates[1]}`
+            )
+          }
+          className="border-white border p-2 rounded bg-white/60 absolute right-2 bottom-2"
+        >
           <MapPin size={18} />
         </button>
 
@@ -89,7 +101,7 @@ export default function PropertyMiniCard({
       <div className="p-3">
         <div className="flex items-start justify-between mb-2">
           <p className="font-semibold text-sm line-clamp-2 flex-1 mr-2">
-            {property.title}
+            {getLocalizedText(property.title)}
           </p>
           <div className="flex items-center gap-1 flex-shrink-0">
             <div className="flex items-center">
@@ -110,7 +122,9 @@ export default function PropertyMiniCard({
         </div>
         <div className="flex items-center gap-1 text-gray-600 mb-3">
           <MapPin size={14} />
-          <p className="text-xs line-clamp-1">{property.address}</p>
+          <p className="text-xs line-clamp-1">
+            {getLocalizedText(property.address)}
+          </p>
         </div>
 
         {/* Qo'shimcha mulk ma'lumotlari */}

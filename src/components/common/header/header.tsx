@@ -41,10 +41,11 @@ import { toast } from "sonner";
 import { handleStorage } from "@/utils/handle-storage";
 
 export default function Header() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navigate = useNavigate();
-  const { user, logout } = useUserStore();
+  const { user, logout, setUser } = useUserStore();
+  const lanValue = handleStorage({ key: "lan" });
 
   const logoutSystem = async () => {
     try {
@@ -59,8 +60,12 @@ export default function Header() {
 
   const navItems = [
     { icon: Home, label: t("buy"), href: "/buy" },
-    { icon: Building, label: t("rent_apartments"), href: "/rent-apartments" },
-    { icon: Home, label: t("rent_space"), href: "/rent-space" },
+    {
+      icon: Building,
+      label: t("rent_apartments"),
+      href: "/category?category=apartments",
+    },
+    { icon: Home, label: t("rent_land"), href: "/category?category=land" },
     { icon: Handshake, label: t("find_agent"), href: "/agents" },
     { icon: Calculator, label: t("mortgage"), href: "/mortgage" },
     { icon: Star, label: t("new_projects"), href: "/new-projects" },
@@ -72,6 +77,21 @@ export default function Header() {
     { code: "ru", label: "Русский" },
     { code: "en", label: "English" },
   ];
+
+  const handleChangeUserLan = async (lan: string) => {
+    try {
+      if (user) {
+        const formData = new FormData();
+        formData.append("lan", lan);
+        const data = await userService.update(formData);
+        setUser(data);
+      }
+      handleStorage({ key: "lan", value: lan });
+      i18n.changeLanguage(lan);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <header className="w-full bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
@@ -187,22 +207,27 @@ export default function Header() {
                   className="hidden sm:flex items-center gap-1"
                 >
                   <Globe className="h-4 w-4" />
-                  <span className="text-sm">UZ</span>
+                  <span className="text-sm uppercase">
+                    {user?.lan ? user?.lan : lanValue ? lanValue : "uz"}
+                  </span>
                   <ChevronDown className="h-3 w-3" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-32">
-                {languages.map((lang) => (
+              <DropdownMenuContent align="end" className="w-32 select-none">
+                {languages.map((lan) => (
                   <DropdownMenuItem
-                    key={lang.code}
-                    className="flex items-center gap-2"
+                    key={lan.code}
+                    onClick={() => handleChangeUserLan(lan.code)}
+                    className="flex items-center gap-2 select-none"
                   >
                     <span
                       className={`w-2 h-2 rounded-full ${
-                        lang.code === "uz" ? "bg-green-500" : "bg-gray-300"
+                        lan.code === user?.lan || lan.code === lanValue
+                          ? "bg-green-500"
+                          : "bg-gray-300"
                       }`}
                     ></span>
-                    {lang.label}
+                    {lan.label}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>

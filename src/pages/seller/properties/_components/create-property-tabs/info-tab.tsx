@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Home } from "lucide-react";
+import { Home, Languages } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -16,11 +16,20 @@ import {
   propertyCategory,
   propertyConstructionStatus,
 } from "@/interfaces/property.interface";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function InfoTab() {
-  const { data, updateData } = useCreatePropertyStore();
+  const { data, updateData, updateTitle, updateDescription } =
+    useCreatePropertyStore();
 
-  // umumiy handler
+  // Til kodlari
+  const languages = [
+    { code: "uz", label: "O'zbekcha" },
+    { code: "ru", label: "Русский" },
+    { code: "en", label: "English" },
+  ] as const;
+
+  // Umumiy handler (faqat string maydonlar uchun)
   const handleChange = (key: string, value: string) => {
     updateData({ [key]: value });
   };
@@ -35,37 +44,74 @@ export default function InfoTab() {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {/* Sarlavha */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Sarlavha *
-          </label>
-          <Input
-            type="text"
-            placeholder="Masalan: Yangi qurilayotgan loyiha markazda..."
-            value={data?.title ?? ""}
-            onChange={(e) => handleChange("title", e.target.value)}
-          />
-        </div>
-
-        {/* Tavsif */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Tavsif *
-          </label>
-          <Textarea
-            placeholder="Mulkning batafsil tavsifini yozing..."
-            value={data?.description ?? ""}
-            onChange={(e) => handleChange("description", e.target.value)}
-            maxLength={140}
-          />
-          <div className="flex justify-between text-sm text-gray-500 mt-1">
-            <span>{data?.description?.length ?? 0}/140</span>
+        {/* Tillar bo'yicha tablar */}
+        <Tabs defaultValue="uz" className="w-full">
+          <div className="flex items-center gap-2 mb-4">
+            <Languages className="h-4 w-4 text-gray-500" />
+            <TabsList>
+              {languages.map((lang) => (
+                <TabsTrigger key={lang.code} value={lang.code}>
+                  {lang.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
           </div>
-        </div>
 
-        {/* Select maydonlar */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {languages.map((lang) => (
+            <TabsContent
+              key={lang.code}
+              value={lang.code}
+              className="space-y-4"
+            >
+              {/* Sarlavha */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Sarlavha * ({lang.label})
+                </label>
+                <Input
+                  type="text"
+                  placeholder={
+                    lang.code === "uz"
+                      ? "Masalan: Yangi qurilayotgan loyiha markazda..."
+                      : lang.code === "ru"
+                      ? "Например: Новый строящийся проект в центре..."
+                      : "For example: New construction project in the center..."
+                  }
+                  value={data?.title?.[lang.code] ?? ""}
+                  onChange={(e) => updateTitle(lang.code, e.target.value)}
+                  maxLength={40}
+                />
+                <div className="flex justify-between text-sm text-gray-500 mt-1">
+                  <span>{data?.title?.[lang.code]?.length ?? 0}/40</span>
+                </div>
+              </div>
+
+              {/* Tavsif */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Tavsif * ({lang.label})
+                </label>
+                <Textarea
+                  placeholder={
+                    lang.code === "uz"
+                      ? "Mulkning batafsil tavsifini yozing..."
+                      : lang.code === "ru"
+                      ? "Напишите подробное описание собственности..."
+                      : "Write a detailed description of the property..."
+                  }
+                  value={data?.description?.[lang.code] ?? ""}
+                  onChange={(e) => updateDescription(lang.code, e.target.value)}
+                  maxLength={140}
+                />
+                <div className="flex justify-between text-sm text-gray-500 mt-1">
+                  <span>{data?.description?.[lang.code]?.length ?? 0}/140</span>
+                </div>
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t">
           {/* Kategoriya */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">

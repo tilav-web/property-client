@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { useCurrentLanguage } from "@/hooks/use-language";
 import type { IProperty } from "@/interfaces/property.interface";
 import { serverUrl } from "@/utils/shared";
 import { MapPin, Mail, MousePointer2, Phone } from "lucide-react";
@@ -10,6 +11,8 @@ export default function PropertyBannerCard({
   property: IProperty;
 }) {
   const navigate = useNavigate();
+  const { getLocalizedText } = useCurrentLanguage();
+
   const mainImage = (() => {
     if (!property?.photos || property.photos.length === 0) return null;
 
@@ -32,7 +35,7 @@ export default function PropertyBannerCard({
       <img
         className="w-full h-full object-cover"
         src={`${serverUrl}/uploads/${mainImage}`}
-        alt={property.title}
+        alt={getLocalizedText(property.title)}
         onClick={() => navigate(`/property/${property?._id}`)}
       />
       <div className="flex flex-col absolute top-2 left-2 gap-1">
@@ -55,10 +58,10 @@ export default function PropertyBannerCard({
         )}
       </div>
       <div className="absolute bottom-2 left-2 text-white">
-        <p className="text-2xl">{property.title}</p>
+        <p className="text-2xl">{getLocalizedText(property.title)}</p>
         <div className="flex items-center gap-1 mb-4">
           <MapPin size={18} />
-          <p>{property.address}</p>
+          <p>{getLocalizedText(property.address)}</p>
         </div>
         {/* property.beds o'rniga bedrooms ishlatiladi */}
         {property.bedrooms > 0 && <p>{property.bedrooms} xona</p>}

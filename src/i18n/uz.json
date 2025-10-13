@@ -5,7 +5,7 @@
   "search_placeholder": "Shahar, mahalla yoki bino",
   "buy": "Sotib olish",
   "rent_apartments": "Kvartira ijarasi",
-  "rent_space": "Joy ijarasi",
+  "rent_land": "Joy ijarasi",
   "find_agent": "Agent topish",
   "mortgage": "Ipoteka",
   "new_projects": "Yangi loyihalar",
@@ -30,5 +30,6 @@
         "secound": "Yotoq xonalar soni va Vannaxonalar soni"
       }
     }
-  }
+  },
+  "types": {}
 }

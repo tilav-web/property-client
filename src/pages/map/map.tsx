@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import BackButton from "@/components/common/buttons/back-button";
 import { propertyService } from "@/services/property.service";
 import type { IProperty } from "@/interfaces/property.interface";
+import { useCurrentLanguage } from "@/hooks/use-language";
 
 export default function Map() {
   const [params] = useSearchParams();
@@ -28,6 +29,7 @@ export default function Map() {
   const [center, setCenter] = useState({ lat, lng });
   const [properties, setProperties] = useState<IProperty[]>([]);
   const navigate = useNavigate();
+  const { getLocalizedText } = useCurrentLanguage();
 
   // TanStack Query orqali mulklarni olish
   const { data, error, refetch, isFetching } = useQuery({
@@ -143,10 +145,10 @@ export default function Map() {
           }}
         >
           <h3 className="font-semibold text-gray-800 mb-1">
-            {hoverProperty.title}
+            {getLocalizedText(hoverProperty.title)}
           </h3>
           <p className="text-sm text-gray-600 mb-1">
-            {hoverProperty.address || "Manzil ko‘rsatilmagan"}
+            {getLocalizedText(hoverProperty.address) || "Manzil ko‘rsatilmagan"}
           </p>
           <p className="text-sm text-gray-700 font-medium">
             💰 {hoverProperty.price.toLocaleString()} so‘m

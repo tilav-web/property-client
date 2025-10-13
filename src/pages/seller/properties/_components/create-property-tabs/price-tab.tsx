@@ -9,14 +9,17 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { useCreatePropertyStore } from "@/stores/create-property.store";
-import { propertyPriceType } from "@/interfaces/property.interface";
+import {
+  propertyPriceType,
+  propertyType,
+} from "@/interfaces/property.interface";
 
 export default function PriceTab() {
   const { data, updateData } = useCreatePropertyStore();
 
   // umumiy qiymatni yangilash funksiyasi
   const handleChange = (key: string, value: string) => {
-    // raqamli qiymatlarni son ko‘rinishiga o‘tkazamiz
+    // raqamli qiymatlarni son ko'rinishiga o'tkazamiz
     const parsed =
       key === "price" || key === "area" || key === "payment_plans"
         ? value === ""
@@ -37,19 +40,30 @@ export default function PriceTab() {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {/* 1-qator: Narx va Narx turi */}
+        {/* 1-qator: Mulk turi va Narx turi */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Narx */}
+          {/* Mulk turi */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Narx *
+              Mulk Turi *
             </label>
-            <Input
-              type="number"
-              placeholder="0"
-              value={data?.price ?? ""}
-              onChange={(e) => handleChange("price", e.target.value)}
-            />
+            <Select
+              value={data?.property_type ?? ""}
+              onValueChange={(value) => handleChange("property_type", value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Mulk turini tanlang" />
+              </SelectTrigger>
+              <SelectContent>
+                {propertyType.map((item) => {
+                  return (
+                    <SelectItem className="capitalize" key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Narx turi */}
@@ -62,7 +76,7 @@ export default function PriceTab() {
               onValueChange={(value) => handleChange("price_type", value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Tanlang" />
+                <SelectValue placeholder="Narx turini tanlang" />
               </SelectTrigger>
               <SelectContent>
                 {propertyPriceType.map((item) => {
@@ -77,8 +91,22 @@ export default function PriceTab() {
           </div>
         </div>
 
-        {/* 2-qator: Maydon va To‘lov rejalari */}
+        {/* 2-qator: Narx va Maydon */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Narx */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Narx *
+            </label>
+            <Input
+              type="number"
+              placeholder="0"
+              value={data?.price ?? ""}
+              onChange={(e) => handleChange("price", e.target.value)}
+              min="0"
+            />
+          </div>
+
           {/* Maydon */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -89,6 +117,7 @@ export default function PriceTab() {
               placeholder="0"
               value={data?.area ?? ""}
               onChange={(e) => handleChange("area", e.target.value)}
+              min="0"
             />
           </div>
         </div>
