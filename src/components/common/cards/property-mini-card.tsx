@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import type { IProperty } from "@/interfaces/property.interface";
 import { userService } from "@/services/user.service";
 import { useUserStore } from "@/stores/user.store";
+import { isNewProperty } from "@/utils/is-new-property";
 import { serverUrl } from "@/utils/shared";
 import { Heart, MapPin, Star } from "lucide-react";
 
@@ -54,13 +55,7 @@ export default function PropertyMiniCard({
           alt={property.title}
         />
         <div className="absolute top-2 flex items-center justify-between w-full px-2">
-          {property.is_guest_choice ? (
-            <Badge className="rounded border-white bg-black/50 text-white uppercase text-xs">
-              Mehmon tanlovi
-            </Badge>
-          ) : (
-            <span></span>
-          )}
+          <span></span>
           <button
             onClick={() => handleLike(property?._id)}
             className="p-1 rounded bg-white/40 border"
@@ -81,8 +76,10 @@ export default function PropertyMiniCard({
 
         {/* Qo'shimcha status badge'lar */}
         <div className="absolute top-2 left-2 flex flex-col gap-1">
-          {property.is_new && (
-            <Badge className="bg-green-500 text-white text-xs">Yangi</Badge>
+          {isNewProperty(property?.createdAt) && (
+            <Badge className="bg-[#333]/70 rounded uppercase w-full border-white text-xs">
+              Yangi
+            </Badge>
           )}
           {property.is_premium && (
             <Badge className="bg-yellow-500 text-black text-xs">Premium</Badge>

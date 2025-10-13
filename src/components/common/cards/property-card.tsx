@@ -11,9 +11,11 @@ import BidPriceButton from "../buttons/bid-price-button";
 import type {
   IProperty,
   PropertyCategory,
+  PropertyType,
 } from "@/interfaces/property.interface";
 import { serverUrl } from "@/utils/shared";
 import { useNavigate } from "react-router-dom";
+import { isNewProperty } from "@/utils/is-new-property";
 
 export default function PropertyCard({ property }: { property: IProperty }) {
   // Rasm URL'ini olish
@@ -31,16 +33,18 @@ export default function PropertyCard({ property }: { property: IProperty }) {
   const photoCount = property.photos?.length || 0;
   const videoCount = property.videos?.length || 0;
 
-  // Narx formati
+  // Narx formati - property_type ga qarab
   const getPriceDisplay = () => {
     const formattedPrice = property.price.toLocaleString();
-    switch (property.price_type) {
+
+    // property_type asosida narx formati
+    switch (property.property_type) {
       case "sale":
         return `${formattedPrice} so'm`;
       case "rent":
         return `${formattedPrice} so'm/oy`;
-      case "total_price":
-        return `${formattedPrice} so'm (umumiy)`;
+      case "commercial":
+        return `${formattedPrice} so'm`;
       default:
         return `${formattedPrice} so'm`;
     }
@@ -58,6 +62,16 @@ export default function PropertyCard({ property }: { property: IProperty }) {
       garage: "Garaj",
     };
     return categoryMap[property.category] || property.category;
+  };
+
+  // Property type nomini formatlash
+  const getPropertyTypeDisplay = () => {
+    const typeMap: Record<PropertyType, string> = {
+      sale: "Sotuv",
+      rent: "Ijara",
+      commercial: "Tijorat",
+    };
+    return typeMap[property.property_type] || property.property_type;
   };
 
   const navigate = useNavigate();
@@ -79,16 +93,22 @@ export default function PropertyCard({ property }: { property: IProperty }) {
                 <span className="uppercase">Tasdiqlangan</span>
               </Badge>
             )}
-            {property.is_new && (
+            {isNewProperty(property?.createdAt) && (
               <Badge className="bg-[#333]/70 rounded uppercase w-full border-white text-xs">
                 Yangi
+              </Badge>
+            )}
+            {!property.is_active && (
+              <Badge className="bg-red-500 rounded uppercase w-full border-white text-xs">
+                Noaktiv
               </Badge>
             )}
           </div>
           <button
             onClick={() =>
+              property?.location?.coordinates &&
               navigate(
-                `/map?lng=${property?.location?.coordinates[0]}&lat=${property?.location?.coordinates[1]}`
+                `/map?lng=${property.location.coordinates[0]}&lat=${property.location.coordinates[1]}`
               )
             }
             className="p-2 bg-white border absolute right-4 bottom-4 rounded-md"
@@ -104,7 +124,13 @@ export default function PropertyCard({ property }: { property: IProperty }) {
         </div>
         <div className="flex-1 flex flex-col justify-between gap-3">
           <div className="flex flex-col gap-2">
-            <p className="text-sm text-gray-600">{getCategoryDisplay()}</p>
+            <div className="flex flex-wrap gap-2 items-center">
+              <p className="text-sm text-gray-600">{getCategoryDisplay()}</p>
+              <span className="text-gray-400">•</span>
+              <p className="text-sm text-gray-600">
+                {getPropertyTypeDisplay()}
+              </p>
+            </div>
             <p className="text-xl lg:text-2xl font-bold text-[#FF0000]">
               {getPriceDisplay()}
             </p>
@@ -121,7 +147,29 @@ export default function PropertyCard({ property }: { property: IProperty }) {
             {property.area > 0 && <span>Maydon: {property.area} m²</span>}
             {property.bedrooms > 0 && <span>{property.bedrooms} xona</span>}
             {property.bathrooms > 0 && <span>{property.bathrooms} hammom</span>}
+            {property.floor_level && property.floor_level > 0 && (
+              <span>
+                {property.floor_level}
+                {property.total_floors ? `/${property.total_floors}` : ""} qavat
+              </span>
+            )}
+            {property.parking_spaces > 0 && (
+              <span>{property.parking_spaces} avtojoy</span>
+            )}
           </div>
+
+          {/* Qurilish holati */}
+          {property.construction_status && (
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="text-xs">
+                {property.construction_status === "ready" && "Tayyor"}
+                {property.construction_status === "under_construction" &&
+                  "Qurilayotgan"}
+                {property.construction_status === "planned" &&
+                  "Rejalashtirilgan"}
+              </Badge>
+            </div>
+          )}
         </div>
         <div className="hidden lg:block">
           {property.logo && (
@@ -136,6 +184,12 @@ export default function PropertyCard({ property }: { property: IProperty }) {
           {property.is_premium && (
             <p className="text-center text-[#B78A00] uppercase text-sm">
               Premium
+            </p>
+          )}
+          {/* Ko'rishlar soni */}
+          {property.view_count > 0 && (
+            <p className="text-xs text-gray-500 text-center">
+              {property.view_count} ko'rish
             </p>
           )}
         </div>
