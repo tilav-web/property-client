@@ -66,8 +66,6 @@ export default function YttSection({
 
         const data = await sellerService.createYttSeller(formData);
         setSeller(data);
-        console.log(data);
-
         handleSelectTab("bank_account_number");
       } catch (error) {
         console.error("Formani yuborishda xatolik:", error);

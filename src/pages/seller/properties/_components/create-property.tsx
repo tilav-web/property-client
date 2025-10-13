@@ -176,8 +176,6 @@ export default function CreateProperty() {
     return "pending";
   };
 
-  console.log(data);
-
   return (
     <div className="container mx-auto p-6">
       <div className="mb-8">
