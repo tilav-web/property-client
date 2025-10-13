@@ -8,7 +8,6 @@ import OtpConfirmation from "./pages/auth/otp-confirmation";
 import Profile from "./pages/profile/profile";
 import Property from "./pages/property/property";
 import Favorites from "./pages/favorites/favorites";
-import RentApartments from "./pages/rent-apartments/rent-apartments";
 import Login from "./pages/auth/login";
 import Map from "./pages/map/map";
 import SellerLayout from "./layouts/seller-layout";
@@ -20,6 +19,7 @@ import Feedback from "./pages/seller/feedback/feedback";
 import SellerProperties from "./pages/seller/properties/seller-properties";
 import { lazy, Suspense } from "react";
 import ErrorBoundary from "./components/common/error-boundary";
+import Category from "./pages/property/category";
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/_components/create-property")
 );
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
         path: "/category",
         element: (
           <SubLayout>
-            <RentApartments />
+            <Category />
           </SubLayout>
         ),
       },

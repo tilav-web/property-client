@@ -9,12 +9,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-export default function RentApartments() {
+export default function Category() {
   const [params] = useSearchParams();
   const category = params.get("category");
   const [property_type, setPropertyType] = useState<PropertyType | undefined>();
+
   const { data, refetch } = useQuery({
-    queryKey: ["properties/rent"],
+    queryKey: ["properties/category"],
     queryFn: () =>
       propertyService.findAll({
         limit: 24,
