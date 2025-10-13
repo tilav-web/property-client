@@ -26,7 +26,7 @@ export default function DetailsTab() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Yotoq xonalari *
+              Yotoq xonalari
             </label>
             <Input
               type="number"
@@ -38,7 +38,7 @@ export default function DetailsTab() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Hammomlar *
+              Hammomlar
             </label>
             <Input
               type="number"
@@ -50,7 +50,7 @@ export default function DetailsTab() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Qavat *
+              Qavat
             </label>
             <Input
               type="number"
@@ -62,7 +62,7 @@ export default function DetailsTab() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Avtoturargoh *
+              Avtoturargoh
             </label>
             <Input
               type="number"

@@ -4,8 +4,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { useCreatePropertyStore } from "@/stores/create-property.store";
+import {
+  propertyCategory,
+  propertyConstructionStatus,
+} from "@/interfaces/property.interface";
 
 export default function InfoTab() {
   const { data, updateData } = useCreatePropertyStore();
@@ -69,10 +79,13 @@ export default function InfoTab() {
                 <SelectValue placeholder="Tanlang" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="apartment">Kvartira</SelectItem>
-                <SelectItem value="house">Uy</SelectItem>
-                <SelectItem value="commercial">Tijorat</SelectItem>
-                <SelectItem value="land">Yer uchastkasi</SelectItem>
+                {propertyCategory.map((item) => {
+                  return (
+                    <SelectItem key={item} className="capitalize" value={item}>
+                      {item}
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>
@@ -84,15 +97,21 @@ export default function InfoTab() {
             </label>
             <Select
               value={data?.construction_status ?? ""}
-              onValueChange={(value) => handleChange("construction_status", value)}
+              onValueChange={(value) =>
+                handleChange("construction_status", value)
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="Tanlang" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ready">Tayyor</SelectItem>
-                <SelectItem value="under_construction">Qurilmoqda</SelectItem>
-                <SelectItem value="planned">Rejalashtirilgan</SelectItem>
+                {propertyConstructionStatus.map((item) => {
+                  return (
+                    <SelectItem className="capitalize" key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>

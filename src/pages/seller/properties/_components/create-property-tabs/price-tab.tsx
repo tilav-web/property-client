@@ -9,6 +9,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { useCreatePropertyStore } from "@/stores/create-property.store";
+import { propertyPriceType } from "@/interfaces/property.interface";
 
 export default function PriceTab() {
   const { data, updateData } = useCreatePropertyStore();
@@ -64,9 +65,13 @@ export default function PriceTab() {
                 <SelectValue placeholder="Tanlang" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="sale">Sotuv</SelectItem>
-                <SelectItem value="rent">Ijaraga</SelectItem>
-                <SelectItem value="total_price">Umumiy narx</SelectItem>
+                {propertyPriceType.map((item) => {
+                  return (
+                    <SelectItem className="capitalize" key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>

@@ -10,6 +10,15 @@ export type Amenities =
   | "parking"
   | "elevator";
 
+export const propertyAmenities = [
+  "pool",
+  "balcony",
+  "security",
+  "air_conditioning",
+  "parking",
+  "elevator",
+];
+
 export type PropertyCategory =
   | "apartment"
   | "house"
@@ -19,11 +28,26 @@ export type PropertyCategory =
   | "shop"
   | "garage";
 
+export const propertyCategory = [
+  "apartment",
+  "house",
+  "villa",
+  "office",
+  "land",
+  "shop",
+  "garage",
+];
+
 export type ConstructionStatus = "ready" | "under_construction" | "planned";
+export const propertyConstructionStatus = [
+  "ready",
+  "under_construction",
+  "planned",
+];
 
 export type PropertyPriceType = "sale" | "rent" | "total_price";
+export const propertyPriceType = ["sale", "rent", "total_price"];
 
-// ----- Interfaces -----
 export interface ILocation {
   type: "Point";
   coordinates: [number, number];

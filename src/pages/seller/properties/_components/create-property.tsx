@@ -29,12 +29,7 @@ export default function CreateProperty() {
       case "info":
         return !!data.title && !!data.description && !!data.category;
       case "details":
-        return (
-          data.bedrooms !== undefined &&
-          data.bathrooms !== undefined &&
-          data.floor_level !== undefined &&
-          data.parking_spaces !== undefined
-        );
+        return true;
       case "price":
         return (
           data.price !== undefined &&
