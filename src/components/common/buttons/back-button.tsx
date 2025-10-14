@@ -15,12 +15,12 @@ export default function BackButton({ className }: { className?: string }) {
 
   return (
     <Button
-      className={`capitalize ${className}`}
+      className={`capitalize flex items-center gap-2 ${className}`}
       variant={"ghost"}
       onClick={handleBack}
     >
-      <ArrowLeftToLine />
-      {t("back")}
+      <ArrowLeftToLine size={18} />
+      {t("common.back")}
     </Button>
   );
 }
