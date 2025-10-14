@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useEffect, useRef, useState } from "react";
@@ -8,6 +9,7 @@ import type { IProperty } from "@/interfaces/property.interface";
 import { useCurrentLanguage } from "@/hooks/use-language";
 
 export default function Map() {
+  const { t } = useTranslation();
   const [params] = useSearchParams();
   const latParam = params.get("lat");
   const lngParam = params.get("lng");
@@ -90,10 +92,10 @@ export default function Map() {
   };
 
   if (loadError)
-    return <div>Xarita yuklanishida xato: {loadError.message}</div>;
-  if (!isLoaded) return <div>Xarita yuklanmoqda...</div>;
+    return <div>{t("pages.map_page.error_loading_map")} {loadError.message}</div>;
+  if (!isLoaded) return <div>{t("pages.map_page.loading_map")}</div>;
   if (error)
-    return <div>Ma'lumotlarni olishda xato: {(error as Error).message}</div>;
+    return <div>{t("pages.map_page.error_getting_data")} {(error as Error).message}</div>;
 
   return (
     <div className="w-full h-screen relative">
@@ -103,7 +105,7 @@ export default function Map() {
 
       {isFetching && (
         <div className="absolute top-4 right-4 bg-white p-2 rounded shadow text-sm">
-          Ma'lumotlar yuklanmoqda...
+          {t("pages.map_page.loading_data")}
         </div>
       )}
 
@@ -148,13 +150,13 @@ export default function Map() {
             {getLocalizedText(hoverProperty.title)}
           </h3>
           <p className="text-sm text-gray-600 mb-1">
-            {getLocalizedText(hoverProperty.address) || "Manzil ko‘rsatilmagan"}
+            {getLocalizedText(hoverProperty.address) || t("pages.map_page.no_address")}
           </p>
           <p className="text-sm text-gray-700 font-medium">
-            💰 {hoverProperty.price.toLocaleString()} so‘m
+            💰 {hoverProperty.price.toLocaleString()} {t(`pages.property_card.currency_symbols.${hoverProperty.currency}`)}
           </p>
           <p className="text-xs text-gray-500">
-            {hoverProperty.area} m² · {hoverProperty.bedrooms} xona
+            {hoverProperty.area} m² · {hoverProperty.bedrooms} {t("pages.map_page.rooms")}
           </p>
         </div>
       )}

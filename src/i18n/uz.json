@@ -304,6 +304,43 @@
       "no_favorites": "Hali sevimlilaringiz yo'q",
       "no_favorites_description": "Sevimli uylaringizni, kvartiralaringizni saqlash uchun ularni like bosing. Siz like bosgan barcha ob'ektlar shu yerda ko'rinadi.",
       "item_count": "Siz like bosgan {{count}} ta ob'ekt"
+    },
+    "main_page": {
+      "popular_searches": "Ommabop qidiruvlar",
+      "popular_searches_text": "Kvartira ijarasi — ayniqsa Toshkentning quyidagi tumanlarida: Chilonzor, Sirgʻali, Mirzo Ulugʻbek, Yunusobod, Mirobod, Yashnobod. Bu tumanlar hayot uchun qidiruvda eng koʻp uchraydi, ham xaritada, ham matnli soʻrovlarda. Kvartira ijarasidan tashqari, uylarni ijaraga olish va sotib olish, yer sotish, shuningdek, binolarni ijaraga olish va sotish boʻyicha soʻrovlar ham ommabop.",
+      "list_item_1": "Siz eng koʻp qidirilayotgan tumanlar boʻyicha maksimal darajada mos natijalarni olasiz.",
+      "list_item_2": "Yangilangan filtrlar turar-joyni turi boʻyicha (kvartira, uy, yer, bino) tanlash va ortiqcha parametrlarga vaqt sarflamaslik imkonini beradi.",
+      "list_item_3": "Biz darhol eng talabgir tumanlardagi obʼyektlarni koʻrib chiqishni tavsiya qilamiz — bu sizning kuchingiz va asablaringizni tejaydi."
+    },
+    "map_page": {
+      "error_loading_map": "Xarita yuklanishida xato:",
+      "loading_map": "Xarita yuklanmoqda...",
+      "error_getting_data": "Ma'lumotlarni olishda xato:",
+      "loading_data": "Ma'lumotlar yuklanmoqda...",
+      "no_address": "Manzil ko‘rsatilmagan",
+      "rooms": "xona"
+    },
+    "profile_page": {
+      "my_account": "Mening hisobim",
+      "personal_information": "Shaxsiy ma'lumotlar",
+      "saved_properties": "Saqlangan ob'ektlar",
+      "search_notification": "Qidiruv bildirishnomasi",
+      "contacts": "Kontaktlar",
+      "saved_properties_placeholder": "Foydalanuvchi tomonidan saqlangan mulklar",
+      "search_notification_placeholder": "Foydalanuvchi qidiruviga mos keladigan mulklar"
+    },
+    "account_details_page": {
+      "change_avatar_instruction": "Rasmni o‘zgartirish uchun kamera tugmasini bosing",
+      "first_name": "Ism",
+      "last_name": "Familiya",
+      "email_address": "Elektron pochta manzili",
+      "phone_number": "Telefon raqami",
+      "new_password": "Yangi parol (ixtiyoriy)",
+      "new_password_placeholder": "Yangi parolni kiriting",
+      "edit": "Tahrirlash",
+      "cancel": "Bekor qilish",
+      "saving": "Saqlanmoqda...",
+      "save": "Saqlash"
     }
   }
 }

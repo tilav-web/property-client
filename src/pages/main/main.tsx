@@ -35,7 +35,7 @@ export default function Main() {
       </div>
       <HeroSection
         img={mainImage}
-        title={"O‘zbekistonning yuragida orzu xonadonlari"}
+        title={"pages.hero.title"}
         handlePropertyType={() => {}}
       />
       <div>
@@ -51,29 +51,20 @@ export default function Main() {
               src={asideImage}
               alt="image"
             />
-            <p className="text-center mb-12">Популярные поиски</p>
+            <p className="text-center mb-12">{t("pages.main_page.popular_searches")}</p>
             <div className="px-6">
               <p>
-                Аренда квартир — особенно в районах Ташкента: Чиланзар, Сергели,
-                Мирзо-Улугбек, Юнусабад, Миробад, Яшнабад. Эти районы чаще всего
-                фигурируют в поиске жизни, как на карте, так и в текстовых
-                запросах. Кроме аренды квартир, популярны запросы по аренде и
-                покупке домов, продаже земли, а также аренде и продаже
-                помещений.
+                {t("pages.main_page.popular_searches_text")}
               </p>
               <ul className="list-disc pl-8">
                 <li>
-                  Вы получаете максимально релевантные результаты по районам,
-                  которых больше всего хотят найти.
+                  {t("pages.main_page.list_item_1")}
                 </li>
                 <li>
-                  Обновлённые фильтры позволяют выбрать жильё по типу (квартира,
-                  дом, участок, помещение) и не тратить время на лишние
-                  параметры.
+                  {t("pages.main_page.list_item_2")}
                 </li>
                 <li>
-                  Мы рекомендуем сразу просматривать объекты в самых
-                  востребованных районах — это сэкономит ваши усилия и нервы.
+                  {t("pages.main_page.list_item_3")}
                 </li>
               </ul>
             </div>
@@ -96,29 +87,20 @@ export default function Main() {
               src={asideImage}
               alt="image"
             />
-            <p className="text-center mb-12">Популярные поиски</p>
+            <p className="text-center mb-12">{t("pages.main_page.popular_searches")}</p>
             <div className="px-6">
               <p>
-                Аренда квартир — особенно в районах Ташкента: Чиланзар, Сергели,
-                Мирзо-Улугбек, Юнусабад, Миробад, Яшнабад. Эти районы чаще всего
-                фигурируют в поиске жизни, как на карте, так и в текстовых
-                запросах. Кроме аренды квартир, популярны запросы по аренде и
-                покупке домов, продаже земли, а также аренде и продаже
-                помещений.
+                {t("pages.main_page.popular_searches_text")}
               </p>
               <ul className="list-disc pl-8">
                 <li>
-                  Вы получаете максимально релевантные результаты по районам,
-                  которых больше всего хотят найти.
+                  {t("pages.main_page.list_item_1")}
                 </li>
                 <li>
-                  Обновлённые фильтры позволяют выбрать жильё по типу (квартира,
-                  дом, участок, помещение) и не тратить время на лишние
-                  параметры.
+                  {t("pages.main_page.list_item_2")}
                 </li>
                 <li>
-                  Мы рекомендуем сразу просматривать объекты в самых
-                  востребованных районах — это сэкономит ваши усилия и нервы.
+                  {t("pages.main_page.list_item_3")}
                 </li>
               </ul>
             </div>

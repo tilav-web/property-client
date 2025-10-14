@@ -305,6 +305,43 @@
       "no_favorites": "You don't have any favorites yet",
       "no_favorites_description": "Like your favorite houses and apartments to save them. All the objects you like will appear here.",
       "item_count": "{{count}} objects you liked"
+    },
+    "main_page": {
+      "popular_searches": "Popular searches",
+      "popular_searches_text": "Apartment rentals - especially in the districts of Tashkent: Chilanzar, Sergeli, Mirzo-Ulugbek, Yunusabad, Mirobod, Yashnabad. These areas most often appear in the search for life, both on the map and in text queries. In addition to renting apartments, requests for renting and buying houses, selling land, as well as renting and selling premises are popular.",
+      "list_item_1": "You get the most relevant results for the areas that are most in demand.",
+      "list_item_2": "Updated filters allow you to select housing by type (apartment, house, plot, premises) and not waste time on unnecessary parameters.",
+      "list_item_3": "We recommend that you immediately view objects in the most popular areas - this will save you effort and nerves."
+    },
+    "map_page": {
+      "error_loading_map": "Error loading map:",
+      "loading_map": "Map is loading...",
+      "error_getting_data": "Error getting data:",
+      "loading_data": "Data is loading...",
+      "no_address": "Address not specified",
+      "rooms": "rooms"
+    },
+    "profile_page": {
+      "my_account": "My account",
+      "personal_information": "Personal information",
+      "saved_properties": "Saved properties",
+      "search_notification": "Search notification",
+      "contacts": "Contacts",
+      "saved_properties_placeholder": "Properties saved by user",
+      "search_notification_placeholder": "Properties matching user's search"
+    },
+    "account_details_page": {
+      "change_avatar_instruction": "Click the camera button to change the image",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email_address": "Email address",
+      "phone_number": "Phone number",
+      "new_password": "New password (optional)",
+      "new_password_placeholder": "Enter new password",
+      "edit": "Edit",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "save": "Save"
     }
   }
 }
