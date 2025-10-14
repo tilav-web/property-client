@@ -1,1 +1,310 @@
-{}
+
+{
+  "common": {
+    "back": "Back",
+    "login": "Login",
+    "search": "Search",
+    "search_placeholder": "City, neighborhood, or building",
+    "buy": "Buy",
+    "rent_apartments": "Rent Apartments",
+    "rent_land": "Rent Land",
+    "find_agent": "Find an Agent",
+    "mortgage": "Mortgage",
+    "new_projects": "New Projects",
+    "favorites": "Favorites",
+    "sell_or_rent": "Sell / Rent",
+    "save": "Save",
+    "cancel": "Cancel",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "choose": "Choose",
+    "optional": "Optional",
+    "header": {
+      "logo": "Logo",
+      "profile": "Profile",
+      "logout": "Logout",
+      "login_title": "Login to your account!",
+      "logout_success": "You have successfully logged out.",
+      "languages": {
+        "uz": "O'zbek",
+        "ru": "Русский",
+        "en": "English"
+      }
+    },
+    "seller_header": {
+      "welcome": "Welcome, {{name}}!",
+      "seller_panel": "Seller Panel",
+      "search_placeholder": "Products, orders, customers...",
+      "seller": "Seller"
+    },
+    "seller_sidebar": {
+      "title": "Seller",
+      "personal_info": "Personal Information",
+      "dashboard": "Dashboard",
+      "inquiries": "Inquiries",
+      "feedback": "Feedback",
+      "properties": "Properties",
+      "settings": "Settings"
+    },
+    "footer": {
+      "question": "Have a question? Call",
+      "store_addresses": "Store addresses",
+      "company": "Company",
+      "for_legal_entities": "For legal entities",
+      "about": "About Amaar",
+      "news_and_blogs": "News and blogs",
+      "imei_check": "IMEI check",
+      "information": "Information",
+      "free_delivery": "Free delivery",
+      "work_at_amaar": "Work at Amaar",
+      "personal_account": "Personal account",
+      "contact_numbers": "Contact numbers",
+      "customer_help": "Customer help",
+      "return_of_goods": "Return of goods",
+      "warranty_for_goods": "Warranty for goods",
+      "download_app": "Download the app",
+      "qr_code": "QR-code",
+      "scan_qr": "Scan the QR code to download"
+    },
+    "buttons": {
+      "bid_price": "Your price",
+      "call": "Call",
+      "instagram": "Instagram",
+      "email": "Email",
+      "continue": "Continue",
+      "online_contract": "Online contract",
+      "telegram": "Telegram",
+      "whatsapp": "WhatsApp"
+    },
+    "loading_component": {
+      "loading": "Loading...",
+      "please_wait": "Please, wait"
+    },
+    "date_range_picker": {
+      "nights": "nights",
+      "select_dates": "Select dates"
+    },
+    "error_boundary": {
+      "title": "An error has occurred!",
+      "message": "Error displaying data. Please reload.",
+      "retry": "Retry"
+    }
+  },
+  "enums": {
+    "amenities": {
+      "pool": "Pool",
+      "balcony": "Balcony",
+      "security": "Security",
+      "air_conditioning": "Air Conditioning",
+      "parking": "Parking",
+      "elevator": "Elevator"
+    },
+    "property_category": {
+      "apartment": "Apartment",
+      "house": "House",
+      "villa": "Villa",
+      "office": "Office",
+      "land": "Land",
+      "shop": "Shop",
+      "garage": "Garage"
+    },
+    "construction_status": {
+      "ready": "Ready",
+      "under_construction": "Under Construction",
+      "planned": "Planned"
+    },
+    "property_price_type": {
+      "sale": "For Sale",
+      "rent": "For Rent",
+      "total_price": "Total Price"
+    },
+    "property_purpose": {
+      "for_sale": "For Sale",
+      "for_rent": "For Rent",
+      "for_daily_rent": "For Daily Rent",
+      "for_commercial": "For Commercial",
+      "for_investment": "For Investment",
+      "auction": "Auction"
+    },
+    "property_type": {
+      "apartment": "Apartment",
+      "residential": "Residential",
+      "commercial": "Commercial",
+      "industrial": "Industrial",
+      "land": "Land",
+      "office": "Office",
+      "retail": "Retail",
+      "hotel": "Hotel",
+      "villa": "Villa",
+      "house": "House",
+      "garage": "Garage"
+    },
+    "property_currency": {
+      "uzs": "UZS",
+      "usd": "USD",
+      "eur": "EUR"
+    }
+  },
+  "pages": {
+    "create_property": {
+      "title": "Add New Property",
+      "subtitle": "Fill in all the necessary information about the property",
+      "tabs": {
+        "media": "Media",
+        "media_subtitle": "Photo and video",
+        "info": "Information",
+        "info_subtitle": "Basic information",
+        "details": "Details",
+        "details_subtitle": "Additional",
+        "price": "Price",
+        "price_subtitle": "Price and payment",
+        "location": "Location",
+        "location_subtitle": "Address and map"
+      },
+      "info_tab": {
+        "main_info": "Main Information",
+        "title_label": "Title",
+        "description_label": "Description",
+        "category_label": "Category",
+        "construction_status_label": "Construction Status",
+        "logo_label": "Logo URL"
+      },
+      "details_tab": {
+        "rooms_and_amenities": "Rooms and Amenities",
+        "bedrooms": "Bedrooms",
+        "bathrooms": "Bathrooms",
+        "floor": "Floor",
+        "parking": "Parking"
+      },
+      "price_tab": {
+        "price_and_area": "Price and Area",
+        "property_type_label": "Property Type",
+        "price_type_label": "Price Type",
+        "price_label": "Price",
+        "area_label": "Area (m²)",
+        "purpose_label": "Property Purpose",
+        "currency_label": "Currency"
+      },
+      "location_tab": {
+        "address_and_location": "Address and Location",
+        "full_address_label": "Full Address",
+        "pick_location_label": "Pick Location on Map",
+        "region_label": "Region",
+        "district_label": "District",
+        "latitude": "Latitude",
+        "longitude": "Longitude"
+      },
+      "media_tab": {
+        "media_files": "Media Files",
+        "banner_image": "Banner Image",
+        "images": "Images (max 5)",
+        "video": "Video",
+        "add_images": "Add Images",
+        "choose_file": "Choose File"
+      },
+      "validation": {
+        "fill_required_fields": "Please fill in all required fields."
+      }
+    },
+    "hero": {
+      "title": "Dream homes in the heart of Uzbekistan",
+      "search": {
+        "search_placeholder": "City or district",
+        "dropdown_menu": {
+          "first": "Property type",
+          "secound": "Number of bedrooms and bathrooms"
+        }
+      }
+    },
+    "property_card": {
+      "verified": "Verified",
+      "new": "New",
+      "inactive": "Inactive",
+      "premium": "Premium",
+      "views": "views",
+      "area": "Area",
+      "bedrooms": "rooms",
+      "bathrooms": "bathrooms",
+      "floor": "floor",
+      "parking": "parking",
+      "price_formats": {
+        "per_month": "/month",
+        "per_day": "/day",
+        "per_sqm": "/m²"
+      },
+      "currency_symbols": {
+        "uzs": "so'm",
+        "usd": "$",
+        "eur": "€"
+      }
+    },
+    "property_banner_card": {
+      "delivery": "Delivery",
+      "sales_started": "Sales started",
+      "price": "Price",
+      "payment_plans": "payment plans"
+    },
+    "property_mini_card": {
+      "price_formats": {
+        "sale": "",
+        "rent": "/ month",
+        "total_price": "(total)"
+      }
+    },
+    "login_page": {
+      "google": "Sign in with Google",
+      "apple": "Sign in with Apple",
+      "facebook": "Sign in with Facebook",
+      "or": "or",
+      "email": "Email",
+      "password": "Password",
+      "remember_me": "Remember me",
+      "forgot_password": "Forgot your password?",
+      "sign_in": "Sign in",
+      "no_account": "Don't have an account?",
+      "sign_up": "Sign up"
+    },
+    "register_page": {
+      "welcome": "Welcome to the real estate search",
+      "create_account": "Create your account",
+      "continue_with_google": "Continue with Google",
+      "continue_with_apple": "Continue with Apple",
+      "continue_with_facebook": "Continue with Facebook",
+      "terms_and_conditions": "I agree to the <1>Terms</1> and <3>Privacy Policy</3>",
+      "signing_in": "Signing in...",
+      "continue": "Continue",
+      "error_select_role": "Go back and choose a role!"
+    },
+    "otp_page": {
+      "title": "Security confirmation",
+      "subtitle": "Secure your account by confirming the code",
+      "confirm_code": "Confirm the code",
+      "code_sent_to": "We have sent the confirmation code to the following email address",
+      "enter_code": "Enter the 6-digit code",
+      "resend_code": "Resend the code",
+      "confirming": "Confirming...",
+      "confirm_button": "Confirm the code",
+      "go_back": "← Go back",
+      "error_invalid_code": "Please enter the 6-digit code in full"
+    },
+    "role_page": {
+      "title": "Select Your Role",
+      "subtitle": "Choose one of the available roles below",
+      "roles": {
+        "physical": "Physical",
+        "seller": "Sell/Rent",
+        "legal": "Legal"
+      }
+    },
+    "favorites_page": {
+      "title": "Favorites",
+      "no_favorites": "You don't have any favorites yet",
+      "no_favorites_description": "Like your favorite houses and apartments to save them. All the objects you like will appear here.",
+      "item_count": "{{count}} objects you liked"
+    }
+  }
+}

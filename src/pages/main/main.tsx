@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { mainImage } from "@/utils/shared";
 import { useQuery } from "@tanstack/react-query";
 import { propertyService } from "@/services/property.service";
+import type { IProperty } from "@/interfaces/property.interface";
 
 export default function Main() {
   const { t } = useTranslation();
@@ -35,11 +36,12 @@ export default function Main() {
       <HeroSection
         img={mainImage}
         title={"O‘zbekistonning yuragida orzu xonadonlari"}
+        handlePropertyType={() => {}}
       />
       <div>
         <div className="flex items-stretch gap-4 mb-4 flex-col md:flex-row mt-4">
           <div className="flex-1 flex flex-col gap-4">
-            {data?.properties?.slice(0, 4)?.map((property) => {
+            {data?.properties?.slice(0, 4)?.map((property: IProperty) => {
               return <PropertyCard key={property?._id} property={property} />;
             })}
           </div>
@@ -84,7 +86,7 @@ export default function Main() {
       <div>
         <div className="flex items-stretch gap-4 mb-4 flex-col md:flex-row mt-4">
           <div className="flex-1 flex flex-col gap-4">
-            {data?.properties?.slice(5, 8)?.map((property) => {
+            {data?.properties?.slice(5, 8)?.map((property: IProperty) => {
               return <PropertyCard key={property?._id} property={property} />;
             })}
           </div>

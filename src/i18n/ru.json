@@ -1,1 +1,309 @@
-{}
+{
+  "common": {
+    "back": "Назад",
+    "login": "Войти",
+    "search": "Поиск",
+    "search_placeholder": "Город, район или здание",
+    "buy": "Купить",
+    "rent_apartments": "Аренда квартир",
+    "rent_land": "Аренда земли",
+    "find_agent": "Найти агента",
+    "mortgage": "Ипотека",
+    "new_projects": "Новые проекты",
+    "favorites": "Избранное",
+    "sell_or_rent": "Продать / Сдать в аренду",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "next": "Далее",
+    "previous": "Назад",
+    "submit": "Отправить",
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "success": "Успешно",
+    "choose": "Выберите",
+    "optional": "Необязательно",
+    "header": {
+      "logo": "Логотип",
+      "profile": "Профиль",
+      "logout": "Выйти",
+      "login_title": "Войдите в свой аккаунт!",
+      "logout_success": "Вы успешно вышли из системы.",
+      "languages": {
+        "uz": "O'zbek",
+        "ru": "Русский",
+        "en": "English"
+      }
+    },
+    "seller_header": {
+      "welcome": "Добро пожаловать, {{name}}!",
+      "seller_panel": "Панель продавца",
+      "search_placeholder": "Товары, заказы, клиенты...",
+      "seller": "Продавец"
+    },
+    "seller_sidebar": {
+      "title": "Продавец",
+      "personal_info": "Личная информация",
+      "dashboard": "Панель приборов",
+      "inquiries": "Запросы",
+      "feedback": "Отзывы",
+      "properties": "Объекты",
+      "settings": "Настройки"
+    },
+    "footer": {
+      "question": "Возник вопрос? Звоните",
+      "store_addresses": "Адреса магазинов",
+      "company": "Компания",
+      "for_legal_entities": "Юридическим лицам",
+      "about": "О Amaar",
+      "news_and_blogs": "Новости и блоги",
+      "imei_check": "Проверка IMEI",
+      "information": "Информация",
+      "free_delivery": "Бесплатная доставка",
+      "work_at_amaar": "Работа в Amaar",
+      "personal_account": "Личный кабинет",
+      "contact_numbers": "Контактные номера",
+      "customer_help": "Помощь покупателю",
+      "return_of_goods": "Возврат товара",
+      "warranty_for_goods": "Гарантия на товары",
+      "download_app": "Скачать приложение",
+      "qr_code": "QR-код",
+      "scan_qr": "Отсканируй QR-код, чтобы скачать"
+    },
+    "buttons": {
+      "bid_price": "Ваша цена",
+      "call": "Вызов",
+      "instagram": "Инстаграм",
+      "email": "Электронная почта",
+      "continue": "Продолжить",
+      "online_contract": "Онлайн контракт",
+      "telegram": "Телеграм",
+      "whatsapp": "WhatsApp"
+    },
+    "loading_component": {
+      "loading": "Загрузка...",
+      "please_wait": "Пожалуйста, подождите"
+    },
+    "date_range_picker": {
+      "nights": "ночи",
+      "select_dates": "Выберите даты"
+    },
+    "error_boundary": {
+      "title": "Произошла ошибка!",
+      "message": "Ошибка отображения данных. Пожалуйста, перезагрузите.",
+      "retry": "Повторить"
+    }
+  },
+  "enums": {
+    "amenities": {
+      "pool": "Бассейн",
+      "balcony": "Балкон",
+      "security": "Охрана",
+      "air_conditioning": "Кондиционер",
+      "parking": "Парковка",
+      "elevator": "Лифт"
+    },
+    "property_category": {
+      "apartment": "Квартира",
+      "house": "Дом",
+      "villa": "Вилла",
+      "office": "Офис",
+      "land": "Земельный участок",
+      "shop": "Магазин",
+      "garage": "Гараж"
+    },
+    "construction_status": {
+      "ready": "Готовый",
+      "under_construction": "В процессе строительства",
+      "planned": "Запланированный"
+    },
+    "property_price_type": {
+      "sale": "На продажу",
+      "rent": "В аренду",
+      "total_price": "Общая стоимость"
+    },
+    "property_purpose": {
+      "for_sale": "На продажу",
+      "for_rent": "В аренду",
+      "for_daily_rent": "Посуточная аренда",
+      "for_commercial": "Для коммерции",
+      "for_investment": "Для инвестиций",
+      "auction": "Аукцион"
+    },
+    "property_type": {
+      "apartment": "Квартира",
+      "residential": "Жилая",
+      "commercial": "Коммерческая",
+      "industrial": "Промышленная",
+      "land": "Земля",
+      "office": "Офис",
+      "retail": "Розничная торговля",
+      "hotel": "Гостиница",
+      "villa": "Вилла",
+      "house": "Дом",
+      "garage": "Гараж"
+    },
+    "property_currency": {
+      "uzs": "UZS",
+      "usd": "USD",
+      "eur": "EUR"
+    }
+  },
+  "pages": {
+    "create_property": {
+      "title": "Добавить новый объект",
+      "subtitle": "Заполните всю необходимую информацию об объекте",
+      "tabs": {
+        "media": "Медиа",
+        "media_subtitle": "Фото и видео",
+        "info": "Информация",
+        "info_subtitle": "Основная информация",
+        "details": "Детали",
+        "details_subtitle": "Дополнительно",
+        "price": "Цена",
+        "price_subtitle": "Цена и оплата",
+        "location": "Расположение",
+        "location_subtitle": "Адрес и карта"
+      },
+      "info_tab": {
+        "main_info": "Основная информация",
+        "title_label": "Заголовок",
+        "description_label": "Описание",
+        "category_label": "Категория",
+        "construction_status_label": "Статус строительства",
+        "logo_label": "URL логотипа"
+      },
+      "details_tab": {
+        "rooms_and_amenities": "Комнаты и удобства",
+        "bedrooms": "Спальни",
+        "bathrooms": "Ванные комнаты",
+        "floor": "Этаж",
+        "parking": "Парковка"
+      },
+      "price_tab": {
+        "price_and_area": "Цена и площадь",
+        "property_type_label": "Тип объекта",
+        "price_type_label": "Тип цены",
+        "price_label": "Цена",
+        "area_label": "Площадь (м²)",
+        "purpose_label": "Назначение объекта",
+        "currency_label": "Валюта"
+      },
+      "location_tab": {
+        "address_and_location": "Адрес и расположение",
+        "full_address_label": "Полный адрес",
+        "pick_location_label": "Выберите расположение на карте",
+        "region_label": "Регион",
+        "district_label": "Район",
+        "latitude": "Широта",
+        "longitude": "Долгота"
+      },
+      "media_tab": {
+        "media_files": "Медиафайлы",
+        "banner_image": "Баннер",
+        "images": "Изображения (макс. 5)",
+        "video": "Видео",
+        "add_images": "Добавить изображения",
+        "choose_file": "Выберите файл"
+      },
+      "validation": {
+        "fill_required_fields": "Пожалуйста, заполните все обязательные поля."
+      }
+    },
+    "hero": {
+      "title": "Дома мечты в сердце Узбекистана",
+      "search": {
+        "search_placeholder": "Город или район",
+        "dropdown_menu": {
+          "first": "Тип недвижимости",
+          "secound": "Количество спален и ванных комнат"
+        }
+      }
+    },
+    "property_card": {
+      "verified": "Проверено",
+      "new": "Новый",
+      "inactive": "Неактивный",
+      "premium": "Премиум",
+      "views": "просмотров",
+      "area": "Площадь",
+      "bedrooms": "комнаты",
+      "bathrooms": "ванные",
+      "floor": "этаж",
+      "parking": "парковка",
+      "price_formats": {
+        "per_month": "/месяц",
+        "per_day": "/день",
+        "per_sqm": "/м²"
+      },
+      "currency_symbols": {
+        "uzs": "сум",
+        "usd": "$",
+        "eur": "€"
+      }
+    },
+    "property_banner_card": {
+      "delivery": "Сдача",
+      "sales_started": "Продажи начались",
+      "price": "Цена",
+      "payment_plans": "планов оплаты"
+    },
+    "property_mini_card": {
+      "price_formats": {
+        "sale": "",
+        "rent": "/ месяц",
+        "total_price": "(общая)"
+      }
+    },
+    "login_page": {
+      "google": "Войти через Google",
+      "apple": "Войти через Apple",
+      "facebook": "Войти через Facebook",
+      "or": "или",
+      "email": "Электронная почта",
+      "password": "Пароль",
+      "remember_me": "Запомнить меня",
+      "forgot_password": "Забыли пароль?",
+      "sign_in": "Войти",
+      "no_account": "Нет аккаунта?",
+      "sign_up": "Зарегистрироваться"
+    },
+    "register_page": {
+      "welcome": "Добро пожаловать в поиск недвижимости",
+      "create_account": "Создайте свой аккаунт",
+      "continue_with_google": "Продолжить через Google",
+      "continue_with_apple": "Продолжить через Apple",
+      "continue_with_facebook": "Продолжить через Facebook",
+      "terms_and_conditions": "Я согласен с <1>Условиями</1> и <3>Политикой конфиденциальности</3>",
+      "signing_in": "Вход...",
+      "continue": "Продолжить",
+      "error_select_role": "Вернитесь и выберите роль!"
+    },
+    "otp_page": {
+      "title": "Подтверждение безопасности",
+      "subtitle": "Обеспечьте безопасность своей учетной записи, подтвердив код",
+      "confirm_code": "Подтвердите код",
+      "code_sent_to": "Мы отправили код подтверждения на следующий адрес электронной почты",
+      "enter_code": "Введите 6-значный код",
+      "resend_code": "Отправить код повторно",
+      "confirming": "Подтверждение...",
+      "confirm_button": "Подтвердить код",
+      "go_back": "← Назад",
+      "error_invalid_code": "Пожалуйста, введите 6-значный код полностью"
+    },
+    "role_page": {
+      "title": "Выберите свою роль",
+      "subtitle": "Выберите одну из доступных ролей ниже",
+      "roles": {
+        "physical": "Физическое лицо",
+        "seller": "Продать/сдать",
+        "legal": "Юридическое лицо"
+      }
+    },
+    "favorites_page": {
+      "title": "Избранное",
+      "no_favorites": "У вас еще нет избранных",
+      "no_favorites_description": "Ставьте лайки своим любимым домам и квартирам, чтобы сохранить их. Все объекты, которые вам понравились, появятся здесь.",
+      "item_count": "{{count}} объектов, которые вам понравились"
+    }
+  }
+}

@@ -1,14 +1,17 @@
+import { useTranslation } from "react-i18next";
 import { Facebook, Instagram, Youtube, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-black text-white py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Contact Section */}
           <div className="md:col-span-1">
-            <p className="text-sm mb-4">Возник вопрос? Звоните</p>
+            <p className="text-sm mb-4">{t("common.footer.question")}</p>
             <Link
               to="tel:+998901234567"
               className="text-2xl font-bold mb-6 block"
@@ -45,20 +48,20 @@ export default function Footer() {
             </div>
 
             <Link to="#" className="text-sm underline">
-              Адреса магазинов
+              {t("common.footer.store_addresses")}
             </Link>
           </div>
 
           {/* Company Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Компания</h3>
+            <h3 className="text-lg font-semibold mb-4">{t("common.footer.company")}</h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   to="#"
                   className="text-sm hover:text-gray-300 transition-colors"
                 >
-                  Юридическим лицам
+                  {t("common.footer.for_legal_entities")}
                 </Link>
               </li>
               <li>
@@ -66,7 +69,7 @@ export default function Footer() {
                   to="#"
                   className="text-sm hover:text-gray-300 transition-colors"
                 >
-                  О Amaar
+                  {t("common.footer.about")}
                 </Link>
               </li>
               <li>
@@ -74,7 +77,7 @@ export default function Footer() {
                   to="#"
                   className="text-sm hover:text-gray-300 transition-colors"
                 >
-                  Новости и блоги
+                  {t("common.footer.news_and_blogs")}
                 </Link>
               </li>
               <li>
@@ -82,7 +85,7 @@ export default function Footer() {
                   to="#"
                   className="text-sm hover:text-gray-300 transition-colors"
                 >
-                  Проверка IMEI
+                  {t("common.footer.imei_check")}
                 </Link>
               </li>
             </ul>
@@ -90,14 +93,14 @@ export default function Footer() {
 
           {/* Information Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Информация</h3>
+            <h3 className="text-lg font-semibold mb-4">{t("common.footer.information")}</h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   to="#"
                   className="text-sm hover:text-gray-300 transition-colors"
                 >
-                  Бесплатная доставка
+                  {t("common.footer.free_delivery")}
                 </Link>
               </li>
               <li>
@@ -105,7 +108,7 @@ export default function Footer() {
                   to="#"
                   className="text-sm hover:text-gray-300 transition-colors"
                 >
-                  Работа в Amaar
+                  {t("common.footer.work_at_amaar")}
                 </Link>
               </li>
               <li>
@@ -113,7 +116,7 @@ export default function Footer() {
                   to="#"
                   className="text-sm hover:text-gray-300 transition-colors"
                 >
-                  Личный кабинет
+                  {t("common.footer.personal_account")}
                 </Link>
               </li>
               <li>
@@ -121,7 +124,7 @@ export default function Footer() {
                   to="#"
                   className="text-sm hover:text-gray-300 transition-colors"
                 >
-                  Контактные номера
+                  {t("common.footer.contact_numbers")}
                 </Link>
               </li>
             </ul>
@@ -129,14 +132,14 @@ export default function Footer() {
 
           {/* Customer Help Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Помощь покупателю</h3>
+            <h3 className="text-lg font-semibold mb-4">{t("common.footer.customer_help")}</h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   to="#"
                   className="text-sm hover:text-gray-300 transition-colors"
                 >
-                  Возврат товара
+                  {t("common.footer.return_of_goods")}
                 </Link>
               </li>
               <li>
@@ -144,7 +147,7 @@ export default function Footer() {
                   to="#"
                   className="text-sm hover:text-gray-300 transition-colors"
                 >
-                  Гарантия на товары
+                  {t("common.footer.warranty_for_goods")}
                 </Link>
               </li>
             </ul>
@@ -152,11 +155,11 @@ export default function Footer() {
 
           {/* Download App Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Скачать приложение</h3>
+            <h3 className="text-lg font-semibold mb-4">{t("common.footer.download_app")}</h3>
 
             {/* QR Code */}
             <div className="bg-white p-4 rounded-lg mb-4 w-32 h-32 flex items-center justify-center">
-              <div className="text-black text-xs text-center">QR-код</div>
+              <div className="text-black text-xs text-center">{t("common.footer.qr_code")}</div>
             </div>
 
             {/* App Store Icons */}
@@ -175,9 +178,7 @@ export default function Footer() {
             </div>
 
             <p className="text-xs text-gray-400">
-              Отсканируй QR-код,
-              <br />
-              чтобы скачать
+              {t("common.footer.scan_qr")}
             </p>
           </div>
         </div>

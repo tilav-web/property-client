@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useSellerStore } from "@/stores/seller.store";
@@ -14,54 +15,55 @@ import {
 } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 
-const registerMenuItems = {
-  seller: [
-    {
-      to: "/seller/profile",
-      icon: <User className="h-5 w-5" />,
-      text: "Shaxsiy malumotlar",
-    },
-  ],
-  physical: [],
-  legal: [],
-};
-
-const menuItems = {
-  seller: [
-    { to: "/seller", icon: <Home className="h-5 w-5" />, text: "Bosh sahifa" },
-    {
-      to: "/seller/inquiries",
-      icon: <Pointer className="h-5 w-5" />,
-      text: "Faoliyatlar",
-    },
-    {
-      to: "/seller/feedback",
-      icon: <Stars className="h-5 w-5" />,
-      text: "Fikrlar",
-    },
-    {
-      to: "/seller/properties",
-      icon: <Building2 className="h-5 w-5" />,
-      text: "Mulklar",
-    },
-    {
-      to: "/seller/profile",
-      icon: <User className="h-5 w-5" />,
-      text: "Shaxsiy malumotlar",
-    },
-  ],
-  physical: [],
-  legal: [],
-};
-
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const { t } = useTranslation();
   const { user } = useUserStore();
   const { seller } = useSellerStore();
+
+  const registerMenuItems = {
+    seller: [
+      {
+        to: "/seller/profile",
+        icon: <User className="h-5 w-5" />,
+        text: t("common.seller_sidebar.personal_info"),
+      },
+    ],
+    physical: [],
+    legal: [],
+  };
+
+  const menuItems = {
+    seller: [
+      { to: "/seller", icon: <Home className="h-5 w-5" />, text: t("common.seller_sidebar.dashboard") },
+      {
+        to: "/seller/inquiries",
+        icon: <Pointer className="h-5 w-5" />,
+        text: t("common.seller_sidebar.inquiries"),
+      },
+      {
+        to: "/seller/feedback",
+        icon: <Stars className="h-5 w-5" />,
+        text: t("common.seller_sidebar.feedback"),
+      },
+      {
+        to: "/seller/properties",
+        icon: <Building2 className="h-5 w-5" />,
+        text: t("common.seller_sidebar.properties"),
+      },
+      {
+        to: "/seller/profile",
+        icon: <User className="h-5 w-5" />,
+        text: t("common.seller_sidebar.personal_info"),
+      },
+    ],
+    physical: [],
+    legal: [],
+  };
 
   return (
     <aside
@@ -74,7 +76,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       )}
     >
       <div className="p-6 border-b border-primary-foreground/20 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Seller</h1>
+        <h1 className="text-2xl font-bold">{t("common.seller_sidebar.title")}</h1>
         {/* Close button for mobile sidebar */}
         <Button
           variant="ghost"
@@ -128,7 +130,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-primary-foreground/10"
         >
           <Settings className="h-5 w-5" />
-          <span>Sozlamalar</span>
+          <span>{t("common.seller_sidebar.settings")}</span>
         </NavLink>
         <Link
           to="/"
@@ -136,7 +138,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all bg-red-300/30"
         >
           <ArrowLeftToLine className="h-5 w-5" />
-          <span>Ortga</span>
+          <span>{t("common.back")}</span>
         </Link>
       </div>
     </aside>

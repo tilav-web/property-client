@@ -1,35 +1,309 @@
 {
-  "back": "ortga",
-  "login": "kirish",
-  "search": "qidiruv",
-  "search_placeholder": "Shahar, mahalla yoki bino",
-  "buy": "Sotib olish",
-  "rent_apartments": "Kvartira ijarasi",
-  "rent_land": "Joy ijarasi",
-  "find_agent": "Agent topish",
-  "mortgage": "Ipoteka",
-  "new_projects": "Yangi loyihalar",
-  "favorites": "Sevimlilar",
-  "sell_or_rent": "Sotish / Ijaraga berish",
-  "categories": {
-    "flats": "Kvartiralar",
-    "dacha": "Dacha",
-    "rooms": "Xonalar",
-    "office": "Ofis",
-    "land": "Yer",
-    "business": "Biznes uchun",
-    "basement": "Podval",
-    "building": "Bino"
-  },
-  "hero": {
-    "title": "O‘zbekistonning yuragida orzu xonadonlari",
-    "search": {
-      "search_placeholder": "Shahar yoki tuman",
-      "dropdown_menu": {
-        "first": "Ko‘chmas mulk turi",
-        "secound": "Yotoq xonalar soni va Vannaxonalar soni"
+  "common": {
+    "back": "Ortga",
+    "login": "Kirish",
+    "search": "Qidiruv",
+    "search_placeholder": "Shahar, mahalla yoki bino",
+    "buy": "Sotib olish",
+    "rent_apartments": "Kvartira ijarasi",
+    "rent_land": "Yer ijarasi",
+    "find_agent": "Agent topish",
+    "mortgage": "Ipoteka",
+    "new_projects": "Yangi loyihalar",
+    "favorites": "Sevimlilar",
+    "sell_or_rent": "Sotish / Ijaraga berish",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "next": "Keyingisi",
+    "previous": "Oldingisi",
+    "submit": "Yuborish",
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik",
+    "success": "Muvaffaqiyatli",
+    "choose": "Tanlang",
+    "optional": "Ixtiyoriy",
+    "header": {
+      "logo": "Logo",
+      "profile": "Profil",
+      "logout": "Chiqish",
+      "login_title": "Hisobingizga kiring!",
+      "logout_success": "Tizimdan muvaffaqiyatli chiqdingiz.",
+      "languages": {
+        "uz": "O'zbek",
+        "ru": "Русский",
+        "en": "English"
       }
+    },
+    "seller_header": {
+      "welcome": "Xush kelibsiz, {{name}}!",
+      "seller_panel": "Sotuvchi paneli",
+      "search_placeholder": "Mahsulotlar, buyurtmalar, mijozlar...",
+      "seller": "Sotuvchi"
+    },
+    "seller_sidebar": {
+      "title": "Sotuvchi",
+      "personal_info": "Shaxsiy ma'lumotlar",
+      "dashboard": "Bosh sahifa",
+      "inquiries": "Faoliyatlar",
+      "feedback": "Fikrlar",
+      "properties": "Mulklar",
+      "settings": "Sozlamalar"
+    },
+    "footer": {
+      "question": "Savolingiz bormi? Qo'ng'iroq qiling",
+      "store_addresses": "Do'kon manzillari",
+      "company": "Kompaniya",
+      "for_legal_entities": "Yuridik shaxslarga",
+      "about": "Amaar haqida",
+      "news_and_blogs": "Yangiliklar va bloglar",
+      "imei_check": "IMEI tekshiruvi",
+      "information": "Ma'lumot",
+      "free_delivery": "Bepul yetkazib berish",
+      "work_at_amaar": "Amaar'da ishlash",
+      "personal_account": "Shaxsiy kabinet",
+      "contact_numbers": "Kontakt raqamlari",
+      "customer_help": "Xaridorga yordam",
+      "return_of_goods": "Tovarni qaytarish",
+      "warranty_for_goods": "Tovarlarga kafolat",
+      "download_app": "Ilovani yuklab oling",
+      "qr_code": "QR-kod",
+      "scan_qr": "Yuklab olish uchun QR-kodni skanerlang"
+    },
+    "buttons": {
+      "bid_price": "Sizning narxingiz",
+      "call": "Qo'ng'iroq",
+      "instagram": "Instagram",
+      "email": "Email",
+      "continue": "Davom etish",
+      "online_contract": "Onlayn shartnoma",
+      "telegram": "Telegram",
+      "whatsapp": "WhatsApp"
+    },
+    "loading_component": {
+      "loading": "Yuklanmoqda...",
+      "please_wait": "Iltimos, kuting"
+    },
+    "date_range_picker": {
+      "nights": "kecha",
+      "select_dates": "Sanalarni tanlang"
+    },
+    "error_boundary": {
+      "title": "Xatolik yuz berdi!",
+      "message": "Ma'lumotlarni ko'rsatishda xatolik. Iltimos, qayta yuklang.",
+      "retry": "Qayta urinish"
     }
   },
-  "types": {}
+  "enums": {
+    "amenities": {
+      "pool": "Suzish havzasi",
+      "balcony": "Balkon",
+      "security": "Xavfsizlik xizmati",
+      "air_conditioning": "Konditsioner",
+      "parking": "Avtoturargoh",
+      "elevator": "Lift"
+    },
+    "property_category": {
+      "apartment": "Kvartira",
+      "house": "Hovli uy",
+      "villa": "Villa",
+      "office": "Ofis",
+      "land": "Yer maydoni",
+      "shop": "Do'kon",
+      "garage": "Garaj"
+    },
+    "construction_status": {
+      "ready": "Tayyor",
+      "under_construction": "Qurilmoqda",
+      "planned": "Rejalashtirilgan"
+    },
+    "property_price_type": {
+      "sale": "Sotuv uchun",
+      "rent": "Ijara uchun",
+      "total_price": "Umumiy narx"
+    },
+    "property_purpose": {
+      "for_sale": "Sotuvga",
+      "for_rent": "Ijaraga",
+      "for_daily_rent": "Kunlik ijaraga",
+      "for_commercial": "Tijorat uchun",
+      "for_investment": "Investitsiya uchun",
+      "auction": "Auksion"
+    },
+    "property_type": {
+      "apartment": "Kvartira",
+      "residential": "Turar-joy",
+      "commercial": "Tijorat",
+      "industrial": "Sanoat",
+      "land": "Yer",
+      "office": "Ofis",
+      "retail": "Chakana savdo",
+      "hotel": "Mehmonxona",
+      "villa": "Villa",
+      "house": "Uy",
+      "garage": "Garaj"
+    },
+    "property_currency": {
+      "uzs": "UZS",
+      "usd": "USD",
+      "eur": "EUR"
+    }
+  },
+  "pages": {
+    "create_property": {
+      "title": "Yangi mulk qo'shish",
+      "subtitle": "Mulk haqida barcha kerakli ma'lumotlarni to'ldiring",
+      "tabs": {
+        "media": "Media",
+        "media_subtitle": "Rasm va video",
+        "info": "Ma'lumot",
+        "info_subtitle": "Asosiy ma'lumotlar",
+        "details": "Tafsilotlar",
+        "details_subtitle": "Qo'shimcha",
+        "price": "Narx",
+        "price_subtitle": "Narx va to'lov",
+        "location": "Joylashuv",
+        "location_subtitle": "Manzil va xarita"
+      },
+      "info_tab": {
+        "main_info": "Asosiy ma'lumotlar",
+        "title_label": "Sarlavha",
+        "description_label": "Tavsif",
+        "category_label": "Kategoriya",
+        "construction_status_label": "Qurilish holati",
+        "logo_label": "Logo URL"
+      },
+      "details_tab": {
+        "rooms_and_amenities": "Xonalar va qulayliklar",
+        "bedrooms": "Yotoqxonalar",
+        "bathrooms": "Hammomlar",
+        "floor": "Qavat",
+        "parking": "Avtoturargoh"
+      },
+      "price_tab": {
+        "price_and_area": "Narx va maydon",
+        "property_type_label": "Mulk turi",
+        "price_type_label": "Narx turi",
+        "price_label": "Narx",
+        "area_label": "Maydon (m²)",
+        "purpose_label": "Mulk maqsadi",
+        "currency_label": "Valyuta"
+      },
+      "location_tab": {
+        "address_and_location": "Manzil va joylashuv",
+        "full_address_label": "To'liq manzil",
+        "pick_location_label": "Joylashuvni xaritada tanlang",
+        "region_label": "Viloyat",
+        "district_label": "Tuman",
+        "latitude": "Kenglik",
+        "longitude": "Uzunlik"
+      },
+      "media_tab": {
+        "media_files": "Media fayllar",
+        "banner_image": "Banner rasmi",
+        "images": "Rasmlar (maks. 5 ta)",
+        "video": "Video",
+        "add_images": "Rasm qo'shish",
+        "choose_file": "Fayl tanlash"
+      },
+      "validation": {
+        "fill_required_fields": "Iltimos, barcha kerakli maydonlarni to'ldiring."
+      }
+    },
+    "hero": {
+      "title": "O‘zbekistonning yuragida orzu xonadonlari",
+      "search": {
+        "search_placeholder": "Shahar yoki tuman",
+        "dropdown_menu": {
+          "first": "Ko‘chmas mulk turi",
+          "secound": "Yotoq xonalar soni va Vannaxonalar soni"
+        }
+      }
+    },
+    "property_card": {
+      "verified": "Tasdiqlangan",
+      "new": "Yangi",
+      "inactive": "Noaktiv",
+      "premium": "Premium",
+      "views": "ko'rish",
+      "area": "Maydon",
+      "bedrooms": "xona",
+      "bathrooms": "hammom",
+      "floor": "qavat",
+      "parking": "avtojoy",
+      "price_formats": {
+        "per_month": "/oy",
+        "per_day": "/kun",
+        "per_sqm": "/m²"
+      },
+      "currency_symbols": {
+        "uzs": "so'm",
+        "usd": "$",
+        "eur": "€"
+      }
+    },
+    "property_banner_card": {
+      "delivery": "Topshirish",
+      "sales_started": "Sotuv boshlandi",
+      "price": "Narx",
+      "payment_plans": "ta to'lov rejasi"
+    },
+    "property_mini_card": {
+      "price_formats": {
+        "sale": "",
+        "rent": "/ oy",
+        "total_price": "(umumiy)"
+      }
+    },
+    "login_page": {
+      "google": "Google bilan kirish",
+      "apple": "Apple bilan kirish",
+      "facebook": "Facebook bilan kirish",
+      "or": "yoki",
+      "email": "Email",
+      "password": "Parol",
+      "remember_me": "Eslab qolish",
+      "forgot_password": "Parolni unutdingizmi?",
+      "sign_in": "Hisobga kirish",
+      "no_account": "Hisobingiz yo'qmi?",
+      "sign_up": "Ro'yxatdan o'tish"
+    },
+    "register_page": {
+      "welcome": "Ko'chmas mulk qidiruviga xush kelibsiz",
+      "create_account": "Hisobingizni yarating",
+      "continue_with_google": "Google bilan davom etish",
+      "continue_with_apple": "Apple bilan davom etish",
+      "continue_with_facebook": "Facebook bilan davom etish",
+      "terms_and_conditions": "Men <1>Shartlar</1> va <3>Maxfiylik siyosati</3>ga roziman",
+      "signing_in": "Kirilmoqda...",
+      "continue": "Davom etish",
+      "error_select_role": "Ortga qayting va rol tanlang!"
+    },
+    "otp_page": {
+      "title": "Xavfsizlik tasdiqlashi",
+      "subtitle": "Kodni tasdiqlash orqali hisobingizning xavfsizligini ta'minlang",
+      "confirm_code": "Kodni tasdiqlang",
+      "code_sent_to": "Tasdiqlash kodini quyidagi email manziliga yubordik",
+      "enter_code": "6 xonalik kodni kiriting",
+      "resend_code": "Kodni qayta yuborish",
+      "confirming": "Tasdiqlanmoqda...",
+      "confirm_button": "Kodni tasdiqlash",
+      "go_back": "← Orqaga qaytish",
+      "error_invalid_code": "Iltimos, 6 xonalik kodni to'liq kiriting"
+    },
+    "role_page": {
+      "title": "O'z rolingizni tanlang",
+      "subtitle": "Quyidagi mavjud rollardan birini tanlang",
+      "roles": {
+        "physical": "Jismoniy shaxs",
+        "seller": "Sotish/ijaraga berish",
+        "legal": "Yuridik shaxs"
+      }
+    },
+    "favorites_page": {
+      "title": "Sevimlilar",
+      "no_favorites": "Hali sevimlilaringiz yo'q",
+      "no_favorites_description": "Sevimli uylaringizni, kvartiralaringizni saqlash uchun ularni like bosing. Siz like bosgan barcha ob'ektlar shu yerda ko'rinadi.",
+      "item_count": "Siz like bosgan {{count}} ta ob'ekt"
+    }
+  }
 }

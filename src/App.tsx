@@ -18,7 +18,6 @@ import Inquiries from "./pages/seller/inquiries/inquiries";
 import Feedback from "./pages/seller/feedback/feedback";
 import SellerProperties from "./pages/seller/properties/seller-properties";
 import { lazy, Suspense } from "react";
-import ErrorBoundary from "./components/common/error-boundary";
 import Category from "./pages/property/category";
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/_components/create-property")
@@ -41,9 +40,7 @@ const router = createBrowserRouter([
         path: "/property/:id",
         element: (
           <SubLayout>
-            <ErrorBoundary>
-              <Property />
-            </ErrorBoundary>
+            <Property />
           </SubLayout>
         ),
       },

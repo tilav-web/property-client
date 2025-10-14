@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +13,7 @@ import { useUserStore } from "@/stores/user.store";
 import { handleStorage } from "@/utils/handle-storage";
 
 export default function OtpConfirmation() {
+  const { t } = useTranslation();
   const [otp, setOtp] = useState("");
   const [params] = useSearchParams();
   const id = params.get("id");
@@ -24,8 +26,8 @@ export default function OtpConfirmation() {
     setIsLoading(true);
     try {
       if (otp.length !== 6) {
-        toast.error("Error", {
-          description: "Iltimos, 6 xonalik kodni to'liq kiriting",
+        toast.error(t("common.error"), {
+          description: t("pages.otp_page.error_invalid_code"),
         });
         setIsLoading(false);
         return;
@@ -78,10 +80,10 @@ export default function OtpConfirmation() {
                 </svg>
               </div>
               <h1 className="text-4xl font-bold mb-4">
-                Xavfsizlik tasdiqlashi
+                {t("pages.otp_page.title")}
               </h1>
               <p className="text-green-100 text-lg">
-                Kodni tasdiqlash orqali hisobingizning xavfsizligini ta'minlang
+                {t("pages.otp_page.subtitle")}
               </p>
             </div>
           </div>
@@ -90,10 +92,10 @@ export default function OtpConfirmation() {
           <div className="bg-white py-8 px-6 sm:px-10">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-bold text-gray-900">
-                Kodni tasdiqlang
+                {t("pages.otp_page.confirm_code")}
               </h2>
               <p className="text-gray-600 mt-2 text-sm">
-                Tasdiqlash kodini quyidagi email manziliga yubordik
+                {t("pages.otp_page.code_sent_to")}
               </p>
               <p className="font-medium text-gray-900 mt-1 text-lg">
                 email@example.com
@@ -117,7 +119,7 @@ export default function OtpConfirmation() {
                 </InputOTP>
               </div>
               <div className="text-center text-sm text-gray-600">
-                <p>6 xonalik kodni kiriting</p>
+                <p>{t("pages.otp_page.enter_code")}</p>
               </div>
               <div className="text-center">
                 <Button
@@ -127,7 +129,7 @@ export default function OtpConfirmation() {
                   disabled={isLoading}
                   className="text-blue-600 hover:text-blue-500 disabled:text-gray-400 disabled:cursor-not-allowed"
                 >
-                  Kodni qayta yuborish
+                  {t("pages.otp_page.resend_code")}
                 </Button>
               </div>
               <Button
@@ -135,7 +137,7 @@ export default function OtpConfirmation() {
                 disabled={isLoading || otp.length !== 6}
                 className="w-full py-3 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? "Tasdiqlanmoqda..." : "Kodni tasdiqlash"}
+                {isLoading ? t("pages.otp_page.confirming") : t("pages.otp_page.confirm_button")}
               </Button>
             </form>
             <div className="mt-6 text-center">
@@ -145,7 +147,7 @@ export default function OtpConfirmation() {
                 className="text-gray-600 hover:text-gray-500"
                 onClick={() => window.history.back()}
               >
-                ← Orqaga qaytish
+                {t("pages.otp_page.go_back")}
               </Button>
             </div>
           </div>

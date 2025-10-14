@@ -1,10 +1,10 @@
-"use client";
-
+import { useTranslation } from "react-i18next";
 import * as React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { uz } from "date-fns/locale";
 
 export default function DateRangePicker() {
+  const { t, i18n } = useTranslation();
   const [date, setDate] = React.useState<{
     from: Date | undefined;
     to?: Date | undefined;
@@ -24,17 +24,17 @@ export default function DateRangePicker() {
     <div className="w-max">
       <div className="mb-4">
         <p className="font-semibold text-lg">
-          {nights > 0 ? `${nights} ночи` : "Выберите даты"}
+          {nights > 0 ? `${nights} ${t("common.date_range_picker.nights")}` : t("common.date_range_picker.select_dates")}
         </p>
         {date?.from && date?.to && (
           <p className="text-sm text-gray-500">
-            {date.from.toLocaleDateString("ru-RU", {
+            {date.from.toLocaleDateString(i18n.language, {
               day: "numeric",
               month: "short",
               year: "numeric",
             })}{" "}
             –{" "}
-            {date.to.toLocaleDateString("ru-RU", {
+            {date.to.toLocaleDateString(i18n.language, {
               day: "numeric",
               month: "short",
               year: "numeric",

@@ -1,4 +1,4 @@
-"use client";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,6 +14,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 export default function CreateProperty() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { data, resetData } = useCreatePropertyStore();
   const [currentTab, setCurrentTab] = useState("media");
@@ -69,8 +70,8 @@ export default function CreateProperty() {
         setCurrentTab(tabOrder[currentIndex + 1]);
       }
     } else {
-      toast.error("Xatolik", {
-        description: "Iltimos, barcha kerakli maydonlarni to'ldiring.",
+      toast.error(t("common.error"), {
+        description: t("pages.create_property.validation.fill_required_fields"),
       });
     }
   };
@@ -84,8 +85,8 @@ export default function CreateProperty() {
 
   const handleSubmit = async () => {
     if (!validateTab("location")) {
-      toast.error("Xatolik", {
-        description: "Iltimos, barcha kerakli maydonlarni to'ldiring.",
+      toast.error(t("common.error"), {
+        description: t("pages.create_property.validation.fill_required_fields"),
       });
       return;
     }
@@ -152,8 +153,8 @@ export default function CreateProperty() {
       });
 
       await propertyService.create(formData);
-      toast.success("Muvaffaqiyatli", {
-        description: "Mulk muvaffaqiyatli yaratildi.",
+      toast.success(t("common.success"), {
+        description: t("pages.create_property.validation.success_message"),
       });
       resetData();
       navigate("/seller/properties");
@@ -180,10 +181,10 @@ export default function CreateProperty() {
     <div className="container mx-auto p-6">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">
-          Yangi Mulk Qoʻshish
+          {t("pages.create_property.title")}
         </h1>
         <p className="text-gray-600 mt-2">
-          Mulk haqida barcha kerakli maʼlumotlarni toʻldiring
+          {t("pages.create_property.subtitle")}
         </p>
       </div>
 
@@ -239,11 +240,7 @@ export default function CreateProperty() {
                     : "text-gray-500"
                 }`}
               >
-                {tab === "media" && "Media"}
-                {tab === "info" && "Maʼlumot"}
-                {tab === "details" && "Tafsilotlar"}
-                {tab === "price" && "Narx"}
-                {tab === "location" && "Joylashuv"}
+                {t(`pages.create_property.tabs.${tab}`)}
               </span>
             </div>
           ))}
@@ -260,8 +257,8 @@ export default function CreateProperty() {
                 : ""
             }`}
           >
-            <span>Media</span>
-            <span className="text-xs font-normal mt-1">Rasm va video</span>
+            <span>{t("pages.create_property.tabs.media")}</span>
+            <span className="text-xs font-normal mt-1">{t("pages.create_property.tabs.media_subtitle")}</span>
           </TabsTrigger>
           <TabsTrigger
             value="info"
@@ -272,8 +269,8 @@ export default function CreateProperty() {
                 : ""
             }`}
           >
-            <span>Maʼlumot</span>
-            <span className="text-xs font-normal mt-1">Asosiy ma'lumotlar</span>
+            <span>{t("pages.create_property.tabs.info")}</span>
+            <span className="text-xs font-normal mt-1">{t("pages.create_property.tabs.info_subtitle")}</span>
           </TabsTrigger>
           <TabsTrigger
             value="details"
@@ -284,8 +281,8 @@ export default function CreateProperty() {
                 : ""
             }`}
           >
-            <span>Tafsilotlar</span>
-            <span className="text-xs font-normal mt-1">Qo'shimcha</span>
+            <span>{t("pages.create_property.tabs.details")}</span>
+            <span className="text-xs font-normal mt-1">{t("pages.create_property.tabs.details_subtitle")}</span>
           </TabsTrigger>
           <TabsTrigger
             value="price"
@@ -296,8 +293,8 @@ export default function CreateProperty() {
                 : ""
             }`}
           >
-            <span>Narx</span>
-            <span className="text-xs font-normal mt-1">Narx va to'lov</span>
+            <span>{t("pages.create_property.tabs.price")}</span>
+            <span className="text-xs font-normal mt-1">{t("pages.create_property.tabs.price_subtitle")}</span>
           </TabsTrigger>
           <TabsTrigger
             value="location"
@@ -308,8 +305,8 @@ export default function CreateProperty() {
                 : ""
             }`}
           >
-            <span>Joylashuv</span>
-            <span className="text-xs font-normal mt-1">Manzil va xarita</span>
+            <span>{t("pages.create_property.tabs.location")}</span>
+            <span className="text-xs font-normal mt-1">{t("pages.create_property.tabs.location_subtitle")}</span>
           </TabsTrigger>
         </TabsList>
 
@@ -334,7 +331,7 @@ export default function CreateProperty() {
         <div className="text-sm text-gray-500">
           {currentTab !== "media" && (
             <Button onClick={handlePrevious} variant="outline">
-              ← Oldingisi
+              {t("common.previous")}
             </Button>
           )}
         </div>
@@ -346,7 +343,7 @@ export default function CreateProperty() {
               className="bg-blue-600 hover:bg-blue-700 min-w-32"
               size="lg"
             >
-              Keyingisi →
+              {t("common.next")}
             </Button>
           ) : (
             <Button
@@ -354,7 +351,7 @@ export default function CreateProperty() {
               className="bg-green-600 hover:bg-green-700 min-w-32"
               size="lg"
             >
-              ✅ Yuborish
+              {t("common.submit")}
             </Button>
           )}
         </div>

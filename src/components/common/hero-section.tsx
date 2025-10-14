@@ -59,7 +59,7 @@ export default function HeroSection({
               className={`text-6xl max-w-[550px] text-center ${className}`}
               style={{ fontFamily: "Edu NSW ACT Foundation" }}
             >
-              {title}
+              {t(title)}
             </h1>
           </div>
           <div className="max-w-[500px] w-full"></div>
@@ -74,13 +74,15 @@ export default function HeroSection({
             <Search className="absolute left-2 top-0 bottom-0 my-auto" />
             <Input
               className="pl-10 border-0 focus-visible:ring-0 h-full"
-              placeholder={t("hero.search.search_placeholder")}
+              placeholder={t("pages.hero.search.search_placeholder")}
             />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex w-full max-w-[190px] items-center gap-1 borser-r px-2 border-r-2 border-black h-full">
               <span className="opacity-50 flex-1 text-start">
-                {property_type ?? t("hero.search.dropdown_menu.first")}
+                {property_type
+                  ? t(`enums.property_type.${property_type}`)
+                  : t("pages.hero.search.dropdown_menu.first")}
               </span>
               <ChevronDown />
             </DropdownMenuTrigger>
@@ -91,7 +93,7 @@ export default function HeroSection({
                     onClick={() => handlePropertyType(item)}
                     key={item}
                   >
-                    {item}
+                    {t(`enums.property_type.${item}`)}
                   </DropdownMenuItem>
                 );
               })}
@@ -100,7 +102,7 @@ export default function HeroSection({
           <DropdownMenu>
             <DropdownMenuTrigger className="flex flex-1 items-center gap-1 borser-r px-2 border-r-2 border-black h-full">
               <span className="opacity-50">
-                {t("hero.search.dropdown_menu.secound")}
+                {t("pages.hero.search.dropdown_menu.secound")}
               </span>
               <ChevronDown />
             </DropdownMenuTrigger>
@@ -110,11 +112,10 @@ export default function HeroSection({
           </DropdownMenu>
           <button className="h-full flex items-center gap-2 px-4 bg-yellow-300 capitalize">
             <Search />
-            {t("search")}
+            {t("common.search")}
           </button>
         </div>
       </div>
-
       {/* Mobile Version */}
       <div className="w-full lg:hidden relative">
         {/* Mobile Header with Search Toggle */}

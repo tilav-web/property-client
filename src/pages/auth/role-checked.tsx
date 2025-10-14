@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import BackButton from "@/components/common/buttons/back-button";
 import { Button } from "@/components/ui/button";
 import { roleImage1, roleImage2, roleImage3 } from "@/utils/shared";
@@ -6,13 +7,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function RoleChecked() {
+  const { t } = useTranslation();
   const [selectedRole, setSelectedRole] = useState<string>();
   const navigate = useNavigate();
 
   const roles = [
-    { id: "physical", image: roleImage1, label: "Физической" },
-    { id: "seller", image: roleImage2, label: "Продать/здать" },
-    { id: "legal", image: roleImage3, label: "Юридической" },
+    { id: "physical", image: roleImage1, label: t("pages.role_page.roles.physical") },
+    { id: "seller", image: roleImage2, label: t("pages.role_page.roles.seller") },
+    { id: "legal", image: roleImage3, label: t("pages.role_page.roles.legal") },
   ];
 
   const handleContinue = () => {
@@ -24,10 +26,10 @@ export default function RoleChecked() {
       <div className="max-w-4xl w-full">
         <BackButton />
         <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-2">
-          Select Your Role
+          {t("pages.role_page.title")}
         </h1>
         <p className="text-gray-600 text-center mb-8">
-          Choose one of the available roles below
+          {t("pages.role_page.subtitle")}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -121,7 +123,7 @@ export default function RoleChecked() {
             disabled={!selectedRole}
             variant={"outline"}
           >
-            Davom etish
+            {t("common.buttons.continue")}
             <ArrowRightToLine />
           </Button>
         </div>

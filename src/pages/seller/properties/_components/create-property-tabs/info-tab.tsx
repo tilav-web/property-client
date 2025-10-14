@@ -1,5 +1,4 @@
-"use client";
-
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home, Languages } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -19,6 +18,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function InfoTab() {
+  const { t } = useTranslation();
   const { data, updateData, updateTitle, updateDescription } =
     useCreatePropertyStore();
 
@@ -39,7 +39,7 @@ export default function InfoTab() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Home className="h-5 w-5" />
-          Asosiy Maʼlumotlar
+          {t("pages.create_property.info_tab.main_info")}
         </CardTitle>
       </CardHeader>
 
@@ -66,7 +66,7 @@ export default function InfoTab() {
               {/* Sarlavha */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Sarlavha * ({lang.label})
+                  {t("pages.create_property.info_tab.title_label")} * ({lang.label})
                 </label>
                 <Input
                   type="text"
@@ -89,7 +89,7 @@ export default function InfoTab() {
               {/* Tavsif */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Tavsif * ({lang.label})
+                  {t("pages.create_property.info_tab.description_label")} * ({lang.label})
                 </label>
                 <Textarea
                   placeholder={
@@ -115,20 +115,20 @@ export default function InfoTab() {
           {/* Kategoriya */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Kategoriya *
+              {t("pages.create_property.info_tab.category_label")} *
             </label>
             <Select
               value={data?.category ?? ""}
               onValueChange={(value) => handleChange("category", value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Tanlang" />
+                <SelectValue placeholder={t("common.choose")} />
               </SelectTrigger>
               <SelectContent>
                 {propertyCategory.map((item) => {
                   return (
                     <SelectItem key={item} className="capitalize" value={item}>
-                      {item}
+                      {t(`enums.property_category.${item}`)}
                     </SelectItem>
                   );
                 })}
@@ -139,7 +139,7 @@ export default function InfoTab() {
           {/* Qurilish holati */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Qurilish Holati
+              {t("pages.create_property.info_tab.construction_status_label")}
             </label>
             <Select
               value={data?.construction_status ?? ""}
@@ -148,18 +148,31 @@ export default function InfoTab() {
               }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Tanlang" />
+                <SelectValue placeholder={t("common.choose")} />
               </SelectTrigger>
               <SelectContent>
                 {propertyConstructionStatus.map((item) => {
                   return (
                     <SelectItem className="capitalize" key={item} value={item}>
-                      {item}
+                      {t(`enums.construction_status.${item}`)}
                     </SelectItem>
                   );
                 })}
               </SelectContent>
             </Select>
+          </div>
+
+          {/* Logo URL */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {t("pages.create_property.info_tab.logo_label")}
+            </label>
+            <Input
+              type="text"
+              placeholder="https://example.com/logo.png"
+              value={data?.logo ?? ""}
+              onChange={(e) => handleChange("logo", e.target.value)}
+            />
           </div>
         </div>
       </CardContent>

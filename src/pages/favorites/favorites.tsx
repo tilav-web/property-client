@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import PropertyCard from "@/components/common/cards/property-card";
 import type { IProperty } from "@/interfaces/property.interface";
 import { userService } from "@/services/user.service";
@@ -6,6 +7,7 @@ import { Heart } from "lucide-react";
 import BoxLoading from "@/components/common/loadings/box-loading";
 
 export default function Favorites() {
+  const { t } = useTranslation();
   const { data, isLoading } = useQuery({
     queryKey: ["likes"],
     queryFn: () => userService.findLikes(),
@@ -25,13 +27,12 @@ export default function Favorites() {
 
         {/* Title */}
         <h2 className="text-2xl font-bold text-gray-900 mb-3">
-          Hali sevimlilaringiz yo'q
+          {t("pages.favorites_page.no_favorites")}
         </h2>
 
         {/* Description */}
         <p className="text-gray-600 max-w-md mb-8 leading-relaxed">
-          Sevimli uylaringizni, kvartiralaringizni saqlash uchun ularni like
-          bosing. Siz like bosgan barcha ob'ektlar shu yerda ko'rinadi.
+          {t("pages.favorites_page.no_favorites_description")}
         </p>
       </div>
     );
@@ -41,8 +42,8 @@ export default function Favorites() {
     <div className="py-6 w-full">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Sevimlilar</h1>
-        <p className="text-gray-600">Siz like bosgan {data.length} ta ob'ekt</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("pages.favorites_page.title")}</h1>
+        <p className="text-gray-600">{t("pages.favorites_page.item_count", { count: data?.length })}</p>
       </div>
 
       {/* Properties Grid */}

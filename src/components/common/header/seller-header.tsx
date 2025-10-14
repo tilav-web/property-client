@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Bell, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -16,6 +17,7 @@ export default function SellerHeader({
   setIsSidebarOpen,
   notificationCount = 0,
 }: HeaderProps) {
+  const { t } = useTranslation();
   const { user } = useUserStore();
 
   // User ism va familiyasidan avatar initial olish
@@ -28,9 +30,9 @@ export default function SellerHeader({
 
   // To'liq ism olish
   const getFullName = () => {
-    if (!user) return "Sotuvchi";
+    if (!user) return t("common.seller_header.seller");
     return (
-      `${user.first_name || ""} ${user.last_name || ""}`.trim() || "Sotuvchi"
+      `${user.first_name || ""} ${user.last_name || ""}`.trim() || t("common.seller_header.seller")
     );
   };
 
@@ -58,9 +60,9 @@ export default function SellerHeader({
             <div className="w-1 h-6 bg-green-500 rounded-full" />
             <div>
               <h2 className="text-sm font-semibold text-gray-900">
-                Xush kelibsiz, {user?.first_name || "Sotuvchi"}!
+                {t("common.seller_header.welcome", { name: user?.first_name || t("common.seller_header.seller") })}
               </h2>
-              <p className="text-xs text-gray-500">Sotuvchi paneli</p>
+              <p className="text-xs text-gray-500">{t("common.seller_header.seller_panel")}</p>
             </div>
           </div>
         </div>
@@ -71,7 +73,7 @@ export default function SellerHeader({
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               type="search"
-              placeholder="Mahsulotlar, buyurtmalar, mijozlar..."
+              placeholder={t("common.seller_header.search_placeholder")}
               className="pl-10 pr-4 py-2 rounded-lg bg-gray-50 border-gray-200 focus:bg-white transition-colors"
             />
           </div>
@@ -108,7 +110,7 @@ export default function SellerHeader({
               <span className="text-sm font-medium text-gray-900">
                 {getFullName()}
               </span>
-              <span className="text-xs text-gray-500">Sotuvchi</span>
+              <span className="text-xs text-gray-500">{t("common.seller_header.seller")}</span>
             </div>
 
             {/* Avatar with user image or initials */}

@@ -49,34 +49,32 @@ export default function Header() {
 
   const logoutSystem = async () => {
     try {
-      const data = await userService.logout();
+      await userService.logout();
       handleStorage({ key: "access_token", value: null });
       logout();
-      toast.success("Seccess", { description: data.message });
+      toast.success(t("common.success"), {
+        description: t("common.header.logout_success"),
+      });
     } catch (error) {
       console.error(error);
     }
   };
 
   const navItems = [
-    { icon: Home, label: t("buy"), href: "/buy" },
+    { icon: Home, label: t("common.buy"), href: "/buy" },
     {
       icon: Building,
-      label: t("rent_apartments"),
+      label: t("common.rent_apartments"),
       href: "/category?category=apartments",
     },
-    { icon: Home, label: t("rent_land"), href: "/category?category=land" },
-    { icon: Handshake, label: t("find_agent"), href: "/agents" },
-    { icon: Calculator, label: t("mortgage"), href: "/mortgage" },
-    { icon: Star, label: t("new_projects"), href: "/new-projects" },
-    { icon: Heart, label: t("favorites"), href: "/favorites" },
+    { icon: Home, label: t("common.rent_land"), href: "/category?category=land" },
+    { icon: Handshake, label: t("common.find_agent"), href: "/agents" },
+    { icon: Calculator, label: t("common.mortgage"), href: "/mortgage" },
+    { icon: Star, label: t("common.new_projects"), href: "/new-projects" },
+    { icon: Heart, label: t("common.favorites"), href: "/favorites" },
   ];
 
-  const languages = [
-    { code: "uz", label: "O'zbek" },
-    { code: "ru", label: "Русский" },
-    { code: "en", label: "English" },
-  ];
+  const languages = ["uz", "ru", "en"];
 
   const handleChangeUserLan = async (lan: string) => {
     try {
@@ -115,7 +113,7 @@ export default function Header() {
                       <span className="text-white font-bold text-lg">L</span>
                     </div>
                     <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                      Logo
+                      {t("common.header.logo")}
                     </span>
                   </Link>
 
@@ -153,7 +151,7 @@ export default function Header() {
                 <span className="text-white font-bold text-lg">L</span>
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hidden sm:block">
-                Logo
+                {t("common.header.logo")}
               </span>
             </Link>
           </div>
@@ -162,7 +160,7 @@ export default function Header() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
                 type="text"
-                placeholder={t("search_placeholder")}
+                placeholder={t("common.search_placeholder")}
                 className="pl-10 pr-4 py-2 w-full bg-gray-50 border-gray-300 rounded-full focus:bg-white focus:border-blue-500 transition-colors"
               />
             </div>
@@ -182,7 +180,7 @@ export default function Header() {
                 variant="default"
                 className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
               >
-                <span className="font-semibold">{t("sell_or_rent")}</span>
+                <span className="font-semibold">{t("common.sell_or_rent")}</span>
               </Button>
             )}
             {user?.likes && user?.likes?.length > 0 && (
@@ -216,18 +214,18 @@ export default function Header() {
               <DropdownMenuContent align="end" className="w-32 select-none">
                 {languages.map((lan) => (
                   <DropdownMenuItem
-                    key={lan.code}
-                    onClick={() => handleChangeUserLan(lan.code)}
+                    key={lan}
+                    onClick={() => handleChangeUserLan(lan)}
                     className="flex items-center gap-2 select-none"
                   >
                     <span
                       className={`w-2 h-2 rounded-full ${
-                        lan.code === user?.lan || lan.code === lanValue
+                        lan === user?.lan || lan === lanValue
                           ? "bg-green-500"
                           : "bg-gray-300"
                       }`}
                     ></span>
-                    {lan.label}
+                    {t(`common.header.languages.${lan}`)}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -257,21 +255,21 @@ export default function Header() {
                     className="flex items-center gap-2"
                   >
                     <User className="h-4 w-4" />
-                    <span>Profil</span>
+                    <span>{t("common.header.profile")}</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => navigate("/favorites")}
                     className="flex items-center gap-2"
                   >
                     <Heart className="h-4 w-4" />
-                    <span>Sevimlilar</span>
+                    <span>{t("common.favorites")}</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={logoutSystem}
                     className="flex items-center gap-2 text-red-600"
                   >
                     <LogIn className="h-4 w-4" />
-                    <span>Chiqish</span>
+                    <span>{t("common.header.logout")}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -284,12 +282,12 @@ export default function Header() {
                     className="flex items-center gap-2"
                   >
                     <User className="h-4 w-4" />
-                    <span className="hidden sm:block">{t("login")}</span>
+                    <span className="hidden sm:block">{t("common.login")}</span>
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Hisobingizga kiring!</DialogTitle>
+                    <DialogTitle>{t("common.header.login_title")}</DialogTitle>
                     <DialogDescription></DialogDescription>
                   </DialogHeader>
                   <Login />

@@ -1,11 +1,11 @@
-"use client";
-
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Bed } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useCreatePropertyStore } from "@/stores/create-property.store";
 
 export default function DetailsTab() {
+  const { t } = useTranslation();
   const { data, updateData } = useCreatePropertyStore();
 
   const handleChange = (key: string, value: string) => {
@@ -18,7 +18,7 @@ export default function DetailsTab() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Bed className="h-5 w-5" />
-          Xonalar va Qulayliklar
+          {t("pages.create_property.details_tab.rooms_and_amenities")}
         </CardTitle>
       </CardHeader>
 
@@ -26,7 +26,7 @@ export default function DetailsTab() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Yotoq xonalari
+              {t("pages.create_property.details_tab.bedrooms")}
             </label>
             <Input
               type="number"
@@ -38,7 +38,7 @@ export default function DetailsTab() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Hammomlar
+              {t("pages.create_property.details_tab.bathrooms")}
             </label>
             <Input
               type="number"
@@ -50,7 +50,7 @@ export default function DetailsTab() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Qavat
+              {t("pages.create_property.details_tab.floor")}
             </label>
             <Input
               type="number"
@@ -62,7 +62,7 @@ export default function DetailsTab() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Avtoturargoh
+              {t("pages.create_property.details_tab.parking")}
             </label>
             <Input
               type="number"

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Camera, CirclePlay, MapPin, ShieldCheck } from "lucide-react";
 import { Badge } from "../../ui/badge";
 import CallButton from "../buttons/call-button";
@@ -8,17 +9,14 @@ import EllipsisVerticalButton from "../buttons/ellipsis-vertical-button";
 import OnlineContractButton from "../buttons/online-contract-button";
 import BidPriceButton from "../buttons/bid-price-button";
 
-import type {
-  IProperty,
-  PropertyCategory,
-  PropertyType,
-} from "@/interfaces/property.interface";
+import type { IProperty } from "@/interfaces/property.interface";
 import { serverUrl } from "@/utils/shared";
 import { useNavigate } from "react-router-dom";
 import { isNewProperty } from "@/utils/is-new-property";
 import { useCurrentLanguage } from "@/hooks/use-language";
 
 export default function PropertyCard({ property }: { property: IProperty }) {
+  const { t } = useTranslation();
   // Rasm URL'ini olish
   const photoImages =
     property?.photos
@@ -28,51 +26,48 @@ export default function PropertyCard({ property }: { property: IProperty }) {
   const mainImage =
     photoImages.length > 0
       ? photoImages[Math.floor(Math.random() * photoImages.length)]
-      : "/default-property.jpg";
+      : "/default-property?.jpg";
 
   // Rasmlar va videolar sonini hisoblash
-  const photoCount = property.photos?.length || 0;
-  const videoCount = property.videos?.length || 0;
+  const photoCount = property?.photos?.length || 0;
+  const videoCount = property?.videos?.length || 0;
 
-  // Narx formati - property_type ga qarab
+  // Narx formati - purpose va price_type ga qarab
   const getPriceDisplay = () => {
-    const formattedPrice = property.price.toLocaleString();
+    const formattedPrice = property?.price.toLocaleString();
 
-    // property_type asosida narx formati
-    switch (property.property_type) {
-      case "sale":
-        return `${formattedPrice} so'm`;
-      case "rent":
-        return `${formattedPrice} so'm/oy`;
-      case "commercial":
-        return `${formattedPrice} so'm`;
-      default:
-        return `${formattedPrice} so'm`;
+    // Valyuta belgisi
+    const currencySymbol = t(
+      `pages.property_card.currency_symbols.${property?.currency}`
+    );
+
+    // purpose va price_type asosida narx formati
+    if (property?.purpose === "for_rent") {
+      if (property?.price_type === "rent") {
+        return `${formattedPrice} ${currencySymbol}${t(
+          "pages.property_card.price_formats.per_month"
+        )}`;
+      }
+    } else if (property?.purpose === "for_daily_rent") {
+      return `${formattedPrice} ${currencySymbol}${t(
+        "pages.property_card.price_formats.per_day"
+      )}`;
+    } else if (property?.purpose === "for_sale") {
+      if (property?.price_type === "total_price") {
+        return `${formattedPrice} ${currencySymbol}`;
+      } else if (property?.price_type === "sale") {
+        return `${formattedPrice} ${currencySymbol}${t(
+          "pages.property_card.price_formats.per_sqm"
+        )}`;
+      }
+    } else if (property?.purpose === "for_commercial") {
+      return `${formattedPrice} ${currencySymbol}${t(
+        "pages.property_card.price_formats.per_month"
+      )}`;
     }
-  };
 
-  // Kategoriya nomini formatlash
-  const getCategoryDisplay = () => {
-    const categoryMap: Record<PropertyCategory, string> = {
-      apartment: "Kvartira",
-      house: "Uy",
-      villa: "Villa",
-      office: "Ofis",
-      land: "Yer",
-      shop: "Do'kon",
-      garage: "Garaj",
-    };
-    return categoryMap[property.category] || property.category;
-  };
-
-  // Property type nomini formatlash
-  const getPropertyTypeDisplay = () => {
-    const typeMap: Record<PropertyType, string> = {
-      sale: "Sotuv",
-      rent: "Ijara",
-      commercial: "Tijorat",
-    };
-    return typeMap[property.property_type] || property.property_type;
+    // Default holat
+    return `${formattedPrice} ${currencySymbol}`;
   };
 
   const navigate = useNavigate();
@@ -85,24 +80,26 @@ export default function PropertyCard({ property }: { property: IProperty }) {
           <img
             className="w-full h-full object-cover cursor-pointer"
             src={mainImage}
-            alt={getLocalizedText(property.title)}
+            alt={getLocalizedText(property?.title)}
             onClick={() => navigate(`/property/${property?._id}`)}
           />
           <div className="absolute top-2 left-2 flex flex-col gap-2">
-            {property.is_verified && (
+            {property?.is_verified && (
               <Badge className="bg-[#00A663] rounded border-white text-xs flex items-center gap-1">
                 <ShieldCheck className="w-3 h-3" />
-                <span className="uppercase">Tasdiqlangan</span>
+                <span className="uppercase">
+                  {t("pages.property_card.verified")}
+                </span>
               </Badge>
             )}
             {isNewProperty(property?.createdAt) && (
               <Badge className="bg-[#333]/70 rounded uppercase w-full border-white text-xs">
-                Yangi
+                {t("pages.property_card.new")}
               </Badge>
             )}
-            {!property.is_active && (
+            {!property?.is_active && (
               <Badge className="bg-red-500 rounded uppercase w-full border-white text-xs">
-                Noaktiv
+                {t("pages.property_card.inactive")}
               </Badge>
             )}
           </div>
@@ -110,7 +107,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
             onClick={() =>
               property?.location?.coordinates &&
               navigate(
-                `/map?lng=${property.location.coordinates[0]}&lat=${property.location.coordinates[1]}`
+                `/map?lng=${property?.location.coordinates[0]}&lat=${property?.location.coordinates[1]}`
               )
             }
             className="p-2 bg-white border absolute right-4 bottom-4 rounded-md"
@@ -127,10 +124,16 @@ export default function PropertyCard({ property }: { property: IProperty }) {
         <div className="flex-1 flex flex-col justify-between gap-3">
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap gap-2 items-center">
-              <p className="text-sm text-gray-600">{getCategoryDisplay()}</p>
+              <p className="text-sm text-gray-600">
+                {t(`enums.property_category.${property?.category}`)}
+              </p>
               <span className="text-gray-400">•</span>
               <p className="text-sm text-gray-600">
-                {getPropertyTypeDisplay()}
+                {t(`enums.property_type.${property?.property_type}`)}
+              </p>
+              <span className="text-gray-400">•</span>
+              <p className="text-sm text-gray-600">
+                {t(`enums.property_purpose.${property?.purpose}`)}
               </p>
             </div>
             <p className="text-xl lg:text-2xl font-bold text-[#FF0000]">
@@ -138,60 +141,71 @@ export default function PropertyCard({ property }: { property: IProperty }) {
             </p>
           </div>
           <p className="text-sm lg:text-base text-gray-700 line-clamp-2">
-            {getLocalizedText(property.description)}
+            {getLocalizedText(property?.description)}
           </p>
           <div className="flex items-center gap-2 text-gray-500">
             <MapPin className="w-4 h-4" />
-            <p className="text-sm">{getLocalizedText(property.address)}</p>
+            <p className="text-sm">{getLocalizedText(property?.address)}</p>
           </div>
           {/* Qo'shimcha mulk ma'lumotlari */}
           <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-            {property.area > 0 && <span>Maydon: {property.area} m²</span>}
-            {property.bedrooms > 0 && <span>{property.bedrooms} xona</span>}
-            {property.bathrooms > 0 && <span>{property.bathrooms} hammom</span>}
-            {property.floor_level && property.floor_level > 0 && (
+            {property?.area > 0 && (
               <span>
-                {property.floor_level}
-                {property.total_floors ? `/${property.total_floors}` : ""} qavat
+                {t("pages.property_card.area")}: {property?.area} m²
               </span>
             )}
-            {property.parking_spaces > 0 && (
-              <span>{property.parking_spaces} avtojoy</span>
+            {property?.bedrooms > 0 && (
+              <span>
+                {property?.bedrooms} {t("pages.property_card.bedrooms")}
+              </span>
+            )}
+            {property?.bathrooms > 0 && (
+              <span>
+                {property?.bathrooms} {t("pages.property_card.bathrooms")}
+              </span>
+            )}
+            {property?.floor_level && property?.floor_level > 0 && (
+              <span>
+                {property?.floor_level}
+                {property?.total_floors ? `/${property?.total_floors}` : ""}{" "}
+                {t("pages.property_card.floor")}
+              </span>
+            )}
+            {property?.parking_spaces > 0 && (
+              <span>
+                {property?.parking_spaces} {t("pages.property_card.parking")}
+              </span>
             )}
           </div>
 
           {/* Qurilish holati */}
-          {property.construction_status && (
+          {property?.construction_status && (
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="text-xs">
-                {property.construction_status === "ready" && "Tayyor"}
-                {property.construction_status === "under_construction" &&
-                  "Qurilayotgan"}
-                {property.construction_status === "planned" &&
-                  "Rejalashtirilgan"}
+                {t(`enums.construction_status.${property?.construction_status}`)}
               </Badge>
             </div>
           )}
         </div>
         <div className="hidden lg:block">
-          {property.logo && (
+          {property?.logo && (
             <div className="w-[95px] h-[125px] border rounded overflow-hidden">
               <img
-                src={property.logo}
+                src={property?.logo}
                 alt="logo"
                 className="w-full h-full object-cover"
               />
             </div>
           )}
-          {property.is_premium && (
+          {property?.is_premium && (
             <p className="text-center text-[#B78A00] uppercase text-sm">
-              Premium
+              {t("pages.property_card.premium")}
             </p>
           )}
           {/* Ko'rishlar soni */}
-          {property.view_count > 0 && (
+          {property?.view_count > 0 && (
             <p className="text-xs text-gray-500 text-center">
-              {property.view_count} ko'rish
+              {property?.view_count} {t("pages.property_card.views")}
             </p>
           )}
         </div>

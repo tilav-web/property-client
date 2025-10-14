@@ -1,3 +1,4 @@
+import { Trans, useTranslation } from "react-i18next";
 import { registerSchema } from "@/schemas/register.schema";
 import { userService } from "@/services/user.service";
 import { registerHouseImage } from "@/utils/shared";
@@ -6,6 +7,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function Register() {
+  const { t } = useTranslation();
   const [params] = useSearchParams();
   const role = params.get("role");
   const navigate = useNavigate();
@@ -19,15 +21,15 @@ export default function Register() {
     onSubmit: async (values) => {
       try {
         if (!role)
-          return toast.error("Error", {
-            description: "Ortga qayting va role tanlang!",
+          return toast.error(t("common.error"), {
+            description: t("pages.register_page.error_select_role"),
           });
         const data = await userService.register({
           role,
           email: values.email,
           password: values.password,
         });
-        toast.success("Success", {
+        toast.success(t("common.success"), {
           description: data.message,
         });
         navigate(`/auth/otp?id=${data?.user?._id}`);
@@ -42,7 +44,7 @@ export default function Register() {
       <div className="flex shadow-2xl max-w-5xl w-full rounded-2xl overflow-hidden">
         <div className="hidden relative lg:flex lg:flex-1 lg:items-center lg:justify-center flex-col">
           <h1 className="absolute top-2 left-2 px-1 text-white rounded-md bg-black/30">
-            Ko'chmas mulk qidiruviga xush kelibsiz
+            {t("pages.register_page.welcome")}
           </h1>
           <div className="w-full h-full">
             <img
@@ -54,7 +56,7 @@ export default function Register() {
         </div>
         <div className="bg-white py-8 px-6 sm:px-10">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-            Hisobingizga kiring
+            {t("pages.register_page.create_account")}
           </h2>
           <div className="space-y-3 mb-6">
             <button
@@ -79,7 +81,7 @@ export default function Register() {
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                 />
               </svg>
-              Google bilan davom etish
+              {t("pages.register_page.continue_with_google")}
             </button>
 
             <button
@@ -93,7 +95,7 @@ export default function Register() {
               >
                 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
               </svg>
-              Apple bilan davom etish
+              {t("pages.register_page.continue_with_apple")}
             </button>
 
             <button
@@ -107,7 +109,7 @@ export default function Register() {
               >
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
               </svg>
-              Facebook bilan davom etish
+              {t("pages.register_page.continue_with_facebook")}
             </button>
           </div>
 
@@ -116,7 +118,7 @@ export default function Register() {
               <div className="w-full border-t border-gray-300" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">yoki</span>
+              <span className="px-2 bg-white text-gray-500">{t("pages.login_page.or")}</span>
             </div>
           </div>
           <form onSubmit={formik.handleSubmit} className="space-y-6">
@@ -125,7 +127,7 @@ export default function Register() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
-                Email
+                {t("pages.login_page.email")}
               </label>
               <input
                 id="email"
@@ -143,7 +145,7 @@ export default function Register() {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
               >
-                Parol
+                {t("pages.login_page.password")}
               </label>
               <input
                 id="password"
@@ -173,15 +175,9 @@ export default function Register() {
               </div>
               <div className="ml-3 text-sm">
                 <label htmlFor="agree-to-terms" className="text-gray-700">
-                  Men{" "}
-                  <Link to="#" className="text-blue-600 hover:text-blue-500">
-                    Shartlar
-                  </Link>{" "}
-                  va{" "}
-                  <Link to="#" className="text-blue-600 hover:text-blue-500">
-                    Maxfiylik siyosati
-                  </Link>
-                  ga roziman
+                  <Trans i18nKey="pages.register_page.terms_and_conditions">
+                    I agree to the <Link to="#" className="text-blue-600 hover:text-blue-500">Terms</Link> and <Link to="#" className="text-blue-600 hover:text-blue-500">Privacy Policy</Link>
+                  </Trans>
                 </label>
               </div>
             </div>
@@ -191,7 +187,7 @@ export default function Register() {
                 disabled={formik.isSubmitting || !formik.isValid}
                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                {formik.isSubmitting ? "Kirilmoqda..." : "Davom etish"}
+                {formik.isSubmitting ? t("pages.register_page.signing_in") : t("pages.register_page.continue")}
               </button>
             </div>
           </form>

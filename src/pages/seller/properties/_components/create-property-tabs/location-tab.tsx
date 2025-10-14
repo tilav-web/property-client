@@ -1,5 +1,4 @@
-"use client";
-
+import { useTranslation } from "react-i18next";
 import { useState, useCallback, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GoogleMap, Marker } from "@react-google-maps/api";
@@ -22,6 +21,7 @@ import { useLoadScript } from "@react-google-maps/api";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function LocationTab() {
+  const { t } = useTranslation();
   const { data, updateData, updateAddress } = useCreatePropertyStore();
 
   const [markerPosition, setMarkerPosition] = useState<{
@@ -109,15 +109,15 @@ export default function LocationTab() {
   ];
 
   if (loadError)
-    return <div>Xarita yuklanishida xato: {loadError.message}</div>;
-  if (!isLoaded) return <div>Xarita yuklanmoqda...</div>;
+    return <div>{t("common.error")}: {loadError.message}</div>;
+  if (!isLoaded) return <div>{t("common.loading")}</div>;
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <MapPin className="h-5 w-5" />
-          Manzil va Joylashuv
+          {t("pages.create_property.location_tab.address_and_location")}
         </CardTitle>
       </CardHeader>
 
@@ -125,7 +125,7 @@ export default function LocationTab() {
         {/* To'liq manzil - 3 til uchun */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            To'liq manzil *
+            {t("pages.create_property.location_tab.full_address_label")} *
           </label>
           <Tabs defaultValue="uz" className="w-full">
             <div className="flex items-center gap-2 mb-3">
@@ -161,7 +161,7 @@ export default function LocationTab() {
         {/* Xaritada joylashuv */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Joylashuvni Xaritada tanlang *
+            {t("pages.create_property.location_tab.pick_location_label")} *
           </label>
           <div className="border rounded-lg overflow-hidden">
             <GoogleMap
@@ -176,7 +176,7 @@ export default function LocationTab() {
             </GoogleMap>
           </div>
           <div className="text-sm text-gray-500 mt-1">
-            Koordinatalar: {markerPosition.lat.toFixed(6)}, {markerPosition.lng.toFixed(6)}
+            {t("pages.create_property.location_tab.latitude")}: {markerPosition.lat.toFixed(6)}, {t("pages.create_property.location_tab.longitude")}: {markerPosition.lng.toFixed(6)}
           </div>
         </div>
 
@@ -185,7 +185,7 @@ export default function LocationTab() {
           {/* Viloyat */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Viloyat *
+              {t("pages.create_property.location_tab.region_label")} *
             </label>
             <Select
               disabled={regionsLoading || !regions}
@@ -195,7 +195,7 @@ export default function LocationTab() {
               <SelectTrigger>
                 <SelectValue
                   placeholder={
-                    regionsLoading ? "Yuklanmoqda..." : "Viloyat tanlang"
+                    regionsLoading ? t("common.loading") : t("common.choose")
                   }
                 />
               </SelectTrigger>
@@ -212,7 +212,7 @@ export default function LocationTab() {
           {/* Tuman */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Tuman *
+              {t("pages.create_property.location_tab.district_label")} *
             </label>
             <Select
               disabled={districtsLoading || !districts || !selectedRegion}
@@ -222,7 +222,7 @@ export default function LocationTab() {
               <SelectTrigger>
                 <SelectValue
                   placeholder={
-                    districtsLoading ? "Yuklanmoqda..." : "Tuman tanlang"
+                    districtsLoading ? t("common.loading") : t("common.choose")
                   }
                 />
               </SelectTrigger>
@@ -240,11 +240,11 @@ export default function LocationTab() {
         {/* Koordinatalarni ko'rsatish */}
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div className="bg-gray-50 p-3 rounded-lg">
-            <div className="text-gray-600">Kenglik</div>
+            <div className="text-gray-600">{t("pages.create_property.location_tab.latitude")}</div>
             <div className="font-medium">{markerPosition.lat.toFixed(6)}</div>
           </div>
           <div className="bg-gray-50 p-3 rounded-lg">
-            <div className="text-gray-600">Uzunlik</div>
+            <div className="text-gray-600">{t("pages.create_property.location_tab.longitude")}</div>
             <div className="font-medium">{markerPosition.lng.toFixed(6)}</div>
           </div>
         </div>

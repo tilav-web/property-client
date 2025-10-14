@@ -1,4 +1,4 @@
-"use client";
+import { useTranslation } from "react-i18next";
 import { useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -20,6 +20,7 @@ const FileUpload = <T extends File | File[] | null>({
   files,
   setFiles,
 }: FileUploadProps<T>) => {
+  const { t } = useTranslation();
   const isMultiple = type === "photos";
   const inputId = `${type}-upload`;
 
@@ -108,7 +109,7 @@ const FileUpload = <T extends File | File[] | null>({
                       type === "video" ? "bg-green-500" : "bg-blue-500"
                     }`}
                   >
-                    {type === "video" ? "Video" : "Banner Rasm"}
+                    {type === "video" ? t("pages.create_property.media_tab.video") : t("pages.create_property.media_tab.banner_image")}
                   </Badge>
                 </div>
               )}
@@ -123,13 +124,13 @@ const FileUpload = <T extends File | File[] | null>({
           <div className="mt-4">
             <p className="text-sm font-medium text-gray-900">
               {type === "photos"
-                ? "Rasmlar"
+                ? t("pages.create_property.media_tab.images")
                 : type === "video"
-                ? "Video yuklang"
-                : "Banner rasmini yuklang"}
+                ? t("pages.create_property.media_tab.video")
+                : t("pages.create_property.media_tab.banner_image")}
             </p>
             <p className="text-sm text-gray-500">
-              {isMultiple ? "Maksimum 5 ta rasm" : "Faqat 1 ta fayl"}
+              {isMultiple ? t("pages.create_property.media_tab.images", { count: 5 }) : t("common.optional")}
             </p>
           </div>
           <Input
@@ -147,10 +148,10 @@ const FileUpload = <T extends File | File[] | null>({
             onClick={handleButtonClick}
           >
             {isMultiple
-              ? `Rasmlar Qoʻshish (${
+              ? `${t("pages.create_property.media_tab.add_images")} (${
                   Array.isArray(files) ? files.length : 0
                 }/5)`
-              : `${type === "video" ? "Video" : "Rasm"} Tanlash`}
+              : `${t("pages.create_property.media_tab.choose_file")}...`}
           </Button>
         </div>
       )}
@@ -159,6 +160,7 @@ const FileUpload = <T extends File | File[] | null>({
 };
 
 export default function MediaTab() {
+  const { t } = useTranslation();
   const { data, updateData } = useCreatePropertyStore();
 
   return (
@@ -166,13 +168,13 @@ export default function MediaTab() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Upload className="h-5 w-5" />
-          Media Fayllar
+          {t("pages.create_property.media_tab.media_files")}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         <div>
           <h4 className="font-medium mb-3 text-sm text-gray-700">
-            Banner Rasm
+            {t("pages.create_property.media_tab.banner_image")}
           </h4>
           <FileUpload<File | null>
             type="banner"
@@ -183,7 +185,7 @@ export default function MediaTab() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <h4 className="font-medium mb-3 text-sm text-gray-700">
-              Rasmlar (maksimum 5 ta)
+              {t("pages.create_property.media_tab.images")}
             </h4>
             <FileUpload<File[]>
               type="photos"
@@ -193,7 +195,7 @@ export default function MediaTab() {
             />
           </div>
           <div>
-            <h4 className="font-medium mb-3 text-sm text-gray-700">Video</h4>
+            <h4 className="font-medium mb-3 text-sm text-gray-700">{t("pages.create_property.media_tab.video")}</h4>
             <FileUpload<File | null>
               type="video"
               files={data?.video || null}

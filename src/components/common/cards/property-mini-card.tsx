@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
 import { useCurrentLanguage } from "@/hooks/use-language";
 import type { IProperty } from "@/interfaces/property.interface";
@@ -13,6 +14,7 @@ export default function PropertyMiniCard({
 }: {
   property: IProperty;
 }) {
+  const { t } = useTranslation();
   // Rasm URL'ini olish
   const mainImage =
     property.photos && property.photos.length > 0
@@ -25,16 +27,9 @@ export default function PropertyMiniCard({
   // Narx formati
   const getPriceDisplay = () => {
     const formattedPrice = property.price.toLocaleString();
-    switch (property.price_type) {
-      case "sale":
-        return `${formattedPrice} so'm`;
-      case "rent":
-        return `${formattedPrice} so'm / oy`;
-      case "total_price":
-        return `${formattedPrice} so'm (umumiy)`;
-      default:
-        return `${formattedPrice} so'm`;
-    }
+    const currencySymbol = t(`pages.property_card.currency_symbols.${property.currency}`);
+    const priceFormat = t(`pages.property_mini_card.price_formats.${property.price_type}`);
+    return `${formattedPrice} ${currencySymbol} ${priceFormat}`;
   };
 
   // Reytingni hisoblash (agar mavjud bo'lmasa)
@@ -90,11 +85,11 @@ export default function PropertyMiniCard({
         <div className="absolute top-2 left-2 flex flex-col gap-1">
           {isNewProperty(property?.createdAt) && (
             <Badge className="bg-[#333]/70 rounded uppercase w-full border-white text-xs">
-              Yangi
+              {t("pages.property_card.new")}
             </Badge>
           )}
           {property.is_premium && (
-            <Badge className="bg-yellow-500 text-black text-xs">Premium</Badge>
+            <Badge className="bg-yellow-500 text-black text-xs">{t("pages.property_card.premium")}</Badge>
           )}
         </div>
       </div>
@@ -130,8 +125,8 @@ export default function PropertyMiniCard({
         {/* Qo'shimcha mulk ma'lumotlari */}
         <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
           {property.area > 0 && <span>{property.area} m²</span>}
-          {property.bedrooms > 0 && <span>{property.bedrooms} xona</span>}
-          {property.bathrooms > 0 && <span>{property.bathrooms} hammom</span>}
+          {property.bedrooms > 0 && <span>{property.bedrooms} {t("pages.property_card.bedrooms")}</span>}
+          {property.bathrooms > 0 && <span>{property.bathrooms} {t("pages.property_card.bathrooms")}</span>}
         </div>
 
         <p className="font-bold text-lg">{getPriceDisplay()}</p>
@@ -140,9 +135,7 @@ export default function PropertyMiniCard({
         {property.construction_status !== "ready" && (
           <div className="mt-2">
             <Badge variant="outline" className="text-xs">
-              {property.construction_status === "under_construction"
-                ? "🏗️ Qurilmoqda"
-                : "📋 Rejalashtirilgan"}
+              {t(`enums.construction_status.${property.construction_status}`)}
             </Badge>
           </div>
         )}

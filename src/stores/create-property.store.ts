@@ -18,6 +18,8 @@ interface ICreateProperty {
   price?: number;
   price_type?: string;
   property_type?: string; // Yangi qo'shildi
+  purpose?: string;
+  currency?: string;
   area?: number;
   bedrooms?: number;
   bathrooms?: number;

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
 import { useCurrentLanguage } from "@/hooks/use-language";
 import type { IProperty } from "@/interfaces/property.interface";
@@ -10,6 +11,7 @@ export default function PropertyBannerCard({
 }: {
   property: IProperty;
 }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { getLocalizedText } = useCurrentLanguage();
 
@@ -40,20 +42,16 @@ export default function PropertyBannerCard({
       />
       <div className="flex flex-col absolute top-2 left-2 gap-1">
         <Badge className="uppercase bg-black/10">
-          {property.construction_status === "under_construction"
-            ? "Qurilmoqda"
-            : property.construction_status === "planned"
-            ? "Rejalashtirilgan"
-            : "Tayyor"}
+          {t(`enums.construction_status.${property.construction_status}`)}
         </Badge>
         {property.delivery_date && (
           <Badge className="uppercase bg-black/10">
-            Topshirish: {formatDate(property.delivery_date)}
+            {t("pages.property_banner_card.delivery")}: {formatDate(property.delivery_date)}
           </Badge>
         )}
         {property.sales_date && (
           <Badge className="uppercase bg-red-400">
-            Sotuv boshlandi: {formatDate(property.sales_date)}
+            {t("pages.property_banner_card.sales_started")}: {formatDate(property.sales_date)}
           </Badge>
         )}
       </div>
@@ -64,18 +62,19 @@ export default function PropertyBannerCard({
           <p>{getLocalizedText(property.address)}</p>
         </div>
         {/* property.beds o'rniga bedrooms ishlatiladi */}
-        {property.bedrooms > 0 && <p>{property.bedrooms} xona</p>}
+        {property.bedrooms > 0 && <p>{property.bedrooms} {t("pages.property_card.bedrooms")}</p>}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">
-            <p>Narx:</p>
+            <p>{t("pages.property_banner_card.price")}:</p>
             <p>
               {property.price.toLocaleString()}{" "}
-              {property.price_type === "sale" ? "so'm" : "so'm/oy"}
+              {t(`pages.property_card.currency_symbols.${property.currency}`)}
+              {property.price_type === "rent" && t("pages.property_card.price_formats.per_month")}
             </p>
           </div>
           {property.payment_plans > 0 && (
             <Badge className="bg-white text-blue-900 hidden md:block">
-              {property.payment_plans} ta to'lov rejasi
+              {property.payment_plans} {t("pages.property_banner_card.payment_plans")}
             </Badge>
           )}
         </div>
@@ -92,15 +91,15 @@ export default function PropertyBannerCard({
       <div className="absolute bottom-2 right-2 items-center gap-4 hidden sm:flex">
         <button className="flex items-center bg-white rounded px-3 py-1 gap-2 w-full mg:w-auto">
           <Phone size={18} />
-          <span>Qo'ng'iroq</span>
+          <span>{t("common.buttons.call")}</span>
         </button>
         <button className="flex items-center bg-white rounded px-3 py-1 gap-2 w-full mg:w-auto">
           <Mail size={18} />
-          <span>Email</span>
+          <span>{t("common.buttons.email")}</span>
         </button>
         <button className="flex items-center bg-white rounded px-3 py-1 gap-2 w-full mg:w-auto">
           <MousePointer2 size={18} />
-          <span>WhatsApp</span>
+          <span>{t("common.buttons.whatsapp")}</span>
         </button>
       </div>
     </div>
