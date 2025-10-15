@@ -2,6 +2,7 @@ import NextButton from "@/components/common/buttons/next-button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 export default function BusinessTypeTab({
@@ -12,6 +13,7 @@ export default function BusinessTypeTab({
   const [businessType, setBusinessType] = useState<string>("ytt");
   const [params, setSearchParams] = useSearchParams();
   const business_type = params.get("business_type");
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (business_type) {
@@ -29,9 +31,9 @@ export default function BusinessTypeTab({
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-gray-900">
-        Biznes turini tanlang
+        {t("pages.business_type_tab.choose_business_type")}
       </h3>
-      <p className="text-sm text-gray-600">Quyidagilardan birini tanlang</p>
+      <p className="text-sm text-gray-600">{t("pages.business_type_tab.choose_one_of_the_following")}</p>
 
       <RadioGroup
         value={businessType}
@@ -48,7 +50,7 @@ export default function BusinessTypeTab({
             htmlFor="ytt"
             className="text-base cursor-pointer flex-1 h-full"
           >
-            Yakka tartibdagi tadbirkor
+            {t("pages.business_type_tab.individual_entrepreneur")}
           </Label>
         </div>
 
@@ -62,7 +64,7 @@ export default function BusinessTypeTab({
             htmlFor="mchj"
             className="text-base cursor-pointer flex-1 h-full"
           >
-            MCHJ yoki boshqa yuridik shaxs
+            {t("pages.business_type_tab.llc_or_other_legal_entity")}
           </Label>
         </div>
 
@@ -76,7 +78,7 @@ export default function BusinessTypeTab({
             htmlFor="self_employed"
             className="text-base cursor-pointer flex-1 h-full"
           >
-            O'zini o'zi band qiluvchi shaxs
+            {t("pages.business_type_tab.self_employed_person")}
           </Label>
         </div>
       </RadioGroup>

@@ -159,7 +159,7 @@ export default function CreateProperty() {
       resetData();
       navigate("/seller/properties");
     } catch (err) {
-      console.error("Yuborishda xato:", err);
+      console.error(t("pages.create_property.validation.error_submitting"), err);
     }
   };
 
@@ -215,7 +215,7 @@ export default function CreateProperty() {
                       : "bg-gray-200 text-gray-500"
                   }`}
                 >
-                  {getTabStatus(tab) === "completed" ? "✓" : index + 1}
+                  {getTabStatus(tab) === "completed" ? t("pages.create_property.validation.check_mark") : index + 1}
                 </div>
 
                 {/* Connector line */}

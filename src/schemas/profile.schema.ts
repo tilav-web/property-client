@@ -1,17 +1,19 @@
+import type { TFunction } from "i18next";
 import * as Yup from "yup";
 
-export const profileSchema = Yup.object({
-  first_name: Yup.string()
-    .required("Ism majburiy")
-    .min(2, "Ism kamida 2 belgidan iborat bo'lishi kerak"),
-  last_name: Yup.string()
-    .required("Familiya majburiy")
-    .min(2, "Familiya kamida 2 belgidan iborat bo'lishi kerak"),
-  email: Yup.string()
-    .email("Noto'g'ri email format")
-    .required("Email majburiy"),
-  phone: Yup.string().required("Telefon raqami majburiy"),
-  password: Yup.string()
-    .min(6, "Parol kamida 6 belgidan iborat bo'lishi kerak")
-    .optional(),
-});
+export const profileSchema = (t: TFunction) =>
+  Yup.object({
+    first_name: Yup.string()
+      .required(t("pages.user_details_tab.first_name_required"))
+      .min(2, t("pages.user_details_tab.first_name_min_2")),
+    last_name: Yup.string()
+      .required(t("pages.user_details_tab.last_name_required"))
+      .min(2, t("pages.user_details_tab.last_name_min_2")),
+    email: Yup.string()
+      .email(t("pages.user_details_tab.email_invalid"))
+      .required(t("pages.user_details_tab.email_required")),
+    phone: Yup.string().required(t("pages.user_details_tab.phone_required")),
+    password: Yup.string()
+      .min(6, t("pages.user_details_tab.password_min_6"))
+      .optional(),
+  });

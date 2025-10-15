@@ -7,29 +7,30 @@ import BackTabsButton from "../buttons/back-tabs-button";
 import NextButton from "@/components/common/buttons/next-button";
 import { useSellerStore } from "@/stores/seller.store";
 import { bankAccountService } from "@/services/bank-account.service";
+import { useTranslation } from "react-i18next";
 
 // Validation schema
-const validationSchema = Yup.object({
+const validationSchema = (t: any) => Yup.object({
   account_number: Yup.string()
-    .matches(/^\d{20}$/, "Hisob raqami 20 ta raqamdan iborat bo'lishi kerak")
-    .required("Hisob raqami majburiy"),
+    .matches(/^\d{20}$/, t("pages.bank_account_number_tab.account_number_20_digits"))
+    .required(t("pages.bank_account_number_tab.account_number_required")),
   bank_name: Yup.string()
-    .min(2, "Bank nomi kamida 2 ta belgidan iborat bo'lishi kerak")
-    .max(100, "Bank nomi 100 ta belgidan oshmasligi kerak")
-    .required("Bank nomi majburiy"),
+    .min(2, t("pages.bank_account_number_tab.bank_name_min_2"))
+    .max(100, t("pages.bank_account_number_tab.bank_name_max_100"))
+    .required(t("pages.bank_account_number_tab.bank_name_required")),
   mfo: Yup.string()
-    .matches(/^\d{5,6}$/, "MFO 5 yoki 6 ta raqamdan iborat bo'lishi kerak")
-    .required("MFO majburiy"),
+    .matches(/^\d{5,6}$/, t("pages.bank_account_number_tab.mfo_5_6_digits"))
+    .required(t("pages.bank_account_number_tab.mfo_required")),
   owner_full_name: Yup.string()
-    .min(5, "To'liq ism kamida 5 ta belgidan iborat bo'lishi kerak")
-    .max(100, "To'liq ism 100 ta belgidan oshmasligi kerak")
-    .required("Hisob egasining F.I.SH. majburiy"),
+    .min(5, t("pages.bank_account_number_tab.owner_full_name_min_5"))
+    .max(100, t("pages.bank_account_number_tab.owner_full_name_max_100"))
+    .required(t("pages.bank_account_number_tab.owner_full_name_required")),
   swift_code: Yup.string()
     .matches(
       /^[A-Z0-9]{8,11}$/,
-      "SWIFT kodi 8 yoki 11 ta harf/raqamdan iborat bo'lishi kerak"
+      t("pages.bank_account_number_tab.swift_code_8_11_digits")
     )
-    .required("SWIFT kodi majburiy"),
+    .required(t("pages.bank_account_number_tab.swift_code_required")),
 });
 
 interface FormValues {
@@ -47,6 +48,7 @@ export default function BankAccountNumberTab({
 }) {
   const { user } = useUserStore();
   const { seller, setSeller } = useSellerStore();
+  const { t } = useTranslation();
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -58,14 +60,14 @@ export default function BankAccountNumberTab({
       }`.trim(),
       swift_code: seller?.bank_account?.swift_code || "",
     },
-    validationSchema: validationSchema,
+    validationSchema: validationSchema(t),
     onSubmit: async (values) => {
       try {
         const data = await bankAccountService.create(values);
         setSeller(data);
         handleSelectTab("commissioner");
       } catch (error) {
-        console.error("Bank hisob ma'lumotlarini saqlashda xatolik:", error);
+        console.error(t("pages.bank_account_number_tab.error_saving_bank_details"), error);
       }
     },
   });
@@ -102,13 +104,13 @@ export default function BankAccountNumberTab({
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900">Bank hisob raqami</h3>
+      <h3 className="text-lg font-semibold text-gray-900">{t("pages.bank_account_number_tab.bank_account_number")}</h3>
 
       <form>
         <div className="space-y-4">
           {/* Bank nomi */}
           <div className="space-y-2">
-            <Label htmlFor="bank_name">Bank nomi *</Label>
+            <Label htmlFor="bank_name">{t("pages.bank_account_number_tab.bank_name")}</Label>
             <Input
               id="bank_name"
               name="bank_name"
@@ -117,7 +119,7 @@ export default function BankAccountNumberTab({
                   ? "border-red-500"
                   : ""
               }`}
-              placeholder="Bank nomini kiriting"
+              placeholder={t("pages.bank_account_number_tab.enter_bank_name")}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.bank_name}
@@ -131,7 +133,7 @@ export default function BankAccountNumberTab({
 
           {/* Hisob raqami */}
           <div className="space-y-2">
-            <Label htmlFor="account_number">Hisob raqami *</Label>
+            <Label htmlFor="account_number">{t("pages.bank_account_number_tab.account_number_placeholder")}</Label>
             <Input
               id="account_number"
               name="account_number"
@@ -140,7 +142,7 @@ export default function BankAccountNumberTab({
                   ? "border-red-500"
                   : ""
               }`}
-              placeholder="0000 0000 0000 0000 0000"
+              placeholder={t("pages.bank_account_number_tab.account_number_placeholder")}
               value={formatAccountNumber(formik.values.account_number)}
               onChange={handleAccountNumberChange}
               onBlur={formik.handleBlur}
@@ -156,7 +158,7 @@ export default function BankAccountNumberTab({
           {/* MFO va SWIFT kodi */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="mfo">MFO *</Label>
+              <Label htmlFor="mfo">{t("pages.bank_account_number_tab.mfo")}</Label>
               <Input
                 id="mfo"
                 name="mfo"
@@ -165,7 +167,7 @@ export default function BankAccountNumberTab({
                     ? "border-red-500"
                     : ""
                 }`}
-                placeholder="MFO raqami"
+                placeholder={t("pages.bank_account_number_tab.mfo_number")}
                 onChange={handleMfoChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.mfo}
@@ -177,7 +179,7 @@ export default function BankAccountNumberTab({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="swift_code">SWIFT kodi *</Label>
+              <Label htmlFor="swift_code">{t("pages.bank_account_number_tab.swift_code")}</Label>
               <Input
                 id="swift_code"
                 name="swift_code"
@@ -186,7 +188,7 @@ export default function BankAccountNumberTab({
                     ? "border-red-500"
                     : ""
                 }`}
-                placeholder="SWIFT kodi (masalan: ASKBUS22)"
+                placeholder={t("pages.bank_account_number_tab.swift_code_placeholder")}
                 onChange={handleSwiftCodeChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.swift_code}
@@ -203,7 +205,7 @@ export default function BankAccountNumberTab({
           {/* Hisob egasining to'liq ismi */}
           <div className="space-y-2">
             <Label htmlFor="owner_full_name">
-              Hisob egasining to'liq ismi *
+              {t("pages.bank_account_number_tab.owner_full_name")}
             </Label>
             <Input
               id="owner_full_name"
@@ -216,7 +218,7 @@ export default function BankAccountNumberTab({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.owner_full_name}
-              placeholder="Familiya Ism Otasining ismi"
+              placeholder={t("pages.bank_account_number_tab.owner_full_name_placeholder")}
             />
             {formik.touched.owner_full_name &&
               formik.errors.owner_full_name && (

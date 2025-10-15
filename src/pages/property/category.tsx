@@ -7,12 +7,14 @@ import { propertyService } from "@/services/property.service";
 import { heroImage } from "@/utils/shared";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 export default function Category() {
   const [params] = useSearchParams();
   const category = params.get("category");
   const [property_type, setPropertyType] = useState<PropertyType | undefined>();
+  const { t } = useTranslation();
 
   const { data, refetch } = useQuery({
     queryKey: ["properties/category"],
@@ -46,8 +48,7 @@ export default function Category() {
   return (
     <div className="py-12">
       <HeroSection
-        title="Dream apartments in the
- heart of Uzbekistan"
+        title={t("pages.category_page.title")}
         img={heroImage}
         className="text-white"
         handlePropertyType={handlePropertyType}

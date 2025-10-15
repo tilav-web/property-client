@@ -3,6 +3,7 @@ import { Field, ErrorMessage, type FieldProps } from "formik";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useTranslation } from "react-i18next";
 
 interface FormFieldProps {
   name: string;
@@ -25,6 +26,7 @@ export default function FormField({
   placeholder,
   onChange,
 }: FormFieldProps) {
+  const { t } = useTranslation();
   return (
     <div>
       <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1">
@@ -42,7 +44,7 @@ export default function FormField({
               disabled={disabled}
             >
               <SelectTrigger>
-                <SelectValue placeholder={placeholder || `Select ${label}`} />
+                <SelectValue placeholder={placeholder || t("form_field.select_label", { label })} />
               </SelectTrigger>
               <SelectContent>
                 {options?.map((option) => (

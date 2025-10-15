@@ -10,22 +10,23 @@ import { Upload, FileText, X } from "lucide-react";
 import { useState } from "react";
 import { useSellerStore } from "@/stores/seller.store";
 import { sellerService } from "@/services/seller.service";
+import { useTranslation } from "react-i18next";
 
 // Validation schema
-const validationSchema = Yup.object({
+const validationSchema = (t: any) => Yup.object({
   company_name: Yup.string()
-    .min(2, "Kompaniya nomi kamida 2 ta belgidan iborat boʻlishi kerak")
-    .max(100, "Kompaniya nomi 100 ta belgidan oshmasligi kerak")
-    .required("Kompaniya nomi toʻldirilishi shart"),
+    .min(2, t("pages.mchj_section.company_name_min_2"))
+    .max(100, t("pages.mchj_section.company_name_max_100"))
+    .required(t("pages.mchj_section.company_name_required")),
   stir: Yup.string()
-    .matches(/^\d{9}$/, "STIR 9 ta raqamdan iborat boʻlishi kerak")
-    .required("STIR toʻldirilishi shart"),
+    .matches(/^\d{9}$/, t("pages.mchj_section.stir_9_digits"))
+    .required(t("pages.mchj_section.stir_required")),
   oked: Yup.string()
-    .min(1, "OKED kodi toʻldirilishi shart")
-    .required("OKED kodi toʻldirilishi shart"),
+    .min(1, t("pages.mchj_section.oked_code_required"))
+    .required(t("pages.mchj_section.oked_code_required")),
   registration_address: Yup.string()
-    .min(10, "Manzil kamida 10 ta belgidan iborat boʻlishi kerak")
-    .required("Roʻyxatdan oʻtgan manzil toʻldirilishi shart"),
+    .min(10, t("pages.mchj_section.address_min_10"))
+    .required(t("pages.mchj_section.registration_address_required")),
   is_vat_payer: Yup.boolean().required(),
 });
 
@@ -63,6 +64,7 @@ export default function MchjSection({
     vat_file: null,
   });
   const { seller, setSeller } = useSellerStore();
+  const { t } = useTranslation();
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -73,7 +75,7 @@ export default function MchjSection({
       is_vat_payer: false,
       seller: seller?._id,
     },
-    validationSchema: validationSchema,
+    validationSchema: validationSchema(t),
     onSubmit: async (values) => {
       try {
         // FormData yaratish
@@ -119,7 +121,7 @@ export default function MchjSection({
         setSeller(data);
         handleSelectTab("bank_account_number");
       } catch (error) {
-        console.error("Formani yuborishda xatolik:", error);
+        console.error(t("pages.mchj_section.error_submitting_form"), error);
       }
     },
   });
@@ -138,13 +140,13 @@ export default function MchjSection({
         "image/png",
       ];
       if (!allowedTypes.includes(file.type)) {
-        alert("Faqat PDF, JPG, PNG fayllar qabul qilinadi");
+        alert(t("pages.mchj_section.only_pdf_jpg_png_allowed"));
         return;
       }
 
       // Fayl hajmini tekshirish (masalan, 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert("Fayl hajmi 5MB dan oshmasligi kerak");
+        alert(t("pages.mchj_section.file_size_max_5mb"));
         return;
       }
 
@@ -177,7 +179,7 @@ export default function MchjSection({
 
     if (missingFiles.length > 0) {
       alert(
-        `Quyidagi majburiy fayllarni yuklashingiz shart: ${missingFiles.join(
+        `${t("pages.mchj_section.must_upload_required_files")}${missingFiles.join(
           ", "
         )}`
       );
@@ -185,7 +187,7 @@ export default function MchjSection({
     }
 
     if (formik.values.is_vat_payer && !files.vat_file) {
-      alert("QQS guvohnomasini yuklashingiz shart");
+      alert(t("pages.mchj_section.must_upload_vat_certificate"));
       return;
     }
 
@@ -194,21 +196,21 @@ export default function MchjSection({
   };
 
   const getFileName = (file: File | null) => {
-    return file ? file.name : "Fayl tanlanmagan";
+    return file ? file.name : t("pages.mchj_section.file_not_selected");
   };
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900">MCHJ Ma'lumotlari</h3>
+      <h3 className="text-lg font-semibold text-gray-900">{t("pages.mchj_section.mchj_details")}</h3>
 
       <form onSubmit={formik.handleSubmit} className="space-y-4">
         {/* Kompaniya nomi */}
         <div className="space-y-2">
-          <Label htmlFor="company_name">Kompaniya nomi *</Label>
+          <Label htmlFor="company_name">{t("pages.mchj_section.company_name")}</Label>
           <Input
             id="company_name"
             name="company_name"
-            placeholder="Kompaniya nomini kiriting"
+            placeholder={t("pages.mchj_section.enter_company_name")}
             className={`bg-gray-50 ${
               formik.touched.company_name && formik.errors.company_name
                 ? "border-red-500"
@@ -228,11 +230,11 @@ export default function MchjSection({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* STIR */}
           <div className="space-y-2">
-            <Label htmlFor="stir">STIR *</Label>
+            <Label htmlFor="stir">{t("pages.mchj_section.stir")}</Label>
             <Input
               id="stir"
               name="stir"
-              placeholder="000000000"
+              placeholder={t("pages.mchj_section.stir_placeholder")}
               className={`bg-gray-50 ${
                 formik.touched.stir && formik.errors.stir
                   ? "border-red-500"
@@ -249,11 +251,11 @@ export default function MchjSection({
 
           {/* OKED */}
           <div className="space-y-2">
-            <Label htmlFor="oked">OKED *</Label>
+            <Label htmlFor="oked">{t("pages.mchj_section.oked")}</Label>
             <Input
               id="oked"
               name="oked"
-              placeholder="OKED kodini kiriting"
+              placeholder={t("pages.mchj_section.enter_oked_code")}
               className={`bg-gray-50 ${
                 formik.touched.oked && formik.errors.oked
                   ? "border-red-500"
@@ -272,12 +274,12 @@ export default function MchjSection({
         {/* Ro'yxatdan o'tgan manzil */}
         <div className="space-y-2">
           <Label htmlFor="registration_address">
-            Ro'yxatdan o'tgan manzil *
+            {t("pages.mchj_section.registration_address")}
           </Label>
           <Textarea
             id="registration_address"
             name="registration_address"
-            placeholder="To'liq manzilni kiriting"
+            placeholder={t("pages.mchj_section.enter_full_address")}
             className={`bg-gray-50 min-h-[80px] ${
               formik.touched.registration_address &&
               formik.errors.registration_address
@@ -298,12 +300,12 @@ export default function MchjSection({
 
         {/* Majburiy hujjatlar */}
         <div className="space-y-4">
-          <h4 className="font-medium text-gray-900">Majburiy hujjatlar *</h4>
+          <h4 className="font-medium text-gray-900">{t("pages.mchj_section.required_documents")}</h4>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* MCHJ guvohnomasi */}
             <div className="space-y-2">
-              <Label htmlFor="mchj_license">MCHJ guvohnomasi *</Label>
+              <Label htmlFor="mchj_license">{t("pages.mchj_section.mchj_certificate")}</Label>
               <div className="flex items-center gap-2">
                 <Input
                   value={getFileName(files.mchj_license)}
@@ -322,7 +324,7 @@ export default function MchjSection({
                   className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
                 >
                   <Upload size={16} />
-                  Yuklash
+                  {t("pages.mchj_section.upload")}
                 </label>
                 {files.mchj_license && (
                   <button
@@ -338,7 +340,7 @@ export default function MchjSection({
 
             {/* Ustav fayli */}
             <div className="space-y-2">
-              <Label htmlFor="ustav_file">Ustav fayli *</Label>
+              <Label htmlFor="ustav_file">{t("pages.mchj_section.ustav_file")}</Label>
               <div className="flex items-center gap-2">
                 <Input
                   value={getFileName(files.ustav_file)}
@@ -357,7 +359,7 @@ export default function MchjSection({
                   className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
                 >
                   <Upload size={16} />
-                  Yuklash
+                  {t("pages.mchj_section.upload")}
                 </label>
                 {files.ustav_file && (
                   <button
@@ -374,7 +376,7 @@ export default function MchjSection({
             {/* Direktor tayinlash hujjati */}
             <div className="space-y-2">
               <Label htmlFor="director_appointment_file">
-                Direktor tayinlash hujjati *
+                {t("pages.mchj_section.director_appointment_document")}
               </Label>
               <div className="flex items-center gap-2">
                 <Input
@@ -396,7 +398,7 @@ export default function MchjSection({
                   className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
                 >
                   <Upload size={16} />
-                  Yuklash
+                  {t("pages.mchj_section.upload")}
                 </label>
                 {files.director_appointment_file && (
                   <button
@@ -415,7 +417,7 @@ export default function MchjSection({
             {/* Direktor pasport nusxasi */}
             <div className="space-y-2">
               <Label htmlFor="director_passport_file">
-                Direktor pasport nusxasi *
+                {t("pages.mchj_section.director_passport_copy")}
               </Label>
               <div className="flex items-center gap-2">
                 <Input
@@ -437,7 +439,7 @@ export default function MchjSection({
                   className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
                 >
                   <Upload size={16} />
-                  Yuklash
+                  {t("pages.mchj_section.upload")}
                 </label>
                 {files.director_passport_file && (
                   <button
@@ -454,7 +456,7 @@ export default function MchjSection({
             {/* Yuridik manzil hujjati */}
             <div className="space-y-2">
               <Label htmlFor="legal_address_file">
-                Yuridik manzil hujjati *
+                {t("pages.mchj_section.legal_address_document")}
               </Label>
               <div className="flex items-center gap-2">
                 <Input
@@ -474,7 +476,7 @@ export default function MchjSection({
                   className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
                 >
                   <Upload size={16} />
-                  Yuklash
+                  {t("pages.mchj_section.upload")}
                 </label>
                 {files.legal_address_file && (
                   <button
@@ -490,7 +492,7 @@ export default function MchjSection({
 
             {/* Kadastr fayli */}
             <div className="space-y-2">
-              <Label htmlFor="kadastr_file">Kadastr fayli *</Label>
+              <Label htmlFor="kadastr_file">{t("pages.mchj_section.kadastr_file")}</Label>
               <div className="flex items-center gap-2">
                 <Input
                   value={getFileName(files.kadastr_file)}
@@ -509,7 +511,7 @@ export default function MchjSection({
                   className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
                 >
                   <Upload size={16} />
-                  Yuklash
+                  {t("pages.mchj_section.upload")}
                 </label>
                 {files.kadastr_file && (
                   <button
@@ -535,14 +537,14 @@ export default function MchjSection({
             }
           />
           <Label htmlFor="is_vat_payer" className="text-sm font-medium">
-            QQS to'lovchisiman
+            {t("pages.mchj_section.i_am_vat_payer")}
           </Label>
         </div>
 
         {/* QQS fayli (shart emas) */}
         {formik.values.is_vat_payer && (
           <div className="space-y-2">
-            <Label htmlFor="vat_file">QQS guvohnomasi *</Label>
+            <Label htmlFor="vat_file">{t("pages.mchj_section.vat_certificate")}</Label>
             <div className="flex items-center gap-2">
               <Input
                 value={getFileName(files.vat_file)}
@@ -561,7 +563,7 @@ export default function MchjSection({
                 className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
               >
                 <Upload size={16} />
-                Yuklash
+                {t("pages.mchj_section.upload")}
               </label>
               {files.vat_file && (
                 <button
@@ -575,7 +577,7 @@ export default function MchjSection({
             </div>
             <p className="text-sm text-gray-500 flex items-center gap-1">
               <FileText size={14} />
-              PDF formati qabul qilinadi
+              {t("pages.mchj_section.pdf_format_accepted")}
             </p>
           </div>
         )}

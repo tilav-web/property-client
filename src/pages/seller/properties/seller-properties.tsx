@@ -6,8 +6,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import PropertyCard from "@/components/common/cards/property-card";
 import { useQuery } from "@tanstack/react-query";
 import { propertyService } from "@/services/property.service";
+import { useTranslation } from "react-i18next";
 
 export default function SellerProperties() {
+  const { t } = useTranslation();
   const {
     data: properties,
     isLoading,
@@ -31,10 +33,10 @@ export default function SellerProperties() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Mening Propertylarim</h1>
+          <h1 className="text-2xl font-bold">{t("pages.seller_properties_page.my_properties")}</h1>
           <Button disabled>
             <Plus className="w-4 h-4 mr-2" />
-            Yuklanmoqda...
+            {t("pages.seller_properties_page.loading")}
           </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -51,16 +53,16 @@ export default function SellerProperties() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Mening Propertylarim</h1>
+          <h1 className="text-2xl font-bold">{t("pages.seller_properties_page.my_properties")}</h1>
           <Button onClick={handleCreateProperty}>
             <Plus className="w-4 h-4 mr-2" />
-            Yangi Property
+            {t("pages.seller_properties_page.new_property")}
           </Button>
         </div>
         <div className="text-center py-12">
           <p className="text-red-500 text-lg">{error.message}</p>
           <Button onClick={() => window.location.reload()} className="mt-4">
-            Qayta Yuklash
+            {t("pages.seller_properties_page.reload")}
           </Button>
         </div>
       </div>
@@ -73,10 +75,10 @@ export default function SellerProperties() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-            Mening Propertylarim
+            {t("pages.seller_properties_page.my_properties")}
           </h1>
           <p className="text-gray-600 mt-2">
-            Jami: {properties.length} ta property
+            {t("pages.seller_properties_page.total_properties", { count: properties.length })}
           </p>
         </div>
         <Button
@@ -85,7 +87,7 @@ export default function SellerProperties() {
           size="lg"
         >
           <Plus className="w-5 h-5 mr-2" />
-          Yangi Property
+          {t("pages.seller_properties_page.new_property")}
         </Button>
       </div>
 
@@ -98,18 +100,17 @@ export default function SellerProperties() {
               <Plus className="w-8 h-8 text-gray-400" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Propertylar topilmadi
+              {t("pages.seller_properties_page.no_properties_found")}
             </h3>
             <p className="text-gray-600 mb-6">
-              Hozircha hech qanday property qo'shmagansiz. Birinchi
-              propertyingizni qo'shish uchun pastdagi tugmani bosing.
+              {t("pages.seller_properties_page.you_have_not_added_any_properties_yet")}
             </p>
             <Button
               onClick={handleCreateProperty}
               className="bg-blue-600 hover:bg-blue-700 text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Birinchi Propertyni Qo'shish
+              {t("pages.seller_properties_page.add_first_property")}
             </Button>
           </div>
         </div>

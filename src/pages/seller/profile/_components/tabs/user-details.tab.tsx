@@ -17,6 +17,7 @@ import { sellerService } from "@/services/seller.service";
 import type { SellerBusinessType } from "@/interfaces/seller.interface";
 import { useSellerStore } from "@/stores/seller.store";
 import { userDetailsSchema } from "@/schemas/user-details.schema";
+import { useTranslation } from "react-i18next";
 
 export default function UserDetailsTab({
   handleSelectTab,
@@ -27,6 +28,7 @@ export default function UserDetailsTab({
   const { setSeller, seller } = useSellerStore();
   const [params] = useSearchParams();
   const business_type = params.get("business_type") as SellerBusinessType;
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -37,7 +39,7 @@ export default function UserDetailsTab({
       lan: user?.lan || "uz",
       business_type: business_type || "self_employed",
     },
-    validationSchema: userDetailsSchema,
+    validationSchema: userDetailsSchema(t),
     onSubmit: async (values) => {
       try {
         const data = await sellerService.createSeller(values);
@@ -45,7 +47,7 @@ export default function UserDetailsTab({
         setSeller(data.seller);
         handleSelectTab("busisess_details");
       } catch (error) {
-        console.error("Seller yaratishda xatolik:", error);
+        console.error(t("pages.user_details_tab.error_creating_seller"), error);
       }
     },
     enableReinitialize: true,
@@ -77,13 +79,13 @@ export default function UserDetailsTab({
   return (
     <div className="space-y-6">
       <h3 className="text-lg font-semibold text-gray-900">
-        Shaxsiy ma'lumotlar
+        {t("pages.user_details_tab.personal_details")}
       </h3>
 
       <form onSubmit={formik.handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="first_name">Ism *</Label>
+            <Label htmlFor="first_name">{t("pages.user_details_tab.first_name")}</Label>
             <Input
               id="first_name"
               name="first_name"
@@ -95,7 +97,7 @@ export default function UserDetailsTab({
                   ? "border-red-500"
                   : ""
               }`}
-              placeholder="Ismingizni kiriting"
+              placeholder={t("pages.user_details_tab.enter_first_name")}
             />
             {formik.touched.first_name && formik.errors.first_name && (
               <div className="text-red-500 text-sm">
@@ -105,7 +107,7 @@ export default function UserDetailsTab({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="last_name">Familiya *</Label>
+            <Label htmlFor="last_name">{t("pages.user_details_tab.last_name")}</Label>
             <Input
               id="last_name"
               name="last_name"
@@ -117,7 +119,7 @@ export default function UserDetailsTab({
                   ? "border-red-500"
                   : ""
               }`}
-              placeholder="Familiyangizni kiriting"
+              placeholder={t("pages.user_details_tab.enter_last_name")}
             />
             {formik.touched.last_name && formik.errors.last_name && (
               <div className="text-red-500 text-sm">
@@ -128,7 +130,7 @@ export default function UserDetailsTab({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("pages.user_details_tab.email")}</Label>
           <div className="flex items-center gap-2 relative">
             <Input
               id="email"
@@ -141,7 +143,7 @@ export default function UserDetailsTab({
               <button
                 type="button"
                 className="absolute right-2 top-0 bottom-0 my-auto text-green-500"
-                title="Tasdiqlangan"
+                title={t("pages.user_details_tab.verified")}
               >
                 <Check size={16} />
               </button>
@@ -149,7 +151,7 @@ export default function UserDetailsTab({
               <button
                 type="button"
                 className="absolute right-2 top-0 bottom-0 my-auto text-red-500"
-                title="Tasdiqlanmagan"
+                title={t("pages.user_details_tab.not_verified")}
               >
                 <X size={16} />
               </button>
@@ -159,7 +161,7 @@ export default function UserDetailsTab({
 
         <div className="flex items-center gap-4">
           <div className="space-y-2 flex-1">
-            <Label htmlFor="phone">Telefon *</Label>
+            <Label htmlFor="phone">{t("pages.user_details_tab.phone")}</Label>
             <div className="flex items-center gap-2 relative">
               <Input
                 id="phone"
@@ -173,13 +175,13 @@ export default function UserDetailsTab({
                     ? "border-red-500"
                     : ""
                 }`}
-                placeholder="+998 XX XXX XX XX"
+                placeholder={t("pages.user_details_tab.phone_placeholder")}
               />
               {user?.phone?.isVerified ? (
                 <button
                   type="button"
                   className="absolute right-2 top-0 bottom-0 my-auto text-green-500"
-                  title="Tasdiqlangan"
+                  title={t("pages.user_details_tab.verified")}
                 >
                   <Check size={16} />
                 </button>
@@ -187,7 +189,7 @@ export default function UserDetailsTab({
                 <button
                   type="button"
                   className="absolute right-2 top-0 bottom-0 my-auto text-red-500"
-                  title="Tasdiqlanmagan"
+                  title={t("pages.user_details_tab.not_verified")}
                 >
                   <X size={16} />
                 </button>
@@ -199,7 +201,7 @@ export default function UserDetailsTab({
           </div>
 
           <div className="space-y-2 flex-1">
-            <Label htmlFor="passport">Passport *</Label>
+            <Label htmlFor="passport">{t("pages.user_details_tab.passport")}</Label>
             <Input
               id="passport"
               name="passport"
@@ -211,7 +213,7 @@ export default function UserDetailsTab({
                   ? "border-red-500"
                   : ""
               }`}
-              placeholder="AA 1234567"
+              placeholder={t("pages.user_details_tab.passport_placeholder")}
               maxLength={10}
             />
             {formik.touched.passport && formik.errors.passport && (
@@ -224,7 +226,7 @@ export default function UserDetailsTab({
 
         <div className="flex items-end justify-between">
           <div className="space-y-2">
-            <Label htmlFor="language">Til *</Label>
+            <Label htmlFor="language">{t("pages.user_details_tab.language")}</Label>
             <Select
               name="lan"
               value={formik.values.lan}
@@ -237,12 +239,12 @@ export default function UserDetailsTab({
                     : ""
                 }`}
               >
-                <SelectValue placeholder="Tilni tanlang" />
+                <SelectValue placeholder={t("pages.user_details_tab.select_language")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="uz">O'zbekcha</SelectItem>
-                <SelectItem value="en">English</SelectItem>
-                <SelectItem value="ru">Русский</SelectItem>
+                <SelectItem value="uz">{t("pages.user_details_tab.uzbek")}</SelectItem>
+                <SelectItem value="en">{t("pages.user_details_tab.english")}</SelectItem>
+                <SelectItem value="ru">{t("pages.user_details_tab.russian")}</SelectItem>
               </SelectContent>
             </Select>
             {formik.touched.lan && formik.errors.lan && (

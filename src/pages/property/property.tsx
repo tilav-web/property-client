@@ -41,6 +41,7 @@ import {
 } from "@/components/ui/carousel";
 import type { IFile } from "@/interfaces/file.interface";
 import { useCurrentLanguage } from "@/hooks/use-language";
+import { useTranslation } from "react-i18next";
 
 // Amenities ikonlari
 const amenityIcons = {
@@ -52,16 +53,8 @@ const amenityIcons = {
   elevator: <UserCheck className="w-4 h-4 flex-shrink-0" />,
 };
 
-const amenityLabels = {
-  pool: "Бассейн",
-  balcony: "Балкон",
-  security: "Безопасность",
-  air_conditioning: "Кондиционер",
-  parking: "Парковка",
-  elevator: "Лифт",
-};
-
 function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
+  const { t } = useTranslation();
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS || "",
   });
@@ -69,7 +62,7 @@ function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
   if (!coordinates) {
     return (
       <div className="w-full h-[600px] rounded-xl bg-gray-200 flex items-center justify-center">
-        Нет координат
+        {t("pages.property_page.no_coordinates")}
       </div>
     );
   }
@@ -79,13 +72,13 @@ function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
   if (loadError)
     return (
       <div className="w-full h-[600px] rounded-xl bg-gray-200 flex items-center justify-center">
-        Xarita yuklanmadi
+        {t("pages.property_page.map_load_error")}
       </div>
     );
   if (!isLoaded)
     return (
       <div className="w-full h-[600px] rounded-xl bg-gray-200 flex items-center justify-center">
-        Xarita yuklanmoqda...
+        {t("pages.property_page.map_loading")}
       </div>
     );
 
@@ -131,6 +124,7 @@ function ImageCarousel({ images }: { images: IFile[] }) {
 
 // Video Carousel komponenti
 function VideoCarousel({ videos }: { videos: IFile[] }) {
+  const { t } = useTranslation();
   if (videos.length === 0) return null;
 
   if (videos.length === 1) {
@@ -144,7 +138,7 @@ function VideoCarousel({ videos }: { videos: IFile[] }) {
           playsInline
           className="w-full h-full object-cover"
         >
-          Your browser does not support the video tag.
+          {t("pages.property_page.video_unsupported")}
         </video>
       </div>
     );
@@ -163,7 +157,7 @@ function VideoCarousel({ videos }: { videos: IFile[] }) {
               playsInline
               className="w-full h-full object-cover rounded-xl"
             >
-              Your browser does not support the video tag.
+              {t("pages.property_page.video_unsupported")}
             </video>
           </CarouselItem>
         ))}
@@ -181,6 +175,16 @@ export default function Property() {
   const [loanAmount, setLoanAmount] = useState(960000);
   const [loanTerm, setLoanTerm] = useState(5);
   const [interestRate, setInterestRate] = useState(17.5);
+  const { t } = useTranslation();
+
+  const amenityLabels: { [key: string]: string } = {
+    pool: t("enums.amenities.pool"),
+    balcony: t("enums.amenities.balcony"),
+    security: t("enums.amenities.security"),
+    air_conditioning: t("enums.amenities.air_conditioning"),
+    parking: t("enums.amenities.parking"),
+    elevator: t("enums.amenities.elevator"),
+  };
 
   const calculateMonthlyPayment = () => {
     const principal = loanAmount;
@@ -217,19 +221,6 @@ export default function Property() {
     return `${formatNumber(price)} UZS`;
   };
 
-  const getCategoryLabel = (category: string) => {
-    const categories = {
-      apartment: "Квартира",
-      house: "Дом",
-      villa: "Вилла",
-      office: "Офис",
-      land: "Земля",
-      shop: "Магазин",
-      garage: "Гараж",
-    };
-    return categories[category as keyof typeof categories] || category;
-  };
-
   const { data: property } = useQuery({
     queryKey: ["property", id],
     queryFn: () => {
@@ -259,12 +250,14 @@ export default function Property() {
               {property?.is_verified && (
                 <Badge className="bg-[#00A663] rounded border-white text-xs px-3 py-1.5 backdrop-blur-sm">
                   <ShieldCheck className="w-3 h-3 mr-1" />
-                  <span className="uppercase">Проверенный</span>
+                  <span className="uppercase">
+                    {t("pages.property_page.verified")}
+                  </span>
                 </Badge>
               )}
               {property?.is_new && (
                 <Badge className="bg-[#333]/80 rounded uppercase border-white text-xs px-3 py-1.5 backdrop-blur-sm w-full">
-                  Новый
+                  {t("pages.property_page.new")}
                 </Badge>
               )}
             </div>
@@ -303,7 +296,7 @@ export default function Property() {
                 <div className="absolute top-2 right-2">
                   <Badge className="bg-black/70 text-white">
                     <CirclePlay className="w-3 h-3 mr-1" />
-                    Video
+                    {t("pages.property_page.video")}
                   </Badge>
                 </div>
               </div>
@@ -357,19 +350,21 @@ export default function Property() {
             </h2>
             <p className="mb-4">{getLocalizedText(property?.description)}</p>
 
-            <h3 className="mb-2 font-medium">Детали устройства:</h3>
+            <h3 className="mb-2 font-medium">
+              {t("pages.property_page.device_details")}
+            </h3>
             <ul className="space-y-1">
               <li className="before:content-['-'] before:mr-2 before:text-gray-800">
-                Вид на парк и ручей
+                {t("pages.property_page.park_and_stream_view")}
               </li>
               <li className="before:content-['-'] before:mr-2 before:text-gray-800">
-                Без мебели
+                {t("pages.property_page.unfurnished")}
               </li>
               <li className="before:content-['-'] before:mr-2 before:text-gray-800">
-                Кухонная столешница
+                {t("pages.property_page.kitchen_countertop")}
               </li>
               <li className="before:content-['-'] before:mr-2 before:text-gray-800">
-                Просторная гостиная
+                {t("pages.property_page.spacious_living_room")}
               </li>
             </ul>
           </div>
@@ -379,16 +374,18 @@ export default function Property() {
       {/* Property details */}
       <div className="max-w-5xl mb-8">
         <h2 className="text-xl font-semibold text-gray-800 mb-6">
-          Сведения о недвижимости
+          {t("pages.property_page.property_details")}
         </h2>
         <div className="grid grid-cols-2 gap-6 mb-8">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <Building2 className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">Тип недвижимости</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.property_type")}
+                </span>
                 <p className="font-medium text-gray-800 capitalize">
-                  {getCategoryLabel(property?.category || "")}
+                  {t(`enums.property_category.${property?.category}`)}
                 </p>
               </div>
             </div>
@@ -396,7 +393,9 @@ export default function Property() {
             <div className="flex items-center gap-3">
               <Bed className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">Спальни</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.bedrooms")}
+                </span>
                 <p className="font-medium text-gray-800">
                   {property?.bedrooms || 0}
                 </p>
@@ -406,7 +405,9 @@ export default function Property() {
             <div className="flex items-center gap-3">
               <Rotate3D className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">Этаж</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.floor")}
+                </span>
                 <p className="font-medium text-gray-800">
                   {property?.floor_level || 0}
                 </p>
@@ -418,9 +419,11 @@ export default function Property() {
             <div className="flex items-center gap-3">
               <Maximize className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">Площадь</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.area")}
+                </span>
                 <p className="font-medium text-gray-800">
-                  {property?.area || 0} кв. м
+                  {property?.area || 0} {t("pages.property_page.sq_m")}
                 </p>
               </div>
             </div>
@@ -428,7 +431,9 @@ export default function Property() {
             <div className="flex items-center gap-3">
               <Bath className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">Ванные комнаты</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.bathrooms")}
+                </span>
                 <p className="font-medium text-gray-800">
                   {property?.bathrooms || 0}
                 </p>
@@ -438,7 +443,9 @@ export default function Property() {
             <div className="flex items-center gap-3">
               <Warehouse className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">Парковочные места</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.parking_spaces")}
+                </span>
                 <p className="font-medium text-gray-800">
                   {property?.parking_spaces || 0}
                 </p>
@@ -449,7 +456,9 @@ export default function Property() {
 
         {/* Amenities */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Удобства</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">
+            {t("pages.property_page.amenities")}
+          </h3>
           <div className="grid grid-cols-2 gap-3">
             {property?.amenities?.map((amenity: string, index: number) => (
               <div
@@ -471,26 +480,25 @@ export default function Property() {
       <div className="max-w-5xl mb-8">
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-2">
-            Анализ цен
+            {t("pages.property_page.price_analysis")}
           </h2>
           <h3 className="text-lg font-medium text-gray-700 mb-3">
-            Ценовые тенденции
+            {t("pages.property_page.price_trends")}
           </h3>
           <p className="text-sm text-gray-600 mb-4">
-            Продаются апартаменты с 3 спальнями в Harbour Gate Tower 2 и Dubai
-            Creek Harbour (The Lagoons)
+            {t("pages.property_page.apartments_for_sale")}
           </p>
 
           {/* Period Selector */}
           <div className="flex gap-2 items-center justify-end">
             <button className="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-blue-100 text-blue-700 border border-blue-300">
-              1 год
+              {t("pages.property_page.1_year")}
             </button>
             <button className="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100">
-              2 года
+              {t("pages.property_page.2_years")}
             </button>
             <button className="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100">
-              5 лет
+              {t("pages.property_page.5_years")}
             </button>
           </div>
         </div>
@@ -499,12 +507,14 @@ export default function Property() {
         <div className="flex gap-6 mb-4">
           <div className="flex items-center gap-2">
             <div className="w-4 h-0.5 bg-red-500"></div>
-            <span className="text-sm text-gray-600">Harbour Gate Tower 2</span>
+            <span className="text-sm text-gray-600">
+              {t("pages.property_page.harbour_gate_tower_2")}
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-0.5 border-t-2 border-dotted border-purple-500"></div>
             <span className="text-sm text-gray-600">
-              Dubai Creek Harbour (The Lagoons)
+              {t("pages.property_page.dubai_creek_harbour")}
             </span>
           </div>
         </div>
@@ -561,7 +571,7 @@ export default function Property() {
       <div className="w-full">
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-gray-900">
-            Подберите подходящий для вас ипотечный кредит
+            {t("pages.property_page.find_mortgage")}
           </h2>
         </div>
 
@@ -570,7 +580,7 @@ export default function Property() {
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <span className="text-sm font-medium text-gray-700">
-                  Покупная цена
+                  {t("pages.property_page.purchase_price")}
                 </span>
                 <span className="text-sm text-gray-500">UZS</span>
               </div>
@@ -592,7 +602,7 @@ export default function Property() {
             </div>
             <div className="space-y-3">
               <span className="text-sm font-medium text-gray-700">
-                Гражданин/статус резидента
+                {t("pages.property_page.citizenship_status")}
               </span>
               <div className="space-y-2">
                 <label className="flex items-center space-x-2">
@@ -603,7 +613,9 @@ export default function Property() {
                     onChange={() => setCitizenshipStatus("citizen")}
                     className="w-4 h-4 text-blue-600"
                   />
-                  <span className="text-sm">Гражданин СНГ</span>
+                  <span className="text-sm">
+                    {t("pages.property_page.cis_citizen")}
+                  </span>
                 </label>
                 <label className="flex items-center space-x-2">
                   <input
@@ -613,7 +625,9 @@ export default function Property() {
                     onChange={() => setCitizenshipStatus("resident")}
                     className="w-4 h-4 text-blue-600"
                   />
-                  <span className="text-sm">Резидент СНГ</span>
+                  <span className="text-sm">
+                    {t("pages.property_page.cis_resident")}
+                  </span>
                 </label>
                 <label className="flex items-center space-x-2">
                   <input
@@ -623,14 +637,16 @@ export default function Property() {
                     onChange={() => setCitizenshipStatus("non-resident")}
                     className="w-4 h-4 text-blue-600"
                   />
-                  <span className="text-sm">Не резидент</span>
+                  <span className="text-sm">
+                    {t("pages.property_page.non_resident")}
+                  </span>
                 </label>
               </div>
             </div>
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <span className="text-sm font-medium text-gray-700">
-                  Первоначальный взнос
+                  {t("pages.property_page.down_payment")}
                 </span>
                 <span className="text-sm text-gray-500">
                   {downPaymentPercentage}%
@@ -652,7 +668,7 @@ export default function Property() {
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <span className="text-sm font-medium text-gray-700">
-                  Сумма кредита
+                  {t("pages.property_page.loan_amount")}
                 </span>
                 <span className="text-sm text-gray-500">
                   {loanAmountPercentage}%
@@ -666,9 +682,11 @@ export default function Property() {
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <span className="text-sm font-medium text-gray-700">
-                  Срок кредита
+                  {t("pages.property_page.loan_term")}
                 </span>
-                <span className="text-sm text-gray-500">{loanTerm} лет</span>
+                <span className="text-sm text-gray-500">
+                  {loanTerm} {t("pages.property_page.years")}
+                </span>
               </div>
               <div className="text-lg font-semibold text-blue-600 mb-2">
                 {loanTerm}
@@ -685,7 +703,7 @@ export default function Property() {
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <span className="text-sm font-medium text-gray-700">
-                  Процентная ставка
+                  {t("pages.property_page.interest_rate")}
                 </span>
                 <span className="text-sm text-gray-500">%</span>
               </div>
@@ -705,16 +723,16 @@ export default function Property() {
           <div className="space-y-6">
             <div className="bg-gray-50 p-6 rounded-lg">
               <h3 className="text-lg font-semibold text-gray-900 mb-6">
-                Оцените свой ежемесячный платеж по ипотеке
+                {t("pages.property_page.estimate_monthly_payment")}
               </h3>
 
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-600">
-                    Ежемесячный платеж
+                    {t("pages.property_page.monthly_payment")}
                   </span>
                   <span className="text-sm text-gray-600">
-                    Ежемесячный платеж
+                    {t("pages.property_page.monthly_payment")}
                   </span>
                 </div>
 
@@ -728,7 +746,7 @@ export default function Property() {
                 </div>
               </div>
               <button className="w-full mt-6 bg-red-600 hover:bg-red-700 text-white py-3 px-4 rounded-md font-medium transition-colors">
-                Подтвердить получение ипотеки
+                {t("pages.property_page.confirm_mortgage")}
               </button>
             </div>
           </div>

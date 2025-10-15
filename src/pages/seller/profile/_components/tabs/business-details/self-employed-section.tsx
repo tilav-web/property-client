@@ -12,31 +12,32 @@ import { useSellerStore } from "@/stores/seller.store";
 import { toast } from "sonner";
 import { sellerService } from "@/services/seller.service";
 import { useUserStore } from "@/stores/user.store";
+import { useTranslation } from "react-i18next";
 
 // Validation schema
-const validationSchema = Yup.object({
+const validationSchema = (t: any) => Yup.object({
   first_name: Yup.string()
-    .min(2, "Ism kamida 2 ta belgidan iborat boʻlishi kerak")
-    .max(50, "Ism 50 ta belgidan oshmasligi kerak")
-    .required("Ism toʻldirilishi shart"),
+    .min(2, t("pages.self_employed_section.first_name_min_2"))
+    .max(50, t("pages.self_employed_section.first_name_max_50"))
+    .required(t("pages.self_employed_section.first_name_required")),
   last_name: Yup.string()
-    .min(2, "Familiya kamida 2 ta belgidan iborat boʻlishi kerak")
-    .max(50, "Familiya 50 ta belgidan oshmasligi kerak")
-    .required("Familiya toʻldirilishi shart"),
+    .min(2, t("pages.self_employed_section.last_name_min_2"))
+    .max(50, t("pages.self_employed_section.last_name_max_50"))
+    .required(t("pages.self_employed_section.last_name_required")),
   middle_name: Yup.string()
-    .min(2, "Otasining ismi kamida 2 ta belgidan iborat boʻlishi kerak")
-    .max(50, "Otasining ismi 50 ta belgidan oshmasligi kerak")
-    .required("Otasining ismi toʻldirilishi shart"),
-  birth_date: Yup.string().required("Tug'ilgan sana toʻldirilishi shart"),
+    .min(2, t("pages.self_employed_section.middle_name_min_2"))
+    .max(50, t("pages.self_employed_section.middle_name_max_50"))
+    .required(t("pages.self_employed_section.middle_name_required")),
+  birth_date: Yup.string().required(t("pages.self_employed_section.birth_date_required")),
   jshshir: Yup.string()
-    .matches(/^\d{14}$/, "JShShIR 14 ta raqamdan iborat boʻlishi kerak")
-    .required("JShShIR toʻldirilishi shart"),
+    .matches(/^\d{14}$/, t("pages.self_employed_section.jshshir_14_digits"))
+    .required(t("pages.self_employed_section.jshshir_required")),
   registration_number: Yup.string()
-    .min(1, "Roʻyxatdan oʻtish raqami toʻldirilishi shart")
-    .required("Roʻyxatdan oʻtish raqami toʻldirilishi shart"),
+    .min(1, t("pages.self_employed_section.registration_number_required"))
+    .required(t("pages.self_employed_section.registration_number_required")),
   registration_address: Yup.string()
-    .min(10, "Manzil kamida 10 ta belgidan iborat boʻlishi kerak")
-    .required("Roʻyxatdan oʻtgan manzil toʻldirilishi shart"),
+    .min(10, t("pages.self_employed_section.address_min_10"))
+    .required(t("pages.self_employed_section.registration_address_required")),
   is_vat_payer: Yup.boolean().required(),
 });
 
@@ -70,6 +71,7 @@ export default function SelfEmployedSection({
   });
   const { seller, setSeller } = useSellerStore();
   const { user } = useUserStore();
+  const { t } = useTranslation();
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -87,7 +89,7 @@ export default function SelfEmployedSection({
       is_vat_payer: false,
       seller: seller?._id,
     },
-    validationSchema: validationSchema,
+    validationSchema: validationSchema(t),
     onSubmit: async (values) => {
       try {
         // FormData yaratish
@@ -118,7 +120,7 @@ export default function SelfEmployedSection({
         setSeller(data);
         handleSelectTab("bank_account_number");
       } catch (error) {
-        console.error("Formani yuborishda xatolik:", error);
+        console.error(t("pages.self_employed_section.error_submitting_form"), error);
       }
     },
   });
@@ -137,13 +139,13 @@ export default function SelfEmployedSection({
         "image/png",
       ];
       if (!allowedTypes.includes(file.type)) {
-        alert("Faqat PDF, JPG, PNG fayllar qabul qilinadi");
+        alert(t("pages.self_employed_section.only_pdf_jpg_png_allowed"));
         return;
       }
 
       // Fayl hajmini tekshirish (masalan, 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert("Fayl hajmi 5MB dan oshmasligi kerak");
+        alert(t("pages.self_employed_section.file_size_max_5mb"));
         return;
       }
 
@@ -165,21 +167,21 @@ export default function SelfEmployedSection({
     // Majburiy fayllarni tekshirish
     if (!files.passport_file) {
       toast.error("Error", {
-        description: "Pasport faylini yuklashingiz shart",
+        description: t("pages.self_employed_section.must_upload_passport_file"),
       });
       return;
     }
 
     if (!files.self_employment_certificate) {
       toast.error("Error", {
-        description: "O'zini o'zi bandlik sertifikatini yuklashingiz shart",
+        description: t("pages.self_employed_section.must_upload_self_employment_certificate"),
       });
       return;
     }
 
     if (formik.values.is_vat_payer && !files.vat_file) {
       toast.error("Error", {
-        description: "QQS guvohnomasini yuklashingiz shart",
+        description: t("pages.self_employed_section.must_upload_vat_certificate"),
       });
       return;
     }
@@ -189,13 +191,13 @@ export default function SelfEmployedSection({
   };
 
   const getFileName = (file: File | null) => {
-    return file ? file.name : "Fayl tanlanmagan";
+    return file ? file.name : t("pages.self_employed_section.file_not_selected");
   };
 
   return (
     <div className="space-y-6">
       <h3 className="text-lg font-semibold text-gray-900">
-        Yakka Tartibdagi Tadbirkor Ma'lumotlari
+        {t("pages.self_employed_section.self_employed_entrepreneur_details")}
       </h3>
 
       <form className="space-y-4">
@@ -203,11 +205,11 @@ export default function SelfEmployedSection({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Ism */}
           <div className="space-y-2">
-            <Label htmlFor="first_name">Ism *</Label>
+            <Label htmlFor="first_name">{t("pages.self_employed_section.first_name")}</Label>
             <Input
               id="first_name"
               name="first_name"
-              placeholder="Ismingizni kiriting"
+              placeholder={t("pages.self_employed_section.enter_first_name")}
               className={`bg-gray-50 ${
                 formik.touched.first_name && formik.errors.first_name
                   ? "border-red-500"
@@ -226,11 +228,11 @@ export default function SelfEmployedSection({
 
           {/* Familiya */}
           <div className="space-y-2">
-            <Label htmlFor="last_name">Familiya *</Label>
+            <Label htmlFor="last_name">{t("pages.self_employed_section.last_name")}</Label>
             <Input
               id="last_name"
               name="last_name"
-              placeholder="Familiyangizni kiriting"
+              placeholder={t("pages.self_employed_section.enter_last_name")}
               className={`bg-gray-50 ${
                 formik.touched.last_name && formik.errors.last_name
                   ? "border-red-500"
@@ -249,11 +251,11 @@ export default function SelfEmployedSection({
 
           {/* Otasining ismi */}
           <div className="space-y-2">
-            <Label htmlFor="middle_name">Otasining ismi *</Label>
+            <Label htmlFor="middle_name">{t("pages.self_employed_section.middle_name")}</Label>
             <Input
               id="middle_name"
               name="middle_name"
-              placeholder="Otasining ismini kiriting"
+              placeholder={t("pages.self_employed_section.enter_middle_name")}
               className={`bg-gray-50 ${
                 formik.touched.middle_name && formik.errors.middle_name
                   ? "border-red-500"
@@ -274,7 +276,7 @@ export default function SelfEmployedSection({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Tug'ilgan sana */}
           <div className="space-y-2">
-            <Label htmlFor="birth_date">Tug'ilgan sana *</Label>
+            <Label htmlFor="birth_date">{t("pages.self_employed_section.birth_date")}</Label>
             <Input
               id="birth_date"
               name="birth_date"
@@ -297,11 +299,11 @@ export default function SelfEmployedSection({
 
           {/* JShShIR */}
           <div className="space-y-2">
-            <Label htmlFor="jshshir">JShShIR *</Label>
+            <Label htmlFor="jshshir">{t("pages.self_employed_section.jshshir")}</Label>
             <Input
               id="jshshir"
               name="jshshir"
-              placeholder="00000000000000"
+              placeholder={t("pages.self_employed_section.jshshir_placeholder")}
               className={`bg-gray-50 ${
                 formik.touched.jshshir && formik.errors.jshshir
                   ? "border-red-500"
@@ -322,12 +324,12 @@ export default function SelfEmployedSection({
         {/* Ro'yxatdan o'tish raqami */}
         <div className="space-y-2">
           <Label htmlFor="registration_number">
-            Ro'yxatdan o'tish raqami *
+            {t("pages.self_employed_section.registration_number")}
           </Label>
           <Input
             id="registration_number"
             name="registration_number"
-            placeholder="Ro'yxatdan o'tish raqamini kiriting"
+            placeholder={t("pages.self_employed_section.enter_registration_number")}
             className={`bg-gray-50 ${
               formik.touched.registration_number &&
               formik.errors.registration_number
@@ -349,12 +351,12 @@ export default function SelfEmployedSection({
         {/* Ro'yxatdan o'tgan manzil */}
         <div className="space-y-2">
           <Label htmlFor="registration_address">
-            Ro'yxatdan o'tgan manzil *
+            {t("pages.self_employed_section.registration_address")}
           </Label>
           <Textarea
             id="registration_address"
             name="registration_address"
-            placeholder="To'liq manzilni kiriting"
+            placeholder={t("pages.self_employed_section.enter_full_address")}
             className={`bg-gray-50 min-h-[80px] ${
               formik.touched.registration_address &&
               formik.errors.registration_address
@@ -377,7 +379,7 @@ export default function SelfEmployedSection({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Pasport fayli */}
           <div className="space-y-2">
-            <Label htmlFor="passport_file">Pasport nusxasi *</Label>
+            <Label htmlFor="passport_file">{t("pages.self_employed_section.passport_copy")}</Label>
             <div className="flex items-center gap-2">
               <Input
                 value={getFileName(files.passport_file)}
@@ -396,7 +398,7 @@ export default function SelfEmployedSection({
                 className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
               >
                 <Upload size={16} />
-                Yuklash
+                {t("pages.self_employed_section.upload")}
               </label>
               {files.passport_file && (
                 <button
@@ -410,14 +412,14 @@ export default function SelfEmployedSection({
             </div>
             <p className="text-sm text-gray-500 flex items-center gap-1">
               <FileText size={14} />
-              PDF formati qabul qilinadi
+              {t("pages.self_employed_section.pdf_format_accepted")}
             </p>
           </div>
 
           {/* O'zini o'zi bandlik sertifikati */}
           <div className="space-y-2">
             <Label htmlFor="self_employment_certificate">
-              O'zini o'zi bandlik sertifikati *
+              {t("pages.self_employed_section.self_employment_certificate")}
             </Label>
             <div className="flex items-center gap-2">
               <Input
@@ -439,7 +441,7 @@ export default function SelfEmployedSection({
                 className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
               >
                 <Upload size={16} />
-                Yuklash
+                {t("pages.self_employed_section.upload")}
               </label>
               {files.self_employment_certificate && (
                 <button
@@ -455,7 +457,7 @@ export default function SelfEmployedSection({
             </div>
             <p className="text-sm text-gray-500 flex items-center gap-1">
               <FileText size={14} />
-              PDF formati qabul qilinadi
+              {t("pages.self_employed_section.pdf_format_accepted")}
             </p>
           </div>
         </div>
@@ -470,14 +472,14 @@ export default function SelfEmployedSection({
             }
           />
           <Label htmlFor="is_vat_payer" className="text-sm font-medium">
-            QQS to'lovchisiman
+            {t("pages.self_employed_section.i_am_vat_payer")}
           </Label>
         </div>
 
         {/* QQS fayli (shart emas) */}
         {formik.values.is_vat_payer && (
           <div className="space-y-2">
-            <Label htmlFor="vat_file">QQS guvohnomasi *</Label>
+            <Label htmlFor="vat_file">{t("pages.self_employed_section.vat_certificate")}</Label>
             <div className="flex items-center gap-2">
               <Input
                 value={getFileName(files.vat_file)}
@@ -496,7 +498,7 @@ export default function SelfEmployedSection({
                 className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
               >
                 <Upload size={16} />
-                Yuklash
+                {t("pages.self_employed_section.upload")}
               </label>
               {files.vat_file && (
                 <button
@@ -509,8 +511,7 @@ export default function SelfEmployedSection({
               )}
             </div>
             <p className="text-sm text-gray-500">
-              Agar siz QQS to'lovchisi bo'lsangiz, guvohnomani yuklashingiz
-              mumkin
+              {t("pages.self_employed_section.if_vat_payer_upload_certificate")}
             </p>
           </div>
         )}

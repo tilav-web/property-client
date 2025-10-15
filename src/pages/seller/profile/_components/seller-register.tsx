@@ -16,10 +16,12 @@ import BusisessDetailsTab from "./tabs/business-details/busisess-details.tab";
 import CommissionerTab from "./tabs/commissioner.tab";
 import { useSellerStore } from "@/stores/seller.store";
 import FinishTab from "./tabs/finish.tab";
+import { useTranslation } from "react-i18next";
 
 export default function SellerRegister() {
   const [selectedTab, setSelectedTab] = useState<string>("business_type");
   const { seller } = useSellerStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     (async () => {
@@ -60,8 +62,8 @@ export default function SellerRegister() {
   return (
     <div>
       <div className="bg-white mb-16 p-4 rounded-2xl">
-        <h3 className="text-2xl font-bold">Biznes ro'yxatdan o'tish</h3>
-        <p>Ma'lumotlaringizni to'ldiring va biznes faoliyatini boshlang</p>
+        <h3 className="text-2xl font-bold">{t("pages.seller_register_page.business_registration")}</h3>
+        <p>{t("pages.seller_register_page.fill_your_details")}</p>
       </div>
       <div className="max-w-7xl mx-auto">
         <Tabs
@@ -71,7 +73,7 @@ export default function SellerRegister() {
           className="flex-row gap-4 items-start"
         >
           <div className="max-w-md w-full bg-white p-8 rounded-2xl">
-            <h5 className="mb-4 text-2xl font-bold">Jarayon</h5>
+            <h5 className="mb-4 text-2xl font-bold">{t("pages.seller_register_page.process")}</h5>
             <TabsList className="flex-col h-full bg-white items-start gap-4 w-full mb-4">
               <TabsTrigger
                 onClick={(e) => e.preventDefault()}
@@ -80,7 +82,7 @@ export default function SellerRegister() {
               >
                 <CircleCheck className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
                 <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
-                  Biznes shakli
+                  {t("pages.seller_register_page.business_form")}
                 </p>
               </TabsTrigger>
               <TabsTrigger
@@ -90,7 +92,7 @@ export default function SellerRegister() {
               >
                 <User className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
                 <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
-                  Shaxsiy malumotlar
+                  {t("pages.seller_register_page.personal_details")}
                 </p>
               </TabsTrigger>
               <TabsTrigger
@@ -100,7 +102,7 @@ export default function SellerRegister() {
               >
                 <ClipboardList className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
                 <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
-                  Biznes malumotlar
+                  {t("pages.seller_register_page.business_details")}
                 </p>
               </TabsTrigger>
               <TabsTrigger
@@ -110,7 +112,7 @@ export default function SellerRegister() {
               >
                 <Landmark className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
                 <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
-                  Bank hisob raqami
+                  {t("pages.seller_register_page.bank_account_number")}
                 </p>
               </TabsTrigger>
               <TabsTrigger
@@ -120,20 +122,20 @@ export default function SellerRegister() {
               >
                 <Users className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
                 <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
-                  Komissioner
+                  {t("pages.seller_register_page.commissioner")}
                 </p>
               </TabsTrigger>
             </TabsList>
             <div className="bg-blue-500/10 px-6 py-4 rounded-xl">
               <div className="flex items-center justify-between">
-                <p className="mb-2 text-gray-800 font-medium">Jarayon</p>
+                <p className="mb-2 text-gray-800 font-medium">{t("pages.seller_register_page.process")}</p>
                 <p className="text-sm">
-                  {selectedTab === "business_type" && "0%"}
-                  {selectedTab === "user_details" && "20%"}
-                  {selectedTab === "busisess_details" && "40%"}
-                  {selectedTab === "bank_account_number" && "60%"}
-                  {selectedTab === "commissioner" && "80%"}
-                  {selectedTab === "finish_tab" && "100%"}
+                  {selectedTab === "business_type" && t("pages.seller_register_page.0%")}
+                  {selectedTab === "user_details" && t("pages.seller_register_page.20%")}
+                  {selectedTab === "busisess_details" && t("pages.seller_register_page.40%")}
+                  {selectedTab === "bank_account_number" && t("pages.seller_register_page.60%")}
+                  {selectedTab === "commissioner" && t("pages.seller_register_page.80%")}
+                  {selectedTab === "finish_tab" && t("pages.seller_register_page.100%")}
                 </p>
               </div>
 

@@ -2,6 +2,7 @@ import { useSellerStore } from "@/stores/seller.store";
 import YttSection from "./ytt-section";
 import MchjSection from "./mchj-section";
 import SelfEmployedSection from "./self-employed-section";
+import { useTranslation } from "react-i18next";
 
 export default function BusisessDetailsTab({
   handleSelectTab,
@@ -9,6 +10,7 @@ export default function BusisessDetailsTab({
   handleSelectTab: (tab: string) => void;
 }) {
   const { seller } = useSellerStore();
+  const { t } = useTranslation();
 
   return (
     <div>
@@ -19,7 +21,7 @@ export default function BusisessDetailsTab({
       ) : seller?.business_type === "self_employed" ? (
         <SelfEmployedSection handleSelectTab={handleSelectTab} />
       ) : (
-        <p>Biznes shakli tanlanmagan</p>
+        <p>{t("pages.busisess_details_tab.business_form_not_selected")}</p>
       )}
     </div>
   );
