@@ -16,7 +16,7 @@ export default function SellerLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
     (async () => {
       try {
-        if (seller || seller === null) return;
+        if (seller) return;
         const data = await sellerService.findSeller();
         setSeller(data);
       } catch (error) {

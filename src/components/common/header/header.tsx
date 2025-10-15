@@ -39,12 +39,14 @@ import { defaultImageAvatar, serverUrl } from "@/utils/shared";
 import { userService } from "@/services/user.service";
 import { toast } from "sonner";
 import { handleStorage } from "@/utils/handle-storage";
+import { useSellerStore } from "@/stores/seller.store";
 
 export default function Header() {
   const { t, i18n } = useTranslation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navigate = useNavigate();
   const { user, logout, setUser } = useUserStore();
+  const { logout: sellerLogout } = useSellerStore();
   const lanValue = handleStorage({ key: "lan" });
 
   const logoutSystem = async () => {
@@ -52,6 +54,7 @@ export default function Header() {
       await userService.logout();
       handleStorage({ key: "access_token", value: null });
       logout();
+      sellerLogout();
       toast.success(t("common.success"), {
         description: t("common.header.logout_success"),
       });
@@ -67,7 +70,11 @@ export default function Header() {
       label: t("common.rent_apartments"),
       href: "/category?category=apartments",
     },
-    { icon: Home, label: t("common.rent_land"), href: "/category?category=land" },
+    {
+      icon: Home,
+      label: t("common.rent_land"),
+      href: "/category?category=land",
+    },
     { icon: Handshake, label: t("common.find_agent"), href: "/agents" },
     { icon: Calculator, label: t("common.mortgage"), href: "/mortgage" },
     { icon: Star, label: t("common.new_projects"), href: "/new-projects" },
@@ -180,7 +187,9 @@ export default function Header() {
                 variant="default"
                 className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
               >
-                <span className="font-semibold">{t("common.sell_or_rent")}</span>
+                <span className="font-semibold">
+                  {t("common.sell_or_rent")}
+                </span>
               </Button>
             )}
             {user?.likes && user?.likes?.length > 0 && (
@@ -230,7 +239,6 @@ export default function Header() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
