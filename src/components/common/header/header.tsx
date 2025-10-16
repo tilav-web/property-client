@@ -68,7 +68,7 @@ export default function Header() {
     {
       icon: Building,
       label: t("common.rent_apartments"),
-      href: "/category?category=apartments",
+      href: "/category?category=apartment",
     },
     {
       icon: Home,

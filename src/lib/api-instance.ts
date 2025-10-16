@@ -42,6 +42,12 @@ apiInstance.interceptors.response.use(
       }
     }
 
+    if (error.response?.status === 429) {
+      toast.error("Error", {
+        description: "Too Many Requests",
+      });
+    }
+
     const errorData: { error: string; message: string } = error.response
       ?.data as { error: string; message: string };
     if (errorData && "error" in errorData && errorData.error) {

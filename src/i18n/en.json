@@ -125,7 +125,8 @@
       "land": "Land",
       "farm": "Farm",
       "garage": "Garage",
-      "parking": "Parking"
+      "parking": "Parking",
+      "all": "All"
     },
     "construction_status": {
       "ready": "Ready",

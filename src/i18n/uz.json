@@ -125,7 +125,8 @@
       "land": "Yer maydoni",
       "farm": "Fermer xo‘jaligi",
       "garage": "Garaj",
-      "parking": "Avtoturargoh"
+      "parking": "Avtoturargoh",
+      "all": "Barchasi"
     },
     "construction_status": {
       "ready": "Tayyor",

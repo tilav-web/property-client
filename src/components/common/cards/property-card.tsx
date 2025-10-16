@@ -128,7 +128,6 @@ export default function PropertyCard({ property }: { property: IProperty }) {
                 {t(`enums.property_category.${property?.category}`)}
               </p>
               <span className="text-gray-400">•</span>
-              <span className="text-gray-400">•</span>
               <p className="text-sm text-gray-600">
                 {t(`enums.property_purpose.${property?.purpose}`)}
               </p>
@@ -164,7 +163,9 @@ export default function PropertyCard({ property }: { property: IProperty }) {
             {property?.floor_level && property?.floor_level > 0 && (
               <span>
                 {property?.floor_level}
-                {property?.total_floors ? `/${property?.total_floors}` : ""}{" "}
+                {property?.total_floors
+                  ? `/${property?.total_floors}`
+                  : ""}{" "}
                 {t("pages.property_card.floor")}
               </span>
             )}
@@ -179,7 +180,9 @@ export default function PropertyCard({ property }: { property: IProperty }) {
           {property?.construction_status && (
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="text-xs">
-                {t(`enums.construction_status.${property?.construction_status}`)}
+                {t(
+                  `enums.construction_status.${property?.construction_status}`
+                )}
               </Badge>
             </div>
           )}

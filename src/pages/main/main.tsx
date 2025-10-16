@@ -8,14 +8,27 @@ import { useTranslation } from "react-i18next";
 import { mainImage } from "@/utils/shared";
 import { useQuery } from "@tanstack/react-query";
 import { propertyService } from "@/services/property.service";
-import type { IProperty } from "@/interfaces/property.interface";
+import type {
+  IProperty,
+  PropertyCategory,
+} from "@/interfaces/property.interface";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export default function Main() {
   const { t } = useTranslation();
-  const { data } = useQuery({
+  const [params] = useSearchParams();
+  const category = params.get("category") as PropertyCategory;
+  const { data, refetch } = useQuery({
     queryKey: ["properties"],
-    queryFn: () => propertyService.findAll({ limit: 9, sample: false }),
+    queryFn: () =>
+      propertyService.findAll({ limit: 9, sample: false, category }),
   });
+
+  // Faqat category o'zgarganda refetch qilish
+  useEffect(() => {
+    refetch();
+  }, [category]);
 
   return (
     <>
@@ -33,11 +46,7 @@ export default function Main() {
           </div>
         </div>
       </div>
-      <HeroSection
-        img={mainImage}
-        title={"pages.hero.title"}
-        handlePropertyType={() => {}}
-      />
+      <HeroSection img={mainImage} title={"pages.hero.title"} />
       <div>
         <div className="flex items-stretch gap-4 mb-4 flex-col md:flex-row mt-4">
           <div className="flex-1 flex flex-col gap-4">
@@ -51,21 +60,15 @@ export default function Main() {
               src={asideImage}
               alt="image"
             />
-            <p className="text-center mb-12">{t("pages.main_page.popular_searches")}</p>
+            <p className="text-center mb-12">
+              {t("pages.main_page.popular_searches")}
+            </p>
             <div className="px-6">
-              <p>
-                {t("pages.main_page.popular_searches_text")}
-              </p>
+              <p>{t("pages.main_page.popular_searches_text")}</p>
               <ul className="list-disc pl-8">
-                <li>
-                  {t("pages.main_page.list_item_1")}
-                </li>
-                <li>
-                  {t("pages.main_page.list_item_2")}
-                </li>
-                <li>
-                  {t("pages.main_page.list_item_3")}
-                </li>
+                <li>{t("pages.main_page.list_item_1")}</li>
+                <li>{t("pages.main_page.list_item_2")}</li>
+                <li>{t("pages.main_page.list_item_3")}</li>
               </ul>
             </div>
           </div>
@@ -87,21 +90,15 @@ export default function Main() {
               src={asideImage}
               alt="image"
             />
-            <p className="text-center mb-12">{t("pages.main_page.popular_searches")}</p>
+            <p className="text-center mb-12">
+              {t("pages.main_page.popular_searches")}
+            </p>
             <div className="px-6">
-              <p>
-                {t("pages.main_page.popular_searches_text")}
-              </p>
+              <p>{t("pages.main_page.popular_searches_text")}</p>
               <ul className="list-disc pl-8">
-                <li>
-                  {t("pages.main_page.list_item_1")}
-                </li>
-                <li>
-                  {t("pages.main_page.list_item_2")}
-                </li>
-                <li>
-                  {t("pages.main_page.list_item_3")}
-                </li>
+                <li>{t("pages.main_page.list_item_1")}</li>
+                <li>{t("pages.main_page.list_item_2")}</li>
+                <li>{t("pages.main_page.list_item_3")}</li>
               </ul>
             </div>
           </div>
