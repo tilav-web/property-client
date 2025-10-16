@@ -43,9 +43,7 @@ export default function CreateProperty() {
         return (
           data.price !== undefined &&
           data.price > 0 &&
-          !!data.price_type &&
-          !!data.property_type
-        );
+          !!data.price_type);
       case "location":
         return (
           !!data.address?.uz &&

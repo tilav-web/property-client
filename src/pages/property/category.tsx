@@ -2,18 +2,18 @@ import PropertyBannerCard from "@/components/common/cards/property-banner-card";
 import PropertyImageCard from "@/components/common/cards/property-image-card";
 import PropertyMiniCard from "@/components/common/cards/property-mini-card";
 import HeroSection from "@/components/common/hero-section";
-import type { IProperty, PropertyType } from "@/interfaces/property.interface";
+import type {
+  IProperty,
+  PropertyCategory,
+} from "@/interfaces/property.interface";
 import { propertyService } from "@/services/property.service";
 import { heroImage } from "@/utils/shared";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSearchParams } from "react-router-dom";
 
 export default function Category() {
-  const [params] = useSearchParams();
-  const category = params.get("category");
-  const [property_type, setPropertyType] = useState<PropertyType | undefined>();
+  const [category, setCategory] = useState<PropertyCategory | undefined>();
   const { t } = useTranslation();
 
   const { data, refetch } = useQuery({
@@ -23,26 +23,16 @@ export default function Category() {
         limit: 24,
         sample: true,
         price_type: "rent",
-        category:
-          category === "villa" ||
-          category === "shop" ||
-          category === "office" ||
-          category === "land" ||
-          category === "house" ||
-          category === "garage" ||
-          category === "apartment"
-            ? category
-            : "apartment",
-        property_type,
+        category,
       }),
   });
 
   useEffect(() => {
     refetch();
-  }, [category, refetch, property_type]);
+  }, [category, refetch, category]);
 
-  const handlePropertyType = (value: PropertyType) => {
-    setPropertyType(value);
+  const handlePropertyCategory = (value: PropertyCategory) => {
+    setCategory(value);
   };
 
   return (
@@ -51,8 +41,8 @@ export default function Category() {
         title={t("pages.category_page.title")}
         img={heroImage}
         className="text-white"
-        handlePropertyType={handlePropertyType}
-        property_type={property_type}
+        handlePropertyCategory={handlePropertyCategory}
+        category={category}
       />
       <div className="flex flex-wrap -mx-2 items-stretch gap-y-4">
         {data?.properties?.map((property: IProperty, index: number) => {

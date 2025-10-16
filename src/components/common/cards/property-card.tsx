@@ -128,9 +128,6 @@ export default function PropertyCard({ property }: { property: IProperty }) {
                 {t(`enums.property_category.${property?.category}`)}
               </p>
               <span className="text-gray-400">•</span>
-              <p className="text-sm text-gray-600">
-                {t(`enums.property_type.${property?.property_type}`)}
-              </p>
               <span className="text-gray-400">•</span>
               <p className="text-sm text-gray-600">
                 {t(`enums.property_purpose.${property?.purpose}`)}

@@ -116,9 +116,16 @@
       "house": "Hovli uy",
       "villa": "Villa",
       "office": "Ofis",
+      "retail": "Chakana savdo joyi",
+      "shop": "Do‘kon",
+      "hotel": "Mehmonxona",
+      "industrial": "Sanoat binosi",
+      "warehouse": "Omborxona",
+      "factory": "Zavod",
       "land": "Yer maydoni",
-      "shop": "Do'kon",
-      "garage": "Garaj"
+      "farm": "Fermer xo‘jaligi",
+      "garage": "Garaj",
+      "parking": "Avtoturargoh"
     },
     "construction_status": {
       "ready": "Tayyor",
@@ -137,19 +144,6 @@
       "for_commercial": "Tijorat uchun",
       "for_investment": "Investitsiya uchun",
       "auction": "Auksion"
-    },
-    "property_type": {
-      "apartment": "Kvartira",
-      "residential": "Turar-joy",
-      "commercial": "Tijorat",
-      "industrial": "Sanoat",
-      "land": "Yer",
-      "office": "Ofis",
-      "retail": "Chakana savdo",
-      "hotel": "Mehmonxona",
-      "villa": "Villa",
-      "house": "Uy",
-      "garage": "Garaj"
     },
     "property_currency": {
       "uzs": "UZS",
@@ -190,7 +184,6 @@
       },
       "price_tab": {
         "price_and_area": "Narx va maydon",
-        "property_type_label": "Mulk turi",
         "price_type_label": "Narx turi",
         "price_label": "Narx",
         "area_label": "Maydon (m²)",
@@ -368,7 +361,6 @@
       "kitchen_countertop": "Oshxona stoli",
       "spacious_living_room": "Keng yashash xonasi",
       "property_details": "Mulk tafsilotlari",
-      "property_type": "Mulk turi",
       "bedrooms": "Yotoqxonalar",
       "floor": "Qavat",
       "area": "Maydon",

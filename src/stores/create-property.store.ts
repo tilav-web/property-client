@@ -17,7 +17,6 @@ interface ICreateProperty {
   location?: { type: "Point"; coordinates: [number, number] };
   price?: number;
   price_type?: string;
-  property_type?: string; // Yangi qo'shildi
   purpose?: string;
   currency?: string;
   area?: number;

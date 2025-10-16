@@ -12,7 +12,6 @@ import {
 import { useCreatePropertyStore } from "@/stores/create-property.store";
 import {
   propertyPriceType,
-  propertyType,
   propertyPurpose,
   propertyCurrency,
 } from "@/interfaces/property.interface";
@@ -46,30 +45,6 @@ export default function PriceTab() {
       <CardContent className="space-y-4">
         {/* 1-qator: Mulk turi va Narx turi */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Mulk turi */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              {t("pages.create_property.price_tab.property_type_label")} *
-            </label>
-            <Select
-              value={data?.property_type ?? ""}
-              onValueChange={(value) => handleChange("property_type", value)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder={t("common.choose")} />
-              </SelectTrigger>
-              <SelectContent>
-                {propertyType.map((item) => {
-                  return (
-                    <SelectItem className="capitalize" key={item} value={item}>
-                      {t(`enums.property_type.${item}`)}
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
-          </div>
-
           {/* Narx turi */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">

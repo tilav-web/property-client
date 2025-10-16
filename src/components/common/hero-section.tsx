@@ -9,22 +9,22 @@ import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import {
-  propertyType,
-  type PropertyType,
+  propertyCategory,
+  type PropertyCategory,
 } from "@/interfaces/property.interface";
 
 export default function HeroSection({
   img,
   title,
   className,
-  handlePropertyType,
-  property_type,
+  handlePropertyCategory,
+  category,
 }: {
   title: string;
   img: string;
   className?: string;
-  handlePropertyType: (value: PropertyType) => void;
-  property_type?: PropertyType;
+  handlePropertyCategory: (value: PropertyCategory) => void;
+  category?: PropertyCategory;
 }) {
   const { t } = useTranslation();
   const [, setIsMobile] = useState(false);
@@ -80,20 +80,20 @@ export default function HeroSection({
           <DropdownMenu>
             <DropdownMenuTrigger className="flex w-full max-w-[190px] items-center gap-1 borser-r px-2 border-r-2 border-black h-full">
               <span className="opacity-50 flex-1 text-start">
-                {property_type
-                  ? t(`enums.property_type.${property_type}`)
+                {category
+                  ? t(`enums.property_category.${category}`)
                   : t("pages.hero.search.dropdown_menu.first")}
               </span>
               <ChevronDown />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              {propertyType.map((item) => {
+              {propertyCategory.map((item) => {
                 return (
                   <DropdownMenuItem
-                    onClick={() => handlePropertyType(item)}
+                    onClick={() => handlePropertyCategory(item)}
                     key={item}
                   >
-                    {t(`enums.property_type.${item}`)}
+                    {t(`enums.property_category.${item}`)}
                   </DropdownMenuItem>
                 );
               })}

@@ -26,18 +26,32 @@ export type PropertyCategory =
   | "house"
   | "villa"
   | "office"
-  | "land"
+  | "retail"
   | "shop"
-  | "garage";
+  | "hotel"
+  | "industrial"
+  | "warehouse"
+  | "factory"
+  | "land"
+  | "farm"
+  | "garage"
+  | "parking";
 
-export const propertyCategory = [
+export const propertyCategory: PropertyCategory[] = [
   "apartment",
   "house",
   "villa",
   "office",
-  "land",
+  "retail",
   "shop",
+  "hotel",
+  "industrial",
+  "warehouse",
+  "factory",
+  "land",
+  "farm",
   "garage",
+  "parking",
 ];
 
 export type ConstructionStatus = "ready" | "under_construction" | "planned";
@@ -51,33 +65,45 @@ export type PropertyPriceType = "sale" | "rent" | "total_price";
 export const propertyPriceType = ["sale", "rent", "total_price"];
 
 // YANGI: Property Type faqat fizik tur uchun
-export type PropertyType = 
-  | "apartment"        // Kvartira
-  | "residential"      // Turar-joy  
-  | "commercial"       // Tijorat
-  | "industrial"       // Sanoat
-  | "land"             // Yer
-  | "office"           // Ofis
-  | "retail"           // Chakana savdo
-  | "hotel"            // Mehmonxona
-  | "villa"            // Villa
-  | "house"            // Uy
-  | "garage";          // Garaj
+export type PropertyType =
+  | "apartment" // Kvartira
+  | "residential" // Turar-joy
+  | "commercial" // Tijorat
+  | "industrial" // Sanoat
+  | "land" // Yer
+  | "office" // Ofis
+  | "retail" // Chakana savdo
+  | "hotel" // Mehmonxona
+  | "villa" // Villa
+  | "house" // Uy
+  | "garage"; // Garaj
 
 export const propertyType: PropertyType[] = [
-  "apartment", "residential", "commercial", "industrial", 
-  "land", "office", "retail", "hotel", "villa", "house", "garage"
+  "apartment",
+  "residential",
+  "commercial",
+  "industrial",
+  "land",
+  "office",
+  "retail",
+  "hotel",
+  "villa",
+  "house",
+  "garage",
 ];
 
 // YANGI: Property Purpose (maqsad)
-export type PropertyPurpose = 
-  | "for_sale"           // Sotuvga
-  | "for_rent"           // Ijaraga  
-  | "for_daily_rent"     // Kunlik ijara
-  | "for_commercial";    // Tijorat maqsadida
+export type PropertyPurpose =
+  | "for_sale" // Sotuvga
+  | "for_rent" // Ijaraga
+  | "for_daily_rent" // Kunlik ijara
+  | "for_commercial"; // Tijorat maqsadida
 
 export const propertyPurpose: PropertyPurpose[] = [
-  "for_sale", "for_rent", "for_daily_rent", "for_commercial"
+  "for_sale",
+  "for_rent",
+  "for_daily_rent",
+  "for_commercial",
 ];
 
 // YANGI: Valyuta
@@ -105,23 +131,20 @@ export interface IProperty {
   address: ILanguage;
 
   category: PropertyCategory;
-  
+
   // YANGI: Asosiy maqsad (sotuv/ijara)
   purpose: PropertyPurpose;
-  
+
   // YANGI: Valyuta
   currency: PropertyCurrency;
-  
-  // ESKI: Fizik turi (kvartira/uy/ofis)
-  property_type: PropertyType;
-  
+
   location: ILocation;
   price: number;
   rating: number;
-  
+
   // ESKI: Narx turi (qanday hisoblanadi)
   price_type: PropertyPriceType;
-  
+
   area: number;
   bedrooms: number;
   bathrooms: number;
@@ -151,7 +174,6 @@ export interface IProperty {
 // YANGI: Qidiruv va filter interfeyslari
 export interface IPropertyFilter {
   purpose?: PropertyPurpose;
-  property_type?: PropertyType;
   category?: PropertyCategory;
   price_type?: PropertyPriceType;
   currency?: PropertyCurrency;
@@ -178,7 +200,6 @@ export interface ICreateProperty {
   category: PropertyCategory;
   purpose: PropertyPurpose;
   currency: PropertyCurrency;
-  property_type: PropertyType;
   location: ILocation;
   price: number;
   price_type: PropertyPriceType;
@@ -206,7 +227,6 @@ export interface IUpdateProperty {
   category?: PropertyCategory;
   purpose?: PropertyPurpose;
   currency?: PropertyCurrency;
-  property_type?: PropertyType;
   location?: ILocation;
   price?: number;
   price_type?: PropertyPriceType;

@@ -116,9 +116,16 @@
       "house": "House",
       "villa": "Villa",
       "office": "Office",
-      "land": "Land",
+      "retail": "Retail Space",
       "shop": "Shop",
-      "garage": "Garage"
+      "hotel": "Hotel",
+      "industrial": "Industrial Building",
+      "warehouse": "Warehouse",
+      "factory": "Factory",
+      "land": "Land",
+      "farm": "Farm",
+      "garage": "Garage",
+      "parking": "Parking"
     },
     "construction_status": {
       "ready": "Ready",
@@ -137,19 +144,6 @@
       "for_commercial": "For Commercial",
       "for_investment": "For Investment",
       "auction": "Auction"
-    },
-    "property_type": {
-      "apartment": "Apartment",
-      "residential": "Residential",
-      "commercial": "Commercial",
-      "industrial": "Industrial",
-      "land": "Land",
-      "office": "Office",
-      "retail": "Retail",
-      "hotel": "Hotel",
-      "villa": "Villa",
-      "house": "House",
-      "garage": "Garage"
     },
     "property_currency": {
       "uzs": "UZS",
@@ -200,7 +194,6 @@
       },
       "price_tab": {
         "price_and_area": "Price and Area",
-        "property_type_label": "Property Type",
         "price_type_label": "Price Type",
         "price_label": "Price",
         "area_label": "Area (m²)",
@@ -378,7 +371,6 @@
       "kitchen_countertop": "Kitchen countertop",
       "spacious_living_room": "Spacious living room",
       "property_details": "Property details",
-      "property_type": "Property type",
       "bedrooms": "Bedrooms",
       "floor": "Floor",
       "area": "Area",

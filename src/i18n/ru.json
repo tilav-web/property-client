@@ -116,9 +116,16 @@
       "house": "Дом",
       "villa": "Вилла",
       "office": "Офис",
-      "land": "Земельный участок",
+      "retail": "Розничная торговля",
       "shop": "Магазин",
-      "garage": "Гараж"
+      "hotel": "Отель",
+      "industrial": "Промышленное здание",
+      "warehouse": "Склад",
+      "factory": "Завод",
+      "land": "Земельный участок",
+      "farm": "Фермерское хозяйство",
+      "garage": "Гараж",
+      "parking": "Стоянка"
     },
     "construction_status": {
       "ready": "Готовый",
@@ -137,19 +144,6 @@
       "for_commercial": "Для коммерции",
       "for_investment": "Для инвестиций",
       "auction": "Аукцион"
-    },
-    "property_type": {
-      "apartment": "Квартира",
-      "residential": "Жилая",
-      "commercial": "Коммерческая",
-      "industrial": "Промышленная",
-      "land": "Земля",
-      "office": "Офис",
-      "retail": "Розничная торговля",
-      "hotel": "Гостиница",
-      "villa": "Вилла",
-      "house": "Дом",
-      "garage": "Гараж"
     },
     "property_currency": {
       "uzs": "UZS",
@@ -190,7 +184,6 @@
       },
       "price_tab": {
         "price_and_area": "Цена и площадь",
-        "property_type_label": "Тип объекта",
         "price_type_label": "Тип цены",
         "price_label": "Цена",
         "area_label": "Площадь (м²)",
@@ -378,7 +371,6 @@
       "kitchen_countertop": "Кухонная столешница",
       "spacious_living_room": "Просторная гостиная",
       "property_details": "Сведения о недвижимости",
-      "property_type": "Тип недвижимости",
       "bedrooms": "Спальни",
       "floor": "Этаж",
       "area": "Площадь",
