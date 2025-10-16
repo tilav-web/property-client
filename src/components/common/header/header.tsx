@@ -75,7 +75,7 @@ export default function Header() {
       label: t("common.rent_land"),
       href: "/category?category=land",
     },
-    { icon: Handshake, label: t("common.find_agent"), href: "/agents" },
+    { icon: Handshake, label: t("common.ai_agent"), href: "/agents" },
     { icon: Calculator, label: t("common.mortgage"), href: "/mortgage" },
     { icon: Star, label: t("common.new_projects"), href: "/new-projects" },
     { icon: Heart, label: t("common.favorites"), href: "/favorites" },
@@ -181,13 +181,17 @@ export default function Header() {
             >
               <Search className="h-4 w-4" />
             </Button>
-            <Button
-              onClick={() => navigate("/seller")}
-              variant="default"
-              className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-            >
-              <span className="font-semibold">{t("common.sell_or_rent")}</span>
-            </Button>
+            {user && (
+              <Button
+                onClick={() => navigate("/seller")}
+                variant="default"
+                className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+              >
+                <span className="font-semibold">
+                  {t("common.sell_or_rent")}
+                </span>
+              </Button>
+            )}
             {user?.likes && user?.likes?.length > 0 && (
               <Button
                 onClick={() => navigate("/favorites")}

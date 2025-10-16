@@ -18,7 +18,7 @@ import { useSellerStore } from "@/stores/seller.store";
 import FinishTab from "./tabs/finish.tab";
 import { useTranslation } from "react-i18next";
 
-export default function SellerRegister() {
+export default function SellerLegalRegister() {
   const [selectedTab, setSelectedTab] = useState<string>("business_type");
   const { seller } = useSellerStore();
   const { t } = useTranslation();

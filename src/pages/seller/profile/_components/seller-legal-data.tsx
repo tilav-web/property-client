@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-export default function SellerData() {
+export default function SellerLegalData() {
   const { seller } = useSellerStore();
   const { t } = useTranslation();
 
