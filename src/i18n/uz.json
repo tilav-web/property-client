@@ -84,16 +84,6 @@
       "loading": "Yuklanmoqda...",
       "please_wait": "Iltimos, kuting"
     },
-    "seller_properties_page": {
-      "my_properties": "Mening Mulklarim",
-      "loading": "Yuklanmoqda...",
-      "new_property": "Yangi Mulk",
-      "reload": "Qayta Yuklash",
-      "total_properties": "Jami: {count} ta mulk",
-      "no_properties_found": "Mulklar topilmadi",
-      "you_have_not_added_any_properties_yet": "Hozircha hech qanday mulk qo'shmagansiz. Birinchi mulkingizni qo'shish uchun pastdagi tugmani bosing.",
-      "add_first_property": "Birinchi Mulkni Qo'shish"
-    },
     "form_field": {
       "select_label": "{{label}} tanlang"
     },
@@ -693,6 +683,16 @@
       "uzbek": "O'zbekcha",
       "english": "English",
       "russian": "Русский"
+    },
+    "seller_properties_page": {
+      "my_properties": "Mening Mulklarim",
+      "loading": "Yuklanmoqda...",
+      "new_property": "Yangi Mulk",
+      "reload": "Qayta Yuklash",
+      "total_properties": "Jami: {{count}} ta mulk",
+      "no_properties_found": "Mulklar topilmadi",
+      "you_have_not_added_any_properties_yet": "Hozircha hech qanday mulk qo'shmagansiz. Birinchi mulkingizni qo'shish uchun pastdagi tugmani bosing.",
+      "add_first_property": "Birinchi Mulkni Qo'shish"
     }
   }
 }

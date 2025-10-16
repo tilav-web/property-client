@@ -84,16 +84,6 @@
       "loading": "Загрузка...",
       "please_wait": "Пожалуйста, подождите"
     },
-    "seller_properties_page": {
-      "my_properties": "Мои объекты",
-      "loading": "Загрузка...",
-      "new_property": "Новый объект",
-      "reload": "Перезагрузить",
-      "total_properties": "Всего: {count} объектов",
-      "no_properties_found": "Объекты не найдены",
-      "you_have_not_added_any_properties_yet": "Вы еще не добавили ни одного объекта. Нажмите кнопку ниже, чтобы добавить свой первый объект.",
-      "add_first_property": "Добавить первый объект"
-    },
     "form_field": {
       "select_label": "Выберите {{label}}"
     },
@@ -363,6 +353,16 @@
       "cancel": "Отмена",
       "saving": "Сохранение...",
       "save": "Сохранить"
+    },
+    "seller_properties_page": {
+      "my_properties": "Мои объекты",
+      "loading": "Загрузка...",
+      "new_property": "Новый объект",
+      "reload": "Перезагрузить",
+      "total_properties": "Всего: {{count}} объектов",
+      "no_properties_found": "Объекты не найдены",
+      "you_have_not_added_any_properties_yet": "Вы еще не добавили ни одного объекта. Нажмите кнопку ниже, чтобы добавить свой первый объект.",
+      "add_first_property": "Добавить первый объект"
     },
     "property_page": {
       "no_coordinates": "Нет координат",

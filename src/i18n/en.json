@@ -84,16 +84,6 @@
       "loading": "Loading...",
       "please_wait": "Please, wait"
     },
-    "seller_properties_page": {
-      "my_properties": "My Properties",
-      "loading": "Loading...",
-      "new_property": "New Property",
-      "reload": "Reload",
-      "total_properties": "Total: {count} properties",
-      "no_properties_found": "No properties found",
-      "you_have_not_added_any_properties_yet": "You haven't added any properties yet. Click the button below to add your first property.",
-      "add_first_property": "Add First Property"
-    },
     "form_field": {
       "select_label": "Select {{label}}"
     },
@@ -182,6 +172,16 @@
         "price_subtitle": "Price and payment",
         "location": "Location",
         "location_subtitle": "Address and map"
+      },
+      "seller_properties_page": {
+        "my_properties": "My Properties",
+        "loading": "Loading...",
+        "new_property": "New Property",
+        "reload": "Reload",
+        "total_properties": "Total: {{count}} properties",
+        "no_properties_found": "No properties found",
+        "you_have_not_added_any_properties_yet": "You haven't added any properties yet. Click the button below to add your first property.",
+        "add_first_property": "Add First Property"
       },
       "info_tab": {
         "main_info": "Main Information",
