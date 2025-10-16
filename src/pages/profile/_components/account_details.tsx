@@ -25,7 +25,7 @@ export default function AccountDetails() {
       avatar: null as File | null,
       password: "",
     },
-    validationSchema: profileSchema,
+    validationSchema: profileSchema(t),
     enableReinitialize: true,
     onSubmit: async (values) => {
       handleLoading(true);

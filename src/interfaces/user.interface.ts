@@ -18,5 +18,5 @@ export interface IUser {
   updatedAt?: Date;
 }
 
-export type UserRole = "physical" | "seller" | "legal";
+export type UserRole = "physical" | "legal";
 export type UserLan = "uz" | "en" | "ru";

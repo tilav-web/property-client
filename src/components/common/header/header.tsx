@@ -181,17 +181,13 @@ export default function Header() {
             >
               <Search className="h-4 w-4" />
             </Button>
-            {user && user?.role === "seller" && (
-              <Button
-                onClick={() => navigate("/seller")}
-                variant="default"
-                className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-              >
-                <span className="font-semibold">
-                  {t("common.sell_or_rent")}
-                </span>
-              </Button>
-            )}
+            <Button
+              onClick={() => navigate("/seller")}
+              variant="default"
+              className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+            >
+              <span className="font-semibold">{t("common.sell_or_rent")}</span>
+            </Button>
             {user?.likes && user?.likes?.length > 0 && (
               <Button
                 onClick={() => navigate("/favorites")}

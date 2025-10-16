@@ -89,7 +89,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/legal",
+        path: "/seller",
         element: (
           <SellerLayout>
             <SellerDashboard />

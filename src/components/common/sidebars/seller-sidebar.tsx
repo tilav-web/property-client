@@ -26,20 +26,30 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { seller } = useSellerStore();
 
   const registerMenuItems = {
-    seller: [
+    physical: [
       {
         to: "/seller/profile",
         icon: <User className="h-5 w-5" />,
         text: t("common.seller_sidebar.personal_info"),
       },
     ],
-    physical: [],
-    legal: [],
+    legal: [
+      {
+        to: "/seller/profile",
+        icon: <User className="h-5 w-5" />,
+        text: t("common.seller_sidebar.personal_info"),
+      },
+    ],
   };
 
   const menuItems = {
-    seller: [
-      { to: "/seller", icon: <Home className="h-5 w-5" />, text: t("common.seller_sidebar.dashboard") },
+    physical: [],
+    legal: [
+      {
+        to: "/seller",
+        icon: <Home className="h-5 w-5" />,
+        text: t("common.seller_sidebar.dashboard"),
+      },
       {
         to: "/seller/inquiries",
         icon: <Pointer className="h-5 w-5" />,
@@ -61,8 +71,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         text: t("common.seller_sidebar.personal_info"),
       },
     ],
-    physical: [],
-    legal: [],
   };
 
   return (
@@ -76,7 +84,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       )}
     >
       <div className="p-6 border-b border-primary-foreground/20 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{t("common.seller_sidebar.title")}</h1>
+        <h1 className="text-2xl font-bold">
+          {t("common.seller_sidebar.title")}
+        </h1>
         {/* Close button for mobile sidebar */}
         <Button
           variant="ghost"

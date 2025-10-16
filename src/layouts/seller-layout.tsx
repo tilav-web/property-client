@@ -29,7 +29,7 @@ export default function SellerLayout({ children }: { children: ReactNode }) {
   if (user === undefined) return <Loading />;
 
   return (
-    <RoleGuard roles={["legal"]}>
+    <RoleGuard roles={["legal", "physical"]}>
       <div className="flex h-screen overflow-y-auto bg-gray-50">
         {/* Desktop Sidebar */}
         <div className="hidden md:block w-64 flex-shrink-0">
