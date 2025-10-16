@@ -42,8 +42,12 @@ export default function Favorites() {
     <div className="py-6 w-full">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("pages.favorites_page.title")}</h1>
-        <p className="text-gray-600">{t("pages.favorites_page.item_count", { count: data?.length })}</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          {t("pages.favorites_page.title")}
+        </h1>
+        <p className="text-gray-600">
+          {t("pages.favorites_page.item_count", { count: data?.length })}
+        </p>
       </div>
 
       {/* Properties Grid */}

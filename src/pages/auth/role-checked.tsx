@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import BackButton from "@/components/common/buttons/back-button";
 import { Button } from "@/components/ui/button";
-import { roleImage1, roleImage2, roleImage3 } from "@/utils/shared";
+import { roleImage1, roleImage3 } from "@/utils/shared";
 import { ArrowRightToLine } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,8 +12,11 @@ export default function RoleChecked() {
   const navigate = useNavigate();
 
   const roles = [
-    { id: "physical", image: roleImage1, label: t("pages.role_page.roles.physical") },
-    { id: "seller", image: roleImage2, label: t("pages.role_page.roles.seller") },
+    {
+      id: "physical",
+      image: roleImage1,
+      label: t("pages.role_page.roles.physical"),
+    },
     { id: "legal", image: roleImage3, label: t("pages.role_page.roles.legal") },
   ];
 
@@ -32,7 +35,7 @@ export default function RoleChecked() {
           {t("pages.role_page.subtitle")}
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           {roles.map((role) => (
             <div key={role.id} className="flex flex-col items-center">
               <input
