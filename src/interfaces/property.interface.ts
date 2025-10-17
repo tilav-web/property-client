@@ -97,7 +97,9 @@ export type PropertyPurpose =
   | "for_sale" // Sotuvga
   | "for_rent" // Ijaraga
   | "for_daily_rent" // Kunlik ijara
-  | "for_commercial"; // Tijorat maqsadida
+  | "for_commercial" // Tijorat maqsadida
+  | "for_investment"
+  | "auction";
 
 export const propertyPurpose: PropertyPurpose[] = [
   "for_sale",

@@ -26,6 +26,9 @@ const validationSchema = (t: TFunction) =>
     jshshir: Yup.string()
       .matches(/^\d{14}$/, t("physical_seller_register.jshshir_14_digits"))
       .required(t("physical_seller_register.jshshir_required")),
+    passport: Yup.string()
+      .matches(/^[A-Z]{2}\d{7}$/, t("user_details_tab.passport_format_error"))
+      .required(t("user_details_tab.passport_required")),
   });
 
 export default function PhysicalPersonForm() {
@@ -39,15 +42,22 @@ export default function PhysicalPersonForm() {
       middle_name: "",
       birth_date: "",
       jshshir: "",
+      passport: "",
       passport_file: null as File | null,
     },
     validationSchema: validationSchema(t),
     onSubmit: async (values) => {
+      if (!seller?._id) {
+        toast.error(
+          "Seller not found. Please go back and select a business type."
+        );
+        return;
+      }
+
       try {
         const formData = new FormData();
-        formData.append("seller", seller?._id ?? "");
         Object.entries(values).forEach(([key, value]) => {
-          if (value) {
+          if (key !== "seller" && value) {
             formData.append(key, value);
           }
         });
@@ -55,7 +65,6 @@ export default function PhysicalPersonForm() {
         const updatedSeller = await sellerService.createPhysicalSeller(
           formData
         );
-
         if (updatedSeller) {
           setSeller(updatedSeller);
         }
@@ -137,6 +146,14 @@ export default function PhysicalPersonForm() {
               </div>
             ) : null}
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="passport">{t("user_details_tab.passport")}</Label>
+          <Input id="passport" {...formik.getFieldProps("passport")} />
+          {formik.touched.passport && formik.errors.passport ? (
+            <div className="text-red-500 text-sm">{formik.errors.passport}</div>
+          ) : null}
         </div>
 
         <div className="space-y-2">

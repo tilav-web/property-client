@@ -17,10 +17,11 @@ import { useCurrentLanguage } from "@/hooks/use-language";
 
 export default function PropertyCard({ property }: { property: IProperty }) {
   const { t } = useTranslation();
-  // Rasm URL'ini olish
+  console.log(property);
+
   const photoImages =
     property?.photos
-      ?.filter((p) => p.file_name.startsWith("photo-"))
+      ?.filter((p) => p.file_name.startsWith("photos-"))
       .map((p) => `${serverUrl}/uploads/${p.file_path}`) || [];
 
   const mainImage =
@@ -34,39 +35,61 @@ export default function PropertyCard({ property }: { property: IProperty }) {
 
   // Narx formati - purpose va price_type ga qarab
   const getPriceDisplay = () => {
-    const formattedPrice = property?.price.toLocaleString();
+    if (!property?.price) return t("pages.property_card.price_not_available");
 
-    // Valyuta belgisi
+    const formattedPrice = property.price.toLocaleString();
     const currencySymbol = t(
       `pages.property_card.currency_symbols.${property?.currency}`
     );
 
-    // purpose va price_type asosida narx formati
-    if (property?.purpose === "for_rent") {
-      if (property?.price_type === "rent") {
-        return `${formattedPrice} ${currencySymbol}${t(
-          "pages.property_card.price_formats.per_month"
-        )}`;
-      }
-    } else if (property?.purpose === "for_daily_rent") {
-      return `${formattedPrice} ${currencySymbol}${t(
-        "pages.property_card.price_formats.per_day"
-      )}`;
-    } else if (property?.purpose === "for_sale") {
-      if (property?.price_type === "total_price") {
-        return `${formattedPrice} ${currencySymbol}`;
-      } else if (property?.price_type === "sale") {
-        return `${formattedPrice} ${currencySymbol}${t(
-          "pages.property_card.price_formats.per_sqm"
-        )}`;
-      }
-    } else if (property?.purpose === "for_commercial") {
-      return `${formattedPrice} ${currencySymbol}${t(
-        "pages.property_card.price_formats.per_month"
-      )}`;
+    switch (property.purpose) {
+      case "for_sale":
+        switch (property.price_type) {
+          case "sale":
+            return `${formattedPrice} ${currencySymbol}${t(
+              "pages.property_card.price_formats.per_sqm"
+            )}`;
+          case "total_price":
+            return `${formattedPrice} ${currencySymbol}${t(
+              "pages.property_card.price_formats.total"
+            )}`;
+        }
+        break;
+
+      case "for_rent":
+        if (property.price_type === "rent") {
+          return `${formattedPrice} ${currencySymbol}${t(
+            "pages.property_card.price_formats.per_month"
+          )}`;
+        }
+        break;
+
+      case "for_daily_rent":
+        if (property.price_type === "rent") {
+          return `${formattedPrice} ${currencySymbol}${t(
+            "pages.property_card.price_formats.per_day"
+          )}`;
+        }
+        break;
+
+      case "for_commercial":
+        if (property.price_type === "rent") {
+          return `${formattedPrice} ${currencySymbol}${t(
+            "pages.property_card.price_formats.per_month"
+          )}`;
+        }
+        break;
+
+      case "for_investment":
+      case "auction":
+        if (property.price_type === "total_price") {
+          return `${formattedPrice} ${currencySymbol}${t(
+            "pages.property_card.price_formats.total"
+          )}`;
+        }
+        break;
     }
 
-    // Default holat
     return `${formattedPrice} ${currencySymbol}`;
   };
 

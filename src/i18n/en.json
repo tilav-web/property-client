@@ -168,16 +168,6 @@
         "location": "Location",
         "location_subtitle": "Address and map"
       },
-      "seller_properties_page": {
-        "my_properties": "My Properties",
-        "loading": "Loading...",
-        "new_property": "New Property",
-        "reload": "Reload",
-        "total_properties": "Total: {{count}} properties",
-        "no_properties_found": "No properties found",
-        "you_have_not_added_any_properties_yet": "You haven't added any properties yet. Click the button below to add your first property.",
-        "add_first_property": "Add First Property"
-      },
       "info_tab": {
         "main_info": "Main Information",
         "title_label": "Title",
@@ -224,6 +214,16 @@
         "error_submitting": "Error submitting:",
         "check_mark": "✓"
       }
+    },
+    "seller_properties_page": {
+      "my_properties": "My Properties",
+      "loading": "Loading...",
+      "new_property": "New Property",
+      "reload": "Reload",
+      "total_properties": "Total: {{count}} properties",
+      "no_properties_found": "No properties found",
+      "you_have_not_added_any_properties_yet": "You haven't added any properties yet. Click the button below to add your first property.",
+      "add_first_property": "Add First Property"
     },
     "hero": {
       "title": "Dream homes in the heart of Uzbekistan",
@@ -702,6 +702,7 @@
     "phone_placeholder": "+998 XX XXX XX XX",
     "passport": "Passport *",
     "passport_placeholder": "AA 1234567",
+    "passport_format_error": "Passport must be in the format AA1234567 (2 uppercase letters and 7 digits)",
     "language": "Language *",
     "select_language": "Select language",
     "uzbek": "O'zbekcha",

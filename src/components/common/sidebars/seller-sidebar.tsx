@@ -43,7 +43,33 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   };
 
   const menuItems = {
-    physical: [],
+    physical: [
+      {
+        to: "/seller",
+        icon: <Home className="h-5 w-5" />,
+        text: t("common.seller_sidebar.dashboard"),
+      },
+      {
+        to: "/seller/inquiries",
+        icon: <Pointer className="h-5 w-5" />,
+        text: t("common.seller_sidebar.inquiries"),
+      },
+      {
+        to: "/seller/feedback",
+        icon: <Stars className="h-5 w-5" />,
+        text: t("common.seller_sidebar.feedback"),
+      },
+      {
+        to: "/seller/properties",
+        icon: <Building2 className="h-5 w-5" />,
+        text: t("common.seller_sidebar.properties"),
+      },
+      {
+        to: "/seller/profile",
+        icon: <User className="h-5 w-5" />,
+        text: t("common.seller_sidebar.personal_info"),
+      },
+    ],
     legal: [
       {
         to: "/seller",

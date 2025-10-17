@@ -230,7 +230,7 @@ export default function Property() {
   });
 
   const photos = property?.photos?.filter((photo: IFile) =>
-    photo?.file_name?.startsWith("photo-")
+    photo?.file_name?.startsWith("photos-")
   );
 
   const videos = property?.videos || [];

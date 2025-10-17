@@ -215,6 +215,16 @@
         "check_mark": "✓"
       }
     },
+    "seller_properties_page": {
+      "my_properties": "Mening mulklarim",
+      "loading": "Yuklanmoqda...",
+      "new_property": "Yangi mulk",
+      "reload": "Qayta yuklash",
+      "total_properties": "Jami: {{count}} ta mulk",
+      "no_properties_found": "Hech qanday mulk topilmadi",
+      "you_have_not_added_any_properties_yet": "Siz hali birorta mulk qo‘shmagansiz. Birinchi mulkingizni qo‘shish uchun quyidagi tugmani bosing.",
+      "add_first_property": "Birinchi mulkni qo‘shish"
+    },
     "hero": {
       "title": "O‘zbekistonning yuragida orzu xonadonlari",
       "search": {
@@ -239,7 +249,8 @@
       "price_formats": {
         "per_month": "/oy",
         "per_day": "/kun",
-        "per_sqm": "/m²"
+        "per_sqm": "",
+        "total": "(umumiy)"
       },
       "currency_symbols": {
         "uzs": "so'm",
@@ -255,9 +266,10 @@
     },
     "property_mini_card": {
       "price_formats": {
-        "sale": "",
-        "rent": "/ oy",
-        "total_price": "(umumiy)"
+        "per_month": "/oy",
+        "per_day": "/kun",
+        "per_sqm": "",
+        "total": "(umumiy)"
       }
     },
     "login_page": {
@@ -671,6 +683,7 @@
       "phone_placeholder": "+998 XX XXX XX XX",
       "passport": "Pasport *",
       "passport_placeholder": "AA 1234567",
+      "passport_format_error": "Pasport AA1234567 formatida bo'lishi kerak (2 ta katta harf va 7 ta raqam)",
       "language": "Til *",
       "select_language": "Tilni tanlang",
       "uzbek": "O'zbekcha",
