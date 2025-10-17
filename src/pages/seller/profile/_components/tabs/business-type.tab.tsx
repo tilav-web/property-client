@@ -33,7 +33,9 @@ export default function BusinessTypeTab({
       <h3 className="text-lg font-semibold text-gray-900">
         {t("pages.business_type_tab.choose_business_type")}
       </h3>
-      <p className="text-sm text-gray-600">{t("pages.business_type_tab.choose_one_of_the_following")}</p>
+      <p className="text-sm text-gray-600">
+        {t("pages.business_type_tab.choose_one_of_the_following")}
+      </p>
 
       <RadioGroup
         value={businessType}
@@ -65,20 +67,6 @@ export default function BusinessTypeTab({
             className="text-base cursor-pointer flex-1 h-full"
           >
             {t("pages.business_type_tab.llc_or_other_legal_entity")}
-          </Label>
-        </div>
-
-        <div className="flex items-center h-12 px-2 gap-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-          <RadioGroupItem
-            value="self_employed"
-            id="self_employed"
-            className="text-blue-600 border-blue-600"
-          />
-          <Label
-            htmlFor="self_employed"
-            className="text-base cursor-pointer flex-1 h-full"
-          >
-            {t("pages.business_type_tab.self_employed_person")}
           </Label>
         </div>
       </RadioGroup>

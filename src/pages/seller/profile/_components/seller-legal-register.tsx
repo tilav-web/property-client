@@ -30,17 +30,15 @@ export default function SellerLegalRegister() {
         return setSelectedTab("user_details");
       if (
         (seller?.business_type === "mchj" && !seller?.mchj) ||
-        (seller?.business_type === "ytt" && !seller?.ytt) ||
-        (seller?.business_type === "self_employed" && !seller?.self_employed)
+        (seller?.business_type === "ytt" && !seller?.ytt)
       )
         return setSelectedTab("busisess_details");
 
       if (
-        ((seller?.business_type === "mchj" && seller?.mchj) ||
-          (seller?.business_type === "ytt" && seller?.ytt) ||
-          (seller?.business_type === "self_employed" &&
-            seller?.self_employed)) &&
-        !seller?.bank_account
+        (seller?.business_type === "mchj" && seller?.mchj) ||
+        (seller?.business_type === "ytt" &&
+          seller?.ytt &&
+          !seller?.bank_account)
       )
         return setSelectedTab("bank_account_number");
 
@@ -62,7 +60,9 @@ export default function SellerLegalRegister() {
   return (
     <div>
       <div className="bg-white mb-16 p-4 rounded-2xl">
-        <h3 className="text-2xl font-bold">{t("pages.seller_register_page.business_registration")}</h3>
+        <h3 className="text-2xl font-bold">
+          {t("pages.seller_register_page.business_registration")}
+        </h3>
         <p>{t("pages.seller_register_page.fill_your_details")}</p>
       </div>
       <div className="max-w-7xl mx-auto">
@@ -73,7 +73,9 @@ export default function SellerLegalRegister() {
           className="flex-row gap-4 items-start"
         >
           <div className="max-w-md w-full bg-white p-8 rounded-2xl">
-            <h5 className="mb-4 text-2xl font-bold">{t("pages.seller_register_page.process")}</h5>
+            <h5 className="mb-4 text-2xl font-bold">
+              {t("pages.seller_register_page.process")}
+            </h5>
             <TabsList className="flex-col h-full bg-white items-start gap-4 w-full mb-4">
               <TabsTrigger
                 onClick={(e) => e.preventDefault()}
@@ -128,14 +130,22 @@ export default function SellerLegalRegister() {
             </TabsList>
             <div className="bg-blue-500/10 px-6 py-4 rounded-xl">
               <div className="flex items-center justify-between">
-                <p className="mb-2 text-gray-800 font-medium">{t("pages.seller_register_page.process")}</p>
+                <p className="mb-2 text-gray-800 font-medium">
+                  {t("pages.seller_register_page.process")}
+                </p>
                 <p className="text-sm">
-                  {selectedTab === "business_type" && t("pages.seller_register_page.0%")}
-                  {selectedTab === "user_details" && t("pages.seller_register_page.20%")}
-                  {selectedTab === "busisess_details" && t("pages.seller_register_page.40%")}
-                  {selectedTab === "bank_account_number" && t("pages.seller_register_page.60%")}
-                  {selectedTab === "commissioner" && t("pages.seller_register_page.80%")}
-                  {selectedTab === "finish_tab" && t("pages.seller_register_page.100%")}
+                  {selectedTab === "business_type" &&
+                    t("pages.seller_register_page.0%")}
+                  {selectedTab === "user_details" &&
+                    t("pages.seller_register_page.20%")}
+                  {selectedTab === "busisess_details" &&
+                    t("pages.seller_register_page.40%")}
+                  {selectedTab === "bank_account_number" &&
+                    t("pages.seller_register_page.60%")}
+                  {selectedTab === "commissioner" &&
+                    t("pages.seller_register_page.80%")}
+                  {selectedTab === "finish_tab" &&
+                    t("pages.seller_register_page.100%")}
                 </p>
               </div>
 

@@ -1,10 +1,25 @@
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Bell, Search } from "lucide-react";
+import {
+  Menu,
+  X,
+  Bell,
+  Search,
+  Globe,
+  ChevronDown,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useUserStore } from "@/stores/user.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { serverUrl } from "@/utils/shared";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { handleStorage } from "@/utils/handle-storage";
+import { userService } from "@/services/user.service";
 
 interface HeaderProps {
   isSidebarOpen: boolean;
@@ -17,8 +32,26 @@ export default function SellerHeader({
   setIsSidebarOpen,
   notificationCount = 0,
 }: HeaderProps) {
-  const { t } = useTranslation();
-  const { user } = useUserStore();
+  const { t, i18n } = useTranslation();
+  const { user, setUser } = useUserStore();
+  const lanValue = handleStorage({ key: "lan" });
+
+  const languages = ["uz", "ru", "en"];
+
+  const handleChangeUserLan = async (lan: string) => {
+    try {
+      if (user) {
+        const formData = new FormData();
+        formData.append("lan", lan);
+        const data = await userService.update(formData);
+        setUser(data);
+      }
+      handleStorage({ key: "lan", value: lan });
+      i18n.changeLanguage(lan);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // User ism va familiyasidan avatar initial olish
   const getInitials = () => {
@@ -32,7 +65,8 @@ export default function SellerHeader({
   const getFullName = () => {
     if (!user) return t("common.seller_header.seller");
     return (
-      `${user.first_name || ""} ${user.last_name || ""}`.trim() || t("common.seller_header.seller")
+      `${user.first_name || ""} ${user.last_name || ""}`.trim() ||
+      t("common.seller_header.seller")
     );
   };
 
@@ -60,9 +94,13 @@ export default function SellerHeader({
             <div className="w-1 h-6 bg-green-500 rounded-full" />
             <div>
               <h2 className="text-sm font-semibold text-gray-900">
-                {t("common.seller_header.welcome", { name: user?.first_name || t("common.seller_header.seller") })}
+                {t("common.seller_header.welcome", {
+                  name: user?.first_name || t("common.seller_header.seller"),
+                })}
               </h2>
-              <p className="text-xs text-gray-500">{t("common.seller_header.seller_panel")}</p>
+              <p className="text-xs text-gray-500">
+                {t("common.seller_header.seller_panel")}
+              </p>
             </div>
           </div>
         </div>
@@ -104,13 +142,49 @@ export default function SellerHeader({
             )}
           </Button>
 
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="hidden sm:flex items-center gap-1"
+              >
+                <Globe className="h-4 w-4" />
+                <span className="text-sm uppercase">
+                  {user?.lan ? user?.lan : lanValue ? lanValue : "uz"}
+                </span>
+                <ChevronDown className="h-3 w-3" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-32 select-none">
+              {languages.map((lan) => (
+                <DropdownMenuItem
+                  key={lan}
+                  onClick={() => handleChangeUserLan(lan)}
+                  className="flex items-center gap-2 select-none"
+                >
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      lan === user?.lan || lan === lanValue
+                        ? "bg-green-500"
+                        : "bg-gray-300"
+                    }`}
+                  ></span>
+                  {t(`common.header.languages.${lan}`)}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {/* User Profile */}
           <div className="flex items-center gap-2">
             <div className="hidden sm:flex flex-col items-end">
               <span className="text-sm font-medium text-gray-900">
                 {getFullName()}
               </span>
-              <span className="text-xs text-gray-500">{t("common.seller_header.seller")}</span>
+              <span className="text-xs text-gray-500">
+                {t("common.seller_header.seller")}
+              </span>
             </div>
 
             {/* Avatar with user image or initials */}

@@ -206,39 +206,7 @@ export default function Header() {
               </Button>
             )}
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="hidden sm:flex items-center gap-1"
-                >
-                  <Globe className="h-4 w-4" />
-                  <span className="text-sm uppercase">
-                    {user?.lan ? user?.lan : lanValue ? lanValue : "uz"}
-                  </span>
-                  <ChevronDown className="h-3 w-3" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-32 select-none">
-                {languages.map((lan) => (
-                  <DropdownMenuItem
-                    key={lan}
-                    onClick={() => handleChangeUserLan(lan)}
-                    className="flex items-center gap-2 select-none"
-                  >
-                    <span
-                      className={`w-2 h-2 rounded-full ${
-                        lan === user?.lan || lan === lanValue
-                          ? "bg-green-500"
-                          : "bg-gray-300"
-                      }`}
-                    ></span>
-                    {t(`common.header.languages.${lan}`)}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

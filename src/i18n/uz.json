@@ -676,16 +676,26 @@
       "uzbek": "O'zbekcha",
       "english": "English",
       "russian": "Русский"
-    },
-    "seller_properties_page": {
-      "my_properties": "Mening Mulklarim",
-      "loading": "Yuklanmoqda...",
-      "new_property": "Yangi Mulk",
-      "reload": "Qayta Yuklash",
-      "total_properties": "Jami: {{count}} ta mulk",
-      "no_properties_found": "Mulklar topilmadi",
-      "you_have_not_added_any_properties_yet": "Hozircha hech qanday mulk qo'shmagansiz. Birinchi mulkingizni qo'shish uchun pastdagi tugmani bosing.",
-      "add_first_property": "Birinchi Mulkni Qo'shish"
     }
+  },
+  "physical_seller_register": {
+    "self_employed": "O'zini o'zi band qilgan",
+    "physical_person": "Jismoniy shaxs",
+    "self_employed_details": "O'zini o'zi band qilgan shaxs ma'lumotlari",
+    "physical_person_details": "Jismoniy shaxs ma'lumotlari",
+    "first_name": "Ism",
+    "last_name": "Familiya",
+    "middle_name": "Otasining ismi",
+    "birth_date": "Tug'ilgan sana",
+    "jshshir": "JSHSHIR",
+    "passport_file": "Pasport fayli",
+    "self_employment_certificate": "O'zini o'zi bandlik to'g'risidagi guvohnoma",
+    "first_name_required": "Ism majburiy",
+    "last_name_required": "Familiya majburiy",
+    "middle_name_required": "Otasining ismi majburiy",
+    "birth_date_required": "Tug'ilgan sana majburiy",
+    "jshshir_14_digits": "JSHSHIR 14 ta raqamdan iborat bo'lishi kerak",
+    "jshshir_required": "JSHSHIR majburiy",
+    "failed_to_save_details": "Ma'lumotlarni saqlashda xatolik"
   }
 }
