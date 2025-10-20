@@ -90,27 +90,7 @@ class UserService {
     }
   }
 
-  async handleLike(property: string) {
-    try {
-      const res = await apiInstance.post(
-        `${API_ENDPOINTS.USER.like}/${property}`
-      );
-      return res.data;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
 
-  async findLikes() {
-    try {
-      const res = await apiInstance.get(API_ENDPOINTS.USER.likes);
-      return res.data;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
 }
 
 export const userService = new UserService();

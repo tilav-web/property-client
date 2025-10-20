@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -40,6 +40,7 @@ import { userService } from "@/services/user.service";
 import { toast } from "sonner";
 import { handleStorage } from "@/utils/handle-storage";
 import { useSellerStore } from "@/stores/seller.store";
+import { useLikeStore } from "@/stores/like.store";
 
 export default function Header() {
   const { t, i18n } = useTranslation();
@@ -47,7 +48,14 @@ export default function Header() {
   const navigate = useNavigate();
   const { user, logout, setUser } = useUserStore();
   const { logout: sellerLogout } = useSellerStore();
+  const { likedProperties, fetchLikedProperties } = useLikeStore();
   const lanValue = handleStorage({ key: "lan" });
+
+  useEffect(() => {
+    if (user) {
+      fetchLikedProperties();
+    }
+  }, [user, fetchLikedProperties]);
 
   const logoutSystem = async () => {
     try {
@@ -192,7 +200,7 @@ export default function Header() {
                 </span>
               </Button>
             )}
-            {user?.likes && user?.likes?.length > 0 && (
+            {user && likedProperties.length > 0 && (
               <Button
                 onClick={() => navigate("/favorites")}
                 variant="ghost"
@@ -201,11 +209,44 @@ export default function Header() {
               >
                 <Heart className="h-4 w-4" />
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                  {user?.likes?.length}
+                  {likedProperties.length}
                 </span>
               </Button>
             )}
 
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-1"
+                >
+                  <Globe className="h-4 w-4" />
+                  <span className="text-sm uppercase">
+                    {i18n.language}
+                  </span>
+                  <ChevronDown className="h-3 w-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-32 select-none">
+                {languages.map((lan) => (
+                  <DropdownMenuItem
+                    key={lan}
+                    onClick={() => handleChangeUserLan(lan)}
+                    className="flex items-center gap-2 select-none"
+                  >
+                    <span
+                      className={`w-2 h-2 rounded-full ${
+                        lan === i18n.language
+                          ? "bg-green-500"
+                          : "bg-gray-300"
+                      }`}
+                    ></span>
+                    {t(`common.header.languages.${lan}`)}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {user ? (
               <DropdownMenu>

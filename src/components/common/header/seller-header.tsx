@@ -1,13 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import {
-  Menu,
-  X,
-  Bell,
-  Search,
-  Globe,
-  ChevronDown,
-} from "lucide-react";
+import { Menu, X, Bell, Search, Globe, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useUserStore } from "@/stores/user.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

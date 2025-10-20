@@ -168,6 +168,7 @@ export interface IProperty {
   district: IDistrict;
   photos?: IFile[];
   videos?: IFile[];
+  contract_file: IFile;
   logo: string;
   createdAt: Date;
   updatedAt: Date;

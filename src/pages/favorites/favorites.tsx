@@ -1,23 +1,24 @@
 import { useTranslation } from "react-i18next";
 import PropertyCard from "@/components/common/cards/property-card";
 import type { IProperty } from "@/interfaces/property.interface";
-import { userService } from "@/services/user.service";
-import { useQuery } from "@tanstack/react-query";
 import { Heart } from "lucide-react";
 import BoxLoading from "@/components/common/loadings/box-loading";
+import { useLikeStore } from "@/stores/like.store";
+import { useEffect } from "react";
 
 export default function Favorites() {
   const { t } = useTranslation();
-  const { data, isLoading } = useQuery({
-    queryKey: ["likes"],
-    queryFn: () => userService.findLikes(),
-  });
+  const { likedProperties, isLoading, fetchLikedProperties } = useLikeStore();
+
+  useEffect(() => {
+    fetchLikedProperties();
+  }, [fetchLikedProperties]);
 
   if (isLoading) {
     return <BoxLoading />;
   }
 
-  if (!data || data.length === 0) {
+  if (!likedProperties || likedProperties.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
         {/* Icon */}
@@ -46,13 +47,13 @@ export default function Favorites() {
           {t("pages.favorites_page.title")}
         </h1>
         <p className="text-gray-600">
-          {t("pages.favorites_page.item_count", { count: data?.length })}
+          {t("pages.favorites_page.item_count", { count: likedProperties?.length })}
         </p>
       </div>
 
       {/* Properties Grid */}
       <div className="flex flex-col gap-4">
-        {data.map((property: IProperty) => (
+        {likedProperties.map((property: IProperty) => (
           <PropertyCard key={property._id} property={property} />
         ))}
       </div>

@@ -17,7 +17,6 @@ import { useCurrentLanguage } from "@/hooks/use-language";
 
 export default function PropertyCard({ property }: { property: IProperty }) {
   const { t } = useTranslation();
-  console.log(property);
 
   const photoImages =
     property?.photos
@@ -237,7 +236,9 @@ export default function PropertyCard({ property }: { property: IProperty }) {
         <div className="flex flex-col lg:flex-row items-center gap-3 justify-between">
           <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
             <BidPriceButton />
-            <OnlineContractButton />
+            {property?.contract_file && (
+              <OnlineContractButton file={property?.contract_file} />
+            )}
           </div>
           <div className="flex flex-wrap gap-2 justify-center lg:justify-end">
             {property?.author?.phone?.value && (
@@ -248,7 +249,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
             )}
             <WhatsAppButton />
             <HeartButton id={property?._id} />
-            <EllipsisVerticalButton />
+            <EllipsisVerticalButton property={property} />
           </div>
         </div>
       </div>
