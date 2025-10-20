@@ -20,9 +20,7 @@ export default function EllipsisVerticalButton({
   property: IProperty;
 }) {
   const { user } = useUserStore();
-  const { toggleSaveProperty, isSaved } = useSaveStore();
-  const saved = isSaved(property._id);
-
+  const { toggleSaveProperty } = useSaveStore();
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
@@ -73,19 +71,20 @@ export default function EllipsisVerticalButton({
             }`}
             title={
               user
-                ? saved
+                ? property?.saved
                   ? "Saqlanganlardan o'chirish"
                   : "Saqlab qo'yish"
                 : "Saqlash uchun tizimga kiring!"
             }
           >
             <Bookmark
-              className={`w-4 h-4 ${saved ? "fill-current text-yellow-500" : ""}`}
+              className={`w-4 h-4 ${
+                property?.saved ? "fill-current text-yellow-500" : ""
+              }`}
             />
-            <span>{saved ? "Saqlangan" : "Saqlash"}</span>
+            <span>{property?.saved ? "Saqlangan" : "Saqlash"}</span>
           </button>
 
-          {/* Komment yozish tugmasi */}
           <button
             disabled={!user}
             onClick={handleComment}

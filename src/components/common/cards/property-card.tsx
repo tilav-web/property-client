@@ -248,7 +248,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
               <MailButton mail={property?.author?.email?.value} />
             )}
             <WhatsAppButton />
-            <HeartButton id={property?._id} />
+            <HeartButton property={property} />
             <EllipsisVerticalButton property={property} />
           </div>
         </div>

@@ -7,10 +7,9 @@ interface LikeState {
   isLoading: boolean;
   fetchLikedProperties: () => Promise<void>;
   toggleLikeProperty: (propertyId: string) => Promise<void>;
-  isLiked: (propertyId: string) => boolean;
 }
 
-export const useLikeStore = create<LikeState>((set, get) => ({
+export const useLikeStore = create<LikeState>((set) => ({
   likedProperties: [],
   isLoading: false,
   fetchLikedProperties: async () => {
@@ -44,8 +43,5 @@ export const useLikeStore = create<LikeState>((set, get) => ({
     } catch (error) {
       console.error("Failed to toggle like status", error);
     }
-  },
-  isLiked: (id: string) => {
-    return get().likedProperties.some((p) => p._id === id);
   },
 }));

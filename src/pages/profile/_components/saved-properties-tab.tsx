@@ -1,14 +1,9 @@
-import { useEffect } from "react";
 import { useSaveStore } from "@/stores/save.store";
 import PropertyCard from "@/components/common/cards/property-card";
 import { Loader } from "lucide-react";
 
 export default function SavedPropertiesTab() {
-  const { savedProperties, isLoading, fetchSavedProperties } = useSaveStore();
-
-  useEffect(() => {
-    fetchSavedProperties();
-  }, [fetchSavedProperties]);
+  const { savedProperties, isLoading } = useSaveStore();
 
   if (isLoading) {
     return (
@@ -27,7 +22,7 @@ export default function SavedPropertiesTab() {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 gap-4">
       {savedProperties.map((property) => (
         <PropertyCard key={property._id} property={property} />
       ))}

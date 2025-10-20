@@ -7,10 +7,9 @@ interface SaveState {
   isLoading: boolean;
   fetchSavedProperties: () => Promise<void>;
   toggleSaveProperty: (propertyId: string) => Promise<void>;
-  isSaved: (propertyId: string) => boolean;
 }
 
-export const useSaveStore = create<SaveState>((set, get) => ({
+export const useSaveStore = create<SaveState>((set) => ({
   savedProperties: [],
   isLoading: false,
   fetchSavedProperties: async () => {
@@ -32,9 +31,7 @@ export const useSaveStore = create<SaveState>((set, get) => ({
         if (isSaved) {
           // Remove from list
           return {
-            savedProperties: state.savedProperties.filter(
-              (p) => p._id !== id
-            ),
+            savedProperties: state.savedProperties.filter((p) => p._id !== id),
           };
         } else {
           // Add to list
@@ -46,8 +43,5 @@ export const useSaveStore = create<SaveState>((set, get) => ({
     } catch (error) {
       console.error("Failed to toggle save status", error);
     }
-  },
-  isSaved: (id: string) => {
-    return get().savedProperties.some((p) => p._id === id);
   },
 }));
