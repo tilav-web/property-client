@@ -30,6 +30,7 @@ export const useSaveStore = create<SaveState>((set) => ({
   toggleSaveProperty: async (id: string) => {
     try {
       const data = await saveService.toggleSave(id);
+
       set((state) => {
         if (data.action === "unsave") {
           return {

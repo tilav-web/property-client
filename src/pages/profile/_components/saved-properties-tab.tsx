@@ -23,8 +23,8 @@ export default function SavedPropertiesTab() {
 
   return (
     <div className="grid grid-cols-1 gap-4">
-      {savedProperties.map((property) => (
-        <PropertyCard key={property._id} property={property} />
+      {savedProperties.map((item) => (
+        <PropertyCard key={item._id} property={item.property} />
       ))}
     </div>
   );
