@@ -3,7 +3,11 @@ import type { IProperty } from "@/interfaces/property.interface";
 import { likeService } from "@/services/like.service";
 
 interface LikeState {
-  likedProperties: IProperty[];
+  likedProperties: {
+    _id: string;
+    user: string;
+    property: IProperty;
+  }[];
   isLoading: boolean;
   fetchLikedProperties: () => Promise<void>;
   toggleLikeProperty: (propertyId: string) => Promise<void>;
@@ -25,20 +29,24 @@ export const useLikeStore = create<LikeState>((set) => ({
   },
   toggleLikeProperty: async (id: string) => {
     try {
-      const updatedProperty = await likeService.toggleLike(id);
+      const data = await likeService.toggleLike(id);
       set((state) => {
-        const isLiked = state.likedProperties.some((p) => p._id === id);
-        if (isLiked) {
-          // Remove from list
+        if (data.action === "unlike") {
           return {
-            likedProperties: state.likedProperties.filter((p) => p._id !== id),
-          };
-        } else {
-          // Add to list
-          return {
-            likedProperties: [...state.likedProperties, updatedProperty],
+            likedProperties: state.likedProperties.filter(
+              (item) => item?.property?._id !== data.property?._id
+            ),
           };
         }
+
+        if (data.action === "like") {
+          return {
+            likedProperties: [...state.likedProperties, data],
+          };
+        }
+
+        // fallback (agar action bo‘lmasa)
+        return state;
       });
     } catch (error) {
       console.error("Failed to toggle like status", error);

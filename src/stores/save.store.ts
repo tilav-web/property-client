@@ -3,7 +3,11 @@ import type { IProperty } from "@/interfaces/property.interface";
 import { saveService } from "@/services/save.service";
 
 interface SaveState {
-  savedProperties: IProperty[];
+  savedProperties: {
+    _id: string;
+    user: string;
+    property: IProperty;
+  }[];
   isLoading: boolean;
   fetchSavedProperties: () => Promise<void>;
   toggleSaveProperty: (propertyId: string) => Promise<void>;
@@ -25,20 +29,24 @@ export const useSaveStore = create<SaveState>((set) => ({
   },
   toggleSaveProperty: async (id: string) => {
     try {
-      const updatedProperty = await saveService.toggleSave(id);
+      const data = await saveService.toggleSave(id);
       set((state) => {
-        const isSaved = state.savedProperties.some((p) => p._id === id);
-        if (isSaved) {
-          // Remove from list
+        if (data.action === "unsave") {
           return {
-            savedProperties: state.savedProperties.filter((p) => p._id !== id),
-          };
-        } else {
-          // Add to list
-          return {
-            savedProperties: [...state.savedProperties, updatedProperty],
+            savedProperties: state.savedProperties.filter(
+              (item) => item?.property?._id !== data.property?._id
+            ),
           };
         }
+
+        if (data.action === "save") {
+          return {
+            savedProperties: [...state.savedProperties, data],
+          };
+        }
+
+        // fallback (agar action bo‘lmasa)
+        return state;
       });
     } catch (error) {
       console.error("Failed to toggle save status", error);

@@ -49,7 +49,10 @@ export default function Category() {
   const { t } = useTranslation();
 
   // Query key ni dynamic qilish
-  const queryKey = useMemo(() => ["properties/category", category], [category]);
+  const queryKey = useMemo(
+    () => ["properties", "category", category],
+    [category]
+  );
 
   const { data, refetch } = useQuery({
     queryKey,

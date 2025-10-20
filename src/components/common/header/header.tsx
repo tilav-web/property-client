@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -48,14 +48,7 @@ export default function Header() {
   const navigate = useNavigate();
   const { user, logout, setUser } = useUserStore();
   const { logout: sellerLogout } = useSellerStore();
-  const { likedProperties, fetchLikedProperties } = useLikeStore();
-  const lanValue = handleStorage({ key: "lan" });
-
-  useEffect(() => {
-    if (user) {
-      fetchLikedProperties();
-    }
-  }, [user, fetchLikedProperties]);
+  const { likedProperties } = useLikeStore();
 
   const logoutSystem = async () => {
     try {
@@ -222,9 +215,7 @@ export default function Header() {
                   className="flex items-center gap-1"
                 >
                   <Globe className="h-4 w-4" />
-                  <span className="text-sm uppercase">
-                    {i18n.language}
-                  </span>
+                  <span className="text-sm uppercase">{i18n.language}</span>
                   <ChevronDown className="h-3 w-3" />
                 </Button>
               </DropdownMenuTrigger>
@@ -237,9 +228,7 @@ export default function Header() {
                   >
                     <span
                       className={`w-2 h-2 rounded-full ${
-                        lan === i18n.language
-                          ? "bg-green-500"
-                          : "bg-gray-300"
+                        lan === i18n.language ? "bg-green-500" : "bg-gray-300"
                       }`}
                     ></span>
                     {t(`common.header.languages.${lan}`)}

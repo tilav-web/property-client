@@ -333,8 +333,8 @@ export default function Property() {
                   <MailButton mail={property?.author?.email?.value} />
                 )}
                 <WhatsAppButton />
-                <HeartButton id={property?._id} />
-                <EllipsisVerticalButton />
+                <HeartButton property={property} />
+                <EllipsisVerticalButton property={property} />
               </div>
             </div>
             <div className="font-bold flex items-center justify-end gap-8">

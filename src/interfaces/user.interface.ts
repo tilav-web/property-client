@@ -1,3 +1,5 @@
+import type { IProperty } from "./property.interface";
+
 export interface IUser {
   _id: string;
   first_name: string;
@@ -13,7 +15,8 @@ export interface IUser {
   avatar: string;
   role: UserRole;
   lan: UserLan;
-  likes: string[];
+  likes: IProperty[];
+  saves: IProperty[];
   createdAt?: Date;
   updatedAt?: Date;
 }

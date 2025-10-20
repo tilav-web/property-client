@@ -1,18 +1,12 @@
 import { useTranslation } from "react-i18next";
 import PropertyCard from "@/components/common/cards/property-card";
-import type { IProperty } from "@/interfaces/property.interface";
 import { Heart } from "lucide-react";
 import BoxLoading from "@/components/common/loadings/box-loading";
 import { useLikeStore } from "@/stores/like.store";
-import { useEffect } from "react";
 
 export default function Favorites() {
   const { t } = useTranslation();
-  const { likedProperties, isLoading, fetchLikedProperties } = useLikeStore();
-
-  useEffect(() => {
-    fetchLikedProperties();
-  }, [fetchLikedProperties]);
+  const { likedProperties, isLoading } = useLikeStore();
 
   if (isLoading) {
     return <BoxLoading />;
@@ -47,14 +41,16 @@ export default function Favorites() {
           {t("pages.favorites_page.title")}
         </h1>
         <p className="text-gray-600">
-          {t("pages.favorites_page.item_count", { count: likedProperties?.length })}
+          {t("pages.favorites_page.item_count", {
+            count: likedProperties?.length,
+          })}
         </p>
       </div>
 
       {/* Properties Grid */}
       <div className="flex flex-col gap-4">
-        {likedProperties.map((property: IProperty) => (
-          <PropertyCard key={property._id} property={property} />
+        {likedProperties.map((item) => (
+          <PropertyCard key={item?.property?._id} property={item?.property} />
         ))}
       </div>
     </div>
