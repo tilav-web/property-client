@@ -72,7 +72,13 @@ export const API_ENDPOINTS = {
   },
   MESSAGE: {
     base: "/messages",
-    status: "/messages/status",
+    status: {
+      base: "/messages/status",
+      deleteOne: "/messages/status",
+      deleteAll: "/messages/status/all",
+      readOne: "/messages/status/read",
+      readAll: "/messages/status/read-all",
+    },
   },
 };
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { messageService } from "@/services/message.service";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,111 +22,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
-// Types
-interface Phone {
-  value: string;
-  isVerified: boolean;
-}
-
-interface Email {
-  value: string;
-  isVerified: boolean;
-}
-
-interface User {
-  _id: string;
-  first_name: string;
-  last_name: string;
-  phone: Phone;
-  avatar?: string;
-  role: string;
-  lan: string;
-  email: Email;
-  likes: string[];
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
-
-interface Title {
-  uz: string;
-  ru: string;
-  en: string;
-}
-
-interface Description {
-  uz: string;
-  ru: string;
-  en: string;
-}
-
-interface Location {
-  type: string;
-  coordinates: number[];
-}
-
-interface Address {
-  uz: string;
-  ru: string;
-  en: string;
-}
-
-interface Property {
-  _id: string;
-  author: string;
-  title: Title;
-  description: Description;
-  category: string;
-  location: Location;
-  address: Address;
-  price: number;
-  purpose: string;
-  currency: string;
-  price_type: string;
-  area: number;
-  bedrooms: number;
-  bathrooms: number;
-  floor_level: number;
-  amenities: string[];
-  construction_status: string;
-  parking_spaces: number;
-  is_premium: boolean;
-  is_verified: boolean;
-  rating: number;
-  logo: string | null;
-  payment_plans: number;
-  region: string;
-  district: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-  like: number;
-  save: number;
-  liked: number;
-  saved: number;
-}
-
-interface Message {
-  _id: string;
-  user: User;
-  property: Property;
-  comment: string;
-  rating: number;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
-
-interface Notification {
-  _id: string;
-  message: Message;
-  seller: User;
-  is_read: boolean;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
+import type { IProperty } from "@/interfaces/property.interface";
+import type { IMessageStatus } from "@/interfaces/message-status.interface";
+import { useState } from "react";
 
 type DeleteDialogState = {
   isOpen: boolean;
@@ -136,10 +34,60 @@ type DeleteDialogState = {
 };
 
 export default function Feedback() {
-  const [messages, setMessages] = useState<Notification[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+
+  // Xabarlarni olish uchun React Query
+  const {
+    data: messages = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["messages/status", "unread"],
+    queryFn: () => messageService.findMessageStatus(),
+  });
+
+  // O'qilgan deb belgilash mutation
+  const markAsReadMutation = useMutation({
+    mutationFn: (messageId: string) =>
+      messageService.readMessageStatus(messageId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["messages/status", "unread"],
+      });
+    },
+  });
+
+  // Barchasini o'qilgan deb belgilash mutation
+  const markAllAsReadMutation = useMutation({
+    mutationFn: () => messageService.readMessageStatusAll(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["messages/status", "unread"],
+      });
+    },
+  });
+
+  // Bitta xabarni o'chirish mutation
+  const deleteMessageMutation = useMutation({
+    mutationFn: (messageId: string) =>
+      messageService.deleteStatusMessageById(messageId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["messages/status", "unread"],
+      });
+    },
+  });
+
+  // Barcha xabarlarni o'chirish mutation
+  const deleteAllMessagesMutation = useMutation({
+    mutationFn: () => messageService.deleteStatusMessageAll(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["messages/status", "unread"],
+      });
+    },
+  });
+
   const [deleteDialog, setDeleteDialog] = useState<DeleteDialogState>({
     isOpen: false,
     messageId: null,
@@ -147,86 +95,38 @@ export default function Feedback() {
     type: "single",
   });
 
-  useEffect(() => {
-    loadMessages();
-  }, []);
-
-  const loadMessages = async (): Promise<void> => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data: Notification[] = await messageService.findMessageStatus(
-        false
-      );
-      setMessages(data);
-    } catch (err) {
-      setError("Xabarlarni yuklashda xatolik yuz berdi");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleMarkAsRead = async (messageId: string): Promise<void> => {
-    try {
-      setMessages((prev) =>
-        prev.map((msg) =>
-          msg._id === messageId ? { ...msg, is_read: true } : msg
-        )
-      );
-
-      console.log(`is_read: true for message ${messageId}`);
-    } catch (err) {
-      console.error("Xabarni o'qilgan deb belgilashda xatolik:", err);
-    }
+    markAsReadMutation.mutate(messageId);
   };
 
   const handleMarkAllAsRead = async (): Promise<void> => {
-    try {
-      setMessages((prev) => prev.map((msg) => ({ ...msg, is_read: true })));
-
-      console.log("Barcha xabarlar o'qilgan deb belgilandi");
-    } catch (err) {
-      console.error("Barcha xabarlarni belgilashda xatolik:", err);
-    }
+    markAllAsReadMutation.mutate();
   };
 
   const handleDeleteMessage = async (messageId: string): Promise<void> => {
-    try {
-      setDeletingId(messageId);
-      setMessages((prev) => prev.filter((msg) => msg._id !== messageId));
-      console.log(`Message ${messageId} deleted`);
-    } catch (err) {
-      console.error("Xabarni o'chirishda xatolik:", err);
-      setError("Xabarni o'chirishda xatolik yuz berdi");
-    } finally {
-      setDeletingId(null);
-      setDeleteDialog({
-        isOpen: false,
-        messageId: null,
-        userName: "",
-        type: "single",
-      });
-    }
+    deleteMessageMutation.mutate(messageId, {
+      onSuccess: () => {
+        setDeleteDialog({
+          isOpen: false,
+          messageId: null,
+          userName: "",
+          type: "single",
+        });
+      },
+    });
   };
 
   const handleDeleteAllMessages = async (): Promise<void> => {
-    try {
-      setDeletingId("all");
-      setMessages([]);
-      console.log("Barcha xabarlar o'chirildi");
-    } catch (err) {
-      console.error("Barcha xabarlarni o'chirishda xatolik:", err);
-      setError("Barcha xabarlarni o'chirishda xatolik yuz berdi");
-    } finally {
-      setDeletingId(null);
-      setDeleteDialog({
-        isOpen: false,
-        messageId: null,
-        userName: "",
-        type: "single",
-      });
-    }
+    deleteAllMessagesMutation.mutate(undefined, {
+      onSuccess: () => {
+        setDeleteDialog({
+          isOpen: false,
+          messageId: null,
+          userName: "",
+          type: "single",
+        });
+      },
+    });
   };
 
   const openDeleteDialog = (
@@ -265,15 +165,18 @@ export default function Feedback() {
     return `${firstName?.[0] || ""}${lastName?.[0] || ""}`.toUpperCase();
   };
 
-  const getPropertyTitle = (property: Property): string => {
+  const getPropertyTitle = (property: IProperty): string => {
     return (
       property.title.uz || property.title.en || property.title.ru || "Noma'lum"
     );
   };
 
-  const unreadCount: number = messages.filter((msg) => !msg.is_read).length;
+  const unreadCount: number = messages.filter(
+    (msg: IMessageStatus) => !msg.is_read
+  ).length;
 
-  if (loading) {
+  // Loading holati
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-64">
         <div className="text-center">
@@ -284,13 +187,22 @@ export default function Feedback() {
     );
   }
 
+  // Error holati
   if (error) {
     return (
       <div className="flex justify-center items-center min-h-64">
         <Card className="w-full max-w-md">
           <CardContent className="pt-6 text-center">
-            <div className="text-destructive mb-4">{error}</div>
-            <Button onClick={loadMessages}>Qayta urinish</Button>
+            <div className="text-destructive mb-4">
+              Xabarlarni yuklashda xatolik yuz berdi
+            </div>
+            <Button
+              onClick={() =>
+                queryClient.refetchQueries({ queryKey: ["messages", "unread"] })
+              }
+            >
+              Qayta urinish
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -315,8 +227,13 @@ export default function Feedback() {
               onClick={handleMarkAllAsRead}
               className="gap-2"
               variant="outline"
+              disabled={markAllAsReadMutation.isPending}
             >
-              <CheckCircle className="h-4 w-4" />
+              {markAllAsReadMutation.isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <CheckCircle className="h-4 w-4" />
+              )}
               Barchasini o'qilgan deb belgilash
             </Button>
           )}
@@ -324,10 +241,15 @@ export default function Feedback() {
           {messages.length > 0 && (
             <Button
               onClick={() => openDeleteDialog(null, "", "all")}
-              className="gap-2"
+              className="gap-2 text-white"
               variant="destructive"
+              disabled={deleteAllMessagesMutation.isPending}
             >
-              <Trash2 className="h-4 w-4" />
+              {deleteAllMessagesMutation.isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Trash2 className="h-4 w-4" />
+              )}
               Barchasini o'chirish
             </Button>
           )}
@@ -346,7 +268,7 @@ export default function Feedback() {
         </Card>
       ) : (
         <div className="space-y-4">
-          {messages.map((message) => (
+          {messages.map((message: IMessageStatus) => (
             <Card
               key={message._id}
               className={`transition-all duration-200 hover:shadow-md ${
@@ -383,7 +305,7 @@ export default function Feedback() {
                     {!message.is_read && (
                       <Badge
                         variant="secondary"
-                        className="bg-primary text-primary-foreground"
+                        className="bg-primary text-primary-foreground hover:text-black cursor-pointer"
                       >
                         Yangi
                       </Badge>
@@ -423,8 +345,13 @@ export default function Feedback() {
                         variant="outline"
                         onClick={() => handleMarkAsRead(message._id)}
                         className="gap-1"
+                        disabled={markAsReadMutation.isPending}
                       >
-                        <CheckCircle className="h-3 w-3" />
+                        {markAsReadMutation.isPending ? (
+                          <Loader2 className="h-3 w-3 animate-spin" />
+                        ) : (
+                          <CheckCircle className="h-3 w-3" />
+                        )}
                         O'qildi
                       </Button>
                     )}
@@ -439,9 +366,9 @@ export default function Feedback() {
                         )
                       }
                       className="gap-1 text-destructive hover:text-destructive hover:bg-destructive/10"
-                      disabled={deletingId === message._id}
+                      disabled={deleteMessageMutation.isPending}
                     >
-                      {deletingId === message._id ? (
+                      {deleteMessageMutation.isPending ? (
                         <Loader2 className="h-3 w-3 animate-spin" />
                       ) : (
                         <Trash2 className="h-3 w-3" />
@@ -472,7 +399,12 @@ export default function Feedback() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={deletingId !== null}>
+            <AlertDialogCancel
+              disabled={
+                deleteMessageMutation.isPending ||
+                deleteAllMessagesMutation.isPending
+              }
+            >
               Bekor qilish
             </AlertDialogCancel>
             <AlertDialogAction
@@ -483,9 +415,13 @@ export default function Feedback() {
                     handleDeleteMessage(deleteDialog.messageId)
               }
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              disabled={deletingId !== null}
+              disabled={
+                deleteMessageMutation.isPending ||
+                deleteAllMessagesMutation.isPending
+              }
             >
-              {deletingId !== null ? (
+              {deleteMessageMutation.isPending ||
+              deleteAllMessagesMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin mr-2" />
                   O'chirilmoqda...

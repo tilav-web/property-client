@@ -12,13 +12,55 @@ class MessageService {
     }
   }
 
-  async findMessageStatus(is_read: boolean) {
+  async findMessageStatus() {
     try {
-      const res = await apiInstance.get(API_ENDPOINTS.MESSAGE.status, {
-        params: {
-          is_read,
-        },
-      });
+      const res = await apiInstance.get(API_ENDPOINTS.MESSAGE.status.base);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async deleteStatusMessageById(id: string) {
+    try {
+      const res = await apiInstance.delete(
+        `${API_ENDPOINTS.MESSAGE.status.deleteOne}/${id}`
+      );
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async deleteStatusMessageAll() {
+    try {
+      const res = await apiInstance.delete(
+        API_ENDPOINTS.MESSAGE.status.deleteAll
+      );
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async readMessageStatus(id: string) {
+    try {
+      const res = await apiInstance.get(
+        `${API_ENDPOINTS.MESSAGE.status.readOne}/${id}`
+      );
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async readMessageStatusAll() {
+    try {
+      const res = await apiInstance.get(API_ENDPOINTS.MESSAGE.status.readAll);
       return res.data;
     } catch (error) {
       console.error(error);
