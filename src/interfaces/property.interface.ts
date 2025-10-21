@@ -96,7 +96,6 @@ export const propertyType: PropertyType[] = [
 export type PropertyPurpose =
   | "for_sale" // Sotuvga
   | "for_rent" // Ijaraga
-  | "for_daily_rent" // Kunlik ijara
   | "for_commercial" // Tijorat maqsadida
   | "for_investment"
   | "auction";
@@ -104,8 +103,9 @@ export type PropertyPurpose =
 export const propertyPurpose: PropertyPurpose[] = [
   "for_sale",
   "for_rent",
-  "for_daily_rent",
   "for_commercial",
+  "for_investment",
+  "auction",
 ];
 
 // YANGI: Valyuta
@@ -174,80 +174,4 @@ export interface IProperty {
   logo: string;
   createdAt: Date;
   updatedAt: Date;
-}
-
-// YANGI: Qidiruv va filter interfeyslari
-export interface IPropertyFilter {
-  purpose?: PropertyPurpose;
-  category?: PropertyCategory;
-  price_type?: PropertyPriceType;
-  currency?: PropertyCurrency;
-  minPrice?: number;
-  maxPrice?: number;
-  minArea?: number;
-  maxArea?: number;
-  bedrooms?: number;
-  bathrooms?: number;
-  region?: string;
-  district?: string;
-  amenities?: Amenities[];
-  construction_status?: ConstructionStatus;
-  is_premium?: boolean;
-  is_verified?: boolean;
-}
-
-// YANGI: Property yaratish uchun DTO interfeysi
-export interface ICreateProperty {
-  author: string;
-  title: ILanguage;
-  description: ILanguage;
-  address: ILanguage;
-  category: PropertyCategory;
-  purpose: PropertyPurpose;
-  currency: PropertyCurrency;
-  location: ILocation;
-  price: number;
-  price_type: PropertyPriceType;
-  area: number;
-  bedrooms?: number;
-  bathrooms?: number;
-  floor_level?: number;
-  total_floors?: number;
-  amenities?: Amenities[];
-  construction_status?: ConstructionStatus;
-  year_built?: number;
-  parking_spaces?: number;
-  delivery_date?: Date;
-  sales_date?: Date;
-  payment_plans?: number;
-  region: string;
-  district: string;
-}
-
-// YANGI: Property yangilash uchun DTO interfeysi
-export interface IUpdateProperty {
-  title?: ILanguage;
-  description?: ILanguage;
-  address?: ILanguage;
-  category?: PropertyCategory;
-  purpose?: PropertyPurpose;
-  currency?: PropertyCurrency;
-  location?: ILocation;
-  price?: number;
-  price_type?: PropertyPriceType;
-  area?: number;
-  bedrooms?: number;
-  bathrooms?: number;
-  floor_level?: number;
-  total_floors?: number;
-  amenities?: Amenities[];
-  construction_status?: ConstructionStatus;
-  year_built?: number;
-  parking_spaces?: number;
-  delivery_date?: Date;
-  sales_date?: Date;
-  payment_plans?: number;
-  region?: string;
-  district?: string;
-  is_active?: boolean;
 }

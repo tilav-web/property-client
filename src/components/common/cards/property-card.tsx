@@ -235,7 +235,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
       <div className="bg-[#B7B7B7] p-3 lg:p-2 rounded-b-xl">
         <div className="flex flex-col lg:flex-row items-center gap-3 justify-between">
           <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-            <BidPriceButton />
+            <BidPriceButton property={property} />
             {property?.contract_file && (
               <OnlineContractButton file={property?.contract_file} />
             )}

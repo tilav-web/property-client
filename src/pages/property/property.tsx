@@ -343,7 +343,7 @@ export default function Property() {
               <p className="text-4xl text-red-500">
                 {formatPrice(property?.price || 0)}
               </p>
-              <BidPriceButton />
+              <BidPriceButton property={property} />
             </div>
           </div>
           <div>

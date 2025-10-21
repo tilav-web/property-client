@@ -1,17 +1,31 @@
 import type { IProperty } from "@/interfaces/property.interface";
 import { useLikeStore } from "@/stores/like.store";
-import { Heart } from "lucide-react";
+import { useUserStore } from "@/stores/user.store";
+import { Heart, HeartOff } from "lucide-react";
 
 export default function HeartButton({ property }: { property: IProperty }) {
   const { toggleLikeProperty, likedProperties } = useLikeStore();
+  const { user } = useUserStore();
 
   const handleLike = () => {
     toggleLikeProperty(property._id);
   };
 
+  console.log(property);
+
   const isLiked = likedProperties.some(
     (item) => item?.property?._id === property?._id
   );
+
+  if (user?._id === property?.author?._id)
+    return (
+      <button
+        title="Mumkin emas!"
+        className="bg-white flex items-center gap-2 p-2 rounded border border-black"
+      >
+        <HeartOff className={`w-4 h-4`} />
+      </button>
+    );
 
   return (
     <button

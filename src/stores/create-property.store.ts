@@ -18,7 +18,6 @@ interface ICreateProperty {
   price?: number;
   price_type?: string;
   purpose?: string;
-  currency?: string;
   area?: number;
   bedrooms?: number;
   bathrooms?: number;

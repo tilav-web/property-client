@@ -82,6 +82,33 @@ export default function EllipsisVerticalButton({
     setHoverRating(0);
   };
 
+  // Agar user property egasi bo'lsa, faqat ulashish funksiyasi ko'rsatiladi
+  if (user?._id === property?.author?._id)
+    return (
+      <Popover>
+        <PopoverTrigger asChild>
+          <button className="bg-[#FAD397] flex items-center gap-2 p-2 rounded border border-black hover:bg-[#F8C97D] transition-colors">
+            <EllipsisVertical className="w-4 h-4" />
+          </button>
+        </PopoverTrigger>
+
+        <PopoverContent className="w-48 p-2" align="end">
+          <div className="space-y-1">
+            <button
+              onClick={handleShare}
+              className="flex items-center gap-3 w-full px-3 py-2 text-sm rounded-md hover:bg-gray-100 transition-colors"
+            >
+              <Share2 className="w-4 h-4" />
+              <span>Ulashish</span>
+            </button>
+
+            {/* Property egasi uchun saqlash va komment yozish olib tashlandi */}
+          </div>
+        </PopoverContent>
+      </Popover>
+    );
+
+  // Boshqa foydalanuvchilar uchun barcha funksiyalar mavjud
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -109,8 +136,8 @@ export default function EllipsisVerticalButton({
             title={
               user
                 ? isSaved
-                  ? "Saqlanganlardan o‘chirish"
-                  : "Saqlab qo‘yish"
+                  ? "Saqlanganlardan o'chirish"
+                  : "Saqlab qo'yish"
                 : "Saqlash uchun tizimga kiring!"
             }
           >
