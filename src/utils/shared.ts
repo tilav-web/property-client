@@ -48,6 +48,7 @@ export const API_ENDPOINTS = {
   PROPERTIES: {
     base: "/properties",
     my: "/properties/my",
+    message: "/properties/message",
   },
   SELLER: {
     base: "/sellers",
@@ -68,6 +69,10 @@ export const API_ENDPOINTS = {
   },
   DISTRICT: {
     base: "/districts",
+  },
+  MESSAGE: {
+    base: "/messages",
+    status: "/messages/status",
   },
 };
 

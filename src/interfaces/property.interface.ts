@@ -165,8 +165,8 @@ export interface IProperty {
   sales_date?: Date;
   payment_plans: number;
   region: IRegion;
-  like: number;
-  save: number;
+  liked: number;
+  saved: number;
   district: IDistrict;
   photos?: IFile[];
   videos?: IFile[];

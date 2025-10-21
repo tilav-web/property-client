@@ -324,7 +324,9 @@ export default function Property() {
         <div className="w-full lg:w-1/2">
           <div className="mb-12">
             <div className="flex items-center justify-between font-bold mb-4">
-              <OnlineContractButton />
+              {property?.contract_file && (
+                <OnlineContractButton file={property?.contract_file} />
+              )}
               <div className="flex items-center gap-3">
                 {property?.author?.phone?.value && (
                   <CallButton phone={property?.author?.phone?.value} />
