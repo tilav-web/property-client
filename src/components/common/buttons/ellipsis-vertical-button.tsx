@@ -50,26 +50,28 @@ export default function EllipsisVerticalButton({
         url: `${serverUrl}/properties/share/${property?._id}`,
       });
     } else {
-      navigator.clipboard.writeText(window.location.href);
+      navigator.clipboard.writeText(
+        `${serverUrl}/properties/share/${property?._id}`
+      );
       alert("Link nusxalandi!");
     }
   };
 
   const handleSave = () => {
-    if (property?._id) toggleSaveProperty(property._id);
+    if (property?._id) toggleSaveProperty(property?._id);
   };
 
   const handleSubmitMessage = async () => {
     console.log({
       rating,
       comment: comment.trim(),
-      property: property._id,
+      property: property?._id,
     });
     try {
       await messageService.create({
         rating,
         comment,
-        property: property._id,
+        property: property?._id,
       });
       toast.success("Success", {
         description: "Message yuborildi",

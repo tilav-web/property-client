@@ -65,7 +65,7 @@ export default function Header() {
   };
 
   const navItems = [
-    { icon: Home, label: t("common.buy"), href: "/buy" },
+    { icon: Home, label: t("common.buy"), href: "/category?category=" },
     {
       icon: Building,
       label: t("common.rent_apartments"),
@@ -76,7 +76,7 @@ export default function Header() {
       label: t("common.rent_land"),
       href: "/category?category=land",
     },
-    { icon: Handshake, label: t("common.ai_agent"), href: "/agents" },
+    { icon: Handshake, label: t("common.ai_agent"), href: "/ai-agent" },
     { icon: Calculator, label: t("common.mortgage"), href: "/mortgage" },
     { icon: Star, label: t("common.new_projects"), href: "/new-projects" },
     { icon: Heart, label: t("common.favorites"), href: "/favorites" },

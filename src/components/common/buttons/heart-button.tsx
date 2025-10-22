@@ -8,7 +8,7 @@ export default function HeartButton({ property }: { property: IProperty }) {
   const { user } = useUserStore();
 
   const handleLike = () => {
-    toggleLikeProperty(property._id);
+    toggleLikeProperty(property?._id);
   };
 
   const isLiked = likedProperties.some(

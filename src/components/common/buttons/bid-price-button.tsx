@@ -20,9 +20,9 @@ export default function BidPriceButton({ property }: { property: IProperty }) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    type: (property.purpose === "for_rent"
+    type: (property?.purpose === "for_rent"
       ? "rent"
-      : property.purpose === "auction"
+      : property?.purpose === "auction"
       ? "purchase"
       : "") as TInquiryType,
     offered_price: "",
@@ -39,7 +39,7 @@ export default function BidPriceButton({ property }: { property: IProperty }) {
     setIsLoading(true);
 
     const dto = {
-      property: property._id,
+      property: property?._id,
       type: formData.type,
       comment: formData.comment,
       ...(formData.offered_price && {
@@ -199,7 +199,7 @@ export default function BidPriceButton({ property }: { property: IProperty }) {
                     So'rov turi
                   </label>
                   <div className="grid grid-cols-2 gap-3">
-                    {property.purpose === "for_sale" && (
+                    {property?.purpose === "for_sale" && (
                       <>
                         <button
                           type="button"
@@ -226,7 +226,7 @@ export default function BidPriceButton({ property }: { property: IProperty }) {
                       </>
                     )}
 
-                    {property.purpose === "for_commercial" && (
+                    {property?.purpose === "for_commercial" && (
                       <>
                         <button
                           type="button"
