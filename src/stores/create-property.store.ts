@@ -34,7 +34,7 @@ interface ICreateProperty {
   district?: string;
 
   /** ✅ yangi qiymatlar: media fayllar */
-  banner?: File | null;
+  contract_file?: File | null;
   photos?: File[];
   video?: File | null;
 }
