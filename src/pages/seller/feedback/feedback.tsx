@@ -37,11 +37,7 @@ export default function Feedback() {
   const queryClient = useQueryClient();
 
   // Xabarlarni olish uchun React Query
-  const {
-    data: messages = [],
-    isLoading,
-    error,
-  } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["messages/status", "unread"],
     queryFn: () => messageService.findMessageStatus(),
   });
@@ -171,9 +167,9 @@ export default function Feedback() {
     );
   };
 
-  const unreadCount: number = messages.filter(
-    (msg: IMessageStatus) => !msg.is_read
-  ).length;
+  const unreadCount: number = data?.messages
+    ? data?.messages?.filter((msg: IMessageStatus) => !msg.is_read).length
+    : 0;
 
   // Loading holati
   if (isLoading) {
@@ -215,8 +211,8 @@ export default function Feedback() {
         <div>
           <h1 className="text-3xl font-bold">Fikr-mulohazalar</h1>
           <p className="text-muted-foreground mt-2">
-            {messages.length > 0
-              ? `${messages.length} ta xabar, shundan ${unreadCount} tasi o'qilmagan`
+            {data?.messages && data?.messages?.length > 0
+              ? `${data?.messages?.length} ta xabar, shundan ${unreadCount} tasi o'qilmagan`
               : "Xabarlar topilmadi"}
           </p>
         </div>
@@ -238,7 +234,7 @@ export default function Feedback() {
             </Button>
           )}
 
-          {messages.length > 0 && (
+          {data?.messages && data?.messages?.length > 0 && (
             <Button
               onClick={() => openDeleteDialog(null, "", "all")}
               className="gap-2 text-white"
@@ -256,7 +252,7 @@ export default function Feedback() {
         </div>
       </div>
 
-      {messages.length === 0 ? (
+      {data?.messages?.length === 0 ? (
         <Card>
           <CardContent className="pt-6 text-center py-12">
             <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
@@ -268,7 +264,7 @@ export default function Feedback() {
         </Card>
       ) : (
         <div className="space-y-4">
-          {messages.map((message: IMessageStatus) => (
+          {data?.messages?.map((message: IMessageStatus) => (
             <Card
               key={message._id}
               className={`transition-all duration-200 hover:shadow-md ${
@@ -394,7 +390,7 @@ export default function Feedback() {
             </AlertDialogTitle>
             <AlertDialogDescription>
               {deleteDialog.type === "all"
-                ? `Haqiqatan ham barcha ${messages.length} ta xabarni o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi.`
+                ? `Haqiqatan ham barcha ${data?.messages?.length} ta xabarni o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi.`
                 : `Haqiqatan ham ${deleteDialog.userName} ning xabarini o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi.`}
             </AlertDialogDescription>
           </AlertDialogHeader>

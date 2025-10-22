@@ -1,18 +1,11 @@
 import apiInstance from "@/lib/api-instance";
-
 import type { IInquiry, TInquiryType } from "@/interfaces/inquiry.interface";
-
-// This DTO matches the server's expectation
 
 export interface CreateInquiryDto {
   property: string; // The property ID
-
   type: TInquiryType;
-
   comment: string;
-
   offered_price?: number;
-
   rental_period?: { from: Date; to: Date };
 }
 

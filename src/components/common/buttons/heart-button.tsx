@@ -15,7 +15,7 @@ export default function HeartButton({ property }: { property: IProperty }) {
     (item) => item?.property?._id === property?._id
   );
 
-  if (user?._id === property?.author?._id)
+  if (user?._id === property?.author?._id || !user)
     return (
       <button
         title="Mumkin emas!"
