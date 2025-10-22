@@ -1,5 +1,5 @@
 import apiInstance from "@/lib/api-instance";
-import type { IInquiry, TInquiryType } from "@/interfaces/inquiry.interface";
+import type { TInquiryType } from "@/interfaces/inquiry.interface";
 
 export interface CreateInquiryDto {
   property: string; // The property ID
@@ -20,14 +20,9 @@ class InquiryService {
     }
   }
 
-  async findSellerInquiries(
-    page: number = 1,
-    limit: number = 10
-  ): Promise<{ inquiries: IInquiry[]; total: number }> {
+  async findSellerInquiries() {
     try {
-      const res = await apiInstance.get("/inquiry", {
-        params: { page, limit },
-      });
+      const res = await apiInstance.get("/inquiry");
       return res.data;
     } catch (error) {
       console.error(error);
