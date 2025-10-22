@@ -63,14 +63,6 @@ export default function PropertyCard({ property }: { property: IProperty }) {
         }
         break;
 
-      case "for_daily_rent":
-        if (property.price_type === "rent") {
-          return `${formattedPrice} ${currencySymbol}${t(
-            "pages.property_card.price_formats.per_day"
-          )}`;
-        }
-        break;
-
       case "for_commercial":
         if (property.price_type === "rent") {
           return `${formattedPrice} ${currencySymbol}${t(

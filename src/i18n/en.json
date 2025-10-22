@@ -22,6 +22,10 @@
     "success": "Success",
     "choose": "Choose",
     "optional": "Optional",
+    "date_range_picker": {
+      "nights": "nights",
+      "select_dates": "Select dates"
+    },
     "header": {
       "logo": "Logo",
       "profile": "Profile",
@@ -92,10 +96,6 @@
       "no_permission": "Sorry, you do not have the necessary permissions to view this page.",
       "go_to_home": "Go to Home"
     }
-  },
-  "date_range_picker": {
-    "nights": "nights",
-    "select_dates": "Select dates"
   },
   "error_boundary": {
     "title": "An error has occurred!",

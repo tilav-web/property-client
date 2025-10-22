@@ -21,7 +21,7 @@ export default function DateRangePicker() {
       : 0;
 
   return (
-    <div className="w-max">
+    <div>
       <div className="mb-4">
         <p className="font-semibold text-lg">
           {nights > 0 ? `${nights} ${t("common.date_range_picker.nights")}` : t("common.date_range_picker.select_dates")}
@@ -50,7 +50,7 @@ export default function DateRangePicker() {
         onSelect={setDate}
         numberOfMonths={2}
         locale={uz}
-        className="rounded-md border shadow-sm"
+        className="rounded-md border shadow-sm w-full"
         required={true}
       />
     </div>

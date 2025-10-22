@@ -11,8 +11,6 @@ export default function HeartButton({ property }: { property: IProperty }) {
     toggleLikeProperty(property._id);
   };
 
-  console.log(property);
-
   const isLiked = likedProperties.some(
     (item) => item?.property?._id === property?._id
   );

@@ -22,6 +22,10 @@
     "success": "Успешно",
     "choose": "Выберите",
     "optional": "Необязательно",
+    "date_range_picker": {
+      "nights": "ночи",
+      "select_dates": "Выберите даты"
+    },
     "header": {
       "logo": "Логотип",
       "profile": "Профиль",
@@ -92,10 +96,6 @@
       "no_permission": "К сожалению, у вас нет необходимых разрешений для просмотра этой страницы.",
       "go_to_home": "Вернуться на главную"
     }
-  },
-  "date_range_picker": {
-    "nights": "ночи",
-    "select_dates": "Выберите даты"
   },
   "error_boundary": {
     "title": "Произошла ошибка!",
@@ -701,8 +701,9 @@
     "phone": "Телефон *",
     "phone_placeholder": "+998 XX XXX XX XX",
     "passport": "Паспорт *",
-          "passport_placeholder": "AA 1234567",
-          "passport_format_error": "Паспорт должен быть в формате AA1234567 (2 заглавные буквы и 7 цифр)",    "language": "Язык *",
+    "passport_placeholder": "AA 1234567",
+    "passport_format_error": "Паспорт должен быть в формате AA1234567 (2 заглавные буквы и 7 цифр)",
+    "language": "Язык *",
     "select_language": "Выберите язык",
     "uzbek": "O'zbekcha",
     "english": "English",

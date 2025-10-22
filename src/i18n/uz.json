@@ -22,6 +22,10 @@
     "success": "Muvaffaqiyatli",
     "choose": "Tanlang",
     "optional": "Ixtiyoriy",
+    "date_range_picker": {
+      "nights": "kecha",
+      "select_dates": "Sanalarni tanlang"
+    },
     "header": {
       "logo": "Logo",
       "profile": "Profil",
@@ -92,10 +96,6 @@
       "no_permission": "Kechirasiz, sizda ushbu sahifani ko'rish uchun kerakli ruxsatlar mavjud emas.",
       "go_to_home": "Bosh sahifaga qaytish"
     }
-  },
-  "date_range_picker": {
-    "nights": "kecha",
-    "select_dates": "Sanalarni tanlang"
   },
   "error_boundary": {
     "title": "Xatolik yuz berdi!",
