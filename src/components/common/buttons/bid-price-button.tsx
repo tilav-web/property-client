@@ -1,3 +1,4 @@
+import { useUserStore } from "@/stores/user.store";
 import { courtSvg, serverUrl } from "@/utils/shared";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import type { IProperty } from "@/interfaces/property.interface";
@@ -6,44 +7,88 @@ import { useCurrentLanguage } from "@/hooks/use-language";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Building, MapPin } from "lucide-react";
-import { useState } from "react";
 import DateRangePicker from "../date-range-picker";
+import { inquiryService } from "@/services/inquiry.service";
+import type { TInquiryType } from "@/interfaces/inquiry.interface";
+import { toast } from "sonner";
+import { useState } from "react";
 
 export default function BidPriceButton({ property }: { property: IProperty }) {
+  const { user } = useUserStore();
   const { t } = useTranslation();
   const { getLocalizedText } = useCurrentLanguage();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    type: (property.purpose === "for_rent"
+      ? "rent"
+      : property.purpose === "auction"
+      ? "purchase"
+      : "") as TInquiryType,
+    offered_price: "",
+    rental_period: { from: new Date(), to: new Date() },
+    comment: "",
+  });
+
   const mainImage = property?.photos
     ? `${serverUrl}/uploads${property?.photos[0].file_path}`
     : "";
 
-  const [formData, setFormData] = useState({
-    type:
-      property.purpose === "for_rent"
-        ? "rent"
-        : property.purpose === "auction"
-        ? "purchase"
-        : "",
-    offered_price: "",
-    rental_period_from: "",
-    rental_period_to: "",
-    comment: "",
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Inquiry form data:", {
-      ...formData,
-      property_id: property._id,
-      property_purpose: property.purpose,
-    });
+    setIsLoading(true);
+
+    const dto = {
+      property: property._id,
+      type: formData.type,
+      comment: formData.comment,
+      ...(formData.offered_price && {
+        offered_price: Number(formData.offered_price),
+      }),
+      ...(formData.type === "rent" && {
+        rental_period: formData.rental_period,
+      }),
+    };
+
+    try {
+      await inquiryService.create(dto);
+      toast.success("Muvaffaqiyatli", {
+        description: "So'rovingiz muvaffaqiyatli yuborildi!",
+      });
+    } catch (error) {
+      console.error("Failed to submit inquiry:", error);
+      toast.error("Xatolik", {
+        description: "So'rov yuborishda xatolik yuz berdi.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: string, value: string | TInquiryType) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
   };
+
+  const handleDateChange = (dateRange: { from: Date; to: Date }) => {
+    setFormData((prev) => ({
+      ...prev,
+      rental_period: dateRange,
+    }));
+  };
+
+  if (user?._id === property?.author?._id) {
+    return (
+      <button className="bg-[#FF990063] flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0">
+        <img src={courtSvg} alt="Court svg" className="w-4 h-4" />
+        <span className="whitespace-nowrap line-through">
+          {t("common.buttons.bid_price")}
+        </span>
+      </button>
+    );
+  }
 
   return (
     <Dialog>
@@ -236,7 +281,10 @@ export default function BidPriceButton({ property }: { property: IProperty }) {
             {/* Rental Period - faqat rent uchun */}
             {formData.type === "rent" && (
               <div className="w-full">
-                <DateRangePicker />
+                <label className="block text-sm font-medium mb-2">
+                  Ijara muddati
+                </label>
+                <DateRangePicker onDateChange={handleDateChange} />
               </div>
             )}
 
@@ -257,9 +305,10 @@ export default function BidPriceButton({ property }: { property: IProperty }) {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              disabled={isLoading}
+              className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:bg-gray-400"
             >
-              So'rovni yuborish
+              {isLoading ? "Yuborilmoqda..." : "So'rovni yuborish"}
             </button>
           </form>
         </div>

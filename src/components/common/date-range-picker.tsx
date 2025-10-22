@@ -1,17 +1,25 @@
+
 import { useTranslation } from "react-i18next";
 import * as React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { uz } from "date-fns/locale";
 
-export default function DateRangePicker() {
+interface DateRangePickerProps {
+  onDateChange: (dateRange: { from: Date; to: Date }) => void;
+}
+
+export default function DateRangePicker({ onDateChange }: DateRangePickerProps) {
   const { t, i18n } = useTranslation();
   const [date, setDate] = React.useState<{
     from: Date | undefined;
     to?: Date | undefined;
-  }>({
-    from: new Date(),
-    to: new Date(),
-  });
+  }>();
+
+  React.useEffect(() => {
+    if (date?.from && date?.to) {
+      onDateChange({ from: date.from, to: date.to });
+    }
+  }, [date, onDateChange]);
 
   const nights =
     date?.from && date?.to
@@ -19,6 +27,7 @@ export default function DateRangePicker() {
           (date.to.getTime() - date.from.getTime()) / (1000 * 60 * 60 * 24)
         )
       : 0;
+
 
   return (
     <div>
