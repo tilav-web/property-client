@@ -2,16 +2,25 @@ import SellerHeader from "@/components/common/header/seller-header";
 import Loading from "@/components/common/loadings/loading";
 import Sidebar from "@/components/common/sidebars/seller-sidebar";
 import RoleGuard from "@/guards/role-guard";
+import useSystem from "@/hooks/use-system";
+import type { IMessageStatus } from "@/interfaces/message-status.interface";
 import { sellerService } from "@/services/seller.service";
 import { useSellerStore } from "@/stores/seller.store";
 import { useUserStore } from "@/stores/user.store";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState, type ReactNode } from "react";
 
 export default function SellerLayout({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user } = useUserStore();
+  useSystem();
 
   const { seller, setSeller, logout } = useSellerStore();
+  const queryClient = useQueryClient();
+  const messagesStatusUnread = queryClient.getQueryData([
+    "messages/status",
+    "unread",
+  ]) as IMessageStatus[];
 
   useEffect(() => {
     (async () => {
@@ -60,6 +69,7 @@ export default function SellerLayout({ children }: { children: ReactNode }) {
           <SellerHeader
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
+            notificationCount={messagesStatusUnread?.length}
           />
           <main className="flex-1 p-4 md:p-6">{children}</main>
         </div>

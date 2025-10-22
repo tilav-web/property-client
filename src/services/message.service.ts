@@ -1,7 +1,5 @@
-
 import apiInstance from "@/lib/api-instance";
 import { API_ENDPOINTS } from "@/utils/shared";
-import type { IMessageStatus } from "@/interfaces/message-status.interface";
 
 class MessageService {
   async create(dto: { property: string; comment: string; rating: number }) {
@@ -14,11 +12,19 @@ class MessageService {
     }
   }
 
-  async findMessageStatus(page: number = 1, limit: number = 10): Promise<{ messages: IMessageStatus[]; total: number }> {
+  async findMessageStatus() {
     try {
-      const res = await apiInstance.get(API_ENDPOINTS.MESSAGE.status.base, {
-        params: { page, limit },
-      });
+      const res = await apiInstance.get(API_ENDPOINTS.MESSAGE.status.base);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async findMessageUnread() {
+    try {
+      const res = await apiInstance.get(API_ENDPOINTS.MESSAGE.status.readCount);
       return res.data;
     } catch (error) {
       console.error(error);
@@ -56,8 +62,7 @@ class MessageService {
         `${API_ENDPOINTS.MESSAGE.status.readOne}/${id}`
       );
       return res.data;
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error);
       throw error;
     }
@@ -74,4 +79,3 @@ class MessageService {
   }
 }
 export const messageService = new MessageService();
-

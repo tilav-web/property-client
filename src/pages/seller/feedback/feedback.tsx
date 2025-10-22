@@ -37,8 +37,12 @@ export default function Feedback() {
   const queryClient = useQueryClient();
 
   // Xabarlarni olish uchun React Query
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["messages/status", "unread"],
+  const {
+    data: messages,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["messages/status"],
     queryFn: () => messageService.findMessageStatus(),
   });
 
@@ -47,6 +51,9 @@ export default function Feedback() {
     mutationFn: (messageId: string) =>
       messageService.readMessageStatus(messageId),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["messages/status"],
+      });
       queryClient.invalidateQueries({
         queryKey: ["messages/status", "unread"],
       });
@@ -57,6 +64,9 @@ export default function Feedback() {
   const markAllAsReadMutation = useMutation({
     mutationFn: () => messageService.readMessageStatusAll(),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["messages/status"],
+      });
       queryClient.invalidateQueries({
         queryKey: ["messages/status", "unread"],
       });
@@ -69,6 +79,9 @@ export default function Feedback() {
       messageService.deleteStatusMessageById(messageId),
     onSuccess: () => {
       queryClient.invalidateQueries({
+        queryKey: ["messages/status"],
+      });
+      queryClient.invalidateQueries({
         queryKey: ["messages/status", "unread"],
       });
     },
@@ -78,6 +91,9 @@ export default function Feedback() {
   const deleteAllMessagesMutation = useMutation({
     mutationFn: () => messageService.deleteStatusMessageAll(),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["messages/status"],
+      });
       queryClient.invalidateQueries({
         queryKey: ["messages/status", "unread"],
       });
@@ -167,8 +183,8 @@ export default function Feedback() {
     );
   };
 
-  const unreadCount: number = data?.messages
-    ? data?.messages?.filter((msg: IMessageStatus) => !msg.is_read).length
+  const unreadCount: number = messages
+    ? messages?.filter((msg: IMessageStatus) => !msg.is_read).length
     : 0;
 
   // Loading holati
@@ -194,7 +210,7 @@ export default function Feedback() {
             </div>
             <Button
               onClick={() =>
-                queryClient.refetchQueries({ queryKey: ["messages", "unread"] })
+                queryClient.refetchQueries({ queryKey: ["messages"] })
               }
             >
               Qayta urinish
@@ -211,8 +227,8 @@ export default function Feedback() {
         <div>
           <h1 className="text-3xl font-bold">Fikr-mulohazalar</h1>
           <p className="text-muted-foreground mt-2">
-            {data?.messages && data?.messages?.length > 0
-              ? `${data?.messages?.length} ta xabar, shundan ${unreadCount} tasi o'qilmagan`
+            {messages && messages?.length > 0
+              ? `${messages?.length} ta xabar, shundan ${unreadCount} tasi o'qilmagan`
               : "Xabarlar topilmadi"}
           </p>
         </div>
@@ -234,7 +250,7 @@ export default function Feedback() {
             </Button>
           )}
 
-          {data?.messages && data?.messages?.length > 0 && (
+          {messages && messages?.length > 0 && (
             <Button
               onClick={() => openDeleteDialog(null, "", "all")}
               className="gap-2 text-white"
@@ -252,7 +268,7 @@ export default function Feedback() {
         </div>
       </div>
 
-      {data?.messages?.length === 0 ? (
+      {messages?.length === 0 ? (
         <Card>
           <CardContent className="pt-6 text-center py-12">
             <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
@@ -264,7 +280,7 @@ export default function Feedback() {
         </Card>
       ) : (
         <div className="space-y-4">
-          {data?.messages?.map((message: IMessageStatus) => (
+          {messages?.map((message: IMessageStatus) => (
             <Card
               key={message._id}
               className={`transition-all duration-200 hover:shadow-md ${
@@ -390,7 +406,7 @@ export default function Feedback() {
             </AlertDialogTitle>
             <AlertDialogDescription>
               {deleteDialog.type === "all"
-                ? `Haqiqatan ham barcha ${data?.messages?.length} ta xabarni o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi.`
+                ? `Haqiqatan ham barcha ${messages?.length} ta xabarni o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi.`
                 : `Haqiqatan ham ${deleteDialog.userName} ning xabarini o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi.`}
             </AlertDialogDescription>
           </AlertDialogHeader>

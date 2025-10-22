@@ -78,6 +78,7 @@ export const API_ENDPOINTS = {
       deleteAll: "/messages/status/all",
       readOne: "/messages/status/read",
       readAll: "/messages/status/read-all",
+      readCount: "/messages/status/unread-count",
     },
   },
 };
