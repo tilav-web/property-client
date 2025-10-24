@@ -203,6 +203,8 @@
       "media_tab": {
         "media_files": "Media fayllar",
         "contract_file": "Kontrakt shartlari",
+        "only_pdf": "nimadir",
+        "choose_pdf": "nimadir",
         "images": "Rasmlar (maks. 5 ta)",
         "video": "Video",
         "add_images": "Rasm qo'shish",
