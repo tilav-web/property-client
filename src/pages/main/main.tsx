@@ -1,8 +1,6 @@
 import HeroSection from "@/components/common/hero-section";
 import PropertyCard from "@/components/common/cards/property-card";
 import PropertyBannerCard from "@/components/common/cards/property-banner-card";
-import { Button } from "@/components/ui/button";
-import { categories } from "@/constants/mack-data";
 import { asideImage } from "@/utils/shared";
 import { useTranslation } from "react-i18next";
 import { mainImage } from "@/utils/shared";
@@ -14,6 +12,7 @@ import type {
 } from "@/interfaces/property.interface";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import CategoryFilter from "@/components/common/category-filter";
 
 export default function Main() {
   const { t } = useTranslation();
@@ -32,20 +31,7 @@ export default function Main() {
 
   return (
     <>
-      <div className="shadow-xl my-4">
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center justify-center gap-8 flex-wrap">
-            {categories.map(({ key, count }) => (
-              <Button key={key} variant="ghost" className="text-sm group">
-                {t(`categories.${key}`)}
-                <span className="text-muted-foreground group-hover:text-foreground ml-1">
-                  ({count})
-                </span>
-              </Button>
-            ))}
-          </div>
-        </div>
-      </div>
+      <CategoryFilter />
       <HeroSection img={mainImage} title={"pages.hero.title"} />
       <div>
         <div className="flex items-stretch gap-4 mb-4 flex-col md:flex-row mt-4">

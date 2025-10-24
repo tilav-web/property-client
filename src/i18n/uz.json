@@ -474,16 +474,6 @@
       "80%": "80%",
       "100%": "100%"
     },
-    "categories": {
-      "flats": "Kvartiralar",
-      "dacha": "Dachalar",
-      "rooms": "Xonalar",
-      "office": "Ofislar",
-      "land": "Yer",
-      "business": "Biznes",
-      "basement": "Podvallar",
-      "building": "Binolar"
-    },
     "bank_account_number_tab": {
       "account_number_20_digits": "Hisob raqami 20 ta raqamdan iborat bo'lishi kerak",
       "account_number_required": "Hisob raqami majburiy",
@@ -692,6 +682,16 @@
       "english": "English",
       "russian": "Русский"
     }
+  },
+  "categories": {
+    "flats": "Kvartiralar",
+    "dacha": "Dachalar",
+    "rooms": "Xonalar",
+    "office": "Ofislar",
+    "land": "Yer",
+    "business": "Biznes",
+    "basement": "Podvallar",
+    "building": "Binolar"
   },
   "physical_seller_register": {
     "self_employed": "O'zini o'zi band qilgan",

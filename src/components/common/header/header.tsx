@@ -17,7 +17,6 @@ import {
   Home,
   Building,
   Handshake,
-  Calculator,
   Star,
   LogIn,
   User,
@@ -65,20 +64,28 @@ export default function Header() {
   };
 
   const navItems = [
-    { icon: Home, label: t("common.buy"), href: "/category?category=" },
+    {
+      icon: Home,
+      label: t("common.buy"),
+      href: "/filter-nav?purpose=for_sale&price_type=sale",
+    },
     {
       icon: Building,
       label: t("common.rent_apartments"),
-      href: "/category?category=apartment",
+      href: "/filter-nav?purpose=for_rent&category=apartment",
     },
     {
       icon: Home,
       label: t("common.rent_land"),
-      href: "/category?category=land",
+      href: "/filter-nav?purpose=for_rent&category=land",
     },
     { icon: Handshake, label: t("common.ai_agent"), href: "/ai-agent" },
-    { icon: Calculator, label: t("common.mortgage"), href: "/mortgage" },
-    { icon: Star, label: t("common.new_projects"), href: "/new-projects" },
+    // { icon: Calculator, label: t("common.mortgage"), href: "/mortgage" },
+    {
+      icon: Star,
+      label: t("common.new_projects"),
+      href: "/filter-nav?purpose=for_rent&category=land",
+    },
     { icon: Heart, label: t("common.favorites"), href: "/favorites" },
   ];
 

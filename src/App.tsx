@@ -18,8 +18,9 @@ import Inquiries from "./pages/seller/inquiries/inquiries";
 import Feedback from "./pages/seller/feedback/feedback";
 import SellerProperties from "./pages/seller/properties/seller-properties";
 import { lazy, Suspense } from "react";
-import Category from "./pages/property/category";
+import FilterNav from "./pages/property/filter-nav";
 import AiAgent from "./pages/ai-agent/ai-agent";
+import CategoryFilter from "./components/common/category-filter";
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/_components/create-property")
 );
@@ -46,10 +47,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/category",
+        path: "/filter-nav",
         element: (
           <SubLayout>
-            <Category />
+            <FilterNav />
           </SubLayout>
         ),
       },
@@ -90,6 +91,14 @@ const router = createBrowserRouter([
         element: (
           <SubLayout>
             <Profile />
+          </SubLayout>
+        ),
+      },
+      {
+        path: "/category",
+        element: (
+          <SubLayout>
+            <CategoryFilter />
           </SubLayout>
         ),
       },
