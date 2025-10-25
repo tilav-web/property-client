@@ -10,6 +10,7 @@ export default function RootLayout() {
   const { setUser, user, logout } = useUserStore();
   const { fetchLikedProperties, likedProperties } = useLikeStore();
   const { i18n } = useTranslation();
+
   useEffect(() => {
     (async () => {
       i18n.changeLanguage(

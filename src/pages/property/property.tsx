@@ -239,7 +239,6 @@ export default function Property() {
   return (
     <div className="py-8">
       <BackButton className="mb-6" />
-
       {/* Rasmlar qismi */}
       <div className="flex flex-col lg:flex-row items-stretch gap-4 h-auto lg:h-[600px] mb-8">
         <div className="lg:w-2/3 flex flex-col lg:flex-row gap-4">
