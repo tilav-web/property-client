@@ -26,7 +26,7 @@ export default function CreateProperty() {
     if (!data) return false;
     switch (tab) {
       case "media":
-        return !!data.banner && !!data.photos && data.photos.length > 0;
+        return !!data.contract_file && !!data.photos && data.photos.length > 0;
       case "info":
         return (
           !!data.title?.uz &&
@@ -40,10 +40,7 @@ export default function CreateProperty() {
       case "details":
         return true;
       case "price":
-        return (
-          data.price !== undefined &&
-          data.price > 0 &&
-          !!data.price_type);
+        return data.price !== undefined && data.price > 0 && !!data.price_type;
       case "location":
         return (
           !!data.address?.uz &&
@@ -132,8 +129,8 @@ export default function CreateProperty() {
           });
         } else if (key === "photos" && Array.isArray(value)) {
           value.forEach((photo) => formData.append("photos", photo));
-        } else if (key === "banner") {
-          formData.append("banner", value, value.name);
+        } else if (key === "contract_file") {
+          formData.append("contract_file", value, value.name);
         } else if (key === "video") {
           formData.append("video", value, value.name);
         } else if (key === "region" || key === "district") {
@@ -157,7 +154,10 @@ export default function CreateProperty() {
       resetData();
       navigate("/seller/properties");
     } catch (err) {
-      console.error(t("pages.create_property.validation.error_submitting"), err);
+      console.error(
+        t("pages.create_property.validation.error_submitting"),
+        err
+      );
     }
   };
 
@@ -213,7 +213,9 @@ export default function CreateProperty() {
                       : "bg-gray-200 text-gray-500"
                   }`}
                 >
-                  {getTabStatus(tab) === "completed" ? t("pages.create_property.validation.check_mark") : index + 1}
+                  {getTabStatus(tab) === "completed"
+                    ? t("pages.create_property.validation.check_mark")
+                    : index + 1}
                 </div>
 
                 {/* Connector line */}
@@ -256,7 +258,9 @@ export default function CreateProperty() {
             }`}
           >
             <span>{t("pages.create_property.tabs.media")}</span>
-            <span className="text-xs font-normal mt-1">{t("pages.create_property.tabs.media_subtitle")}</span>
+            <span className="text-xs font-normal mt-1">
+              {t("pages.create_property.tabs.media_subtitle")}
+            </span>
           </TabsTrigger>
           <TabsTrigger
             value="info"
@@ -268,7 +272,9 @@ export default function CreateProperty() {
             }`}
           >
             <span>{t("pages.create_property.tabs.info")}</span>
-            <span className="text-xs font-normal mt-1">{t("pages.create_property.tabs.info_subtitle")}</span>
+            <span className="text-xs font-normal mt-1">
+              {t("pages.create_property.tabs.info_subtitle")}
+            </span>
           </TabsTrigger>
           <TabsTrigger
             value="details"
@@ -280,7 +286,9 @@ export default function CreateProperty() {
             }`}
           >
             <span>{t("pages.create_property.tabs.details")}</span>
-            <span className="text-xs font-normal mt-1">{t("pages.create_property.tabs.details_subtitle")}</span>
+            <span className="text-xs font-normal mt-1">
+              {t("pages.create_property.tabs.details_subtitle")}
+            </span>
           </TabsTrigger>
           <TabsTrigger
             value="price"
@@ -292,7 +300,9 @@ export default function CreateProperty() {
             }`}
           >
             <span>{t("pages.create_property.tabs.price")}</span>
-            <span className="text-xs font-normal mt-1">{t("pages.create_property.tabs.price_subtitle")}</span>
+            <span className="text-xs font-normal mt-1">
+              {t("pages.create_property.tabs.price_subtitle")}
+            </span>
           </TabsTrigger>
           <TabsTrigger
             value="location"
@@ -304,7 +314,9 @@ export default function CreateProperty() {
             }`}
           >
             <span>{t("pages.create_property.tabs.location")}</span>
-            <span className="text-xs font-normal mt-1">{t("pages.create_property.tabs.location_subtitle")}</span>
+            <span className="text-xs font-normal mt-1">
+              {t("pages.create_property.tabs.location_subtitle")}
+            </span>
           </TabsTrigger>
         </TabsList>
 

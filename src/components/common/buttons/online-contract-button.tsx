@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ClipboardPenLine, X, Download } from "lucide-react";
+import { ClipboardPenLine, Download } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -53,15 +53,6 @@ export default function OnlineContractButton({ file }: { file: IFile }) {
               >
                 <Download className="w-4 h-4" />
                 {t("common.buttons.download")}
-              </Button>
-
-              {/* Yopish tugmasi */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsDialogOpen(false)}
-              >
-                <X className="w-4 h-4" />
               </Button>
             </div>
           </DialogHeader>
