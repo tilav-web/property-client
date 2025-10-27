@@ -81,6 +81,9 @@ export const API_ENDPOINTS = {
       readCount: "/messages/status/unread-count",
     },
   },
+  STATISTICS: {
+    seller: "/statistics/seller",
+  },
 };
 
 // .ENV

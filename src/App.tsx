@@ -11,7 +11,6 @@ import Favorites from "./pages/favorites/favorites";
 import Login from "./pages/auth/login";
 import Map from "./pages/map/map";
 import SellerLayout from "./layouts/seller-layout";
-import SellerDashboard from "./pages/seller/dashboard/seller-dashboard";
 import Unauthorized from "./pages/unauthorized/unauthorized";
 import SellerProfile from "./pages/seller/profile/seller-profile";
 import Inquiries from "./pages/seller/inquiries/inquiries";
@@ -21,6 +20,7 @@ import { lazy, Suspense } from "react";
 import FilterNav from "./pages/property/filter-nav";
 import AiAgent from "./pages/ai-agent/ai-agent";
 import CategoryFilter from "./components/common/category-filter";
+import SellerDashboard from "./pages/seller/dashboard/seller-dashboard";
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/_components/create-property")
 );
