@@ -7,7 +7,7 @@ export default function ImageAds({ ads }: { ads: IAdvertise }) {
   return (
     <div
       onClick={() => navigate(ads?.target)}
-      className="w-full h-64 lg:h-80 rounded-md overflow-hidden shadow-lg"
+      className="w-full h-64 lg:h-80 rounded-md overflow-hidden shadow-lg cursor-pointer"
     >
       <img
         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"

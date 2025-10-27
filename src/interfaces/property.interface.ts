@@ -108,9 +108,8 @@ export const propertyPurpose: PropertyPurpose[] = [
   "auction",
 ];
 
-// YANGI: Valyuta
-export type PropertyCurrency = "uzs" | "usd" | "eur";
-export const propertyCurrency: PropertyCurrency[] = ["uzs", "usd", "eur"];
+export type PropertyCurrency = "uzs";
+export const propertyCurrency: PropertyCurrency[] = ["uzs"];
 
 export interface ILocation {
   type: "Point";

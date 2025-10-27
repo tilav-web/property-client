@@ -8,7 +8,7 @@ export default function AsideAds({ ads }: { ads: IAdvertise }) {
   return (
     <div
       onClick={() => navigate(`${ads?.target}`)}
-      className="max-w-[395px] w-full bg-red-500"
+      className="max-w-[395px] w-full"
     >
       <img
         className="w-full h-full"

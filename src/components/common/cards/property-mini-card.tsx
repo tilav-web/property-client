@@ -2,12 +2,11 @@ import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
 import { useCurrentLanguage } from "@/hooks/use-language";
 import type { IProperty } from "@/interfaces/property.interface";
-import { userService } from "@/services/user.service";
-import { useUserStore } from "@/stores/user.store";
 import { isNewProperty } from "@/utils/is-new-property";
 import { serverUrl } from "@/utils/shared";
-import { Heart, MapPin, Star } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import HeartButton from "../buttons/heart-button";
 
 export default function PropertyMiniCard({
   property,
@@ -21,28 +20,22 @@ export default function PropertyMiniCard({
       ? `${serverUrl}/uploads${property.photos[0].file_path}`
       : property.logo || "/default-property.jpg";
 
-  const { user, setUser } = useUserStore();
   const { getLocalizedText } = useCurrentLanguage();
 
   // Narx formati
   const getPriceDisplay = () => {
     const formattedPrice = property.price.toLocaleString();
-    const currencySymbol = t(`pages.property_card.currency_symbols.${property.currency}`);
-    const priceFormat = t(`pages.property_mini_card.price_formats.${property.price_type}`);
+    const currencySymbol = t(
+      `pages.property_card.currency_symbols.${property.currency}`
+    );
+    const priceFormat = t(
+      `pages.property_mini_card.price_formats.${property.price_type}`
+    );
     return `${formattedPrice} ${currencySymbol} ${priceFormat}`;
   };
 
-  // Reytingni hisoblash (agar mavjud bo'lmasa)
   const rating = property.rating || 0;
 
-  const handleLike = async (id: string) => {
-    try {
-      const data = await userService.handleLike(id);
-      setUser(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   const navigate = useNavigate();
 
   return (
@@ -56,19 +49,7 @@ export default function PropertyMiniCard({
         />
         <div className="absolute top-2 flex items-center justify-between w-full px-2">
           <span></span>
-          <button
-            onClick={() => handleLike(property?._id)}
-            className="p-1 rounded bg-white/40 border"
-          >
-            <Heart
-              size={18}
-              className={`${
-                user?.likes?.includes(property?._id)
-                  ? "fill-red-500 text-red-500"
-                  : ""
-              }`}
-            />
-          </button>
+          <HeartButton property={property} />
         </div>
         <button
           onClick={() =>
@@ -89,7 +70,9 @@ export default function PropertyMiniCard({
             </Badge>
           )}
           {property.is_premium && (
-            <Badge className="bg-yellow-500 text-black text-xs">{t("pages.property_card.premium")}</Badge>
+            <Badge className="bg-yellow-500 text-black text-xs">
+              {t("pages.property_card.premium")}
+            </Badge>
           )}
         </div>
       </div>
@@ -125,8 +108,16 @@ export default function PropertyMiniCard({
         {/* Qo'shimcha mulk ma'lumotlari */}
         <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
           {property.area > 0 && <span>{property.area} m²</span>}
-          {property.bedrooms > 0 && <span>{property.bedrooms} {t("pages.property_card.bedrooms")}</span>}
-          {property.bathrooms > 0 && <span>{property.bathrooms} {t("pages.property_card.bathrooms")}</span>}
+          {property.bedrooms > 0 && (
+            <span>
+              {property.bedrooms} {t("pages.property_card.bedrooms")}
+            </span>
+          )}
+          {property.bathrooms > 0 && (
+            <span>
+              {property.bathrooms} {t("pages.property_card.bathrooms")}
+            </span>
+          )}
         </div>
 
         <p className="font-bold text-lg">{getPriceDisplay()}</p>
