@@ -12,12 +12,11 @@ class AdvertiseService {
     }
   }
 
-  async priceCalculus({ from, to }: { from: string; to: string }) {
+  async priceCalculus(days: string) {
     try {
       const res = await apiInstance.get(API_ENDPOINTS.ADVERTISE.priceCalculus, {
         params: {
-          from,
-          to,
+          days,
         },
       });
       return res.data;

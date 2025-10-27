@@ -2,7 +2,6 @@ import AsideAdsSkeleton from "@/components/common/ads/aside-ads-skeleton";
 import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
 import PropertyCardSkeleton from "@/components/common/cards/property-card-skeleton";
 import { TabsContent } from "@/components/ui/tabs";
-import { useNavigate } from "react-router-dom";
 
 export default function BannerTypeTab({
   image,
@@ -11,8 +10,6 @@ export default function BannerTypeTab({
   image: string;
   target: string;
 }) {
-  const navigate = useNavigate();
-
   return (
     <TabsContent value="banner">
       <div className="flex items-stretch gap-2 mb-4">
@@ -25,7 +22,8 @@ export default function BannerTypeTab({
       </div>
       {image ? (
         <div
-          onClick={() => navigate(target)}
+          onClick={() => window.open(target, "_blank")}
+
           className="w-full h-[302px] relative my-2 rounded-md overflow-hidden cursor-pointer"
         >
           <img

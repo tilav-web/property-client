@@ -21,11 +21,15 @@ import { advertiseService } from "@/services/advertise.service";
 export default function SellerAdvertise() {
   const [adType, setAdType] = useState<"aside" | "banner" | "image">("aside");
   const [targetUrl, setTargetUrl] = useState("");
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
+  const [days, setDays] = useState<string>("1");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
+  const [priceCalculus, setPriceCalculus] = useState<{
+    days: number;
+    totalPrice: number;
+    currency: string;
+  }>();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -54,7 +58,7 @@ export default function SellerAdvertise() {
       return;
     }
 
-    if (!fromDate || !toDate) {
+    if (!days) {
       toast.error("Xatolik", {
         description: "Iltimos, reklama muddatini kiriting",
       });
@@ -67,8 +71,7 @@ export default function SellerAdvertise() {
       const formData = new FormData();
       formData.append("target", targetUrl);
       formData.append("type", adType);
-      formData.append("from", fromDate);
-      formData.append("to", toDate);
+      formData.append("days", days);
       formData.append("image", selectedImage);
 
       const data = await advertiseService.create(formData);
@@ -77,8 +80,7 @@ export default function SellerAdvertise() {
         description: "Reklama muvaffaqiyatli yaratildi!",
       });
       setTargetUrl("");
-      setFromDate("");
-      setToDate("");
+      setDays("1");
       setSelectedImage(null);
       setImagePreview("");
     } catch (error) {
@@ -88,24 +90,18 @@ export default function SellerAdvertise() {
     }
   };
 
-  const today = new Date().toISOString().split("T")[0];
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().split("T")[0];
-
   useEffect(() => {
     (async () => {
       try {
-        if (toDate) {
-          const data = await advertiseService.priceCalculus({
-            from: fromDate,
-            to: toDate,
-          });
-          console.log(data);
+        if (days) {
+          const data = await advertiseService.priceCalculus(days);
+          setPriceCalculus(data);
         }
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [toDate]);
+  }, [days]);
 
   return (
     <div className="container mx-auto p-6 w-full">
@@ -184,38 +180,28 @@ export default function SellerAdvertise() {
                 required
               />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="fromDate" className="text-sm">
-                  Boshlanish sanasi *
-                </Label>
-                <Input
-                  id="fromDate"
-                  type="date"
-                  value={fromDate}
-                  onChange={(e) => setFromDate(e.target.value)}
-                  className="h-9 text-sm"
-                  min={today}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="toDate" className="text-sm">
-                  Tugash sanasi *
-                </Label>
-                <Input
-                  id="toDate"
-                  type="date"
-                  value={toDate}
-                  onChange={(e) => setToDate(e.target.value)}
-                  className="h-9 text-sm"
-                  min={fromDate || tomorrow}
-                  required
-                  disabled={!fromDate}
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="fromDate" className="text-sm">
+                Qancha muddat (kun) *
+              </Label>
+              <Input
+                id="days"
+                type="number"
+                defaultValue={1}
+                onChange={(e) => setDays(e.target.value)}
+                className="h-9 text-sm"
+                required
+              />
             </div>
+            {priceCalculus?.days &&
+              priceCalculus?.totalPrice &&
+              priceCalculus?.currency && (
+                <div className="text-sm opacity-80">
+                  {priceCalculus?.days} kun uchun{" "}
+                  {priceCalculus?.totalPrice.toLocaleString()}{" "}
+                  {priceCalculus?.currency}
+                </div>
+              )}
           </div>
         </CardContent>
       </Card>
