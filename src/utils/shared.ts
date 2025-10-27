@@ -84,6 +84,10 @@ export const API_ENDPOINTS = {
   STATISTICS: {
     seller: "/statistics/seller",
   },
+  ADVERTISE: {
+    base: "advertise",
+    priceCalculus: "advertise/price/calculus",
+  },
 };
 
 // .ENV

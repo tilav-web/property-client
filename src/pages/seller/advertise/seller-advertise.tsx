@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -10,21 +10,22 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { AdvertiseType } from "@/interfaces/advertise.interface";
-import PropertyCardSkeleton from "@/components/common/cards/property-card-skeleton";
-import AsideAdsSkeleton from "@/components/common/ads/aside-ads-skeleton";
-import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
-import PropertyMiniCardSkeleton from "@/components/common/cards/property-mini-card-skeleton";
-import ImageAdsSkeleton from "@/components/common/ads/image-ads-skeleton";
-import { useNavigate } from "react-router-dom";
+import BannerTypeTab from "./_components/tabs/banner-type-tab";
+import AsideTypeTab from "./_components/tabs/aside-type-tab";
+import ImageTypeTab from "./_components/tabs/image-type-tab";
+import { toast } from "sonner";
+import { advertiseService } from "@/services/advertise.service";
 
 export default function SellerAdvertise() {
   const [adType, setAdType] = useState<"aside" | "banner" | "image">("aside");
   const [targetUrl, setTargetUrl] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -37,16 +38,74 @@ export default function SellerAdvertise() {
       reader.readAsDataURL(file);
     }
   };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Reklamani saqlash logikasi
-    console.log({
-      type: adType,
-      target: targetUrl,
-      image: selectedImage,
-    });
-    alert("Reklama muvaffaqiyatli yaratildi!");
+
+  const handleSubmit = async () => {
+    if (!selectedImage) {
+      toast.error("Xatolik", {
+        description: "Iltimos, reklama rasmini yuklang",
+      });
+      return;
+    }
+
+    if (!targetUrl) {
+      toast.error("Xatolik", {
+        description: "Iltimos, havolani kiriting",
+      });
+      return;
+    }
+
+    if (!fromDate || !toDate) {
+      toast.error("Xatolik", {
+        description: "Iltimos, reklama muddatini kiriting",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("target", targetUrl);
+      formData.append("type", adType);
+      formData.append("from", fromDate);
+      formData.append("to", toDate);
+      formData.append("image", selectedImage);
+
+      const data = await advertiseService.create(formData);
+      console.log(data);
+      toast.success("Muvaffaqiyatli", {
+        description: "Reklama muvaffaqiyatli yaratildi!",
+      });
+      setTargetUrl("");
+      setFromDate("");
+      setToDate("");
+      setSelectedImage(null);
+      setImagePreview("");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const today = new Date().toISOString().split("T")[0];
+  const tomorrow = new Date(Date.now() + 86400000).toISOString().split("T")[0];
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (toDate) {
+          const data = await advertiseService.priceCalculus({
+            from: fromDate,
+            to: toDate,
+          });
+          console.log(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [toDate]);
 
   return (
     <div className="container mx-auto p-6 w-full">
@@ -66,11 +125,10 @@ export default function SellerAdvertise() {
           </CardDescription>
         </CardHeader>
         <CardContent className="pb-4">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Rasm yuklash - kichikroq qilish */}
+          <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="adImage" className="text-sm">
-                Reklama Rasmı
+                Reklama Rasmı *
               </Label>
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center transition-colors hover:border-gray-400">
                 <input
@@ -79,12 +137,13 @@ export default function SellerAdvertise() {
                   accept="image/*"
                   onChange={handleImageChange}
                   className="hidden"
+                  required
                 />
                 <label htmlFor="adImage" className="cursor-pointer block">
                   {imagePreview ? (
                     <div className="space-y-2">
                       <img
-                        src={imagePreview ?? ""}
+                        src={imagePreview}
                         alt="Tanlangan rasm"
                         className="mx-auto h-24 object-cover rounded shadow-sm"
                       />
@@ -111,11 +170,9 @@ export default function SellerAdvertise() {
                 </label>
               </div>
             </div>
-
-            {/* Havola inputi */}
             <div className="space-y-2">
               <Label htmlFor="targetUrl" className="text-sm">
-                Havola (URL)
+                Havola (URL) *
               </Label>
               <Input
                 id="targetUrl"
@@ -124,15 +181,42 @@ export default function SellerAdvertise() {
                 value={targetUrl}
                 onChange={(e) => setTargetUrl(e.target.value)}
                 className="h-9 text-sm"
+                required
               />
             </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="fromDate" className="text-sm">
+                  Boshlanish sanasi *
+                </Label>
+                <Input
+                  id="fromDate"
+                  type="date"
+                  value={fromDate}
+                  onChange={(e) => setFromDate(e.target.value)}
+                  className="h-9 text-sm"
+                  min={today}
+                  required
+                />
+              </div>
 
-            {/* Submit tugmasi */}
-            <Button type="submit" className="w-full h-9 text-sm">
-              <i className="fas fa-paper-plane mr-2 text-xs"></i>
-              Reklamani Joylash
-            </Button>
-          </form>
+              <div className="space-y-2">
+                <Label htmlFor="toDate" className="text-sm">
+                  Tugash sanasi *
+                </Label>
+                <Input
+                  id="toDate"
+                  type="date"
+                  value={toDate}
+                  onChange={(e) => setToDate(e.target.value)}
+                  className="h-9 text-sm"
+                  min={fromDate || tomorrow}
+                  required
+                  disabled={!fromDate}
+                />
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
       <Card>
@@ -150,7 +234,6 @@ export default function SellerAdvertise() {
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            {/* Reklama turi tanlash */}
             <Tabs
               value={adType}
               onValueChange={(value) => setAdType(value as AdvertiseType)}
@@ -170,91 +253,10 @@ export default function SellerAdvertise() {
                   <span>Rasm</span>
                 </TabsTrigger>
               </TabsList>
-
-              <TabsContent value="aside">
-                <div className="flex items-stretch gap-2">
-                  <div className="flex-1 flex flex-col gap-2">
-                    <PropertyCardSkeleton />
-                    <PropertyCardSkeleton />
-                    <PropertyCardSkeleton />
-                  </div>
-                  {selectedImage && imagePreview ? (
-                    <div
-                      onClick={() => navigate(targetUrl)}
-                      className="max-w-[395px] w-full cursor-pointer"
-                    >
-                      <img
-                        className="w-full h-full"
-                        src={imagePreview ?? ""}
-                        alt="ads iamge"
-                      />
-                    </div>
-                  ) : (
-                    <AsideAdsSkeleton />
-                  )}
-                </div>
-                <BannerAdsSkeleton />
-              </TabsContent>
-
-              <TabsContent value="banner">
-                <div className="flex items-stretch gap-2 mb-4">
-                  <div className="flex-1 flex flex-col gap-2">
-                    <PropertyCardSkeleton />
-                    <PropertyCardSkeleton />
-                    <PropertyCardSkeleton />
-                  </div>
-                  <AsideAdsSkeleton />
-                </div>
-                {selectedImage && imagePreview ? (
-                  <div
-                    onClick={() => navigate(targetUrl)}
-                    className="w-full h-[302px] relative my-2 rounded-md overflow-hidden cursor-pointer"
-                  >
-                    <img
-                      className="w-full h-full object-cover"
-                      src={imagePreview}
-                      alt="ads image"
-                    />
-                  </div>
-                ) : (
-                  <BannerAdsSkeleton />
-                )}
-              </TabsContent>
-
-              <TabsContent value="image">
-                <div className="flex flex-col gap-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    <PropertyMiniCardSkeleton />
-                    <PropertyMiniCardSkeleton />
-                    <PropertyMiniCardSkeleton />
-                    <PropertyMiniCardSkeleton />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <PropertyMiniCardSkeleton />
-                      <PropertyMiniCardSkeleton />
-                    </div>
-                    {selectedImage && imagePreview ? (
-                      <div
-                        onClick={() => navigate(targetUrl)}
-                        className="w-full h-[22rem] rounded-md overflow-hidden shadow-lg cursor-pointer"
-                      >
-                        <img
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          src={imagePreview ?? ""}
-                          alt="ads image"
-                        />
-                      </div>
-                    ) : (
-                      <ImageAdsSkeleton />
-                    )}
-                  </div>
-                  <BannerAdsSkeleton />
-                </div>
-              </TabsContent>
+              <AsideTypeTab target={targetUrl} image={imagePreview} />
+              <BannerTypeTab image={imagePreview} target={targetUrl} />
+              <ImageTypeTab target={targetUrl} image={imagePreview} />
             </Tabs>
-            {/* Reklama xususiyatlari */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
               <div className="text-center p-4 bg-blue-50 rounded-lg">
                 <i className="fas fa-expand-arrows-alt text-blue-500 text-lg mb-2"></i>
@@ -289,6 +291,23 @@ export default function SellerAdvertise() {
           </div>
         </CardContent>
       </Card>
+      <Button
+        onClick={handleSubmit}
+        className="w-full h-9 text-sm"
+        disabled={isLoading}
+      >
+        {isLoading ? (
+          <>
+            <i className="fas fa-spinner fa-spin mr-2 text-xs"></i>
+            Joylanmoqda...
+          </>
+        ) : (
+          <>
+            <i className="fas fa-paper-plane mr-2 text-xs"></i>
+            Reklamani Joylash
+          </>
+        )}
+      </Button>
     </div>
   );
 }
