@@ -9,6 +9,7 @@ import {
   Home,
   Pointer,
   Settings,
+  Share2,
   Stars,
   User,
   X,
@@ -68,6 +69,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         to: "/seller/profile",
         icon: <User className="h-5 w-5" />,
         text: t("common.seller_sidebar.personal_info"),
+      },
+      {
+        to: "/seller/advertise",
+        icon: <Share2 className="h-5 w-5" />,
+        text: t("common.seller_sidebar.advertise"),
       },
     ],
     legal: [

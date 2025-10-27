@@ -1,5 +1,4 @@
-import PropertyBannerCard from "@/components/common/cards/property-banner-card";
-import PropertyImageCard from "@/components/common/cards/property-image-card";
+import PropertyImageCard from "@/components/common/ads/image-ads";
 import PropertyMiniCard from "@/components/common/cards/property-mini-card";
 import HeroSection from "@/components/common/hero-section";
 import {
@@ -30,9 +29,6 @@ const PropertyGridItem = ({
       <div className="contents">
         <div className="w-full lg:w-1/2">
           <PropertyImageCard />
-        </div>
-        <div className="w-full">
-          <PropertyBannerCard property={property} />
         </div>
       </div>
     );

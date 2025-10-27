@@ -1,6 +1,5 @@
 import HeroSection from "@/components/common/hero-section";
 import PropertyCard from "@/components/common/cards/property-card";
-import PropertyBannerCard from "@/components/common/cards/property-banner-card";
 import { asideImage } from "@/utils/shared";
 import { useTranslation } from "react-i18next";
 import { mainImage } from "@/utils/shared";
@@ -40,28 +39,10 @@ export default function Main() {
               return <PropertyCard key={property?._id} property={property} />;
             })}
           </div>
-          <div className="max-w-[395px] w-full">
-            <img
-              className="w-full h-[629px] mb-2"
-              src={asideImage}
-              alt="image"
-            />
-            <p className="text-center mb-12">
-              {t("pages.main_page.popular_searches")}
-            </p>
-            <div className="px-6">
-              <p>{t("pages.main_page.popular_searches_text")}</p>
-              <ul className="list-disc pl-8">
-                <li>{t("pages.main_page.list_item_1")}</li>
-                <li>{t("pages.main_page.list_item_2")}</li>
-                <li>{t("pages.main_page.list_item_3")}</li>
-              </ul>
-            </div>
+          <div className="max-w-[395px] w-full bg-red-500">
+            <img className="w-full h-full" src="" alt="" />
           </div>
         </div>
-        {data?.properties?.slice(4, 5)[0] && (
-          <PropertyBannerCard property={data?.properties?.slice(4, 5)[0]} />
-        )}
       </div>
       <div>
         <div className="flex items-stretch gap-4 mb-4 flex-col md:flex-row mt-4">
@@ -89,9 +70,6 @@ export default function Main() {
             </div>
           </div>
         </div>
-        {data?.properties?.slice(8)[0] && (
-          <PropertyBannerCard property={data?.properties?.slice(4, 5)[0]} />
-        )}
       </div>
     </>
   );

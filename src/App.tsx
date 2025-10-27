@@ -21,6 +21,7 @@ import FilterNav from "./pages/property/filter-nav";
 import AiAgent from "./pages/ai-agent/ai-agent";
 import CategoryFilter from "./components/common/category-filter";
 import SellerDashboard from "./pages/seller/dashboard/seller-dashboard";
+import SellerAdvertise from "./pages/seller/advertise/seller-advertise";
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/_components/create-property")
 );
@@ -115,6 +116,14 @@ const router = createBrowserRouter([
         element: (
           <SellerLayout>
             <SellerProfile />
+          </SellerLayout>
+        ),
+      },
+      {
+        path: "/seller/advertise",
+        element: (
+          <SellerLayout>
+            <SellerAdvertise />
           </SellerLayout>
         ),
       },
