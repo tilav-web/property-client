@@ -32,7 +32,7 @@ const validationSchema = (t: TFunction) =>
   });
 
 export default function PhysicalPersonForm() {
-  const { seller, setSeller } = useSellerStore();
+  const { setSeller } = useSellerStore();
   const { t } = useTranslation();
 
   const formik = useFormik({
@@ -47,13 +47,6 @@ export default function PhysicalPersonForm() {
     },
     validationSchema: validationSchema(t),
     onSubmit: async (values) => {
-      if (!seller?._id) {
-        toast.error(
-          "Seller not found. Please go back and select a business type."
-        );
-        return;
-      }
-
       try {
         const formData = new FormData();
         Object.entries(values).forEach(([key, value]) => {

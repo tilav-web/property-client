@@ -23,43 +23,41 @@ const validationSchema = (t: TFunction) =>
     birth_date: Yup.string().required(
       t("physical_seller_register.birth_date_required")
     ),
-      jshshir: Yup.string()
-        .matches(/^\d{14}$/, t("physical_seller_register.jshshir_14_digits"))
-        .required(t("physical_seller_register.jshshir_required")),
-      passport: Yup.string()
-        .matches(/^[A-Z]{2}\d{7}$/, t("user_details_tab.passport_format_error"))
-        .required(t("user_details_tab.passport_required")),
-    });
-    
-    export default function SelfEmployedForm() {
-      const { seller, setSeller } = useSellerStore();
-      const { t } = useTranslation();
-    
-      const formik = useFormik({
-        initialValues: {
-          first_name: "",
-          last_name: "",
-          middle_name: "",
-          birth_date: "",
-          jshshir: "",
-          passport: "",
-          passport_file: null as File | null,
-          self_employment_certificate: null as File | null,
-        },    validationSchema: validationSchema(t),
-    onSubmit: async (values) => {
-      if (!seller?._id) {
-        toast.error("Seller not found. Please go back and select a business type.");
-        return;
-      }
+    jshshir: Yup.string()
+      .matches(/^\d{14}$/, t("physical_seller_register.jshshir_14_digits"))
+      .required(t("physical_seller_register.jshshir_required")),
+    passport: Yup.string()
+      .matches(/^[A-Z]{2}\d{7}$/, t("user_details_tab.passport_format_error"))
+      .required(t("user_details_tab.passport_required")),
+  });
 
+export default function SelfEmployedForm() {
+  const { setSeller } = useSellerStore();
+  const { t } = useTranslation();
+
+  const formik = useFormik({
+    initialValues: {
+      first_name: "",
+      last_name: "",
+      middle_name: "",
+      birth_date: "",
+      jshshir: "",
+      passport: "",
+      passport_file: null as File | null,
+      self_employment_certificate: null as File | null,
+    },
+    validationSchema: validationSchema(t),
+    onSubmit: async (values) => {
       try {
-                const formData = new FormData();
-                Object.entries(values).forEach(([key, value]) => {
-                  if (key !== 'seller' && value) {
-                    formData.append(key, value);
-                  }
-                });
-        const updatedSeller = await sellerService.createSelfEmployedSeller(formData);
+        const formData = new FormData();
+        Object.entries(values).forEach(([key, value]) => {
+          if (key !== "seller" && value) {
+            formData.append(key, value);
+          }
+        });
+        const updatedSeller = await sellerService.createSelfEmployedSeller(
+          formData
+        );
 
         if (updatedSeller) {
           setSeller(updatedSeller);
@@ -135,23 +133,27 @@ const validationSchema = (t: TFunction) =>
             <Label htmlFor="jshshir">
               {t("physical_seller_register.jshshir")}
             </Label>
-                        <Input id="jshshir" {...formik.getFieldProps("jshshir")} />
-                        {formik.touched.jshshir && formik.errors.jshshir ? (
-                          <div className="text-red-500 text-sm">{formik.errors.jshshir}</div>
-                        ) : null}
-                      </div>
-                    </div>
-            
-                    <div className="space-y-2">
-                      <Label htmlFor="passport">{t("user_details_tab.passport")}</Label>
-                      <Input id="passport" {...formik.getFieldProps("passport")} />
-                      {formik.touched.passport && formik.errors.passport ? (
-                        <div className="text-red-500 text-sm">{formik.errors.passport}</div>
-                      ) : null}
-                    </div>
-            
-                    <div className="space-y-2">
-                      <Label htmlFor="passport_file">{t("physical_seller_register.passport_file")}</Label>
+            <Input id="jshshir" {...formik.getFieldProps("jshshir")} />
+            {formik.touched.jshshir && formik.errors.jshshir ? (
+              <div className="text-red-500 text-sm">
+                {formik.errors.jshshir}
+              </div>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="passport">{t("user_details_tab.passport")}</Label>
+          <Input id="passport" {...formik.getFieldProps("passport")} />
+          {formik.touched.passport && formik.errors.passport ? (
+            <div className="text-red-500 text-sm">{formik.errors.passport}</div>
+          ) : null}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="passport_file">
+            {t("physical_seller_register.passport_file")}
+          </Label>
           <Input
             id="passport_file"
             type="file"
