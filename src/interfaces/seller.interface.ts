@@ -1,6 +1,7 @@
 import type { IBankAccount } from "./bank-account.interface";
 import type { ICommissioner } from "./commissioner.interface";
 import type { IFile } from "./file.interface";
+import type { IPhysical } from "./physical.interface";
 import type { IUser } from "./user.interface";
 
 export interface ISeller {
@@ -11,6 +12,7 @@ export interface ISeller {
   ytt?: IYttSeller;
   mchj?: IMchjSeller;
   self_employed?: ISelfEmployedSeller;
+  physical: IPhysical;
   bank_account: IBankAccount;
   commissioner: ICommissioner;
   status: SellerStatus;
@@ -18,7 +20,7 @@ export interface ISeller {
   updatedAt?: Date;
 }
 
-export type SellerBusinessType = "ytt" | "mchj" | "self_employed";
+export type SellerBusinessType = "ytt" | "mchj" | "self_employed" | "physical";
 export type SellerStatus =
   | "in_progress"
   | "completed"

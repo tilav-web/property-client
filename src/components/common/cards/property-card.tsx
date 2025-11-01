@@ -111,11 +111,6 @@ export default function PropertyCard({ property }: { property: IProperty }) {
                 {t("pages.property_card.new")}
               </Badge>
             )}
-            {!property?.is_active && (
-              <Badge className="bg-red-500 rounded uppercase w-full border-white text-xs">
-                {t("pages.property_card.inactive")}
-              </Badge>
-            )}
           </div>
           <button
             onClick={() =>

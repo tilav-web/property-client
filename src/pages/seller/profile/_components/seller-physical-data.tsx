@@ -12,7 +12,26 @@ export default function SellerProfile() {
     );
   }
 
-  const { self_employed, status, business_type, passport } = seller;
+  const { self_employed, physical, status, business_type, passport } = seller;
+
+  // business_type ga qarab ma'lumotlarni tanlash
+  const sellerData =
+    business_type === "physical"
+      ? physical
+      : business_type === "self_employed"
+      ? self_employed
+      : null;
+
+  if (!sellerData) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <p className="text-gray-500">
+          No seller data available for {business_type} type
+        </p>
+      </div>
+    );
+  }
+
   const {
     first_name,
     last_name,
@@ -21,7 +40,7 @@ export default function SellerProfile() {
     jshshir,
     passport_file,
     self_employment_certificate,
-  } = self_employed || {};
+  } = sellerData;
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -39,6 +58,8 @@ export default function SellerProfile() {
               className={`px-3 py-1 rounded-full text-sm font-medium ${
                 status === "approved"
                   ? "bg-green-100 text-green-800"
+                  : status === "in_progress"
+                  ? "bg-yellow-100 text-yellow-800"
                   : "bg-red-100 text-red-800"
               }`}
             >
@@ -101,7 +122,13 @@ export default function SellerProfile() {
       {/* Documents Section */}
       <div className="mb-8">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">Documents</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div
+          className={`grid gap-4 ${
+            passport_file && self_employment_certificate
+              ? "grid-cols-1 md:grid-cols-2"
+              : "grid-cols-1"
+          }`}
+        >
           {passport_file && (
             <div className="border rounded-lg p-4">
               <h3 className="font-medium text-gray-700 mb-2">Passport File</h3>
@@ -127,7 +154,7 @@ export default function SellerProfile() {
             </div>
           )}
 
-          {self_employment_certificate && (
+          {business_type === "self_employed" && self_employment_certificate && (
             <div className="border rounded-lg p-4">
               <h3 className="font-medium text-gray-700 mb-2">
                 Self-Employment Certificate

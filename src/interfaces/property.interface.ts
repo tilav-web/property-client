@@ -157,7 +157,6 @@ export interface IProperty {
   parking_spaces: number;
   is_premium: boolean;
   is_verified: boolean;
-  is_active: boolean;
   view_count: number;
   expires_at?: Date;
   delivery_date?: Date;
