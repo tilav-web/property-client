@@ -228,6 +228,16 @@
       "you_have_not_added_any_properties_yet": "Siz hali birorta mulk qo‘shmagansiz. Birinchi mulkingizni qo‘shish uchun quyidagi tugmani bosing.",
       "add_first_property": "Birinchi mulkni qo‘shish"
     },
+    "seller_advertises_page": {
+      "my_advertises": "Mening e'lonlarim",
+      "new_advertise": "Yangi e'lon qo‘shish",
+      "loading": "Yuklanmoqda...",
+      "reload": "Qayta yuklash",
+      "total_edvertise": "Jami e'lonlar soni: {{count}} ta",
+      "no_advertises_found": "E'lonlar topilmadi",
+      "you_have_not_added_any_advertises_yet": "Siz hali birorta e'lon qo‘shmagansiz.",
+      "add_first_property": "Birinchi e'lonni qo‘shish"
+    },
     "hero": {
       "title": "O‘zbekistonning yuragida orzu xonadonlari",
       "search": {

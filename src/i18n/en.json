@@ -215,6 +215,16 @@
         "check_mark": "✓"
       }
     },
+    "seller_advertises_page": {
+      "my_advertises": "My Advertises",
+      "new_advertise": "Add New Advertise",
+      "loading": "Loading...",
+      "reload": "Reload",
+      "total_edvertise": "Total advertises: {{count}}",
+      "no_advertises_found": "No advertises found",
+      "you_have_not_added_any_advertises_yet": "You have not added any advertises yet.",
+      "add_first_property": "Add your first advertise"
+    },
     "seller_properties_page": {
       "my_properties": "My Properties",
       "loading": "Loading...",

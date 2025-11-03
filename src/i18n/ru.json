@@ -215,6 +215,16 @@
         "check_mark": "✓"
       }
     },
+    "seller_advertises_page": {
+      "my_advertises": "Мои объявления",
+      "new_advertise": "Добавить новое объявление",
+      "loading": "Загрузка...",
+      "reload": "Перезагрузить",
+      "total_edvertise": "Всего объявлений: {{count}}",
+      "no_advertises_found": "Объявления не найдены",
+      "you_have_not_added_any_advertises_yet": "Вы еще не добавили ни одного объявления.",
+      "add_first_property": "Добавить первое объявление"
+    },
     "hero": {
       "title": "Дома мечты в сердце Узбекистана",
       "search": {

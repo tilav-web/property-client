@@ -25,5 +25,15 @@ class AdvertiseService {
       throw error;
     }
   }
+
+  async findMy() {
+    try {
+      const res = await apiInstance.get(API_ENDPOINTS.ADVERTISE.base);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }
 export const advertiseService = new AdvertiseService();

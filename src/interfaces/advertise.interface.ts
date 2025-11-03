@@ -10,10 +10,12 @@ export interface IAdvertise {
   target: string;
   type: AdvertiseType;
   status: AdvertiseStatus;
-  from: string;
-  to: string;
+  days: number;
   price: number;
   currency: PropertyCurrency;
+  payment_status: string;
+  from?: string;
+  to?: string;
   image: IFile | null;
   createdAt?: string;
   updatedAt?: string;
