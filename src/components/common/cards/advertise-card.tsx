@@ -77,8 +77,6 @@ export default function AdvertiseCard({ advertise }: Props) {
     }
   };
 
-  console.log(advertise);
-
   return (
     <Card className="w-full max-w-md bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 overflow-hidden group">
       {/* Kontent */}
@@ -139,7 +137,7 @@ export default function AdvertiseCard({ advertise }: Props) {
             <div className="flex items-center gap-1.5 text-lg font-bold text-green-600">
               <span>
                 {advertise?.price
-                  ? (advertise.price / 100).toLocaleString("uz-UZ")
+                  ? (advertise.price).toLocaleString("uz-UZ")
                   : "0"}
               </span>
               <span className="text-sm font-normal text-gray-500">

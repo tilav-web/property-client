@@ -124,7 +124,7 @@ export default function SellerAdvertise() {
         </div>
       ) : (
         // Propertylar mavjud bo'lganda
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-3 gap-6">
           {advertises.map((advertise: IAdvertise) => (
             <AdvertiseCard key={advertise?._id} advertise={advertise} />
           ))}
