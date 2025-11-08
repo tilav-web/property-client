@@ -8,11 +8,11 @@ export default function AsideAds({ ads }: { ads: IAdvertise }) {
   return (
     <div
       onClick={() => navigate(`${ads?.target}`)}
-      className="max-w-[395px] w-full"
+      className="max-w-[395px] w-full border border-black rounded-2xl overflow-hidden cursor-pointer"
     >
       <img
         className="w-full h-full"
-        src={`${serverUrl}/uploads${ads?.image.file_path}`}
+        src={`${serverUrl}/uploads${ads?.image?.file_path}`}
         alt="ads iamge"
       />
     </div>

@@ -88,7 +88,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
   const { getLocalizedText } = useCurrentLanguage();
 
   return (
-    <div className="bg-white rounded-xl overflow-hidden">
+    <div className="bg-white rounded-xl overflow-hidden border border-black">
       <div className="flex flex-col lg:flex-row items-stretch gap-4 lg:p-2">
         <div className="w-full lg:max-w-[320px] h-[240px] relative">
           <img
@@ -130,7 +130,7 @@ export default function PropertyCard({ property }: { property: IProperty }) {
             <span>{videoCount}</span>
           </Badge>
         </div>
-        <div className="flex-1 flex flex-col justify-between gap-3">
+        <div className="flex-1 flex flex-col justify-between gap-3 px-2 pb-2 sm:p-0">
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap gap-2 items-center">
               <p className="text-sm text-gray-600">

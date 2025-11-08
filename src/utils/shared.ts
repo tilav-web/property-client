@@ -88,6 +88,11 @@ export const API_ENDPOINTS = {
     base: "advertise",
     priceCalculus: "advertise/price/calculus",
   },
+  LAYOUT: {
+    mainPage: "/layout/main-page",
+    filterNav: "/layout/filter-nav",
+    categoryPage: "/layout/category-page",
+  },
 };
 
 // .ENV

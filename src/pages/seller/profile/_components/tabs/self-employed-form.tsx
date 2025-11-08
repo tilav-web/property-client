@@ -8,6 +8,7 @@ import { sellerService } from "@/services/seller.service";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
+import { useUserStore } from "@/stores/user.store";
 
 const validationSchema = (t: TFunction) =>
   Yup.object({
@@ -33,12 +34,13 @@ const validationSchema = (t: TFunction) =>
 
 export default function SelfEmployedForm() {
   const { setSeller } = useSellerStore();
+  const { user } = useUserStore();
   const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
-      first_name: "",
-      last_name: "",
+      first_name: user?.first_name ?? "",
+      last_name: user?.last_name ?? "",
       middle_name: "",
       birth_date: "",
       jshshir: "",

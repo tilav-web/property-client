@@ -92,10 +92,18 @@ export default function Map() {
   };
 
   if (loadError)
-    return <div>{t("pages.map_page.error_loading_map")} {loadError.message}</div>;
+    return (
+      <div>
+        {t("pages.map_page.error_loading_map")} {loadError.message}
+      </div>
+    );
   if (!isLoaded) return <div>{t("pages.map_page.loading_map")}</div>;
   if (error)
-    return <div>{t("pages.map_page.error_getting_data")} {(error as Error).message}</div>;
+    return (
+      <div>
+        {t("pages.map_page.error_getting_data")} {(error as Error).message}
+      </div>
+    );
 
   return (
     <div className="w-full h-screen relative">
@@ -150,13 +158,18 @@ export default function Map() {
             {getLocalizedText(hoverProperty.title)}
           </h3>
           <p className="text-sm text-gray-600 mb-1">
-            {getLocalizedText(hoverProperty.address) || t("pages.map_page.no_address")}
+            {getLocalizedText(hoverProperty.address) ||
+              t("pages.map_page.no_address")}
           </p>
           <p className="text-sm text-gray-700 font-medium">
-            💰 {hoverProperty.price.toLocaleString()} {t(`pages.property_card.currency_symbols.${hoverProperty.currency}`)}
+            💰 {hoverProperty.price.toLocaleString()}{" "}
+            {t(
+              `pages.property_card.currency_symbols.${hoverProperty.currency}`
+            )}
           </p>
           <p className="text-xs text-gray-500">
-            {hoverProperty.area} m² · {hoverProperty.bedrooms} {t("pages.map_page.rooms")}
+            {hoverProperty.area} m² · {hoverProperty.bedrooms}{" "}
+            {t("pages.map_page.rooms")}
           </p>
         </div>
       )}
