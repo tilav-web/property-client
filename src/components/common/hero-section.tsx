@@ -8,11 +8,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, useCallback, useMemo } from "react";
-import {
-  propertyCategory,
-  type PropertyCategory,
-} from "@/interfaces/property.interface";
 import { useSearchParams } from "react-router-dom";
+import {
+  categories,
+  type CategoryType,
+} from "@/interfaces/types/category.type";
 
 // Search input komponentini alohida ajratib olish
 const SearchInput = ({ placeholder }: { placeholder: string }) => (
@@ -48,7 +48,7 @@ export default function HeroSection({
   title: string;
   img: string;
   className?: string;
-  category?: PropertyCategory;
+  category?: CategoryType;
 }) {
   const { t } = useTranslation();
   const [isMobile, setIsMobile] = useState(false);
@@ -91,7 +91,7 @@ export default function HeroSection({
   // Property category dropdown items - useMemo
   const categoryDropdownItems = useMemo(
     () =>
-      propertyCategory.map((item) => (
+      categories.map((item) => (
         <DropdownMenuItem
           onClick={() => setSearchParams({ category: item })}
           key={item}

@@ -1,4 +1,4 @@
-import type { ISeller } from "@/interfaces/seller.interface";
+import type { ISeller } from "@/interfaces/users/seller.interface";
 import { create } from "zustand";
 
 interface SellerState {

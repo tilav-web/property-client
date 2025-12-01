@@ -6,14 +6,14 @@ import {
   type PropertyCategory,
   type PropertyPriceType,
   type PropertyPurpose,
-} from '@/interfaces/property.interface';
+} from '@/interfaces/property/property.interface';
 import { layoutService } from '@/services/layout.service';
 import { heroImage } from '@/utils/shared';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import PropertyMiniCardSkeleton from '@/components/common/cards/property-mini-card-skeleton';
+import PropertyMiniCardSkeleton from '@/components/common/cards/property/skeletons/property-mini-card-skeleton';
 import ImageAdsSkeleton from '@/components/common/ads/image-ads-skeleton';
 import BannerAdsSkeleton from '@/components/common/ads/banner-ads-skeleton';
 

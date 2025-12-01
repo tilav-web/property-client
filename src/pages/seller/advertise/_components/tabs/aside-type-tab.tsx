@@ -1,6 +1,6 @@
 import AsideAdsSkeleton from "@/components/common/ads/aside-ads-skeleton";
 import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
-import PropertyCardSkeleton from "@/components/common/cards/property-card-skeleton";
+import PropertyCardSkeleton from "@/components/common/cards/property/skeletons/property-card-skeleton";
 import { TabsContent } from "@/components/ui/tabs";
 
 export default function AsideTypeTab({

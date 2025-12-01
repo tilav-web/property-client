@@ -1,5 +1,5 @@
 import { categories } from "@/constants/mack-data";
-import type { PropertyCategory } from "@/interfaces/property.interface";
+import type { PropertyCategory } from "@/interfaces/property/property.interface";
 import { useTranslation } from "react-i18next";
 import { Link, useSearchParams } from "react-router-dom";
 

@@ -1,7 +1,7 @@
 import { useUserStore } from "@/stores/user.store";
 import { courtSvg, serverUrl } from "@/utils/shared";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import type { IProperty } from "@/interfaces/property.interface";
+import type { IProperty } from "@/interfaces/property/property.interface";
 import { useTranslation } from "react-i18next";
 import { useCurrentLanguage } from "@/hooks/use-language";
 import { Separator } from "@/components/ui/separator";
@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Building, MapPin } from "lucide-react";
 import DateRangePicker from "../date-range-picker";
 import { inquiryService } from "@/services/inquiry.service";
-import type { TInquiryType } from "@/interfaces/inquiry.interface";
+import type { TInquiryType } from "@/interfaces/inquiry/inquiry.interface";
 import { toast } from "sonner";
 import { useState } from "react";
 

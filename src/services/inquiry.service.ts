@@ -1,5 +1,5 @@
 import apiInstance from "@/lib/api-instance";
-import type { TInquiryType } from "@/interfaces/inquiry.interface";
+import type { TInquiryType } from "@/interfaces/inquiry/inquiry.interface";
 
 export interface CreateInquiryDto {
   property: string; // The property ID

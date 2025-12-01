@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { IProperty } from "@/interfaces/property.interface";
+import type { IProperty } from "@/interfaces/property/property.interface";
 import { saveService } from "@/services/save.service";
 
 interface SaveState {

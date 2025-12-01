@@ -112,21 +112,8 @@
       "elevator": "Elevator"
     },
     "property_category": {
-      "apartment": "Apartment",
-      "house": "House",
-      "villa": "Villa",
-      "office": "Office",
-      "retail": "Retail Space",
-      "shop": "Shop",
-      "hotel": "Hotel",
-      "industrial": "Industrial Building",
-      "warehouse": "Warehouse",
-      "factory": "Factory",
-      "land": "Land",
-      "farm": "Farm",
-      "garage": "Garage",
-      "parking": "Parking",
-      "all": "All"
+      "APARTMENT_SALE": "Apartment for sale",
+      "APARTMENT_RENT": "Apartment for rent"
     },
     "construction_status": {
       "ready": "Ready",
@@ -150,6 +137,9 @@
       "uzs": "UZS",
       "usd": "USD",
       "eur": "EUR"
+    },
+    "repair_type": {
+      "NEW": "New"
     }
   },
   "pages": {
@@ -332,11 +322,8 @@
       "item_count": "{{count}} objects you liked"
     },
     "main_page": {
-      "popular_searches": "Popular searches",
-      "popular_searches_text": "Apartment rentals - especially in the districts of Tashkent: Chilanzar, Sergeli, Mirzo-Ulugbek, Yunusabad, Mirobod, Yashnabad. These areas most often appear in the search for life, both on the map and in text queries. In addition to renting apartments, requests for renting and buying houses, selling land, as well as renting and selling premises are popular.",
-      "list_item_1": "You get the most relevant results for the areas that are most in demand.",
-      "list_item_2": "Updated filters allow you to select housing by type (apartment, house, plot, premises) and not waste time on unnecessary parameters.",
-      "list_item_3": "We recommend that you immediately view objects in the most popular areas - this will save you effort and nerves."
+      "no_results_title": "",
+      "no_results_subtitle": ""
     },
     "map_page": {
       "error_loading_map": "Error loading map:",

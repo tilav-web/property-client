@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
-import type { IProperty } from "@/interfaces/property.interface";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import PropertyCard from "@/components/common/cards/property-card";
 import { useQuery } from "@tanstack/react-query";
 import { propertyService } from "@/services/property.service";
 import { useTranslation } from "react-i18next";
+import type { PropertyType } from "@/interfaces/property/property.interface";
+import PropertyCard from "@/components/common/cards/property/cards/property-card";
 
 export default function SellerProperties() {
   const { t } = useTranslation();
@@ -33,7 +33,9 @@ export default function SellerProperties() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">{t("pages.seller_properties_page.my_properties")}</h1>
+          <h1 className="text-2xl font-bold">
+            {t("pages.seller_properties_page.my_properties")}
+          </h1>
           <Button disabled>
             <Plus className="w-4 h-4 mr-2" />
             {t("pages.seller_properties_page.loading")}
@@ -53,7 +55,9 @@ export default function SellerProperties() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">{t("pages.seller_properties_page.my_properties")}</h1>
+          <h1 className="text-2xl font-bold">
+            {t("pages.seller_properties_page.my_properties")}
+          </h1>
           <Button onClick={handleCreateProperty}>
             <Plus className="w-4 h-4 mr-2" />
             {t("pages.seller_properties_page.new_property")}
@@ -78,7 +82,9 @@ export default function SellerProperties() {
             {t("pages.seller_properties_page.my_properties")}
           </h1>
           <p className="text-gray-600 mt-2">
-            {t("pages.seller_properties_page.total_properties", { count: properties.length })}
+            {t("pages.seller_properties_page.total_properties", {
+              count: properties.length,
+            })}
           </p>
         </div>
         <Button
@@ -103,7 +109,9 @@ export default function SellerProperties() {
               {t("pages.seller_properties_page.no_properties_found")}
             </h3>
             <p className="text-gray-600 mb-6">
-              {t("pages.seller_properties_page.you_have_not_added_any_properties_yet")}
+              {t(
+                "pages.seller_properties_page.you_have_not_added_any_properties_yet"
+              )}
             </p>
             <Button
               onClick={handleCreateProperty}
@@ -116,10 +124,10 @@ export default function SellerProperties() {
         </div>
       ) : (
         // Propertylar mavjud bo'lganda
-        <div className="grid grid-cols-1 gap-6">
-          {properties.map((property: IProperty) => (
-            <PropertyCard key={property._id} property={property} />
-          ))}
+        <div className="grid grid-cols-3 gap-6">
+          {properties.map((property: PropertyType) => {
+            return <PropertyCard property={property} />;
+          })}
         </div>
       )}
     </div>

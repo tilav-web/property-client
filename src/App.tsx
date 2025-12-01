@@ -19,13 +19,12 @@ import SellerProperties from "./pages/seller/properties/seller-properties";
 import { lazy, Suspense } from "react";
 import FilterNav from "./pages/property/filter-nav";
 import AiAgent from "./pages/ai-agent/ai-agent";
-import CategoryFilter from "./components/common/category-filter";
 import SellerDashboard from "./pages/seller/dashboard/seller-dashboard";
 import SellerAdvertise from "./pages/seller/advertise/seller-advertise";
 import SellerCreateAdvertise from "./pages/seller/advertise/seller-create-advertise";
 import Category from "./pages/property/category";
 const CreateProperty = lazy(
-  () => import("./pages/seller/properties/_components/create-property")
+  () => import("./pages/seller/properties/create-property")
 );
 
 const router = createBrowserRouter([

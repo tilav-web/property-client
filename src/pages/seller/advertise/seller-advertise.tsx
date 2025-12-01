@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { advertiseService } from "@/services/advertise.service";
 import AdvertiseCard from "@/components/common/cards/advertise-card";
-import type { IAdvertise } from "@/interfaces/advertise.interface";
+import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
 
 export default function SellerAdvertise() {
   const { t } = useTranslation();

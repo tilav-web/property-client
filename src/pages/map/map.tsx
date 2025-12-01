@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import BackButton from "@/components/common/buttons/back-button";
 import { propertyService } from "@/services/property.service";
-import type { IProperty } from "@/interfaces/property.interface";
+import type { IProperty } from "@/interfaces/property/property.interface";
 import { useCurrentLanguage } from "@/hooks/use-language";
 
 export default function Map() {

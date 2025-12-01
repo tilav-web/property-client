@@ -113,21 +113,8 @@
       "elevator": "Lift"
     },
     "property_category": {
-      "apartment": "Kvartira",
-      "house": "Hovli uy",
-      "villa": "Villa",
-      "office": "Ofis",
-      "retail": "Chakana savdo joyi",
-      "shop": "Do‘kon",
-      "hotel": "Mehmonxona",
-      "industrial": "Sanoat binosi",
-      "warehouse": "Omborxona",
-      "factory": "Zavod",
-      "land": "Yer maydoni",
-      "farm": "Fermer xo‘jaligi",
-      "garage": "Garaj",
-      "parking": "Avtoturargoh",
-      "all": "Barchasi"
+      "APARTMENT_SALE": "Kvartera sotuv uchun",
+      "APARTMENT_RENT": "Kvartera ijara uchun"
     },
     "construction_status": {
       "ready": "Tayyor",
@@ -151,6 +138,12 @@
       "uzs": "UZS",
       "usd": "USD",
       "eur": "EUR"
+    },
+    "repair_type": {
+      "NEW": "Yangi Tamirlangan"
+    },
+    "heating_type": {
+      "CENTRAL": "Markaziy isitish"
     }
   },
   "pages": {
@@ -204,8 +197,8 @@
       "media_tab": {
         "media_files": "Media fayllar",
         "contract_file": "Kontrakt shartlari",
-        "only_pdf": "nimadir",
-        "choose_pdf": "nimadir",
+        "only_pdf": "Kontrakt shartlarini pdf fayl ko'rinishida yuklang!",
+        "choose_pdf": "Fayl tanlang",
         "images": "Rasmlar (maks. 5 ta)",
         "video": "Video",
         "add_images": "Rasm qo'shish",
@@ -337,11 +330,8 @@
       "item_count": "Siz like bosgan {{count}} ta ob'ekt"
     },
     "main_page": {
-      "popular_searches": "Ommabop qidiruvlar",
-      "popular_searches_text": "Kvartira ijarasi — ayniqsa Toshkentning quyidagi tumanlarida: Chilonzor, Sirgʻali, Mirzo Ulugʻbek, Yunusobod, Mirobod, Yashnobod. Bu tumanlar hayot uchun qidiruvda eng koʻp uchraydi, ham xaritada, ham matnli soʻrovlarda. Kvartira ijarasidan tashqari, uylarni ijaraga olish va sotib olish, yer sotish, shuningdek, binolarni ijaraga olish va sotish boʻyicha soʻrovlar ham ommabop.",
-      "list_item_1": "Siz eng koʻp qidirilayotgan tumanlar boʻyicha maksimal darajada mos natijalarni olasiz.",
-      "list_item_2": "Yangilangan filtrlar turar-joyni turi boʻyicha (kvartira, uy, yer, bino) tanlash va ortiqcha parametrlarga vaqt sarflamaslik imkonini beradi.",
-      "list_item_3": "Biz darhol eng talabgir tumanlardagi obʼyektlarni koʻrib chiqishni tavsiya qilamiz — bu sizning kuchingiz va asablaringizni tejaydi."
+      "no_results_title": "",
+      "no_results_subtitle": ""
     },
     "map_page": {
       "error_loading_map": "Xarita yuklanishida xato:",
@@ -418,7 +408,8 @@
       "confirm_mortgage": "Ipotekani tasdiqlang"
     },
     "category_page": {
-      "title": "O'zbekistonning qoq markazidagi orzuingizdagi kvartiralar"
+      "title": "O'zbekistonning qoq markazidagi orzuingizdagi kvartiralar",
+      "select_category_prompt": "Malumot topilmadi!"
     },
     "seller_data_page": {
       "no_seller_data": "Sotuvchi ma'lumotlari yo'q",

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import PropertyCard from "@/components/common/cards/property-card";
+import PropertyCard from "@/components/common/cards/property/cards/property-card";
 import { Heart } from "lucide-react";
 import BoxLoading from "@/components/common/loadings/box-loading";
 import { useLikeStore } from "@/stores/like.store";

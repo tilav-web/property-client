@@ -1,11 +1,11 @@
 import apiInstance from '@/lib/api-instance';
-import type { IAdvertise } from '@/interfaces/advertise.interface';
+import type { IAdvertise } from '@/interfaces/advertise/advertise.interface';
 import type {
   IProperty,
   PropertyCategory,
   PropertyPriceType,
   PropertyPurpose,
-} from '@/interfaces/property.interface';
+} from '@/interfaces/property/property.interface';
 import { API_ENDPOINTS } from '@/utils/shared';
 import type { IPagination } from '@/interfaces/pagination.interface';
 

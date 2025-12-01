@@ -1,4 +1,4 @@
-import type { IProperty } from "@/interfaces/property.interface";
+import type { IProperty } from "@/interfaces/property/property.interface";
 import { useLikeStore } from "@/stores/like.store";
 import { useUserStore } from "@/stores/user.store";
 import { Heart, HeartOff } from "lucide-react";

@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { AdvertiseType } from "@/interfaces/advertise.interface";
+import type { AdvertiseType } from "@/interfaces/advertise/advertise.interface";
 import BannerTypeTab from "./_components/tabs/banner-type-tab";
 import AsideTypeTab from "./_components/tabs/aside-type-tab";
 import ImageTypeTab from "./_components/tabs/image-type-tab";

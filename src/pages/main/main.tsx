@@ -1,18 +1,18 @@
 import HeroSection from "@/components/common/hero-section";
-import PropertyCard from "@/components/common/cards/property-card";
+import PropertyCard from "@/components/common/cards/property/cards/property-card";
 import { useTranslation } from "react-i18next";
 import { mainImage } from "@/utils/shared";
 import { useQuery } from "@tanstack/react-query";
 import type {
   IProperty,
   PropertyCategory,
-} from "@/interfaces/property.interface";
+} from "@/interfaces/property/property.interface";
 import { useSearchParams } from "react-router-dom";
 import CategoryFilter from "@/components/common/category-filter";
 import { layoutService } from "@/services/layout.service";
 import AsideAds from "@/components/common/ads/aside-ads";
 import BannerAds from "@/components/common/ads/banner-ads";
-import PropertyCardSkeleton from "@/components/common/cards/property-card-skeleton";
+import PropertyCardSkeleton from "@/components/common/cards/property/skeletons/property-card-skeleton";
 import AsideAdsSkeleton from "@/components/common/ads/aside-ads-skeleton";
 import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
 
@@ -27,9 +27,7 @@ const LayoutBlock = ({ properties, asideAd, bannerAd, isLoading }: any) => {
               <PropertyCardSkeleton key={index} />
             ))}
           </div>
-          <div className="max-w-[395px] w-full">
-            <AsideAdsSkeleton />
-          </div>
+          <AsideAdsSkeleton />
         </div>
         <BannerAdsSkeleton />
       </>

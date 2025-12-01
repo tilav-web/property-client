@@ -1,6 +1,6 @@
 import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
 import ImageAdsSkeleton from "@/components/common/ads/image-ads-skeleton";
-import PropertyMiniCardSkeleton from "@/components/common/cards/property-mini-card-skeleton";
+import PropertyMiniCardSkeleton from "@/components/common/cards/property/skeletons/property-mini-card-skeleton";
 import { TabsContent } from "@/components/ui/tabs";
 
 export default function ImageTypeTab({

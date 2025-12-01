@@ -14,7 +14,7 @@ import { Check, X } from "lucide-react";
 import BackTabsButton from "../buttons/back-tabs-button";
 import { useSearchParams } from "react-router-dom";
 import { sellerService } from "@/services/seller.service";
-import type { SellerBusinessType } from "@/interfaces/seller.interface";
+import type { SellerBusinessType } from "@/interfaces/users/seller.interface";
 import { useSellerStore } from "@/stores/seller.store";
 import { userDetailsSchema } from "@/schemas/user-details.schema";
 import { useTranslation } from "react-i18next";

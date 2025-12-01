@@ -15,7 +15,7 @@ import {
   X,
 } from "lucide-react";
 import { useCurrentLanguage } from "@/hooks/use-language";
-import type { IInquiry } from "@/interfaces/inquiry.interface";
+import type { IInquiry } from "@/interfaces/inquiry/inquiry.interface";
 import { serverUrl } from "@/utils/shared";
 
 export default function InquiriesPage() {

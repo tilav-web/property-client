@@ -1,4 +1,4 @@
-import type { IAdvertise } from "@/interfaces/advertise.interface";
+import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
 import { serverUrl } from "@/utils/shared";
 import { useNavigate } from "react-router-dom";
 

@@ -1,4 +1,4 @@
-import type { IProperty } from "@/interfaces/property.interface";
+import type { IProperty } from "@/interfaces/property/property.interface";
 import { useSaveStore } from "@/stores/save.store";
 import { useUserStore } from "@/stores/user.store";
 import { serverUrl } from "@/utils/shared";

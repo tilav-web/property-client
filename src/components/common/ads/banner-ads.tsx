@@ -1,5 +1,5 @@
 import { serverUrl } from "@/utils/shared";
-import type { IAdvertise } from "@/interfaces/advertise.interface";
+import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
 import { useNavigate } from "react-router-dom";
 
 export default function BannerAds({ ads }: { ads: IAdvertise }) {

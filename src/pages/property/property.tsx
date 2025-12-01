@@ -39,7 +39,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import type { IFile } from "@/interfaces/file.interface";
 import { useCurrentLanguage } from "@/hooks/use-language";
 import { useTranslation } from "react-i18next";
 
@@ -96,19 +95,17 @@ function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
 }
 
 // Image Carousel komponenti
-function ImageCarousel({ images }: { images: IFile[] }) {
+function ImageCarousel({ images }: { images: string[] }) {
   return (
     <div className="w-full h-full">
-      {" "}
-      {/* Balandlikni o'rab oluvchi div */}
       <Carousel className="w-full h-full">
         <CarouselContent className="h-full">
-          {images.map((media) => (
-            <CarouselItem key={media._id} className="h-full">
+          {images.map((image) => (
+            <CarouselItem key={image} className="h-full">
               <div className="w-full h-full">
                 <img
-                  src={`${serverUrl}/uploads${media.file_path}`}
-                  alt={media.original_name}
+                  src={`${serverUrl}/uploads${image}`}
+                  alt={image}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -123,7 +120,7 @@ function ImageCarousel({ images }: { images: IFile[] }) {
 }
 
 // Video Carousel komponenti
-function VideoCarousel({ videos }: { videos: IFile[] }) {
+function VideoCarousel({ videos }: { videos: string[] }) {
   const { t } = useTranslation();
   if (videos.length === 0) return null;
 
@@ -131,7 +128,7 @@ function VideoCarousel({ videos }: { videos: IFile[] }) {
     return (
       <div className="w-full h-full rounded-xl overflow-hidden">
         <video
-          src={`${serverUrl}/uploads${videos[0].file_path}`}
+          src={videos[0]}
           autoPlay
           muted
           loop
@@ -148,9 +145,9 @@ function VideoCarousel({ videos }: { videos: IFile[] }) {
     <Carousel className="w-full h-full">
       <CarouselContent className="h-full">
         {videos.map((video) => (
-          <CarouselItem key={video._id} className="h-full">
+          <CarouselItem key={video} className="h-full">
             <video
-              src={`${serverUrl}/uploads${video.file_path}`}
+              src={video}
               autoPlay
               muted
               loop
@@ -229,12 +226,6 @@ export default function Property() {
     },
   });
 
-  const photos = property?.photos?.filter((photo: IFile) =>
-    photo?.file_name?.startsWith("photos-")
-  );
-
-  const videos = property?.videos || [];
-
   const { getLocalizedText } = useCurrentLanguage();
   return (
     <div className="py-8">
@@ -244,7 +235,9 @@ export default function Property() {
         <div className="lg:w-2/3 flex flex-col lg:flex-row gap-4">
           {/* Asosiy rasm/slider */}
           <div className="lg:w-2/3 relative rounded-xl overflow-hidden shadow-lg">
-            {photos && photos?.length > 0 && <ImageCarousel images={photos} />}
+            {property.photos && property.photos?.length > 0 && (
+              <ImageCarousel images={property.photos} />
+            )}
             <div className="absolute top-4 left-4 flex flex-col gap-2">
               {property?.is_verified && (
                 <Badge className="bg-[#00A663] rounded border-white text-xs px-3 py-1.5 backdrop-blur-sm">
@@ -277,21 +270,23 @@ export default function Property() {
 
           {/* Qolgan rasmlar */}
           <div className="lg:w-1/3 flex flex-row lg:flex-col gap-3">
-            {photos?.slice(0, 2).map((photo: IFile, index: number) => (
-              <div
-                key={photo?._id}
-                className="flex-1 rounded-xl overflow-hidden shadow-md"
-              >
-                <img
-                  className="w-full h-full min-h-[140px] object-cover transition-transform hover:scale-105 duration-300"
-                  src={`${serverUrl}/uploads${photo?.file_path}`}
-                  alt={`Property photo ${index + 2}`}
-                />
-              </div>
-            ))}
-            {videos.length > 0 && (
+            {property.photos
+              ?.slice(0, 2)
+              .map((photo: string, index: number) => (
+                <div
+                  key={photo}
+                  className="flex-1 rounded-xl overflow-hidden shadow-md"
+                >
+                  <img
+                    className="w-full h-full min-h-[140px] object-cover transition-transform hover:scale-105 duration-300"
+                    src={photo}
+                    alt={`Property photo ${index + 2}`}
+                  />
+                </div>
+              ))}
+            {property.videos.length > 0 && (
               <div className="flex-1 rounded-xl overflow-hidden shadow-md relative">
-                <VideoCarousel videos={videos} />
+                <VideoCarousel videos={property.videos} />
                 <div className="absolute top-2 right-2">
                   <Badge className="bg-black/70 text-white">
                     <CirclePlay className="w-3 h-3 mr-1" />
@@ -305,10 +300,10 @@ export default function Property() {
 
         {/* O'ng tomondagi rasm (agar mavjud bo'lsa) */}
         <div className="lg:w-1/3 rounded-xl overflow-hidden shadow-lg">
-          {photos?.length >= 3 && photos[2] && (
+          {property.photos?.length >= 3 && property.photos[2] && (
             <img
               className="w-full h-64 lg:h-full object-cover transition-transform hover:scale-105 duration-300"
-              src={`${serverUrl}/uploads${photos[2]?.file_path}`}
+              src={property.photos[2]}
               alt="Property overview"
             />
           )}

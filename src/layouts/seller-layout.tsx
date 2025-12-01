@@ -3,7 +3,7 @@ import Loading from "@/components/common/loadings/loading";
 import Sidebar from "@/components/common/sidebars/seller-sidebar";
 import RoleGuard from "@/guards/role-guard";
 import useSystem from "@/hooks/use-system";
-import type { IMessageStatus } from "@/interfaces/message-status.interface";
+import type { IMessageStatus } from "@/interfaces/message/message-status.interface";
 import { sellerService } from "@/services/seller.service";
 import { useSellerStore } from "@/stores/seller.store";
 import { useUserStore } from "@/stores/user.store";

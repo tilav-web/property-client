@@ -3,12 +3,15 @@ import { useSearchParams } from "react-router-dom";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { layoutService } from "@/services/layout.service";
-import type { PropertyCategory } from "@/interfaces/property.interface";
+import type {
+  IProperty,
+  PropertyCategory,
+} from "@/interfaces/property/property.interface";
 import PropertyMiniCard from "@/components/common/cards/property-mini-card";
 import ImageAds from "@/components/common/ads/image-ads";
 import BannerAds from "@/components/common/ads/banner-ads";
 import { Button } from "@/components/ui/button";
-import PropertyMiniCardSkeleton from "@/components/common/cards/property-mini-card-skeleton";
+import PropertyMiniCardSkeleton from "@/components/common/cards/property/skeletons/property-mini-card-skeleton";
 import ImageAdsSkeleton from "@/components/common/ads/image-ads-skeleton";
 import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
 import CategoryFilter from "@/components/common/category-filter";
@@ -21,13 +24,13 @@ const CategoryLayoutBlock = ({ page, pageIndex }: any) => {
   return (
     <div className="w-full max-w-6xl mx-auto px-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-        {page.properties.slice(0, 4).map((p: any) => (
+        {page.properties.slice(0, 4).map((p: IProperty) => (
           <PropertyMiniCard key={p._id} property={p} />
         ))}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-        {page.properties.slice(4, 6).map((p: any) => (
+        {page.properties.slice(4, 6).map((p: IProperty) => (
           <PropertyMiniCard key={p._id} property={p} />
         ))}
         {page.imageAd && (
@@ -75,8 +78,10 @@ const BlockSkeleton = () => (
 
 export default function Category() {
   const [params] = useSearchParams();
-  const category = params.get("category") as PropertyCategory;
+  const category = params.get("key") as PropertyCategory;
   const { t } = useTranslation();
+  
+console.log(category);
 
   // Debug: console.log qo'shing
   useEffect(() => {

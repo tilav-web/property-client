@@ -1,5 +1,5 @@
 import { useSaveStore } from "@/stores/save.store";
-import PropertyCard from "@/components/common/cards/property-card";
+import PropertyCard from "@/components/common/cards/property/cards/property-card";
 import { Loader } from "lucide-react";
 
 export default function SavedPropertiesTab() {

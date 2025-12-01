@@ -9,7 +9,7 @@ import {
   XCircle,
   AlertCircle,
 } from "lucide-react";
-import type { IAdvertise } from "@/interfaces/advertise.interface";
+import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
 import { serverUrl } from "@/utils/shared";
 
 interface Props {

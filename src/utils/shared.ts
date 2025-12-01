@@ -97,3 +97,4 @@ export const API_ENDPOINTS = {
 
 // .ENV
 export const serverUrl = import.meta.env.VITE_API_URL;
+export const googleMapKey = import.meta.env.VITE_GOOGLE_MAPS;

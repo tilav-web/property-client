@@ -22,8 +22,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import type { IProperty } from "@/interfaces/property.interface";
-import type { IMessageStatus } from "@/interfaces/message-status.interface";
+import type { IProperty } from "@/interfaces/property/property.interface";
+import type { IMessageStatus } from "@/interfaces/message/message-status.interface";
 import { useState } from "react";
 
 type DeleteDialogState = {
