@@ -1,4 +1,4 @@
-import type { PropertyCurrency } from "../property/property.interface";
+import type { CurrencyType } from "../types/currency.type";
 
 export type AdvertiseType = "banner" | "aside" | "image";
 export type AdvertiseStatus = "pending" | "approved" | "rejected" | "expired";
@@ -11,7 +11,7 @@ export interface IAdvertise {
   status: AdvertiseStatus;
   days: number;
   price: number;
-  currency: PropertyCurrency;
+  currency: CurrencyType;
   payment_status: string;
   from?: string;
   to?: string;

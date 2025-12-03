@@ -10,7 +10,9 @@ const apiInstance = axios.create({
 
 apiInstance.interceptors.request.use((config) => {
   const access_token = handleStorage({ key: "access_token" });
+  const language = handleStorage({ key: "lan" }) ?? "uz";
   config.headers["Authorization"] = `Bearer ${access_token}`;
+  config.headers["Accept-Language"] = language;
 
   if (config.data instanceof FormData) {
     config.headers["Content-Type"] = "multipart/form-data";

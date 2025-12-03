@@ -19,10 +19,16 @@ export default function PropertyForm() {
   const [category, setCategory] = useState<CategoryType | "">("");
 
   // Umumiy ma'lumotlar (b
-  const [commonData, setCommonData] = useState({
+  const [commonData, setCommonData] = useState<{
+    title: string;
+    description: string;
+    address: string;
+    price: string | number;
+  }>({
     title: "",
     description: "",
     address: "",
+    price: "",
   });
 
   const [location, setLocation] = useState({ lat: 41.2995, lng: 69.2401 });
@@ -38,7 +44,7 @@ export default function PropertyForm() {
 
       // Append common data
       Object.entries(commonData).forEach(([key, value]) => {
-        formData.append(key, value);
+        formData.append(key, String(value));
       });
 
       // Append category

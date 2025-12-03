@@ -10,7 +10,6 @@ import {
   AlertCircle,
 } from "lucide-react";
 import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
-import { serverUrl } from "@/utils/shared";
 
 interface Props {
   advertise: IAdvertise;
@@ -83,9 +82,9 @@ export default function AdvertiseCard({ advertise }: Props) {
       <CardContent className="p-0">
         {/* Tasvir qismi */}
         <div className="relative h-48 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
-          {advertise?.image?.file_path ? (
+          {advertise?.image ? (
             <img
-              src={`${serverUrl}/uploads${advertise.image.file_path}`}
+              src={advertise.image}
               alt="Reklama tasviri"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
@@ -137,7 +136,7 @@ export default function AdvertiseCard({ advertise }: Props) {
             <div className="flex items-center gap-1.5 text-lg font-bold text-green-600">
               <span>
                 {advertise?.price
-                  ? (advertise.price).toLocaleString("uz-UZ")
+                  ? advertise.price?.toLocaleString("uz-UZ")
                   : "0"}
               </span>
               <span className="text-sm font-normal text-gray-500">

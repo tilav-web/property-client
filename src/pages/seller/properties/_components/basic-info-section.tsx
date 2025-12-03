@@ -18,11 +18,13 @@ interface Props {
     title: string;
     description: string;
     address: string;
+    price: number | string;
   };
   setData: (data: {
-    title:string;
+    title: string;
     description: string;
     address: string;
+    price: number | string;
   }) => void;
   category: CategoryType | "";
   setCategory: (cat: CategoryType | "") => void;
@@ -75,6 +77,16 @@ export default function BasicInfoSection({
             value={data.address}
             onChange={(e) => setData({ ...data, address: e.target.value })}
           />
+        </div>
+
+        <div className="space-y-2">
+            <Label className="text-lg">Narx *</Label>
+            <Input
+                type="number"
+                placeholder="Narxni kiriting"
+                value={data.price}
+                onChange={(e) => setData({ ...data, price: e.target.value })}
+            />
         </div>
 
         <div className="space-y-2">

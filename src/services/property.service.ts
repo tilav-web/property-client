@@ -5,15 +5,12 @@ import { API_ENDPOINTS } from "@/utils/shared";
 export interface FindAllParams {
   page?: number;
   limit?: number;
-  region?: string;
-  district?: string;
   coordinates?: [number, number];
   category?: CategoryType;
   search?: string;
   is_premium?: boolean;
   is_verified?: boolean;
   is_new?: boolean;
-  is_guest_choice?: boolean;
   rating?: number;
   radius?: number;
   sample?: boolean;

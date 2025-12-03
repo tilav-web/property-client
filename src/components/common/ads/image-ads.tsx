@@ -1,20 +1,34 @@
+"use client";
+import { useQuery } from "@tanstack/react-query";
+import { advertiseService } from "@/services/advertise.service";
 import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
-import { serverUrl } from "@/utils/shared";
-import { useNavigate } from "react-router-dom";
 
-export default function ImageAds({ ads }: { ads: IAdvertise }) {
-  const navigate = useNavigate();
+export default function ImageAds() {
+  const { data: ads, isLoading } = useQuery<IAdvertise | null, Error>({
+    queryKey: ["image-ad"],
+    queryFn: () =>
+      advertiseService.findOneByType("image") as Promise<IAdvertise | null>,
+    staleTime: 1000 * 60,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (!ads) return null;
 
   return (
-    <div
-      onClick={() => navigate(ads?.target)}
-      className="w-full h-full lg:h-86 rounded-md overflow-hidden shadow-lg cursor-pointer"
-    >
+    <div className="w-full h-full relative lg:h-86 rounded-md overflow-hidden shadow-lg">
       <img
         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-        src={`${serverUrl}/uploads${ads?.image?.file_path}`}
-        alt="ads image"
+        src={ads.image ?? ""}
+        alt={"ads image"}
       />
+      {ads.target && (
+        <a
+          href={ads.target}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute inset-0"
+        />
+      )}
     </div>
   );
 }

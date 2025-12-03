@@ -19,7 +19,6 @@ import {
 
 // Form ma'lumotlari interfeysi
 interface ApartmentSaleFormData {
-  price: number | string;
   bedrooms: number | string;
   bathrooms: number | string;
   floor_level: number | string;
@@ -55,7 +54,6 @@ const heatingTypes = [
 
 // Default values
 const defaultFormData: ApartmentSaleFormData = {
-  price: "",
   bedrooms: "",
   bathrooms: "",
   floor_level: "",
@@ -192,18 +190,6 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
               placeholder="85"
             />
           </div>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="price">Umumiy narx (so'm)</Label>
-          <Input
-            id="price"
-            type="number"
-            min="0"
-            value={formData.price}
-            onChange={(e) => handleNumberChange("price", e.target.value)}
-            placeholder="100000000"
-          />
         </div>
 
         {/* Ta'mir va isitish turlari */}

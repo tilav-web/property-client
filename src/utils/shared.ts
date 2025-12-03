@@ -13,6 +13,7 @@ import imageCard from "@/assets/images/image-card.jpg";
 import registerHouseImage from "@/assets/images/register-house-image.jpg";
 import miniCardImage from "@/assets/images/mini-card-image.jpg";
 import courtSvg from "@/assets/icons/court.svg";
+import type { AdvertiseType } from "@/interfaces/advertise/advertise.interface";
 
 export {
   mainImage,
@@ -87,11 +88,12 @@ export const API_ENDPOINTS = {
   ADVERTISE: {
     base: "advertise",
     priceCalculus: "advertise/price/calculus",
+    type: (type: AdvertiseType) => `/advertise/type/${type}`,
   },
   LAYOUT: {
-    mainPage: "/layout/main-page",
-    filterNav: "/layout/filter-nav",
-    categoryPage: "/layout/category-page",
+    mainPage: "/layouts/main-page",
+    filterNav: "/layouts/filter-nav",
+    categoryPage: "/layouts/category-page",
   },
 };
 

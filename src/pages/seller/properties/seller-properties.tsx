@@ -10,11 +10,7 @@ import PropertyCard from "@/components/common/cards/property/cards/property-card
 
 export default function SellerProperties() {
   const { t } = useTranslation();
-  const {
-    data: properties,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["properties/my"],
     queryFn: async () => {
       const data = await propertyService.findMyProperties();
@@ -83,7 +79,7 @@ export default function SellerProperties() {
           </h1>
           <p className="text-gray-600 mt-2">
             {t("pages.seller_properties_page.total_properties", {
-              count: properties.length,
+              count: data.properties.length,
             })}
           </p>
         </div>
@@ -98,7 +94,7 @@ export default function SellerProperties() {
       </div>
 
       {/* Propertylar ro'yxati */}
-      {properties.length === 0 ? (
+      {data.properties.length === 0 ? (
         // Propertylar bo'lmaganda
         <div className="text-center py-12 bg-gray-50 rounded-xl">
           <div className="max-w-md mx-auto">
@@ -125,7 +121,7 @@ export default function SellerProperties() {
       ) : (
         // Propertylar mavjud bo'lganda
         <div className="grid grid-cols-3 gap-6">
-          {properties.map((property: PropertyType) => {
+          {data.properties.map((property: PropertyType) => {
             return <PropertyCard property={property} />;
           })}
         </div>

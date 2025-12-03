@@ -62,7 +62,7 @@ export default function PropertyCard({ property }: { property: Property }) {
         {/* Price */}
         <div className="mb-3">
           <p className="text-lg font-bold text-primary">
-            ${property.price.toLocaleString()} {property.currency}
+            ${property.price?.toLocaleString()} {property.currency}
           </p>
           <p className="text-xs text-muted-foreground capitalize">
             {property.purpose.replace("_", " ")}

@@ -67,24 +67,24 @@ export default function Header() {
     {
       icon: Home,
       label: t("common.buy"),
-      href: "/filter-nav?purpose=for_sale&price_type=sale",
+      href: "/filter-nav?category=APARTMENT_SALE",
     },
     {
       icon: Building,
       label: t("common.rent_apartments"),
-      href: "/filter-nav?purpose=for_rent&category=apartment",
+      href: "/filter-nav?category=APARTMENT_RENT",
     },
     {
       icon: Home,
       label: t("common.rent_land"),
-      href: "/filter-nav?purpose=for_rent&category=land",
+      href: "/filter-nav",
     },
     { icon: Handshake, label: t("common.ai_agent"), href: "/ai-agent" },
     // { icon: Calculator, label: t("common.mortgage"), href: "/mortgage" },
     {
       icon: Star,
       label: t("common.new_projects"),
-      href: "/filter-nav?purpose=for_rent&category=land",
+      href: "/filter-nav?category=&is_new=1",
     },
     { icon: Heart, label: t("common.favorites"), href: "/favorites" },
   ];

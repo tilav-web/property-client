@@ -19,7 +19,6 @@ import {
 
 // Form ma'lumotlari interfeysi
 interface ApartmentRentFormData {
-  price: number | string;
   bedrooms: number | string;
   bathrooms: number | string;
   floor_level: number | string;
@@ -56,7 +55,6 @@ const heatingTypes = [
 
 // Default values
 const defaultFormData: ApartmentRentFormData = {
-  price: "",
   bedrooms: "",
   bathrooms: "",
   floor_level: "",
@@ -125,21 +123,6 @@ export default function ApartmentRentForm({ data, setData }: Props) {
         <CardTitle>Kvartira ijarasi – Tafsilotlar</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Narx va Depozit */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="price">Ijara narxi (oyiga)</Label>
-            <Input
-              id="price"
-              type="number"
-              min="0"
-              value={formData.price}
-              onChange={(e) => handleNumberChange("price", e.target.value)}
-              placeholder="500"
-            />
-          </div>
-        </div>
-
         {/* Asosiy raqamli maydonlar */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="space-y-2">

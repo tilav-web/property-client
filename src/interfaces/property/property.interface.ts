@@ -27,9 +27,10 @@ export interface IProperty {
   saved: number;
   photos?: string[];
   videos?: string[];
+  contract_file?: string;
 
   createdAt: Date;
   updatedAt: Date;
 }
 
-export type PropertyType = IProperty | IApartmentRent | IApartmentSale;
+export type PropertyType = IApartmentRent | IApartmentSale;

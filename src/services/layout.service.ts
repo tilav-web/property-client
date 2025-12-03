@@ -1,19 +1,9 @@
-import apiInstance from '@/lib/api-instance';
-import type { IAdvertise } from '@/interfaces/advertise/advertise.interface';
-import type {
-  IProperty,
-  PropertyCategory,
-  PropertyPriceType,
-  PropertyPurpose,
-} from '@/interfaces/property/property.interface';
-import { API_ENDPOINTS } from '@/utils/shared';
-import type { IPagination } from '@/interfaces/pagination.interface';
-
-interface MainPageLayout {
-  properties: IProperty[];
-  asideAds: IAdvertise[];
-  bannerAds: IAdvertise[];
-}
+import apiInstance from "@/lib/api-instance";
+import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
+import { API_ENDPOINTS } from "@/utils/shared";
+import type { IPagination } from "@/interfaces/pagination.interface";
+import type { IProperty } from "@/interfaces/property/property.interface";
+import type { CategoryType } from "@/interfaces/types/category.type";
 
 interface FilterNavLayout {
   properties: IProperty[];
@@ -29,13 +19,10 @@ interface CategoryPageLayout {
 }
 
 class LayoutService {
-  async getMainPageLayout(category?: PropertyCategory | null) {
-    const { data } = await apiInstance.get<MainPageLayout>(
-      API_ENDPOINTS.LAYOUT.mainPage,
-      {
-        params: { category },
-      },
-    );
+  async getMainPageLayout(category?: CategoryType | null) {
+    const { data } = await apiInstance.get(API_ENDPOINTS.LAYOUT.mainPage, {
+      params: { category },
+    });
     return data;
   }
 
@@ -46,7 +33,7 @@ class LayoutService {
   }) {
     const { data } = await apiInstance.get<FilterNavLayout>(
       API_ENDPOINTS.LAYOUT.filterNav,
-      { params },
+      { params }
     );
     return data;
   }
@@ -57,7 +44,7 @@ class LayoutService {
   }) {
     const { data } = await apiInstance.get<CategoryPageLayout>(
       API_ENDPOINTS.LAYOUT.categoryPage,
-      { params },
+      { params }
     );
     return data;
   }

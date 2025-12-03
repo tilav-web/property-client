@@ -2,12 +2,7 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { layoutService } from "@/services/layout.service";
-import type {
-  IProperty,
-  PropertyCategory,
-} from "@/interfaces/property/property.interface";
-import PropertyMiniCard from "@/components/common/cards/property-mini-card";
+import type { IProperty } from "@/interfaces/property/property.interface";
 import ImageAds from "@/components/common/ads/image-ads";
 import BannerAds from "@/components/common/ads/banner-ads";
 import { Button } from "@/components/ui/button";
@@ -15,6 +10,9 @@ import PropertyMiniCardSkeleton from "@/components/common/cards/property/skeleto
 import ImageAdsSkeleton from "@/components/common/ads/image-ads-skeleton";
 import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
 import CategoryFilter from "@/components/common/category-filter";
+import ApartmentRentCard from "@/components/common/cards/property/cards/categories/apartment-rent-card";
+import { propertyService } from "@/services/property.service";
+import type { CategoryType } from "@/interfaces/types/category.type";
 
 const CategoryLayoutBlock = ({ page, pageIndex }: any) => {
   if (!page || !page.properties || page.properties.length === 0) {
@@ -25,30 +23,24 @@ const CategoryLayoutBlock = ({ page, pageIndex }: any) => {
     <div className="w-full max-w-6xl mx-auto px-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         {page.properties.slice(0, 4).map((p: IProperty) => (
-          <PropertyMiniCard key={p._id} property={p} />
+          <ApartmentRentCard key={p._id} apartment={p} />
         ))}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         {page.properties.slice(4, 6).map((p: IProperty) => (
-          <PropertyMiniCard key={p._id} property={p} />
+          <ApartmentRentCard key={p._id} apartment={p} />
         ))}
         {page.imageAd && (
           <div className="lg:col-span-2 h-full">
-            <ImageAds
-              key={`image-ad-${pageIndex}-${page.imageAd._id}`}
-              ads={page.imageAd}
-            />
+            <ImageAds key={`image-ad-${pageIndex}-${page.imageAd._id}`} />
           </div>
         )}
       </div>
 
       {page.bannerAd && (
         <div className="mb-8">
-          <BannerAds
-            key={`banner-ad-${pageIndex}-${page.bannerAd._id}`}
-            ads={page.bannerAd}
-          />
+          <BannerAds key={`banner-ad-${pageIndex}-${page.bannerAd._id}`} />
         </div>
       )}
     </div>
@@ -78,10 +70,10 @@ const BlockSkeleton = () => (
 
 export default function Category() {
   const [params] = useSearchParams();
-  const category = params.get("key") as PropertyCategory;
+  const category = params.get("key") as CategoryType;
   const { t } = useTranslation();
-  
-console.log(category);
+
+  console.log(category);
 
   // Debug: console.log qo'shing
   useEffect(() => {
@@ -99,7 +91,7 @@ console.log(category);
     queryKey: ["category-page", category], // useMemo olib tashlandi
     queryFn: async ({ pageParam = 1 }) => {
       console.log("Fetching category:", category, "page:", pageParam);
-      const result = await layoutService.getCategoryPageLayout({
+      const result = await propertyService.findAll({
         category,
         page: pageParam,
       });
