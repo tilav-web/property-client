@@ -5,7 +5,8 @@ import { API_ENDPOINTS } from "@/utils/shared";
 export interface FindAllParams {
   page?: number;
   limit?: number;
-  coordinates?: [number, number];
+  lng?: number; // New parameter
+  lat?: number; // New parameter
   category?: CategoryType;
   search?: string;
   is_premium?: boolean;
@@ -19,6 +20,8 @@ export interface FindAllParams {
 class PropertyService {
   async findAll(params: FindAllParams) {
     try {
+      
+
       const res = await apiInstance.get(API_ENDPOINTS.PROPERTIES.base, {
         params,
       });

@@ -1,10 +1,11 @@
 import { Card } from "@/components/ui/card";
+import type { PropertyType } from "@/interfaces/property/property.interface";
 
 interface Message {
   id: string;
   type: "user" | "ai";
   content: string;
-  properties?: any[];
+  properties?: PropertyType[];
 }
 
 export default function ChatMessage({ message }: { message: Message }) {

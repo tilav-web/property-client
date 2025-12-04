@@ -1,7 +1,5 @@
 "use client";
 
-import type React from "react";
-
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,42 +7,26 @@ import { Spinner } from "@/components/ui/spinner";
 import { Send } from "lucide-react";
 import ChatMessage from "./_components/chat-message";
 import PropertyCard from "./_components/property-card";
+import { aiPropertyService } from "@/services/ai-property.service";
+import type { PropertyType } from "@/interfaces/property/property.interface";
 
 interface Message {
   id: string;
   type: "user" | "ai";
   content: string;
-  properties?: Property[];
+  properties?: PropertyType[];
+  currentPage?: number;
+  totalPages?: number;
+  queryPrompt?: string;
 }
 
-interface Property {
-  _id: string;
-  title: { uz: string; ru: string; en: string };
-  description: { uz: string; ru: string; en: string };
-  category: string;
-  purpose: string;
-  price: number;
-  currency: string;
-  price_type: string;
-  area: number;
-  bedrooms: number;
-  bathrooms: number;
-  location: { type: string; coordinates: [number, number] };
-  address: { uz: string; ru: string; en: string };
-  region: string;
-  district: string;
-  is_premium: boolean;
-  is_verified: boolean;
-  rating: number;
-  amenities: string[];
-  banner?: { url: string };
-}
-
-export default function Home() {
+export default function AiAgent() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -58,30 +40,35 @@ export default function Home() {
     e.preventDefault();
     if (!input.trim()) return;
 
-    // Add user message
+    const currentPrompt = input;
+
     const userMessage: Message = {
       id: Date.now().toString(),
       type: "user",
-      content: input,
+      content: currentPrompt,
     };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
 
     try {
-      const response = await fetch("/api/ai-agent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: input }),
-      });
-
-      const data = await response.json();
+      const response = await aiPropertyService.findPropertWithPrompt(
+        currentPrompt,
+        1,
+        5
+      );
 
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: "ai",
-        content: data.message || "Found some properties for you!",
-        properties: data.properties || [],
+        content:
+          response.properties.length > 0
+            ? "Found some properties for you!"
+            : "No properties found for your request.",
+        properties: response.properties,
+        currentPage: response.page,
+        totalPages: response.totalPages,
+        queryPrompt: currentPrompt,
       };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
@@ -97,8 +84,67 @@ export default function Home() {
     }
   };
 
+  const handleLoadMore = async () => {
+    const lastAIMessageIndex = messages.findLastIndex(
+      (msg) => msg.type === "ai" && msg.properties && msg.properties.length > 0
+    );
+
+    if (lastAIMessageIndex === -1) return;
+
+    const lastAIMessage = messages[lastAIMessageIndex];
+
+    if (
+      !lastAIMessage.queryPrompt ||
+      !lastAIMessage.currentPage ||
+      !lastAIMessage.totalPages ||
+      lastAIMessage.currentPage >= lastAIMessage.totalPages
+    ) {
+      return;
+    }
+
+    setIsFetchingMore(true);
+
+    try {
+      const nextPage = lastAIMessage.currentPage + 1;
+      const response = await aiPropertyService.findPropertWithPrompt(
+        lastAIMessage.queryPrompt,
+        nextPage,
+        5
+      );
+
+      setMessages((prevMessages) => {
+        const newMessages = [...prevMessages];
+        const updatedAIMessage: Message = {
+          ...lastAIMessage,
+          properties: [
+            ...(lastAIMessage.properties || []),
+            ...response.properties,
+          ],
+          currentPage: response.page,
+          totalPages: response.totalPages,
+        };
+        newMessages[lastAIMessageIndex] = updatedAIMessage;
+        return newMessages;
+      });
+    } catch (error) {
+      console.error("Error fetching more properties:", error);
+    } finally {
+      setIsFetchingMore(false);
+    }
+  };
+
+  const lastAIMessageWithProperties = messages.findLast(
+    (msg) => msg.type === "ai" && msg.properties && msg.properties.length > 0
+  );
+  const shouldShowMoreButton =
+    lastAIMessageWithProperties &&
+    lastAIMessageWithProperties.currentPage &&
+    lastAIMessageWithProperties.totalPages &&
+    lastAIMessageWithProperties.currentPage <
+      lastAIMessageWithProperties.totalPages;
+
   return (
-    <main className="min-h-screen bg-gradient-to-b from-background to-muted/20 flex flex-col">
+    <main className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/20">
       {/* Header */}
       <div className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-6">
@@ -111,52 +157,68 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Chat Container */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="max-w-4xl mx-auto px-4 py-8">
-          {messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center min-h-96 text-center">
-              <div className="mb-6">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Send className="w-8 h-8 text-primary" />
-                </div>
+      {/* Messages */}
+      <div
+        ref={scrollContainerRef}
+        className="h-screen overflow-x-auto px-4 pt-56 max-w-4xl mx-auto space-y-6"
+      >
+        {messages.length === 0 ? (
+          <div className="flex flex-col items-center justify-center min-h-96 text-center">
+            <div className="mb-6">
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <Send className="w-8 h-8 text-primary" />
               </div>
-              <h2 className="text-2xl font-semibold text-foreground mb-2">
-                Welcome to AI Property Finder
-              </h2>
-              <p className="text-muted-foreground max-w-md">
-                Describe what you're looking for in natural language. For
-                example: "Show me 3-bedroom apartments for rent in Tashkent
-                under $500"
-              </p>
             </div>
-          ) : (
-            <div className="space-y-6">
-              {messages.map((message) => (
-                <div key={message.id}>
-                  <ChatMessage message={message} />
-                  {message.properties && message.properties.length > 0 && (
-                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {message.properties.map((property) => (
-                        <PropertyCard key={property._id} property={property} />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-              {loading && (
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <Spinner className="w-5 h-5" />
-                  <span>AI is searching...</span>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-          )}
-        </div>
+            <h2 className="text-2xl font-semibold text-foreground mb-2">
+              Welcome to AI Property Finder
+            </h2>
+            <p className="text-muted-foreground max-w-md">
+              Describe what you're looking for in natural language. For
+              example: "Show me 3-bedroom apartments for rent in Tashkent under $500"
+            </p>
+          </div>
+        ) : (
+          <>
+            {messages.map((message, index) => (
+              <div key={message.id}>
+                <ChatMessage message={message} />
+                {message.properties && message.properties.length > 0 && (
+                  <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {message.properties.map((property) => (
+                      <PropertyCard key={property._id} property={property} />
+                    ))}
+                  </div>
+                )}
+                {index === messages.length - 1 && shouldShowMoreButton && (
+                  <div className="w-full flex justify-center my-6">
+                    <Button
+                      onClick={handleLoadMore}
+                      disabled={isFetchingMore || loading}
+                    >
+                      {isFetchingMore ? (
+                        <>
+                          <Spinner className="mr-2" /> Loading more...
+                        </>
+                      ) : (
+                        "Load More"
+                      )}
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ))}
+            {loading && (
+              <div className="flex items-center gap-3 text-muted-foreground">
+                <Spinner className="w-5 h-5" />
+                <span>AI is searching...</span>
+              </div>
+            )}
+            <div ref={messagesEndRef} className="h-1" />
+          </>
+        )}
       </div>
 
-      {/* Input Area */}
+      {/* Input */}
       <div className="border-t border-border bg-background/80 backdrop-blur-sm sticky bottom-0">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <form onSubmit={handleSubmit} className="flex gap-3">
@@ -164,12 +226,12 @@ export default function Home() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Describe the property you're looking for..."
-              disabled={loading}
+              disabled={loading || isFetchingMore}
               className="flex-1"
             />
             <Button
               type="submit"
-              disabled={loading || !input.trim()}
+              disabled={loading || !input.trim() || isFetchingMore}
               size="icon"
               className="shrink-0"
             >

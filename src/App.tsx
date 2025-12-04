@@ -9,20 +9,21 @@ import Profile from "./pages/profile/profile";
 import Property from "./pages/property/property";
 import Favorites from "./pages/favorites/favorites";
 import Login from "./pages/auth/login";
-import Map from "./pages/map/map";
 import SellerLayout from "./layouts/seller-layout";
 import Unauthorized from "./pages/unauthorized/unauthorized";
 import SellerProfile from "./pages/seller/profile/seller-profile";
 import Inquiries from "./pages/seller/inquiries/inquiries";
 import Feedback from "./pages/seller/feedback/feedback";
 import SellerProperties from "./pages/seller/properties/seller-properties";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import FilterNav from "./pages/property/filter-nav";
 import AiAgent from "./pages/ai-agent/ai-agent";
 import SellerDashboard from "./pages/seller/dashboard/seller-dashboard";
 import SellerAdvertise from "./pages/seller/advertise/seller-advertise";
 import SellerCreateAdvertise from "./pages/seller/advertise/seller-create-advertise";
 import Category from "./pages/property/category";
+import YandexMap from "./pages/map/yandex-map";
+import { yandexMapKey } from "./utils/shared";
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/create-property")
 );
@@ -74,7 +75,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/map",
-        element: <Map />,
+        element: <YandexMap />,
       },
       {
         path: "/auth/register",
@@ -179,5 +180,14 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
+  useEffect(() => {
+    if (!document.getElementById("yandex-maps-script")) {
+      const script = document.createElement("script");
+      script.id = "yandex-maps-script";
+      script.src = `https://api-maps.yandex.ru/2.1/?apikey=${yandexMapKey}&lang=en_RU`;
+      document.body.appendChild(script);
+    }
+  }, []);
+
   return <RouterProvider router={router} />;
 }

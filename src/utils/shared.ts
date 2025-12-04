@@ -95,8 +95,12 @@ export const API_ENDPOINTS = {
     filterNav: "/layouts/filter-nav",
     categoryPage: "/layouts/category-page",
   },
+  AI_PROPERTY: {
+    searchProperty: "ai-property/search",
+  },
 };
 
 // .ENV
 export const serverUrl = import.meta.env.VITE_API_URL;
 export const googleMapKey = import.meta.env.VITE_GOOGLE_MAPS;
+export const yandexMapKey = import.meta.env.VITE_YANDEX_MAP;

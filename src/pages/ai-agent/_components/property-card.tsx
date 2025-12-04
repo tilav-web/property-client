@@ -1,39 +1,23 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Bed, Bath, Ruler } from "lucide-react";
+import type { PropertyType } from "@/interfaces/property/property.interface"; // Import PropertyType
 
-interface Property {
-  _id: string;
-  title: { uz: string; ru: string; en: string };
-  description: { uz: string; ru: string; en: string };
-  category: string;
-  purpose: string;
-  price: number;
-  currency: string;
-  price_type: string;
-  area: number;
-  bedrooms: number;
-  bathrooms: number;
-  location: { type: string; coordinates: [number, number] };
-  address: { uz: string; ru: string; en: string };
-  region: string;
-  district: string;
-  is_premium: boolean;
-  is_verified: boolean;
-  rating: number;
-  amenities: string[];
-  banner?: { url: string };
-}
+export default function PropertyCard({ property }: { property: PropertyType }) {
+  // Determine purpose for display, using category as a fallback
+  const displayPurpose = property.category?.replace("_", " ") || "Property";
 
-export default function PropertyCard({ property }: { property: Property }) {
+  // Determine title for display, preferring Uzbek, then English, then a default
+  const displayTitle = property.title?.uz || property.title?.en || "No Title";
+
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
       {/* Image */}
       <div className="relative w-full h-48 bg-muted overflow-hidden">
-        {property.banner?.url ? (
+        {property.photos && property.photos.length > 0 ? (
           <img
-            src={property.banner.url || "/placeholder.svg"}
-            alt={property.title.en}
+            src={property.photos[0]}
+            alt={displayTitle}
             className="w-full h-full object-cover"
           />
         ) : (
@@ -56,7 +40,7 @@ export default function PropertyCard({ property }: { property: Property }) {
       <div className="p-4 flex-1 flex flex-col">
         {/* Title */}
         <h3 className="font-semibold text-foreground line-clamp-2 mb-2">
-          {property.title.en}
+          {displayTitle}
         </h3>
 
         {/* Price */}
@@ -65,7 +49,7 @@ export default function PropertyCard({ property }: { property: Property }) {
             ${property.price?.toLocaleString()} {property.currency}
           </p>
           <p className="text-xs text-muted-foreground capitalize">
-            {property.purpose.replace("_", " ")}
+            {displayPurpose}
           </p>
         </div>
 
@@ -73,26 +57,28 @@ export default function PropertyCard({ property }: { property: Property }) {
         <div className="flex items-start gap-2 mb-3 text-sm text-muted-foreground">
           <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
           <div>
-            <p className="font-medium text-foreground">{property.region}</p>
-            <p className="text-xs">{property.district}</p>
+            <p className="font-medium text-foreground">
+              {property.address?.uz || property.address?.en || "Unknown location"}
+            </p>
+            {/* region and district are not directly available, using address instead */}
           </div>
         </div>
 
         {/* Info Bar */}
         <div className="flex gap-4 pt-3 border-t border-border mt-auto">
-          {property.bedrooms > 0 && (
+          {"bedrooms" in property && property.bedrooms !== undefined && property.bedrooms > 0 && (
             <div className="flex items-center gap-1 text-sm text-muted-foreground">
               <Bed className="w-4 h-4" />
               <span>{property.bedrooms}</span>
             </div>
           )}
-          {property.bathrooms > 0 && (
+          {"bathrooms" in property && property.bathrooms !== undefined && property.bathrooms > 0 && (
             <div className="flex items-center gap-1 text-sm text-muted-foreground">
               <Bath className="w-4 h-4" />
               <span>{property.bathrooms}</span>
             </div>
           )}
-          {property.area > 0 && (
+          {property.area !== undefined && property.area > 0 && (
             <div className="flex items-center gap-1 text-sm text-muted-foreground">
               <Ruler className="w-4 h-4" />
               <span>{property.area} m²</span>
