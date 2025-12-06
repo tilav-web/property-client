@@ -3,7 +3,7 @@ import { handleStorage } from "@/utils/handle-storage";
 
 export const useCurrentLanguage = () => {
   const { user } = useUserStore();
-  const lanValue = handleStorage({ key: "lan" });
+  const lanValue = handleStorage({ key: "language" });
 
   const getCurrentLanguage = (): "uz" | "ru" | "en" => {
     if (user?.lan && ["uz", "ru", "en"].includes(user.lan)) {

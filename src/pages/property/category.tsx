@@ -70,7 +70,7 @@ const BlockSkeleton = () => (
 
 export default function Category() {
   const [params] = useSearchParams();
-  const category = params.get("key") as CategoryType;
+  const category = params.get("category") as CategoryType;
   const { t } = useTranslation();
 
   console.log(category);

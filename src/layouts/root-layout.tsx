@@ -14,7 +14,7 @@ export default function RootLayout() {
   useEffect(() => {
     (async () => {
       i18n.changeLanguage(
-        user?.lan ? user?.lan : handleStorage({ key: "lan" }) ?? "uz"
+        user?.lan ? user?.lan : handleStorage({ key: "language" }) ?? "uz"
       );
       try {
         if (user || user === null) return;

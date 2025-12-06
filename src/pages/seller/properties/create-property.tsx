@@ -1,7 +1,5 @@
 // components/property/PropertyForm.tsx
 import { useState } from "react";
-import { useLoadScript } from "@react-google-maps/api";
-import { googleMapKey } from "@/utils/shared";
 import type { CategoryType } from "@/interfaces/types/category.type";
 import MediaSection from "./_components/media-section";
 import BasicInfoSection from "./_components/basic-info-section";
@@ -12,9 +10,6 @@ import SubmitSection from "./_components/submit-section";
 import { propertyService } from "@/services/property.service";
 
 export default function PropertyForm() {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: googleMapKey,
-  });
 
   const [category, setCategory] = useState<CategoryType | "">("");
 
@@ -94,7 +89,7 @@ export default function PropertyForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8">
       <div className="max-w-5xl mx-auto">
         <MediaSection
           photos={photos}
@@ -118,11 +113,7 @@ export default function PropertyForm() {
           <ApartmentRentForm data={categoryData} setData={setCategoryData} />
         )}
 
-        <LocationSection
-          isLoaded={isLoaded}
-          location={location}
-          setLocation={setLocation}
-        />
+        <LocationSection location={location} setLocation={setLocation} />
 
         <SubmitSection onSubmit={handleSubmit} disabled={!canSubmit()} />
       </div>

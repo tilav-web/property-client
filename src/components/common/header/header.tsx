@@ -40,6 +40,8 @@ import { toast } from "sonner";
 import { handleStorage } from "@/utils/handle-storage";
 import { useSellerStore } from "@/stores/seller.store";
 import { useLikeStore } from "@/stores/like.store";
+import { useLanguageStore } from "@/stores/language.store";
+import type { ILanguage } from "@/interfaces/language/language.interface";
 
 export default function Header() {
   const { t, i18n } = useTranslation();
@@ -48,6 +50,7 @@ export default function Header() {
   const { user, logout, setUser } = useUserStore();
   const { logout: sellerLogout } = useSellerStore();
   const { likedProperties } = useLikeStore();
+  const { setLanguage } = useLanguageStore();
 
   const logoutSystem = async () => {
     try {
@@ -89,9 +92,9 @@ export default function Header() {
     { icon: Heart, label: t("common.favorites"), href: "/favorites" },
   ];
 
-  const languages = ["uz", "ru", "en"];
+  const languages = Object.values<ILanguage>(["uz", "ru", "en"]);
 
-  const handleChangeUserLan = async (lan: string) => {
+  const handleChangeUserLan = async (lan: ILanguage) => {
     try {
       if (user) {
         const formData = new FormData();
@@ -99,7 +102,7 @@ export default function Header() {
         const data = await userService.update(formData);
         setUser(data);
       }
-      handleStorage({ key: "lan", value: lan });
+      setLanguage(lan);
       i18n.changeLanguage(lan);
     } catch (error) {
       console.error(error);

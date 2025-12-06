@@ -20,8 +20,6 @@ export interface FindAllParams {
 class PropertyService {
   async findAll(params: FindAllParams) {
     try {
-      
-
       const res = await apiInstance.get(API_ENDPOINTS.PROPERTIES.base, {
         params,
       });
@@ -32,9 +30,19 @@ class PropertyService {
     }
   }
 
-  async findMyProperties() {
+  async findMyProperties({
+    search,
+    page,
+    limit,
+  }: {
+    search?: string;
+    page: number;
+    limit: number;
+  }) {
     try {
-      const res = await apiInstance.get(API_ENDPOINTS.PROPERTIES.my);
+      const res = await apiInstance.get(API_ENDPOINTS.PROPERTIES.my, {
+        params: { search, page, limit },
+      });
       return res.data;
     } catch (error) {
       console.error(error);
@@ -57,6 +65,30 @@ class PropertyService {
   async create(dto: FormData) {
     try {
       const res = await apiInstance.post(API_ENDPOINTS.PROPERTIES.base, dto);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async remove(id: string) {
+    try {
+      const res = await apiInstance.delete(
+        `${API_ENDPOINTS.PROPERTIES.base}/${id}`
+      );
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getCategories() {
+    try {
+      const res = await apiInstance.get(
+        `${API_ENDPOINTS.PROPERTIES.base}/categories/list`
+      );
       return res.data;
     } catch (error) {
       console.error(error);

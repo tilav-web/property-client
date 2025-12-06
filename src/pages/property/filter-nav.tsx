@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import FilterNavLayoutBlock from "./_components/filter-nav-layout-block"; // update path
+import { useLanguageStore } from "@/stores/language.store";
 
 interface PropertyPage {
   properties: IApartmentSale[];
@@ -21,8 +22,12 @@ export default function FilterNav() {
   const category = params.get("category") as CategoryType;
   const is_new = params.get("is_new");
   const { t } = useTranslation();
+  const { language } = useLanguageStore();
 
-  const queryKey = useMemo(() => ["filter-nav-layout", category], [category]);
+  const queryKey = useMemo(
+    () => ["filter-nav-layout", category, language],
+    [category, language]
+  );
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery<PropertyPage>({

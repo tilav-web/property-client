@@ -113,8 +113,8 @@
       "elevator": "Lift"
     },
     "property_category": {
-      "APARTMENT_SALE": "Kvartera sotuv uchun",
-      "APARTMENT_RENT": "Kvartera ijara uchun"
+      "APARTMENT_SALE": "Sotuvda",
+      "APARTMENT_RENT": "Ijaraga"
     },
     "construction_status": {
       "ready": "Tayyor",

@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { handleStorage } from "@/utils/handle-storage";
 import { userService } from "@/services/user.service";
+import type { ILanguage } from "@/interfaces/language/language.interface";
+import { useLanguageStore } from "@/stores/language.store";
 
 interface HeaderProps {
   isSidebarOpen: boolean;
@@ -27,11 +29,12 @@ export default function SellerHeader({
 }: HeaderProps) {
   const { t, i18n } = useTranslation();
   const { user, setUser } = useUserStore();
-  const lanValue = handleStorage({ key: "lan" });
+  const lanValue = handleStorage({ key: "language" });
+  const { setLanguage } = useLanguageStore();
 
-  const languages = ["uz", "ru", "en"];
+  const languages = Object.values<ILanguage>(["uz", "ru", "en"]);
 
-  const handleChangeUserLan = async (lan: string) => {
+  const handleChangeUserLan = async (lan: ILanguage) => {
     try {
       if (user) {
         const formData = new FormData();
@@ -39,7 +42,7 @@ export default function SellerHeader({
         const data = await userService.update(formData);
         setUser(data);
       }
-      handleStorage({ key: "lan", value: lan });
+      setLanguage(lan);
       i18n.changeLanguage(lan);
     } catch (error) {
       console.error(error);

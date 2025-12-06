@@ -8,28 +8,24 @@ import {
   Camera,
   Video,
   CheckCircle2,
-  Phone,
-  Mail,
   Share2,
   Bookmark,
+  Edit2,
+  Trash2,
 } from "lucide-react";
 import type { IProperty } from "@/interfaces/property/property.interface";
 import { useNavigate } from "react-router-dom";
 
 interface PropertyCardProps {
   property: IProperty;
+  handleSelectPropertyToDelete: (propertyId: string) => void;
 }
 
-export default function PropertyCard({ property }: PropertyCardProps) {
+export default function PropertyCard({
+  property,
+  handleSelectPropertyToDelete,
+}: PropertyCardProps) {
   const navigate = useNavigate();
-
-  // Tasodifiy rasm tanlash
-  const getRandomImage = () => {
-    if (!property.photos || property.photos.length === 0) {
-      return "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800";
-    }
-    return property.photos[Math.floor(Math.random() * property.photos.length)];
-  };
 
   return (
     <Card className="overflow-hidden border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md transition-all duration-300">
@@ -38,7 +34,13 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         {/* Property Image */}
         <div className="h-56 w-full overflow-hidden bg-gray-100">
           <img
-            src={getRandomImage()}
+            src={
+              property.photos
+                ? property.photos[
+                    Math.floor(Math.random() * property.photos.length)
+                  ]
+                : ""
+            }
             alt={property.title}
             className="h-full w-full object-cover cursor-pointer transition-transform duration-300 hover:scale-105"
             onClick={() => navigate(`/property/${property._id}`)}
@@ -147,28 +149,29 @@ export default function PropertyCard({ property }: PropertyCardProps) {
 
           <div className="flex gap-1">
             <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              title="Qo'ng'iroq"
-            >
-              <Phone className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              title="Xabar yuborish"
-            >
-              <Mail className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="ghost"
+              variant="outline"
               size="icon"
               className="h-8 w-8"
               title="Ulashish"
             >
               <Share2 className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8"
+              title="Qo'ng'iroq"
+            >
+              <Edit2 className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="destructive"
+              size="icon"
+              className="h-8 w-8 text-white"
+              title="Xabar yuborish"
+              onClick={() => handleSelectPropertyToDelete(property._id)}
+            >
+              <Trash2 className="w-4 h-4" />
             </Button>
           </div>
         </div>

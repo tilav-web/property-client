@@ -22,9 +22,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import type { IProperty } from "@/interfaces/property/property.interface";
 import type { IMessageStatus } from "@/interfaces/message/message-status.interface";
 import { useState } from "react";
+import { defaultImageAvatar } from "@/utils/shared";
 
 type DeleteDialogState = {
   isOpen: boolean;
@@ -177,12 +177,6 @@ export default function Feedback() {
     return `${firstName?.[0] || ""}${lastName?.[0] || ""}`.toUpperCase();
   };
 
-  const getPropertyTitle = (property: IProperty): string => {
-    return (
-      property.title.uz || property.title.en || property.title.ru || "Noma'lum"
-    );
-  };
-
   const unreadCount: number = messages
     ? messages?.filter((msg: IMessageStatus) => !msg.is_read).length
     : 0;
@@ -292,7 +286,7 @@ export default function Feedback() {
                   <div className="flex items-center space-x-3">
                     <Avatar className="h-10 w-10">
                       <AvatarImage
-                        src={message.message.user.avatar}
+                        src={message.message.user.avatar ?? defaultImageAvatar}
                         alt={`${message.message.user.first_name} ${message.message.user.last_name}`}
                       />
                       <AvatarFallback>
@@ -336,7 +330,7 @@ export default function Feedback() {
                     <Building className="h-4 w-4 mr-1" />
                     <span className="font-medium">Uy haqida:</span>
                     <span className="ml-2">
-                      {getPropertyTitle(message.message.property)}
+                      {message.message.property.title}
                     </span>
                   </div>
 

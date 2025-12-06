@@ -3,12 +3,14 @@ import BannerAds from "@/components/common/ads/banner-ads";
 import ApartmentSaleCard from "@/components/common/cards/property/cards/categories/apartment-sale-card";
 import type { IApartmentSale } from "@/interfaces/property/categories/apartment-sale.interface";
 import { propertyService } from "@/services/property.service";
+import { useLanguageStore } from "@/stores/language.store";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 export default function MainLayoutBlock() {
+  const { language } = useLanguageStore();
   const { data = [], isLoading } = useQuery({
-    queryKey: ["main-page-layout", 6],
+    queryKey: ["main-page-layout", language, 6],
     queryFn: () =>
       propertyService.findAll({ limit: 6, category: "APARTMENT_SALE" }),
   });
