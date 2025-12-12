@@ -12,7 +12,11 @@ export default function MainLayoutBlock() {
   const { data = [], isLoading } = useQuery({
     queryKey: ["main-page-layout", language, 6],
     queryFn: () =>
-      propertyService.findAll({ limit: 6, category: "APARTMENT_SALE" }),
+      propertyService.findAll({
+        limit: 6,
+        category: "APARTMENT_SALE",
+        sample: true,
+      }),
   });
   const { t } = useTranslation();
 
