@@ -83,7 +83,9 @@
       "online_contract": "Onlayn shartnoma",
       "telegram": "Telegram",
       "whatsapp": "WhatsApp",
-      "back_tabs": "Ortga"
+      "back_tabs": "Ortga",
+      "load_more": "Yana yuklash",
+      "loading_more": "Yana yuklanmoqda..."
     },
     "loading_component": {
       "loading": "Yuklanmoqda...",
@@ -686,14 +688,7 @@
     }
   },
   "categories": {
-    "flats": "Kvartiralar",
-    "dacha": "Dachalar",
-    "rooms": "Xonalar",
-    "office": "Ofislar",
-    "land": "Yer",
-    "business": "Biznes",
-    "basement": "Podvallar",
-    "building": "Binolar"
+    "APARTMENT": "Kvartiralar"
   },
   "physical_seller_register": {
     "self_employed": "O'zini o'zi band qilgan",

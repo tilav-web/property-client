@@ -14,12 +14,10 @@ import {
   Check,
   X,
 } from "lucide-react";
-import { useCurrentLanguage } from "@/hooks/use-language";
 import type { IInquiry } from "@/interfaces/inquiry/inquiry.interface";
 import { serverUrl } from "@/utils/shared";
 
 export default function InquiriesPage() {
-  const { getLocalizedText } = useCurrentLanguage();
 
   const {
     data: inquiries,
@@ -119,7 +117,7 @@ export default function InquiriesPage() {
                     <Building className="h-4 w-4 mr-2 text-muted-foreground" />
                     <span className="font-medium mr-2">Mulk:</span>
                     {inquiry?.property?.title && (
-                      <span>{getLocalizedText(inquiry?.property?.title)}</span>
+                      <span>{inquiry?.property?.title}</span>
                     )}
                   </div>
                   <div className="flex items-center text-sm">

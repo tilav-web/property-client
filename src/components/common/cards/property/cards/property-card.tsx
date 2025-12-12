@@ -1,179 +1,253 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
-  Heart,
   MapPin,
+  Bed,
+  Bath,
+  Square,
   Star,
-  Camera,
-  Video,
-  CheckCircle2,
-  Share2,
-  Bookmark,
-  Edit2,
-  Trash2,
+  Calendar,
+  Shield,
+  Zap,
+  Car,
+  Wind,
 } from "lucide-react";
-import type { IProperty } from "@/interfaces/property/property.interface";
-import { useNavigate } from "react-router-dom";
+import type { PropertyType } from "@/interfaces/property/property.interface";
+import HeartButton from "@/components/common/buttons/heart-button";
+import EllipsisVerticalButton from "@/components/common/buttons/ellipsis-vertical-button";
 
 interface PropertyCardProps {
-  property: IProperty;
-  handleSelectPropertyToDelete: (propertyId: string) => void;
+  property: PropertyType;
 }
 
-export default function PropertyCard({
-  property,
-  handleSelectPropertyToDelete,
-}: PropertyCardProps) {
-  const navigate = useNavigate();
+export default function PropertyCard({ property }: PropertyCardProps) {
+  if (!property) return null;
+
+  const isRent =
+    "contract_duration_months" in property &&
+    property.category === "APARTMENT_RENT";
+
+  const formatPrice = () => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: property.currency,
+      minimumFractionDigits: 0,
+    }).format(property.price);
+  };
+
+  const getPropertyTypeText = () => {
+    if (isRent) {
+      return "Apartment for Rent";
+    }
+    return "Apartment for Sale";
+  };
+
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   return (
-    <Card className="overflow-hidden border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md transition-all duration-300">
-      {/* Card Header - Image Section */}
-      <div className="relative">
-        {/* Property Image */}
-        <div className="h-56 w-full overflow-hidden bg-gray-100">
-          <img
-            src={
-              property.photos
-                ? property.photos[
-                    Math.floor(Math.random() * property.photos.length)
-                  ]
-                : ""
-            }
-            alt={property.title}
-            className="h-full w-full object-cover cursor-pointer transition-transform duration-300 hover:scale-105"
-            onClick={() => navigate(`/property/${property._id}`)}
-          />
-
-          {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-        </div>
-
-        {/* Top Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-2">
-          {property.is_premium && (
-            <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white border-0">
-              Premium
-            </Badge>
-          )}
-          {property.is_verified && (
-            <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white border-0">
-              <CheckCircle2 className="w-3 h-3 mr-1" />
-              Tasdiqlangan
-            </Badge>
-          )}
-        </div>
-
-        {/* Bottom Info */}
-        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-          {/* Category Badge */}
-          <Badge variant="secondary" className="bg-white/90 backdrop-blur-sm">
-            {property.category.replace("_", " ")}
+    <Card className="w-full overflow-hidden hover:shadow-lg transition-shadow duration-300 relative">
+      {/* Premium badge */}
+      {property.is_premium && (
+        <div className="absolute top-2 left-2 z-10">
+          <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
+            <Zap className="h-3 w-3 mr-1" />
+            Premium
           </Badge>
+        </div>
+      )}
 
-          {/* Media Count */}
-          <div className="flex items-center gap-3">
-            {property.photos && property.photos.length > 0 && (
-              <Badge variant="secondary" className="select-none gap-1">
-                <Camera className="w-3 h-3" />
-                {property.photos.length}
-              </Badge>
-            )}
-            {property.videos && property.videos.length > 0 && (
-              <Badge variant="secondary" className="select-none gap-1">
-                <Video className="w-3 h-3" />
-                {property.videos.length}
-              </Badge>
-            )}
+      {/* Verified badge */}
+      {property.is_verified && (
+        <div className="absolute top-2 right-2 z-10">
+          <Badge variant="outline" className="bg-white/90 backdrop-blur-sm">
+            <Shield className="h-3 w-3 mr-1 text-green-600" />
+            Verified
+          </Badge>
+        </div>
+      )}
+
+      {/* Image section */}
+      <div className="relative h-48 w-full bg-gradient-to-br from-gray-100 to-gray-300">
+        {property.photos && property.photos.length > 0 ? (
+          <img
+            src={property.photos[0]}
+            alt={property.title}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-gray-400">
+            No image available
           </div>
+        )}
+
+        {/* Action buttons - top right */}
+        <div className="absolute top-2 right-2 flex gap-2">
+          <HeartButton property={property} />
+          <EllipsisVerticalButton property={property} />
         </div>
       </div>
 
-      {/* Card Content */}
+      {/* Content section */}
       <CardContent className="p-4">
         {/* Price and Rating */}
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xl font-bold text-gray-900">
-            {property.price.toLocaleString()} so'm
-          </h3>
-          <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-full">
-            <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-            <span className="text-sm font-medium text-amber-700">
-              {property.rating.toFixed(1)}
-            </span>
+        <div className="flex justify-between items-start mb-2">
+          <div>
+            <div className="text-2xl font-bold text-gray-900">
+              {formatPrice()}
+              {isRent && (
+                <span className="text-sm font-normal text-gray-600">
+                  /month
+                </span>
+              )}
+            </div>
+            <div className="text-sm text-gray-500">{getPropertyTypeText()}</div>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
+            <span className="font-medium">{property.rating.toFixed(1)}</span>
           </div>
         </div>
 
         {/* Title */}
-        <h2
-          className="text-lg font-semibold text-gray-800 mb-2 line-clamp-1 cursor-pointer hover:text-blue-600"
-          onClick={() => navigate(`/property/${property._id}`)}
-        >
+        <h3 className="font-semibold text-lg mb-2 line-clamp-1">
           {property.title}
-        </h2>
+        </h3>
 
-        {/* Description */}
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-          {property.description}
-        </p>
-
-        {/* Address */}
-        <div className="flex items-start gap-2 text-gray-500 mb-4">
-          <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-          <p className="text-sm line-clamp-2">{property.address}</p>
+        {/* Location */}
+        <div className="flex items-center text-gray-600 mb-3">
+          <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
+          <span className="text-sm line-clamp-1">{property.address}</span>
         </div>
+
+        {/* Property features */}
+        <div className="grid grid-cols-4 gap-2 mb-4">
+          {property.bedrooms !== undefined && (
+            <div className="flex flex-col items-center p-2 bg-gray-50 rounded">
+              <Bed className="h-5 w-5 text-gray-600 mb-1" />
+              <span className="text-sm font-medium">{property.bedrooms}</span>
+              <span className="text-xs text-gray-500">Bed</span>
+            </div>
+          )}
+
+          {property.bathrooms !== undefined && (
+            <div className="flex flex-col items-center p-2 bg-gray-50 rounded">
+              <Bath className="h-5 w-5 text-gray-600 mb-1" />
+              <span className="text-sm font-medium">{property.bathrooms}</span>
+              <span className="text-xs text-gray-500">Bath</span>
+            </div>
+          )}
+
+          {property.area !== undefined && (
+            <div className="flex flex-col items-center p-2 bg-gray-50 rounded">
+              <Square className="h-5 w-5 text-gray-600 mb-1" />
+              <span className="text-sm font-medium">{property.area}m²</span>
+              <span className="text-xs text-gray-500">Area</span>
+            </div>
+          )}
+
+          {property.floor_level !== undefined && (
+            <div className="flex flex-col items-center p-2 bg-gray-50 rounded">
+              <div className="text-sm font-medium">
+                {property.floor_level}
+                {property.total_floors && `/${property.total_floors}`}
+              </div>
+              <span className="text-xs text-gray-500">Floor</span>
+            </div>
+          )}
+        </div>
+
+        {/* Amenities badges */}
+        <div className="flex flex-wrap gap-1 mb-3">
+          {property.balcony && (
+            <Badge variant="secondary" className="text-xs">
+              Balcony
+            </Badge>
+          )}
+          {property.furnished && (
+            <Badge variant="secondary" className="text-xs">
+              Furnished
+            </Badge>
+          )}
+          {property.parking && (
+            <Badge variant="secondary" className="text-xs">
+              <Car className="h-3 w-3 mr-1" />
+              Parking
+            </Badge>
+          )}
+          {property.elevator && (
+            <Badge variant="secondary" className="text-xs">
+              {/* <Elevator className="h-3 w-3 mr-1" /> */}
+              Elevator
+            </Badge>
+          )}
+          {property.air_conditioning && (
+            <Badge variant="secondary" className="text-xs">
+              <Wind className="h-3 w-3 mr-1" />
+              AC
+            </Badge>
+          )}
+          {isRent && property.contract_duration_months && (
+            <Badge variant="secondary" className="text-xs">
+              <Calendar className="h-3 w-3 mr-1" />
+              {property.contract_duration_months} months
+            </Badge>
+          )}
+        </div>
+
+        {/* Additional info */}
+        {property.repair_type && (
+          <div className="text-sm text-gray-600 mb-1">
+            <span className="font-medium">Repair: </span>
+            {property.repair_type}
+          </div>
+        )}
+
+        {property.heating && (
+          <div className="text-sm text-gray-600">
+            <span className="font-medium">Heating: </span>
+            {property.heating}
+          </div>
+        )}
       </CardContent>
 
-      {/* Card Footer - Action Buttons */}
-      <CardFooter className="bg-gray-50/50 p-3 border-t">
-        <div className="flex items-center justify-between w-full gap-2">
-          <Button
-            size="sm"
-            className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white"
-            onClick={() => navigate(`/property/${property._id}`)}
-          >
-            Batafsil ko'rish
-          </Button>
+      {/* Footer */}
+      <CardFooter className="px-4 py-3 bg-gray-50 border-t flex justify-between items-center">
+        <div className="flex items-center text-sm text-gray-500">
+          <Calendar className="h-3 w-3 mr-1" />
+          Listed {formatDate(property.createdAt)}
+        </div>
 
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1 text-red-500 cursor-pointer">
-              <Heart className="w-4 h-4" />
-              <span className="text-xs font-medium">{property.liked}</span>
+        {/* Display likes and saves count */}
+        <div className="flex gap-3">
+          {(property.liked > 0 || property.saved > 0) && (
+            <div className="flex items-center gap-3 text-sm text-gray-600">
+              {property.liked > 0 && (
+                <span className="flex items-center">
+                  <Star className="h-3 w-3 mr-1 text-amber-500" />
+                  {property.liked} likes
+                </span>
+              )}
+              {property.saved > 0 && (
+                <span className="flex items-center">
+                  <svg
+                    className="h-3 w-3 mr-1 text-yellow-500"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+                  </svg>
+                  {property.saved} saves
+                </span>
+              )}
             </div>
-            <div className="flex items-center gap-1 text-blue-500 cursor-pointer">
-              <Bookmark className="w-4 h-4" />
-              <span className="text-xs font-medium">{property.saved}</span>
-            </div>
-          </div>
-
-          <div className="flex gap-1">
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8"
-              title="Ulashish"
-            >
-              <Share2 className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8"
-              title="Qo'ng'iroq"
-            >
-              <Edit2 className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="destructive"
-              size="icon"
-              className="h-8 w-8 text-white"
-              title="Xabar yuborish"
-              onClick={() => handleSelectPropertyToDelete(property._id)}
-            >
-              <Trash2 className="w-4 h-4" />
-            </Button>
-          </div>
+          )}
         </div>
       </CardFooter>
     </Card>

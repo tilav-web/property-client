@@ -10,7 +10,7 @@ export default function CategoryFilter() {
   const { t } = useTranslation();
   const [params] = useSearchParams();
   const { language } = useLanguageStore();
-  const category = params.get("category") as CategoryFilterType;
+  const category = params.get("filterCategory") as CategoryFilterType;
   const { data: categories = [], isLoading } = useQuery({
     queryKey: ["category-counts", language],
     queryFn: () => propertyService.getCategories(),
@@ -31,7 +31,7 @@ export default function CategoryFilter() {
               (item: { category: CategoryFilterType; count: number }) => {
                 return (
                   <Link
-                    to={`/category?category=${item.category}`}
+                    to={`/category?filterCategory=${item.category}`}
                     key={item.category}
                     className={`text-sm group py-2 px-3 border rounded ${
                       category?.toString() === item.category.toString()

@@ -49,7 +49,7 @@ export default function Favorites() {
 
       {/* Properties Grid */}
       <div className="flex flex-col gap-4">
-        {likedProperties.map((item) => (
+        {likedProperties?.map((item) => (
           <PropertyCard key={item?.property?._id} property={item?.property} />
         ))}
       </div>

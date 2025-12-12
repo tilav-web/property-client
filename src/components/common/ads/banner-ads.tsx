@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { advertiseService } from "@/services/advertise.service";
 import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
+import BannerAdsSkeleton from "./banner-ads-skeleton";
 
 export default function BannerAds() {
   const { data: ads, isLoading } = useQuery<IAdvertise | null, Error>({
@@ -11,7 +12,7 @@ export default function BannerAds() {
     staleTime: 1000 * 60, // opsional: 1 daqiqa cache
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <BannerAdsSkeleton />;
   if (!ads) return null;
 
   return (

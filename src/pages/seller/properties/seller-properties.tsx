@@ -6,7 +6,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { propertyService } from "@/services/property.service";
 import { useTranslation } from "react-i18next";
 import type { PropertyType } from "@/interfaces/property/property.interface";
-import PropertyCard from "@/components/common/cards/property/cards/property-card";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,6 +19,7 @@ import {
 import { useState } from "react";
 import { toast } from "sonner";
 import { useLanguageStore } from "@/stores/language.store";
+import SellerPropertyCard from "./_components/seller-property-card";
 
 export default function SellerProperties() {
   const { t } = useTranslation();
@@ -187,7 +187,7 @@ export default function SellerProperties() {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {data.properties.map((property: PropertyType) => (
-              <PropertyCard
+              <SellerPropertyCard
                 key={property._id}
                 property={property}
                 handleSelectPropertyToDelete={handleSelectPropertyToDelete}

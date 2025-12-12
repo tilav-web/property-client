@@ -41,18 +41,27 @@ export default function FilterNavLayoutBlock({
             {properties.slice(0, 4).map((property) => {
               return <ApartmentRentCard property={property} />;
             })}
+            {properties.length === 2 && (
+              <div className="lg:col-span-2">
+                <ImageAds />
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             {properties.slice(4).map((property) => {
               return <ApartmentRentCard property={property} />;
             })}
-            <div className="lg:col-span-2">
-              <ImageAds />
+            {(properties.length === 6 || properties.length === 5) && (
+              <div className="lg:col-span-2">
+                <ImageAds />
+              </div>
+            )}
+          </div>
+          {properties.length === 6 && (
+            <div className="mb-4">
+              <BannerAds />
             </div>
-          </div>
-          <div className="mb-4">
-            <BannerAds />
-          </div>
+          )}
         </div>
       )}
     </>

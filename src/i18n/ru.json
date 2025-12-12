@@ -51,7 +51,8 @@
       "inquiries": "Запросы",
       "feedback": "Отзывы",
       "properties": "Объекты",
-      "settings": "Настройки"
+      "settings": "Настройки",
+      "advertise": "Реклама"
     },
     "footer": {
       "question": "Возник вопрос? Звоните",
@@ -82,7 +83,9 @@
       "online_contract": "Онлайн контракт",
       "telegram": "Телеграм",
       "whatsapp": "WhatsApp",
-      "back_tabs": "Назад"
+      "back_tabs": "Назад",
+      "load_more": "Загрузить еще",
+      "loading_more": "Загрузка еще..."
     },
     "loading_component": {
       "loading": "Загрузка...",
@@ -476,14 +479,7 @@
     }
   },
   "categories": {
-    "flats": "Квартиры",
-    "dacha": "Дачи",
-    "rooms": "Комнаты",
-    "office": "Офисы",
-    "land": "Земля",
-    "business": "Бизнес",
-    "basement": "Подвалы",
-    "building": "Здания"
+    "APARTMENT": "Квартиры"
   },
   "seller_dashboard_page": {
     "title": "Запросы"

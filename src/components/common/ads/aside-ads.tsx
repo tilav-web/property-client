@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { advertiseService } from "@/services/advertise.service";
 import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
+import AsideAdsSkeleton from "./aside-ads-skeleton";
 
 export default function AsideAds() {
   const { data: ads, isLoading } = useQuery<IAdvertise | null, Error>({
@@ -11,7 +12,7 @@ export default function AsideAds() {
     staleTime: 1000 * 60,
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <AsideAdsSkeleton />;
   if (!ads) return null;
 
   return (

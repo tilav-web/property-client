@@ -1,3 +1,4 @@
+import type { CategoryFilterType } from "@/interfaces/types/category-filter.type";
 import type { CategoryType } from "@/interfaces/types/category.type";
 import apiInstance from "@/lib/api-instance";
 import { API_ENDPOINTS } from "@/utils/shared";
@@ -15,6 +16,7 @@ export interface FindAllParams {
   rating?: number;
   radius?: number;
   sample?: boolean;
+  filterCategory?: CategoryFilterType;
 }
 
 class PropertyService {

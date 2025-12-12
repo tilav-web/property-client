@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import FilterNavLayoutBlock from "./_components/filter-nav-layout-block"; // update path
 import { useLanguageStore } from "@/stores/language.store";
+import LoadMoreButton from "@/components/common/buttons/load-more.button";
 
 interface PropertyPage {
   properties: IApartmentSale[];
@@ -33,13 +34,14 @@ export default function FilterNav() {
     useInfiniteQuery<PropertyPage>({
       queryKey,
       queryFn: async ({ pageParam }) => {
-        const res = await propertyService.findAll({
+        const data = await propertyService.findAll({
           category,
           page: pageParam as number,
           limit: 6,
           is_new: is_new === "1",
         });
-        return res as PropertyPage;
+        console.log(data);
+        return data as PropertyPage;
       },
       initialPageParam: 1,
       getNextPageParam: (lastPage) => {
@@ -92,13 +94,10 @@ export default function FilterNav() {
       {/* MORE tugmasi */}
       {hasNextPage && (
         <div className="w-full flex justify-center my-6">
-          <button
-            onClick={() => fetchNextPage()}
-            disabled={isFetchingNextPage}
-            className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg disabled:bg-gray-400"
-          >
-            {isFetchingNextPage ? "Yuklanmoqda..." : "More"}
-          </button>
+          <LoadMoreButton
+            loading={isFetchingNextPage}
+            fetchNextPage={fetchNextPage}
+          />
         </div>
       )}
     </div>

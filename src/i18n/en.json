@@ -51,7 +51,8 @@
       "inquiries": "Inquiries",
       "feedback": "Feedback",
       "properties": "Properties",
-      "settings": "Settings"
+      "settings": "Settings",
+      "advertise": "Advertise"
     },
     "footer": {
       "question": "Have a question? Call",
@@ -82,7 +83,9 @@
       "online_contract": "Online contract",
       "telegram": "Telegram",
       "whatsapp": "WhatsApp",
-      "back_tabs": "Back"
+      "back_tabs": "Back",
+      "load_more": "Load more",
+      "loading_more": "Loading more..."
     },
     "loading_component": {
       "loading": "Loading...",
@@ -476,14 +479,7 @@
     }
   },
   "categories": {
-    "flats": "Flats",
-    "dacha": "Dacha",
-    "rooms": "Rooms",
-    "office": "Office",
-    "land": "Land",
-    "business": "Business",
-    "basement": "Basement",
-    "building": "Building"
+    "APARTMENT": "Apartments"
   },
   "seller_dashboard_page": {
     "title": "Dashboard"
