@@ -1,5 +1,5 @@
 import { useSellerStore } from "@/stores/seller.store";
-import { serverUrl } from "@/utils/shared";
+import { File } from "lucide-react";
 
 export default function SellerProfile() {
   const { seller } = useSellerStore();
@@ -133,17 +133,11 @@ export default function SellerProfile() {
             <div className="border rounded-lg p-4">
               <h3 className="font-medium text-gray-700 mb-2">Passport File</h3>
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">
-                    {passport_file.original_name}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {(passport_file.file_size / 1024).toFixed(2)} KB •{" "}
-                    {passport_file.mime_type}
-                  </p>
-                </div>
+                <p className="text-sm text-gray-600">
+                  File <File />
+                </p>
                 <a
-                  href={`${serverUrl}/uploads${passport_file.file_path}`}
+                  href={passport_file}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm hover:bg-blue-200 transition-colors"
@@ -160,17 +154,12 @@ export default function SellerProfile() {
                 Self-Employment Certificate
               </h3>
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">
-                    {self_employment_certificate.original_name}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {(self_employment_certificate.file_size / 1024).toFixed(2)}{" "}
-                    KB • {self_employment_certificate.mime_type}
-                  </p>
-                </div>
+                <p className="text-sm text-gray-600">
+                  File <File />
+                </p>
+
                 <a
-                  href={`${serverUrl}/uploads${self_employment_certificate.file_path}`}
+                  href={self_employment_certificate}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm hover:bg-blue-200 transition-colors"

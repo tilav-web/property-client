@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -20,6 +20,7 @@ import {
   Star,
   LogIn,
   User,
+  X,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -42,6 +43,10 @@ import { useSellerStore } from "@/stores/seller.store";
 import { useLikeStore } from "@/stores/like.store";
 import { useLanguageStore } from "@/stores/language.store";
 import type { ILanguage } from "@/interfaces/language/language.interface";
+import type { IProperty } from "@/interfaces/property/property.interface";
+import { Spinner } from "@/components/ui/spinner";
+import HeaderSearchPropertyCard from "./_components/header-search-property-card";
+import { propertyService } from "@/services/property.service";
 
 export default function Header() {
   const { t, i18n } = useTranslation();
@@ -51,6 +56,15 @@ export default function Header() {
   const { logout: sellerLogout } = useSellerStore();
   const { likedProperties } = useLikeStore();
   const { setLanguage } = useLanguageStore();
+  const [searchResults, setSearchResults] = useState<IProperty[]>([]);
+  const [searchOpen, setSearchOpen] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
+    null
+  );
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const searchResultsRef = useRef<HTMLDivElement>(null);
 
   const logoutSystem = async () => {
     try {
@@ -109,6 +123,94 @@ export default function Header() {
     }
   };
 
+  // Search properties function
+  const searchProperties = useCallback(async (query: string) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const params = {
+        search: query,
+        limit: 10,
+        page: 1,
+      };
+      const data = await propertyService.findAll(params);
+      setSearchResults(data.properties || []);
+    } catch (error) {
+      console.error("Search error:", error);
+      setSearchResults([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Handle search input change with debounce
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+
+    if (value.trim()) {
+      const timeout = setTimeout(() => {
+        searchProperties(value);
+      }, 300);
+      setSearchTimeout(timeout);
+    } else {
+      setSearchResults([]);
+    }
+  };
+
+  // Clear search
+  const clearSearch = () => {
+    setSearchQuery("");
+    setSearchResults([]);
+    setSearchOpen(false);
+    setIsSearchOpen(false);
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+  };
+
+  // Handle property click
+  const handlePropertyClick = (propertyId: string) => {
+    navigate(`/property/${propertyId}`);
+    clearSearch();
+  };
+
+  // Handle outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchResultsRef.current &&
+        !searchResultsRef.current.contains(event.target as Node) &&
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target as Node)
+      ) {
+        setSearchOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Mobile search uchun
+  const mobileSearchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isSearchOpen && mobileSearchInputRef.current) {
+      mobileSearchInputRef.current.focus();
+    }
+  }, [isSearchOpen]);
+
   return (
     <header className="w-full bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
       <div className="container mx-auto">
@@ -151,16 +253,17 @@ export default function Header() {
                     </div>
                   </nav>
 
-                  {/* Mobile Footer */}
-                  <div className="border-t pt-4">
-                    <Link
-                      to="/login"
-                      className="flex items-center gap-3 px-3 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                  {user && (
+                    <Button
+                      onClick={() => navigate("/seller/profile")}
+                      variant="default"
+                      className="flex items-center gap-2 mx-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
                     >
-                      <LogIn className="h-4 w-4" />
-                      <span>{t("login")}</span>
-                    </Link>
-                  </div>
+                      <span className="font-semibold">
+                        {t("common.sell_or_rent")}
+                      </span>
+                    </Button>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>
@@ -173,28 +276,105 @@ export default function Header() {
               </span>
             </Link>
           </div>
-          <div className="hidden lg:block flex-1 max-w-2xl mx-8">
-            <div className="relative">
+
+          {/* Desktop Search */}
+          <div className="hidden lg:block flex-1 max-w-2xl mx-8 relative">
+            <div className="relative" ref={searchResultsRef}>
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
+                ref={searchInputRef}
                 type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onFocus={() => setSearchOpen(true)}
                 placeholder={t("common.search_placeholder")}
-                className="pl-10 pr-4 py-2 w-full bg-gray-50 border-gray-300 rounded-full focus:bg-white focus:border-blue-500 transition-colors"
+                className="pl-10 pr-10 py-2 w-full bg-gray-50 border-gray-300 rounded-full focus:bg-white focus:border-blue-500 transition-colors"
               />
+              {searchQuery && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6"
+                  onClick={clearSearch}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              )}
             </div>
+            {searchOpen && (searchQuery || isLoading) && (
+              <div className="absolute top-12 left-0 right-0 bg-white shadow-xl border rounded-lg p-4 max-h-[600px] overflow-y-auto z-50">
+                {isLoading ? (
+                  <div className="flex flex-col items-center justify-center py-8">
+                    <Spinner className="size-8" />
+                    <p className="mt-2 text-gray-500">
+                      {t("common.searching")}
+                    </p>
+                  </div>
+                ) : searchResults.length > 0 ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm font-medium text-gray-700">
+                        {t("common.search_results")} ({searchResults.length})
+                      </p>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          navigate(
+                            `/filter-nav?search=${encodeURIComponent(
+                              searchQuery
+                            )}`
+                          );
+                          clearSearch();
+                        }}
+                        className="text-blue-600 hover:text-blue-700 text-sm"
+                      >
+                        {t("common.see_all")}
+                      </Button>
+                    </div>
+                    {searchResults.map((property) => (
+                      <div
+                        key={property._id}
+                        onClick={() => handlePropertyClick(property._id)}
+                        className="cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
+                      >
+                        <HeaderSearchPropertyCard property={property} />
+                      </div>
+                    ))}
+                  </div>
+                ) : searchQuery ? (
+                  <div className="flex flex-col items-center justify-center py-8">
+                    <Search className="h-12 w-12 text-gray-300 mb-3" />
+                    <p className="text-gray-500 font-medium">
+                      {t("common.no_results")}
+                    </p>
+                    <p className="text-gray-400 text-sm mt-1">
+                      {t("common.try_different_keywords")}
+                    </p>
+                  </div>
+                ) : null}
+              </div>
+            )}
           </div>
+
           <div className="flex items-center gap-2">
+            {/* Mobile Search Toggle Button */}
             <Button
               variant="ghost"
               size="icon"
               className="lg:hidden"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
-              <Search className="h-4 w-4" />
+              {isSearchOpen ? (
+                <X className="h-4 w-4" />
+              ) : (
+                <Search className="h-4 w-4" />
+              )}
             </Button>
+
             {user && (
               <Button
-                onClick={() => navigate("/seller")}
+                onClick={() => navigate("/seller/profile")}
                 variant="default"
                 className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
               >
@@ -203,6 +383,7 @@ export default function Header() {
                 </span>
               </Button>
             )}
+
             {user && likedProperties.length > 0 && (
               <Button
                 onClick={() => navigate("/favorites")}
@@ -312,18 +493,89 @@ export default function Header() {
             )}
           </div>
         </div>
+
+        {/* Mobile Search Input */}
         {isSearchOpen && (
-          <div className="lg:hidden px-4 pb-3">
+          <div className="lg:hidden px-4 pb-3" ref={searchResultsRef}>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
+                ref={mobileSearchInputRef}
                 type="text"
-                placeholder={t("search_placeholder")}
-                className="pl-10 pr-4 py-2 w-full bg-gray-50 border-gray-300 rounded-full"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onFocus={() => setSearchOpen(true)}
+                placeholder={t("common.search_placeholder")}
+                className="pl-10 pr-10 py-2 w-full bg-gray-50 border-gray-300 rounded-full"
               />
+              {searchQuery && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6"
+                  onClick={clearSearch}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              )}
             </div>
+            {searchOpen && (searchQuery || isLoading) && (
+              <div className="absolute left-4 right-4 bg-white shadow-xl border rounded-lg p-4 max-h-[400px] overflow-y-auto z-50 mt-1">
+                {isLoading ? (
+                  <div className="flex flex-col items-center justify-center py-4">
+                    <Spinner className="size-6" />
+                    <p className="mt-2 text-gray-500 text-sm">
+                      {t("common.searching")}
+                    </p>
+                  </div>
+                ) : searchResults.length > 0 ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm font-medium text-gray-700">
+                        {t("common.search_results")} ({searchResults.length})
+                      </p>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          navigate(
+                            `/filter-nav?search=${encodeURIComponent(
+                              searchQuery
+                            )}`
+                          );
+                          clearSearch();
+                        }}
+                        className="text-blue-600 hover:text-blue-700 text-xs"
+                      >
+                        {t("common.see_all")}
+                      </Button>
+                    </div>
+                    {searchResults.map((property) => (
+                      <div
+                        key={property._id}
+                        onClick={() => handlePropertyClick(property._id)}
+                        className="cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
+                      >
+                        <HeaderSearchPropertyCard property={property} />
+                      </div>
+                    ))}
+                  </div>
+                ) : searchQuery ? (
+                  <div className="flex flex-col items-center justify-center py-6">
+                    <Search className="h-10 w-10 text-gray-300 mb-2" />
+                    <p className="text-gray-500 font-medium text-sm">
+                      {t("common.no_results")}
+                    </p>
+                    <p className="text-gray-400 text-xs mt-1">
+                      {t("common.try_different_keywords")}
+                    </p>
+                  </div>
+                ) : null}
+              </div>
+            )}
           </div>
         )}
+
         <nav className="hidden lg:flex items-center justify-between py-3 px-6 border-t border-gray-100">
           <div className="flex items-center gap-1 flex-1">
             {navItems.map((item) => (

@@ -114,10 +114,6 @@
       "parking": "Avtoturargoh",
       "elevator": "Lift"
     },
-    "property_category": {
-      "APARTMENT_SALE": "Sotuvda",
-      "APARTMENT_RENT": "Ijaraga"
-    },
     "construction_status": {
       "ready": "Tayyor",
       "under_construction": "Qurilmoqda",
@@ -688,7 +684,9 @@
     }
   },
   "categories": {
-    "APARTMENT": "Kvartiralar"
+    "APARTMENT": "Kvartiralar",
+    "APARTMENT_SALE": "Sotuvda",
+    "APARTMENT_RENT": "Ijaraga"
   },
   "physical_seller_register": {
     "self_employed": "O'zini o'zi band qilgan",

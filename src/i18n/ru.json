@@ -114,10 +114,6 @@
       "parking": "Парковка",
       "elevator": "Лифт"
     },
-    "property_category": {
-      "APARTMENT_SALE": "Apartment for sale",
-      "APARTMENT_RENT": "Apartment for rent"
-    },
     "construction_status": {
       "ready": "Готовый",
       "under_construction": "В процессе строительства",
@@ -479,7 +475,9 @@
     }
   },
   "categories": {
-    "APARTMENT": "Квартиры"
+    "APARTMENT": "Квартиры",
+    "APARTMENT_SALE": "Apartment for sale",
+    "APARTMENT_RENT": "Apartment for rent"
   },
   "seller_dashboard_page": {
     "title": "Запросы"

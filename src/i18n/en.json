@@ -114,10 +114,6 @@
       "parking": "Parking",
       "elevator": "Elevator"
     },
-    "property_category": {
-      "APARTMENT_SALE": "Apartment for sale",
-      "APARTMENT_RENT": "Apartment for rent"
-    },
     "construction_status": {
       "ready": "Ready",
       "under_construction": "Under Construction",
@@ -479,7 +475,9 @@
     }
   },
   "categories": {
-    "APARTMENT": "Apartments"
+    "APARTMENT": "Apartments",
+    "APARTMENT_SALE": "Apartment for sale",
+    "APARTMENT_RENT": "Apartment for rent"
   },
   "seller_dashboard_page": {
     "title": "Dashboard"

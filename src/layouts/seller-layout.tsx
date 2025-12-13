@@ -9,13 +9,16 @@ import { useSellerStore } from "@/stores/seller.store";
 import { useUserStore } from "@/stores/user.store";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState, type ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SellerLayout({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user } = useUserStore();
   useSystem();
+  const navigate = useNavigate();
 
-  const { seller, setSeller, logout } = useSellerStore();
+  const { seller, setSeller, logout, loading, handleLoading } =
+    useSellerStore();
   const queryClient = useQueryClient();
   const messagesStatusUnread = queryClient.getQueryData([
     "messages/status",
@@ -25,17 +28,28 @@ export default function SellerLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
     (async () => {
       try {
-        if (seller) return;
+        if (seller) {
+          if (seller.status !== "approved") {
+            navigate("/seller/profile");
+          }
+          return;
+        }
+        handleLoading(true);
         const data = await sellerService.findSeller();
         setSeller(data);
+        if (data.status !== "approved") {
+          navigate("/seller/profile");
+        }
       } catch (error) {
         console.error(error);
         logout();
+      } finally {
+        handleLoading(false);
       }
     })();
   }, [setSeller, logout]);
 
-  if (user === undefined) return <Loading />;
+  if (user === undefined && loading) return <Loading />;
 
   return (
     <RoleGuard roles={["legal", "physical"]}>

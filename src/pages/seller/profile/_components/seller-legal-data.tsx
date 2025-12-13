@@ -1,5 +1,4 @@
 import { useSellerStore } from "@/stores/seller.store";
-import { serverUrl } from "@/utils/shared";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -29,7 +28,9 @@ export default function SellerLegalData() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center space-y-3">
           <XCircle className="w-12 h-12 mx-auto text-muted-foreground" />
-          <p className="text-muted-foreground">{t("pages.seller_data_page.no_seller_data")}</p>
+          <p className="text-muted-foreground">
+            {t("pages.seller_data_page.no_seller_data")}
+          </p>
         </div>
       </div>
     );
@@ -72,7 +73,9 @@ export default function SellerLegalData() {
                 <Building2 className="w-5 h-5 text-accent-foreground" />
               </div>
               <div>
-                <CardTitle>{t("pages.seller_data_page.general_details")}</CardTitle>
+                <CardTitle>
+                  {t("pages.seller_data_page.general_details")}
+                </CardTitle>
                 <CardDescription>
                   {t("pages.seller_data_page.business_information_status")}
                 </CardDescription>
@@ -82,17 +85,23 @@ export default function SellerLegalData() {
           <CardContent>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.business_type")}</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("pages.seller_data_page.business_type")}
+                </p>
                 <p className="font-medium capitalize">
                   {seller?.business_type.replace("_", " ")}
                 </p>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.passport")}</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("pages.seller_data_page.passport")}
+                </p>
                 <p className="font-medium font-mono">{seller?.passport}</p>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.status")}</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("pages.seller_data_page.status")}
+                </p>
                 <div>{getStatusBadge(seller?.status)}</div>
               </div>
               <div className="space-y-1">
@@ -103,18 +112,24 @@ export default function SellerLegalData() {
                   {seller?.status ? (
                     <>
                       <CheckCircle2 className="w-4 h-4 text-green-500" />
-                      <span className="font-medium">{t("pages.seller_data_page.registered")}</span>
+                      <span className="font-medium">
+                        {t("pages.seller_data_page.registered")}
+                      </span>
                     </>
                   ) : (
                     <>
                       <XCircle className="w-4 h-4 text-destructive" />
-                      <span className="font-medium">{t("pages.seller_data_page.not_registered")}</span>
+                      <span className="font-medium">
+                        {t("pages.seller_data_page.not_registered")}
+                      </span>
                     </>
                   )}
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.created_at")}</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("pages.seller_data_page.created_at")}
+                </p>
                 <p className="font-medium">
                   {seller?.createdAt &&
                     new Date(seller?.createdAt).toLocaleDateString("en-US", {
@@ -125,7 +140,9 @@ export default function SellerLegalData() {
                 </p>
               </div>
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.updated_at")}</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("pages.seller_data_page.updated_at")}
+                </p>
                 <p className="font-medium">
                   {seller?.updatedAt &&
                     new Date(seller?.updatedAt).toLocaleDateString("en-US", {
@@ -148,15 +165,21 @@ export default function SellerLegalData() {
                   <CreditCard className="w-5 h-5 text-accent-foreground" />
                 </div>
                 <div>
-                  <CardTitle>{t("pages.seller_data_page.bank_account")}</CardTitle>
-                  <CardDescription>{t("pages.seller_data_page.your_banking_information")}</CardDescription>
+                  <CardTitle>
+                    {t("pages.seller_data_page.bank_account")}
+                  </CardTitle>
+                  <CardDescription>
+                    {t("pages.seller_data_page.your_banking_information")}
+                  </CardDescription>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.bank_name")}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("pages.seller_data_page.bank_name")}
+                  </p>
                   <p className="font-medium">
                     {seller?.bank_account.bank_name}
                   </p>
@@ -178,13 +201,17 @@ export default function SellerLegalData() {
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.mfo")}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("pages.seller_data_page.mfo")}
+                  </p>
                   <p className="font-medium font-mono">
                     {seller?.bank_account.mfo}
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.swift_code")}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("pages.seller_data_page.swift_code")}
+                  </p>
                   <p className="font-medium font-mono">
                     {seller?.bank_account.swift_code}
                   </p>
@@ -203,9 +230,13 @@ export default function SellerLegalData() {
                   <User className="w-5 h-5 text-accent-foreground" />
                 </div>
                 <div>
-                  <CardTitle>{t("pages.seller_data_page.self_employed_details")}</CardTitle>
+                  <CardTitle>
+                    {t("pages.seller_data_page.self_employed_details")}
+                  </CardTitle>
                   <CardDescription>
-                    {t("pages.seller_data_page.personal_and_business_information")}
+                    {t(
+                      "pages.seller_data_page.personal_and_business_information"
+                    )}
                   </CardDescription>
                 </div>
               </div>
@@ -213,7 +244,9 @@ export default function SellerLegalData() {
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.full_name")}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("pages.seller_data_page.full_name")}
+                  </p>
                   <p className="font-medium">
                     {seller?.self_employed.first_name}{" "}
                     {seller?.self_employed.middle_name}{" "}
@@ -221,7 +254,9 @@ export default function SellerLegalData() {
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.birth_date")}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("pages.seller_data_page.birth_date")}
+                  </p>
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-muted-foreground" />
                     <p className="font-medium">
@@ -236,7 +271,9 @@ export default function SellerLegalData() {
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.jshshir")}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("pages.seller_data_page.jshshir")}
+                  </p>
                   <p className="font-medium font-mono">
                     {seller?.self_employed.jshshir}
                   </p>
@@ -258,17 +295,23 @@ export default function SellerLegalData() {
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.vat_payer")}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("pages.seller_data_page.vat_payer")}
+                  </p>
                   <div className="flex items-center gap-2">
                     {seller?.self_employed.is_vat_payer ? (
                       <>
                         <CheckCircle2 className="w-4 h-4 text-green-500" />
-                        <span className="font-medium">{t("pages.seller_data_page.yes")}</span>
+                        <span className="font-medium">
+                          {t("pages.seller_data_page.yes")}
+                        </span>
                       </>
                     ) : (
                       <>
                         <XCircle className="w-4 h-4 text-muted-foreground" />
-                        <span className="font-medium">{t("pages.seller_data_page.no")}</span>
+                        <span className="font-medium">
+                          {t("pages.seller_data_page.no")}
+                        </span>
                       </>
                     )}
                   </div>
@@ -279,12 +322,14 @@ export default function SellerLegalData() {
               <div className="space-y-3 pt-4 border-t">
                 <div className="flex items-center gap-2">
                   <FileText className="w-4 h-4 text-muted-foreground" />
-                  <p className="text-sm font-medium">{t("pages.seller_data_page.documents")}</p>
+                  <p className="text-sm font-medium">
+                    {t("pages.seller_data_page.documents")}
+                  </p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {seller?.self_employed.passport_file && (
                     <a
-                      href={`${serverUrl}/uploads/files/${seller?.self_employed.passport_file.file_name}`}
+                      href={seller?.self_employed.passport_file}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 p-4 rounded-lg border bg-card hover:bg-accent transition-colors group"
@@ -305,7 +350,7 @@ export default function SellerLegalData() {
                   )}
                   {seller?.self_employed.self_employment_certificate && (
                     <a
-                      href={`${serverUrl}/uploads/files/${seller?.self_employed.self_employment_certificate.file_name}`}
+                      href={seller?.self_employed.self_employment_certificate}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 p-4 rounded-lg border bg-card hover:bg-accent transition-colors group"
@@ -315,7 +360,9 @@ export default function SellerLegalData() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium truncate">
-                          {t("pages.seller_data_page.self_employment_certificate")}
+                          {t(
+                            "pages.seller_data_page.self_employment_certificate"
+                          )}
                         </p>
                         <p className="text-xs text-muted-foreground">
                           {t("pages.seller_data_page.view_document")}
@@ -326,7 +373,7 @@ export default function SellerLegalData() {
                   )}
                   {seller?.self_employed.vat_file && (
                     <a
-                      href={`${serverUrl}/uploads/files/${seller?.self_employed.vat_file.file_name}`}
+                      href={seller?.self_employed.vat_file}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-3 p-4 rounded-lg border bg-card hover:bg-accent transition-colors group"
@@ -335,7 +382,9 @@ export default function SellerLegalData() {
                         <FileText className="w-4 h-4" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{t("pages.seller_data_page.vat_file")}</p>
+                        <p className="text-sm font-medium truncate">
+                          {t("pages.seller_data_page.vat_file")}
+                        </p>
                         <p className="text-xs text-muted-foreground">
                           {t("pages.seller_data_page.view_document")}
                         </p>
@@ -358,9 +407,13 @@ export default function SellerLegalData() {
                   <Building2 className="w-5 h-5 text-accent-foreground" />
                 </div>
                 <div>
-                  <CardTitle>{t("pages.seller_data_page.commissioner_details")}</CardTitle>
+                  <CardTitle>
+                    {t("pages.seller_data_page.commissioner_details")}
+                  </CardTitle>
                   <CardDescription>
-                    {t("pages.seller_data_page.contract_and_company_information")}
+                    {t(
+                      "pages.seller_data_page.contract_and_company_information"
+                    )}
                   </CardDescription>
                 </div>
               </div>
@@ -368,7 +421,9 @@ export default function SellerLegalData() {
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.company")}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("pages.seller_data_page.company")}
+                  </p>
                   <p className="font-medium">{seller?.commissioner.company}</p>
                 </div>
                 <div className="space-y-1">
@@ -396,7 +451,9 @@ export default function SellerLegalData() {
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">{t("pages.seller_data_page.mfo")}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("pages.seller_data_page.mfo")}
+                  </p>
                   <p className="font-medium font-mono">
                     {seller?.commissioner.mfo}
                   </p>
@@ -442,10 +499,12 @@ export default function SellerLegalData() {
                 <div className="space-y-3 pt-4 border-t">
                   <div className="flex items-center gap-2">
                     <FileText className="w-4 h-4 text-muted-foreground" />
-                    <p className="text-sm font-medium">{t("pages.seller_data_page.contract_document")}</p>
+                    <p className="text-sm font-medium">
+                      {t("pages.seller_data_page.contract_document")}
+                    </p>
                   </div>
                   <a
-                    href={`${serverUrl}/uploads/files/${seller?.commissioner.contract_file.file_name}`}
+                    href={seller?.commissioner.contract_file}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 p-4 rounded-lg border bg-card hover:bg-accent transition-colors group max-w-md"
