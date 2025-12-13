@@ -72,25 +72,27 @@ export default function ApartmentSaleCard({
           </Badge>
         </div>
 
-        <div className="flex-1 flex flex-col justify-between gap-3 px-2 pb-2 sm:p-0">
+        <div className="flex-1 flex flex-col justify-between gap-3 px-2 pb-2">
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap gap-2 items-center">
               <p className="text-sm text-gray-600">
-                {t(`enums.property_category.${apartment.category}`)}
+                {t(`categories.${apartment.category}`)}
               </p>
             </div>
 
             <p className="text-xl lg:text-2xl font-bold text-[#FF0000]">
-              {apartment.price} so'm
+              {apartment.price.toLocaleString()} so'm
             </p>
           </div>
-
-          <p className="text-sm lg:text-base text-gray-700 line-clamp-2">
+          <p className="text-sm hidden lg:block md:text-base text-gray-700 font-bold line-clamp-2">
+            {apartment.title}
+          </p>
+          <p className="text-sm hidden lg:block lg:text-base text-gray-700 line-clamp-2">
             {apartment.description}
           </p>
 
           <div className="flex items-center gap-2 text-gray-500">
-            <MapPin className="w-4 h-4" />
+            <MapPin className="w-4 h-4 hidden lg:block" />
             <p className="text-sm">{apartment.address}</p>
           </div>
         </div>

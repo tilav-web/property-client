@@ -2,7 +2,7 @@ import BannerAds from "@/components/common/ads/banner-ads";
 import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
 import ImageAds from "@/components/common/ads/image-ads";
 import ImageAdsSkeleton from "@/components/common/ads/image-ads-skeleton";
-import ApartmentRentCard from "@/components/common/cards/property/cards/categories/apartment-rent-card";
+import ApartmentRentCard from "@/components/common/cards/property/cards/categories/apartment-card";
 import PropertyMiniCardSkeleton from "@/components/common/cards/property/skeletons/property-mini-card-skeleton";
 import type { PropertyType } from "@/interfaces/property/property.interface";
 

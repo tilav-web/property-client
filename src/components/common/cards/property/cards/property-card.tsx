@@ -9,7 +9,6 @@ import {
   Home,
   Heart,
   Bookmark,
-  ChevronRight,
 } from "lucide-react";
 import type { IProperty } from "@/interfaces/property/property.interface";
 import HeartButton from "@/components/common/buttons/heart-button";
