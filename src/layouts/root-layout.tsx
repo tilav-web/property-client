@@ -1,5 +1,6 @@
 import { userService } from "@/services/user.service";
 import { useLikeStore } from "@/stores/like.store";
+import { useSaveStore } from "@/stores/save.store";
 import { useUserStore } from "@/stores/user.store";
 import { handleStorage } from "@/utils/handle-storage";
 import { useEffect } from "react";
@@ -9,6 +10,8 @@ import { Outlet } from "react-router-dom";
 export default function RootLayout() {
   const { setUser, user, logout } = useUserStore();
   const { fetchLikedProperties, likedProperties } = useLikeStore();
+  const { savedProperties, fetchSavedProperties } = useSaveStore();
+
   const { i18n } = useTranslation();
 
   useEffect(() => {
@@ -31,7 +34,10 @@ export default function RootLayout() {
     if (user?._id && !likedProperties.length) {
       fetchLikedProperties();
     }
-  }, [user?._id, fetchLikedProperties]);
+    if (user?._id && !savedProperties.length) {
+      fetchSavedProperties();
+    }
+  }, [user?._id, fetchLikedProperties, fetchSavedProperties]);
 
   return <Outlet />;
 }

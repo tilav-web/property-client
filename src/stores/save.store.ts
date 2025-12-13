@@ -45,8 +45,6 @@ export const useSaveStore = create<SaveState>((set) => ({
             savedProperties: [...state.savedProperties, data],
           };
         }
-
-        // fallback (agar action bo‘lmasa)
         return state;
       });
     } catch (error) {

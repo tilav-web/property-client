@@ -4,17 +4,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountDetails from "./_components/account_details";
 import SavedPropertiesTab from "./_components/saved-properties-tab";
 import { useSaveStore } from "@/stores/save.store";
-import { useEffect } from "react";
 
 export default function Profile() {
   const { t } = useTranslation();
-  const { savedProperties, fetchSavedProperties } = useSaveStore();
-
-  useEffect(() => {
-    if (!savedProperties.length) {
-      fetchSavedProperties();
-    }
-  }, [fetchSavedProperties]);
+  const { savedProperties } = useSaveStore();
 
   return (
     <div className="py-4">
