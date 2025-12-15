@@ -28,7 +28,7 @@ export default function Property() {
     return (
       <>
         <ApartmentSale apartment={property} />
-        <Messages property={id} />
+        <Messages propertyId={id} />
       </>
     );
   }
@@ -37,7 +37,7 @@ export default function Property() {
     return (
       <>
         <ApartmentRent apartment={property} />
-        <Messages property={id} />
+        <Messages propertyId={id} />
       </>
     );
   }

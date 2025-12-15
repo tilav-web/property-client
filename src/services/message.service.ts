@@ -22,10 +22,12 @@ class MessageService {
     }
   }
 
-  async findMessageByProperty(id: string) {
+  async findMessageByProperty(id: string, page = 1, limit = 15) {
     try {
       const res = await apiInstance.get(
-        API_ENDPOINTS.MESSAGE.findMessageByProperty(id)
+        `${API_ENDPOINTS.MESSAGE.findMessageByProperty(
+          id,
+        )}?page=${page}&limit=${limit}`,
       );
       return res.data;
     } catch (error) {
