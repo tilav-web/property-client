@@ -228,7 +228,7 @@
     "hero": {
       "title": "Dream homes in the heart of Uzbekistan",
       "search": {
-        "search_placeholder": "City or district",
+        "search_placeholder": "Type something...",
         "dropdown_menu": {
           "first": "Property type",
           "secound": "Number of bedrooms and bathrooms"

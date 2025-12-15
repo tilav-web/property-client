@@ -24,6 +24,7 @@ import SellerCreateAdvertise from "./pages/seller/advertise/seller-create-advert
 import Category from "./pages/property/category";
 import YandexMap from "./pages/map/yandex-map";
 import { yandexMapKey } from "./utils/shared";
+import Search from "./pages/property/search";
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/create-property")
 );
@@ -54,6 +55,14 @@ const router = createBrowserRouter([
         element: (
           <SubLayout>
             <FilterNav />
+          </SubLayout>
+        ),
+      },
+      {
+        path: "/search",
+        element: (
+          <SubLayout>
+            <Search />
           </SubLayout>
         ),
       },

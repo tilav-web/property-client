@@ -14,6 +14,8 @@ import registerHouseImage from "@/assets/images/register-house-image.jpg";
 import miniCardImage from "@/assets/images/mini-card-image.jpg";
 import courtSvg from "@/assets/icons/court.svg";
 import type { AdvertiseType } from "@/interfaces/advertise/advertise.interface";
+import heroSectionCategoryImage from "@/assets/images/hero-section-category.jpg";
+import heroSectionSearchImage from "@/assets/images/hero-section-search.jpg";
 
 export {
   mainImage,
@@ -31,6 +33,8 @@ export {
   registerHouseImage,
   heroImage,
   defaultImageAvatar,
+  heroSectionCategoryImage,
+  heroSectionSearchImage,
 };
 
 export const API_ENDPOINTS = {

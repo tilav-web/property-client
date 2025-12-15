@@ -7,6 +7,8 @@ import type { CategoryFilterType } from "@/interfaces/types/category-filter.type
 import FilterNavLayoutBlock from "./_components/filter-nav-layout-block"; // FilterNavLayoutBlock ni import qildik
 import type { PropertyType } from "@/interfaces/property/property.interface"; // IProperty o'rniga PropertyType import qilindi
 import LoadMoreButton from "@/components/common/buttons/load-more.button";
+import HeroSection from "@/components/common/hero-section";
+import { heroSectionCategoryImage } from "@/utils/shared";
 
 interface PropertyPage {
   properties: PropertyType[]; // IProperty o'rniga PropertyType ishlatildi
@@ -55,6 +57,7 @@ export default function Category() {
   return (
     <div>
       <CategoryFilter />
+      <HeroSection title="" img={heroSectionCategoryImage} />
       <div className="w-full flex flex-col items-center gap-y-8 px-4 py-8">
         {noCategorySelected ? (
           <div className="text-center py-20">

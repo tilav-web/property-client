@@ -1,14 +1,27 @@
 import { Search, X } from "lucide-react";
-
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Search input komponentini alohida ajratib olish
-const SearchInput = ({ placeholder }: { placeholder: string }) => (
+const SearchInput = ({
+  placeholder,
+  value,
+  onChange,
+  onKeyDown,
+}: {
+  placeholder: string;
+  value: string;
+  onChange: (value: string) => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+}) => (
   <div className="relative border-r-2 border-black h-full flex-1">
     <Search className="absolute left-2 top-0 bottom-0 my-auto" />
     <Input
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      onKeyDown={onKeyDown}
       className="pl-10 border-0 focus-visible:ring-0 h-full"
       placeholder={placeholder}
     />
@@ -27,6 +40,8 @@ export default function HeroSection({
   const { t } = useTranslation();
   const [isMobile, setIsMobile] = useState(false);
   const [mobileSearchActive, setMobileSearchActive] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   // Responsive check - useCallback bilan optimallashtirish
   const checkScreenSize = useCallback(() => {
@@ -48,6 +63,30 @@ export default function HeroSection({
     setMobileSearchActive((prev) => !prev);
   }, []);
 
+  // Search funksiyasi
+  const handleSearch = useCallback(() => {
+    if (!searchQuery.trim()) return;
+
+    // Search sahifasiga o'tish
+    navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+
+    // Mobile holatda search panelni yopish
+    if (isMobile && mobileSearchActive) {
+      setMobileSearchActive(false);
+    }
+  }, [searchQuery, navigate, isMobile, mobileSearchActive]);
+
+  // Enter bosganda search
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleSearch();
+      }
+    },
+    [handleSearch]
+  );
+
   // Memoized translations
   const translations = useMemo(
     () => ({
@@ -60,9 +99,17 @@ export default function HeroSection({
   // Desktop search panel
   const desktopSearchPanel = (
     <div className="absolute border bg-white flex items-center h-10 rounded-xl overflow-hidden left-0 right-0 bottom-4 mx-auto max-w-[950px]">
-      <SearchInput placeholder={translations.searchPlaceholder} />
+      <SearchInput
+        placeholder={translations.searchPlaceholder}
+        value={searchQuery}
+        onChange={setSearchQuery}
+        onKeyDown={handleKeyDown}
+      />
 
-      <button className="h-full flex items-center gap-2 px-4 bg-yellow-300 capitalize hover:bg-yellow-400 transition-colors">
+      <button
+        onClick={handleSearch}
+        className="h-full flex items-center gap-2 px-4 bg-yellow-300 capitalize hover:bg-yellow-400 transition-colors"
+      >
         <Search size={16} />
         {translations.searchButton}
       </button>
@@ -76,11 +123,17 @@ export default function HeroSection({
         <div className="relative">
           <Search className="absolute left-3 top-3 text-gray-400" size={20} />
           <Input
-            className="pl-10 py-6 border border-gray-300 rounded-lg"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="pl-10 py-6 border border-gray-300 rounded-lg w-full"
             placeholder={translations.searchPlaceholder}
           />
         </div>
-        <button className="w-full py-3 bg-yellow-400 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-yellow-500 transition-colors">
+        <button
+          onClick={handleSearch}
+          className="w-full py-3 bg-yellow-400 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-yellow-500 transition-colors"
+        >
           <Search size={18} />
           {translations.searchButton}
         </button>
@@ -121,7 +174,7 @@ export default function HeroSection({
   }
 
   return (
-    <div className="w-full hidden lg:block relative mb-3">
+    <div className="w-full hidden lg:block relative mb-3 h-[410px]">
       <div className="absolute w-full h-full flex items-center justify-between">
         <div className="flex-1 flex items-center justify-center pb-24 pr-12">
           <h1

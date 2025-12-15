@@ -233,7 +233,7 @@
     "hero": {
       "title": "O‘zbekistonning yuragida orzu xonadonlari",
       "search": {
-        "search_placeholder": "Shahar yoki tuman",
+        "search_placeholder": "Nimadir yozing...",
         "dropdown_menu": {
           "first": "Ko‘chmas mulk turi",
           "secound": "Yotoq xonalar soni va Vannaxonalar soni"

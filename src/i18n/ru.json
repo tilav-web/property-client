@@ -218,7 +218,7 @@
     "hero": {
       "title": "Дома мечты в сердце Узбекистана",
       "search": {
-        "search_placeholder": "Город или район",
+        "search_placeholder": "Введите что-нибудь…",
         "dropdown_menu": {
           "first": "Тип недвижимости",
           "secound": "Количество спален и ванных комнат"
