@@ -22,6 +22,18 @@ class MessageService {
     }
   }
 
+  async findMessageByProperty(id: string) {
+    try {
+      const res = await apiInstance.get(
+        API_ENDPOINTS.MESSAGE.findMessageByProperty(id)
+      );
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
   async findMessageUnread() {
     try {
       const res = await apiInstance.get(API_ENDPOINTS.MESSAGE.status.readCount);

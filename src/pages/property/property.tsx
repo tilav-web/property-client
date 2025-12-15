@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 import ApartmentSale from "./_components/apartment-sale";
 import ApartmentRent from "./_components/apartment-rent";
+import Messages from "@/components/common/messages";
 
 export default function Property() {
   const { id } = useParams();
@@ -24,11 +25,21 @@ export default function Property() {
   if (isError || !property) return <div>Property not found</div>;
 
   if (property.category === "APARTMENT_SALE") {
-    return <ApartmentSale apartment={property} />;
+    return (
+      <>
+        <ApartmentSale apartment={property} />
+        <Messages property={id} />
+      </>
+    );
   }
 
   if (property.category === "APARTMENT_RENT") {
-    return <ApartmentRent apartment={property} />;
+    return (
+      <>
+        <ApartmentRent apartment={property} />
+        <Messages property={id} />
+      </>
+    );
   }
 
   return <div>Category not supported</div>;

@@ -40,7 +40,6 @@ export default function FilterNav() {
           limit: 6,
           is_new: is_new === "1",
         });
-        console.log(data);
         return data as PropertyPage;
       },
       initialPageParam: 1,

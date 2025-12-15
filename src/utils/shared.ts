@@ -73,6 +73,7 @@ export const API_ENDPOINTS = {
   },
   MESSAGE: {
     base: "/messages",
+    findMessageByProperty: (id: string) => `/messages/property/${id}`,
     status: {
       base: "/messages/status",
       deleteOne: "/messages/status",
