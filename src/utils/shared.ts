@@ -16,6 +16,7 @@ import courtSvg from "@/assets/icons/court.svg";
 import type { AdvertiseType } from "@/interfaces/advertise/advertise.interface";
 import heroSectionCategoryImage from "@/assets/images/hero-section-category.jpg";
 import heroSectionSearchImage from "@/assets/images/hero-section-search.jpg";
+import logo from "@/assets/images/amaar-propert-logo.png";
 
 export {
   mainImage,
@@ -35,6 +36,7 @@ export {
   defaultImageAvatar,
   heroSectionCategoryImage,
   heroSectionSearchImage,
+  logo,
 };
 
 export const API_ENDPOINTS = {
