@@ -60,11 +60,11 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(
-    null
-  );
+  const [isTyping, setIsTyping] = useState(false);
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchResultsRef = useRef<HTMLDivElement>(null);
+  const mobileSearchInputRef = useRef<HTMLInputElement>(null);
 
   const logoutSystem = async () => {
     try {
@@ -97,7 +97,6 @@ export default function Header() {
       href: "/filter-nav",
     },
     { icon: Handshake, label: t("common.ai_agent"), href: "/ai-agent" },
-    // { icon: Calculator, label: t("common.mortgage"), href: "/mortgage" },
     {
       icon: Star,
       label: t("common.new_projects"),
@@ -123,7 +122,7 @@ export default function Header() {
     }
   };
 
-  // Search properties function
+  // Search properties function with useCallback
   const searchProperties = useCallback(async (query: string) => {
     if (!query.trim()) {
       setSearchResults([]);
@@ -142,46 +141,60 @@ export default function Header() {
     } catch (error) {
       console.error("Search error:", error);
       setSearchResults([]);
+      toast.error(t("common.error"), {
+        description: t("common.search_error"),
+      });
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [t]);
 
   // Handle search input change with debounce
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
+    setIsTyping(true);
 
-    if (searchTimeout) {
-      clearTimeout(searchTimeout);
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
     }
 
     if (value.trim()) {
-      const timeout = setTimeout(() => {
+      searchTimeoutRef.current = setTimeout(() => {
+        setIsTyping(false);
         searchProperties(value);
       }, 300);
-      setSearchTimeout(timeout);
     } else {
       setSearchResults([]);
+      setIsTyping(false);
+      setIsLoading(false);
     }
-  };
+  }, [searchProperties]);
 
   // Clear search
-  const clearSearch = () => {
+  const clearSearch = useCallback(() => {
     setSearchQuery("");
     setSearchResults([]);
     setSearchOpen(false);
     setIsSearchOpen(false);
-    if (searchTimeout) {
-      clearTimeout(searchTimeout);
+    setIsTyping(false);
+    setIsLoading(false);
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
     }
-  };
+  }, []);
 
-  // Handle property click
-  const handlePropertyClick = (propertyId: string) => {
+  // Handle property click - navigate to property details
+  const handlePropertyClick = useCallback((propertyId: string) => {
     navigate(`/property/${propertyId}`);
     clearSearch();
-  };
+  }, [navigate, clearSearch]);
+
+  // Handle "See All" button click
+  const handleSeeAll = useCallback(() => {
+    navigate(`/filter-nav?search=${encodeURIComponent(searchQuery)}`);
+    clearSearch();
+  }, [navigate, searchQuery, clearSearch]);
 
   // Handle outside click
   useEffect(() => {
@@ -190,7 +203,9 @@ export default function Header() {
         searchResultsRef.current &&
         !searchResultsRef.current.contains(event.target as Node) &&
         searchInputRef.current &&
-        !searchInputRef.current.contains(event.target as Node)
+        !searchInputRef.current.contains(event.target as Node) &&
+        mobileSearchInputRef.current &&
+        !mobileSearchInputRef.current.contains(event.target as Node)
       ) {
         setSearchOpen(false);
       }
@@ -202,14 +217,78 @@ export default function Header() {
     };
   }, []);
 
-  // Mobile search uchun
-  const mobileSearchInputRef = useRef<HTMLInputElement>(null);
-
+  // Auto-focus mobile search input
   useEffect(() => {
     if (isSearchOpen && mobileSearchInputRef.current) {
       mobileSearchInputRef.current.focus();
     }
   }, [isSearchOpen]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Search Results Component
+  const SearchResults = ({ isMobile = false }: { isMobile?: boolean }) => (
+    <div
+      className={`bg-white shadow-xl border rounded-lg p-4 overflow-y-auto z-50 ${
+        isMobile
+          ? "absolute left-4 right-4 max-h-[400px] mt-1"
+          : "absolute top-12 left-0 right-0 max-h-[600px]"
+      }`}
+    >
+      {isTyping || isLoading ? (
+        <div className="flex flex-col items-center justify-center py-8">
+          <Spinner className={isMobile ? "size-6" : "size-8"} />
+          <p className={`mt-2 text-gray-500 ${isMobile ? "text-sm" : ""}`}>
+            {isTyping ? t("common.typing") : t("common.searching")}
+          </p>
+        </div>
+      ) : searchResults.length > 0 ? (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm font-medium text-gray-700">
+              {t("common.search_results")} ({searchResults.length})
+            </p>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleSeeAll}
+              className={`text-blue-600 hover:text-blue-700 ${
+                isMobile ? "text-xs" : "text-sm"
+              }`}
+            >
+              {t("common.see_all")}
+            </Button>
+          </div>
+          {searchResults.map((property) => (
+            <div
+              key={property._id}
+              onClick={() => handlePropertyClick(property._id)}
+              className="cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
+            >
+              <HeaderSearchPropertyCard property={property} />
+            </div>
+          ))}
+        </div>
+      ) : searchQuery ? (
+        <div className={`flex flex-col items-center justify-center ${isMobile ? "py-6" : "py-8"}`}>
+          <Search className={`text-gray-300 mb-${isMobile ? "2" : "3"} ${isMobile ? "h-10 w-10" : "h-12 w-12"}`} />
+          <p className={`text-gray-500 font-medium ${isMobile ? "text-sm" : ""}`}>
+            {t("common.no_results")}
+          </p>
+          <p className={`text-gray-400 mt-1 ${isMobile ? "text-xs" : "text-sm"}`}>
+            {t("common.try_different_keywords")}
+          </p>
+        </div>
+      ) : null}
+    </div>
+  );
 
   return (
     <header className="w-full bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
@@ -224,7 +303,6 @@ export default function Header() {
               </SheetTrigger>
               <SheetContent side="left" className="w-80">
                 <div className="flex flex-col h-full">
-                  {/* Logo */}
                   <Link
                     to="/"
                     className="flex items-center gap-2 py-4 border-b"
@@ -237,7 +315,6 @@ export default function Header() {
                     </span>
                   </Link>
 
-                  {/* Navigation Links */}
                   <nav className="flex-1 py-6">
                     <div className="space-y-2">
                       {navItems.map((item) => (
@@ -290,7 +367,12 @@ export default function Header() {
                 placeholder={t("common.search_placeholder")}
                 className="pl-10 pr-10 py-2 w-full bg-gray-50 border-gray-300 rounded-full focus:bg-white focus:border-blue-500 transition-colors"
               />
-              {searchQuery && (
+              {(isTyping || isLoading) && (
+                <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
+                  <Spinner className="size-4" />
+                </div>
+              )}
+              {searchQuery && !(isTyping || isLoading) && (
                 <Button
                   variant="ghost"
                   size="icon"
@@ -301,64 +383,12 @@ export default function Header() {
                 </Button>
               )}
             </div>
-            {searchOpen && (searchQuery || isLoading) && (
-              <div className="absolute top-12 left-0 right-0 bg-white shadow-xl border rounded-lg p-4 max-h-[600px] overflow-y-auto z-50">
-                {isLoading ? (
-                  <div className="flex flex-col items-center justify-center py-8">
-                    <Spinner className="size-8" />
-                    <p className="mt-2 text-gray-500">
-                      {t("common.searching")}
-                    </p>
-                  </div>
-                ) : searchResults.length > 0 ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-sm font-medium text-gray-700">
-                        {t("common.search_results")} ({searchResults.length})
-                      </p>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          navigate(
-                            `/filter-nav?search=${encodeURIComponent(
-                              searchQuery
-                            )}`
-                          );
-                          clearSearch();
-                        }}
-                        className="text-blue-600 hover:text-blue-700 text-sm"
-                      >
-                        {t("common.see_all")}
-                      </Button>
-                    </div>
-                    {searchResults.map((property) => (
-                      <div
-                        key={property._id}
-                        onClick={() => handlePropertyClick(property._id)}
-                        className="cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
-                      >
-                        <HeaderSearchPropertyCard property={property} />
-                      </div>
-                    ))}
-                  </div>
-                ) : searchQuery ? (
-                  <div className="flex flex-col items-center justify-center py-8">
-                    <Search className="h-12 w-12 text-gray-300 mb-3" />
-                    <p className="text-gray-500 font-medium">
-                      {t("common.no_results")}
-                    </p>
-                    <p className="text-gray-400 text-sm mt-1">
-                      {t("common.try_different_keywords")}
-                    </p>
-                  </div>
-                ) : null}
-              </div>
+            {searchOpen && (searchQuery || isLoading || isTyping) && (
+              <SearchResults isMobile={false} />
             )}
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Mobile Search Toggle Button */}
             <Button
               variant="ghost"
               size="icon"
@@ -508,7 +538,12 @@ export default function Header() {
                 placeholder={t("common.search_placeholder")}
                 className="pl-10 pr-10 py-2 w-full bg-gray-50 border-gray-300 rounded-full"
               />
-              {searchQuery && (
+              {(isTyping || isLoading) && (
+                <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
+                  <Spinner className="size-4" />
+                </div>
+              )}
+              {searchQuery && !(isTyping || isLoading) && (
                 <Button
                   variant="ghost"
                   size="icon"
@@ -520,58 +555,7 @@ export default function Header() {
               )}
             </div>
             {searchOpen && (searchQuery || isLoading) && (
-              <div className="absolute left-4 right-4 bg-white shadow-xl border rounded-lg p-4 max-h-[400px] overflow-y-auto z-50 mt-1">
-                {isLoading ? (
-                  <div className="flex flex-col items-center justify-center py-4">
-                    <Spinner className="size-6" />
-                    <p className="mt-2 text-gray-500 text-sm">
-                      {t("common.searching")}
-                    </p>
-                  </div>
-                ) : searchResults.length > 0 ? (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-sm font-medium text-gray-700">
-                        {t("common.search_results")} ({searchResults.length})
-                      </p>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          navigate(
-                            `/filter-nav?search=${encodeURIComponent(
-                              searchQuery
-                            )}`
-                          );
-                          clearSearch();
-                        }}
-                        className="text-blue-600 hover:text-blue-700 text-xs"
-                      >
-                        {t("common.see_all")}
-                      </Button>
-                    </div>
-                    {searchResults.map((property) => (
-                      <div
-                        key={property._id}
-                        onClick={() => handlePropertyClick(property._id)}
-                        className="cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
-                      >
-                        <HeaderSearchPropertyCard property={property} />
-                      </div>
-                    ))}
-                  </div>
-                ) : searchQuery ? (
-                  <div className="flex flex-col items-center justify-center py-6">
-                    <Search className="h-10 w-10 text-gray-300 mb-2" />
-                    <p className="text-gray-500 font-medium text-sm">
-                      {t("common.no_results")}
-                    </p>
-                    <p className="text-gray-400 text-xs mt-1">
-                      {t("common.try_different_keywords")}
-                    </p>
-                  </div>
-                ) : null}
-              </div>
+              <SearchResults isMobile={true} />
             )}
           </div>
         )}
