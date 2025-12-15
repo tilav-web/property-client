@@ -407,7 +407,8 @@
     },
     "category_page": {
       "title": "O'zbekistonning qoq markazidagi orzuingizdagi kvartiralar",
-      "select_category_prompt": "Malumot topilmadi!"
+      "select_category_prompt": "Malumot topilmadi!",
+      "no_more_results": "Barcha malumotlar ko‘rsatildi!"
     },
     "seller_data_page": {
       "no_seller_data": "Sotuvchi ma'lumotlari yo'q",

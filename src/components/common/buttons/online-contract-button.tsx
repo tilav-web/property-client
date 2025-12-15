@@ -8,20 +8,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { serverUrl } from "@/utils/shared";
-import type { IFile } from "@/interfaces/file.interface";
 
-export default function OnlineContractButton({ file }: { file: IFile }) {
+export default function OnlineContractButton({ file }: { file: string }) {
   const { t } = useTranslation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  // PDF fayl URLini yaratish
-  const pdfUrl = `${serverUrl}/uploads/${file?.file_path}`;
-
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = pdfUrl;
-    link.download = file.original_name || "contract.pdf";
+    link.href = file;
+    link.download = file || "contract.pdf";
     link.click();
   };
 
@@ -42,7 +37,7 @@ export default function OnlineContractButton({ file }: { file: IFile }) {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-4xl h-[90vh] flex flex-col">
           <DialogHeader className="flex flex-row items-center justify-between">
-            <DialogTitle>{file.original_name || "Shartnoma"}</DialogTitle>
+            <DialogTitle>{file || "Shartnoma"}</DialogTitle>
             <div className="flex items-center gap-2">
               {/* Yuklab olish tugmasi */}
               <Button
@@ -60,9 +55,9 @@ export default function OnlineContractButton({ file }: { file: IFile }) {
           {/* PDF Ko'rgazmasi */}
           <div className="flex-1 w-full h-full">
             <iframe
-              src={pdfUrl}
+              src={file}
               className="w-full h-full border rounded-md"
-              title={file.original_name || "Shartnoma"}
+              title={file || "Shartnoma"}
             />
           </div>
         </DialogContent>

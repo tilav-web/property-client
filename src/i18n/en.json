@@ -399,7 +399,9 @@
       "confirm_mortgage": "Confirm mortgage"
     },
     "category_page": {
-      "title": "Dream apartments in the heart of Uzbekistan"
+      "title": "Dream apartments in the heart of Uzbekistan",
+      "no_more_results": "All information is displayed!",
+      "select_category_prompt": "No information found"
     },
     "physical_seller_register": {
       "self_employed": "Self-Employed",

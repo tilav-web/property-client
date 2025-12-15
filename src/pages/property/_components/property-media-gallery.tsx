@@ -15,6 +15,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
+import type { PropertyStatusType } from "@/interfaces/types/property.status.type";
 
 interface MediaItem {
   type: "image" | "video";
@@ -24,15 +25,14 @@ interface MediaItem {
 export default function PropertyMediaGallery({
   photos = [],
   videos = [],
-  isVerified = false,
+  status = "PENDING",
   isPremium = false,
 }: {
   photos?: string[];
   videos?: string[];
-  isVerified?: boolean;
+  status?: PropertyStatusType;
   isPremium?: boolean;
 }) {
-
   const allMedia: MediaItem[] = [
     ...videos.map((v) => ({ type: "video" as const, src: v })),
     ...photos.map((p) => ({ type: "image" as const, src: p })),
@@ -91,7 +91,7 @@ export default function PropertyMediaGallery({
 
                   {/* Premium Badges - Glassmorphism */}
                   <div className="absolute top-6 left-6 flex flex-col gap-3">
-                    {isVerified && (
+                    {status && (
                       <Badge className="bg-emerald-500/20 backdrop-blur-lg border border-emerald-400/30 text-emerald-300 shadow-xl">
                         <ShieldCheck className="w-4 h-4 mr-1.5" />
                         Tasdiqlangan
