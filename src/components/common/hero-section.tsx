@@ -190,6 +190,73 @@ export default function HeroSection({
           </div>
         </PopoverContent>
       </Popover>
+      <Popover>
+        <PopoverTrigger asChild className="border-l border-0">
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-[280px] justify-between border-l-2 border-black rounded-none h-full focus:ring-0"
+          >
+            {""}
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="flex flex-col gap-2 w-full">
+          <div>
+            <p className="mb-2">Bedrooms</p>
+            <div className="flex items-center gap-2 flex-wrap">
+              <Button size={"icon"} variant={"outline"}>
+                1
+              </Button>
+              <Button size={"icon"} variant={"outline"}>
+                2
+              </Button>
+              <Button size={"icon"} variant={"outline"}>
+                3
+              </Button>
+              <Button size={"icon"} variant={"outline"}>
+                4
+              </Button>
+              <Button size={"icon"} variant={"outline"}>
+                5
+              </Button>
+              <Button size={"icon"} variant={"outline"}>
+                6
+              </Button>
+              <Button size={"icon"} variant={"outline"}>
+                7+
+              </Button>
+            </div>
+          </div>
+          <div>
+            <p className="mb-2">Bathrooms</p>
+            <div className="flex items-center gap-2 flex-wrap">
+              <Button size={"icon"} variant={"outline"}>
+                1
+              </Button>
+              <Button size={"icon"} variant={"outline"}>
+                2
+              </Button>
+              <Button size={"icon"} variant={"outline"}>
+                3
+              </Button>
+              <Button size={"icon"} variant={"outline"}>
+                4
+              </Button>
+              <Button size={"icon"} variant={"outline"}>
+                5
+              </Button>
+              <Button size={"icon"} variant={"outline"}>
+                6
+              </Button>
+              <Button size={"icon"} variant={"outline"}>
+                7+
+              </Button>
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
       <button
         onClick={handleSearch}
         className="h-full flex items-center gap-2 px-4 bg-yellow-300 capitalize hover:bg-yellow-400 transition-colors"

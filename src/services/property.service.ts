@@ -16,6 +16,8 @@ export interface FindAllParams {
   rating?: number;
   radius?: number;
   sample?: boolean;
+  bedrooms?: number[];
+  bathrooms?: number[];
   filterCategory?: CategoryFilterType;
 }
 
