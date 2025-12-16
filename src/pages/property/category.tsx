@@ -1,7 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import CategoryFilter from "@/components/common/category-filter";
 import { propertyService } from "@/services/property.service";
 import type { CategoryFilterType } from "@/interfaces/types/category-filter.type";
 import FilterNavLayoutBlock from "./_components/filter-nav-layout-block"; // FilterNavLayoutBlock ni import qildik
@@ -55,8 +54,7 @@ export default function Category() {
   const allProperties = data?.pages.flatMap((page) => page.properties) ?? [];
 
   return (
-    <div>
-      <CategoryFilter />
+    <div className="py-12">
       <HeroSection title="" img={heroSectionCategoryImage} />
       <div className="w-full flex flex-col items-center gap-y-8 px-4 py-8">
         {noCategorySelected ? (
