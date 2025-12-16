@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -91,13 +89,13 @@ export default function MortgageCalculator({ price }: { price: number }) {
                 <Button
                   size="sm"
                   onClick={() => setIsEditingPrice(false)}
-                  variant="outline"
+                  variant="ghost"
                 >
                   Saqlash
                 </Button>
               </div>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex items-start gap-2">
                 <div className="text-right">
                   <p className="text-3xl font-bold">
                     {formatNumber(editablePrice)}
@@ -106,7 +104,7 @@ export default function MortgageCalculator({ price }: { price: number }) {
                 </div>
                 <Button
                   size="sm"
-                  variant="ghost"
+                  variant="outline"
                   onClick={() => setIsEditingPrice(true)}
                 >
                   Tahrirlash

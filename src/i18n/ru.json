@@ -139,7 +139,7 @@
       "eur": "EUR"
     },
     "repair_type": {
-      "NEW": "New"
+      "NEW": "Новый ремонт"
     }
   },
   "pages": {
@@ -357,8 +357,8 @@
     },
     "property_page": {
       "no_coordinates": "Нет координат",
-      "map_load_error": "Xarita yuklanmadi",
-      "map_loading": "Xarita yuklanmoqda...",
+      "map_load_error": "Ошибка загрузки карты",
+      "map_loading": "Карта загружается...",
       "video_unsupported": "Ваш браузер не поддерживает тег video.",
       "verified": "Проверенный",
       "new": "Новый",
@@ -477,8 +477,8 @@
   },
   "categories": {
     "APARTMENT": "Квартиры",
-    "APARTMENT_SALE": "Apartment for sale",
-    "APARTMENT_RENT": "Apartment for rent"
+    "APARTMENT_SALE": "Квартиры на продажу",
+    "APARTMENT_RENT": "Квартиры в аренду"
   },
   "seller_dashboard_page": {
     "title": "Запросы"
