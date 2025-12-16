@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import ApartmentSale from "./_components/apartment-sale";
 import ApartmentRent from "./_components/apartment-rent";
 import Messages from "@/components/common/messages";
+import MortgageCalculator from "@/components/common/mortgage-calculator";
 
 export default function Property() {
   const { id } = useParams();
@@ -28,6 +29,7 @@ export default function Property() {
     return (
       <>
         <ApartmentSale apartment={property} />
+        <MortgageCalculator price={property.price} />
         <Messages propertyId={id} />
       </>
     );
