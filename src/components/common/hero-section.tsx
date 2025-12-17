@@ -1,6 +1,6 @@
-import { Search, X, ChevronsUpDown, Tag } from "lucide-react";
+import { Search, X, ChevronsUpDown, Tag, Filter } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useState, useEffect, useCallback, useMemo, useRef, memo } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Popover,
@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/popover";
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandList,
@@ -23,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { useDebounce } from "use-debounce";
 import type { ITag } from "@/interfaces/tag/tag.interface";
 import { Input } from "../ui/input";
+import { cn } from "@/lib/utils"; // Shadcn utility
 
 const BEDROOMS = ["1", "2", "3", "4", "5", "6", "7+"] as const;
 const BATHROOMS = ["1", "2", "3", "4", "5", "6", "7+"] as const;
@@ -52,9 +52,10 @@ const RoomButton = memo(
     onToggle: () => void;
   }) => (
     <Button
-      size="icon"
+      size="sm"
       variant={isSelected ? "default" : "outline"}
       onClick={onToggle}
+      className="flex-1 min-w-[45px]"
     >
       {room}
     </Button>
@@ -63,9 +64,9 @@ const RoomButton = memo(
 
 const TagBadge = memo(
   ({ tag, onRemove }: { tag: string; onRemove: () => void }) => (
-    <Badge variant="secondary" className="flex items-center gap-1">
+    <Badge variant="secondary" className="flex items-center gap-1 py-1 px-2">
       {tag}
-      <X size={12} className="cursor-pointer" onClick={onRemove} />
+      <X size={14} className="cursor-pointer ml-1" onClick={onRemove} />
     </Badge>
   )
 );
@@ -85,13 +86,27 @@ function useIsMobile(breakpoint = 1024) {
   return isMobile;
 }
 
-// Custom Hook for Search State
-function useSearchState(searchParams: URLSearchParams) {
+export default function HeroSection({ img, title }: HeroSectionProps) {
+  const { t } = useTranslation();
+  const { language } = useLanguageStore();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  // States
+  const isMobile = useIsMobile();
+  const [mobileSearchActive, setMobileSearchActive] = useState(false);
+  const [openCategory, setOpenCategory] = useState(false);
+  const [openTag, setOpenTag] = useState(false);
+  const [openRooms, setOpenRooms] = useState(false);
+  const [tagSearch, setTagSearch] = useState("");
+  const [debouncedTagSearch] = useDebounce(tagSearch, TAG_DEBOUNCE_MS);
+
+  // Filter States
   const [selectedTags, setSelectedTags] = useState<string[]>(
     searchParams.getAll("tag")
   );
   const [selectedCategory, setSelectedCategory] = useState<string>(
-    () => searchParams.get("category") || "all"
+    searchParams.get("category") || "all"
   );
   const [selectedBedrooms, setSelectedBedrooms] = useState<string[]>(
     searchParams.getAll("bdr")
@@ -100,6 +115,7 @@ function useSearchState(searchParams: URLSearchParams) {
     searchParams.getAll("bthr")
   );
 
+  // Sync with URL params
   useEffect(() => {
     setSelectedCategory(searchParams.get("category") || "all");
     setSelectedTags(searchParams.getAll("tag"));
@@ -107,80 +123,18 @@ function useSearchState(searchParams: URLSearchParams) {
     setSelectedBathrooms(searchParams.getAll("bthr"));
   }, [searchParams]);
 
-  return {
-    selectedTags,
-    setSelectedTags,
-    selectedCategory,
-    setSelectedCategory,
-    selectedBedrooms,
-    setSelectedBedrooms,
-    selectedBathrooms,
-    setSelectedBathrooms,
-  };
-}
-
-export default function HeroSection({
-  img,
-  title,
-  className,
-}: HeroSectionProps) {
-  const { t } = useTranslation();
-  const { language } = useLanguageStore();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  // State
-  const isMobile = useIsMobile();
-  const [mobileSearchActive, setMobileSearchActive] = useState(false);
-  const [openCategory, setOpenCategory] = useState(false);
-  const [openTag, setOpenTag] = useState(false);
-  const [openRooms, setOpenRooms] = useState(false);
-  const [tagSearch, setTagSearch] = useState("");
-  const [debouncedTagSearch] = useDebounce(tagSearch, TAG_DEBOUNCE_MS);
-  const [isTyping, setIsTyping] = useState(false);
-
-  const searchState = useSearchState(searchParams);
-  const {
-    selectedTags,
-    setSelectedTags,
-    selectedCategory,
-    setSelectedCategory,
-    selectedBedrooms,
-    setSelectedBedrooms,
-    selectedBathrooms,
-    setSelectedBathrooms,
-  } = searchState;
-
   // Queries
   const { data: categories = [] } = useQuery({
     queryKey: ["category-counts", language],
     queryFn: propertyService.getCategories,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000,
   });
 
-  const {
-    data: fetchedTags = [],
-    isLoading: isTagsLoading,
-    isFetching: isTagsFetching,
-  } = useQuery({
+  const { data: fetchedTags = [], isFetching: isTagsLoading } = useQuery({
     queryKey: ["tags", debouncedTagSearch],
     queryFn: () => tagService.findTags(debouncedTagSearch),
     enabled: debouncedTagSearch.length > 0,
-    staleTime: 2 * 60 * 1000, // 2 minutes
   });
-
-  // Typing effect
-  useEffect(() => {
-    if (tagSearch !== debouncedTagSearch) {
-      setIsTyping(true);
-    } else {
-      setIsTyping(false);
-    }
-  }, [tagSearch, debouncedTagSearch]);
-
-  // Show loading when typing or fetching
-  const isSearchLoading = isTyping || isTagsLoading || isTagsFetching;
 
   // Handlers
   const handleTagSelect = useCallback(
@@ -190,376 +144,338 @@ export default function HeroSection({
       }
       setTagSearch("");
       setOpenTag(false);
-      inputRef.current?.focus();
     },
-    [selectedTags, setSelectedTags]
-  );
-
-  const handleTagRemove = useCallback(
-    (tag: string) => {
-      setSelectedTags((prev) => prev.filter((t) => t !== tag));
-    },
-    [setSelectedTags]
-  );
-
-  const handleBedroomToggle = useCallback(
-    (bedroom: string) => {
-      setSelectedBedrooms((prev) =>
-        prev.includes(bedroom)
-          ? prev.filter((b) => b !== bedroom)
-          : [...prev, bedroom]
-      );
-    },
-    [setSelectedBedrooms]
-  );
-
-  const handleBathroomToggle = useCallback(
-    (bathroom: string) => {
-      setSelectedBathrooms((prev) =>
-        prev.includes(bathroom)
-          ? prev.filter((b) => b !== bathroom)
-          : [...prev, bathroom]
-      );
-    },
-    [setSelectedBathrooms]
-  );
-
-  const handleCategoryChange = useCallback(
-    (value: string) => {
-      setSelectedCategory(value);
-      setOpenCategory(false);
-    },
-    [setSelectedCategory]
+    [selectedTags]
   );
 
   const handleSearch = useCallback(() => {
     const queryParams = new URLSearchParams();
-
     selectedTags.forEach((tag) => queryParams.append("tag", tag));
     selectedBedrooms.forEach((bdr) => queryParams.append("bdr", bdr));
     selectedBathrooms.forEach((bthr) => queryParams.append("bthr", bthr));
-
-    if (selectedCategory && selectedCategory !== "all") {
+    if (selectedCategory && selectedCategory !== "all")
       queryParams.set("category", selectedCategory);
-    }
 
-    if (queryParams.toString()) {
-      navigate(`/search?${queryParams.toString()}`);
-    } else if (tagSearch.trim()) {
-      queryParams.set("q", tagSearch.trim());
-      navigate(`/search?${queryParams.toString()}`);
-    }
-
-    if (isMobile && mobileSearchActive) {
-      setMobileSearchActive(false);
-    }
+    navigate(`/search?${queryParams.toString()}`);
+    setMobileSearchActive(false);
   }, [
     selectedTags,
     selectedBedrooms,
     selectedBathrooms,
     selectedCategory,
-    tagSearch,
     navigate,
-    isMobile,
-    mobileSearchActive,
   ]);
 
-  // Memoized translations
-  const translations = useMemo(
-    () => ({
-      searchPlaceholder: t("pages.hero.search.search_placeholder"),
-      searchButton: t("common.search"),
-      category: t("common.category"),
-      bedrooms: t("common.bedrooms"),
-      bathrooms: t("common.bathrooms"),
-      all: t("common.all"),
-      noTagsFound: t("common.no_tags_found"),
-    }),
-    [t]
-  );
-
-  // Memoized render functions
-  const renderRoomButtons = useCallback(
-    (
-      rooms: readonly string[],
-      selected: string[],
-      handler: (room: string) => void
-    ) =>
-      rooms.map((room) => (
-        <RoomButton
-          key={room}
-          room={room}
-          isSelected={selected.includes(room)}
-          onToggle={() => handler(room)}
-        />
-      )),
-    []
-  );
-
-  // Search Panel Component
-  const searchPanel = useMemo(
-    () => (
-      <div className="flex-1 flex items-center bg-white h-full relative">
-        {/* Tag Icon - faqat ko'rsatish uchun */}
-        <div className="absolute left-2 top-0 bottom-0 my-auto flex items-center pointer-events-none">
-          <Tag className="text-gray-500" />
-        </div>
-
-        {/* Selected Tags */}
-        <div className="flex items-center flex-wrap gap-1 p-2 pl-9 min-h-[40px]">
-          {selectedTags.map((tag) => (
-            <TagBadge
-              key={tag}
-              tag={tag}
-              onRemove={() => handleTagRemove(tag)}
+  // UI Parts
+  const renderRoomFilter = (
+    <div className="flex flex-col gap-4 w-full">
+      <div>
+        <p className="mb-2 text-sm font-semibold">{t("common.bedrooms")}</p>
+        <div className="flex flex-wrap gap-2">
+          {BEDROOMS.map((r) => (
+            <RoomButton
+              key={r}
+              room={r}
+              isSelected={selectedBedrooms.includes(r)}
+              onToggle={() =>
+                setSelectedBedrooms((prev) =>
+                  prev.includes(r) ? prev.filter((x) => x !== r) : [...prev, r]
+                )
+              }
             />
           ))}
         </div>
+      </div>
+      <div>
+        <p className="mb-2 text-sm font-semibold">{t("common.bathrooms")}</p>
+        <div className="flex flex-wrap gap-2">
+          {BATHROOMS.map((r) => (
+            <RoomButton
+              key={r}
+              room={r}
+              isSelected={selectedBathrooms.includes(r)}
+              onToggle={() =>
+                setSelectedBathrooms((prev) =>
+                  prev.includes(r) ? prev.filter((x) => x !== r) : [...prev, r]
+                )
+              }
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 
-        {/* Search Input with Popover */}
-        <div className="flex-1 h-full">
-          <Popover open={openTag} onOpenChange={setOpenTag}>
-            <PopoverTrigger asChild>
-              <Input
-                ref={inputRef}
-                type="text"
-                value={tagSearch}
-                onChange={(e) => setTagSearch(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSearch();
-                    setOpenTag(false);
-                  }
-                  if (e.key === "Escape") {
-                    setOpenTag(false);
-                    inputRef.current?.blur();
-                  }
-                }}
-                placeholder={translations.searchPlaceholder}
-                className="w-full h-full shadow-none border-none focus-visible:ring-0"
-              />
-            </PopoverTrigger>
-            <PopoverContent
-              className="w-[--radix-popover-trigger-width] p-0"
-              onOpenAutoFocus={(e) => e.preventDefault()}
-              align="start"
+  return (
+    <div className="w-full relative overflow-hidden">
+      {/* Background Image Section */}
+      <div
+        className={cn(
+          "relative w-full transition-all duration-300",
+          isMobile ? "h-[300px]" : "h-[450px]"
+        )}
+      >
+        <img src={img} className="w-full h-full object-cover" alt="Hero" />
+        <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center p-6">
+          <h1
+            className={cn(
+              "text-white text-center leading-tight drop-shadow-lg",
+              isMobile ? "text-3xl" : "text-6xl max-w-4xl"
+            )}
+            style={{ fontFamily: "Edu NSW ACT Foundation" }}
+          >
+            {t(title)}
+          </h1>
+
+          {/* Mobile Quick Search Bar (Faqat ko'rinish uchun, bosganda panel ochiladi) */}
+          {isMobile && !mobileSearchActive && (
+            <div
+              onClick={() => setMobileSearchActive(true)}
+              className="mt-6 w-full max-w-sm bg-white/95 backdrop-blur rounded-full p-2 flex items-center shadow-xl border border-white/20"
             >
-              <Command>
-                <CommandList>
-                  {isSearchLoading && (
-                    <div className="p-4 text-sm text-center text-gray-500 flex items-center justify-center gap-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-gray-600"></div>
+              <div className="bg-yellow-400 p-2 rounded-full mr-3 text-black">
+                <Search size={18} />
+              </div>
+              <span className="text-gray-500 text-sm flex-1">
+                {t("pages.hero.search.search_placeholder")}
+              </span>
+              <div className="p-2 border-l ml-2">
+                <Filter size={18} className="text-gray-400" />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* MOBILE SEARCH PANEL (Overlay) */}
+      {isMobile && mobileSearchActive && (
+        <div className="fixed inset-0 z-[100] bg-white flex flex-col animate-in fade-in zoom-in duration-200">
+          <div className="flex items-center justify-between p-4 border-b">
+            <h2 className="font-bold text-lg">{t("common.search")}</h2>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileSearchActive(false)}
+            >
+              <X size={24} />
+            </Button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto p-4 space-y-6">
+            {/* Tag Search */}
+            <div className="space-y-3">
+              <div className="relative">
+                <Tag
+                  className="absolute left-3 top-3 text-gray-400"
+                  size={18}
+                />
+                <Input
+                  placeholder={t("pages.hero.search.search_placeholder")}
+                  className="pl-10 h-12 text-base"
+                  value={tagSearch}
+                  onChange={(e) => {
+                    setTagSearch(e.target.value);
+                    setOpenTag(true);
+                  }}
+                />
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {selectedTags.map((tag) => (
+                  <TagBadge
+                    key={tag}
+                    tag={tag}
+                    onRemove={() =>
+                      setSelectedTags((p) => p.filter((t) => t !== tag))
+                    }
+                  />
+                ))}
+              </div>
+
+              {/* Tag Search Suggestions */}
+              {openTag && (tagSearch || isTagsLoading) && (
+                <div className="border rounded-lg bg-gray-50 p-2 max-h-40 overflow-y-auto shadow-inner">
+                  {isTagsLoading ? (
+                    <div className="p-2 text-center text-sm">
                       {t("common.loading")}...
                     </div>
-                  )}
-                  {!isSearchLoading &&
-                    fetchedTags.length === 0 &&
-                    debouncedTagSearch.length > 0 && (
-                      <CommandEmpty className="py-6 text-center text-sm">
-                        {translations.noTagsFound}
-                      </CommandEmpty>
-                    )}
-                  {!isSearchLoading && fetchedTags.length > 0 && (
-                    <CommandGroup>
-                      {fetchedTags.map((tag: ITag) => (
-                        <CommandItem
-                          key={tag._id}
-                          onSelect={() => handleTagSelect(tag.value)}
-                          className="cursor-pointer"
-                        >
-                          {tag.value}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  )}
-                  {!isSearchLoading && debouncedTagSearch.length === 0 && (
-                    <div className="p-4 text-sm text-center text-gray-400">
-                      {t("common.start_typing_to_search")}
+                  ) : fetchedTags.length > 0 ? (
+                    fetchedTags.map((tag: ITag) => (
+                      <div
+                        key={tag._id}
+                        onClick={() => handleTagSelect(tag.value)}
+                        className="p-2 hover:bg-white rounded cursor-pointer border-b last:border-0"
+                      >
+                        {tag.value}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="p-2 text-center text-sm text-gray-500">
+                      {t("common.no_tags_found")}
                     </div>
                   )}
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        </div>
-      </div>
-    ),
-    [
-      selectedTags,
-      openTag,
-      tagSearch,
-      isSearchLoading,
-      fetchedTags,
-      debouncedTagSearch,
-      translations,
-      handleTagRemove,
-      handleTagSelect,
-      handleSearch,
-      t,
-    ]
-  );
-
-  const desktopSearchPanel = useMemo(
-    () => (
-      <div className="absolute border z-50 bg-white flex items-center h-14 rounded-xl overflow-hidden left-0 right-0 bottom-4 mx-auto max-w-[950px] shadow-lg">
-        {searchPanel}
-
-        {/* Category Popover */}
-        <Popover open={openCategory} onOpenChange={setOpenCategory}>
-          <PopoverTrigger asChild className="border-l">
-            <Button
-              variant="outline"
-              role="combobox"
-              className="w-[200px] justify-between rounded-none h-full focus:ring-0"
-            >
-              {selectedCategory && selectedCategory !== "all"
-                ? t(`categories.${selectedCategory}`)
-                : translations.category}
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0">
-            <div
-              onClick={() => handleCategoryChange("all")}
-              className="cursor-pointer rounded-sm px-2 py-1.5 text-sm hover:bg-accent"
-            >
-              {translations.all}
+                </div>
+              )}
             </div>
-            {categories.map((item: Category) => (
-              <div
-                key={item.category}
-                onClick={() => handleCategoryChange(item.category)}
-                className="cursor-pointer rounded-sm px-2 py-1.5 text-sm hover:bg-accent"
-              >
-                {t(`categories.${item.category}`)} ({item.count})
-              </div>
-            ))}
-          </PopoverContent>
-        </Popover>
 
-        {/* Rooms Popover */}
-        <Popover open={openRooms} onOpenChange={setOpenRooms}>
-          <PopoverTrigger asChild className="border-l">
-            <Button
-              variant="outline"
-              role="combobox"
-              className="w-[220px] justify-between rounded-none h-full focus:ring-0"
-            >
-              {`${translations.bedrooms} & ${translations.bathrooms}`}
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-4 flex flex-col gap-4">
-            <div>
-              <p className="mb-2 font-medium">{translations.bedrooms}</p>
-              <div className="flex items-center gap-2 flex-wrap">
-                {renderRoomButtons(
-                  BEDROOMS,
-                  selectedBedrooms,
-                  handleBedroomToggle
-                )}
+            {/* Category Select */}
+            <div className="space-y-2">
+              <p className="text-sm font-semibold">{t("common.category")}</p>
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  variant={selectedCategory === "all" ? "default" : "outline"}
+                  onClick={() => setSelectedCategory("all")}
+                  className="justify-start"
+                >
+                  {t("common.all")}
+                </Button>
+                {categories.map((cat: Category) => (
+                  <Button
+                    key={cat.category}
+                    variant={
+                      selectedCategory === cat.category ? "default" : "outline"
+                    }
+                    onClick={() => setSelectedCategory(cat.category)}
+                    className="justify-start overflow-hidden text-ellipsis whitespace-nowrap"
+                  >
+                    {t(`categories.${cat.category}`)}
+                  </Button>
+                ))}
               </div>
             </div>
-            <div>
-              <p className="mb-2 font-medium">{translations.bathrooms}</p>
-              <div className="flex items-center gap-2 flex-wrap">
-                {renderRoomButtons(
-                  BATHROOMS,
-                  selectedBathrooms,
-                  handleBathroomToggle
-                )}
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
 
-        {/* Search Button */}
-        <button
-          onClick={handleSearch}
-          className="h-full flex items-center gap-2 px-6 bg-yellow-300 capitalize hover:bg-yellow-400 transition-colors font-medium"
-        >
-          <Search size={18} />
-          {translations.searchButton}
-        </button>
-      </div>
-    ),
-    [
-      searchPanel,
-      openCategory,
-      openRooms,
-      selectedCategory,
-      selectedBedrooms,
-      selectedBathrooms,
-      categories,
-      translations,
-      t,
-      handleCategoryChange,
-      handleBedroomToggle,
-      handleBathroomToggle,
-      renderRoomButtons,
-      handleSearch,
-    ]
-  );
-
-  // Mobile view
-  if (isMobile) {
-    return (
-      <div className="w-full lg:hidden relative">
-        <div className="flex items-center justify-between p-4 bg-white shadow-sm">
-          <h1
-            className="text-2xl font-bold"
-            style={{ fontFamily: "Edu NSW ACT Foundation" }}
-          >
-            {t(title)}
-          </h1>
-          <button
-            onClick={() => setMobileSearchActive((p) => !p)}
-            className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-            aria-label={mobileSearchActive ? "Close search" : "Open search"}
-          >
-            {mobileSearchActive ? <X size={20} /> : <Search size={20} />}
-          </button>
-        </div>
-        <div className="relative h-64">
-          <img
-            className="w-full h-full object-cover"
-            src={img}
-            alt={t(title)}
-            loading="lazy"
-          />
-        </div>
-        {mobileSearchActive && (
-          <div className="absolute top-16 left-0 right-0 bg-white shadow-lg p-4 z-10 animate-in slide-in-from-top duration-200">
-            <p className="text-center text-gray-500">
-              {t("common.mobile_search_coming_soon")}
-            </p>
+            {/* Rooms */}
+            {renderRoomFilter}
           </div>
-        )}
-      </div>
-    );
-  }
 
-  // Desktop view
-  return (
-    <div className="w-full hidden lg:block relative mb-3 h-[410px]">
-      <div className="absolute w-full h-full flex items-center justify-between z-10">
-        <div className="flex-1 flex items-center justify-center pb-24 pr-12">
-          <h1
-            className={`text-6xl max-w-[550px] text-center ${className}`}
-            style={{ fontFamily: "Edu NSW ACT Foundation" }}
-          >
-            {t(title)}
-          </h1>
+          <div className="p-4 border-t bg-gray-50">
+            <Button
+              className="w-full h-12 text-lg bg-yellow-400 hover:bg-yellow-500 text-black font-bold"
+              onClick={handleSearch}
+            >
+              <Search className="mr-2" size={20} />
+              {t("common.search")}
+            </Button>
+          </div>
         </div>
-        <div className="max-w-[500px] w-full"></div>
-      </div>
-      <img
-        className="w-full h-full object-cover"
-        src={img}
-        alt={t(title)}
-        loading="lazy"
-      />
-      {desktopSearchPanel}
+      )}
+
+      {/* DESKTOP SEARCH BAR */}
+      {!isMobile && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full max-w-5xl px-4 z-50">
+          <div className="bg-white rounded-2xl shadow-2xl border flex items-center h-16 p-2 gap-2">
+            {/* Tags area */}
+            <div className="flex-1 flex items-center gap-2 overflow-x-auto no-scrollbar px-2">
+              <Tag size={18} className="text-gray-400 shrink-0" />
+              <div className="flex gap-1">
+                {selectedTags.map((tag) => (
+                  <TagBadge
+                    key={tag}
+                    tag={tag}
+                    onRemove={() =>
+                      setSelectedTags((p) => p.filter((t) => t !== tag))
+                    }
+                  />
+                ))}
+              </div>
+              <Popover open={openTag} onOpenChange={setOpenTag}>
+                <PopoverTrigger asChild>
+                  <input
+                    className="outline-none text-sm min-w-[120px] flex-1 h-full"
+                    placeholder={
+                      selectedTags.length
+                        ? ""
+                        : t("pages.hero.search.search_placeholder")
+                    }
+                    value={tagSearch}
+                    onChange={(e) => setTagSearch(e.target.value)}
+                  />
+                </PopoverTrigger>
+                <PopoverContent className="p-0 w-64" align="start">
+                  <Command>
+                    <CommandList>
+                      {isTagsLoading && (
+                        <div className="p-4 text-center">
+                          {t("common.loading")}...
+                        </div>
+                      )}
+                      <CommandGroup>
+                        {fetchedTags.map((tag: ITag) => (
+                          <CommandItem
+                            key={tag._id}
+                            onSelect={() => handleTagSelect(tag.value)}
+                          >
+                            {tag.value}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div className="h-8 w-[1px] bg-gray-200" />
+
+            {/* Category Dropdown */}
+            <Popover open={openCategory} onOpenChange={setOpenCategory}>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" className="rounded-xl">
+                  {selectedCategory === "all"
+                    ? t("common.category")
+                    : t(`categories.${selectedCategory}`)}
+                  <ChevronsUpDown className="ml-2 h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-56 p-1">
+                <div
+                  className="p-2 hover:bg-accent cursor-pointer rounded-md text-sm"
+                  onClick={() => {
+                    setSelectedCategory("all");
+                    setOpenCategory(false);
+                  }}
+                >
+                  {t("common.all")}
+                </div>
+                {categories.map((cat: Category) => (
+                  <div
+                    key={cat.category}
+                    className="p-2 hover:bg-accent cursor-pointer rounded-md text-sm flex justify-between"
+                    onClick={() => {
+                      setSelectedCategory(cat.category);
+                      setOpenCategory(false);
+                    }}
+                  >
+                    <span>{t(`categories.${cat.category}`)}</span>
+                    <span className="text-gray-400">({cat.count})</span>
+                  </div>
+                ))}
+              </PopoverContent>
+            </Popover>
+
+            {/* Rooms Dropdown */}
+            <Popover open={openRooms} onOpenChange={setOpenRooms}>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" className="rounded-xl">
+                  {t("common.bedrooms")} & {t("common.bathrooms")}
+                  <ChevronsUpDown className="ml-2 h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 p-4 shadow-xl">
+                {renderRoomFilter}
+              </PopoverContent>
+            </Popover>
+
+            <Button
+              onClick={handleSearch}
+              className="bg-yellow-400 hover:bg-yellow-500 text-black h-12 px-8 rounded-xl font-bold"
+            >
+              <Search size={20} className="mr-2" />
+              {t("common.search")}
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
