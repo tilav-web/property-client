@@ -42,13 +42,14 @@ export default function SearchPage() {
   const lng = params.get("lng");
   const lat = params.get("lat");
 
-  // bedrooms and bathrooms may be provided as repeated params `bdr` / `bthr` or `bedrooms`/`bathrooms`
-  const bedroomParams = params.getAll("bdr").length
-    ? params.getAll("bdr")
-    : params.getAll("bedrooms");
-  const bathroomParams = params.getAll("bthr").length
-    ? params.getAll("bthr")
-    : params.getAll("bathrooms");
+  // bedrooms and bathrooms may be provided as repeated params `bedrooms`/`bathrooms`
+  // Prefer the full names first, fall back to legacy `bdr`/`bthr` if needed.
+  const bedroomParams = params.getAll("bedrooms").length
+    ? params.getAll("bedrooms")
+    : params.getAll("bdr");
+  const bathroomParams = params.getAll("bathrooms").length
+    ? params.getAll("bathrooms")
+    : params.getAll("bthr");
 
   const selectedBedrooms = parseNumberArray(bedroomParams);
   const selectedBathrooms = parseNumberArray(bathroomParams);

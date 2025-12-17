@@ -23,8 +23,8 @@ import {
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 
-const BEDROOMS = ["1", "2", "3", "4", "5", "6", "7+"] as const;
-const BATHROOMS = ["1", "2", "3", "4", "5", "6", "7+"] as const;
+const BEDROOMS = ["1", "2", "3", "4", "5", "6", "7"] as const;
+const BATHROOMS = ["1", "2", "3", "4", "5", "6", "7"] as const;
 const MAX_TAGS = 4;
 const TAG_DEBOUNCE_MS = 300;
 
@@ -245,7 +245,7 @@ const SearchFilterHeader: React.FC = () => {
                       updateSearchParams({ bdr: newBedrooms });
                     }}
                   >
-                    {room}
+                    {room === "7" ? "7+" : room}
                   </Button>
                 ))}
               </div>
@@ -281,7 +281,7 @@ const SearchFilterHeader: React.FC = () => {
                       updateSearchParams({ bthr: newBathrooms });
                     }}
                   >
-                    {room}
+                    {room === "7" ? "7+" : room}
                   </Button>
                 ))}
               </div>
