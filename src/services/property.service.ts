@@ -11,7 +11,6 @@ export interface FindAllParams {
   category?: CategoryType;
   search?: string;
   is_premium?: boolean;
-  is_verified?: boolean;
   is_new?: boolean;
   rating?: number;
   radius?: number;

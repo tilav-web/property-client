@@ -381,7 +381,7 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
                 </div>
               </PopoverTrigger>
               <PopoverContent
-                className="p-0 w-64"
+                className="p-4 w-64"
                 align="start"
                 onOpenAutoFocus={(e) => e.preventDefault()}
               >
