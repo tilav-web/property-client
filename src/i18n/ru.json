@@ -28,6 +28,7 @@
     "active_filters": "Активные фильтры",
     "error": "Ошибка",
     "success": "Успешно",
+    "profile_updated": "Профиль успешно обновлён",
     "choose": "Выберите",
     "optional": "Необязательно",
     "date_range_picker": {
@@ -337,7 +338,10 @@
       "saved_properties": "Сохранённые объекты",
       "search_notification": "Уведомление о поиске",
       "contacts": "Контакты",
+      "contacts_placeholder": "Ваши контакты появятся здесь",
       "saved_properties_placeholder": "Объекты, сохраненные пользователем",
+      "saved_properties_empty": "Нет сохранённых объектов",
+      "saved_properties_empty_description": "Начните сохранять объекты, чтобы найти их здесь позже",
       "search_notification_placeholder": "Объекты, соответствующие поиску пользователя"
     },
     "account_details_page": {

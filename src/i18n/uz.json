@@ -28,6 +28,7 @@
     "active_filters": "Faol filtrlar",
     "error": "Xatolik",
     "success": "Muvaffaqiyatli",
+    "profile_updated": "Profil muvaffaqiyatli yangilandi",
     "choose": "Tanlang",
     "optional": "Ixtiyoriy",
     "date_range_picker": {
@@ -354,9 +355,13 @@
       "saved_properties": "Saqlangan ob'ektlar",
       "search_notification": "Qidiruv bildirishnomasi",
       "contacts": "Kontaktlar",
+      "contacts_placeholder": "Sizning kontaktlaringiz bu yerda ko'rinadi",
       "saved_properties_placeholder": "Foydalanuvchi tomonidan saqlangan mulklar",
+      "saved_properties_empty": "Hali saqlangan ob'ektlar yo'q",
+      "saved_properties_empty_description": "Ob'ektlarni saqlashni boshlang, shunda ularni keyinroq bu yerda topasiz",
       "search_notification_placeholder": "Foydalanuvchi qidiruviga mos keladigan mulklar"
     },
+
     "account_details_page": {
       "change_avatar_instruction": "Rasmni o‘zgartirish uchun kamera tugmasini bosing",
       "first_name": "Ism",

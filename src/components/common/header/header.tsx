@@ -7,8 +7,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
-  ChevronDown,
-  Globe,
   Menu,
   Heart,
   Home,
@@ -17,6 +15,8 @@ import {
   Star,
   LogIn,
   User,
+  Globe,
+  ChevronDown,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -47,6 +47,23 @@ export default function Header() {
   const { logout: sellerLogout } = useSellerStore();
   const { likedProperties } = useLikeStore();
   const { setLanguage } = useLanguageStore();
+
+  const languages = Object.values<ILanguage>(["uz", "ru", "en"]);
+
+  const handleChangeUserLan = async (lan: ILanguage) => {
+    try {
+      if (user) {
+        const formData = new FormData();
+        formData.append("lan", lan);
+        const data = await userService.update(formData);
+        setUser(data);
+      }
+      setLanguage(lan);
+      i18n.changeLanguage(lan);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const logoutSystem = async () => {
     try {
@@ -87,23 +104,6 @@ export default function Header() {
     { icon: Heart, label: t("common.favorites"), href: "/favorites" },
   ];
 
-  const languages = Object.values<ILanguage>(["uz", "ru", "en"]);
-
-  const handleChangeUserLan = async (lan: ILanguage) => {
-    try {
-      if (user) {
-        const formData = new FormData();
-        formData.append("lan", lan);
-        const data = await userService.update(formData);
-        setUser(data);
-      }
-      setLanguage(lan);
-      i18n.changeLanguage(lan);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <header className="w-full bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
       <div className="container mx-auto">
@@ -139,18 +139,6 @@ export default function Header() {
                       ))}
                     </div>
                   </nav>
-
-                  {user && (
-                    <Button
-                      onClick={() => navigate("/seller/profile")}
-                      variant="default"
-                      className="flex items-center gap-2 mx-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-                    >
-                      <span className="font-semibold">
-                        {t("common.sell_or_rent")}
-                      </span>
-                    </Button>
-                  )}
                 </div>
               </SheetContent>
             </Sheet>
@@ -178,18 +166,40 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            {user && (
-              <Button
-                onClick={() => navigate("/seller/profile")}
-                variant="default"
-                className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-              >
-                <span className="font-semibold">
-                  {t("common.sell_or_rent")}
-                </span>
-              </Button>
+            {/* Language selector (available for both guest and logged-in users) */}
+            {!user && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="flex items-center gap-1"
+                  >
+                    <Globe className="h-4 w-4" />
+                    <span className="text-sm uppercase hidden sm:inline">
+                      {i18n.language}
+                    </span>
+                    <ChevronDown className="h-3 w-3" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-32 select-none">
+                  {languages.map((lan) => (
+                    <DropdownMenuItem
+                      key={lan}
+                      onClick={() => handleChangeUserLan(lan)}
+                      className="flex items-center gap-2 select-none"
+                    >
+                      <span
+                        className={`w-2 h-2 rounded-full ${
+                          lan === i18n.language ? "bg-green-500" : "bg-gray-300"
+                        }`}
+                      ></span>
+                      {t(`common.header.languages.${lan}`)}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             )}
-
             {user && likedProperties.length > 0 && (
               <Button
                 onClick={() => navigate("/favorites")}
@@ -204,40 +214,10 @@ export default function Header() {
               </Button>
             )}
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="flex items-center gap-1"
-                >
-                  <Globe className="h-4 w-4" />
-                  <span className="text-sm uppercase">{i18n.language}</span>
-                  <ChevronDown className="h-3 w-3" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-32 select-none">
-                {languages.map((lan) => (
-                  <DropdownMenuItem
-                    key={lan}
-                    onClick={() => handleChangeUserLan(lan)}
-                    className="flex items-center gap-2 select-none"
-                  >
-                    <span
-                      className={`w-2 h-2 rounded-full ${
-                        lan === i18n.language ? "bg-green-500" : "bg-gray-300"
-                      }`}
-                    ></span>
-                    {t(`common.header.languages.${lan}`)}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Avatar>
+                  <Avatar className="cursor-pointer">
                     <AvatarImage
                       src={`${
                         user?.avatar

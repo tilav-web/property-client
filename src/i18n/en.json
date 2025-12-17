@@ -28,6 +28,7 @@
     "active_filters": "Active filters",
     "error": "Error",
     "success": "Success",
+    "profile_updated": "Profile updated successfully",
     "choose": "Choose",
     "optional": "Optional",
     "date_range_picker": {
@@ -347,7 +348,10 @@
       "saved_properties": "Saved properties",
       "search_notification": "Search notification",
       "contacts": "Contacts",
+      "contacts_placeholder": "Your contacts will appear here",
       "saved_properties_placeholder": "Properties saved by user",
+      "saved_properties_empty": "No saved properties yet",
+      "saved_properties_empty_description": "Start saving properties to find them here later",
       "search_notification_placeholder": "Properties matching user's search"
     },
     "account_details_page": {
