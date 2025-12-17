@@ -2,9 +2,11 @@ import apiInstance from "@/lib/api-instance";
 import { API_ENDPOINTS } from "@/utils/shared";
 
 class TagService {
-  async findTags() {
+  async findTags(query: string) {
     try {
-      const res = await apiInstance.get(API_ENDPOINTS.PROPERTIES.tags.findTags);
+      const res = await apiInstance.get(API_ENDPOINTS.PROPERTIES.tags.findTags, {
+        params: { q: query },
+      });
       return res.data;
     } catch (error) {
       console.error(error);
