@@ -64,7 +64,10 @@ const RoomButton = memo(
 
 const TagBadge = memo(
   ({ tag, onRemove }: { tag: string; onRemove: () => void }) => (
-    <Badge variant="secondary" className="flex items-center gap-1 py-1 px-2">
+    <Badge
+      variant="secondary"
+      className="flex items-center gap-1 py-1 px-2 capitalize"
+    >
       {tag}
       <X size={14} className="cursor-pointer ml-1" onClick={onRemove} />
     </Badge>
@@ -207,7 +210,7 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
   );
 
   return (
-    <div className="w-full relative overflow-hidden">
+    <div className="w-full relative overflow-hidden mb-4">
       {/* Background Image Section */}
       <div
         className={cn(
@@ -413,6 +416,7 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
                     <CommandGroup>
                       {fetchedTags.map((tag: ITag) => (
                         <CommandItem
+                          className="capitalize"
                           key={tag._id}
                           onSelect={() => handleTagSelect(tag.value)}
                           value={tag.value}

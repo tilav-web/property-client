@@ -82,7 +82,7 @@ export default function Header() {
     {
       icon: Star,
       label: t("common.new_projects"),
-      href: "/filter-nav?category=&is_new=1",
+      href: "/filter-nav?is_new=1",
     },
     { icon: Heart, label: t("common.favorites"), href: "/favorites" },
   ];
