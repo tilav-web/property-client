@@ -364,24 +364,12 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
       {!isMobile && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full max-w-5xl px-4 z-50">
           <div className="bg-white rounded-2xl shadow-2xl border flex items-center h-16 p-2 gap-2">
-            {/* Tags area */}
-            <div className="flex-1 flex items-center gap-2 overflow-x-auto no-scrollbar px-2">
-              <Tag size={18} className="text-gray-400 shrink-0" />
-              <div className="flex gap-1">
-                {selectedTags.map((tag) => (
-                  <TagBadge
-                    key={tag}
-                    tag={tag}
-                    onRemove={() =>
-                      setSelectedTags((p) => p.filter((t) => t !== tag))
-                    }
-                  />
-                ))}
-              </div>
-              <Popover open={openTag} onOpenChange={setOpenTag}>
-                <PopoverTrigger asChild>
+            <Popover open={openTag} onOpenChange={setOpenTag}>
+              <PopoverTrigger asChild>
+                <div className="flex-1 flex flex-wrap items-center gap-2 overflow-x-auto no-scrollbar px-2 cursor-text h-full">
+                  <Tag size={18} className="text-gray-400 shrink-0" />
                   <input
-                    className="outline-none text-sm min-w-[120px] flex-1 h-full"
+                    className="outline-none text-sm flex-1 h-full bg-transparent"
                     placeholder={
                       selectedTags.length
                         ? ""
@@ -390,30 +378,53 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
                     value={tagSearch}
                     onChange={(e) => setTagSearch(e.target.value)}
                   />
-                </PopoverTrigger>
-                <PopoverContent className="p-0 w-64" align="start">
-                  <Command>
-                    <CommandList>
-                      {isTagsLoading && (
-                        <div className="p-4 text-center">
-                          {t("common.loading")}...
+                </div>
+              </PopoverTrigger>
+              <PopoverContent
+                className="p-0 w-64"
+                align="start"
+                onOpenAutoFocus={(e) => e.preventDefault()}
+              >
+                <div className="flex gap-1">
+                  {selectedTags.map((tag) => (
+                    <TagBadge
+                      key={tag}
+                      tag={tag}
+                      onRemove={() =>
+                        setSelectedTags((p) => p.filter((t) => t !== tag))
+                      }
+                    />
+                  ))}
+                </div>
+                <Command>
+                  <CommandList>
+                    {isTagsLoading && (
+                      <div className="p-4 text-center">
+                        {t("common.loading")}...
+                      </div>
+                    )}
+                    {!isTagsLoading &&
+                      fetchedTags.length === 0 &&
+                      debouncedTagSearch.length > 0 && (
+                        <div className="py-6 text-center text-sm">
+                          {t("common.no_tags_found")}
                         </div>
                       )}
-                      <CommandGroup>
-                        {fetchedTags.map((tag: ITag) => (
-                          <CommandItem
-                            key={tag._id}
-                            onSelect={() => handleTagSelect(tag.value)}
-                          >
-                            {tag.value}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            </div>
+                    <CommandGroup>
+                      {fetchedTags.map((tag: ITag) => (
+                        <CommandItem
+                          key={tag._id}
+                          onSelect={() => handleTagSelect(tag.value)}
+                          value={tag.value}
+                        >
+                          {tag.value}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
 
             <div className="h-8 w-[1px] bg-gray-200" />
 
