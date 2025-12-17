@@ -58,24 +58,25 @@ const SearchFilterHeader: React.FC = () => {
   });
 
   // Filterlarni o'zgartirish funksiyasi
-  const updateSearchParams = (
-    updates: Record<string, string | string[] | null>
-  ) => {
-    const newParams = new URLSearchParams(searchParams);
+  const updateSearchParams = useCallback(
+    (updates: Record<string, string | string[] | null>) => {
+      const newParams = new URLSearchParams(searchParams);
 
-    Object.entries(updates).forEach(([key, value]) => {
-      newParams.delete(key); // avval o'chirib
-      if (value === null) {
-        // hech nima qo'shmaslik
-      } else if (Array.isArray(value)) {
-        value.forEach((v) => newParams.append(key, v));
-      } else if (value) {
-        newParams.set(key, value);
-      }
-    });
+      Object.entries(updates).forEach(([key, value]) => {
+        newParams.delete(key); // avval o'chirib
+        if (value === null) {
+          // hech nima qo'shmaslik
+        } else if (Array.isArray(value)) {
+          value.forEach((v) => newParams.append(key, v));
+        } else if (value) {
+          newParams.set(key, value);
+        }
+      });
 
-    setSearchParams(newParams);
-  };
+      setSearchParams(newParams);
+    },
+    [searchParams, setSearchParams]
+  );
 
   // Tag tanlash funksiyasi
   const handleTagSelect = useCallback(
