@@ -95,7 +95,27 @@
       "whatsapp": "WhatsApp",
       "back_tabs": "Ortga",
       "load_more": "Yana yuklash",
-      "loading_more": "Yana yuklanmoqda..."
+      "loading_more": "Yana yuklanmoqda...",
+      "bid_price_form": {
+        "title": "So'rov yuborish",
+        "inquiry_type": "So'rov turi",
+        "purchase": "💰 Sotib olish",
+        "mortgage": "🏦 Ipoteka",
+        "offered_price": "Taklif qilingan narx",
+        "your_offer": "Sizning taklifingiz",
+        "min_label": "Min (-30%)",
+        "base_price": "Bazaviy narx",
+        "max_label": "Max (+30%)",
+        "additional_notes": "Qo'shimcha izoh",
+        "notes_placeholder": "Qo'shimcha ma'lumotlar yoki shartlaringizni yozing...",
+        "send_button": "Taklifni yuborish",
+        "sending_button": "Yuborilmoqda...",
+        "error_empty_notes": "Qo'shimcha izohni to'ldiiring.",
+        "success_title": "Muvaffaqiyatli",
+        "success_message": "So'rovingiz muvaffaqiyatli yuborildi!",
+        "error_title": "Xatolik",
+        "error_message": "So'rov yuborishda xatolik yuz berdi."
+      }
     },
     "loading_component": {
       "loading": "Yuklanmoqda...",

@@ -1,53 +1,80 @@
 import { useUserStore } from "@/stores/user.store";
 import { courtSvg } from "@/utils/shared";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import type { PropertyType } from "@/interfaces/property/property.interface";
 import { useTranslation } from "react-i18next";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Building, MapPin } from "lucide-react";
-import DateRangePicker from "../date-range-picker";
+import { Building, MapPin, TrendingDown, TrendingUp } from "lucide-react";
 import { inquiryService } from "@/services/inquiry.service";
 import type { TInquiryType } from "@/interfaces/inquiry/inquiry.interface";
 import { toast } from "sonner";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
+import { Slider } from "@/components/ui/slider";
+import type { IApartmentSale } from "@/interfaces/property/categories/apartment-sale.interface";
+
+interface InquiryDTO {
+  property: string;
+  type: TInquiryType;
+  comment: string;
+  offered_price?: number;
+}
 
 export default function BidPriceButton({
   property,
 }: {
-  property: PropertyType;
+  property: IApartmentSale;
 }) {
   const { user } = useUserStore();
   const { t } = useTranslation();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Narx diapazoni: -30% dan +30% gacha
+  const priceRange = useMemo(() => {
+    const basePrice = property?.price || 0;
+    return {
+      min: Math.floor(basePrice * 0.7), // -30%
+      max: Math.floor(basePrice * 1.3), // +30%
+      base: basePrice,
+    };
+  }, [property?.price]);
+
   const [formData, setFormData] = useState({
-    type: (property?.category === "APARTMENT_RENT"
-      ? "rent"
-      : "purchase") as TInquiryType,
-    offered_price: "",
-    rental_period: { from: new Date(), to: new Date() },
+    type: "purchase" as TInquiryType,
+    offered_price: priceRange.base.toString(),
     comment: "",
   });
 
+  // Narx foizi hisoblanishi
+  const pricePercentage = useMemo(() => {
+    const offered = Number(formData.offered_price);
+    const base = priceRange.base;
+    if (base === 0) return 0;
+    return Math.round(((offered - base) / base) * 100);
+  }, [formData.offered_price, priceRange.base]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.comment.trim()) {
+      toast.error("Xatolik", {
+        description: "Qo'shimcha izohni to'ldiiring.",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
-    const dto: any = {
-      property: property?._id,
+    const dto: InquiryDTO = {
+      property: property?._id || "",
       type: formData.type,
       comment: formData.comment,
     };
 
-    // Faqat taklif narxi kiritilgan bo'lsa qo'shamiz
+    // Taklif narxi kiritiladi
     if (formData.offered_price) {
       dto.offered_price = Number(formData.offered_price);
-    }
-
-    // Agar rent bo'lsa, rental_period qo'shamiz
-    if (formData.type === "rent" && formData.rental_period) {
-      dto.rental_period = formData.rental_period;
     }
 
     try {
@@ -55,6 +82,12 @@ export default function BidPriceButton({
       toast.success("Muvaffaqiyatli", {
         description: "So'rovingiz muvaffaqiyatli yuborildi!",
       });
+      setFormData({
+        type: "purchase" as TInquiryType,
+        offered_price: priceRange.base.toString(),
+        comment: "",
+      });
+      setIsOpen(false);
     } catch (error) {
       console.error("Failed to submit inquiry:", error);
       toast.error("Xatolik", {
@@ -75,15 +108,12 @@ export default function BidPriceButton({
     []
   );
 
-  const handleDateChange = useCallback(
-    (dateRange: { from: Date; to: Date }) => {
-      setFormData((prev) => ({
-        ...prev,
-        rental_period: dateRange,
-      }));
-    },
-    []
-  );
+  const handlePriceChange = useCallback((value: number[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      offered_price: value[0].toString(),
+    }));
+  }, []);
 
   // Agar foydalanuvchi e'lon egasi yoki foydalanuvchi ro'yxatdan o'tmagan bo'lsa
   if (user?._id === property?.author?._id || !user) {
@@ -97,8 +127,13 @@ export default function BidPriceButton({
     );
   }
 
+  // Faqat APARTMENT_SALE uchun ko'rsatiladi
+  if (property?.category !== "APARTMENT_SALE") {
+    return null;
+  }
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <button className="bg-[#FF990063] flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0">
           <img src={courtSvg} alt="Court svg" className="w-4 h-4" />
@@ -173,104 +208,116 @@ export default function BidPriceButton({
           </div>
         </div>
 
-        {/* So'rov formasi - kategoriya bo'yicha UI farqlanadi */}
+        {/* So'rov formasi */}
         <div className="mt-6 p-6 border rounded-lg bg-slate-50">
           <h3 className="text-lg font-semibold mb-4">So'rov yuborish</h3>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* So'rov turini tanlash - faqat sotish uchun */}
-            {property?.category === "APARTMENT_SALE" && (
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  So'rov turi
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => handleInputChange("type", "purchase")}
-                    className={`p-3 border rounded-lg text-center transition-colors ${
-                      formData.type === "purchase"
-                        ? "border-blue-500 bg-blue-50 text-blue-700"
-                        : "border-gray-300 hover:border-gray-400"
-                    }`}
-                  >
-                    💰 Sotib olish
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleInputChange("type", "mortgage")}
-                    className={`p-3 border rounded-lg text-center transition-colors ${
-                      formData.type === "mortgage"
-                        ? "border-blue-500 bg-blue-50 text-blue-700"
-                        : "border-gray-300 hover:border-gray-400"
-                    }`}
-                  >
-                    🏦 Ipoteka
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Ijara uchun - faqat ijaraga berilayotgan uylar */}
-            {property?.category === "APARTMENT_RENT" && (
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  So'rov turi
-                </label>
-                <div className="grid grid-cols-1 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => handleInputChange("type", "rent")}
-                    className={`p-3 border rounded-lg text-center transition-colors ${
-                      formData.type === "rent"
-                        ? "border-blue-500 bg-blue-50 text-blue-700"
-                        : "border-gray-300 hover:border-gray-400"
-                    }`}
-                  >
-                    🏢 Ijaraga
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* Taklif qilingan narx - har ikkala holat uchun */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* So'rov turini tanlash */}
             <div>
               <label className="block text-sm font-medium mb-2">
-                {property?.category === "APARTMENT_SALE"
-                  ? "Taklif qilingan narx"
-                  : "Taklif qilingan oylik ijara narxi"}
-                ({property?.currency?.toUpperCase()})
+                So'rov turi
               </label>
-              <input
-                type="number"
-                value={formData.offered_price}
-                onChange={(e) =>
-                  handleInputChange("offered_price", e.target.value)
-                }
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder={
-                  property?.category === "APARTMENT_SALE"
-                    ? "Taklifingizni kiriting"
-                    : "Oylik ijara taklifingizni kiriting"
-                }
-              />
-              <p className="text-sm p-2">
-                {formData?.offered_price
-                  ? Number(formData.offered_price).toLocaleString()
-                  : "0"}{" "}
-                {property?.currency?.toUpperCase()}
-              </p>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => handleInputChange("type", "purchase")}
+                  className={`p-3 border rounded-lg text-center transition-colors ${
+                    formData.type === "purchase"
+                      ? "border-blue-500 bg-blue-50 text-blue-700"
+                      : "border-gray-300 hover:border-gray-400"
+                  }`}
+                >
+                  💰 Sotib olish
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleInputChange("type", "mortgage")}
+                  className={`p-3 border rounded-lg text-center transition-colors ${
+                    formData.type === "mortgage"
+                      ? "border-blue-500 bg-blue-50 text-blue-700"
+                      : "border-gray-300 hover:border-gray-400"
+                  }`}
+                >
+                  🏦 Ipoteka
+                </button>
+              </div>
             </div>
 
-            {/* Ijara muddati - faqat ijaraga (rent) uchun */}
-            {formData.type === "rent" && (
-              <div className="w-full">
-                <label className="block text-sm font-medium mb-2">
-                  Ijara muddati
-                </label>
-                <DateRangePicker onDateChange={handleDateChange} />
+            {/* Narx slider */}
+            <div className="space-y-4">
+              <label className="block text-sm font-medium">
+                Taklif qilingan narx
+              </label>
+
+              {/* Joriy narx ko'rsatkichi */}
+              <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-gray-600">
+                    Sizning taklifingiz
+                  </span>
+                  <div className="flex items-center gap-2">
+                    {pricePercentage < 0 ? (
+                      <TrendingDown className="h-4 w-4 text-green-600" />
+                    ) : pricePercentage > 0 ? (
+                      <TrendingUp className="h-4 w-4 text-red-600" />
+                    ) : null}
+                    <span
+                      className={`text-sm font-semibold ${
+                        pricePercentage < 0
+                          ? "text-green-600"
+                          : pricePercentage > 0
+                          ? "text-red-600"
+                          : "text-gray-600"
+                      }`}
+                    >
+                      {pricePercentage > 0 && "+"}
+                      {pricePercentage}%
+                    </span>
+                  </div>
+                </div>
+                <div className="text-3xl font-bold text-gray-900">
+                  {Number(formData.offered_price).toLocaleString()}{" "}
+                  <span className="text-xl text-gray-600">
+                    {property?.currency?.toUpperCase()}
+                  </span>
+                </div>
               </div>
-            )}
+
+              {/* Slider */}
+              <div className="space-y-3">
+                <Slider
+                  value={[Number(formData.offered_price)]}
+                  onValueChange={handlePriceChange}
+                  min={priceRange.min}
+                  max={priceRange.max}
+                  step={Math.floor(priceRange.base * 0.01)} // 1% qadamlar
+                  className="w-full"
+                />
+
+                {/* Min/Max ko'rsatkichlar */}
+                <div className="flex items-center justify-between text-xs text-gray-500">
+                  <div className="flex flex-col items-start">
+                    <span className="text-gray-400">Min (-30%)</span>
+                    <span className="font-medium text-gray-700">
+                      {priceRange.min.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span className="text-gray-400">Bazaviy narx</span>
+                    <span className="font-medium text-blue-600">
+                      {priceRange.base.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <span className="text-gray-400">Max (+30%)</span>
+                    <span className="font-medium text-gray-700">
+                      {priceRange.max.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             {/* Qo'shimcha izoh */}
             <div>
@@ -282,11 +329,7 @@ export default function BidPriceButton({
                 onChange={(e) => handleInputChange("comment", e.target.value)}
                 rows={3}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder={
-                  property?.category === "APARTMENT_SALE"
-                    ? "Qo'shimcha ma'lumotlar yoki shartlaringizni yozing..."
-                    : "Ijara shartlari yoki qo'shimcha talablaringizni yozing..."
-                }
+                placeholder="Qo'shimcha ma'lumotlar yoki shartlaringizni yozing..."
               />
             </div>
 
@@ -294,13 +337,9 @@ export default function BidPriceButton({
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:bg-gray-400"
+              className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
-              {isLoading
-                ? "Yuborilmoqda..."
-                : property?.category === "APARTMENT_SALE"
-                ? "Taklifni yuborish"
-                : "Ijara so'rovini yuborish"}
+              {isLoading ? "Yuborilmoqda..." : "Taklifni yuborish"}
             </button>
           </form>
         </div>
