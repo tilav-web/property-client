@@ -72,7 +72,6 @@ export default function BidPriceButton({
       comment: formData.comment,
     };
 
-    // Taklif narxi kiritiladi
     if (formData.offered_price) {
       dto.offered_price = Number(formData.offered_price);
     }
@@ -143,8 +142,8 @@ export default function BidPriceButton({
         </button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-4xl h-[90vh] overflow-y-auto">
-        <div className="w-full flex items-stretch">
-          <div className="max-w-72 w-full h-52">
+        <div className="w-full flex items-start flex-col lg:flex-row">
+          <div className="lg:max-w-72 w-full h-full">
             <img
               className="w-full h-full object-cover"
               src={property.photos ? property.photos[0] : ""}
@@ -169,7 +168,7 @@ export default function BidPriceButton({
               </div>
             </div>
             <Separator />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                   <div className="flex items-center gap-2">
@@ -210,7 +209,9 @@ export default function BidPriceButton({
 
         {/* So'rov formasi */}
         <div className="mt-6 p-6 border rounded-lg bg-slate-50">
-          <h3 className="text-lg font-semibold mb-4">{t("common.buttons.bid_price_form.title")}</h3>
+          <h3 className="text-lg font-semibold mb-4">
+            {t("common.buttons.bid_price_form.title")}
+          </h3>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* So'rov turini tanlash */}
@@ -218,7 +219,7 @@ export default function BidPriceButton({
               <label className="block text-sm font-medium mb-2">
                 {t("common.buttons.bid_price_form.inquiry_type")}
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid md:grid-cols-2 gap-3">
                 <button
                   type="button"
                   onClick={() => handleInputChange("type", "purchase")}
@@ -298,19 +299,25 @@ export default function BidPriceButton({
                 {/* Min/Max ko'rsatkichlar */}
                 <div className="flex items-center justify-between text-xs text-gray-500">
                   <div className="flex flex-col items-start">
-                    <span className="text-gray-400">{t("common.buttons.bid_price_form.min_label")}</span>
+                    <span className="text-gray-400">
+                      {t("common.buttons.bid_price_form.min_label")}
+                    </span>
                     <span className="font-medium text-gray-700">
                       {priceRange.min.toLocaleString()}
                     </span>
                   </div>
-                  <div className="flex flex-col items-center">
-                    <span className="text-gray-400">{t("common.buttons.bid_price_form.base_price")}</span>
+                  <div className="hidden sm:flex flex-col items-center">
+                    <span className="text-gray-400">
+                      {t("common.buttons.bid_price_form.base_price")}
+                    </span>
                     <span className="font-medium text-blue-600">
                       {priceRange.base.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex flex-col items-end">
-                    <span className="text-gray-400">{t("common.buttons.bid_price_form.max_label")}</span>
+                    <span className="text-gray-400">
+                      {t("common.buttons.bid_price_form.max_label")}
+                    </span>
                     <span className="font-medium text-gray-700">
                       {priceRange.max.toLocaleString()}
                     </span>
@@ -329,7 +336,9 @@ export default function BidPriceButton({
                 onChange={(e) => handleInputChange("comment", e.target.value)}
                 rows={3}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder={t("common.buttons.bid_price_form.notes_placeholder")}
+                placeholder={t(
+                  "common.buttons.bid_price_form.notes_placeholder"
+                )}
               />
             </div>
 
@@ -339,7 +348,9 @@ export default function BidPriceButton({
               disabled={isLoading}
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
-              {isLoading ? t("common.buttons.bid_price_form.sending_button") : t("common.buttons.bid_price_form.send_button")}
+              {isLoading
+                ? t("common.buttons.bid_price_form.sending_button")
+                : t("common.buttons.bid_price_form.send_button")}
             </button>
           </form>
         </div>
