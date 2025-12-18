@@ -25,7 +25,6 @@ import { Input } from "@/components/ui/input";
 
 const BEDROOMS = ["1", "2", "3", "4", "5", "6", "7"] as const;
 const BATHROOMS = ["1", "2", "3", "4", "5", "6", "7"] as const;
-const MAX_TAGS = 4;
 const TAG_DEBOUNCE_MS = 300;
 
 const SearchFilterHeader: React.FC = () => {
@@ -37,8 +36,8 @@ const SearchFilterHeader: React.FC = () => {
   const [tagSearch, setTagSearch] = useState("");
   const [debouncedTagSearch] = useDebounce(tagSearch, TAG_DEBOUNCE_MS);
 
-  // URL'dan joriy filterlarni o'qish
-  const currentTags = searchParams.getAll("tag");
+  // URL'dan joriy filterlarni o'qish - BITTA TAG
+  const currentTag = searchParams.get("tag") || "";
   const currentCategory = searchParams.get("category") || "all";
   const currentBedrooms = searchParams.getAll("bdr");
   const currentBathrooms = searchParams.getAll("bthr");
@@ -78,24 +77,27 @@ const SearchFilterHeader: React.FC = () => {
     [searchParams, setSearchParams]
   );
 
-  // Tag tanlash funksiyasi
+  // Tag tanlash funksiyasi - BITTA TAG
   const handleTagSelect = useCallback(
     (tag: string) => {
-      if (currentTags.length < MAX_TAGS && !currentTags.includes(tag)) {
-        updateSearchParams({ tag: [...currentTags, tag] });
-      }
+      updateSearchParams({ tag: tag });
       setTagSearch("");
       setOpenTag(false);
     },
-    [currentTags, updateSearchParams]
+    [updateSearchParams]
   );
+
+  // Tag o'chirish
+  const removeTag = useCallback(() => {
+    updateSearchParams({ tag: null });
+  }, [updateSearchParams]);
 
   // Bitta filter o'chirish (badge X tugmasi uchun)
   const removeFilter = (key: string, value?: string) => {
     if (key === "category") {
       updateSearchParams({ category: "all" });
-    } else if (key === "tag" && value) {
-      updateSearchParams({ tag: currentTags.filter((t) => t !== value) });
+    } else if (key === "tag") {
+      removeTag();
     } else if (key === "bdr" && value) {
       updateSearchParams({ bdr: currentBedrooms.filter((b) => b !== value) });
     } else if (key === "bthr" && value) {
@@ -110,7 +112,7 @@ const SearchFilterHeader: React.FC = () => {
 
   // Faol filterlar soni
   const activeFilterCount =
-    (currentTags.length > 0 ? 1 : 0) +
+    (currentTag ? 1 : 0) +
     (currentCategory !== "all" ? 1 : 0) +
     (currentBedrooms.length > 0 ? 1 : 0) +
     (currentBathrooms.length > 0 ? 1 : 0);
@@ -123,14 +125,40 @@ const SearchFilterHeader: React.FC = () => {
           {/* Tag qidirish inputi */}
           <Popover open={openTag} onOpenChange={setOpenTag}>
             <PopoverTrigger asChild>
-              <div className="relative">
+              <div className="relative flex items-center gap-2 min-w-[280px]">
                 <Tag
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                   size={18}
                 />
+                
+                {/* Tanlangan tag ko'rinishi */}
+                {currentTag && (
+                  <Badge
+                    variant="secondary"
+                    className="absolute left-10 top-1/2 -translate-y-1/2 flex items-center gap-1 py-1 px-2 capitalize z-10"
+                  >
+                    {currentTag}
+                    <X
+                      size={14}
+                      className="cursor-pointer ml-1"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeTag();
+                      }}
+                    />
+                  </Badge>
+                )}
+                
                 <Input
-                  placeholder={t("pages.hero.search.search_placeholder")}
-                  className="pl-10 h-10 w-64"
+                  placeholder={
+                    currentTag
+                      ? ""
+                      : t("pages.hero.search.search_placeholder")
+                  }
+                  className={cn(
+                    "h-10 w-full",
+                    currentTag ? "pl-32" : "pl-10"
+                  )}
                   value={tagSearch}
                   onChange={(e) => {
                     setTagSearch(e.target.value);
@@ -164,12 +192,7 @@ const SearchFilterHeader: React.FC = () => {
                         key={tag._id}
                         onSelect={() => handleTagSelect(tag.value)}
                         value={tag.value}
-                        disabled={currentTags.includes(tag.value)}
-                        className={cn(
-                          "cursor-pointer",
-                          currentTags.includes(tag.value) &&
-                            "opacity-50 cursor-not-allowed"
-                        )}
+                        className="cursor-pointer capitalize"
                       >
                         {tag.value}
                       </CommandItem>
@@ -306,7 +329,7 @@ const SearchFilterHeader: React.FC = () => {
       </div>
 
       {/* Faol filterlar (badges) */}
-      {(currentTags.length > 0 ||
+      {(currentTag ||
         currentCategory !== "all" ||
         currentBedrooms.length > 0 ||
         currentBathrooms.length > 0) && (
@@ -316,16 +339,16 @@ const SearchFilterHeader: React.FC = () => {
               {t("common.active_filters")}:
             </span>
 
-            {/* Tags */}
-            {currentTags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="gap-1 py-1">
-                {tag}
+            {/* Tag - BITTA */}
+            {currentTag && (
+              <Badge variant="secondary" className="gap-1 py-1 capitalize">
+                {currentTag}
                 <X
                   className="h-3 w-3 cursor-pointer"
-                  onClick={() => removeFilter("tag", tag)}
+                  onClick={() => removeFilter("tag")}
                 />
               </Badge>
-            ))}
+            )}
 
             {/* Category */}
             {currentCategory !== "all" && (

@@ -22,11 +22,10 @@ import { Badge } from "@/components/ui/badge";
 import { useDebounce } from "use-debounce";
 import type { ITag } from "@/interfaces/tag/tag.interface";
 import { Input } from "../ui/input";
-import { cn } from "@/lib/utils"; // Shadcn utility
+import { cn } from "@/lib/utils";
 
-const BEDROOMS = ["1", "2", "3", "4", "5", "6", "7+"] as const;
-const BATHROOMS = ["1", "2", "3", "4", "5", "6", "7+"] as const;
-const MAX_TAGS = 4;
+const BEDROOMS = ["1", "2", "3", "4", "5", "6", "7"] as const;
+const BATHROOMS = ["1", "2", "3", "4", "5", "6", "7"] as const;
 const TAG_DEBOUNCE_MS = 300;
 
 interface HeroSectionProps {
@@ -57,20 +56,8 @@ const RoomButton = memo(
       onClick={onToggle}
       className="flex-1 min-w-[45px]"
     >
-      {room}
+      {room == "7" ? "7+" : room}
     </Button>
-  )
-);
-
-const TagBadge = memo(
-  ({ tag, onRemove }: { tag: string; onRemove: () => void }) => (
-    <Badge
-      variant="secondary"
-      className="flex items-center gap-1 py-1 px-2 capitalize"
-    >
-      {tag}
-      <X size={14} className="cursor-pointer ml-1" onClick={onRemove} />
-    </Badge>
   )
 );
 
@@ -104,9 +91,9 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
   const [tagSearch, setTagSearch] = useState("");
   const [debouncedTagSearch] = useDebounce(tagSearch, TAG_DEBOUNCE_MS);
 
-  // Filter States
-  const [selectedTags, setSelectedTags] = useState<string[]>(
-    searchParams.getAll("tag")
+  // Filter States - BITTA TAG UCHUN
+  const [selectedTag, setSelectedTag] = useState<string>(
+    searchParams.get("tag") || ""
   );
   const [selectedCategory, setSelectedCategory] = useState<string>(
     searchParams.get("category") || "all"
@@ -121,7 +108,7 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
   // Sync with URL params
   useEffect(() => {
     setSelectedCategory(searchParams.get("category") || "all");
-    setSelectedTags(searchParams.getAll("tag"));
+    setSelectedTag(searchParams.get("tag") || "");
     setSelectedBedrooms(searchParams.getAll("bdr"));
     setSelectedBathrooms(searchParams.getAll("bthr"));
   }, [searchParams]);
@@ -140,20 +127,20 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
   });
 
   // Handlers
-  const handleTagSelect = useCallback(
-    (tag: string) => {
-      if (selectedTags.length < MAX_TAGS && !selectedTags.includes(tag)) {
-        setSelectedTags((prev) => [...prev, tag]);
-      }
-      setTagSearch("");
-      setOpenTag(false);
-    },
-    [selectedTags]
-  );
+  const handleTagSelect = useCallback((tag: string) => {
+    setSelectedTag(tag);
+    setTagSearch("");
+    setOpenTag(false);
+  }, []);
+
+  const handleTagRemove = useCallback(() => {
+    setSelectedTag("");
+    setTagSearch("");
+  }, []);
 
   const handleSearch = useCallback(() => {
     const queryParams = new URLSearchParams();
-    selectedTags.forEach((tag) => queryParams.append("tag", tag));
+    if (selectedTag) queryParams.set("tag", selectedTag);
     selectedBedrooms.forEach((bdr) => queryParams.append("bdr", bdr));
     selectedBathrooms.forEach((bthr) => queryParams.append("bthr", bthr));
     if (selectedCategory && selectedCategory !== "all")
@@ -162,7 +149,7 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
     navigate(`/search?${queryParams.toString()}`);
     setMobileSearchActive(false);
   }, [
-    selectedTags,
+    selectedTag,
     selectedBedrooms,
     selectedBathrooms,
     selectedCategory,
@@ -230,7 +217,7 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
             {t(title)}
           </h1>
 
-          {/* Mobile Quick Search Bar (Faqat ko'rinish uchun, bosganda panel ochiladi) */}
+          {/* Mobile Quick Search Bar */}
           {isMobile && !mobileSearchActive && (
             <div
               onClick={() => setMobileSearchActive(true)}
@@ -250,7 +237,7 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
         </div>
       </div>
 
-      {/* MOBILE SEARCH PANEL (Overlay) */}
+      {/* MOBILE SEARCH PANEL */}
       {isMobile && mobileSearchActive && (
         <div className="fixed inset-0 z-[100] bg-white flex flex-col animate-in fade-in zoom-in duration-200">
           <div className="flex items-center justify-between p-4 border-b">
@@ -283,17 +270,20 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
                 />
               </div>
 
-              <div className="flex flex-wrap gap-2">
-                {selectedTags.map((tag) => (
-                  <TagBadge
-                    key={tag}
-                    tag={tag}
-                    onRemove={() =>
-                      setSelectedTags((p) => p.filter((t) => t !== tag))
-                    }
+              {/* Tanlangan tag ko'rinishi */}
+              {selectedTag && (
+                <Badge
+                  variant="secondary"
+                  className="flex items-center gap-1 py-1 px-2 capitalize w-fit"
+                >
+                  {selectedTag}
+                  <X
+                    size={14}
+                    className="cursor-pointer ml-1"
+                    onClick={handleTagRemove}
                   />
-                ))}
-              </div>
+                </Badge>
+              )}
 
               {/* Tag Search Suggestions */}
               {openTag && (tagSearch || isTagsLoading) && (
@@ -369,13 +359,32 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
           <div className="bg-white rounded-2xl shadow-2xl border flex items-center h-16 p-2 gap-2">
             <Popover open={openTag} onOpenChange={setOpenTag}>
               <PopoverTrigger asChild>
-                <div className="flex-1 flex flex-wrap items-center gap-2 overflow-x-auto no-scrollbar px-2 cursor-text h-full">
+                <div className="flex-1 flex items-center gap-2 px-2 cursor-text h-full">
                   <Tag size={18} className="text-gray-400 shrink-0" />
+
+                  {/* Tanlangan tag chap tomonda */}
+                  {selectedTag && (
+                    <Badge
+                      variant="secondary"
+                      className="flex items-center gap-1 py-1 px-2 capitalize shrink-0"
+                    >
+                      {selectedTag}
+                      <X
+                        size={14}
+                        className="cursor-pointer ml-1"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleTagRemove();
+                        }}
+                      />
+                    </Badge>
+                  )}
+
                   <input
                     className="outline-none text-sm flex-1 h-full bg-transparent"
                     placeholder={
-                      selectedTags.length
-                        ? ""
+                      selectedTag
+                        ? t("pages.hero.search.change_tag")
                         : t("pages.hero.search.search_placeholder")
                     }
                     value={tagSearch}
@@ -388,17 +397,6 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
                 align="start"
                 onOpenAutoFocus={(e) => e.preventDefault()}
               >
-                <div className="flex gap-1">
-                  {selectedTags.map((tag) => (
-                    <TagBadge
-                      key={tag}
-                      tag={tag}
-                      onRemove={() =>
-                        setSelectedTags((p) => p.filter((t) => t !== tag))
-                      }
-                    />
-                  ))}
-                </div>
                 <Command>
                   <CommandList>
                     {isTagsLoading && (
