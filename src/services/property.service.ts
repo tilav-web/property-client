@@ -18,6 +18,10 @@ export interface FindAllParams {
   bedrooms?: number[];
   bathrooms?: number[];
   filterCategory?: CategoryFilterType;
+  sw_lng?: number;
+  sw_lat?: number;
+  ne_lng?: number;
+  ne_lat?: number;
 }
 
 class PropertyService {
