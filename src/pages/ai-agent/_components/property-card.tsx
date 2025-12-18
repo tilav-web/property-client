@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin } from "lucide-react";
@@ -5,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import type { PropertyType } from "@/interfaces/property/property.interface";
 
 export default function PropertyCard({ property }: { property: PropertyType }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
@@ -22,7 +24,7 @@ export default function PropertyCard({ property }: { property: PropertyType }) {
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-            <span className="text-muted-foreground text-sm">No image</span>
+            <span className="text-muted-foreground text-sm">{t("ai_agent_page.no_image")}</span>
           </div>
         )}
 
@@ -30,7 +32,7 @@ export default function PropertyCard({ property }: { property: PropertyType }) {
         {property.is_premium && (
           <div className="absolute top-3 right-3">
             <Badge className="bg-amber-500 hover:bg-amber-600">
-              Premium
+              {t("ai_agent_page.premium")}
             </Badge>
           </div>
         )}

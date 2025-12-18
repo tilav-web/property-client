@@ -836,5 +836,21 @@
     "years_and_months_full": "{{years}} years {{months}} months",
     "years_only": "{{count}} years",
     "months_only": "{{count}} months"
+  },
+  "ai_agent_page": {
+    "title": "AI Property Finder",
+    "subtitle": "Search for properties using natural language",
+    "welcome_title": "Welcome to AI Property Finder",
+    "welcome_description": "Describe what you are looking for in natural language. For example: 'Show 3-bedroom apartments for rent in Tashkent for less than 5 million'.",
+    "found_properties": "Found some properties for you!",
+    "no_properties_found": "No properties found for your request.",
+    "error_message": "Sorry, I encountered an error. Please try again.",
+    "error_fetching_more": "Error fetching more properties:",
+    "searching": "AI is searching...",
+    "loading_more": "Loading more...",
+    "load_more_button": "Load More",
+    "input_placeholder": "Describe the property you're looking for...",
+    "no_image": "No image",
+    "premium": "Premium"
   }
 }

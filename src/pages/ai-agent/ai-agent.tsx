@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
@@ -21,6 +22,7 @@ interface Message {
 }
 
 export default function AiAgent() {
+  const { t } = useTranslation();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -63,8 +65,8 @@ export default function AiAgent() {
         type: "ai",
         content:
           response.properties.length > 0
-            ? "Found some properties for you!"
-            : "No properties found for your request.",
+            ? t("ai_agent_page.found_properties")
+            : t("ai_agent_page.no_properties_found"),
         properties: response.properties,
         currentPage: response.page,
         totalPages: response.totalPages,
@@ -76,7 +78,7 @@ export default function AiAgent() {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: "ai",
-        content: "Sorry, I encountered an error. Please try again.",
+        content: t("ai_agent_page.error_message"),
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -127,7 +129,7 @@ export default function AiAgent() {
         return newMessages;
       });
     } catch (error) {
-      console.error("Error fetching more properties:", error);
+      console.error(t("ai_agent_page.error_fetching_more"), error);
     } finally {
       setIsFetchingMore(false);
     }
@@ -149,10 +151,10 @@ export default function AiAgent() {
       <div className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <h1 className="text-3xl font-bold text-foreground">
-            AI Property Finder
+            {t("ai_agent_page.title")}
           </h1>
           <p className="text-muted-foreground mt-1">
-            Search for properties using natural language
+            {t("ai_agent_page.subtitle")}
           </p>
         </div>
       </div>
@@ -170,11 +172,10 @@ export default function AiAgent() {
               </div>
             </div>
             <h2 className="text-2xl font-semibold text-foreground mb-2">
-              Welcome to AI Property Finder
+              {t("ai_agent_page.welcome_title")}
             </h2>
             <p className="text-muted-foreground max-w-md">
-              Describe what you're looking for in natural language. For
-              example: "Show me 3-bedroom apartments for rent in Tashkent under $500"
+              {t("ai_agent_page.welcome_description")}
             </p>
           </div>
         ) : (
@@ -197,10 +198,10 @@ export default function AiAgent() {
                     >
                       {isFetchingMore ? (
                         <>
-                          <Spinner className="mr-2" /> Loading more...
+                          <Spinner className="mr-2" /> {t("ai_agent_page.loading_more")}
                         </>
                       ) : (
-                        "Load More"
+                        t("ai_agent_page.load_more_button")
                       )}
                     </Button>
                   </div>
@@ -210,7 +211,7 @@ export default function AiAgent() {
             {loading && (
               <div className="flex items-center gap-3 text-muted-foreground">
                 <Spinner className="w-5 h-5" />
-                <span>AI is searching...</span>
+                <span>{t("ai_agent_page.searching")}</span>
               </div>
             )}
             <div ref={messagesEndRef} className="h-1" />
@@ -225,7 +226,7 @@ export default function AiAgent() {
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Describe the property you're looking for..."
+              placeholder={t("ai_agent_page.input_placeholder")}
               disabled={loading || isFetchingMore}
               className="flex-1"
             />

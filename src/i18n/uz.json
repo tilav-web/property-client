@@ -742,5 +742,21 @@
     "jshshir_14_digits": "JSHSHIR 14 ta raqamdan iborat bo'lishi kerak",
     "jshshir_required": "JSHSHIR majburiy",
     "failed_to_save_details": "Ma'lumotlarni saqlashda xatolik"
+  },
+  "ai_agent_page": {
+    "title": "AI Mulk Qidirish",
+    "subtitle": "Natural tildan foydalanib mulk qidiring",
+    "welcome_title": "AI Mulk Qidirish-ga xush kelibsiz",
+    "welcome_description": "Siz izlayotgan narsani natural tilda tasvirlab bering. Masalan: \"Tashkentda 3 xonali kvartiralarni ijaraga berish uchun 5 million dan past narxda ko'rsating\"",
+    "found_properties": "Siz uchun mulklarni topib oldim!",
+    "no_properties_found": "Sizning so'rovingiz bo'yicha mulk topilmadi.",
+    "error_message": "Kechirasiz, xatolik yuz berdi. Qayta urinib ko'ring.",
+    "error_fetching_more": "Qo'shimcha mulklarni yuklashda xatolik:",
+    "searching": "AI qidiryapti...",
+    "loading_more": "Yana yuklanmoqda...",
+    "load_more_button": "Batafsil ko'rsating",
+    "input_placeholder": "Izlayotgan mulkni tasvirlab bering...",
+    "no_image": "Rasm topilmadi",
+    "premium": "Premium"
   }
 }
