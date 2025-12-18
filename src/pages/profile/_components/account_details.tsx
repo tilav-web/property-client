@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useUserStore } from "@/stores/user.store";
 import { profileSchema } from "@/schemas/profile.schema";
-import { defaultImageAvatar, serverUrl } from "@/utils/shared";
+import { defaultImageAvatar } from "@/utils/shared";
 import { userService } from "@/services/user.service";
 import { useTranslation } from "react-i18next";
 import { Camera, Edit2, X, Check, Loader2 } from "lucide-react";
@@ -83,9 +83,7 @@ export default function AccountDetails() {
               <img
                 src={
                   previewAvatar ||
-                  (user?.avatar
-                    ? `${serverUrl}/uploads/${user.avatar}`
-                    : defaultImageAvatar)
+                  (user?.avatar ? user.avatar : defaultImageAvatar)
                 }
                 alt="Profile"
                 className="w-full h-full object-cover"
@@ -264,9 +262,7 @@ export default function AccountDetails() {
                 </p>
               )}
               <p className="text-xs text-gray-600 mt-2">
-                {t(
-                  "pages.account_details_page.new_password_placeholder"
-                )}
+                {t("pages.account_details_page.new_password_placeholder")}
               </p>
             </div>
           )}

@@ -31,7 +31,7 @@ import {
 import Login from "@/pages/auth/login";
 import { useUserStore } from "@/stores/user.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { defaultImageAvatar, logo, serverUrl } from "@/utils/shared";
+import { defaultImageAvatar, logo } from "@/utils/shared";
 import { userService } from "@/services/user.service";
 import { toast } from "sonner";
 import { handleStorage } from "@/utils/handle-storage";
@@ -220,9 +220,7 @@ export default function Header() {
                   <Avatar className="cursor-pointer">
                     <AvatarImage
                       src={`${
-                        user?.avatar
-                          ? `${serverUrl}/uploads/${user?.avatar}`
-                          : defaultImageAvatar
+                        user?.avatar ? user?.avatar : defaultImageAvatar
                       }`}
                       className="object-cover"
                     />
