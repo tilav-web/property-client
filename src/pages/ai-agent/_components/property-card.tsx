@@ -1,14 +1,20 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Bed, Bath, Ruler } from "lucide-react";
-import type { PropertyType } from "@/interfaces/property/property.interface"; // Import PropertyType
+import { MapPin } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import type { PropertyType } from "@/interfaces/property/property.interface";
 
 export default function PropertyCard({ property }: { property: PropertyType }) {
+  const navigate = useNavigate();
+
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+    <Card
+      onClick={() => navigate(`/property/${property._id}`)}
+      className="cursor-pointer overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full"
+    >
       {/* Image */}
       <div className="relative w-full h-48 bg-muted overflow-hidden">
-        {property.photos && property.photos.length > 0 ? (
+        {property.photos?.length ? (
           <img
             src={property.photos[0]}
             alt={property.title}
@@ -19,16 +25,19 @@ export default function PropertyCard({ property }: { property: PropertyType }) {
             <span className="text-muted-foreground text-sm">No image</span>
           </div>
         )}
-        {/* Badges */}
-        <div className="absolute top-3 right-3 flex gap-2">
-          {property.is_premium && (
-            <Badge className="bg-amber-500 hover:bg-amber-600">Premium</Badge>
-          )}
-        </div>
+
+        {/* Premium badge */}
+        {property.is_premium && (
+          <div className="absolute top-3 right-3">
+            <Badge className="bg-amber-500 hover:bg-amber-600">
+              Premium
+            </Badge>
+          </div>
+        )}
       </div>
 
       {/* Content */}
-      <div className="p-4 flex-1 flex flex-col">
+      <div className="p-4 flex flex-col flex-1">
         {/* Title */}
         <h3 className="font-semibold text-foreground line-clamp-2 mb-2">
           {property.title}
@@ -37,48 +46,19 @@ export default function PropertyCard({ property }: { property: PropertyType }) {
         {/* Price */}
         <div className="mb-3">
           <p className="text-lg font-bold text-primary">
-            ${property.price?.toLocaleString()} {property.currency}
+            {property.price.toLocaleString()} {property.currency.toUpperCase()}
           </p>
-          <p className="text-xs text-muted-foreground capitalize">
-            {property.category}
+          <p className="text-xs text-muted-foreground">
+            {property.category.replace("_", " ").toLowerCase()}
           </p>
         </div>
 
-        {/* Location */}
-        <div className="flex items-start gap-2 mb-3 text-sm text-muted-foreground">
+        {/* Address */}
+        <div className="flex gap-2 text-sm text-muted-foreground mt-auto">
           <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-          <div>
-            <p className="font-medium text-foreground">
-              {property.address || property.address || "Unknown location"}
-            </p>
-            {/* region and district are not directly available, using address instead */}
-          </div>
-        </div>
-
-        {/* Info Bar */}
-        <div className="flex gap-4 pt-3 border-t border-border mt-auto">
-          {"bedrooms" in property &&
-            property.bedrooms !== undefined &&
-            property.bedrooms > 0 && (
-              <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                <Bed className="w-4 h-4" />
-                <span>{property.bedrooms}</span>
-              </div>
-            )}
-          {"bathrooms" in property &&
-            property.bathrooms !== undefined &&
-            property.bathrooms > 0 && (
-              <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                <Bath className="w-4 h-4" />
-                <span>{property.bathrooms}</span>
-              </div>
-            )}
-          {property.area !== undefined && property.area > 0 && (
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-              <Ruler className="w-4 h-4" />
-              <span>{property.area} m²</span>
-            </div>
-          )}
+          <p className="line-clamp-2">
+            {property.address || "Manzil ko‘rsatilmagan"}
+          </p>
         </div>
       </div>
     </Card>
