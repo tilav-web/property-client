@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import { propertyService } from "@/services/property.service";
 import type { PropertyType } from "@/interfaces/property/property.interface";
 import { toast } from "sonner";
+import { useMapStore } from "@/stores/map.store";
 
 declare global {
   interface Window {
@@ -13,7 +14,15 @@ declare global {
 
 const DEFAULT_CENTER: [number, number] = [41.2995, 69.2401]; // Toshkent
 const DEFAULT_ZOOM = 12;
-const DEBOUNCE_DELAY = 1000; // 2 sekund
+const DEBOUNCE_DELAY = 500; // 0.5 sekundga tushirdik
+
+// AREA KEY helper outside component so callbacks can be stable
+const getAreaKey = (lat: number, lng: number): string => {
+  const AREA_SIZE = 0.2;
+  const latKey = (Math.floor(lat / AREA_SIZE) * AREA_SIZE).toFixed(1);
+  const lngKey = (Math.floor(lng / AREA_SIZE) * AREA_SIZE).toFixed(1);
+  return `${latKey}:${lngKey}`;
+};
 
 export default function YandexMap() {
   const [searchParams] = useSearchParams();
@@ -21,24 +30,19 @@ export default function YandexMap() {
   const [isLoading, setIsLoading] = useState(false);
 
   const mapRef = useRef<any>(null);
-  const markersRef = useRef<Map<string, any>>(new Map());
+  const clustererRef = useRef<any>(null);
   const searchMarkerRef = useRef<any>(null);
   const searchCoordsRef = useRef<[number, number] | null>(null);
   const loadTimeoutRef = useRef<any>(null);
   const isQueryLocationRef = useRef(false);
   const lastAreaKeyRef = useRef<string | null>(null);
 
-  /**
-   * 🔥 AREA KEY: Lat/Lng asosida yirik hudud (cell) aniqlaymiz
-   * AREA_SIZE = 0.2 ≈ 22 km
-   * Faqat AREA almashganda yangi query qilamiz
-   */
-  const getAreaKey = (lat: number, lng: number): string => {
-    const AREA_SIZE = 0.2;
-    const latKey = (Math.floor(lat / AREA_SIZE) * AREA_SIZE).toFixed(1);
-    const lngKey = (Math.floor(lng / AREA_SIZE) * AREA_SIZE).toFixed(1);
-    return `${latKey}:${lngKey}`;
-  };
+  const mergedProperties = useMapStore((s) => s.mergedProperties);
+
+  useEffect(() => {
+    // Sync local state with store's merged properties
+    setProperties(mergedProperties);
+  }, [mergedProperties]);
 
   // 1. YMAPS KUTISH
   const waitForYmaps = (): Promise<void> => {
@@ -56,79 +60,82 @@ export default function YandexMap() {
     });
   };
 
-  // 2. PROPERTY LARNI YUKLASH (BOUNDS + AREA KEY)
-  const loadProperties = async (
-    sw_lat: number,
-    sw_lng: number,
-    ne_lat: number,
-    ne_lng: number
-  ) => {
-    setIsLoading(true);
-    try {
-      const response = await propertyService.findAll({
-        sw_lat,
-        sw_lng,
-        ne_lat,
-        ne_lng,
-        limit: 100,
-      });
+  // 2. PROPERTY LARNI YUKLASH (CACHE TEKSHIRISH BILAN)
+  const loadProperties = useCallback(
+    async (sw_lat: number, sw_lng: number, ne_lat: number, ne_lng: number) => {
+      const centerLat = (sw_lat + ne_lat) / 2;
+      const centerLng = (sw_lng + ne_lng) / 2;
+      const areaKey = getAreaKey(centerLat, centerLng);
 
-      const newProperties = response.properties || [];
-      const newAreaKey = response.areaKey;
-
-      // 🔥 AREA KEY: areaKey o'zgarganda yangi query, shuning uchun eski properties ketadi
-      if (lastAreaKeyRef.current !== newAreaKey) {
-        lastAreaKeyRef.current = newAreaKey;
-        setProperties(newProperties);
-      } else {
-        // Shuning uchun xarita shunga surish → merge qilamiz
-        setProperties((prev) => {
-          const map = new Map<string, PropertyType>();
-          prev.forEach((p) => map.set(p._id, p));
-          newProperties.forEach((p: PropertyType) => map.set(p._id, p));
-          return Array.from(map.values());
-        });
+      // 🔥 CACHE TEKSHIRISH: Agar storeda bu areaKey uchun data bo'lsa — so'rov yubormaymiz
+      const existingProperties = useMapStore.getState().areaMap[areaKey];
+      if (existingProperties && existingProperties.length > 0) {
+        console.log(`Cache hit for areaKey: ${areaKey}`);
+        lastAreaKeyRef.current = areaKey;
+        return; // So'rov yubormaymiz!
       }
-    } catch (error) {
-      console.error("Properties load error:", error);
-      toast.error("Ma'lumotlar yuklanmadi");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
-  // 3. DEBOUNCED LOAD - FAQAT AREA ALMASHGANDA
-  const loadPropertiesDebounced = (
-    sw_lat: number,
-    sw_lng: number,
-    ne_lat: number,
-    ne_lng: number
-  ) => {
-    const centerLat = (sw_lat + ne_lat) / 2;
-    const centerLng = (sw_lng + ne_lng) / 2;
-    const areaKey = getAreaKey(centerLat, centerLng);
+      setIsLoading(true);
+      try {
+        const response = await propertyService.findAll({
+          sw_lat,
+          sw_lng,
+          ne_lat,
+          ne_lng,
+          limit: 100,
+        });
 
-    // 🔥 Faqat AREA almashganda query qilamiz (xarita surish tez!)
-    if (lastAreaKeyRef.current === areaKey) {
-      return; // Shuning uchun area: merge qilamiz
-    }
+        const newProperties = response.properties || [];
+        const responseAreaKey = response.areaKey || areaKey;
 
-    // Eski timeout ni bekor qilish
-    if (loadTimeoutRef.current) {
-      clearTimeout(loadTimeoutRef.current);
-    }
+        // Store ga qo'shamiz
+        useMapStore.getState().addProperties(responseAreaKey, newProperties);
 
-    // Yangi timeout - 2 sekund kutadi
-    loadTimeoutRef.current = setTimeout(() => {
-      loadProperties(sw_lat, sw_lng, ne_lat, ne_lng);
-    }, DEBOUNCE_DELAY);
-  };
+        lastAreaKeyRef.current = responseAreaKey;
+      } catch (error) {
+        console.error("Properties load error:", error);
+        toast.error("Ma'lumotlar yuklanmadi");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
+
+  // 3. DEBOUNCED LOAD - FAQAT AREA ALMASHGANDA VA CACHE YO'Q BO'LGANDA
+  const loadPropertiesDebounced = useCallback(
+    (sw_lat: number, sw_lng: number, ne_lat: number, ne_lng: number) => {
+      const centerLat = (sw_lat + ne_lat) / 2;
+      const centerLng = (sw_lng + ne_lng) / 2;
+      const areaKey = getAreaKey(centerLat, centerLng);
+
+      // Agar cache da bo'lsa — hech nima qilmaymiz
+      const cached = useMapStore.getState().areaMap[areaKey];
+      if (cached && cached.length > 0) {
+        lastAreaKeyRef.current = areaKey;
+        return;
+      }
+
+      // Agar last area bilan bir xil bo'lsa — hech nima qilmaymiz
+      if (lastAreaKeyRef.current === areaKey) {
+        return;
+      }
+
+      if (loadTimeoutRef.current) {
+        clearTimeout(loadTimeoutRef.current);
+      }
+
+      loadTimeoutRef.current = setTimeout(() => {
+        loadProperties(sw_lat, sw_lng, ne_lat, ne_lng);
+      }, DEBOUNCE_DELAY);
+    },
+    [loadProperties]
+  );
 
   // 4. SEARCH MARKER (YASHIL)
-  const addSearchMarker = (lat: number, lng: number) => {
+  const addSearchMarker = useCallback((lat: number, lng: number) => {
     if (!mapRef.current) return;
 
-    // Eski marker ni o'chirish
     if (searchMarkerRef.current) {
       mapRef.current.geoObjects.remove(searchMarkerRef.current);
     }
@@ -164,116 +171,64 @@ export default function YandexMap() {
 
     mapRef.current.geoObjects.add(marker);
     searchMarkerRef.current = marker;
-    // Store search coordinates so we can avoid drawing duplicate property markers
     searchCoordsRef.current = [lat, lng];
-  };
+  }, []);
 
-  // 5. PROPERTY MARKER LAR (KO'K)
-  const updatePropertyMarkers = () => {
+  // 5. PROPERTY MARKER LAR (KO'K) - CLUSTERER BILAN
+  const createBalloon = useCallback((p: PropertyType) => `
+    <div style="padding: 12px; min-width: 200px;">
+      <div style="font-weight: 600; margin-bottom: 8px; font-size: 14px;">
+        ${p.title}
+      </div>
+      <div style="color: #16a34a; font-weight: 600; font-size: 16px; margin-bottom: 8px;">
+        ${p.price?.toLocaleString()} ${p.currency?.toUpperCase()}
+      </div>
+      <div style="font-size: 12px; color: #666; margin-bottom: 4px;">
+        📍 ${p.address}
+      </div>
+      <div style="font-size: 12px; color: #666;">
+        🏠 ${p.bedrooms || 0} xona • ${p.area || 0} m²
+      </div>
+    </div>
+  `, []);
+
+  const updatePropertyMarkers = useCallback(() => {
     if (!mapRef.current) return;
 
-    const currentIds = new Set(properties.map((p) => p._id));
+    if (!clustererRef.current) {
+      clustererRef.current = new window.ymaps.Clusterer({
+        preset: 'islands#invertedBlueClusterIcons',
+        groupByCoordinates: false,
+        clusterDisableClickZoom: true,
+        clusterHideIconOnBalloonOpen: false,
+      });
+      mapRef.current.geoObjects.add(clustererRef.current);
+    }
 
-    // Eski marker larni o'chirish
-    markersRef.current.forEach((marker, id) => {
-      if (!currentIds.has(id)) {
-        mapRef.current.geoObjects.remove(marker);
-        markersRef.current.delete(id);
-      }
-    });
+    const markers: any[] = [];
 
-    // Yangi marker larni qo'shish
     properties.forEach((property) => {
       const [lng, lat] = property.location.coordinates;
 
-      // Agar bu property qidiruv manzili bilan bir xil koordinatadaligini aniqlasak,
-      // qidiruv markerining ustiga ko'k marker qo'yilmasligi uchun o'tkazib yuboramiz.
       if (isQueryLocationRef.current && searchCoordsRef.current) {
         const [sLat, sLng] = searchCoordsRef.current;
-        const almostEqual = (a: number, b: number) => Math.abs(a - b) < 1e-6;
-        if (almostEqual(sLat, lat) && almostEqual(sLng, lng)) {
+        if (Math.abs(sLat - lat) < 1e-6 && Math.abs(sLng - lng) < 1e-6) {
           return;
         }
       }
 
-      const createBalloon = (p: PropertyType) => `
-            <div style="padding: 12px; min-width: 200px;">
-              <div style="font-weight: 600; margin-bottom: 8px; font-size: 14px;">
-                ${p.title}
-              </div>
-              <div style="color: #16a34a; font-weight: 600; font-size: 16px; margin-bottom: 8px;">
-                ${p.price?.toLocaleString()} ${p.currency?.toUpperCase()}
-              </div>
-              <div style="font-size: 12px; color: #666; margin-bottom: 4px;">
-                📍 ${p.address}
-              </div>
-              <div style="font-size: 12px; color: #666;">
-                🏠 ${p.bedrooms || 0} xona • ${p.area || 0} m²
-              </div>
-            </div>
-          `;
-
-      // Agar marker mavjud bo'lsa, uni yangilaymiz — koordinatalar o'zgargan bo'lsa
-      // geometry ni yangilab, balloon contentni yangilaymiz. Agar koordinata o'zgargan
-      // bo'lsa va API qo'llab-quvvatlasa geometry.setCoordinates ni chaqiramiz.
-      if (markersRef.current.has(property._id)) {
-        const existing = markersRef.current.get(property._id);
-        try {
-          const existingCoords = existing.geometry.getCoordinates();
-          // existingCoords -> [lat, lng]
-          const almostEqual = (a: number, b: number) => Math.abs(a - b) < 1e-6;
-          const coordsEqual =
-            almostEqual(existingCoords[0], lat) && almostEqual(existingCoords[1], lng);
-
-          if (!coordsEqual) {
-            // Koordinatalar o'zgargan bo'lsa geometry ni yangilaymiz
-            if (existing.geometry && typeof existing.geometry.setCoordinates === "function") {
-              existing.geometry.setCoordinates([lat, lng]);
-            } else {
-              // Agar setCoordinates mavjud bo'lmasa markerni qayta yaratamiz
-              mapRef.current.geoObjects.remove(existing);
-              const newMarker = new window.ymaps.Placemark(
-                [lat, lng],
-                { balloonContent: createBalloon(property) },
-                { preset: "islands#blueDotIcon" }
-              );
-              mapRef.current.geoObjects.add(newMarker);
-              markersRef.current.set(property._id, newMarker);
-              return;
-            }
-          }
-
-          // Har holda balloon kontentni yangilaymiz
-          if (existing.properties && typeof existing.properties.set === "function") {
-            existing.properties.set("balloonContent", createBalloon(property));
-          }
-        } catch (err) {
-          // Agar nimadir xato bo'lsa, markerni qayta yaratamiz
-          console.error("Marker update error:", err);
-          mapRef.current.geoObjects.remove(existing);
-          const repl = new window.ymaps.Placemark(
-            [lat, lng],
-            { balloonContent: createBalloon(property) },
-            { preset: "islands#blueDotIcon" }
-          );
-          mapRef.current.geoObjects.add(repl);
-          markersRef.current.set(property._id, repl);
-        }
-
-        return;
-      }
-
-      // Aks holda yangi marker yaratamiz
       const marker = new window.ymaps.Placemark(
         [lat, lng],
         { balloonContent: createBalloon(property) },
         { preset: "islands#blueDotIcon" }
       );
 
-      mapRef.current.geoObjects.add(marker);
-      markersRef.current.set(property._id, marker);
+      markers.push(marker);
     });
-  };
+
+    clustererRef.current.removeAll();
+    clustererRef.current.add(markers);
+  }, [properties, createBalloon]);
 
   // 6. MAP INITIALIZATION
   useEffect(() => {
@@ -283,7 +238,6 @@ export default function YandexMap() {
       await waitForYmaps();
       if (destroyed) return;
 
-      // URL dan lat/lng olish
       const urlLat = searchParams.get("lat");
       const urlLng = searchParams.get("lng");
 
@@ -292,44 +246,31 @@ export default function YandexMap() {
       let zoom = DEFAULT_ZOOM;
       let hasQueryLocation = false;
 
-      // 1. Query location bor bo'lsa
       if (urlLat && urlLng && !isNaN(+urlLat) && !isNaN(+urlLng)) {
         centerLat = +urlLat;
         centerLng = +urlLng;
         zoom = 16;
         hasQueryLocation = true;
         isQueryLocationRef.current = true;
-
         toast.success("Qidiruv manzili topildi");
-      }
-      // 2. Query yo'q bo'lsa user location
-      else if ("geolocation" in navigator) {
+      } else if ("geolocation" in navigator) {
         isQueryLocationRef.current = false;
-
         try {
-          const position = await new Promise<GeolocationPosition>(
-            (resolve, reject) => {
-              navigator.geolocation.getCurrentPosition(resolve, reject, {
-                timeout: 5000,
-              });
-            }
-          );
-
+          const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 });
+          });
           centerLat = position.coords.latitude;
           centerLng = position.coords.longitude;
           zoom = 14;
-
           toast.success("Sizning joylashuvingiz aniqlandi");
         } catch (error) {
           console.error(error);
-
           toast.info("Toshkent markazi ko'rsatilmoqda");
         }
       } else {
         isQueryLocationRef.current = false;
       }
 
-      // Map yaratish
       const map = new window.ymaps.Map("yandex-map", {
         center: [centerLat, centerLng],
         zoom: zoom,
@@ -338,26 +279,22 @@ export default function YandexMap() {
 
       mapRef.current = map;
 
-      // Query location bo'lsa yashil marker
       if (hasQueryLocation) {
         addSearchMarker(centerLat, centerLng);
       }
 
-      // 🔥 Dastlabki BOUNDS ni hisoblab property larni yuklash
       const bounds = map.getBounds();
       if (bounds) {
-        const sw = bounds[0]; // [sw_lat, sw_lng]
-        const ne = bounds[1]; // [ne_lat, ne_lng]
+        const sw = bounds[0];
+        const ne = bounds[1];
         loadProperties(sw[0], sw[1], ne[0], ne[1]);
       }
 
-      // Map harakatlari uchun event listener
-      // boundschange - zoom o'zgarganda va map surganda
       map.events.add("boundschange", () => {
         const bounds = map.getBounds();
         if (bounds) {
-          const sw = bounds[0]; // [sw_lat, sw_lng]
-          const ne = bounds[1]; // [ne_lat, ne_lng]
+          const sw = bounds[0];
+          const ne = bounds[1];
           loadPropertiesDebounced(sw[0], sw[1], ne[0], ne[1]);
         }
       });
@@ -367,55 +304,38 @@ export default function YandexMap() {
 
     return () => {
       destroyed = true;
-
-      // Timeout ni tozalash
       if (loadTimeoutRef.current) {
         clearTimeout(loadTimeoutRef.current);
       }
-
       if (mapRef.current) {
         mapRef.current.destroy();
         mapRef.current = null;
       }
+      if (clustererRef.current) {
+        clustererRef.current = null;
+      }
     };
-  }, [searchParams]);
+  }, [searchParams, loadProperties, loadPropertiesDebounced, addSearchMarker]);
 
   // 7. MARKER LARNI YANGILASH
   useEffect(() => {
     updatePropertyMarkers();
-  }, [properties]);
+  }, [updatePropertyMarkers]);
 
   return (
     <div className="relative w-full h-screen">
       <div id="yandex-map" className="w-full h-full" />
 
-      {/* Loading */}
       {isLoading && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-sm px-4 py-3 rounded-xl shadow-lg z-10 flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
-          <svg
-            className="animate-spin h-5 w-5 text-blue-600"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-              fill="none"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            />
+          <svg className="animate-spin h-5 w-5 text-blue-600" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
           </svg>
           <span className="font-medium text-gray-700">Yuklanmoqda...</span>
         </div>
       )}
 
-      {/* Property Counter */}
       <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm px-4 py-2.5 rounded-xl shadow-lg z-10 border border-gray-200">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
@@ -425,7 +345,6 @@ export default function YandexMap() {
         </div>
       </div>
 
-      {/* Legend */}
       <div className="absolute bottom-6 right-6 bg-white/95 backdrop-blur-sm px-4 py-3 rounded-xl shadow-lg z-10 border border-gray-200">
         <div className="space-y-2 text-xs">
           {isQueryLocationRef.current && (
