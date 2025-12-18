@@ -58,8 +58,8 @@ export default function BidPriceButton({
     e.preventDefault();
 
     if (!formData.comment.trim()) {
-      toast.error("Xatolik", {
-        description: "Qo'shimcha izohni to'ldiiring.",
+      toast.error(t("common.buttons.bid_price_form.error_title"), {
+        description: t("common.buttons.bid_price_form.error_empty_notes"),
       });
       return;
     }
@@ -79,8 +79,8 @@ export default function BidPriceButton({
 
     try {
       await inquiryService.create(dto);
-      toast.success("Muvaffaqiyatli", {
-        description: "So'rovingiz muvaffaqiyatli yuborildi!",
+      toast.success(t("common.buttons.bid_price_form.success_title"), {
+        description: t("common.buttons.bid_price_form.success_message"),
       });
       setFormData({
         type: "purchase" as TInquiryType,
@@ -90,8 +90,8 @@ export default function BidPriceButton({
       setIsOpen(false);
     } catch (error) {
       console.error("Failed to submit inquiry:", error);
-      toast.error("Xatolik", {
-        description: "So'rov yuborishda xatolik yuz berdi.",
+      toast.error(t("common.buttons.bid_price_form.error_title"), {
+        description: t("common.buttons.bid_price_form.error_message"),
       });
     } finally {
       setIsLoading(false);
@@ -210,13 +210,13 @@ export default function BidPriceButton({
 
         {/* So'rov formasi */}
         <div className="mt-6 p-6 border rounded-lg bg-slate-50">
-          <h3 className="text-lg font-semibold mb-4">So'rov yuborish</h3>
+          <h3 className="text-lg font-semibold mb-4">{t("common.buttons.bid_price_form.title")}</h3>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* So'rov turini tanlash */}
             <div>
               <label className="block text-sm font-medium mb-2">
-                So'rov turi
+                {t("common.buttons.bid_price_form.inquiry_type")}
               </label>
               <div className="grid grid-cols-2 gap-3">
                 <button
@@ -228,7 +228,7 @@ export default function BidPriceButton({
                       : "border-gray-300 hover:border-gray-400"
                   }`}
                 >
-                  💰 Sotib olish
+                  {t("common.buttons.bid_price_form.purchase")}
                 </button>
                 <button
                   type="button"
@@ -239,7 +239,7 @@ export default function BidPriceButton({
                       : "border-gray-300 hover:border-gray-400"
                   }`}
                 >
-                  🏦 Ipoteka
+                  {t("common.buttons.bid_price_form.mortgage")}
                 </button>
               </div>
             </div>
@@ -247,14 +247,14 @@ export default function BidPriceButton({
             {/* Narx slider */}
             <div className="space-y-4">
               <label className="block text-sm font-medium">
-                Taklif qilingan narx
+                {t("common.buttons.bid_price_form.offered_price")}
               </label>
 
               {/* Joriy narx ko'rsatkichi */}
               <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm text-gray-600">
-                    Sizning taklifingiz
+                    {t("common.buttons.bid_price_form.your_offer")}
                   </span>
                   <div className="flex items-center gap-2">
                     {pricePercentage < 0 ? (
@@ -298,19 +298,19 @@ export default function BidPriceButton({
                 {/* Min/Max ko'rsatkichlar */}
                 <div className="flex items-center justify-between text-xs text-gray-500">
                   <div className="flex flex-col items-start">
-                    <span className="text-gray-400">Min (-30%)</span>
+                    <span className="text-gray-400">{t("common.buttons.bid_price_form.min_label")}</span>
                     <span className="font-medium text-gray-700">
                       {priceRange.min.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <span className="text-gray-400">Bazaviy narx</span>
+                    <span className="text-gray-400">{t("common.buttons.bid_price_form.base_price")}</span>
                     <span className="font-medium text-blue-600">
                       {priceRange.base.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex flex-col items-end">
-                    <span className="text-gray-400">Max (+30%)</span>
+                    <span className="text-gray-400">{t("common.buttons.bid_price_form.max_label")}</span>
                     <span className="font-medium text-gray-700">
                       {priceRange.max.toLocaleString()}
                     </span>
@@ -322,14 +322,14 @@ export default function BidPriceButton({
             {/* Qo'shimcha izoh */}
             <div>
               <label className="block text-sm font-medium mb-2">
-                Qo'shimcha izoh
+                {t("common.buttons.bid_price_form.additional_notes")}
               </label>
               <textarea
                 value={formData.comment}
                 onChange={(e) => handleInputChange("comment", e.target.value)}
                 rows={3}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Qo'shimcha ma'lumotlar yoki shartlaringizni yozing..."
+                placeholder={t("common.buttons.bid_price_form.notes_placeholder")}
               />
             </div>
 
@@ -339,7 +339,7 @@ export default function BidPriceButton({
               disabled={isLoading}
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:bg-gray-400 disabled:cursor-not-allowed"
             >
-              {isLoading ? "Yuborilmoqda..." : "Taklifni yuborish"}
+              {isLoading ? t("common.buttons.bid_price_form.sending_button") : t("common.buttons.bid_price_form.send_button")}
             </button>
           </form>
         </div>
