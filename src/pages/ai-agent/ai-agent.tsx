@@ -86,7 +86,7 @@ export default function AiAgent() {
 
   const handleLoadMore = async () => {
     const lastAIMessageIndex = messages.findLastIndex(
-      (msg) => msg.type === "ai" && msg.properties && msg.properties.length > 0
+      (msg: Message) => msg.type === "ai" && msg.properties && msg.properties.length > 0
     );
 
     if (lastAIMessageIndex === -1) return;
@@ -134,7 +134,7 @@ export default function AiAgent() {
   };
 
   const lastAIMessageWithProperties = messages.findLast(
-    (msg) => msg.type === "ai" && msg.properties && msg.properties.length > 0
+    (msg: Message) => msg.type === "ai" && msg.properties && msg.properties.length > 0
   );
   const shouldShowMoreButton =
     lastAIMessageWithProperties &&

@@ -1,98 +1,101 @@
-// src/types/yandex-maps.d.ts
-
 declare namespace ymaps {
-  interface IEvent<T = any, U = MouseEvent> {
-    get(name: 'coords'): [number, number];
-    get(name: string): any; // Generic getter for other properties
-    preventDefault(): void;
-    stopPropagation(): void;
+  function ready(callback: () => void | Promise<void>): Promise<void>;
+
+  class Map {
+    constructor(element: string | HTMLElement, state: IMapState, options?: IMapOptions);
+    geoObjects: geoObject.GeoObjectCollection;
+    events: IEventManager;
+    destroy(): void;
+    getCenter(): number[];
+    setCenter(center: number[], zoom?: number, options?: { duration?: number; timingFunction?: string }): Promise<void>;
+    getZoom(): number;
+    setZoom(zoom: number, options?: { duration?: number }): Promise<void>;
   }
 
-  interface IEventEmitter {
-    add(
-      event: string | string[],
-      handler: (event: IEvent) => void,
-      context?: object
-    ): this;
-    remove(
-      event: string | string[],
-      handler: (event: IEvent) => void,
-      context?: object
-    ): this;
-    fire(event: string, eventObject?: object): this;
-  }
-
-  interface IPointGeometry {
-    getType(): 'Point';
-    getCoordinates(): [number, number] | null;
-    setCoordinates(coordinates: [number, number]): this;
-  }
-
-  interface PlacemarkProperties {
-    hintContent?: string;
-    balloonContent?: string;
-    [key: string]: any; // Allow custom properties
-  }
-
-  interface PlacemarkOptions {
-    preset?: string;
-    draggable?: boolean;
-    [key: string]: any; // Allow custom options
-  }
-
-  interface MapOptions {
-    center: [number, number];
+  interface IMapState {
+    center: number[];
     zoom: number;
     controls?: string[];
-    type?: string;
-    [key: string]: any; // Allow custom options
   }
 
-  interface Placemark extends IEventEmitter {
-    geometry: IPointGeometry;
-    properties: {
-      get(name: 'hintContent'): string | undefined;
-      get(name: 'balloonContent'): string | undefined;
-      get(name: string): any;
-      set(name: 'hintContent', value: string): void;
-      set(name: 'balloonContent', value: string): void;
-      set(name: string, value: any): void;
-    };
+  interface IMapOptions {
+    suppressMapOpenBlock?: boolean;
+    yandexMapDisablePoiInteractivity?: boolean;
   }
 
-  interface Map extends IEventEmitter {
-    getCenter(): [number, number];
-    getZoom(): number;
-    getBounds(): [[number, number], [number, number]] | null;
-    setCenter(
-      center: [number, number],
-      zoom?: number,
-      options?: { duration?: number }
-    ): Promise<void>;
-    setZoom(zoom: number, options?: { duration?: number }): Promise<void>;
-    geoObjects: {
-      add(object: Placemark): void;
-      remove(object: Placemark): void;
-    };
-    destroy(): void;
+  class Placemark {
+    constructor(geometry: number[] | object, properties?: IPlacemarkProperties, options?: IPlacemarkOptions);
+    geometry: geometry.Point;
+    properties: IDataManager;
+    events: IEventManager;
   }
 
-  interface YMaps {
-    ready(callback: () => void): void;
-    Map: {
-      new (element: string | HTMLElement, options: MapOptions): Map;
-    };
-    Placemark: {
-      new (geometry: [number, number], properties?: PlacemarkProperties, options?: PlacemarkOptions): Placemark;
-    };
-    [key: string]: any; // Fallback for other Ymaps properties/methods
+  interface IPlacemarkProperties {
+    hintContent?: string;
+    balloonContent?: string;
+    [key: string]: any;
+  }
+
+  interface IPlacemarkOptions {
+    preset?: string;
+    iconLayout?: string;
+    iconImageHref?: string;
+    iconImageSize?: number[];
+    iconImageOffset?: number[];
+    draggable?: boolean;
+  }
+
+  interface IEvent<T = object, U = object> {
+    get<K extends keyof (T & U)>(name: K): (T & U)[K];
+    get(name: string): any;
+  }
+
+  interface IMapClickEvent extends IEvent<{ coords: number[] }, { target: Map }> {}
+
+
+  interface IEventManager<T = object> {
+    add<E extends keyof IEventMap>(
+      type: E | E[],
+      callback: (event: IEventMap[E]) => void,
+      context?: object,
+      priority?: number
+    ): this;
+    add(
+      type: string | string[],
+      callback: (event: IEvent<any, any>) => void,
+      context?: object,
+      priority?: number
+    ): this;
+    remove(type: string | string[], callback: (...args: any[]) => any, context?: object, priority?: number): this;
+    fire(type: string, event?: object): this;
+  }
+
+  interface IEventMap {
+    'click': IMapClickEvent;
+    'dragend': IEvent;
+    // Add other events here as needed
+  }
+
+  namespace geoObject {
+    class GeoObjectCollection {
+      add(child: Placemark | GeoObjectCollection): this;
+      remove(child: Placemark | GeoObjectCollection): this;
+      removeAll(): this;
+      get(index: number): Placemark | GeoObjectCollection;
+      getLength(): number;
+    }
+  }
+
+  namespace geometry {
+    class Point {
+      constructor(coordinates: number[]);
+      getCoordinates(): number[];
+      setCoordinates(coordinates: number[]): this;
+    }
+  }
+
+  interface IDataManager {
+    get(path: string, defaultValue?: any): any;
+    set(path: string, value: any): this;
   }
 }
-
-declare global {
-  interface Window {
-    ymaps: ymaps.YMaps;
-  }
-}
-
-export {};

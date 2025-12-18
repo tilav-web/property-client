@@ -4,12 +4,6 @@ import { MapPin, Bed, Bath, Ruler } from "lucide-react";
 import type { PropertyType } from "@/interfaces/property/property.interface"; // Import PropertyType
 
 export default function PropertyCard({ property }: { property: PropertyType }) {
-  // Determine purpose for display, using category as a fallback
-  const displayPurpose = property.category?.replace("_", " ") || "Property";
-
-  // Determine title for display, preferring Uzbek, then English, then a default
-  const displayTitle = property.title?.uz || property.title?.en || "No Title";
-
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
       {/* Image */}
@@ -17,7 +11,7 @@ export default function PropertyCard({ property }: { property: PropertyType }) {
         {property.photos && property.photos.length > 0 ? (
           <img
             src={property.photos[0]}
-            alt={displayTitle}
+            alt={property.title}
             className="w-full h-full object-cover"
           />
         ) : (
@@ -37,7 +31,7 @@ export default function PropertyCard({ property }: { property: PropertyType }) {
       <div className="p-4 flex-1 flex flex-col">
         {/* Title */}
         <h3 className="font-semibold text-foreground line-clamp-2 mb-2">
-          {displayTitle}
+          {property.title}
         </h3>
 
         {/* Price */}
@@ -46,7 +40,7 @@ export default function PropertyCard({ property }: { property: PropertyType }) {
             ${property.price?.toLocaleString()} {property.currency}
           </p>
           <p className="text-xs text-muted-foreground capitalize">
-            {displayPurpose}
+            {property.category}
           </p>
         </div>
 
@@ -55,9 +49,7 @@ export default function PropertyCard({ property }: { property: PropertyType }) {
           <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
           <div>
             <p className="font-medium text-foreground">
-              {property.address?.uz ||
-                property.address?.en ||
-                "Unknown location"}
+              {property.address || property.address || "Unknown location"}
             </p>
             {/* region and district are not directly available, using address instead */}
           </div>
