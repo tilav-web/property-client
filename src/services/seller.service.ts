@@ -1,5 +1,5 @@
 import type { SellerBusinessType } from "@/interfaces/users/seller.interface";
-import type { UserLan } from "@/interfaces/user.interface";
+import type { UserLan } from "@/interfaces/users/user.interface";
 import apiInstance from "@/lib/api-instance";
 import { API_ENDPOINTS } from "@/utils/shared";
 

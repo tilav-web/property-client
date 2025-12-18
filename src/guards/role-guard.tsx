@@ -1,4 +1,4 @@
-import type { UserRole } from "@/interfaces/user.interface";
+import type { UserRole } from "@/interfaces/users/user.interface";
 import { useUserStore } from "@/stores/user.store";
 import { type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";

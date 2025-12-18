@@ -6,16 +6,12 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Camera,
   CirclePlay,
-  MapPin,
-  ShieldCheck,
   Sparkles,
 } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
-import type { PropertyStatusType } from "@/interfaces/types/property.status.type";
 
 interface MediaItem {
   type: "image" | "video";
@@ -25,12 +21,10 @@ interface MediaItem {
 export default function PropertyMediaGallery({
   photos = [],
   videos = [],
-  status = "PENDING",
   isPremium = false,
 }: {
   photos?: string[];
   videos?: string[];
-  status?: PropertyStatusType;
   isPremium?: boolean;
 }) {
   const allMedia: MediaItem[] = [
@@ -91,12 +85,6 @@ export default function PropertyMediaGallery({
 
                   {/* Premium Badges - Glassmorphism */}
                   <div className="absolute top-6 left-6 flex flex-col gap-3">
-                    {status && (
-                      <Badge className="bg-emerald-500/20 backdrop-blur-lg border border-emerald-400/30 text-emerald-300 shadow-xl">
-                        <ShieldCheck className="w-4 h-4 mr-1.5" />
-                        Tasdiqlangan
-                      </Badge>
-                    )}
                     {isPremium && (
                       <Badge className="bg-gradient-to-r from-amber-400/30 to-orange-500/30 backdrop-blur-lg border border-amber-400/40 text-amber-200 shadow-2xl">
                         <Sparkles className="w-4 h-4 mr-1.5" />
@@ -130,16 +118,6 @@ export default function PropertyMediaGallery({
                       </span>
                     </div>
                   </div>
-
-                  {/* Bottom Right - Map Button */}
-                  <Button
-                    variant="secondary"
-                    size="lg"
-                    className="absolute flex items-center gap-2 bottom-6 right-6 bg-white/20 backdrop-blur-xl hover:bg-white/30 border border-white/30 text-white shadow-2xl transition-all hover:scale-105"
-                  >
-                    <MapPin className="w-6 h-6" />
-                    <span className="hidden sm:block">Xaritada ko‘rish</span>
-                  </Button>
                 </div>
               </CarouselItem>
             ))}

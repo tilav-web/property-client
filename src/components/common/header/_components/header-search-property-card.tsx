@@ -98,7 +98,7 @@ export default function HeaderSearchPropertyCard({
         )}
 
         {/* Verified badge */}
-        {property.is_verified && (
+        {property.status === "APPROVED" && (
           <div className="absolute top-2 right-2">
             <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs px-2 py-0.5">
               <BadgeCheck className="h-2.5 w-2.5 mr-1" />

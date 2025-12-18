@@ -144,7 +144,6 @@ export default function ApartmentRent({
         photos={apartment.photos}
         videos={apartment.videos}
         isPremium={apartment.is_premium}
-        status={apartment.status}
       />
 
       {/* Xarita va asosiy ma'lumotlar */}

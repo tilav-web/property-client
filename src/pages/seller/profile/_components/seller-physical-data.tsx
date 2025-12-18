@@ -39,9 +39,12 @@ export default function SellerProfile() {
     birth_date,
     jshshir,
     passport_file,
-    self_employment_certificate,
   } = sellerData;
-
+  const self_employment_certificate =
+    "self_employment_certificate" in sellerData
+      ? sellerData.self_employment_certificate
+      : undefined;
+      
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       {/* Header Section */}

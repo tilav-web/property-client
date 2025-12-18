@@ -36,7 +36,7 @@ export default function ApartmentSaleCard({
           )}
 
           <div className="absolute top-2 left-2 flex flex-col gap-2">
-            {apartment.is_verified && (
+            {apartment.status === "APPROVED" && (
               <Badge className="bg-[#00A663] rounded border-white text-xs flex items-center gap-1">
                 <ShieldCheck className="w-3 h-3" />
                 <span className="uppercase">

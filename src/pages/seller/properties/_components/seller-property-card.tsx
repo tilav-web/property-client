@@ -57,7 +57,7 @@ export default function SellerPropertyCard({
               Premium
             </Badge>
           )}
-          {property.is_verified && (
+          {property.status === "APPROVED" && (
             <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white border-0">
               <CheckCircle2 className="w-3 h-3 mr-1" />
               Tasdiqlangan

@@ -30,9 +30,6 @@ export default function PropertyCard({ property }: { property: PropertyType }) {
           {property.is_premium && (
             <Badge className="bg-amber-500 hover:bg-amber-600">Premium</Badge>
           )}
-          {property.is_verified && (
-            <Badge className="bg-green-500 hover:bg-green-600">Verified</Badge>
-          )}
         </div>
       </div>
 
@@ -58,7 +55,9 @@ export default function PropertyCard({ property }: { property: PropertyType }) {
           <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
           <div>
             <p className="font-medium text-foreground">
-              {property.address?.uz || property.address?.en || "Unknown location"}
+              {property.address?.uz ||
+                property.address?.en ||
+                "Unknown location"}
             </p>
             {/* region and district are not directly available, using address instead */}
           </div>
@@ -66,18 +65,22 @@ export default function PropertyCard({ property }: { property: PropertyType }) {
 
         {/* Info Bar */}
         <div className="flex gap-4 pt-3 border-t border-border mt-auto">
-          {"bedrooms" in property && property.bedrooms !== undefined && property.bedrooms > 0 && (
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-              <Bed className="w-4 h-4" />
-              <span>{property.bedrooms}</span>
-            </div>
-          )}
-          {"bathrooms" in property && property.bathrooms !== undefined && property.bathrooms > 0 && (
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-              <Bath className="w-4 h-4" />
-              <span>{property.bathrooms}</span>
-            </div>
-          )}
+          {"bedrooms" in property &&
+            property.bedrooms !== undefined &&
+            property.bedrooms > 0 && (
+              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                <Bed className="w-4 h-4" />
+                <span>{property.bedrooms}</span>
+              </div>
+            )}
+          {"bathrooms" in property &&
+            property.bathrooms !== undefined &&
+            property.bathrooms > 0 && (
+              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                <Bath className="w-4 h-4" />
+                <span>{property.bathrooms}</span>
+              </div>
+            )}
           {property.area !== undefined && property.area > 0 && (
             <div className="flex items-center gap-1 text-sm text-muted-foreground">
               <Ruler className="w-4 h-4" />
