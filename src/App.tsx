@@ -16,6 +16,7 @@ import Inquiries from "./pages/seller/inquiries/inquiries";
 import Feedback from "./pages/seller/feedback/feedback";
 import SellerProperties from "./pages/seller/properties/seller-properties";
 import { lazy, Suspense, useEffect } from "react";
+import SocialCallback from "./pages/auth/social-callback";
 import FilterNav from "./pages/property/filter-nav";
 import AiAgent from "./pages/ai-agent/ai-agent";
 import SellerDashboard from "./pages/seller/dashboard/seller-dashboard";
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
       {
         path: "/auth/login",
         element: <Login />,
+      },
+      {
+        path: "/auth/social", // New route for social login callback
+        element: <SocialCallback />,
       },
       {
         path: "/profile",
