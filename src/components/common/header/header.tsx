@@ -90,11 +90,11 @@ export default function Header() {
       label: t("common.rent_apartments"),
       href: "/filter-nav?category=APARTMENT_RENT",
     },
-    {
-      icon: Home,
-      label: t("common.rent_land"),
-      href: "/filter-nav",
-    },
+    // {
+    //   icon: Home,
+    //   label: t("common.rent_land"),
+    //   href: "/filter-nav",
+    // },
     { icon: Handshake, label: t("common.ai_agent"), href: "/ai-agent" },
     {
       icon: Star,

@@ -61,6 +61,7 @@ export default function Register() {
           <div className="space-y-3 mb-6">
             <button
               disabled={formik.isSubmitting}
+              onClick={() => userService.googleLogin()}
               className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 transition-colors"
             >
               <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
@@ -86,6 +87,7 @@ export default function Register() {
 
             <button
               disabled={formik.isSubmitting}
+              onClick={() => userService.appleLogin()}
               className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 transition-colors"
             >
               <svg
@@ -100,6 +102,7 @@ export default function Register() {
 
             <button
               disabled={formik.isSubmitting}
+              onClick={() => userService.facebookLogin()}
               className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 transition-colors"
             >
               <svg

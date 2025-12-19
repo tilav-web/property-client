@@ -38,7 +38,7 @@ export default function FilterNav() {
           category,
           page: pageParam as number,
           limit: 6,
-          is_new: is_new === "1",
+          is_new: is_new === "1" ? true : is_new === "0" ? false : undefined,
         });
         return data as PropertyPage;
       },

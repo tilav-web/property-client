@@ -41,16 +41,21 @@ export {
 
 export const API_ENDPOINTS = {
   USER: {
-    base: "/users",
-    login: "/users/login",
-    register: "/users/register",
-    otpConfirm: "/users/confirm-otp",
-    otpResend: "/users/resend-otp",
-    refreshToken: "/users/refresh-token",
-    me: "/users/me",
-    logout: "/users/logout",
-    like: "/users/like",
-    likes: "/users/likes",
+    base: "/users/auth",
+    login: "/users/auth/login",
+    register: "/users/auth/register",
+    otpConfirm: "/users/auth/confirm-otp",
+    otpResend: "/users/auth/resend-otp",
+    refreshToken: "/users/auth/refresh-token",
+    me: "/users/auth/me",
+    logout: "/users/auth/logout",
+    like: "/users/auth/like",
+    likes: "/users/auth/likes",
+    auth: {
+      google: "http://localhost:3000/users/auth/google",
+      facebook: "http://localhost:3000/users/auth/facebook",
+      apple: "http://localhost:3000/users/auth/apple",
+    },
   },
   PROPERTIES: {
     base: "/properties",

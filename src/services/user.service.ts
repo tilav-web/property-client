@@ -90,7 +90,18 @@ class UserService {
     }
   }
 
+  googleLogin() {
+    window.location.href = API_ENDPOINTS.USER.auth.google;
+  }
 
+  facebookLogin() {
+    window.location.href = API_ENDPOINTS.USER.auth.facebook;
+  }
+
+  appleLogin() {
+    window.location.href = API_ENDPOINTS.USER.auth.apple;
+  }
 }
 
 export const userService = new UserService();
+

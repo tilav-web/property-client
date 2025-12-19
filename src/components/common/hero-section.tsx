@@ -95,8 +95,8 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
   const [selectedTag, setSelectedTag] = useState<string>(
     searchParams.get("tag") || ""
   );
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    searchParams.get("category") || "all"
+  const [selectedFilterCategory, setSelectedFilterCategory] = useState<string>(
+    searchParams.get("filterCategory") || "all"
   );
   const [selectedBedrooms, setSelectedBedrooms] = useState<string[]>(
     searchParams.getAll("bdr")
@@ -107,7 +107,7 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
 
   // Sync with URL params
   useEffect(() => {
-    setSelectedCategory(searchParams.get("category") || "all");
+    setSelectedFilterCategory(searchParams.get("category") || "all");
     setSelectedTag(searchParams.get("tag") || "");
     setSelectedBedrooms(searchParams.getAll("bdr"));
     setSelectedBathrooms(searchParams.getAll("bthr"));
@@ -143,8 +143,8 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
     if (selectedTag) queryParams.set("tag", selectedTag);
     selectedBedrooms.forEach((bdr) => queryParams.append("bdr", bdr));
     selectedBathrooms.forEach((bthr) => queryParams.append("bthr", bthr));
-    if (selectedCategory && selectedCategory !== "all")
-      queryParams.set("category", selectedCategory);
+    if (selectedFilterCategory && selectedFilterCategory !== "all")
+      queryParams.set("filterCategory", selectedFilterCategory);
 
     navigate(`/search?${queryParams.toString()}`);
     setMobileSearchActive(false);
@@ -152,7 +152,7 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
     selectedTag,
     selectedBedrooms,
     selectedBathrooms,
-    selectedCategory,
+    selectedFilterCategory,
     navigate,
   ]);
 
@@ -316,8 +316,8 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
               <p className="text-sm font-semibold">{t("common.category")}</p>
               <div className="grid grid-cols-2 gap-2">
                 <Button
-                  variant={selectedCategory === "all" ? "default" : "outline"}
-                  onClick={() => setSelectedCategory("all")}
+                  variant={selectedFilterCategory === "all" ? "default" : "outline"}
+                  onClick={() => setSelectedFilterCategory("all")}
                   className="justify-start"
                 >
                   {t("common.all")}
@@ -326,9 +326,9 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
                   <Button
                     key={cat.category}
                     variant={
-                      selectedCategory === cat.category ? "default" : "outline"
+                      selectedFilterCategory === cat.category ? "default" : "outline"
                     }
-                    onClick={() => setSelectedCategory(cat.category)}
+                    onClick={() => setSelectedFilterCategory(cat.category)}
                     className="justify-start overflow-hidden text-ellipsis whitespace-nowrap"
                   >
                     {t(`categories.${cat.category}`)}
@@ -434,9 +434,9 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
             <Popover open={openCategory} onOpenChange={setOpenCategory}>
               <PopoverTrigger asChild>
                 <Button variant="ghost" className="rounded-xl">
-                  {selectedCategory === "all"
+                  {selectedFilterCategory === "all"
                     ? t("common.category")
-                    : t(`categories.${selectedCategory}`)}
+                    : t(`categories.${selectedFilterCategory}`)}
                   <ChevronsUpDown className="ml-2 h-4 w-4" />
                 </Button>
               </PopoverTrigger>
@@ -444,7 +444,7 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
                 <div
                   className="p-2 hover:bg-accent cursor-pointer rounded-md text-sm"
                   onClick={() => {
-                    setSelectedCategory("all");
+                    setSelectedFilterCategory("all");
                     setOpenCategory(false);
                   }}
                 >
@@ -455,7 +455,7 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
                     key={cat.category}
                     className="p-2 hover:bg-accent cursor-pointer rounded-md text-sm flex justify-between"
                     onClick={() => {
-                      setSelectedCategory(cat.category);
+                      setSelectedFilterCategory(cat.category);
                       setOpenCategory(false);
                     }}
                   >

@@ -31,9 +31,7 @@ function parseNumberArray(values: string[] | null | undefined): number[] {
 
 export default function SearchPage() {
   const [params] = useSearchParams();
-  // Read raw category string from URL; avoid casting to CategoryType to allow
-  // special values like "all" coming from UI.
-  const category = params.get("category");
+  const filterCategory = params.get("filterCategory");
   const is_new = params.get("is_new");
   const tag = params.get("tag");
   const is_premium = params.get("is_premium");
@@ -69,7 +67,7 @@ export default function SearchPage() {
   const queryKey = useMemo(
     () => [
       "property-search",
-      category,
+      filterCategory,
       is_new,
       tag,
       is_premium,
@@ -82,7 +80,7 @@ export default function SearchPage() {
       language,
     ],
     [
-      category,
+      filterCategory,
       is_new,
       tag,
       is_premium,
@@ -105,8 +103,8 @@ export default function SearchPage() {
           limit: 8,
         };
 
-        if (category && category !== "all")
-          paramsToSend.filterCategory = category as CategoryFilterType;
+        if (filterCategory && filterCategory !== "all")
+          paramsToSend.filterCategory = filterCategory as CategoryFilterType;
         if (is_new === "1") paramsToSend.is_new = true;
         if (tag) paramsToSend.search = tag;
         if (is_premium === "1") paramsToSend.is_premium = true;
