@@ -36,7 +36,6 @@ import { userService } from "@/services/user.service";
 import { toast } from "sonner";
 import { handleStorage } from "@/utils/handle-storage";
 import { useSellerStore } from "@/stores/seller.store";
-import { useLikeStore } from "@/stores/like.store";
 import { useLanguageStore } from "@/stores/language.store";
 import type { ILanguage } from "@/interfaces/language/language.interface";
 
@@ -45,7 +44,6 @@ export default function Header() {
   const navigate = useNavigate();
   const { user, logout, setUser } = useUserStore();
   const { logout: sellerLogout } = useSellerStore();
-  const { likedProperties } = useLikeStore();
   const { setLanguage } = useLanguageStore();
 
   const languages = Object.values<ILanguage>(["uz", "ru", "en"]);
@@ -200,20 +198,6 @@ export default function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             )}
-            {user && likedProperties.length > 0 && (
-              <Button
-                onClick={() => navigate("/favorites")}
-                variant="ghost"
-                size="icon"
-                className="relative"
-              >
-                <Heart className="h-4 w-4" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                  {likedProperties.length}
-                </span>
-              </Button>
-            )}
-
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
