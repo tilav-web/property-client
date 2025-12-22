@@ -39,6 +39,11 @@ export {
   logo,
 };
 
+// .ENV
+export const serverUrl = import.meta.env.VITE_API_URL;
+export const googleMapKey = import.meta.env.VITE_GOOGLE_MAPS;
+export const yandexMapKey = import.meta.env.VITE_YANDEX_MAP;
+
 export const API_ENDPOINTS = {
   USER: {
     base: "/users/auth",
@@ -52,9 +57,9 @@ export const API_ENDPOINTS = {
     like: "/users/auth/like",
     likes: "/users/auth/likes",
     auth: {
-      google: "http://localhost:3000/users/auth/google",
-      facebook: "http://localhost:3000/users/auth/facebook",
-      apple: "http://localhost:3000/users/auth/apple",
+      google: `${serverUrl}/users/auth/google`,
+      facebook: `${serverUrl}/users/auth/facebook`,
+      apple: `${serverUrl}/users/auth/apple`,
     },
   },
   PROPERTIES: {
@@ -115,8 +120,3 @@ export const API_ENDPOINTS = {
     searchProperty: "ai-property/search",
   },
 };
-
-// .ENV
-export const serverUrl = import.meta.env.VITE_API_URL;
-export const googleMapKey = import.meta.env.VITE_GOOGLE_MAPS;
-export const yandexMapKey = import.meta.env.VITE_YANDEX_MAP;
