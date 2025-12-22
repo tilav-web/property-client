@@ -123,11 +123,6 @@
     },
     "form_field": {
       "select_label": "Select {{label}}"
-    },
-    "unauthorized_page": {
-      "access_denied": "Access Denied",
-      "no_permission": "Sorry, you do not have the necessary permissions to view this page.",
-      "go_to_home": "Go to Home"
     }
   },
   "error_boundary": {
@@ -172,6 +167,11 @@
     }
   },
   "pages": {
+    "unauthorized_page": {
+      "access_denied": "Access Denied",
+      "no_permission": "Sorry, you do not have the necessary permissions to view this page.",
+      "go_to_home": "Go to Home"
+    },
     "create_property": {
       "title": "Add New Property",
       "subtitle": "Fill in all the necessary information about the property",

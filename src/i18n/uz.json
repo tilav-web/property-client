@@ -123,11 +123,6 @@
     },
     "form_field": {
       "select_label": "{{label}} tanlang"
-    },
-    "unauthorized_page": {
-      "access_denied": "Ruxsat Rad Etildi",
-      "no_permission": "Kechirasiz, sizda ushbu sahifani ko'rish uchun kerakli ruxsatlar mavjud emas.",
-      "go_to_home": "Bosh sahifaga qaytish"
     }
   },
   "error_boundary": {
@@ -175,6 +170,11 @@
     }
   },
   "pages": {
+    "unauthorized_page": {
+      "access_denied": "Ruxsat Rad Etildi",
+      "no_permission": "Kechirasiz, sizda ushbu sahifani ko'rish uchun kerakli ruxsatlar mavjud emas.",
+      "go_to_home": "Bosh sahifaga qaytish"
+    },
     "create_property": {
       "title": "Yangi mulk qo'shish",
       "subtitle": "Mulk haqida barcha kerakli ma'lumotlarni to'ldiring",
