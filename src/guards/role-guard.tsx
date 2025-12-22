@@ -13,7 +13,7 @@ export default function RoleGuard({
   const { user } = useUserStore();
   const navigate = useNavigate();
 
-  if (!user || !roles.includes(user?.role)) {
+  if (user === null || (user && !roles.includes(user?.role))) {
     navigate("/unauthorized");
     return;
   }
