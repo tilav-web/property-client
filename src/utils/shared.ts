@@ -44,6 +44,10 @@ export const API_ENDPOINTS = {
       apple: `${serverUrl}/users/auth/apple`,
     },
   },
+  ADMIN: {
+    base: "/admins",
+    login: "/admins/login",
+  },
   PROPERTIES: {
     base: "/properties",
     my: "/properties/my",

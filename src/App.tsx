@@ -26,6 +26,9 @@ import Category from "./pages/property/category";
 import YandexMap from "./pages/map/yandex-map";
 import { yandexMapKey } from "./utils/shared";
 import Search from "./pages/property/search";
+import AdminLayout from "./layouts/admin-layout";
+import AdminDashboard from "./pages/admin/_pages/dashboard/admin-dashboard";
+import AdminLogin from "./pages/admin/_pages/auth/admin-login";
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/create-property")
 );
@@ -188,6 +191,20 @@ const router = createBrowserRouter([
       {
         path: "/unauthorized",
         element: <Unauthorized />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true, // index route: /admin
+        element: <AdminDashboard />,
+      },
+      {
+        path: "login", // /admin/login
+        element: <AdminLogin />,
       },
     ],
   },
