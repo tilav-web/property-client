@@ -37,21 +37,21 @@ export default function AdminSidebar() {
       id: "users",
       label: "Users",
       icon: <Users className="h-5 w-5" />,
-      badge: 24,
+      badge: null,
       path: "/admin/users",
     },
     {
       id: "properties",
       label: "Properties",
       icon: <Package className="h-5 w-5" />,
-      badge: 156,
+      badge: null,
       path: "/admin/properties",
     },
     {
       id: "orders",
       label: "Orders",
       icon: <ShoppingCart className="h-5 w-5" />,
-      badge: 42,
+      badge: null,
       path: "/admin/orders",
     },
     {
@@ -65,7 +65,7 @@ export default function AdminSidebar() {
       id: "content",
       label: "Content",
       icon: <FileText className="h-5 w-5" />,
-      badge: 12,
+      badge: null,
       path: "/admin/content",
     },
     {
@@ -82,7 +82,7 @@ export default function AdminSidebar() {
       id: "notifications",
       label: "Notifications",
       icon: <Bell className="h-5 w-5" />,
-      badge: 3,
+      badge: null,
       path: "/admin/notifications",
     },
     {
