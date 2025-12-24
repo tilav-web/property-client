@@ -1,3 +1,4 @@
+import { useAdminStore } from "@/stores/admin.store";
 import { handleStorage } from "@/utils/handle-storage";
 import { API_ENDPOINTS, serverUrl } from "@/utils/shared";
 import axios, { AxiosError, type AxiosRequestConfig } from "axios";
@@ -63,3 +64,43 @@ apiInstance.interceptors.response.use(
 );
 
 export default apiInstance;
+
+export const adminApi = axios.create({
+  baseURL: serverUrl,
+  withCredentials: true,
+});
+
+adminApi.interceptors.request.use((config) => {
+  const admin_access_token = useAdminStore.getState().getAdminAccessToken();
+  const language = handleStorage({ key: "language" }) ?? "uz";
+  config.headers["Authorization"] = `Bearer ${admin_access_token}`;
+  config.headers["Accept-Language"] = language;
+
+  if (config.data instanceof FormData) {
+    config.headers["Content-Type"] = "multipart/form-data";
+  } else {
+    config.headers["Content-Type"] = "application/json";
+  }
+  return config;
+});
+
+adminApi.interceptors.response.use(
+  (res) => res,
+  async (error: AxiosError) => {
+    if (error.response?.status === 429) {
+      toast.error("Error", {
+        description: "Too Many Requests",
+      });
+    }
+
+    const errorData: { error: string; message: string } = error.response
+      ?.data as { error: string; message: string };
+    if (errorData && "error" in errorData && errorData.error) {
+      toast.error(errorData.error, {
+        description: errorData.message || "Xato haqida ma’lumot yo‘q",
+      });
+    }
+
+    return Promise.reject(error);
+  }
+);

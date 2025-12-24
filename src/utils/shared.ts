@@ -47,6 +47,7 @@ export const API_ENDPOINTS = {
   ADMIN: {
     base: "/admins",
     login: "/admins/login",
+    profile: "/admins/profile",
   },
   PROPERTIES: {
     base: "/properties",
