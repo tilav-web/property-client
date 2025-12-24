@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LayoutDashboard,
   Users,
@@ -18,10 +18,12 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function AdminSidebar() {
-  const [activeItem, setActiveItem] = useState("dashboard");
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const menuItems = [
     {
@@ -29,42 +31,49 @@ export default function AdminSidebar() {
       label: "Dashboard",
       icon: <LayoutDashboard className="h-5 w-5" />,
       badge: null,
+      path: "/admin",
     },
     {
       id: "users",
       label: "Users",
       icon: <Users className="h-5 w-5" />,
       badge: 24,
+      path: "/admin/users",
     },
     {
-      id: "products",
-      label: "Products",
+      id: "properties",
+      label: "Properties",
       icon: <Package className="h-5 w-5" />,
       badge: 156,
+      path: "/admin/properties",
     },
     {
       id: "orders",
       label: "Orders",
       icon: <ShoppingCart className="h-5 w-5" />,
       badge: 42,
+      path: "/admin/orders",
     },
     {
       id: "analytics",
       label: "Analytics",
       icon: <BarChart3 className="h-5 w-5" />,
       badge: null,
+      path: "/admin/analytics",
     },
     {
       id: "content",
       label: "Content",
       icon: <FileText className="h-5 w-5" />,
       badge: 12,
+      path: "/admin/content",
     },
     {
       id: "billing",
       label: "Billing",
       icon: <CreditCard className="h-5 w-5" />,
       badge: null,
+      path: "/admin/billing",
     },
   ];
 
@@ -74,26 +83,38 @@ export default function AdminSidebar() {
       label: "Notifications",
       icon: <Bell className="h-5 w-5" />,
       badge: 3,
+      path: "/admin/notifications",
     },
     {
       id: "settings",
       label: "Settings",
       icon: <Settings className="h-5 w-5" />,
       badge: null,
+      path: "/admin/settings",
     },
     {
       id: "help",
       label: "Help & Support",
       icon: <HelpCircle className="h-5 w-5" />,
       badge: null,
+      path: "/admin/help",
     },
   ];
 
-  const handleItemClick = (id: string) => {
-    setActiveItem(id);
+  const [activeItem, setActiveItem] = useState("dashboard");
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const allItems = [...menuItems, ...bottomItems];
+    const active = allItems.find((item) => item.path === currentPath);
+    if (active) {
+      setActiveItem(active.id);
+    }
+  }, [location.pathname]);
+
+  const handleItemClick = (path: string) => {
+    navigate(path);
     setIsMobileOpen(false);
-    // Mock navigation - in a real project, you would use a router
-    console.log(`Navigating to ${id}`);
   };
 
   const handleLogout = () => {
@@ -126,7 +147,7 @@ export default function AdminSidebar() {
               key={item.id}
               variant={activeItem === item.id ? "secondary" : "ghost"}
               className={`w-full justify-start px-3`}
-              onClick={() => handleItemClick(item.id)}
+              onClick={() => handleItemClick(item.path)}
             >
               <div className="flex items-center w-full">
                 <span className="flex-shrink-0">{item.icon}</span>
@@ -151,7 +172,7 @@ export default function AdminSidebar() {
             key={item.id}
             variant="ghost"
             className={`w-full justify-start px-3`}
-            onClick={() => handleItemClick(item.id)}
+            onClick={() => handleItemClick(item.path)}
           >
             <div className="flex items-center w-full">
               <span className="flex-shrink-0">{item.icon}</span>
@@ -220,7 +241,7 @@ export default function AdminSidebar() {
                   key={item.id}
                   variant={activeItem === item.id ? "secondary" : "ghost"}
                   className="w-full justify-start px-3"
-                  onClick={() => handleItemClick(item.id)}
+                  onClick={() => handleItemClick(item.path)}
                 >
                   <div className="flex items-center w-full">
                     <span className="flex-shrink-0">{item.icon}</span>
@@ -245,7 +266,7 @@ export default function AdminSidebar() {
                 key={item.id}
                 variant="ghost"
                 className="w-full justify-start px-3"
-                onClick={() => handleItemClick(item.id)}
+                onClick={() => handleItemClick(item.path)}
               >
                 <div className="flex items-center w-full">
                   <span className="flex-shrink-0">{item.icon}</span>
