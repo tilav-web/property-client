@@ -44,6 +44,7 @@ import {
 
 import { adminUserService } from "../../_services/admin-user.service";
 import type { IUser, UserRole } from "@/interfaces/users/user.interface";
+import { EditUserForm } from "./components/edit-user-form";
 
 const DEFAULT_LIMIT = 10;
 
@@ -57,6 +58,8 @@ const AdminUsersPage = () => {
   const searchQuery = searchParams.get("search") || "";
 
   const [searchInput, setSearchInput] = useState(searchQuery);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
 
   const { data, isLoading, isFetching, isPlaceholderData } = useQuery({
     queryKey: ["admin-users", page, limit, searchQuery, role],
@@ -110,6 +113,22 @@ const AdminUsersPage = () => {
   const clearFilters = () => {
     setSearchInput("");
     setSearchParams({ page: "1", limit: limit.toString() });
+  };
+
+  const handleEditClick = (user: IUser) => {
+    setSelectedUser(user);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleEditSuccess = () => {
+    setIsEditDialogOpen(false);
+    setSelectedUser(null);
+    queryClient.invalidateQueries({ queryKey: ["admin-users"] });
+  };
+
+  const handleEditClose = () => {
+    setIsEditDialogOpen(false);
+    setSelectedUser(null);
   };
 
   return (
@@ -192,7 +211,9 @@ const AdminUsersPage = () => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem>View</DropdownMenuItem>
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEditClick(user)}>
+                          Edit
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -227,6 +248,15 @@ const AdminUsersPage = () => {
 
       {isFetching && (
         <p className="text-xs text-muted-foreground mt-2">Updating...</p>
+      )}
+
+      {selectedUser && (
+        <EditUserForm
+          user={selectedUser}
+          isOpen={isEditDialogOpen}
+          onClose={handleEditClose}
+          onSuccess={handleEditSuccess}
+        />
       )}
     </div>
   );

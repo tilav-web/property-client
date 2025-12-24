@@ -17,64 +17,59 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User, UserRole } from "@/interfaces/users/user.interface";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { adminUserService } from "../../../_services/admin-user.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Loader2, CameraIcon, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import type { IUser, UserRole } from "@/interfaces/users/user.interface";
 
 interface EditUserFormProps {
-  user: User | null;
+  user: IUser | null;
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
 }
 
-const formSchema = z.object({
-  first_name: z.string().optional(),
-  last_name: z.string().optional(),
-  role: z.nativeEnum(UserRole).optional(),
-  lan: z.string().optional(),
-  phone: z
-    .object({
-      value: z.string().optional(),
-      isVerified: z.boolean().optional(),
-    })
-    .optional(),
-  email: z
-    .object({
-      isVerified: z.boolean().optional(),
-    })
-    .optional(),
-  avatar: z.string().nullable().optional(),
+const formSchema = Yup.object({
+  first_name: Yup.string().optional(),
+  last_name: Yup.string().optional(),
+  role: Yup.string().oneOf(["physical", "legal"] as const).optional(),
+  lan: Yup.string().optional(),
+  phoneValue: Yup.string().optional(),
+  phoneIsVerified: Yup.boolean().optional(),
+  emailValue: Yup.string().optional(),
+  emailIsVerified: Yup.boolean().optional(),
+  avatar: Yup.string().nullable().optional(),
 });
 
-type FormData = z.infer<typeof formSchema>;
+type FormData = Yup.InferType<typeof formSchema>;
 
-export function EditUserForm({ user, isOpen, onClose, onSuccess }: EditUserFormProps) {
+export function EditUserForm({
+  user,
+  isOpen,
+  onClose,
+  onSuccess,
+}: EditUserFormProps) {
   const queryClient = useQueryClient();
   const [avatarFile, setAvatarFile] = useState<File | undefined>(undefined);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+  const form = useForm({
+    resolver: yupResolver(formSchema),
     defaultValues: {
       first_name: user?.first_name || "",
       last_name: user?.last_name || "",
-      role: user?.role || UserRole.PHYSICAL,
+      role: user?.role || "physical",
       lan: user?.lan || "uz",
-      phone: {
-        value: user?.phone?.value || "",
-        isVerified: user?.phone?.isVerified || false,
-      },
-      email: {
-        isVerified: user?.email?.isVerified || false,
-      },
+      phoneValue: user?.phone?.value || "",
+      phoneIsVerified: user?.phone?.isVerified || false,
+      emailValue: user?.email?.value || "",
+      emailIsVerified: user?.email?.isVerified || false,
       avatar: user?.avatar || null,
     },
   });
@@ -87,13 +82,10 @@ export function EditUserForm({ user, isOpen, onClose, onSuccess }: EditUserFormP
         last_name: user.last_name || "",
         role: user.role,
         lan: user.lan,
-        phone: {
-          value: user.phone?.value || "",
-          isVerified: user.phone?.isVerified || false,
-        },
-        email: {
-          isVerified: user.email?.isVerified || false,
-        },
+        phoneValue: user.phone?.value || "",
+        phoneIsVerified: user.phone?.isVerified || false,
+        emailValue: user.email?.value || "",
+        emailIsVerified: user.email?.isVerified || false,
         avatar: user.avatar || null,
       });
       setAvatarPreview(user.avatar || null);
@@ -103,16 +95,21 @@ export function EditUserForm({ user, isOpen, onClose, onSuccess }: EditUserFormP
 
   const updateUserMutation = useMutation({
     mutationFn: (data: { userId: string; dto: FormData; avatarFile?: File }) =>
-      adminUserService.update(data.userId, data.dto, data.avatarFile),
+      adminUserService.update({
+        userId: data.userId,
+        dto: data.dto,
+        avatarFile: data.avatarFile,
+      }),
     onSuccess: () => {
       toast.success("User updated successfully!");
       queryClient.invalidateQueries({ queryKey: ["admin-users"] });
       onSuccess();
       onClose();
     },
-    onError: (error: any) => {
+    onError: (error) => {
+      console.error(error);
       toast.error("Failed to update user", {
-        description: error.response?.data?.message || error.message,
+        description: "Some error",
       });
     },
   });
@@ -122,9 +119,11 @@ export function EditUserForm({ user, isOpen, onClose, onSuccess }: EditUserFormP
 
     // Filter out undefined values to send only updated fields
     const filteredDto: Partial<FormData> = Object.fromEntries(
-      Object.entries(values).filter(([, value]) => value !== undefined && value !== "")
+      Object.entries(values).filter(
+        ([, value]) => value !== undefined && value !== ""
+      )
     );
-    
+
     // Explicitly handle avatar removal by sending null if it was cleared
     if (avatarPreview === null && user.avatar !== null) {
       filteredDto.avatar = null;
@@ -168,12 +167,20 @@ export function EditUserForm({ user, isOpen, onClose, onSuccess }: EditUserFormP
             Make changes to the user profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid gap-4 py-4"
+        >
           <div className="flex items-center space-x-4 mb-4">
             <div className="relative">
               <Avatar className="h-20 w-20">
-                <AvatarImage src={avatarPreview || "https://github.com/shadcn.png"} alt="@shadcn" />
-                <AvatarFallback>{user?.first_name?.[0] || user?.email?.value?.[0] || "U"}</AvatarFallback>
+                <AvatarImage
+                  src={avatarPreview || "https://github.com/shadcn.png"}
+                  alt="@shadcn"
+                />
+                <AvatarFallback>
+                  {user?.first_name?.[0] || user?.email?.value?.[0] || "U"}
+                </AvatarFallback>
               </Avatar>
               <Input
                 id="avatar-upload"
@@ -199,7 +206,9 @@ export function EditUserForm({ user, isOpen, onClose, onSuccess }: EditUserFormP
             </div>
             <div className="space-y-1">
               <Label htmlFor="avatar-upload">Change Avatar</Label>
-              <p className="text-sm text-muted-foreground">Max 5MB (JPG, PNG, WEBP)</p>
+              <p className="text-sm text-muted-foreground">
+                Max 5MB (JPG, PNG, WEBP)
+              </p>
             </div>
           </div>
 
@@ -228,18 +237,17 @@ export function EditUserForm({ user, isOpen, onClose, onSuccess }: EditUserFormP
               Role
             </Label>
             <Select
-              onValueChange={(value) => form.setValue("role", value as UserRole)}
+              onValueChange={(value) =>
+                form.setValue("role", value as UserRole)
+              }
               value={form.watch("role")}
             >
               <SelectTrigger className="col-span-3">
                 <SelectValue placeholder="Select a role" />
               </SelectTrigger>
               <SelectContent>
-                {Object.values(UserRole).map((role) => (
-                  <SelectItem key={role} value={role}>
-                    {role.charAt(0).toUpperCase() + role.slice(1).toLowerCase()}
-                  </SelectItem>
-                ))}
+                <SelectItem value="physical">Physical</SelectItem>
+                <SelectItem value="legal">Legal</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -262,12 +270,35 @@ export function EditUserForm({ user, isOpen, onClose, onSuccess }: EditUserFormP
             </Select>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="email-value" className="text-right">
+              Email
+            </Label>
+            <Input
+              id="email-value"
+              {...form.register("emailValue")}
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="email-verified" className="text-right">
+              Email Verified
+            </Label>
+            <Checkbox
+              id="email-verified"
+              checked={form.watch("emailIsVerified")}
+              onCheckedChange={(checked) =>
+                form.setValue("emailIsVerified", checked as boolean)
+              }
+              className="col-span-3 justify-self-start"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="phone-value" className="text-right">
               Phone
             </Label>
             <Input
               id="phone-value"
-              {...form.register("phone.value")}
+              {...form.register("phoneValue")}
               className="col-span-3"
             />
           </div>
@@ -277,25 +308,18 @@ export function EditUserForm({ user, isOpen, onClose, onSuccess }: EditUserFormP
             </Label>
             <Checkbox
               id="phone-verified"
-              checked={form.watch("phone.isVerified")}
-              onCheckedChange={(checked) => form.setValue("phone.isVerified", checked as boolean)}
-              className="col-span-3 justify-self-start"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="email-verified" className="text-right">
-              Email Verified
-            </Label>
-            <Checkbox
-              id="email-verified"
-              checked={form.watch("email.isVerified")}
-              onCheckedChange={(checked) => form.setValue("email.isVerified", checked as boolean)}
+              checked={form.watch("phoneIsVerified")}
+              onCheckedChange={(checked) =>
+                form.setValue("phoneIsVerified", checked as boolean)
+              }
               className="col-span-3 justify-self-start"
             />
           </div>
           <DialogFooter>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isSubmitting && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Save changes
             </Button>
           </DialogFooter>

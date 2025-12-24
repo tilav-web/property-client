@@ -6,8 +6,10 @@ import { API_ENDPOINTS } from "@/utils/shared";
 interface UpdateUserPayload {
   first_name?: string;
   last_name?: string;
-  phone?: { value?: string; isVerified?: boolean };
-  email?: { isVerified?: boolean }; // Only allow updating isVerified for email
+  phoneValue?: string;
+  phoneIsVerified?: boolean;
+  emailValue?: string;
+  emailIsVerified?: boolean;
   avatar?: string | null;
   role?: UserRole;
   lan?: string; // Assuming EnumLanguage is a string
@@ -53,18 +55,13 @@ class AdminUserService {
       for (const key in dto) {
         if (Object.prototype.hasOwnProperty.call(dto, key) && key !== "avatar") {
           const value = dto[key as keyof UpdateUserPayload];
-          if (value !== undefined) {
-            if (typeof value === "object" && value !== null) {
-              // For nested objects like phone/email identifiers, stringify them
-              formData.append(key, JSON.stringify(value));
-            } else {
-              formData.append(key, String(value));
-            }
+          if (value !== undefined && value !== null) {
+            formData.append(key, String(value));
           }
         }
       }
 
-      const res = await adminApi.patch(
+      const res = await adminApi.put(
         `${API_ENDPOINTS.ADMIN.users.base}/${userId}`,
         formData,
         {
