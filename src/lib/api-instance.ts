@@ -87,6 +87,29 @@ adminApi.interceptors.request.use((config) => {
 adminApi.interceptors.response.use(
   (res) => res,
   async (error: AxiosError) => {
+    const originalRequest = error.config as AxiosRequestConfig & {
+      _retry?: boolean;
+    };
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const res = await adminApi.post(API_ENDPOINTS.ADMIN.refreshToken);
+        const { admin_access_token } = res.data;
+          const { setAdmin, admin } = useAdminStore.getState();
+          if (admin) {
+            setAdmin(admin, admin_access_token);
+          }
+        originalRequest.headers = originalRequest.headers || {};
+        originalRequest.headers[
+          "Authorization"
+        ] = `Bearer ${admin_access_token}`;
+        return adminApi(originalRequest);
+      } catch (error) {
+        useAdminStore.getState().logout();
+        return Promise.reject(error);
+      }
+    }
     if (error.response?.status === 429) {
       toast.error("Error", {
         description: "Too Many Requests",

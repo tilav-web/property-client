@@ -43,7 +43,7 @@ export default function AdminLayout() {
       <aside className="h-screen">
         <AdminSidebar />
       </aside>
-      <main className="overflow-y-auto">
+      <main className="overflow-y-auto w-screen">
         <Outlet />
       </main>
     </div>

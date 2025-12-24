@@ -48,6 +48,10 @@ export const API_ENDPOINTS = {
     base: "/admins",
     login: "/admins/login",
     profile: "/admins/profile",
+    refreshToken: "/admins/refresh-token",
+    users: {
+      base: '/admins/users'
+    }
   },
   PROPERTIES: {
     base: "/properties",
