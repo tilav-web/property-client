@@ -94,13 +94,12 @@ adminApi.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const res = await adminApi.post(API_ENDPOINTS.ADMIN.refreshToken);
-        const { admin_access_token } = res.data;
-          const { setAdmin, admin } = useAdminStore.getState();
-          if (admin) {
-            setAdmin(admin, admin_access_token);
-          }
-        originalRequest.headers = originalRequest.headers || {};
+                const res = await adminApi.post(API_ENDPOINTS.ADMIN.refreshToken);
+                const admin_access_token = res.data;
+                  const { setAdmin, admin } = useAdminStore.getState();
+                  if (admin) {
+                    setAdmin(admin, admin_access_token);
+                  }        originalRequest.headers = originalRequest.headers || {};
         originalRequest.headers[
           "Authorization"
         ] = `Bearer ${admin_access_token}`;

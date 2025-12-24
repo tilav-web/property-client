@@ -51,7 +51,8 @@ export const API_ENDPOINTS = {
     refreshToken: "/admins/refresh-token",
     users: {
       base: '/admins/users'
-    }
+    },
+    properties: '/admins/properties'
   },
   PROPERTIES: {
     base: "/properties",

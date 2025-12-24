@@ -30,6 +30,7 @@ import AdminLayout from "./layouts/admin-layout";
 import AdminDashboard from "./pages/admin/_pages/dashboard/admin-dashboard";
 import AdminLogin from "./pages/admin/_pages/auth/admin-login";
 import AdminUsers from "./pages/admin/_pages/users/admin-users";
+import AdminProperties from "./pages/admin/_pages/properties/admin-properties";
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/create-property")
 );
@@ -206,6 +207,10 @@ const router = createBrowserRouter([
       {
         path: "users",
         element: <AdminUsers />,
+      },
+      {
+        path: "properties",
+        element: <AdminProperties />,
       },
     ],
   },
