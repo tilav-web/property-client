@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Eye,
   EyeOff,
@@ -9,10 +10,33 @@ import {
   Key,
   AlertCircle,
 } from "lucide-react";
+import { adminService } from "../../_services/admin.service";
+import { useAdminStore } from "@/stores/admin.store";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function AdminLogin() {
+  const navigate = useNavigate();
+  const { setAdmin, handleLoading, loading } = useAdminStore();
+
   const [showPassword, setShowPassword] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    handleLoading(true);
+    try {
+      const data = await adminService.login({ email, password });
+      setAdmin(data.admin, data.admin_access_token);
+      navigate("/admin"); // Navigate to admin dashboard
+    } catch (error) {
+      console.error(error);
+      // Here you might want to set an error state to display a message to the user
+    } finally {
+      handleLoading(false);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center w-screen h-screen">
@@ -40,7 +64,7 @@ export default function AdminLogin() {
         <div className="p-8 pt-6">
           {isForgotPassword ? (
             /* Forgot Password Form */
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
                 <div className="flex items-start gap-3 p-4 bg-blue-50/50 dark:bg-blue-900/20 rounded-xl border border-blue-200/50 dark:border-blue-700/30">
                   <AlertCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
@@ -86,7 +110,7 @@ export default function AdminLogin() {
             </form>
           ) : (
             /* Login Form */
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -97,8 +121,10 @@ export default function AdminLogin() {
                   </label>
                   <div className="relative">
                     <input
+                      onChange={(e) => setEmail(e.target.value)}
                       type="email"
                       placeholder="admin@amaarproperty.com"
+                      disabled={loading}
                       className="w-full px-4 py-3 pl-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200 text-slate-900 dark:text-white"
                     />
                     <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -115,6 +141,7 @@ export default function AdminLogin() {
                       <button
                         type="button"
                         onClick={() => setIsForgotPassword(true)}
+                        disabled={loading}
                         className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
                       >
                         Forgot password?
@@ -123,14 +150,17 @@ export default function AdminLogin() {
                   </label>
                   <div className="relative">
                     <input
+                      onChange={(e) => setPassword(e.target.value)}
                       type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
+                      disabled={loading}
                       className="w-full px-4 py-3 pl-11 pr-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200 text-slate-900 dark:text-white"
                     />
                     <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
+                      disabled={loading}
                       className="absolute right-4 top-1/2 transform -translate-y-1/2 p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
                     >
                       {showPassword ? (
@@ -146,6 +176,7 @@ export default function AdminLogin() {
                   <input
                     type="checkbox"
                     id="remember"
+                    disabled={loading}
                     className="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 rounded focus:ring-blue-500 focus:ring-2"
                   />
                   <label
@@ -159,10 +190,17 @@ export default function AdminLogin() {
 
               <button
                 type="submit"
+                disabled={loading}
                 className="w-full group px-4 py-4 bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white rounded-xl font-semibold shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-200 flex items-center justify-center gap-2"
               >
-                <span>Sign In to Dashboard</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                {loading ? (
+                  <Spinner className="mr-2" />
+                ) : (
+                  <span>Sign In to Dashboard</span>
+                )}
+                {!loading && (
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                )}
               </button>
             </form>
           )}
