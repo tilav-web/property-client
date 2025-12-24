@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
 import { getColumns } from "./components/columns";
 import {
   Select,
@@ -16,10 +17,11 @@ import {
 } from "@/components/ui/dialog";
 import { EditPropertyForm } from "./components/edit-property-form";
 import { type IProperty } from "@/interfaces/property/property.interface";
-import { useDebounce } from "use-debounce";
 import { adminPropertyService } from "../../_services/admin-property.service";
 import { DataTable } from "@/components/common/data-table";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 import {
   propertyStatuses,
   type PropertyStatusType,
@@ -29,28 +31,30 @@ import {
   type CategoryType,
 } from "@/interfaces/types/category.type";
 
+const DEFAULT_LIMIT = 10;
+
 export default function AdminProperties() {
   const queryClient = useQueryClient();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [page, setPage] = useState(1);
-  const [limit] = useState(10);
-  const [search, setSearch] = useState("");
-  const [status, setStatus] = useState<PropertyStatusType | "">("");
-  const [category, setCategory] = useState<CategoryType | "">("");
+  const page = Number(searchParams.get("page") ?? 1);
+  const limit = Number(searchParams.get("limit") ?? DEFAULT_LIMIT);
+  const searchQuery = searchParams.get("search") || "";
+  const status = (searchParams.get("status") as PropertyStatusType) || undefined;
+  const category = (searchParams.get("category") as CategoryType) || undefined;
 
+  const [searchInput, setSearchInput] = useState(searchQuery);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<IProperty | null>(
     null
   );
-
-  const debouncedSearch = useDebounce(search, 500);
 
   const { data, isLoading } = useQuery({
     queryKey: [
       "admin-properties",
       page,
       limit,
-      debouncedSearch,
+      searchQuery,
       status,
       category,
     ],
@@ -58,9 +62,9 @@ export default function AdminProperties() {
       adminPropertyService.getProperties({
         page,
         limit,
-        ...(debouncedSearch && { search: debouncedSearch }),
-        ...(status && { status }),
-        ...(category && { category }),
+        search: searchQuery || undefined,
+        status,
+        category,
       }),
   });
 
@@ -77,6 +81,47 @@ export default function AdminProperties() {
 
   const columns = getColumns(openEditModal);
 
+  const applySearch = () => {
+    setSearchParams({
+      page: "1",
+      limit: limit.toString(),
+      search: searchInput,
+      ...(status && { status }),
+      ...(category && { category }),
+    });
+  };
+
+  const changePage = (newPage: number) => {
+    setSearchParams({
+      page: newPage.toString(),
+      limit: limit.toString(),
+      ...(searchQuery && { search: searchQuery }),
+      ...(status && { status }),
+      ...(category && { category }),
+    });
+  };
+
+  const onStatusChange = (value: string) => {
+    setSearchParams({
+      page: "1",
+      limit: limit.toString(),
+      ...(value !== "all" && { status: value }),
+      ...(searchQuery && { search: searchQuery }),
+      ...(category && { category }),
+    });
+  };
+
+  const onCategoryChange = (value: string) => {
+    setSearchParams({
+      page: "1",
+      limit: limit.toString(),
+      ...(value !== "all" && { category: value }),
+      ...(searchQuery && { search: searchQuery }),
+      ...(status && { status }),
+    });
+  };
+
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
@@ -85,12 +130,16 @@ export default function AdminProperties() {
       <div className="flex gap-4 mb-4">
         <Input
           placeholder="Search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           className="max-w-sm"
         />
+        <Button onClick={applySearch}>
+          <Search className="h-4 w-4 mr-2" />
+          Search
+        </Button>
         <Select
-          onValueChange={(value) => setStatus(value === 'all' ? '' : (value as PropertyStatusType))}
+          onValueChange={onStatusChange}
           value={status}
         >
           <SelectTrigger className="w-[180px]">
@@ -106,7 +155,7 @@ export default function AdminProperties() {
           </SelectContent>
         </Select>
         <Select
-          onValueChange={(value) => setCategory(value === 'all' ? '' : (value as CategoryType))}
+          onValueChange={onCategoryChange}
           value={category}
         >
           <SelectTrigger className="w-[180px]">
@@ -130,7 +179,7 @@ export default function AdminProperties() {
         limit={limit}
         total={data?.total || 0}
         hasMore={data?.hasMore || false}
-        setPage={setPage}
+        setPage={changePage}
       />
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
         <DialogContent>

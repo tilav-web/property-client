@@ -20,10 +20,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { EnumPropertyStatus } from "@/enums/property-status.enum";
-import { EnumPropertyCategory } from "@/enums/property-category.enum";
 import { adminPropertyService } from "@/pages/admin/_services/admin-property.service";
 import { toast } from "sonner";
+import {
+  categories,
+  type CategoryType,
+} from "@/interfaces/types/category.type";
+import {
+  propertyStatuses,
+  type PropertyStatusType,
+} from "@/interfaces/types/property.status.type";
+import * as yup from "yup";
+
+type MultilingualString = {
+  en: string;
+  ru: string;
+  uz: string;
+};
+
+type FormValues = yup.InferType<typeof propertySchema>;
 
 interface EditPropertyFormProps {
   property: IProperty;
@@ -34,12 +49,12 @@ export const EditPropertyForm = ({
   property,
   onSuccess,
 }: EditPropertyFormProps) => {
-  const form = useForm({
+  const form = useForm<FormValues>({
     resolver: yupResolver(propertySchema),
     defaultValues: {
-      title: (property.title as any).en,
-      description: (property.description as any).en,
-      address: (property.address as any).en,
+      title: (property.title as unknown as MultilingualString).en,
+      description: (property.description as unknown as MultilingualString).en,
+      address: (property.address as unknown as MultilingualString).en,
       price: property.price,
       status: property.status,
       category: property.category,
@@ -48,23 +63,23 @@ export const EditPropertyForm = ({
     },
   });
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: FormValues) => {
     const payload = {
       ...values,
       title: {
         en: values.title,
-        ru: (property.title as any).ru,
-        uz: (property.title as any).uz,
+        ru: (property.title as unknown as MultilingualString).ru,
+        uz: (property.title as unknown as MultilingualString).uz,
       },
       description: {
         en: values.description,
-        ru: (property.description as any).ru,
-        uz: (property.description as any).uz,
+        ru: (property.description as unknown as MultilingualString).ru,
+        uz: (property.description as unknown as MultilingualString).uz,
       },
       address: {
         en: values.address,
-        ru: (property.address as any).ru,
-        uz: (property.address as any).uz,
+        ru: (property.address as unknown as MultilingualString).ru,
+        uz: (property.address as unknown as MultilingualString).uz,
       },
     };
     try {
@@ -72,6 +87,7 @@ export const EditPropertyForm = ({
       toast.success("Property updated successfully");
       onSuccess();
     } catch (error) {
+      console.error(error);
       toast.error("Error updating property");
     }
   };
@@ -144,7 +160,7 @@ export const EditPropertyForm = ({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {Object.values(EnumPropertyStatus).map((status) => (
+                  {propertyStatuses.map((status: PropertyStatusType) => (
                     <SelectItem key={status} value={status}>
                       {status}
                     </SelectItem>
@@ -168,7 +184,7 @@ export const EditPropertyForm = ({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {Object.values(EnumPropertyCategory).map((category) => (
+                  {categories.map((category: CategoryType) => (
                     <SelectItem key={category} value={category}>
                       {category}
                     </SelectItem>
