@@ -34,6 +34,16 @@ class AdminService {
       throw error;
     }
   }
+
+  async getDashboardStatistics() {
+    try {
+      const res = await adminApi.get(API_ENDPOINTS.ADMIN.statistics.dashboard);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }
 
 export const adminService = new AdminService();

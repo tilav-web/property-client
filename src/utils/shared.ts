@@ -55,7 +55,10 @@ export const API_ENDPOINTS = {
     properties: '/admins/properties',
     sellers: '/admins/sellers',
     advertises: '/admins/advertises',
-    logout: '/admins/logout'
+    logout: '/admins/logout',
+    statistics: {
+      dashboard: '/admins/statistics/dashboard',
+    },
   },
   PROPERTIES: {
     base: "/properties",
