@@ -1,12 +1,12 @@
 import { adminApi } from '@/lib/api-instance';
 import { API_ENDPOINTS } from '@/utils/shared';
-import type { IProperty } from '@/interfaces/property/property.interface';
+import type { IAdminProperty } from '@/interfaces/admin/property/admin-property.interface'; // Import IAdminProperty
 
 class AdminPropertyService {
   async getProperties(
     params: any,
   ): Promise<{
-    properties: IProperty[];
+    properties: IAdminProperty[]; // Changed to IAdminProperty[]
     total: number;
     page: number;
     limit: number;
@@ -18,9 +18,9 @@ class AdminPropertyService {
 
   async updateProperty(
     id: string,
-    payload: Partial<IProperty>,
-  ): Promise<IProperty> {
-    const { data } = await adminApi.patch(
+    payload: Partial<IAdminProperty>, // Changed to Partial<IAdminProperty>
+  ): Promise<IAdminProperty> { // Changed to IAdminProperty
+    const { data } = await adminApi.put( // Changed from patch to put
       `${API_ENDPOINTS.ADMIN.properties}/${id}`,
       payload,
     );

@@ -1,37 +1,38 @@
-import { get, set } from 'lodash';
-import { Resolver, FieldValues, FieldErrors } from 'react-hook-form';
+import { set } from 'lodash';
+import type { Resolver, FieldValues, FieldErrors, ResolverResult } from 'react-hook-form'; // Import ResolverResult
 import * as Yup from 'yup';
 
-type YupResolver = <TFieldValues extends FieldValues = FieldValues>(
+export const yupResolver = <TFieldValues extends FieldValues = FieldValues>(
   schema: Yup.ObjectSchema<TFieldValues>
-) => Resolver<TFieldValues>;
-
-export const yupResolver: YupResolver = (schema) => async (values) => {
+): Resolver<TFieldValues> => async (values) => {
   try {
     const result = await schema.validate(values, {
       abortEarly: false,
     });
 
+    // Explicitly type the successful return
     return {
-      values: result,
+      values: result as TFieldValues, // Ensure values match TFieldValues
       errors: {},
-    };
-  } catch (errors: any) {
+    } as ResolverResult<TFieldValues>; // Cast to ResolverResult
+  } catch (yupErrors: any) {
     const reactHookFormErrors: FieldErrors<TFieldValues> = {};
-    if (errors.inner) {
-      for (const error of errors.inner) {
+
+    if (yupErrors.inner) {
+      yupErrors.inner.forEach((error: Yup.ValidationError) => {
         if (error.path) {
           set(reactHookFormErrors, error.path, {
             type: error.type,
             message: error.message,
           });
         }
-      }
+      });
     }
 
+    // Explicitly type the error return
     return {
-      values: {},
+      values: {}, // As per react-hook-form's ResolverResult for errors, return an empty object
       errors: reactHookFormErrors,
-    };
+    } as ResolverResult<TFieldValues>; // Cast to ResolverResult
   }
 };

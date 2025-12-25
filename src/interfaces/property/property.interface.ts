@@ -10,9 +10,9 @@ export interface IProperty {
   _id: string;
   author: IUser;
 
-  title: string;
-  description: string;
-  address: string;
+  title: string; // Reverted to string
+  description: string; // Reverted to string
+  address: string; // Reverted to string
 
   category: CategoryType;
 

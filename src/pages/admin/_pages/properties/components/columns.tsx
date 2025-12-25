@@ -1,5 +1,5 @@
 import { type ColumnDef } from '@tanstack/react-table';
-import { type IProperty } from '@/interfaces/property/property.interface';
+import { type IAdminProperty } from '@/interfaces/admin/property/admin-property.interface'; // Changed to IAdminProperty
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,13 +12,13 @@ import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
 
 export const getColumns = (
-  openEditModal: (property: IProperty) => void,
-): ColumnDef<IProperty>[] => {
+  openEditModal: (property: IAdminProperty) => void, // Changed to IAdminProperty
+): ColumnDef<IAdminProperty>[] => { // Changed to IAdminProperty
   return [
     {
       accessorKey: 'title',
       header: 'Title',
-      cell: ({ row }) => <div>{(row.original.title as any).en}</div>,
+      cell: ({ row }) => <div>{row.original.title.uz}</div>, // Changed to .uz
     },
     {
       accessorKey: 'author.first_name',

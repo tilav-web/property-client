@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { EditPropertyForm } from "./components/edit-property-form";
-import { type IProperty } from "@/interfaces/property/property.interface";
+import { type IAdminProperty } from "@/interfaces/admin/property/admin-property.interface"; // Import IAdminProperty
 import { adminPropertyService } from "../../_services/admin-property.service";
 import { DataTable } from "@/components/common/data-table";
 import { Input } from "@/components/ui/input";
@@ -45,7 +45,7 @@ export default function AdminProperties() {
 
   const [searchInput, setSearchInput] = useState(searchQuery);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState<IProperty | null>(
+  const [selectedProperty, setSelectedProperty] = useState<IAdminProperty | null>( // Changed to IAdminProperty
     null
   );
 
@@ -68,7 +68,7 @@ export default function AdminProperties() {
       }),
   });
 
-  const openEditModal = (property: IProperty) => {
+  const openEditModal = (property: IAdminProperty) => { // Changed to IAdminProperty
     setSelectedProperty(property);
     setIsEditModalOpen(true);
   };
@@ -171,7 +171,7 @@ export default function AdminProperties() {
           </SelectContent>
         </Select>
       </div>
-      <DataTable
+      <DataTable<IAdminProperty, any> // Explicitly pass IAdminProperty
         columns={columns}
         data={data?.properties || []}
         isLoading={isLoading}

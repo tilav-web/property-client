@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { propertySchema } from "@/schemas/property.schema";
-import { type IProperty } from "@/interfaces/property/property.interface";
+import { type IAdminProperty } from "@/interfaces/admin/property/admin-property.interface"; // Changed to IAdminProperty
 import {
   Form,
   FormControl,
@@ -32,16 +32,10 @@ import {
 } from "@/interfaces/types/property.status.type";
 import * as yup from "yup";
 
-type MultilingualString = {
-  en: string;
-  ru: string;
-  uz: string;
-};
-
 type FormValues = yup.InferType<typeof propertySchema>;
 
 interface EditPropertyFormProps {
-  property: IProperty;
+  property: IAdminProperty; // Changed to IAdminProperty
   onSuccess: () => void;
 }
 
@@ -52,9 +46,9 @@ export const EditPropertyForm = ({
   const form = useForm<FormValues>({
     resolver: yupResolver(propertySchema),
     defaultValues: {
-      title: (property.title as unknown as MultilingualString).en,
-      description: (property.description as unknown as MultilingualString).en,
-      address: (property.address as unknown as MultilingualString).en,
+      title: property.title.uz, // Accessing uz language
+      description: property.description.uz, // Accessing uz language
+      address: property.address.uz, // Accessing uz language
       price: property.price,
       status: property.status,
       category: property.category,
@@ -67,19 +61,16 @@ export const EditPropertyForm = ({
     const payload = {
       ...values,
       title: {
-        en: values.title,
-        ru: (property.title as unknown as MultilingualString).ru,
-        uz: (property.title as unknown as MultilingualString).uz,
+        ...property.title, // Keep other languages
+        uz: values.title, // Update uz language
       },
       description: {
-        en: values.description,
-        ru: (property.description as unknown as MultilingualString).ru,
-        uz: (property.description as unknown as MultilingualString).uz,
+        ...property.description, // Keep other languages
+        uz: values.description, // Update uz language
       },
       address: {
-        en: values.address,
-        ru: (property.address as unknown as MultilingualString).ru,
-        uz: (property.address as unknown as MultilingualString).uz,
+        ...property.address, // Keep other languages
+        uz: values.address, // Update uz language
       },
     };
     try {
@@ -100,7 +91,7 @@ export const EditPropertyForm = ({
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel>Title (UZ)</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -113,7 +104,7 @@ export const EditPropertyForm = ({
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Description (UZ)</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -126,7 +117,7 @@ export const EditPropertyForm = ({
           name="address"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Address</FormLabel>
+              <FormLabel>Address (UZ)</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>

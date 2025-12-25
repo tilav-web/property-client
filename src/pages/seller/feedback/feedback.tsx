@@ -287,12 +287,12 @@ export default function Feedback() {
                     <Avatar className="h-10 w-10">
                       <AvatarImage
                         src={message.message.user.avatar ?? defaultImageAvatar}
-                        alt={`${message.message.user.first_name} ${message.message.user.last_name}`}
+                        alt={`${message.message.user.first_name ?? ''} ${message.message.user.last_name ?? ''}`}
                       />
                       <AvatarFallback>
                         {getInitials(
-                          message.message.user.first_name,
-                          message.message.user.last_name
+                          message.message.user.first_name ?? '',
+                          message.message.user.last_name ?? ''
                         )}
                       </AvatarFallback>
                     </Avatar>

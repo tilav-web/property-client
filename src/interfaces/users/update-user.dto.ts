@@ -1,4 +1,4 @@
-import { UserRole } from "./user.interface";
+import type { UserRole } from "./user.interface";
 
 export interface UpdateIdentifierDto {
   value?: string;

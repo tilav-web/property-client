@@ -83,18 +83,18 @@ export default function InquiriesPage() {
                   <div className="flex items-center space-x-3">
                     <Avatar className="h-12 w-12">
                       <AvatarImage
-                        src={`${serverUrl}/uploads${inquiry.user.avatar}`}
+                        src={`${serverUrl}/uploads${inquiry.user.avatar ?? ''}`}
                       />
                       <AvatarFallback>
                         {getInitials(
-                          inquiry.user.first_name,
-                          inquiry.user.last_name
+                          inquiry.user.first_name ?? '',
+                          inquiry.user.last_name ?? ''
                         )}
                       </AvatarFallback>
                     </Avatar>
                     <div>
                       <CardTitle className="text-lg">
-                        {inquiry.user.first_name} {inquiry.user.last_name}
+                        {inquiry.user.first_name ?? ''} {inquiry.user.last_name ?? ''}
                       </CardTitle>
                       <p className="text-sm text-muted-foreground">
                         {inquiry?.user?.email?.value}
