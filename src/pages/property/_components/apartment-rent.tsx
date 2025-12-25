@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback } from "react";
 import type { IApartmentRent } from "@/interfaces/property/categories/apartment-rent.interface";
+import { useTranslation } from "react-i18next"; // Import useTranslation
 
 // Ikonlar
 import {
@@ -44,7 +45,7 @@ const amenityIcons = {
 function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
   const mapInstanceRef = useRef<ymaps.Map | null>(null);
   const ymapsReadyPromise = useRef<Promise<void> | null>(null);
-  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null); // Fixed initialization
 
   const loadYmaps = useCallback(() => {
     if (ymapsReadyPromise.current) return ymapsReadyPromise.current;
@@ -95,10 +96,12 @@ function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
     };
   }, [coordinates, loadYmaps]);
 
+  const { t } = useTranslation(); // Initialize useTranslation for PropertyMap
+
   if (!coordinates) {
     return (
       <div className="w-full h-[600px] rounded-xl bg-gray-200 flex items-center justify-center">
-        <span className="text-gray-500">No coordinates available</span>
+        <span className="text-gray-500">{t("common.no_coordinates_available")}</span> {/* Translated */}
       </div>
     );
   }
@@ -116,6 +119,8 @@ export default function ApartmentRent({
 }: {
   apartment: IApartmentRent;
 }) {
+  const { t } = useTranslation(); // Initialize useTranslation
+
   const formatNumber = (num: number) => {
     return new Intl.NumberFormat("ru-RU").format(Math.round(num));
   };
@@ -129,7 +134,7 @@ export default function ApartmentRent({
       <div className="py-8">
         <BackButton className="mb-6" />
         <div className="text-center py-20">
-          <div className="text-gray-500">No apartment data available</div>
+          <div className="text-gray-500">{t("common.no_data_available")}</div> {/* Translated */}
         </div>
       </div>
     );
@@ -184,27 +189,54 @@ export default function ApartmentRent({
             <h2 className="mb-4 text-xl font-semibold">{apartment.title}</h2>
             <p className="mb-4 text-gray-600">{apartment.description}</p>
 
-            <h3 className="mb-2 font-medium text-gray-800">Property Details</h3>
+            <h3 className="mb-2 font-medium text-gray-800">
+              {t("pages.property_page.property_details")}
+            </h3>{" "}
+            {/* Translated */}
             <ul className="space-y-1 text-gray-600">
               <li className="before:content-['-'] before:mr-2 before:text-gray-800">
-                <span className="font-medium">Address:</span>{" "}
+                <span className="font-medium">
+                  {t("pages.property_page.address")}:
+                </span>{" "}
                 {apartment.address}
-              </li>
+              </li>{" "}
+              {/* Translated */}
               <li className="before:content-['-'] before:mr-2 before:text-gray-800">
-                <span className="font-medium">Category:</span> Apartment Rent
-              </li>
+                <span className="font-medium">
+                  {t("pages.property_page.category")}:
+                </span>{" "}
+                {t(`categories.${apartment.category}`)}
+              </li>{" "}
+              {/* Translated and dynamic */}
               <li className="before:content-['-'] before:mr-2 before:text-gray-800">
-                <span className="font-medium">Furnished:</span>{" "}
-                {apartment.furnished ? "Yes" : "No"}
-              </li>
+                <span className="font-medium">
+                  {t("pages.property_page.furnished")}:
+                </span>{" "}
+                {t(
+                  apartment.furnished
+                    ? "pages.property_page.yes"
+                    : "pages.property_page.no"
+                )}
+              </li>{" "}
+              {/* Translated and dynamic */}
               <li className="before:content-['-'] before:mr-2 before:text-gray-800">
-                <span className="font-medium">Repair Type:</span>{" "}
-                {apartment.repair_type || "Not specified"}
-              </li>
+                <span className="font-medium">
+                  {t("pages.property_page.repair_type")}:
+                </span>{" "}
+                {apartment.repair_type
+                  ? t(`enums.repair_type.${apartment.repair_type}`)
+                  : t("common.not_specified")}
+              </li>{" "}
+              {/* Translated and dynamic */}
               <li className="before:content-['-'] before:mr-2 before:text-gray-800">
-                <span className="font-medium">Heating:</span>{" "}
-                {apartment.heating || "Not specified"}
-              </li>
+                <span className="font-medium">
+                  {t("pages.property_page.heating")}:
+                </span>{" "}
+                {apartment.heating
+                  ? t(`enums.heating_type.${apartment.heating}`)
+                  : t("common.not_specified")}
+              </li>{" "}
+              {/* Translated and dynamic */}
             </ul>
           </div>
         </div>
@@ -213,24 +245,32 @@ export default function ApartmentRent({
       {/* Property details */}
       <div className="max-w-5xl mb-8">
         <h2 className="text-xl font-semibold text-gray-800 mb-6">
-          Property Details
-        </h2>
+          {t("pages.property_page.property_details")}
+        </h2>{" "}
+        {/* Translated */}
         <div className="grid grid-cols-2 gap-6 mb-8">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <Building2 className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">Category</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.category")}
+                </span>{" "}
+                {/* Translated */}
                 <p className="font-medium text-gray-800 capitalize">
-                  Apartment Rent
-                </p>
+                  {t(`categories.${apartment.category}`)}
+                </p>{" "}
+                {/* Translated and dynamic */}
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <Bed className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">Bedrooms</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.bedrooms")}
+                </span>{" "}
+                {/* Translated */}
                 <p className="font-medium text-gray-800">
                   {apartment.bedrooms || 0}
                 </p>
@@ -243,18 +283,25 @@ export default function ApartmentRent({
                 <span className="text-gray-600 text-sm">Floor</span>
                 <p className="font-medium text-gray-800">
                   {apartment.floor_level || 0} /{" "}
-                  {apartment.total_floors || "N/A"}
-                </p>
+                  {apartment.total_floors || t("common.not_specified")}
+                </p>{" "}
+                {/* Translated */}
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <Home className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">Heating</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.heating")}
+                </span>{" "}
+                {/* Translated */}
                 <p className="font-medium text-gray-800">
-                  {apartment.heating || "Not specified"}
-                </p>
+                  {apartment.heating
+                    ? t(`enums.heating_type.${apartment.heating}`)
+                    : t("common.not_specified")}
+                </p>{" "}
+                {/* Translated and dynamic */}
               </div>
             </div>
           </div>
@@ -263,17 +310,24 @@ export default function ApartmentRent({
             <div className="flex items-center gap-3">
               <Maximize className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">Area</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.area")}
+                </span>{" "}
+                {/* Translated */}
                 <p className="font-medium text-gray-800">
-                  {apartment.area || 0} sq m
-                </p>
+                  {apartment.area || 0} {t("pages.property_page.sq_m")}
+                </p>{" "}
+                {/* Translated */}
               </div>
             </div>
 
             <div className="flex items-center gap-3">
               <Bath className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">Bathrooms</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.bathrooms")}
+                </span>{" "}
+                {/* Translated */}
                 <p className="font-medium text-gray-800">
                   {apartment.bathrooms || 0}
                 </p>
@@ -285,8 +339,13 @@ export default function ApartmentRent({
               <div className="flex items-center gap-4">
                 <span className="text-gray-600 text-sm">Parking</span>
                 <p className="font-medium text-gray-800">
-                  {apartment.parking ? "Available" : "Not available"}
-                </p>
+                  {t(
+                    apartment.parking
+                      ? "pages.property_page.parking_available"
+                      : "pages.property_page.parking_not_available"
+                  )}
+                </p>{" "}
+                {/* Translated and dynamic */}
               </div>
             </div>
 
@@ -295,8 +354,11 @@ export default function ApartmentRent({
               <div className="flex items-center gap-4">
                 <span className="text-gray-600 text-sm">Repair Type</span>
                 <p className="font-medium text-gray-800">
-                  {apartment.repair_type || "Not specified"}
-                </p>
+                  {apartment.repair_type
+                    ? t(`enums.repair_type.${apartment.repair_type}`)
+                    : t("common.not_specified")}
+                </p>{" "}
+                {/* Translated and dynamic */}
               </div>
             </div>
           </div>
@@ -306,9 +368,10 @@ export default function ApartmentRent({
         {apartment.amenities && apartment.amenities.length > 0 && (
           <div>
             <h3 className="text-lg font-semibold text-gray-800 mb-4">
-              Amenities
-            </h3>
-            <div className="grid grid-cols-2 gap-3">
+              {t("pages.property_page.amenities")}
+            </h3>{" "}
+            {/* Translated */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {apartment.amenities.map((amenity: string, index: number) => (
                 <div
                   key={`${amenity}-${index}`}
@@ -318,9 +381,9 @@ export default function ApartmentRent({
                     <Building className="w-4 h-4 flex-shrink-0" />
                   )}
                   <span className="text-sm">
-                    {amenity.charAt(0).toUpperCase() +
-                      amenity.slice(1).replace("_", " ")}
-                  </span>
+                    {t(`enums.amenities.${amenity}`)}
+                  </span>{" "}
+                  {/* Translated dynamic */}
                 </div>
               ))}
             </div>
@@ -330,26 +393,45 @@ export default function ApartmentRent({
         {/* Additional Features */}
         <div className="mt-8">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Additional Features
-          </h3>
-          <div className="grid grid-cols-3 gap-4">
+            {t("pages.property_page.additional_features")}
+          </h3>{" "}
+          {/* Translated */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div className="flex items-center gap-2">
               <Sofa className="w-4 h-4 text-gray-500" />
               <span className="text-sm text-gray-600">
-                Air Conditioning: {apartment.air_conditioning ? "Yes" : "No"}
-              </span>
+                {t("pages.property_page.air_conditioning")}:{" "}
+                {t(
+                  apartment.air_conditioning
+                    ? "pages.property_page.yes"
+                    : "pages.property_page.no"
+                )}
+              </span>{" "}
+              {/* Translated and dynamic */}
             </div>
             <div className="flex items-center gap-2">
               <Building className="w-4 h-4 text-gray-500" />
               <span className="text-sm text-gray-600">
-                Balcony: {apartment.balcony ? "Yes" : "No"}
-              </span>
+                {t("pages.property_page.balcony")}:{" "}
+                {t(
+                  apartment.balcony
+                    ? "pages.property_page.yes"
+                    : "pages.property_page.no"
+                )}
+              </span>{" "}
+              {/* Translated and dynamic */}
             </div>
             <div className="flex items-center gap-2">
               <UserCheck className="w-4 h-4 text-gray-500" />
               <span className="text-sm text-gray-600">
-                Elevator: {apartment.elevator ? "Yes" : "No"}
-              </span>
+                {t("pages.property_page.elevator")}:{" "}
+                {t(
+                  apartment.elevator
+                    ? "pages.property_page.yes"
+                    : "pages.property_page.no"
+                )}
+              </span>{" "}
+              {/* Translated and dynamic */}
             </div>
           </div>
         </div>
