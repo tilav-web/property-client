@@ -1,7 +1,7 @@
 import { Search, X, ChevronsUpDown, Tag, Filter } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, useCallback, memo } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Popover,
   PopoverContent,
@@ -80,8 +80,6 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
   const { t } = useTranslation();
   const { language } = useLanguageStore();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
   // States
   const isMobile = useIsMobile();
   const [mobileSearchActive, setMobileSearchActive] = useState(false);
@@ -314,7 +312,9 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
               <p className="text-sm font-semibold">{t("common.category")}</p>
               <div className="grid grid-cols-2 gap-2">
                 <Button
-                  variant={selectedFilterCategory === "all" ? "default" : "outline"}
+                  variant={
+                    selectedFilterCategory === "all" ? "default" : "outline"
+                  }
                   onClick={() => setSelectedFilterCategory("all")}
                   className="justify-start"
                 >
@@ -324,7 +324,9 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
                   <Button
                     key={cat.category}
                     variant={
-                      selectedFilterCategory === cat.category ? "default" : "outline"
+                      selectedFilterCategory === cat.category
+                        ? "default"
+                        : "outline"
                     }
                     onClick={() => setSelectedFilterCategory(cat.category)}
                     className="justify-start overflow-hidden text-ellipsis whitespace-nowrap"
