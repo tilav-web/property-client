@@ -92,26 +92,11 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
   const [debouncedTagSearch] = useDebounce(tagSearch, TAG_DEBOUNCE_MS);
 
   // Filter States - BITTA TAG UCHUN
-  const [selectedTag, setSelectedTag] = useState<string>(
-    searchParams.get("tag") || ""
-  );
-  const [selectedFilterCategory, setSelectedFilterCategory] = useState<string>(
-    searchParams.get("filterCategory") || "all"
-  );
-  const [selectedBedrooms, setSelectedBedrooms] = useState<string[]>(
-    searchParams.getAll("bdr")
-  );
-  const [selectedBathrooms, setSelectedBathrooms] = useState<string[]>(
-    searchParams.getAll("bthr")
-  );
-
-  // Sync with URL params
-  useEffect(() => {
-    setSelectedFilterCategory(searchParams.get("category") || "all");
-    setSelectedTag(searchParams.get("tag") || "");
-    setSelectedBedrooms(searchParams.getAll("bdr"));
-    setSelectedBathrooms(searchParams.getAll("bthr"));
-  }, [searchParams]);
+  const [selectedTag, setSelectedTag] = useState<string>("");
+  const [selectedFilterCategory, setSelectedFilterCategory] =
+    useState<string>("all");
+  const [selectedBedrooms, setSelectedBedrooms] = useState<string[]>([]);
+  const [selectedBathrooms, setSelectedBathrooms] = useState<string[]>([]);
 
   // Queries
   const { data: categories = [] } = useQuery({
@@ -139,12 +124,25 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
   }, []);
 
   const handleSearch = useCallback(() => {
+    const hasTag = !!selectedTag;
+    const hasCategory =
+      selectedFilterCategory && selectedFilterCategory !== "all";
+    const hasBedrooms = selectedBedrooms.length > 0;
+    const hasBathrooms = selectedBathrooms.length > 0;
+
+    // Validate that at least one filter is active
+    if (!hasTag && !hasCategory && !hasBedrooms && !hasBathrooms) {
+      // Optional: Show a toast or message to the user
+      return;
+    }
+
+    // Always start with a fresh, clean query
     const queryParams = new URLSearchParams();
-    if (selectedTag) queryParams.set("tag", selectedTag);
+
+    if (hasTag) queryParams.set("tag", selectedTag);
+    if (hasCategory) queryParams.set("filterCategory", selectedFilterCategory);
     selectedBedrooms.forEach((bdr) => queryParams.append("bdr", bdr));
     selectedBathrooms.forEach((bthr) => queryParams.append("bthr", bthr));
-    if (selectedFilterCategory && selectedFilterCategory !== "all")
-      queryParams.set("filterCategory", selectedFilterCategory);
 
     navigate(`/search?${queryParams.toString()}`);
     setMobileSearchActive(false);

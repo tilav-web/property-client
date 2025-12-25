@@ -38,7 +38,7 @@ const SearchFilterHeader: React.FC = () => {
 
   // URL'dan joriy filterlarni o'qish - BITTA TAG
   const currentTag = searchParams.get("tag") || "";
-  const currentCategory = searchParams.get("category") || "all";
+  const currentCategory = searchParams.get("filterCategory") || "all";
   const currentBedrooms = searchParams.getAll("bdr");
   const currentBathrooms = searchParams.getAll("bthr");
 
@@ -94,8 +94,8 @@ const SearchFilterHeader: React.FC = () => {
 
   // Bitta filter o'chirish (badge X tugmasi uchun)
   const removeFilter = (key: string, value?: string) => {
-    if (key === "category") {
-      updateSearchParams({ category: "all" });
+    if (key === "filterCategory") {
+      updateSearchParams({ filterCategory: "all" });
     } else if (key === "tag") {
       removeTag();
     } else if (key === "bdr" && value) {
@@ -215,7 +215,7 @@ const SearchFilterHeader: React.FC = () => {
             </PopoverTrigger>
             <PopoverContent className="w-56 p-2" align="start">
               <div
-                onClick={() => updateSearchParams({ category: "all" })}
+                onClick={() => updateSearchParams({ filterCategory: "all" })}
                 className={cn(
                   "px-3 py-2 text-sm rounded-md cursor-pointer hover:bg-accent",
                   currentCategory === "all" && "bg-accent"
@@ -226,7 +226,7 @@ const SearchFilterHeader: React.FC = () => {
               {categories.map((cat: { category: string; count: number }) => (
                 <div
                   key={cat.category}
-                  onClick={() => updateSearchParams({ category: cat.category })}
+                  onClick={() => updateSearchParams({ filterCategory: cat.category })}
                   className={cn(
                     "px-3 py-2 text-sm rounded-md cursor-pointer hover:bg-accent flex justify-between",
                     currentCategory === cat.category && "bg-accent"
@@ -356,7 +356,7 @@ const SearchFilterHeader: React.FC = () => {
                 {t(`categories.${currentCategory}`)}
                 <X
                   className="h-3 w-3 cursor-pointer"
-                  onClick={() => removeFilter("category")}
+                  onClick={() => removeFilter("filterCategory")}
                 />
               </Badge>
             )}
