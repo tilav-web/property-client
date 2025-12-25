@@ -731,6 +731,31 @@
       "uzbek": "O'zbekcha",
       "english": "English",
       "russian": "Русский"
+    },
+    "mortgageCalculator": {
+      "placeholder_price": "Narxni kiriting",
+      "currency": "so'm",
+      "save": "Saqlash",
+      "edit": "Tahrirlash",
+      "down_payment": "Boshlang'ich to'lov",
+      "loan_term": "Kredit muddati",
+      "month_one": "oy",
+      "month_other": "oy",
+      "year_one": "yil",
+      "year_other": "yil",
+      "annual_interest_rate": "Yillik foiz stavkasi",
+      "ten_years": "10 yil",
+      "six_months": "6 oy",
+      "reset_to_default": "Default qiymatlarga qaytish",
+      "loan_amount": "Kredit miqdori",
+      "of_property_price": "Uy narxining {{percent}}%",
+      "monthly_payment": "Oylik to'lov",
+      "for_months_duration": "{{count}} oy davomida ({{duration}})",
+      "total_repayment": "Jami to'lanadigan summa",
+      "total_interest": "Foizlar summasi",
+      "monthly_interest": "Oylik foiz",
+      "disclaimer1": "* Hisob-kitoblar taxminiy. Aniq shartlar bank tomonidan belgilanadi.",
+      "disclaimer2": "* Kreditga qo'shimcha xizmatlar va sug'urta to'lovlari kiritilmagan."
     }
   },
   "categories": {

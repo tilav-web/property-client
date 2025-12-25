@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useTranslation } from "react-i18next"; // Import useTranslation
 
 export default function MortgageCalculator({ price }: { price: number }) {
+  const { t } = useTranslation(); // Initialize useTranslation
+
   // O'zgaruvchan parametrlar
   const [downPaymentPercent, setDownPaymentPercent] = useState(30);
   const [loanTermMonths, setLoanTermMonths] = useState(48);
@@ -39,11 +42,25 @@ export default function MortgageCalculator({ price }: { price: number }) {
     return new Intl.NumberFormat("uz-UZ").format(Math.round(num));
   };
 
-  // Oylarni yilga aylantirish
-  const getYearsAndMonths = (months: number) => {
-    const years = Math.floor(months / 12);
-    const remainingMonths = months % 12;
-    return `${years} yil${remainingMonths > 0 ? ` ${remainingMonths} oy` : ""}`;
+  // Oylarni yilga aylantirish (pluralizatsiya bilan)
+  const getYearsAndMonths = (totalMonths: number) => {
+    const years = Math.floor(totalMonths / 12);
+    const remainingMonths = totalMonths % 12;
+    let parts: string[] = [];
+
+    if (years > 0) {
+      parts.push(t("mortgageCalculator.year_one", { count: years }));
+    }
+
+    if (remainingMonths > 0) {
+      parts.push(t("mortgageCalculator.month_one", { count: remainingMonths }));
+    }
+    
+    if (totalMonths === 0) {
+        return `0 ${t("mortgageCalculator.month_other", { count: 0 })}`;
+    }
+    
+    return parts.join(" ");
   };
 
   // Price input uchun format
@@ -74,40 +91,42 @@ export default function MortgageCalculator({ price }: { price: number }) {
       <div className="mb-8 pb-6 border-b">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {/* Property narxi - tahrirlash uchun */}
-          <div className="flex flex-col items-end">
+          <div className="flex flex-col sm:items-end"> {/* Adjusted for better mobile alignment */}
             {isEditingPrice ? (
               <div className="flex items-center gap-2">
                 <Input
                   value={formatPriceInput(editablePrice)}
                   onChange={handlePriceChange}
-                  className="w-48 text-right font-bold text-lg"
-                  placeholder="Narxni kiriting"
+                  className="w-full sm:w-48 text-right font-bold text-lg"
+                  placeholder={t("mortgageCalculator.placeholder_price")}
                 />
                 <span className="text-muted-foreground whitespace-nowrap">
-                  so'm
+                  {t("mortgageCalculator.currency")}
                 </span>
                 <Button
                   size="sm"
                   onClick={() => setIsEditingPrice(false)}
                   variant="ghost"
                 >
-                  Saqlash
+                  {t("mortgageCalculator.save")}
                 </Button>
               </div>
             ) : (
-              <div className="flex items-start gap-2">
+              <div className="flex flex-wrap items-end gap-2"> {/* Added flex-wrap for mobile */}
                 <div className="text-right">
-                  <p className="text-3xl font-bold">
+                  <p className="text-2xl sm:text-3xl font-bold"> {/* Adjusted font size */}
                     {formatNumber(editablePrice)}
                   </p>
-                  <p className="text-sm text-muted-foreground">so'm</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("mortgageCalculator.currency")}
+                  </p>
                 </div>
                 <Button
                   size="sm"
                   variant="outline"
                   onClick={() => setIsEditingPrice(true)}
                 >
-                  Tahrirlash
+                  {t("mortgageCalculator.edit")}
                 </Button>
               </div>
             )}
@@ -115,7 +134,7 @@ export default function MortgageCalculator({ price }: { price: number }) {
         </div>
 
         {/* Tezkor narx tanlash */}
-        <div className="flex flex-wrap gap-2 mt-4">
+        <div className="flex flex-wrap justify-center sm:justify-start gap-2 mt-4"> {/* Added justify-center for mobile */}
           {quickPriceOptions.map((option) => (
             <Button
               key={option.value}
@@ -139,12 +158,13 @@ export default function MortgageCalculator({ price }: { price: number }) {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <Label htmlFor="downPayment" className="text-base font-medium">
-                Boshlang'ich to'lov
+                {t("mortgageCalculator.down_payment")}
               </Label>
               <div className="text-right">
                 <p className="text-2xl font-bold">{downPaymentPercent}%</p>
                 <p className="text-sm text-muted-foreground">
-                  {formatNumber(downPaymentAmount)} so'm
+                  {formatNumber(downPaymentAmount)}{" "}
+                  {t("mortgageCalculator.currency")}
                 </p>
               </div>
             </div>
@@ -167,10 +187,13 @@ export default function MortgageCalculator({ price }: { price: number }) {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <Label htmlFor="loanTerm" className="text-base font-medium">
-                Kredit muddati
+                {t("mortgageCalculator.loan_term")}
               </Label>
               <div className="text-right">
-                <p className="text-2xl font-bold">{loanTermMonths} oy</p>
+                <p className="text-2xl font-bold">
+                  {loanTermMonths}{" "}
+                  {t("mortgageCalculator.month_other", { count: loanTermMonths })}
+                </p>
                 <p className="text-sm text-muted-foreground">
                   {getYearsAndMonths(loanTermMonths)}
                 </p>
@@ -186,8 +209,8 @@ export default function MortgageCalculator({ price }: { price: number }) {
               className="w-full"
             />
             <div className="flex justify-between text-sm text-muted-foreground">
-              <span>6 oy</span>
-              <span>10 yil</span>
+              <span>6 {t("mortgageCalculator.month_one", { count: 6 })}</span>
+              <span>10 {t("mortgageCalculator.year_one", { count: 10 })}</span>
             </div>
           </div>
 
@@ -195,7 +218,7 @@ export default function MortgageCalculator({ price }: { price: number }) {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <Label htmlFor="interestRate" className="text-base font-medium">
-                Yillik foiz stavkasi
+                {t("mortgageCalculator.annual_interest_rate")}
               </Label>
               <p className="text-2xl font-bold">{interestRate.toFixed(1)}%</p>
             </div>
@@ -226,7 +249,7 @@ export default function MortgageCalculator({ price }: { price: number }) {
               setIsEditingPrice(false);
             }}
           >
-            Default qiymatlarga qaytish
+            {t("mortgageCalculator.reset_to_default")}
           </Button>
         </div>
 
@@ -234,13 +257,19 @@ export default function MortgageCalculator({ price }: { price: number }) {
         <div className="flex flex-col justify-center space-y-8">
           {/* Kredit miqdori */}
           <div className="space-y-2">
-            <p className="text-sm text-muted-foreground">Kredit miqdori</p>
+            <p className="text-sm text-muted-foreground">
+              {t("mortgageCalculator.loan_amount")}
+            </p>
             <div className="flex items-baseline gap-2">
               <p className="text-4xl font-bold">{formatNumber(loanAmount)}</p>
-              <span className="text-muted-foreground">so'm</span>
+              <span className="text-muted-foreground">
+                {t("mortgageCalculator.currency")}
+              </span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Uy narxining {(100 - downPaymentPercent).toFixed(0)}%
+              {t("mortgageCalculator.of_property_price", {
+                percent: (100 - downPaymentPercent).toFixed(0),
+              })}
             </p>
           </div>
 
@@ -248,38 +277,45 @@ export default function MortgageCalculator({ price }: { price: number }) {
 
           {/* Oylik to'lov */}
           <div className="space-y-2">
-            <p className="text-sm text-muted-foreground">Oylik to'lov</p>
+            <p className="text-sm text-muted-foreground">
+              {t("mortgageCalculator.monthly_payment")}
+            </p>
             <div className="flex items-baseline gap-2">
               <p className="text-5xl font-bold text-primary">
                 {formatNumber(monthlyPayment)}
               </p>
-              <span className="text-muted-foreground">so'm</span>
+              <span className="text-muted-foreground">
+                {t("mortgageCalculator.currency")}
+              </span>
             </div>
             <p className="text-sm text-muted-foreground">
-              {loanTermMonths} oy davomida ({getYearsAndMonths(loanTermMonths)})
+              {t("mortgageCalculator.for_months_duration", {
+                count: loanTermMonths,
+                duration: getYearsAndMonths(loanTermMonths),
+              })}
             </p>
           </div>
 
           {/* Statistika kartalar */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4"> {/* Adjusted grid for responsiveness */}
             <Card className="p-4 bg-muted/50">
               <p className="text-xs text-muted-foreground mb-1">
-                Jami to'lanadigan summa
+                {t("mortgageCalculator.total_repayment")}
               </p>
               <p className="text-lg font-semibold">
                 {formatNumber(
                   downPaymentAmount + monthlyPayment * loanTermMonths
                 )}{" "}
-                so'm
+                {t("mortgageCalculator.currency")}
               </p>
             </Card>
             <Card className="p-4 bg-muted/50">
               <p className="text-xs text-muted-foreground mb-1">
-                Foizlar summasi
+                {t("mortgageCalculator.total_interest")}
               </p>
               <p className="text-lg font-semibold">
                 {formatNumber(monthlyPayment * loanTermMonths - loanAmount)}{" "}
-                so'm
+                {t("mortgageCalculator.currency")}
               </p>
             </Card>
           </div>
@@ -288,13 +324,17 @@ export default function MortgageCalculator({ price }: { price: number }) {
           <Card className="p-4 bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium">Yillik foiz stavkasi</p>
+                <p className="text-sm font-medium">
+                  {t("mortgageCalculator.annual_interest_rate")}
+                </p>
                 <p className="text-2xl font-bold text-amber-600 dark:text-amber-400">
                   {interestRate}%
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-sm text-muted-foreground">Oylik foiz</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("mortgageCalculator.monthly_interest")}
+                </p>
                 <p className="text-xl font-bold">
                   {(interestRate / 12).toFixed(1)}%
                 </p>
@@ -302,20 +342,11 @@ export default function MortgageCalculator({ price }: { price: number }) {
             </div>
           </Card>
 
-          {/* Action tugmalari */}
-          <div className="space-y-3 pt-4">
-            <Button className="w-full" size="lg">
-              Kreditga ariza berish
-            </Button>
-            <Button variant="outline" className="w-full" size="lg">
-              Batafsil to'lov jadvali
-            </Button>
-          </div>
-
           {/* Eslatma */}
           <p className="text-xs text-muted-foreground italic pt-2 border-t">
-            * Hisob-kitoblar taxminiy. Aniq shartlar bank tomonidan belgilanadi.
-            * Kreditga qo'shimcha xizmatlar va sug'urta to'lovlari kiritilmagan.
+            {t("mortgageCalculator.disclaimer1")}
+            <br />
+            {t("mortgageCalculator.disclaimer2")}
           </p>
         </div>
       </div>
