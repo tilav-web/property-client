@@ -13,6 +13,8 @@ interface AdminState {
   adminAccessToken: string | null;
   loading: boolean;
   setAdmin: (admin: IAdmin, adminAccessToken: string) => void;
+  setAdminAccessToken: (token: string) => void;
+  setProfile: (admin: IAdmin) => void;
   logout: () => void;
   handleLoading: (bool: boolean) => void;
   getAdminAccessToken: () => string | null;
@@ -34,6 +36,17 @@ export const useAdminStore = create<AdminState>((set, get) => ({
       localStorage.setItem(ADMIN_ACCESS_TOKEN_KEY, adminAccessToken);
     }
     set({ admin, adminAccessToken });
+  },
+
+  setAdminAccessToken: (token: string) => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(ADMIN_ACCESS_TOKEN_KEY, token);
+    }
+    set({ adminAccessToken: token });
+  },
+
+  setProfile: (admin: IAdmin) => {
+    set({ admin });
   },
 
   logout: () => {

@@ -95,16 +95,14 @@ adminApi.interceptors.response.use(
       originalRequest._retry = true;
       try {
                 const res = await adminApi.post(API_ENDPOINTS.ADMIN.refreshToken);
-                const admin_access_token = res.data;
-                  const { setAdmin, admin } = useAdminStore.getState();
-                  if (admin) {
-                    setAdmin(admin, admin_access_token);
-                  }        originalRequest.headers = originalRequest.headers || {};
-        originalRequest.headers[
-          "Authorization"
-        ] = `Bearer ${admin_access_token}`;
-        return adminApi(originalRequest);
-      } catch (error) {
+                        const admin_access_token = res.data;
+                        useAdminStore.getState().setAdminAccessToken(admin_access_token);
+                        originalRequest.headers = originalRequest.headers || {};
+                        originalRequest.headers[
+                          "Authorization"
+                        ] = `Bearer ${admin_access_token}`;
+                        return adminApi(originalRequest);
+                      } catch (error) {
         useAdminStore.getState().logout();
         return Promise.reject(error);
       }

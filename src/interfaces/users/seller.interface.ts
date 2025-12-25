@@ -23,8 +23,17 @@ export interface ISeller {
 }
 
 export type SellerBusinessType = "ytt" | "mchj" | "self_employed" | "physical";
+export const sellerBusinessTypes: SellerBusinessType[] = ["ytt", "mchj", "self_employed", "physical"];
+
 export type SellerStatus =
   | "in_progress"
   | "completed"
   | "approved"
   | "rejected";
+
+export const sellerStatuses: SellerStatus[] = [
+  "in_progress",
+  "completed",
+  "approved",
+  "rejected",
+];

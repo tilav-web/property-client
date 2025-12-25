@@ -52,7 +52,10 @@ export const API_ENDPOINTS = {
     users: {
       base: '/admins/users'
     },
-    properties: '/admins/properties'
+    properties: '/admins/properties',
+    sellers: '/admins/sellers',
+    advertises: '/admins/advertises',
+    logout: '/admins/logout'
   },
   PROPERTIES: {
     base: "/properties",

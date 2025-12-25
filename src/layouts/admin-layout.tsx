@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 export default function AdminLayout() {
-  const { admin, adminAccessToken, setAdmin } = useAdminStore();
+  const { admin, adminAccessToken, setProfile } = useAdminStore();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
@@ -18,10 +18,10 @@ export default function AdminLayout() {
       if (adminAccessToken) {
         try {
           const profile = await adminService.getProfile();
-          setAdmin(profile, adminAccessToken);
+          setProfile(profile);
         } catch (error) {
           console.error(error);
-          navigate("/admin/login");
+          // The interceptor will handle logout on refresh failure
         } finally {
           setLoading(false);
         }
@@ -32,9 +32,15 @@ export default function AdminLayout() {
     };
 
     checkAdmin();
-  }, [adminAccessToken]);
+  }, [admin, adminAccessToken, navigate, setProfile]);
 
   if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!admin) {
+    // This can happen briefly if the token is invalid and we are about to be redirected.
+    // Or if the profile call fails for a non-auth reason.
     return <div>Loading...</div>;
   }
 

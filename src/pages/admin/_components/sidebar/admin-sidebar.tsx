@@ -3,7 +3,6 @@ import {
   LayoutDashboard,
   Users,
   Package,
-  ShoppingCart,
   BarChart3,
   Settings,
   HelpCircle,
@@ -12,6 +11,7 @@ import {
   FileText,
   Bell,
   CreditCard,
+  BriefcaseBusiness,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -19,11 +19,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useLocation, useNavigate } from "react-router-dom";
+import { adminService } from "../../_services/admin.service";
+import { toast } from "sonner";
+import { useAdminStore } from "@/stores/admin.store";
 
 export default function AdminSidebar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const adminLogout = useAdminStore((state) => state.logout);
 
   const menuItems = [
     {
@@ -48,18 +52,18 @@ export default function AdminSidebar() {
       path: "/admin/properties",
     },
     {
-      id: "orders",
-      label: "Orders",
-      icon: <ShoppingCart className="h-5 w-5" />,
+      id: "sellers",
+      label: "Sellers",
+      icon: <BriefcaseBusiness className="h-5 w-5" />,
       badge: null,
-      path: "/admin/orders",
+      path: "/admin/sellers",
     },
     {
-      id: "analytics",
-      label: "Analytics",
+      id: "ads",
+      label: "Ads",
       icon: <BarChart3 className="h-5 w-5" />,
       badge: null,
-      path: "/admin/analytics",
+      path: "/admin/ads",
     },
     {
       id: "content",
@@ -117,9 +121,16 @@ export default function AdminSidebar() {
     setIsMobileOpen(false);
   };
 
-  const handleLogout = () => {
-    console.log("Logging out...");
-    // Logout logic
+  const handleLogout = async () => {
+    try {
+      await adminService.logout();
+      adminLogout(); // Clear Zustand store and localStorage
+      toast.success("Logout successful!");
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      toast.error("Logout failed. Please try again.");
+    }
   };
 
   // Desktop Sidebar

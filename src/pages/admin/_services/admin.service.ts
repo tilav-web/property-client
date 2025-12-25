@@ -24,6 +24,16 @@ class AdminService {
       throw error;
     }
   }
+
+  async logout() {
+    try {
+      const res = await adminApi.post(API_ENDPOINTS.ADMIN.logout);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }
 
 export const adminService = new AdminService();
