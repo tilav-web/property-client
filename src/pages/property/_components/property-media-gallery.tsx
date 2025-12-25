@@ -147,7 +147,7 @@ export default function PropertyMediaGallery({
 
       {/* Full-screen Gallery Dialog */}
       <Dialog open={isGalleryOpen} onOpenChange={setIsGalleryOpen}>
-        <DialogContent className="max-w-screen h-screen w-screen p-0 border-none bg-black flex items-center justify-center">
+        <DialogContent className="sm:max-w-screen w-full h-screen max-w-none rounded-none border-none p-0 bg-black top-0 left-0 translate-x-0 translate-y-0">
           <DialogClose className="absolute top-4 right-4 text-white z-50">
             <X className="h-6 w-6" />
           </DialogClose>
