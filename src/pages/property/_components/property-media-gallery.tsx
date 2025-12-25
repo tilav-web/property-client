@@ -10,8 +10,11 @@ import {
   Camera,
   CirclePlay,
   Sparkles,
+  X,
 } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
+import { useState } from "react"; // Import useState
+import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog"; // Import Dialog components
 
 interface MediaItem {
   type: "image" | "video";
@@ -31,6 +34,9 @@ export default function PropertyMediaGallery({
     ...videos.map((v) => ({ type: "video" as const, src: v })),
     ...photos.map((p) => ({ type: "image" as const, src: p })),
   ];
+
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
 
   if (allMedia.length === 0) {
     return (
@@ -60,7 +66,13 @@ export default function PropertyMediaGallery({
           <CarouselContent className="-ml-0">
             {allMedia.map((media, index) => (
               <CarouselItem key={index} className="pl-0">
-                <div className="relative aspect-[16/10] md:aspect-[16/8] lg:aspect-[16/7] overflow-hidden">
+                <div
+                  className="relative aspect-[16/10] md:aspect-[16/8] lg:aspect-[16/7] overflow-hidden cursor-pointer"
+                  onClick={() => {
+                    setCurrentMediaIndex(index);
+                    setIsGalleryOpen(true);
+                  }}
+                >
                   {/* Media */}
                   {media.type === "image" ? (
                     <img
@@ -132,6 +144,52 @@ export default function PropertyMediaGallery({
           )}
         </Carousel>
       </div>
+
+      {/* Full-screen Gallery Dialog */}
+      <Dialog open={isGalleryOpen} onOpenChange={setIsGalleryOpen}>
+        <DialogContent className="max-w-screen h-screen w-screen p-0 border-none bg-black flex items-center justify-center">
+          <DialogClose className="absolute top-4 right-4 text-white z-50">
+            <X className="h-6 w-6" />
+          </DialogClose>
+          <Carousel
+            opts={{ initial: currentMediaIndex, loop: true }}
+            className="w-full h-full flex items-center justify-center"
+          >
+            <CarouselContent className="h-full">
+              {allMedia.map((media, index) => (
+                <CarouselItem
+                  key={index}
+                  className="flex items-center justify-center h-full"
+                >
+                  {media.type === "image" ? (
+                    <img
+                      src={media.src}
+                      alt=""
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  ) : (
+                    <video
+                      src={media.src}
+                      controls
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  )}
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            {allMedia.length > 1 && (
+              <>
+                <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-white/20 backdrop-blur-xl hover:bg-white/40 border border-white/30 shadow-2xl hover:scale-110 transition-all" />
+                <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-white/20 backdrop-blur-xl hover:bg-white/40 border border-white/30 shadow-2xl hover:scale-110 transition-all" />
+              </>
+            )}
+          </Carousel>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

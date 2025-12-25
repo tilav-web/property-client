@@ -174,8 +174,8 @@ export default function ApartmentSale({
                 <EllipsisVerticalButton property={apartment} />
               </div>
             </div>
-            <div className="font-bold flex items-center justify-end gap-8">
-              <p className="text-4xl text-red-500">
+            <div className="font-bold flex flex-wrap items-center justify-between sm:justify-end gap-3 sm:gap-8">
+              <p className="text-2xl sm:text-4xl text-red-500">
                 {formatPrice(apartment.price || 0)}
               </p>
               <BidPriceButton property={apartment} />
@@ -216,7 +216,7 @@ export default function ApartmentSale({
         <h2 className="text-xl font-semibold text-gray-800 mb-6">
           Property Details
         </h2>
-        <div className="grid grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <Building2 className="w-5 h-5 text-gray-500" />
@@ -309,7 +309,7 @@ export default function ApartmentSale({
             <h3 className="text-lg font-semibold text-gray-800 mb-4">
               Amenities
             </h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {apartment.amenities.map((amenity: string, index: number) => (
                 <div
                   key={`${amenity}-${index}`}
@@ -333,7 +333,7 @@ export default function ApartmentSale({
           <h3 className="text-lg font-semibold text-gray-800 mb-4">
             Additional Features
           </h3>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div className="flex items-center gap-2">
               <Sofa className="w-4 h-4 text-gray-500" />
               <span className="text-sm text-gray-600">
