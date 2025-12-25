@@ -152,7 +152,7 @@ export default function PropertyMediaGallery({
             <X className="h-6 w-6" />
           </DialogClose>
           <Carousel
-            opts={{ initial: currentMediaIndex, loop: true }}
+            opts={{ startIndex: currentMediaIndex, loop: true }} // Changed initial to startIndex
             className="w-full h-full flex items-center justify-center"
           >
             <CarouselContent className="h-full">
