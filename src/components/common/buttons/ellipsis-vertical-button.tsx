@@ -45,8 +45,6 @@ export default function EllipsisVerticalButton({
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: property?.title,
-        text: property?.description,
         url: `${serverUrl}/properties/share/${property?._id}`,
       });
     } else {
