@@ -41,11 +41,11 @@ export default function PropertyCard({
         <div className="flex items-center text-sm text-gray-500 mt-2">
           <div className="flex items-center mr-4">
             <Bed className="w-4 h-4 mr-1 text-gray-400" />
-            <span>{property.bedrooms}</span>
+            <span>{String(property.bedrooms)}</span>
           </div>
           <div className="flex items-center">
             <Bath className="w-4 h-4 mr-1 text-gray-400" />
-            <span>{property.bathrooms}</span>
+            <span>{String(property.bathrooms)}</span>
           </div>
         </div>
       );
