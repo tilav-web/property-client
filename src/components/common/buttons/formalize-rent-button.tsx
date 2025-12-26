@@ -106,8 +106,8 @@ export default function FormalizeRentButton({
 
   if (user?._id === property?.author?._id || !user) {
     return (
-      <button className="bg-blue-500/30 flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0">
-        <FileSignature className="w-4 h-4" />
+      <button className="bg-blue-500/30 flex items-center sm:gap-2 p-1 sm:px-3 sm:py-2 rounded border border-black text-sm min-w-0">
+        <FileSignature className="w-4 h-4 hidden sm:block" />
         <span className="whitespace-nowrap line-through">
           {t("common.buttons.formalize_rent")}
         </span>
