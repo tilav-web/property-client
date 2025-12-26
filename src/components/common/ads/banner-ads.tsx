@@ -16,7 +16,7 @@ export default function BannerAds() {
   if (!ads) return null;
 
   return (
-    <div className="w-full h-[302px] relative my-2 rounded-md overflow-hidden border border-black">
+    <div className="w-full h-[302px] relative rounded-md overflow-hidden border border-black">
       <img
         className="w-full h-full object-cover"
         src={ads.image ?? ""}

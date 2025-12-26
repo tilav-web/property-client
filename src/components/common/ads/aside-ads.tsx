@@ -4,7 +4,7 @@ import { advertiseService } from "@/services/advertise.service";
 import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
 import AsideAdsSkeleton from "./aside-ads-skeleton";
 
-export default function AsideAds() {
+export default function AsideAds({ className }: { className?: string }) {
   const { data: ads, isLoading } = useQuery<IAdvertise | null, Error>({
     queryKey: ["aside-ad"],
     queryFn: () =>
@@ -16,7 +16,9 @@ export default function AsideAds() {
   if (!ads) return null;
 
   return (
-    <div className="max-w-[395px] w-full border relative border-black rounded-2xl overflow-hidden">
+    <div
+      className={`max-w-[395px] w-full border relative border-black rounded-2xl overflow-hidden ${className}`}
+    >
       <img className="w-full h-full" src={ads.image ?? ""} alt={"aside ad"} />
       {ads.target && (
         <a

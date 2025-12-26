@@ -362,7 +362,41 @@
     },
     "main_page": {
       "no_results_title": "",
-      "no_results_subtitle": ""
+      "no_results_subtitle": "",
+      "featured_properties": {
+        "title": "Mashhur E'lonlar",
+        "subtitle": "Bizning tanlangan eng yaxshi mulklarimizni ko'rib chiqing.",
+        "view_all": "Barcha E'lonlarni Ko'rish",
+        "showcase_title": "Mashhur E'lonlar Ko'rgazmasi",
+        "showcase_description": "Bu yerda tanlangan mulklar namoyish etiladi. Hozirda namoyish qilish uchun mulklar mavjud emas."
+      },
+      "ai_agent": {
+        "title": "AI Ko'chmas Mulk Yordamchingiz Bilan Tanishing",
+        "description": "Cheksiz aylantirishdan charchadingizmi? Orzuyingizdagi uyni tasvirlab bering va bizning sun'iy intellektimiz uni siz uchun topadi. Bu tez, aqlli va oddiy.",
+        "button": "AI Qidiruvni Sinab Ko'ring"
+      },
+      "how_it_works": {
+        "title": "Qanday ishlaydi",
+        "subtitle": "Biz bilan keyingi mulkingizni topish oson.",
+        "step1_title": "Qidirish va Topish",
+        "step1_desc": "Sizning talablaringizga mos keladigan mulklarni topish uchun bizning kuchli qidiruvimizdan, filtrlarimizdan yoki AI yordamchisidan foydalaning.",
+        "step2_title": "Bog'lanish va So'rov",
+        "step2_desc": "Savollar berish, ko'rishni rejalashtirish yoki taklif qilish uchun sotuvchilar yoki agentlar bilan bevosita bog'laning.",
+        "step3_title": "Joyingizni Oling",
+        "step3_desc": "Kelishuvni yakunlang, shartnomalarni imzolang va yangi mulkingiz kalitlarini oling."
+      },
+      "statistics": {
+        "title": "Bizning Yutuqlarimiz",
+        "subtitle": "Raqamlar o'zlari uchun gapiradi.",
+        "properties_listed": "Joylashtirilgan Mulklar",
+        "satisfied_users": "Mamnun Foydalanuvchilar",
+        "positive_feedback": "Ijobiy Fikrlar"
+      },
+      "map": {
+        "title": "Mulkni Xaritada O'rganing",
+        "description": "O'zingiz xohlagan hududlardagi e'lonlarni vizual ko'rib chiqing, yaqin atrofda nimalar borligini ko'ring va o'zingiz uchun mukammal joyni toping.",
+        "button": "Xaritani Ochish"
+      }
     },
     "map_page": {
       "error_loading_map": "Xarita yuklanishida xato:",

@@ -33,6 +33,7 @@ import AdminUsers from "./pages/admin/_pages/users/admin-users";
 import AdminProperties from "./pages/admin/_pages/properties/admin-properties";
 import AdminSellers from "./pages/admin/_pages/sellers/admin-sellers";
 import AdminAdvertises from "./pages/admin/_pages/advertises/admin-advertises";
+import MainLayout from "./layouts/main-layout";
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/create-property")
 );
@@ -45,9 +46,9 @@ const router = createBrowserRouter([
       {
         index: true,
         element: (
-          <SubLayout>
+          <MainLayout>
             <Main />
-          </SubLayout>
+          </MainLayout>
         ),
       },
       {

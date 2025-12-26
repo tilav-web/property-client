@@ -38,8 +38,13 @@ import { handleStorage } from "@/utils/handle-storage";
 import { useSellerStore } from "@/stores/seller.store";
 import { useLanguageStore } from "@/stores/language.store";
 import type { ILanguage } from "@/interfaces/language/language.interface";
+import { cn } from "@/lib/utils";
 
-export default function Header() {
+interface IHeaderProps {
+  className?: string;
+}
+
+export default function Header({ className }: IHeaderProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { user, logout, setUser } = useUserStore();
@@ -103,7 +108,12 @@ export default function Header() {
   ];
 
   return (
-    <header className="w-full bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+    <header
+      className={cn(
+        "w-full bg-white border-b border-gray-200 shadow-sm",
+        className
+      )}
+    >
       <div className="container mx-auto">
         <div className="flex items-center justify-between gap-4 py-3 px-4 lg:px-6">
           <div className="flex items-center gap-4">

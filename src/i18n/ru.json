@@ -345,7 +345,41 @@
     },
     "main_page": {
       "no_results_title": "",
-      "no_results_subtitle": ""
+      "no_results_subtitle": "",
+      "featured_properties": {
+        "title": "Featured Properties",
+        "subtitle": "Explore our handpicked selection of top properties.",
+        "view_all": "View All Properties",
+        "showcase_title": "Featured Properties Showcase",
+        "showcase_description": "This is where handpicked properties will be displayed. Currently, there are no properties available to feature."
+      },
+      "ai_agent": {
+        "title": "Meet Your AI Property Assistant",
+        "description": "Tired of endless scrolling? Describe your dream home, and our AI will find it for you. It's fast, smart, and simple.",
+        "button": "Try AI Search"
+      },
+      "how_it_works": {
+        "title": "How It Works",
+        "subtitle": "Finding your next property is easy with us.",
+        "step1_title": "Search & Discover",
+        "step1_desc": "Use our powerful search, filters, or AI assistant to find properties that match your criteria.",
+        "step2_title": "Contact & Inquire",
+        "step2_desc": "Directly connect with sellers or agents to ask questions, schedule viewings, or make an offer.",
+        "step3_title": "Secure Your Place",
+        "step3_desc": "Finalize the deal, sign contracts, and get the keys to your new property."
+      },
+      "statistics": {
+        "title": "Our Achievements",
+        "subtitle": "The numbers speak for themselves.",
+        "properties_listed": "Properties Listed",
+        "satisfied_users": "Satisfied Users",
+        "positive_feedback": "Positive Feedback"
+      },
+      "map": {
+        "title": "Explore Properties on the Map",
+        "description": "Visually browse listings in your desired neighborhoods, see what's nearby, and find your perfect spot.",
+        "button": "Open Map"
+      }
     },
     "map_page": {
       "error_loading_map": "Ошибка загрузки карты:",
