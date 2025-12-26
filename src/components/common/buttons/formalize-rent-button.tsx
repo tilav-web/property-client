@@ -4,12 +4,28 @@ import type { PropertyType } from "@/interfaces/property/property.interface";
 import { useTranslation } from "react-i18next";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Building, MapPin, FileSignature } from "lucide-react";
+import { MapPin, FileSignature } from "lucide-react";
 import DateRangePicker from "../date-range-picker";
 import { inquiryService } from "@/services/inquiry.service";
 import type { TInquiryType } from "@/interfaces/inquiry/inquiry.interface";
 import { toast } from "sonner";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+
+// Custom Hook for Screen Size
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth < breakpoint : false
+  );
+
+  useEffect(() => {
+    const checkScreenSize = () => setIsMobile(window.innerWidth < breakpoint);
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, [breakpoint]);
+
+  return isMobile;
+}
 
 export default function FormalizeRentButton({
   property,
@@ -18,6 +34,7 @@ export default function FormalizeRentButton({
 }) {
   const { user } = useUserStore();
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -67,12 +84,25 @@ export default function FormalizeRentButton({
     }));
   }, []);
 
-  const handleDateChange = useCallback((dateRange: { from: Date; to: Date }) => {
+  const handleDateChange = useCallback(
+    (dateRange: { from: Date; to: Date }) => {
+      setFormData((prev) => ({
+        ...prev,
+        rental_period: dateRange,
+      }));
+    },
+    []
+  );
+
+  const handleNativeDateChange = (field: "from" | "to", value: string) => {
     setFormData((prev) => ({
       ...prev,
-      rental_period: dateRange,
+      rental_period: {
+        ...prev.rental_period,
+        [field]: new Date(value),
+      },
     }));
-  }, []);
+  };
 
   if (user?._id === property?.author?._id || !user) {
     return (
@@ -95,9 +125,9 @@ export default function FormalizeRentButton({
           </span>
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-4xl h-[90vh] overflow-y-auto">
-        <div className="w-full flex items-stretch">
-          <div className="max-w-72 w-full h-52">
+      <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div className="w-full flex flex-col lg:flex-row items-start">
+          <div className="lg:max-w-72 w-full h-52 lg:h-auto">
             <img
               className="w-full h-full object-cover"
               src={property.photos ? property.photos[0] : ""}
@@ -115,14 +145,10 @@ export default function FormalizeRentButton({
                   <MapPin className="h-4 w-4" />
                   <span>{property?.address}</span>
                 </div>
-                <div className="flex items-center gap-1">
-                  <Building className="h-4 w-4" />
-                  <span>{property?.address}</span>
-                </div>
               </div>
             </div>
             <Separator />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                   <div className="flex items-center gap-2">
@@ -162,12 +188,15 @@ export default function FormalizeRentButton({
         </div>
 
         <div className="mt-6 p-6 border rounded-lg bg-slate-50">
-          <h3 className="text-lg font-semibold mb-4">Ijarani rasmiylashtirish</h3>
+          <h3 className="text-lg font-semibold mb-4">
+            Ijarani rasmiylashtirish
+          </h3>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2">
-                Taklif qilingan oylik ijara narxi ({property?.currency?.toUpperCase()})
+                Taklif qilingan oylik ijara narxi (
+                {property?.currency?.toUpperCase()})
               </label>
               <input
                 type="number"
@@ -190,7 +219,30 @@ export default function FormalizeRentButton({
               <label className="block text-sm font-medium mb-2">
                 Ijara muddati
               </label>
-              <DateRangePicker onDateChange={handleDateChange} />
+              {isMobile ? (
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-xs text-gray-500">From</label>
+                    <Input
+                      type="date"
+                      onChange={(e) =>
+                        handleNativeDateChange("from", e.target.value)
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-500">To</label>
+                    <Input
+                      type="date"
+                      onChange={(e) =>
+                        handleNativeDateChange("to", e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+              ) : (
+                <DateRangePicker onDateChange={handleDateChange} />
+              )}
             </div>
 
             <div>
@@ -211,9 +263,7 @@ export default function FormalizeRentButton({
               disabled={isLoading}
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:bg-gray-400"
             >
-              {isLoading
-                ? "Yuborilmoqda..."
-                : "Ijara so'rovini yuborish"}
+              {isLoading ? "Yuborilmoqda..." : "Ijara so'rovini yuborish"}
             </button>
           </form>
         </div>

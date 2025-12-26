@@ -85,7 +85,7 @@
     },
     "buttons": {
       "bid_price": "Ваша цена",
-      "formalize_rent": "Oформить аренду",
+      "formalize_rent": "Оформить",
       "call": "Вызов",
       "instagram": "Инстаграм",
       "email": "Электронная почта",
@@ -449,6 +449,7 @@
       "sq_m": "кв. м",
       "bathrooms": "Ванные комнаты",
       "parking": "Парковка",
+      "repair_type": "Тип ремонта",
       "parking_available": "В наличии",
       "parking_not_available": "Нет в наличии",
       "amenities": "Удобства",

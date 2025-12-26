@@ -141,9 +141,9 @@ export default function BidPriceButton({
           </span>
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-4xl h-[90vh] overflow-y-auto">
-        <div className="w-full flex items-start flex-col lg:flex-row">
-          <div className="lg:max-w-72 w-full h-full">
+      <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div className="w-full flex flex-col lg:flex-row items-start">
+          <div className="lg:max-w-72 w-full h-auto lg:h-full">
             <img
               className="w-full h-full object-cover"
               src={property.photos ? property.photos[0] : ""}

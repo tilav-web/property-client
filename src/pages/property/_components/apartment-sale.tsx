@@ -29,7 +29,7 @@ import WhatsAppButton from "@/components/common/buttons/whats-app-button";
 import HeartButton from "@/components/common/buttons/heart-button";
 import EllipsisVerticalButton from "@/components/common/buttons/ellipsis-vertical-button";
 import PropertyMediaGallery from "./property-media-gallery";
-import FormalizeRentButton from "@/components/common/buttons/formalize-rent-button";
+import BidPriceButton from "@/components/common/buttons/bid-price-button";
 
 // Amenities ikonlari
 const amenityIcons = {
@@ -182,7 +182,7 @@ export default function ApartmentRent({
               <p className="text-4xl text-red-500">
                 {formatPrice(apartment.price || 0)}
               </p>
-              <FormalizeRentButton property={apartment} />
+              <BidPriceButton property={apartment} />
             </div>
           </div>
           <div>
@@ -248,7 +248,7 @@ export default function ApartmentRent({
           {t("pages.property_page.property_details")}
         </h2>{" "}
         {/* Translated */}
-        <div className="grid grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <Building2 className="w-5 h-5 text-gray-500" />
@@ -280,10 +280,7 @@ export default function ApartmentRent({
             <div className="flex items-center gap-3">
               <Rotate3D className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
-                  {t("pages.property_page.floor")}
-                </span>{" "}
-                {/* Translated */}
+                <span className="text-gray-600 text-sm">{t("pages.property_page.floor")}</span>
                 <p className="font-medium text-gray-800">
                   {apartment.floor_level || 0} /{" "}
                   {apartment.total_floors || t("common.not_specified")}
@@ -340,10 +337,7 @@ export default function ApartmentRent({
             <div className="flex items-center gap-3">
               <Warehouse className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
-                  {t("pages.property_page.parking")}
-                </span>{" "}
-                {/* Translated */}
+                <span className="text-gray-600 text-sm">{t("pages.property_page.parking")}</span>
                 <p className="font-medium text-gray-800">
                   {t(
                     apartment.parking
@@ -358,10 +352,7 @@ export default function ApartmentRent({
             <div className="flex items-center gap-3">
               <Wrench className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
-                  {t("pages.property_page.repair_type")}
-                </span>{" "}
-                {/* Translated */}
+                <span className="text-gray-600 text-sm">{t("pages.property_page.repair_type")}</span>
                 <p className="font-medium text-gray-800">
                   {apartment.repair_type
                     ? t(`enums.repair_type.${apartment.repair_type}`)
