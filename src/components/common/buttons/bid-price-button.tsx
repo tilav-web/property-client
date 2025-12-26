@@ -119,7 +119,7 @@ export default function BidPriceButton({
     return (
       <button className="bg-[#FF990063] flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0">
         <img src={courtSvg} alt="Court svg" className="w-4 h-4" />
-        <span className="whitespace-nowrap line-through">
+        <span className="whitespace-nowrap line-through hidden sm:block">
           {t("common.buttons.bid_price")}
         </span>
       </button>
@@ -136,7 +136,7 @@ export default function BidPriceButton({
       <DialogTrigger asChild>
         <button className="bg-[#FF990063] flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0">
           <img src={courtSvg} alt="Court svg" className="w-4 h-4" />
-          <span className="whitespace-nowrap">
+          <span className="whitespace-nowrap hidden sm:block">
             {t("common.buttons.bid_price")}
           </span>
         </button>
