@@ -244,7 +244,7 @@ export default function Main() {
           </Link>
         </div>
 
-        <div className="my-16 flex gap-2">
+        <div className="my-16 flex gap-2 items-stretch">
           <div className="flex flex-col gap-2">
             <BannerAds />
             <div className="flex items-center gap-2">
