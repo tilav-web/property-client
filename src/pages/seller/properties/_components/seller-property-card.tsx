@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import type { IProperty } from "@/interfaces/property/property.interface";
 import { useNavigate } from "react-router-dom";
-import { serverUrl } from "@/utils/shared";
 
 interface SellerPropertyCardProps {
   property: IProperty;
