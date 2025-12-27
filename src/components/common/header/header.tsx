@@ -26,7 +26,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import Login from "@/pages/auth/login";
 import { useUserStore } from "@/stores/user.store";
@@ -39,6 +38,7 @@ import { useSellerStore } from "@/stores/seller.store";
 import { useLanguageStore } from "@/stores/language.store";
 import type { ILanguage } from "@/interfaces/language/language.interface";
 import { cn } from "@/lib/utils";
+import { useUiStore } from "@/stores/ui.store";
 
 interface IHeaderProps {
   className?: string;
@@ -50,6 +50,7 @@ export default function Header({ className }: IHeaderProps) {
   const { user, logout, setUser } = useUserStore();
   const { logout: sellerLogout } = useSellerStore();
   const { setLanguage } = useLanguageStore();
+  const { isLoginDialogOpen, openLoginDialog, closeLoginDialog } = useUiStore();
 
   const languages = Object.values<ILanguage>(["uz", "ru", "en"]);
 
@@ -249,26 +250,25 @@ export default function Header({ className }: IHeaderProps) {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="flex items-center gap-2"
-                  >
-                    <User className="h-4 w-4" />
-                    <span className="hidden sm:block">{t("common.login")}</span>
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>{t("common.header.login_title")}</DialogTitle>
-                    <DialogDescription></DialogDescription>
-                  </DialogHeader>
-                  <Login />
-                </DialogContent>
-              </Dialog>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex items-center gap-2"
+                onClick={openLoginDialog}
+              >
+                <User className="h-4 w-4" />
+                <span className="hidden sm:block">{t("common.login")}</span>
+              </Button>
             )}
+            <Dialog open={isLoginDialogOpen} onOpenChange={closeLoginDialog}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>{t("common.header.login_title")}</DialogTitle>
+                  <DialogDescription></DialogDescription>
+                </DialogHeader>
+                <Login />
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>

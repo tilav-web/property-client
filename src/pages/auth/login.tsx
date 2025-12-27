@@ -1,16 +1,17 @@
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { cn } from "@/lib/utils";
 import { loginYupSchema } from "@/schemas/login.schema";
 import { userService } from "@/services/user.service";
 import { useUserStore } from "@/stores/user.store";
 import { handleStorage } from "@/utils/handle-storage";
+import { useUiStore } from "@/stores/ui.store";
 
 export default function Login() {
   const { t } = useTranslation();
   const { setUser } = useUserStore();
-  const navigate = useNavigate(); // Initialize useNavigate
+  const { closeLoginDialog } = useUiStore();
 
   const formik = useFormik({
     initialValues: {
@@ -22,7 +23,7 @@ export default function Login() {
         const data = await userService.login(values);
         setUser(data.user);
         handleStorage({ key: "access_token", value: data.access_token });
-        navigate("/"); // Redirect to the main page
+        closeLoginDialog();
       } catch (error) {
         console.error(error);
       }
