@@ -412,7 +412,9 @@
       "error_getting_data": "Ma'lumotlarni olishda xato:",
       "loading_data": "Ma'lumotlar yuklanmoqda...",
       "no_address": "Manzil ko‘rsatilmagan",
-      "rooms": "xona"
+      "rooms": "xona",
+      "zoom_in_prompt_title": "E'lonlarni ko'rish uchun",
+      "zoom_in_prompt_subtitle": "Xaritani kattalashtiring"
     },
     "profile_page": {
       "my_account": "Mening hisobim",

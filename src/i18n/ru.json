@@ -395,7 +395,9 @@
       "error_getting_data": "Ошибка получения данных:",
       "loading_data": "Данные загружаются...",
       "no_address": "Адрес не указан",
-      "rooms": "комнаты"
+      "rooms": "комнаты",
+      "zoom_in_prompt_title": "Для просмотра объявлений",
+      "zoom_in_prompt_subtitle": "Приблизьте карту"
     },
     "profile_page": {
       "my_account": "Мой аккаунт",

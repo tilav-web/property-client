@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { propertyService } from "@/services/property.service";
 import type { PropertyType } from "@/interfaces/property/property.interface";
@@ -24,6 +25,7 @@ const getAreaKey = (lat: number, lng: number): string => {
 };
 
 export default function YandexMap() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const [properties, setProperties] = useState<PropertyType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -368,9 +370,32 @@ export default function YandexMap() {
       )}
 
       {showZoomMessage && (
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg z-10 text-center">
-          <h3 className="text-lg font-semibold text-gray-800">E'lonlarni ko'rish uchun</h3>
-          <p className="text-gray-600">Xaritani kattalashtiring</p>
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-sm px-4 py-3 rounded-xl shadow-lg z-10 flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-5 w-5 text-blue-600"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+          <div className="text-sm">
+            <p className="font-semibold text-gray-800">
+              {t("pages.map_page.zoom_in_prompt_title")}
+            </p>
+            <p className="text-gray-500">
+              {t("pages.map_page.zoom_in_prompt_subtitle")}
+            </p>
+          </div>
         </div>
       )}
 

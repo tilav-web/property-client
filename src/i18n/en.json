@@ -405,7 +405,9 @@
       "error_getting_data": "Error getting data:",
       "loading_data": "Data is loading...",
       "no_address": "Address not specified",
-      "rooms": "rooms"
+      "rooms": "rooms",
+      "zoom_in_prompt_title": "To see the properties",
+      "zoom_in_prompt_subtitle": "Zoom in on the map"
     },
     "profile_page": {
       "my_account": "My account",
