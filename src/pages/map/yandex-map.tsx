@@ -3,7 +3,6 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import { propertyService } from "@/services/property.service";
 import type { PropertyType } from "@/interfaces/property/property.interface";
-import { toast } from "sonner";
 import { useMapStore } from "@/stores/map.store";
 
 declare global {
@@ -14,9 +13,9 @@ declare global {
 
 const DEFAULT_CENTER: [number, number] = [41.2995, 69.2401]; // Toshkent
 const DEFAULT_ZOOM = 12;
-const DEBOUNCE_DELAY = 500; // 0.5 sekundga tushirdik
+const MIN_ZOOM = 10;
+const DEBOUNCE_DELAY = 500;
 
-// AREA KEY helper outside component so callbacks can be stable
 const getAreaKey = (lat: number, lng: number): string => {
   const AREA_SIZE = 0.2;
   const latKey = (Math.floor(lat / AREA_SIZE) * AREA_SIZE).toFixed(1);
@@ -28,6 +27,7 @@ export default function YandexMap() {
   const [searchParams] = useSearchParams();
   const [properties, setProperties] = useState<PropertyType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showZoomMessage, setShowZoomMessage] = useState(false);
 
   const mapRef = useRef<any>(null);
   const clustererRef = useRef<any>(null);
@@ -94,7 +94,6 @@ export default function YandexMap() {
         lastAreaKeyRef.current = responseAreaKey;
       } catch (error) {
         console.error("Properties load error:", error);
-        toast.error("Ma'lumotlar yuklanmadi");
       } finally {
         setIsLoading(false);
       }
@@ -175,22 +174,31 @@ export default function YandexMap() {
   }, []);
 
   // 5. PROPERTY MARKER LAR (KO'K) - CLUSTERER BILAN
-  const createBalloon = useCallback((p: PropertyType) => `
-    <div style="padding: 12px; min-width: 200px;">
-      <div style="font-weight: 600; margin-bottom: 8px; font-size: 14px;">
-        ${p.title}
+  const createBalloon = useCallback((p: PropertyType) => {
+    const fallbackImage = "https://via.placeholder.com/300x200.png?text=No+Image";
+    const imageUrl = p.photos && p.photos.length > 0 ? p.photos[0] : fallbackImage;
+    const detailUrl = `/property/${p._id}`;
+
+    return `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; width: 280px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <img src="${imageUrl}" alt="${p.title}" style="width: 100%; height: 160px; object-fit: cover; border-bottom: 1px solid #eee;">
+        <div style="padding: 12px;">
+          <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            ${p.title}
+          </h3>
+          <p style="font-size: 18px; font-weight: 700; color: #10B981; margin: 0 0 10px;">
+            ${p.price?.toLocaleString()} ${p.currency?.toUpperCase()}
+          </p>
+          <div style="font-size: 13px; color: #6B7280; margin: 0 0 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+            ${p.address}
+          </div>
+          <a href="${detailUrl}" target="_blank" style="display: block; width: 100%; padding: 10px 0; background-color: #3B82F6; color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 500; transition: background-color 0.2s;">
+            View Details
+          </a>
+        </div>
       </div>
-      <div style="color: #16a34a; font-weight: 600; font-size: 16px; margin-bottom: 8px;">
-        ${p.price?.toLocaleString()} ${p.currency?.toUpperCase()}
-      </div>
-      <div style="font-size: 12px; color: #666; margin-bottom: 4px;">
-        📍 ${p.address}
-      </div>
-      <div style="font-size: 12px; color: #666;">
-        🏠 ${p.bedrooms || 0} xona • ${p.area || 0} m²
-      </div>
-    </div>
-  `, []);
+    `;
+  }, []);
 
   const updatePropertyMarkers = useCallback(() => {
     if (!mapRef.current) return;
@@ -252,20 +260,21 @@ export default function YandexMap() {
         zoom = 16;
         hasQueryLocation = true;
         isQueryLocationRef.current = true;
-        toast.success("Qidiruv manzili topildi");
       } else if ("geolocation" in navigator) {
         isQueryLocationRef.current = false;
         try {
-          const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 });
-          });
+          const position = await new Promise<GeolocationPosition>(
+            (resolve, reject) => {
+              navigator.geolocation.getCurrentPosition(resolve, reject, {
+                timeout: 5000,
+              });
+            }
+          );
           centerLat = position.coords.latitude;
           centerLng = position.coords.longitude;
           zoom = 14;
-          toast.success("Sizning joylashuvingiz aniqlandi");
         } catch (error) {
           console.error(error);
-          toast.info("Toshkent markazi ko'rsatilmoqda");
         }
       } else {
         isQueryLocationRef.current = false;
@@ -274,46 +283,53 @@ export default function YandexMap() {
       const map = new window.ymaps.Map("yandex-map", {
         center: [centerLat, centerLng],
         zoom: zoom,
-        controls: ["zoomControl", "fullscreenControl"],
+        controls: ["zoomControl", "fullscreenControl", "geolocationControl"],
       });
-
       mapRef.current = map;
 
       if (hasQueryLocation) {
         addSearchMarker(centerLat, centerLng);
       }
 
-      const bounds = map.getBounds();
-      if (bounds) {
-        const sw = bounds[0];
-        const ne = bounds[1];
-        loadProperties(sw[0], sw[1], ne[0], ne[1]);
-      }
+      const handleBoundsChange = () => {
+        const currentZoom = map.getZoom();
+        if (currentZoom < MIN_ZOOM) {
+          setShowZoomMessage(true);
+        } else {
+          setShowZoomMessage(false);
+          const bounds = map.getBounds();
+          if (bounds) {
+            const sw = bounds[0];
+            const ne = bounds[1];
+            loadPropertiesDebounced(sw[0], sw[1], ne[0], ne[1]);
+          }
+        }
+      };
 
-      map.events.add("boundschange", () => {
+      if (map.getZoom() >= MIN_ZOOM) {
         const bounds = map.getBounds();
         if (bounds) {
           const sw = bounds[0];
           const ne = bounds[1];
-          loadPropertiesDebounced(sw[0], sw[1], ne[0], ne[1]);
+          loadProperties(sw[0], sw[1], ne[0], ne[1]);
         }
-      });
+      } else {
+        setShowZoomMessage(true);
+      }
+
+      map.events.add("boundschange", handleBoundsChange);
     };
 
     initMap();
 
     return () => {
       destroyed = true;
-      if (loadTimeoutRef.current) {
-        clearTimeout(loadTimeoutRef.current);
-      }
+      if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current);
       if (mapRef.current) {
         mapRef.current.destroy();
         mapRef.current = null;
       }
-      if (clustererRef.current) {
-        clustererRef.current = null;
-      }
+      clustererRef.current = null;
     };
   }, [searchParams, loadProperties, loadPropertiesDebounced, addSearchMarker]);
 
@@ -328,11 +344,33 @@ export default function YandexMap() {
 
       {isLoading && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-sm px-4 py-3 rounded-xl shadow-lg z-10 flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
-          <svg className="animate-spin h-5 w-5 text-blue-600" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          <svg
+            className="animate-spin h-5 w-5 text-blue-600"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+              fill="none"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
           </svg>
           <span className="font-medium text-gray-700">Yuklanmoqda...</span>
+        </div>
+      )}
+
+      {showZoomMessage && (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-sm px-6 py-4 rounded-xl shadow-lg z-10 text-center">
+          <h3 className="text-lg font-semibold text-gray-800">E'lonlarni ko'rish uchun</h3>
+          <p className="text-gray-600">Xaritani kattalashtiring</p>
         </div>
       )}
 
