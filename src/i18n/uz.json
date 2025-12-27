@@ -258,7 +258,9 @@
       "total_properties": "Jami: {{count}} ta mulk",
       "no_properties_found": "Hech qanday mulk topilmadi",
       "you_have_not_added_any_properties_yet": "Siz hali birorta mulk qo‘shmagansiz. Birinchi mulkingizni qo‘shish uchun quyidagi tugmani bosing.",
-      "add_first_property": "Birinchi mulkni qo‘shish"
+      "add_first_property": "Birinchi mulkni qo‘shish",
+      "previous": "Oldingisi",
+      "next": "Keyingisi"
     },
     "seller_advertises_page": {
       "my_advertises": "Mening e'lonlarim",

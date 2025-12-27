@@ -263,7 +263,9 @@
       "total_properties": "Total: {{count}} properties",
       "no_properties_found": "No properties found",
       "you_have_not_added_any_properties_yet": "You haven't added any properties yet. Click the button below to add your first property.",
-      "add_first_property": "Add First Property"
+      "add_first_property": "Add First Property",
+      "previous": "Previous",
+      "next": "Next"
     },
     "hero": {
       "title": "Dream homes in the heart of Uzbekistan",

@@ -432,7 +432,14 @@
       "total_properties": "Всего: {{count}} объектов",
       "no_properties_found": "Объекты не найдены",
       "you_have_not_added_any_properties_yet": "Вы еще не добавили ни одного объекта. Нажмите кнопку ниже, чтобы добавить свой первый объект.",
-      "add_first_property": "Добавить первый объект"
+      "add_first_property": "Добавить первый объект",
+      "delete_success": "Объект успешно удален",
+      "delete_error": "Ошибка при удалении объекта",
+      "delete_confirmation_title": "Вы уверены?",
+      "delete_confirmation_description": "Это действие необратимо. Это навсегда удалит вашу недвижимость и удалит ваши данные с наших серверов.",
+      "no_property_selected": "Не выбран объект для удаления.",
+      "previous": "Предыдущая",
+      "next": "Следующая"
     },
     "property_page": {
       "no_coordinates": "Нет координат",

@@ -2,7 +2,7 @@ import BannerAds from "@/components/common/ads/banner-ads";
 import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
 import ImageAds from "@/components/common/ads/image-ads";
 import ImageAdsSkeleton from "@/components/common/ads/image-ads-skeleton";
-import ApartmentRentCard from "@/components/common/cards/property/cards/categories/apartment-card";
+import ApartmentCard from "@/components/common/cards/property/cards/categories/apartment-card";
 import PropertyMiniCardSkeleton from "@/components/common/cards/property/skeletons/property-mini-card-skeleton";
 import type { PropertyType } from "@/interfaces/property/property.interface";
 
@@ -39,7 +39,7 @@ export default function FilterNavLayoutBlock({
         <div className="w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             {properties.slice(0, 4).map((property) => {
-              return <ApartmentRentCard property={property} />;
+              return <ApartmentCard property={property} />;
             })}
             {properties.length === 2 && (
               <div className="lg:col-span-2">
@@ -49,7 +49,7 @@ export default function FilterNavLayoutBlock({
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             {properties.slice(4).map((property) => {
-              return <ApartmentRentCard property={property} />;
+              return <ApartmentCard property={property} />;
             })}
             {(properties.length === 6 || properties.length === 5) && (
               <div className="lg:col-span-2">
