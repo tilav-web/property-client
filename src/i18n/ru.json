@@ -126,7 +126,15 @@
     },
     "not_specified": "Не указано",
     "no_data_available": "Нет данных",
-    "no_coordinates_available": "Координаты недоступны"
+    "no_coordinates_available": "Координаты недоступны",
+    "alerts": {
+      "logout": {
+        "title": "Вы уверены, что хотите выйти?",
+        "description": "Вы будете возвращены на главную страницу.",
+        "cancel_button": "Отмена",
+        "confirm_button": "Выйти"
+      }
+    }
   },
   "error_boundary": {
     "title": "Произошла ошибка!",

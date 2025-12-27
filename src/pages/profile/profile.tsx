@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/stores/user.store";
 import { useLanguageStore } from "@/stores/language.store";
-import BackButton from "@/components/common/buttons/back-button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +19,17 @@ import { userService } from "@/services/user.service";
 import { handleStorage } from "@/utils/handle-storage";
 import { useSellerStore } from "@/stores/seller.store";
 import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function Profile() {
   const { t, i18n } = useTranslation();
@@ -63,10 +73,8 @@ export default function Profile() {
   return (
     <div className="">
       <div className="container mx-auto px-4 py-6 lg:py-8 max-w-6xl">
-        {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div className="flex items-center gap-3">
-            <BackButton />
             <div>
               <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {t("pages.profile_page.my_account")}
@@ -78,7 +86,6 @@ export default function Profile() {
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
-            {/* Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -111,7 +118,6 @@ export default function Profile() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Sell/Rent Button */}
             <Button
               onClick={() => navigate("/seller/profile")}
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold h-10"
@@ -122,20 +128,41 @@ export default function Profile() {
               <span className="sm:hidden">Sell</span>
             </Button>
 
-            {/* Logout Button */}
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              size="sm"
-              className="border-red-200 text-red-600 hover:bg-red-50"
-            >
-              <LogOut className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">{t("common.header.logout")}</span>
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-red-200 text-red-600 hover:bg-red-50"
+                >
+                  <LogOut className="h-4 w-4 sm:mr-2" />
+                  <span className="hidden sm:inline">
+                    {t("common.header.logout")}
+                  </span>
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    {t("common.alerts.logout.title")}
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {t("common.alerts.logout.description")}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>
+                    {t("common.alerts.logout.cancel_button")}
+                  </AlertDialogCancel>
+                  <AlertDialogAction onClick={handleLogout}>
+                    {t("common.alerts.logout.confirm_button")}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
 
-        {/* Tabs Section */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <Tabs defaultValue="account_details" className="w-full">
             <TabsList className="h-auto w-full flex-col sm:flex-row items-stretch sm:items-center bg-gray-50 border-b border-gray-200 p-0 rounded-none">

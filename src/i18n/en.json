@@ -126,7 +126,15 @@
     },
     "not_specified": "Not specified",
     "no_data_available": "No data available",
-    "no_coordinates_available": "No coordinates available"
+    "no_coordinates_available": "No coordinates available",
+    "alerts": {
+      "logout": {
+        "title": "Are you sure you want to log out?",
+        "description": "You will be returned to the main page.",
+        "cancel_button": "Cancel",
+        "confirm_button": "Log out"
+      }
+    }
   },
   "error_boundary": {
     "title": "An error has occurred!",

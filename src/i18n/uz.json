@@ -126,7 +126,15 @@
     },
     "not_specified": "Ko'rsatilmagan",
     "no_data_available": "Ma'lumot mavjud emas",
-    "no_coordinates_available": "Koordinatalar mavjud emas"
+    "no_coordinates_available": "Koordinatalar mavjud emas",
+    "alerts": {
+      "logout": {
+        "title": "Haqiqatdan ham tizimdan chiqmoqchimisiz?",
+        "description": "Siz asosiy sahifaga qaytarilasiz.",
+        "cancel_button": "Bekor qilish",
+        "confirm_button": "Chiqish"
+      }
+    }
   },
   "error_boundary": {
     "title": "Xatolik yuz berdi!",

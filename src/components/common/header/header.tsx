@@ -13,7 +13,6 @@ import {
   Building,
   Handshake,
   Star,
-  LogIn,
   User,
   Globe,
   ChevronDown,
@@ -32,9 +31,6 @@ import { useUserStore } from "@/stores/user.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { defaultImageAvatar, logo } from "@/utils/shared";
 import { userService } from "@/services/user.service";
-import { toast } from "sonner";
-import { handleStorage } from "@/utils/handle-storage";
-import { useSellerStore } from "@/stores/seller.store";
 import { useLanguageStore } from "@/stores/language.store";
 import type { ILanguage } from "@/interfaces/language/language.interface";
 import { cn } from "@/lib/utils";
@@ -47,8 +43,7 @@ interface IHeaderProps {
 export default function Header({ className }: IHeaderProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { user, logout, setUser } = useUserStore();
-  const { logout: sellerLogout } = useSellerStore();
+  const { user, setUser } = useUserStore();
   const { setLanguage } = useLanguageStore();
   const { isLoginDialogOpen, openLoginDialog, closeLoginDialog } = useUiStore();
 
@@ -69,20 +64,6 @@ export default function Header({ className }: IHeaderProps) {
     }
   };
 
-  const logoutSystem = async () => {
-    try {
-      await userService.logout();
-      handleStorage({ key: "access_token", value: null });
-      logout();
-      sellerLogout();
-      toast.success(t("common.success"), {
-        description: t("common.header.logout_success"),
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const navItems = [
     {
       icon: Home,
@@ -94,11 +75,6 @@ export default function Header({ className }: IHeaderProps) {
       label: t("common.rent_apartments"),
       href: "/filter-nav?category=APARTMENT_RENT",
     },
-    // {
-    //   icon: Home,
-    //   label: t("common.rent_land"),
-    //   href: "/filter-nav",
-    // },
     { icon: Handshake, label: t("common.ai_agent"), href: "/ai-agent" },
     {
       icon: Star,
@@ -160,7 +136,6 @@ export default function Header({ className }: IHeaderProps) {
             </Link>
           </div>
 
-          {/* Desktop Navigation Menu - Search o'rniga */}
           <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center">
             {navItems.map((item) => (
               <Link
@@ -175,7 +150,6 @@ export default function Header({ className }: IHeaderProps) {
           </nav>
 
           <div className="flex items-center gap-2">
-            {/* Language selector (available for both guest and logged-in users) */}
             {!user && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -210,45 +184,21 @@ export default function Header({ className }: IHeaderProps) {
               </DropdownMenu>
             )}
             {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Avatar className="cursor-pointer">
-                    <AvatarImage
-                      src={`${
-                        user?.avatar ? user?.avatar : defaultImageAvatar
-                      }`}
-                      className="object-cover"
-                    />
-                    <AvatarFallback>
-                      {user?.first_name?.slice(0, 1) ?? ""}
-                      {user?.last_name?.slice(0, 1) ?? ""}
-                    </AvatarFallback>
-                  </Avatar>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem
-                    onClick={() => navigate("/profile")}
-                    className="flex items-center gap-2"
-                  >
-                    <User className="h-4 w-4" />
-                    <span>{t("common.header.profile")}</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => navigate("/favorites")}
-                    className="flex items-center gap-2"
-                  >
-                    <Heart className="h-4 w-4" />
-                    <span>{t("common.favorites")}</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={logoutSystem}
-                    className="flex items-center gap-2 text-red-600"
-                  >
-                    <LogIn className="h-4 w-4" />
-                    <span>{t("common.header.logout")}</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <div
+                onClick={() => navigate("/profile")}
+                className="cursor-pointer"
+              >
+                <Avatar>
+                  <AvatarImage
+                    src={`${user?.avatar ? user?.avatar : defaultImageAvatar}`}
+                    className="object-cover"
+                  />
+                  <AvatarFallback>
+                    {user?.first_name?.slice(0, 1) ?? ""}
+                    {user?.last_name?.slice(0, 1) ?? ""}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
             ) : (
               <Button
                 variant="ghost"
