@@ -46,7 +46,7 @@ export default function MortgageCalculator({ price }: { price: number }) {
   const getYearsAndMonths = (totalMonths: number) => {
     const years = Math.floor(totalMonths / 12);
     const remainingMonths = totalMonths % 12;
-    let parts: string[] = [];
+    const parts: string[] = [];
 
     if (years > 0) {
       parts.push(t("mortgageCalculator.year_one", { count: years }));

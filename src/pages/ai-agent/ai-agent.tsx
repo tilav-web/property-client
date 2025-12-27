@@ -146,35 +146,35 @@ export default function AiAgent() {
       lastAIMessageWithProperties.totalPages;
 
   return (
-    <main className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <div className="flex flex-col h-screen bg-background">
       {/* Header */}
-      <div className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-foreground">
+      <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-10">
+        <div className="container mx-auto px-4 py-4">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground">
             {t("ai_agent_page.title")}
           </h1>
-          <p className="text-muted-foreground mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             {t("ai_agent_page.subtitle")}
           </p>
         </div>
-      </div>
+      </header>
 
       {/* Messages */}
-      <div
+      <main
         ref={scrollContainerRef}
-        className="h-screen overflow-x-auto px-4 pt-56 max-w-4xl mx-auto space-y-6"
+        className="flex-1 overflow-y-auto p-4 space-y-6 container mx-auto"
       >
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center min-h-96 text-center">
+          <div className="flex flex-col items-center justify-center h-full text-center">
             <div className="mb-6">
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                 <Send className="w-8 h-8 text-primary" />
               </div>
             </div>
-            <h2 className="text-2xl font-semibold text-foreground mb-2">
+            <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
               {t("ai_agent_page.welcome_title")}
             </h2>
-            <p className="text-muted-foreground max-w-md">
+            <p className="text-muted-foreground max-w-md text-sm md:text-base">
               {t("ai_agent_page.welcome_description")}
             </p>
           </div>
@@ -184,7 +184,7 @@ export default function AiAgent() {
               <div key={message.id}>
                 <ChatMessage message={message} />
                 {message.properties && message.properties.length > 0 && (
-                  <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {message.properties.map((property) => (
                       <PropertyCard key={property._id} property={property} />
                     ))}
@@ -214,14 +214,14 @@ export default function AiAgent() {
                 <span>{t("ai_agent_page.searching")}</span>
               </div>
             )}
-            <div ref={messagesEndRef} className="h-1" />
+            <div ref={messagesEndRef} />
           </>
         )}
-      </div>
+      </main>
 
       {/* Input */}
-      <div className="border-t border-border bg-background/80 backdrop-blur-sm sticky bottom-0">
-        <div className="max-w-4xl mx-auto px-4 py-6">
+      <footer className="border-t border-border bg-background/80 backdrop-blur-sm sticky bottom-0">
+        <div className="container mx-auto px-4 py-3">
           <form onSubmit={handleSubmit} className="flex gap-3">
             <Input
               value={input}
@@ -240,7 +240,7 @@ export default function AiAgent() {
             </Button>
           </form>
         </div>
-      </div>
-    </main>
+      </footer>
+    </div>
   );
 }
