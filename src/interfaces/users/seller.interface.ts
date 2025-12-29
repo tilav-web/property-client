@@ -20,6 +20,10 @@ export interface ISeller {
   status: SellerStatus;
   createdAt?: Date;
   updatedAt?: Date;
+
+  totalProperties?: number;
+  avgLikes?: number;
+  avgSaves?: number;
 }
 
 export type SellerBusinessType = "ytt" | "mchj" | "self_employed" | "physical";

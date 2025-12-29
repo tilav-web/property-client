@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  BarChart3,
   Home,
   MessageSquare,
   Heart,
@@ -21,6 +20,8 @@ import { propertyService } from "@/services/property.service";
 import { inquiryService } from "@/services/inquiry.service";
 import type { IProperty } from "@/interfaces/property/property.interface";
 import type { IInquiry } from "@/interfaces/inquiry/inquiry.interface";
+import type { IApartmentRent } from "@/interfaces/property/categories/apartment-rent.interface";
+import type { IApartmentSale } from "@/interfaces/property/categories/apartment-sale.interface";
 import {
   ResponsiveContainer,
   BarChart,
@@ -31,8 +32,15 @@ import {
   Bar,
 } from "recharts";
 
+interface StatCardProps {
+  title: string;
+  value: string | number;
+  icon: React.ReactNode;
+  description: string;
+}
+
 // Statistik kartochka komponenti
-const StatCard = ({ title, value, icon, description }) => (
+const StatCard = ({ title, value, icon, description }: StatCardProps) => (
   <Card>
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
       <CardTitle className="text-sm font-medium">{title}</CardTitle>
@@ -46,65 +54,69 @@ const StatCard = ({ title, value, icon, description }) => (
 );
 
 // Property kartasi komponenti
-const PropertyCard = ({ property }: { property: IProperty }) => (
-  <Card className="hover:shadow-lg transition-shadow">
-    <CardHeader>
-      <div className="flex justify-between items-start">
-        <div>
-          <CardTitle className="text-lg">{property.title}</CardTitle>
-          <CardDescription className="flex items-center gap-2 mt-1">
-            <MapPin className="w-4 h-4" />
-            {property.area}m² • {property.bedrooms} xona
-          </CardDescription>
-        </div>
-        <div className="flex gap-1">
-          {property.is_premium && <Badge variant="secondary">Premium</Badge>}
-          {property.status === "APPROVED" && (
-            <Badge variant="default">Tasdiqlangan</Badge>
-          )}
-        </div>
-      </div>
-    </CardHeader>
-    <CardContent>
-      <div className="grid grid-cols-2 gap-4 mb-3">
-        <div>
-          <p className="text-2xl font-bold text-primary">
-            {property.price.toLocaleString()} {property.currency}
-          </p>
-        </div>
-        <div className="space-y-1">
-          <div className="flex justify-between text-sm">
-            <span>Rating:</span>
-            <span className="font-medium">{property.rating}/5</span>
+const PropertyCard = ({ property }: { property: IProperty }) => {
+  const apartmentProperty = property as IApartmentRent | IApartmentSale;
+  return (
+    <Card className="hover:shadow-lg transition-shadow">
+      <CardHeader>
+        <div className="flex justify-between items-start">
+          <div>
+            <CardTitle className="text-lg">{property.title}</CardTitle>
+            <CardDescription className="flex items-center gap-2 mt-1">
+              <MapPin className="w-4 h-4" />
+              {apartmentProperty.area}m² • {apartmentProperty.bedrooms} xona
+            </CardDescription>
           </div>
-          <div className="flex justify-between text-sm">
-            <span>Likes:</span>
-            <span className="font-medium">{property.liked}</span>
+          <div className="flex gap-1">
+            {property.is_premium && <Badge variant="secondary">Premium</Badge>}
+            {property.status === "APPROVED" && (
+              <Badge variant="default">Tasdiqlangan</Badge>
+            )}
           </div>
         </div>
-      </div>
-      <div className="flex justify-between text-sm">
-        <div className="flex items-center gap-1">
-          <Heart className="w-4 h-4 text-red-500" />
-          <span>{property.liked}</span>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-2 gap-4 mb-3">
+          <div>
+            <p className="text-2xl font-bold text-primary">
+              {property.price.toLocaleString()} {property.currency}
+            </p>
+          </div>
+          <div className="space-y-1">
+            <div className="flex justify-between text-sm">
+              <span>Rating:</span>
+              <span className="font-medium">{property.rating}/5</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span>Likes:</span>
+              <span className="font-medium">{property.liked}</span>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-1">
-          <Bookmark className="w-4 h-4 text-blue-500" />
-          <span>{property.saved}</span>
+        <div className="flex justify-between text-sm">
+          <div className="flex items-center gap-1">
+            <Heart className="w-4 h-4 text-red-500" />
+            <span>{property.liked}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Bookmark className="w-4 h-4 text-blue-500" />
+            <span>{property.saved}</span>
+          </div>
         </div>
-      </div>
-    </CardContent>
-  </Card>
-);
+      </CardContent>
+    </Card>
+  );
+};
 
 // So'rov kartasi komponenti
 const InquiryCard = ({ inquiry }: { inquiry: IInquiry }) => {
-  const statusColors = {
+  const statusColors: Record<IInquiry['status'], string> = {
     pending: "bg-yellow-100 text-yellow-800",
     viewed: "bg-blue-100 text-blue-800",
     responded: "bg-green-100 text-green-800",
     accepted: "bg-green-100 text-green-800",
     rejected: "bg-red-100 text-red-800",
+    canceled: "bg-gray-100 text-gray-800"
   };
 
   return (
@@ -251,50 +263,49 @@ export default function SellerDashboard() {
             <Loading />
           ) : isInquiriesError ? (
             <div>Error loading inquiries.</div>
-          ) : (
-            <Card>
-              <CardHeader>
-                <CardTitle>So'nggi So'rovlar</CardTitle>
-                <CardDescription>
-                  Sizning listinglaringizga kelgan so'nggi so'rovlar
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {inquiriesData?.map((inquiry) => (
-                    <InquiryCard key={inquiry._id} inquiry={inquiry} />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-
-        {/* Propertylar */}
-        <div className="space-y-6">
-          {isPropertiesLoading ? (
-            <Loading />
-          ) : isPropertiesError ? (
-            <div>Error loading properties.</div>
-          ) : (
-            <Card>
-              <CardHeader>
-                <CardTitle>Barcha Propertylar</CardTitle>
-                <CardDescription>
-                  Sizning barcha listinglaringiz ro'yxati
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {propertiesData?.properties.map((property) => (
-                    <PropertyCard key={property._id} property={property} />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-      </div>
+                      ) : (
+                        <Card>
+                          <CardHeader>
+                            <CardTitle>So'nggi So'rovlar</CardTitle>
+                            <CardDescription>
+                              Sizning listinglaringizga kelgan so'nggi so'rovlar
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                              {inquiriesData?.map((inquiry: IInquiry) => (
+                                <InquiryCard key={inquiry._id} inquiry={inquiry} />
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </div>
+          
+                    {/* Propertylar */}
+                    <div className="space-y-6">
+                      {isPropertiesLoading ? (
+                        <Loading />
+                      ) : isPropertiesError ? (
+                        <div>Error loading properties.</div>
+                      ) : (
+                        <Card>
+                          <CardHeader>
+                            <CardTitle>Barcha Propertylar</CardTitle>
+                            <CardDescription>
+                              Sizning barcha listinglaringiz ro'yxati
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                              {propertiesData?.properties.map((property: IProperty) => (
+                                <PropertyCard key={property._id} property={property} />
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </div>      </div>
     </div>
   );
 }

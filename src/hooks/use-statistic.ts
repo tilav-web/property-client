@@ -5,6 +5,6 @@ import { statisticService } from "@/services/statistic.service";
 export const useSellerStatistics = () => {
   return useQuery({
     queryKey: ["seller-statistics"],
-    queryFn: () => statisticService.getSellerStatistics(),
+    queryFn: () => statisticService.getSellerDashboard(),
   });
 };

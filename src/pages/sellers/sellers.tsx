@@ -13,8 +13,9 @@ import { Badge } from "@/components/ui/badge";
 import LoadMoreButton from "@/components/common/buttons/load-more.button";
 
 import { Link } from "react-router-dom";
+import type { ISeller } from "@/interfaces/users/seller.interface";
 
-const SellerCard = ({ seller }) => (
+const SellerCard = ({ seller }: { seller: ISeller }) => (
   <Link to={`/sellers/${seller._id}`}>
     <Card className="overflow-hidden h-full flex flex-col justify-between items-center text-center p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300">
       <Avatar className="w-24 h-24 mb-4">
