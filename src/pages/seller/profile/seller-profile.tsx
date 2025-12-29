@@ -1,36 +1,35 @@
-import { useSellerStore } from "@/stores/seller.store";
-import SellerLegalRegister from "./_components/seller-legal-register";
-import SellerLegalData from "./_components/seller-legal-data";
 import Loading from "@/components/common/loadings/loading";
-import { useUserStore } from "@/stores/user.store";
-import SellerPhysicalRegister from "./_components/seller-physical-register";
-import SellerPhysicalData from "./_components/seller-physical-data";
+import { useSellerStore } from "@/stores/seller.store";
+import YTTProfile from "./ytt-profile";
+import MCHJProfile from "./mchj-profile";
+import SelfEmployedProfile from "./self-employed-profile";
+import PhysicalProfile from "./physical-profile";
 
 export default function SellerProfile() {
-  const { user } = useUserStore();
   const { seller } = useSellerStore();
+
   if (seller === undefined) return <Loading />;
 
-  return (
-    <div>
-      {user?.role === "legal" && (
-        <>
-          {seller?.status === "approved" ? (
-            <SellerLegalData />
-          ) : (
-            <SellerLegalRegister />
-          )}
-        </>
-      )}
-      {user?.role === "physical" && (
-        <>
-          {seller?.status === "approved" ? (
-            <SellerPhysicalData />
-          ) : (
-            <SellerPhysicalRegister />
-          )}
-        </>
-      )}
-    </div>
-  );
+  if (!seller) {
+    // This should not happen if the user is on this page,
+    // but it's good practice to handle it.
+    return <div>No seller data found.</div>;
+  }
+
+  const renderProfileByBusinessType = () => {
+    switch (seller.business_type) {
+      case "ytt":
+        return <YTTProfile />;
+      case "mchj":
+        return <MCHJProfile />;
+      case "self_employed":
+        return <SelfEmployedProfile />;
+      case "physical":
+        return <PhysicalProfile />;
+      default:
+        return <div>Unknown business type</div>;
+    }
+  };
+
+  return <div>{renderProfileByBusinessType()}</div>;
 }
