@@ -18,10 +18,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/images/hero-image.jpg";
-import BannerAds from "@/components/common/ads/banner-ads";
-import ImageAds from "@/components/common/ads/image-ads";
-import AsideAds from "@/components/common/ads/aside-ads";
-import SellerCta from "@/components/common/seller-cta";
+import BrowseSellersCta from "@/components/common/browse-sellers-cta";
 
 function FeaturedProperties() {
   const { t } = useTranslation();
@@ -245,7 +242,7 @@ export default function Main() {
           </Link>
         </div>
 
-        <SellerCta />
+        <BrowseSellersCta />
 
         <MapCta />
 
