@@ -49,8 +49,9 @@ const typeConfig = {
 export default function AdvertiseCard({ advertise }: Props) {
   // Agar status yoki type noto‘g‘ri bo‘lsa — default holatni tanlaymiz
   const statusInfo =
-    statusConfig[advertise?.status as keyof typeof statusConfig] ||
-    statusConfig["pending"];
+    statusConfig[
+      advertise?.status?.toLowerCase() as keyof typeof statusConfig
+    ] || statusConfig["pending"];
   const StatusIcon = statusInfo.icon;
 
   const typeInfo =
