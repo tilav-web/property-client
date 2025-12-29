@@ -21,6 +21,7 @@ import heroImage from "@/assets/images/hero-image.jpg";
 import BannerAds from "@/components/common/ads/banner-ads";
 import ImageAds from "@/components/common/ads/image-ads";
 import AsideAds from "@/components/common/ads/aside-ads";
+import SellerCta from "@/components/common/seller-cta";
 
 function FeaturedProperties() {
   const { t } = useTranslation();
@@ -244,16 +245,7 @@ export default function Main() {
           </Link>
         </div>
 
-        <div className="my-16 flex gap-2 items-stretch">
-          <div className="flex flex-col gap-2">
-            <BannerAds />
-            <div className="flex items-center gap-2">
-              <ImageAds />
-              <ImageAds />
-            </div>
-          </div>
-          <AsideAds className="hidden lg:block" />
-        </div>
+        <SellerCta />
 
         <MapCta />
 

@@ -388,9 +388,14 @@
         "positive_feedback": "Positive Feedback"
       },
       "map": {
-        "title": "Explore Properties on the Map",
-        "description": "Visually browse listings in your desired neighborhoods, see what's nearby, and find your perfect spot.",
-        "button": "Open Map"
+        "title": "Исследуйте объекты на карте",
+        "description": "Визуально просматривайте объявления в желаемых районах, смотрите, что находится поблизости, и найдите свое идеальное место.",
+        "button": "Открыть карту"
+      },
+      "seller_cta": {
+        "title": "Стать продавцом",
+        "description": "Присоединяйтесь к нашей платформе и начните продавать или сдавать в аренду свою недвижимость уже сегодня. С легкостью охватите более широкую аудиторию!",
+        "button": "Зарегистрироваться как продавец"
       }
     },
     "map_page": {

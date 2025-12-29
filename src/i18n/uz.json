@@ -410,6 +410,11 @@
         "title": "Mulkni Xaritada O'rganing",
         "description": "O'zingiz xohlagan hududlardagi e'lonlarni vizual ko'rib chiqing, yaqin atrofda nimalar borligini ko'ring va o'zingiz uchun mukammal joyni toping.",
         "button": "Xaritani Ochish"
+      },
+      "seller_cta": {
+        "title": "Sotuvchi bo'ling",
+        "description": "Platformamizga qo'shiling va mulklaringizni bugundan sotish yoki ijaraga berishni boshlang. Kengroq auditoriyaga osonlik bilan erishing!",
+        "button": "Sotuvchi sifatida ro'yxatdan o'tish"
       }
     },
     "map_page": {

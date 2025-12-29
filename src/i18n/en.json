@@ -403,6 +403,11 @@
         "title": "Explore Properties on the Map",
         "description": "Visually browse listings in your desired neighborhoods, see what's nearby, and find your perfect spot.",
         "button": "Open Map"
+      },
+      "seller_cta": {
+        "title": "Become a Seller",
+        "description": "Join our platform and start selling or renting your properties today. Reach a wider audience with ease!",
+        "button": "Register as a Seller"
       }
     },
     "map_page": {
