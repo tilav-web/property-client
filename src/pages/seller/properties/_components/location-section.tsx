@@ -56,6 +56,23 @@ export default function LocationSection({ location, setLocation }: Props) {
     }
   }, [setLocation]);
 
+  // Get user's location on initial load
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (err) => {
+          console.error("Geolocation error: ", err);
+        }
+      );
+    }
+  }, [setLocation]);
+
   // Initialize map on mount
   useEffect(() => {
     let isComponentMounted = true;
@@ -70,8 +87,19 @@ export default function LocationSection({ location, setLocation }: Props) {
         const map = new ymaps.Map("location-map-container", {
           center: initialCoords,
           zoom: 14,
-          controls: ["zoomControl", "fullscreenControl"],
+          controls: ["zoomControl", "fullscreenControl", "geolocationControl"],
         });
+
+        const geolocationControl = map.controls.get("geolocationControl");
+        geolocationControl.events.add(
+          "locationchange",
+          (e: ymaps.IEvent<ymaps.control.GeolocationControl, { position: number[] }>) => {
+            const coords = e.get("position");
+            if (coords) {
+              setLocation({ lat: coords[0], lng: coords[1] });
+            }
+          }
+        );
 
         const placemark = new ymaps.Placemark(
           initialCoords,
@@ -90,7 +118,7 @@ export default function LocationSection({ location, setLocation }: Props) {
       .catch((error) => {
         console.error("Yandex map initialization error:", error);
         if (isComponentMounted) {
-          setIsMapLoading(false); // Stop loading even on error to show a message
+          setIsMapLoading(false); // Stop loading even on error
         }
       });
 
@@ -102,7 +130,7 @@ export default function LocationSection({ location, setLocation }: Props) {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadYmaps, handleMapClick, handlePlacemarkDrag]); // These callbacks are stable
+  }, [loadYmaps, handleMapClick, handlePlacemarkDrag, setLocation]);
 
   // Update placemark position when `location` prop changes
   useEffect(() => {
@@ -155,7 +183,7 @@ export default function LocationSection({ location, setLocation }: Props) {
           Hozirgi koordinatalar: {location.lat.toFixed(6)},{" "}
           {location.lng.toFixed(6)}
         </p>
-      </CardContent>
+      </CardContent>.
     </Card>
   );
 }

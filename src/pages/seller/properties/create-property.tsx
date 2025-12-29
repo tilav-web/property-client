@@ -3,14 +3,22 @@ import { useState } from "react";
 import type { CategoryType } from "@/interfaces/types/category.type";
 import MediaSection from "./_components/media-section";
 import BasicInfoSection from "./_components/basic-info-section";
-import ApartmentSaleForm from "./_components/category-forms/apartment-sale.form";
-import ApartmentRentForm from "./_components/category-forms/apartment-rent.form";
+import ApartmentSaleForm, {
+  type ApartmentSaleFormData,
+} from "./_components/category-forms/apartment-sale.form";
+import ApartmentRentForm, {
+  type ApartmentRentFormData,
+} from "./_components/category-forms/apartment-rent.form";
 import LocationSection from "./_components/location-section";
 import SubmitSection from "./_components/submit-section";
 import { propertyService } from "@/services/property.service";
 
-export default function PropertyForm() {
+type CategorySpecificData =
+  | ApartmentSaleFormData
+  | ApartmentRentFormData
+  | Record<string, any>;
 
+export default function PropertyForm() {
   const [category, setCategory] = useState<CategoryType | "">("");
 
   // Umumiy ma'lumotlar (b
@@ -31,7 +39,7 @@ export default function PropertyForm() {
   const [videos, setVideos] = useState<{ file: File; preview: string }[]>([]);
 
   // Har bir kategoriya o‘z holicha saqlaydi
-  const [categoryData, setCategoryData] = useState<any>({});
+  const [categoryData, setCategoryData] = useState<CategorySpecificData>({});
 
   const handleSubmit = async () => {
     try {
@@ -71,9 +79,9 @@ export default function PropertyForm() {
       });
 
       const resData = await propertyService.create(formData);
-      console.log(resData);
+      console.log("Form data submitted successfully:", resData);
     } catch (error) {
-      console.error(error);
+      console.error("Error submitting form:", error);
     }
   };
 
@@ -107,10 +115,16 @@ export default function PropertyForm() {
 
         {/* Kategoriyaga qarab maxsus forma */}
         {category === "APARTMENT_SALE" && (
-          <ApartmentSaleForm data={categoryData} setData={setCategoryData} />
+          <ApartmentSaleForm
+            data={categoryData as ApartmentSaleFormData}
+            setData={setCategoryData}
+          />
         )}
         {category === "APARTMENT_RENT" && (
-          <ApartmentRentForm data={categoryData} setData={setCategoryData} />
+          <ApartmentRentForm
+            data={categoryData as ApartmentRentFormData}
+            setData={setCategoryData}
+          />
         )}
 
         <LocationSection location={location} setLocation={setLocation} />

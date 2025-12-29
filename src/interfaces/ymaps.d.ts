@@ -5,6 +5,7 @@ declare namespace ymaps {
     constructor(element: string | HTMLElement, state: IMapState, options?: IMapOptions);
     geoObjects: geoObject.GeoObjectCollection;
     events: IEventManager;
+    controls: IControlSet;
     destroy(): void;
     getCenter(): number[];
     setCenter(center: number[], zoom?: number, options?: { duration?: number; timingFunction?: string }): Promise<void>;
@@ -52,7 +53,6 @@ declare namespace ymaps {
 
   interface IMapClickEvent extends IEvent<{ coords: number[] }, { target: Map }> {}
 
-
   interface IEventManager<T = object> {
     add<E extends keyof IEventMap>(
       type: E | E[],
@@ -73,7 +73,7 @@ declare namespace ymaps {
   interface IEventMap {
     'click': IMapClickEvent;
     'dragend': IEvent;
-    // Add other events here as needed
+    'locationchange': IEvent<any, { position: number[] }>;
   }
 
   namespace geoObject {
@@ -92,6 +92,18 @@ declare namespace ymaps {
       getCoordinates(): number[];
       setCoordinates(coordinates: number[]): this;
     }
+  }
+
+  namespace control {
+    class GeolocationControl {
+      events: IEventManager;
+      getGeolink(): any;
+    }
+  }
+
+  interface IControlSet {
+    get(controlName: 'geolocationControl'): control.GeolocationControl;
+    get(controlName: string): any;
   }
 
   interface IDataManager {
