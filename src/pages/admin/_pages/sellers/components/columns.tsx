@@ -12,10 +12,13 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { serverUrl } from "@/utils/shared";
+import { useNavigate } from "react-router-dom";
 
 export const getColumns = (
   openEditModal: (seller: ISeller) => void
 ): ColumnDef<ISeller>[] => {
+  const navigate = useNavigate();
+
   return [
     {
       accessorKey: "user.first_name",
@@ -60,6 +63,11 @@ export const getColumns = (
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigate(`/admin/sellers/${seller._id}`)}
+              >
+                View Details
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => openEditModal(seller)}>
                 Edit Seller
               </DropdownMenuItem>

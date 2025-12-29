@@ -34,6 +34,8 @@ import AdminProperties from "./pages/admin/_pages/properties/admin-properties";
 import AdminSellers from "./pages/admin/_pages/sellers/admin-sellers";
 import AdminAdvertises from "./pages/admin/_pages/advertises/admin-advertises";
 import MainLayout from "./layouts/main-layout";
+import SellerDetailsPage from "./pages/admin/_pages/sellers/seller-details-page";
+import PropertyDetailsPage from "./pages/admin/_pages/properties/property-details-page";
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/create-property")
 );
@@ -216,8 +218,16 @@ const router = createBrowserRouter([
         element: <AdminProperties />,
       },
       {
+        path: "properties/:propertyId",
+        element: <PropertyDetailsPage />,
+      },
+      {
         path: "sellers",
         element: <AdminSellers />,
+      },
+      {
+        path: "sellers/:sellerId",
+        element: <SellerDetailsPage />,
       },
       {
         path: "ads",

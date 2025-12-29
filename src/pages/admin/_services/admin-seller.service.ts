@@ -16,6 +16,13 @@ class AdminSellerService {
     return data;
   }
 
+  async findOne(id: string): Promise<ISeller> {
+    const { data } = await adminApi.get(
+      `${API_ENDPOINTS.ADMIN.sellers}/${id}`,
+    );
+    return data;
+  }
+
   async updateSeller(
     id: string,
     payload: Partial<ISeller>,

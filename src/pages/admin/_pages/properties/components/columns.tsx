@@ -10,10 +10,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const getColumns = (
   openEditModal: (property: IAdminProperty) => void, // Changed to IAdminProperty
 ): ColumnDef<IAdminProperty>[] => { // Changed to IAdminProperty
+  const navigate = useNavigate();
   return [
     {
       accessorKey: 'title',
@@ -61,6 +63,11 @@ export const getColumns = (
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => navigate(`/admin/properties/${property._id}`)}
+              >
+                View Details
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => openEditModal(property)}>
                 Edit Property
               </DropdownMenuItem>
