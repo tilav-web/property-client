@@ -16,6 +16,7 @@ import {
   User,
   Globe,
   ChevronDown,
+  Users,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -81,6 +82,7 @@ export default function Header({ className }: IHeaderProps) {
       label: t("common.new_projects"),
       href: "/filter-nav?is_new=1",
     },
+    { icon: Users, label: t("common.sellers"), href: "/sellers" },
     { icon: Heart, label: t("common.favorites"), href: "/favorites" },
   ];
 

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -6,8 +5,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   BarChart3,
@@ -15,8 +12,6 @@ import {
   MessageSquare,
   Heart,
   Bookmark,
-  TrendingUp,
-  Filter,
   MapPin,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
@@ -26,6 +21,15 @@ import { propertyService } from "@/services/property.service";
 import { inquiryService } from "@/services/inquiry.service";
 import type { IProperty } from "@/interfaces/property/property.interface";
 import type { IInquiry } from "@/interfaces/inquiry/inquiry.interface";
+import {
+  ResponsiveContainer,
+  BarChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  Bar,
+} from "recharts";
 
 // Statistik kartochka komponenti
 const StatCard = ({ title, value, icon, description }) => (
@@ -133,8 +137,6 @@ const InquiryCard = ({ inquiry }: { inquiry: IInquiry }) => {
 };
 
 export default function SellerDashboard() {
-  const [activeTab, setActiveTab] = useState("overview");
-
   const {
     data: dashboardData,
     isLoading: isDashboardLoading,
@@ -151,7 +153,6 @@ export default function SellerDashboard() {
   } = useQuery({
     queryKey: ["my-properties"],
     queryFn: () => propertyService.findMyProperties({ page: 1, limit: 10 }),
-    enabled: activeTab === "properties",
   });
 
   const {
@@ -161,8 +162,14 @@ export default function SellerDashboard() {
   } = useQuery({
     queryKey: ["my-inquiries"],
     queryFn: () => inquiryService.findSellerInquiries(),
-    enabled: activeTab === "inquiries",
   });
+
+  const analyticsData = [
+    { name: "Properties", value: dashboardData?.totalProperties || 0 },
+    { name: "Inquiries", value: dashboardData?.totalInquiries || 0 },
+    { name: "Likes", value: dashboardData?.totalLikes || 0 },
+    { name: "Saves", value: dashboardData?.totalSaves || 0 },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50/30 p-6">
@@ -175,114 +182,118 @@ export default function SellerDashboard() {
               Sizning propertylaringiz statistikasi va boshqaruvi
             </p>
           </div>
-          <Button>
-            <Filter className="w-4 h-4 mr-2" />
-            Filter
-          </Button>
         </div>
 
-        <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="space-y-6"
-        >
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="overview" className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4" />
-              Umumiy ko'rinish
-            </TabsTrigger>
-            <TabsTrigger value="properties" className="flex items-center gap-2">
-              <Home className="w-4 h-4" />
-              Propertylar
-            </TabsTrigger>
-            <TabsTrigger value="inquiries" className="flex items-center gap-2">
-              <MessageSquare className="w-4 h-4" />
-              So'rovlar
-            </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
-              Analitika
-            </TabsTrigger>
-          </TabsList>
+        {/* Umumiy ko'rinish */}
+        <div className="space-y-6">
+          {isDashboardLoading ? (
+            <Loading />
+          ) : isDashboardError ? (
+            <div>Error loading dashboard.</div>
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <StatCard
+                title="Jami Propertylar"
+                value={dashboardData?.totalProperties}
+                icon={<Home className="w-4 h-4 text-muted-foreground" />}
+                description="Barcha listinglar"
+              />
+              <StatCard
+                title="Jami So'rovlar"
+                value={dashboardData?.totalInquiries}
+                icon={
+                  <MessageSquare className="w-4 h-4 text-muted-foreground" />
+                }
+                description="Barcha so'rovlar"
+              />
+              <StatCard
+                title="Jami Like-lar"
+                value={dashboardData?.totalLikes}
+                icon={<Heart className="w-4 h-4 text-muted-foreground" />}
+                description="Foydalanuvchilar yoqtirishlari"
+              />
+              <StatCard
+                title="Jami Saqlanganlar"
+                value={dashboardData?.totalSaves}
+                icon={<Bookmark className="w-4 h-4 text-muted-foreground" />}
+                description="Property saqlashlar"
+              />
+            </div>
+          )}
+        </div>
 
-          {/* Umumiy ko'rinish */}
-          <TabsContent value="overview" className="space-y-6">
-            {isDashboardLoading ? (
-              <Loading />
-            ) : isDashboardError ? (
-              <div>Error loading dashboard.</div>
-            ) : (
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <StatCard
-                  title="Jami Propertylar"
-                  value={dashboardData?.totalProperties}
-                  icon={<Home className="w-4 h-4 text-muted-foreground" />}
-                  description="Barcha listinglar"
-                />
-                <StatCard
-                  title="Jami So'rovlar"
-                  value={dashboardData?.totalInquiries}
-                  icon={
-                    <MessageSquare className="w-4 h-4 text-muted-foreground" />
-                  }
-                  description="Barcha so'rovlar"
-                />
-                <StatCard
-                  title="Jami Like-lar"
-                  value={dashboardData?.totalLikes}
-                  icon={<Heart className="w-4 h-4 text-muted-foreground" />}
-                  description="Foydalanuvchilar yoqtirishlari"
-                />
-                <StatCard
-                  title="Jami Saqlanganlar"
-                  value={dashboardData?.totalSaves}
-                  icon={<Bookmark className="w-4 h-4 text-muted-foreground" />}
-                  description="Property saqlashlar"
-                />
-              </div>
-            )}
-          </TabsContent>
+        {/* Analitika */}
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Analitika</CardTitle>
+              <CardDescription>
+                Statistik ma'lumotlarning grafik ko'rinishi
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={analyticsData}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="value" fill="#8884d8" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
 
-          {/* Propertylar */}
-          <TabsContent value="properties" className="space-y-6">
-            {isPropertiesLoading ? (
-              <Loading />
-            ) : isPropertiesError ? (
-              <div>Error loading properties.</div>
-            ) : (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Barcha Propertylar</CardTitle>
-                  <CardDescription>
-                    Sizning barcha listinglaringiz ro'yxati
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {propertiesData?.properties.map((property) => (
-                      <PropertyCard key={property._id} property={property} />
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </TabsContent>
+        {/* So'rovlar */}
+        <div className="space-y-6">
+          {isInquiriesLoading ? (
+            <Loading />
+          ) : isInquiriesError ? (
+            <div>Error loading inquiries.</div>
+          ) : (
+            <Card>
+              <CardHeader>
+                <CardTitle>So'nggi So'rovlar</CardTitle>
+                <CardDescription>
+                  Sizning listinglaringizga kelgan so'nggi so'rovlar
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {inquiriesData?.map((inquiry) => (
+                    <InquiryCard key={inquiry._id} inquiry={inquiry} />
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
 
-          {/* So'rovlar */}
-          <TabsContent value="inquiries" className="space-y-6">
-            {isInquiriesLoading ? (
-              <Loading />
-            ) : isInquiriesError ? (
-              <div>Error loading inquiries.</div>
-            ) : (
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {inquiriesData?.map((inquiry) => (
-                  <InquiryCard key={inquiry._id} inquiry={inquiry} />
-                ))}
-              </div>
-            )}
-          </TabsContent>
-        </Tabs>
+        {/* Propertylar */}
+        <div className="space-y-6">
+          {isPropertiesLoading ? (
+            <Loading />
+          ) : isPropertiesError ? (
+            <div>Error loading properties.</div>
+          ) : (
+            <Card>
+              <CardHeader>
+                <CardTitle>Barcha Propertylar</CardTitle>
+                <CardDescription>
+                  Sizning barcha listinglaringiz ro'yxati
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {propertiesData?.properties.map((property) => (
+                    <PropertyCard key={property._id} property={property} />
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </div>
     </div>
   );

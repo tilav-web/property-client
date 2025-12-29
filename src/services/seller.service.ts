@@ -21,6 +21,30 @@ class SellerService {
     }
   }
 
+  async findAll({ page, limit }: { page: number; limit: number }) {
+    try {
+      const res = await apiInstance.get(API_ENDPOINTS.SELLER.base, {
+        params: { page, limit },
+      });
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async findOne(id: string, language: string) {
+    try {
+      const res = await apiInstance.get(`${API_ENDPOINTS.SELLER.base}/${id}`, {
+        params: { language },
+      });
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
   async findSeller() {
     try {
       const res = await apiInstance.get(API_ENDPOINTS.SELLER.me);

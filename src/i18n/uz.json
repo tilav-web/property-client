@@ -10,6 +10,7 @@
     "ai_agent": "AI agenti",
     "mortgage": "Ipoteka",
     "new_projects": "Yangi loyihalar",
+    "sellers": "Sotuvchilar",
     "favorites": "Sevimlilar",
     "sell_or_rent": "Sotish / Ijaraga berish",
     "save": "Saqlash",
@@ -271,6 +272,9 @@
       "no_advertises_found": "E'lonlar topilmadi",
       "you_have_not_added_any_advertises_yet": "Siz hali birorta e'lon qo‘shmagansiz.",
       "add_first_property": "Birinchi e'lonni qo‘shish"
+    },
+    "sellers_page": {
+      "title": "Sotuvchilar"
     },
     "hero": {
       "title": "O‘zbekistonning yuragida orzu xonadonlari",

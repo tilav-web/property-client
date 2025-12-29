@@ -10,6 +10,7 @@
     "ai_agent": "AI agent",
     "mortgage": "Mortgage",
     "new_projects": "New Projects",
+    "sellers": "Sellers",
     "favorites": "Favorites",
     "sell_or_rent": "Sell / Rent",
     "save": "Save",
@@ -254,6 +255,9 @@
       "no_advertises_found": "No ads found",
       "you_have_not_added_any_advertises_yet": "You have not added any ads yet.",
       "add_first_property": "Add your first ad"
+    },
+    "sellers_page": {
+      "title": "Sellers"
     },
     "seller_properties_page": {
       "my_properties": "My Properties",

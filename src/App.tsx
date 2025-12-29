@@ -36,6 +36,8 @@ import AdminAdvertises from "./pages/admin/_pages/advertises/admin-advertises";
 import MainLayout from "./layouts/main-layout";
 import SellerDetailsPage from "./pages/admin/_pages/sellers/seller-details-page";
 import PropertyDetailsPage from "./pages/admin/_pages/properties/property-details-page";
+import SellersPage from "./pages/sellers/sellers";
+import PublicSellerDetailsPage from "./pages/sellers/seller-details-public";
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/create-property")
 );
@@ -51,6 +53,22 @@ const router = createBrowserRouter([
           <MainLayout>
             <Main />
           </MainLayout>
+        ),
+      },
+      {
+        path: "/sellers",
+        element: (
+          <SubLayout>
+            <SellersPage />
+          </SubLayout>
+        ),
+      },
+      {
+        path: "/sellers/:sellerId",
+        element: (
+          <SubLayout>
+            <PublicSellerDetailsPage />
+          </SubLayout>
         ),
       },
       {

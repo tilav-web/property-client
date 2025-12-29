@@ -10,6 +10,7 @@
     "ai_agent": "ИИ агент",
     "mortgage": "Ипотека",
     "new_projects": "Новые проекты",
+    "sellers": "Продавцы",
     "favorites": "Избранное",
     "sell_or_rent": "Продать / Сдать в аренду",
     "save": "Сохранить",
@@ -254,6 +255,9 @@
       "no_advertises_found": "Объявления не найдены",
       "you_have_not_added_any_advertises_yet": "Вы еще не добавили ни одного объявления.",
       "add_first_property": "Добавить первое объявление"
+    },
+    "sellers_page": {
+      "title": "Продавцы"
     },
     "hero": {
       "title": "Дома мечты в сердце Узбекистана",
