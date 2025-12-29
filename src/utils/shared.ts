@@ -102,7 +102,7 @@ export const API_ENDPOINTS = {
     },
   },
   STATISTICS: {
-    seller: "/statistics/seller",
+    sellerDashboard: "/statistics/seller-dashboard",
   },
   ADVERTISE: {
     base: "advertise",
