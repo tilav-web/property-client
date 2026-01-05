@@ -291,7 +291,8 @@
         "dropdown_menu": {
           "first": "Ko‘chmas mulk turi",
           "secound": "Yotoq xonalar soni va Vannaxonalar soni"
-        }
+        },
+        "change_tag": "Boshqa shaxar yoki mamlakat"
       }
     },
     "property_card": {

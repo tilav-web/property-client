@@ -286,7 +286,8 @@
         "dropdown_menu": {
           "first": "Property type",
           "secound": "Number of bedrooms and bathrooms"
-        }
+        },
+        "change_tag": "Other city or country"
       }
     },
     "property_card": {
