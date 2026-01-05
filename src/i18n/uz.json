@@ -864,6 +864,12 @@
     "load_more_button": "Batafsil ko'rsating",
     "input_placeholder": "Izlayotgan mulkni tasvirlab bering...",
     "no_image": "Rasm topilmadi",
-    "premium": "Premium"
+    "premium": "Premium",
+    "welcome_title_new": "Qanday yordam bera olaman?",
+    "welcome_description_new": "Tezroq boshlash uchun quyidagi shablonlardan birini tanlang yoki o'z so'rovingizni yozing.",
+    "prompt1": "Toshkent shahridan 3 xonali kvartira",
+    "prompt2": "Yunusobod tumanida 50 000 dollargacha bo'lgan 2 xonali kvartira",
+    "prompt3": "Mebellari bilan ijaraga beriladigan kvartira",
+    "prompt4": "Ipotekaga sotiladigan uylar bormi?"
   }
 }

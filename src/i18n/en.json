@@ -928,6 +928,12 @@
     "load_more_button": "Load More",
     "input_placeholder": "Describe the property you're looking for...",
     "no_image": "No image",
-    "premium": "Premium"
+    "premium": "Premium",
+    "welcome_title_new": "How can I help you?",
+    "welcome_description_new": "To get started faster, choose one of the templates below or write your own query.",
+    "prompt1": "3-room apartment in Tashkent",
+    "prompt2": "2-room apartment in Yunusobod district up to $50,000",
+    "prompt3": "Furnished apartment for rent",
+    "prompt4": "Are there houses for sale on mortgage?"
   }
 }
