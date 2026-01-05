@@ -15,10 +15,12 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Instagram, Send, Voicemail } from "lucide-react";
+import { useState } from "react"; // Import useState
 
 export default function SellerSocials() {
   const { seller, setSeller } = useSellerStore();
   const { t } = useTranslation();
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // Add state for dialog
 
   const formik = useFormik({
     initialValues: {
@@ -31,6 +33,7 @@ export default function SellerSocials() {
         const updatedSeller = await sellerService.update(seller!._id, values);
         setSeller(updatedSeller);
         toast.success(t("pages.seller_socials.success_message"));
+        setIsDialogOpen(false); // Close dialog on success
       } catch {
         toast.error(t("pages.seller_socials.error_message"));
       }
@@ -42,7 +45,7 @@ export default function SellerSocials() {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{t("pages.seller_socials.social_media")}</CardTitle>
-        <Dialog>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}> {/* Control dialog open state */}
           <DialogTrigger asChild>
             <Button variant="outline">
               {t("pages.seller_socials.edit_button")}
