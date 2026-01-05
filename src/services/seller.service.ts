@@ -21,11 +21,21 @@ class SellerService {
     }
   }
 
-  async findAll({ page, limit }: { page: number; limit: number }) {
+  async findAll({ page, limit, search }: { page: number; limit: number, search?: string }) {
     try {
       const res = await apiInstance.get(API_ENDPOINTS.SELLER.base, {
-        params: { page, limit },
+        params: { page, limit, search },
       });
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async findTop() {
+    try {
+      const res = await apiInstance.get(`${API_ENDPOINTS.SELLER.base}/top`);
       return res.data;
     } catch (error) {
       console.error(error);
@@ -38,6 +48,16 @@ class SellerService {
       const res = await apiInstance.get(`${API_ENDPOINTS.SELLER.base}/${id}`, {
         params: { language },
       });
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async update(id: string, dto: { instagram?: string, telegram?: string, whatsapp?: string }) {
+    try {
+      const res = await apiInstance.put(`${API_ENDPOINTS.SELLER.base}/${id}`, dto);
       return res.data;
     } catch (error) {
       console.error(error);

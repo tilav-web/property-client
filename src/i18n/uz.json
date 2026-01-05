@@ -187,6 +187,14 @@
       "no_permission": "Kechirasiz, sizda ushbu sahifani ko'rish uchun kerakli ruxsatlar mavjud emas.",
       "go_to_home": "Bosh sahifaga qaytish"
     },
+    "seller_socials": {
+      "social_media": "Ijtimoiy tarmoqlar",
+      "edit_button": "Tahrirlash",
+      "edit_social_media": "Ijtimoiy tarmoqlarga havolalarni tahrirlash",
+      "save_button": "Saqlash",
+      "success_message": "Ijtimoiy tarmoqlarga havolalar muvaffaqiyatli yangilandi!",
+      "error_message": "Ijtimoiy tarmoqlarga havolalarni yangilashda xatolik yuz berdi."
+    },
     "create_property": {
       "title": "Yangi mulk qo'shish",
       "subtitle": "Mulk haqida barcha kerakli ma'lumotlarni to'ldiring",
@@ -279,7 +287,7 @@
     "hero": {
       "title": "O‘zbekistonning yuragida orzu xonadonlari",
       "search": {
-        "search_placeholder": "Nimadir yozing...",
+        "search_placeholder": "Shaxar yoki Mamlakat bilan qidiring...",
         "dropdown_menu": {
           "first": "Ko‘chmas mulk turi",
           "secound": "Yotoq xonalar soni va Vannaxonalar soni"

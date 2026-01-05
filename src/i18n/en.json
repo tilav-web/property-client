@@ -184,6 +184,14 @@
       "no_permission": "Sorry, you do not have the necessary permissions to view this page.",
       "go_to_home": "Go to Home"
     },
+    "seller_socials": {
+      "social_media": "Social Media",
+      "edit_button": "Edit",
+      "edit_social_media": "Edit Social Media Links",
+      "save_button": "Save",
+      "success_message": "Social media links updated successfully!",
+      "error_message": "Error updating social media links."
+    },
     "create_property": {
       "title": "Add New Property",
       "subtitle": "Fill in all the necessary information about the property",
@@ -274,7 +282,7 @@
     "hero": {
       "title": "Dream homes in the heart of Uzbekistan",
       "search": {
-        "search_placeholder": "Type something...",
+        "search_placeholder": "Search with City or Country...",
         "dropdown_menu": {
           "first": "Property type",
           "secound": "Number of bedrooms and bathrooms"

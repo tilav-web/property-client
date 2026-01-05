@@ -21,6 +21,10 @@ export interface ISeller {
   createdAt?: Date;
   updatedAt?: Date;
 
+  instagram?: string;
+  telegram?: string;
+  whatsapp?: string;
+
   totalProperties?: number;
   avgLikes?: number;
   avgSaves?: number;
