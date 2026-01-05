@@ -2,14 +2,9 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { adminSellerService } from "../../_services/admin-seller.service";
 import Loading from "@/components/common/loadings/loading";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { serverUrl } from "@/utils/shared";
+import { defaultImageAvatar } from "@/utils/shared";
 import { Badge } from "@/components/ui/badge";
 import SellerProperties from "./components/SellerProperties";
 
@@ -43,7 +38,7 @@ export default function SellerDetailsPage() {
         <CardContent className="space-y-4">
           <div className="flex items-center gap-4">
             <Avatar className="w-24 h-24">
-              <AvatarImage src={`${serverUrl}/${seller.user.avatar}`} />
+              <AvatarImage src={seller.user.avatar ?? defaultImageAvatar} />
               <AvatarFallback>
                 {seller.user.first_name?.[0]}
                 {seller.user.last_name?.[0]}
@@ -65,10 +60,6 @@ export default function SellerDetailsPage() {
             <div>
               <p className="text-sm text-muted-foreground">Status</p>
               <Badge>{seller.status}</Badge>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Passport</p>
-              <p>{seller.passport}</p>
             </div>
           </div>
         </CardContent>

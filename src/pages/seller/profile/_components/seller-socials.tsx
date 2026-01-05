@@ -99,7 +99,7 @@ export default function SellerSocials() {
               rel="noreferrer"
               className="text-blue-500"
             >
-              {seller.instagram}
+              Instagram
             </a>
           </div>
         )}
@@ -107,12 +107,12 @@ export default function SellerSocials() {
           <div className="flex items-center gap-2">
             <Send className="w-5 h-5" />
             <a
-              href={`https://t.me/${seller.telegram}`}
+              href={seller.telegram}
               target="_blank"
               rel="noreferrer"
               className="text-blue-500"
             >
-              {seller.telegram}
+              Telegram
             </a>
           </div>
         )}
@@ -120,12 +120,12 @@ export default function SellerSocials() {
           <div className="flex items-center gap-2">
             <Voicemail className="w-5 h-5" />
             <a
-              href={`https://wa.me/${seller.whatsapp}`}
+              href={seller.whatsapp}
               target="_blank"
               rel="noreferrer"
               className="text-blue-500"
             >
-              {seller.whatsapp}
+              WhatsApp
             </a>
           </div>
         )}

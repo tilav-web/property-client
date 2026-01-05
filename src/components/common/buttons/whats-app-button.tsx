@@ -4,7 +4,7 @@ export default function WhatsAppButton({ phone }: { phone?: string }) {
   const { t } = useTranslation();
   const onClick = () => {
     if (phone) {
-      window.open(`https://wa.me/${phone}`, "_blank");
+      window.open(phone, "_blank");
     }
   };
   return (

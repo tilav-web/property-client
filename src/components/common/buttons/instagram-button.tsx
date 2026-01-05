@@ -7,7 +7,7 @@ export default function InstagramButton({ username }: { username: string }) {
 
   return (
     <a
-      href={`https://instagram.com/${cleanUsername}`}
+      href={cleanUsername}
       target="_blank"
       rel="noopener noreferrer"
       className="bg-white flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0"

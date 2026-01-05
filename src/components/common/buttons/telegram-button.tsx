@@ -5,7 +5,7 @@ export default function TelegramButton({ username }: { username: string }) {
   const { t } = useTranslation();
   return (
     <a
-      href={`https://t.me/${username}`}
+      href={username}
       target="_blank"
       rel="noopener noreferrer"
       className="bg-white flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0"
