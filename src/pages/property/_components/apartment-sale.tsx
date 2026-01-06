@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
-import type { IApartmentRent } from "@/interfaces/property/categories/apartment-rent.interface";
+import type { IApartmentSale } from "@/interfaces/property/categories/apartment-sale.interface";
 import { useTranslation } from "react-i18next"; // Import useTranslation
 
 // Ikonlar
@@ -30,6 +30,8 @@ import HeartButton from "@/components/common/buttons/heart-button";
 import EllipsisVerticalButton from "@/components/common/buttons/ellipsis-vertical-button";
 import PropertyMediaGallery from "./property-media-gallery";
 import BidPriceButton from "@/components/common/buttons/bid-price-button";
+import InstagramButton from "@/components/common/buttons/instagram-button";
+import TelegramButton from "@/components/common/buttons/telegram-button";
 
 // Amenities ikonlari
 const amenityIcons = {
@@ -114,10 +116,10 @@ function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
 }
 
 // Asosiy komponent
-export default function ApartmentRent({
+export default function ApartmentSale({
   apartment,
 }: {
-  apartment: IApartmentRent;
+  apartment: IApartmentSale;
 }) {
   const { t } = useTranslation(); // Initialize useTranslation
 
@@ -166,14 +168,26 @@ export default function ApartmentRent({
               {apartment.contract_file && (
                 <OnlineContractButton file={apartment.contract_file} />
               )}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 flex-wrap justify-end">
                 {apartment.author?.phone?.value && (
                   <CallButton phone={apartment.author.phone.value} />
                 )}
                 {apartment.author?.email?.value && (
                   <MailButton mail={apartment.author.email.value} />
                 )}
-                <WhatsAppButton />
+                {apartment.author?.seller?.whatsapp && (
+                  <WhatsAppButton phone={apartment.author.seller.whatsapp} />
+                )}
+                {apartment.author?.seller?.instagram && (
+                  <InstagramButton
+                    username={apartment.author.seller.instagram}
+                  />
+                )}
+                {apartment.author?.seller?.telegram && (
+                  <TelegramButton
+                    username={apartment.author.seller.telegram}
+                  />
+                )}
                 <HeartButton property={apartment} />
                 <EllipsisVerticalButton property={apartment} />
               </div>

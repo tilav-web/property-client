@@ -30,6 +30,8 @@ import HeartButton from "@/components/common/buttons/heart-button";
 import EllipsisVerticalButton from "@/components/common/buttons/ellipsis-vertical-button";
 import PropertyMediaGallery from "./property-media-gallery";
 import FormalizeRentButton from "@/components/common/buttons/formalize-rent-button";
+import InstagramButton from "@/components/common/buttons/instagram-button";
+import TelegramButton from "@/components/common/buttons/telegram-button";
 
 // Amenities ikonlari
 const amenityIcons = {
@@ -166,14 +168,26 @@ export default function ApartmentRent({
               {apartment.contract_file && (
                 <OnlineContractButton file={apartment.contract_file} />
               )}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 flex-wrap justify-end">
                 {apartment.author?.phone?.value && (
                   <CallButton phone={apartment.author.phone.value} />
                 )}
                 {apartment.author?.email?.value && (
                   <MailButton mail={apartment.author.email.value} />
                 )}
-                <WhatsAppButton />
+                {apartment.author?.seller?.whatsapp && (
+                  <WhatsAppButton phone={apartment.author.seller.whatsapp} />
+                )}
+                {apartment.author?.seller?.instagram && (
+                  <InstagramButton
+                    username={apartment.author.seller.instagram}
+                  />
+                )}
+                {apartment.author?.seller?.telegram && (
+                  <TelegramButton
+                    username={apartment.author.seller.telegram}
+                  />
+                )}
                 <HeartButton property={apartment} />
                 <EllipsisVerticalButton property={apartment} />
               </div>
