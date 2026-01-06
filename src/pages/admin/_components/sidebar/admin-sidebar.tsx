@@ -12,6 +12,7 @@ import {
   Bell,
   CreditCard,
   BriefcaseBusiness,
+  Tags,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -57,6 +58,13 @@ export default function AdminSidebar() {
       icon: <BriefcaseBusiness className="h-5 w-5" />,
       badge: null,
       path: "/admin/sellers",
+    },
+    {
+      id: "tags",
+      label: "Tags",
+      icon: <Tags className="h-5 w-5" />,
+      badge: null,
+      path: "/admin/tags",
     },
     {
       id: "ads",

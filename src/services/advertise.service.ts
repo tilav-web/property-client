@@ -46,5 +46,37 @@ class AdvertiseService {
       throw error;
     }
   }
+
+  async findAll(params: {
+    page: number;
+    limit: number;
+    sort?: Record<string, 1 | -1>;
+  }) {
+    try {
+      const res = await apiInstance.get(API_ENDPOINTS.ADVERTISE.base, {
+        params,
+      });
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async incrementView(id: string) {
+    try {
+      await apiInstance.put(`${API_ENDPOINTS.ADVERTISE.base}/${id}/view`);
+    } catch (error) {
+      console.error('Failed to increment view count', error);
+    }
+  }
+
+  async incrementClick(id: string) {
+    try {
+      await apiInstance.put(`${API_ENDPOINTS.ADVERTISE.base}/${id}/click`);
+    } catch (error) {
+      console.error('Failed to increment click count', error);
+    }
+  }
 }
 export const advertiseService = new AdvertiseService();

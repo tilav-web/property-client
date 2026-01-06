@@ -105,9 +105,11 @@ export const API_ENDPOINTS = {
     sellerDashboard: "/statistics/seller-dashboard",
   },
   ADVERTISE: {
-    base: "advertise",
-    priceCalculus: "advertise/price/calculus",
+    base: "/advertise",
+    priceCalculus: "/advertise/price/calculus",
     type: (type: AdvertiseType) => `/advertise/type/${type}`,
+    incrementView: (id: string) => `/advertise/${id}/view`,
+    incrementClick: (id: string) => `/advertise/${id}/click`,
   },
   LAYOUT: {
     mainPage: "/layouts/main-page",

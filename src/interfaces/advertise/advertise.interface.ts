@@ -23,6 +23,8 @@ export interface IAdvertise {
   from?: string;
   to?: string;
   image: string | null;
+  views?: number;
+  clicks?: number;
   createdAt?: string;
   updatedAt?: string;
 }

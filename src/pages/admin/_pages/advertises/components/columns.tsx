@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { serverUrl } from "@/utils/shared";
 import { AdvertiseStatusUpdater } from "./advertise-status-updater";
 import { AdvertisePaymentStatusUpdater } from "./advertise-payment-status-updater";
+import { SortableHeader } from "@/components/common/sortable-header";
 
 export const columns: ColumnDef<IAdminAdvertise>[] = [
   {
@@ -61,6 +62,16 @@ export const columns: ColumnDef<IAdminAdvertise>[] = [
         {row.original.price} {row.original.currency}
       </div>
     ),
+  },
+  {
+    accessorKey: "views",
+    header: ({ column }) => <SortableHeader column={column} title="Views" />,
+    enableSorting: true,
+  },
+  {
+    accessorKey: "clicks",
+    header: ({ column }) => <SortableHeader column={column} title="Clicks" />,
+    enableSorting: true,
   },
 ];
 

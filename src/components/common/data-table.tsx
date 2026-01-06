@@ -3,8 +3,10 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  getSortedRowModel,
+  type SortingState,
 } from "@tanstack/react-table";
-
+import * as React from "react";
 import {
   Table,
   TableBody,
@@ -30,6 +32,9 @@ interface DataTableProps<TData, TValue> {
   total: number;
   hasMore: boolean;
   setPage: (page: number) => void;
+  // Sorting props
+  sorting: SortingState;
+  onSortingChange: (updater: (prev: SortingState) => SortingState) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -39,11 +44,18 @@ export function DataTable<TData, TValue>({
   page,
   hasMore,
   setPage,
+  sorting,
+  onSortingChange,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    onSortingChange: onSortingChange,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
   });
 
   return (

@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { columns } from "./components/columns"; // Changed to import columns constant
@@ -18,6 +19,8 @@ import {
 } from "@/interfaces/advertise/advertise.interface";
 import { adminAdvertiseService } from "../../_services/admin-advertise.service";
 import { DataTable } from "@/components/common/data-table";
+import { type SortingState } from "@tanstack/react-table";
+import { useState } from "react";
 
 const DEFAULT_LIMIT = 10;
 
@@ -30,9 +33,26 @@ export default function AdminAdvertises() {
   const type = (searchParams.get("type") as AdvertiseType) || undefined;
   const payment_status =
     (searchParams.get("payment_status") as PaymentStatus) || undefined;
+  const sort_by = searchParams.get("sort_by");
+  const sort_order = searchParams.get("sort_order");
+
+  const [sorting, setSorting] = useState<SortingState>(() => {
+    if (sort_by && sort_order) {
+      return [{ id: sort_by, desc: sort_order === "desc" }];
+    }
+    return [];
+  });
+
+  const sort = React.useMemo(() => {
+    if (sorting.length > 0) {
+      const { id, desc } = sorting[0];
+      return { [id]: desc ? -1 : 1 };
+    }
+    return undefined;
+  }, [sorting]);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["admin-advertises", page, limit, status, type, payment_status],
+    queryKey: ["admin-advertises", page, limit, status, type, payment_status, sort],
     queryFn: () =>
       adminAdvertiseService.getAdvertises({
         page,
@@ -40,46 +60,59 @@ export default function AdminAdvertises() {
         status,
         type,
         payment_status,
+        sort,
       }),
   });
 
+  const handleSortingChange = (updater: React.SetStateAction<SortingState>) => {
+    setSorting(updater);
+    const newSorting = typeof updater === 'function' ? updater(sorting) : updater;
+
+    if (newSorting.length > 0) {
+      const { id, desc } = newSorting[0];
+      setSearchParams(prev => {
+        prev.set("sort_by", id);
+        prev.set("sort_order", desc ? "desc" : "asc");
+        prev.set("page", "1");
+        return prev;
+      });
+    } else {
+      setSearchParams(prev => {
+        prev.delete("sort_by");
+        prev.delete("sort_order");
+        return prev;
+      });
+    }
+  };
+
   const changePage = (newPage: number) => {
-    setSearchParams({
-      page: newPage.toString(),
-      limit: limit.toString(),
-      ...(status && { status }),
-      ...(type && { type }),
-      ...(payment_status && { payment_status }),
+    setSearchParams(prev => {
+      prev.set("page", newPage.toString());
+      return prev;
     });
   };
 
   const onStatusChange = (value: string) => {
-    setSearchParams({
-      page: "1",
-      limit: limit.toString(),
-      ...(value !== "all" && { status: value }),
-      ...(type && { type }),
-      ...(payment_status && { payment_status }),
+    setSearchParams(prev => {
+      prev.set("page", "1");
+      if (value !== "all") prev.set("status", value); else prev.delete("status");
+      return prev;
     });
   };
 
   const onTypeChange = (value: string) => {
-    setSearchParams({
-      page: "1",
-      limit: limit.toString(),
-      ...(value !== "all" && { type: value }),
-      ...(status && { status }),
-      ...(payment_status && { payment_status }),
+    setSearchParams(prev => {
+      prev.set("page", "1");
+      if (value !== "all") prev.set("type", value); else prev.delete("type");
+      return prev;
     });
   };
 
   const onPaymentStatusChange = (value: string) => {
-    setSearchParams({
-      page: "1",
-      limit: limit.toString(),
-      ...(value !== "all" && { payment_status: value }),
-      ...(status && { status }),
-      ...(type && { type }),
+    setSearchParams(prev => {
+      prev.set("page", "1");
+      if (value !== "all") prev.set("payment_status", value); else prev.delete("payment_status");
+      return prev;
     });
   };
 
@@ -138,6 +171,8 @@ export default function AdminAdvertises() {
         total={data?.total || 0}
         hasMore={data?.hasMore || false}
         setPage={changePage}
+        sorting={sorting}
+        onSortingChange={handleSortingChange}
       />
     </div>
   );

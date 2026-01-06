@@ -38,6 +38,7 @@ import SellerDetailsPage from "./pages/admin/_pages/sellers/seller-details-page"
 import PropertyDetailsPage from "./pages/admin/_pages/properties/property-details-page";
 import SellersPage from "./pages/sellers/sellers";
 import PublicSellerDetailsPage from "./pages/sellers/seller-details-public";
+const AdminTagsPage = lazy(() => import("./pages/admin/_pages/tags"));
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/create-property")
 );
@@ -246,6 +247,14 @@ const router = createBrowserRouter([
       {
         path: "sellers/:sellerId",
         element: <SellerDetailsPage />,
+      },
+      {
+        path: "tags",
+        element: (
+          <Suspense fallback={<p>Loading...</p>}>
+            <AdminTagsPage />
+          </Suspense>
+        ),
       },
       {
         path: "ads",
