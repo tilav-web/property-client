@@ -201,7 +201,15 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
           isMobile ? "h-[300px]" : "h-[450px]"
         )}
       >
-        <img src={img} className="w-full h-full object-cover" alt="Hero" />
+        <img
+          src={img}
+          alt="Hero"
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
+          className="w-full h-full object-cover"
+        />
+
         <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center p-6">
           <h1
             className={cn(
