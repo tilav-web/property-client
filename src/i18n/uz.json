@@ -79,7 +79,7 @@
       "contact_numbers": "Kontakt raqamlari",
       "customer_help": "Mijozlarga yordam",
       "return_of_goods": "Tovarlarni qaytarish",
-      "warranty_for_goods": "Tovarlar uchun kafolat",
+      "warranty_for_goods": "Tovarlarga kafolat",
       "download_app": "Ilovani yuklab oling",
       "qr_code": "QR-kod",
       "scan_qr": "Yuklab olish uchun QR-kodni skanerlang"
@@ -102,7 +102,7 @@
         "inquiry_type": "So'rov turi",
         "purchase": "💰 Sotib olish",
         "mortgage": "🏦 Ipoteka",
-        "offered_price": "Taklif etilayotgan narx",
+        "offered_price": "Taklif qilingan narx",
         "your_offer": "Sizning taklifingiz",
         "min_label": "Min (-30%)",
         "base_price": "Asosiy narx",
@@ -112,10 +112,10 @@
         "send_button": "So'rovni yuborish",
         "sending_button": "Yuborilmoqda...",
         "error_empty_notes": "Iltimos, qo'shimcha izohlarni to'ldiring.",
-        "success_title": "Muvaffaqiyatli",
-        "success_message": "Sizning so'rovingiz muvaffaqiyatli yuborildi!",
+        "success_title": "Muvaffaqiyat",
+        "success_message": "So'rovingiz muvaffaqiyatli yuborildi!",
         "error_title": "Xatolik",
-        "error_message": "So'rov yuborishda xatolik yuz berdi."
+        "error_message": "So'rov yuborishda xato yuz berdi."
       }
     },
     "loading_component": {
@@ -130,7 +130,7 @@
     "no_coordinates_available": "Koordinatalar mavjud emas",
     "alerts": {
       "logout": {
-        "title": "Chiqishni xohlaysizmi?",
+        "title": "Tizimdan chiqishga aminmisiz?",
         "description": "Siz asosiy sahifaga qaytarilasiz.",
         "cancel_button": "Bekor qilish",
         "confirm_button": "Chiqish"
@@ -139,7 +139,7 @@
   },
   "error_boundary": {
     "title": "Xatolik yuz berdi!",
-    "message": "Ma'lumotlarni ko'rsatishda xatolik. Iltimos, qayta yuklang.",
+    "message": "Ma'lumotlarni ko'rsatishda xato. Iltimos, sahifani yangilang.",
     "retry": "Qayta urinish"
   },
   "enums": {
@@ -180,7 +180,7 @@
   },
   "pages": {
     "unauthorized_page": {
-      "access_denied": "Ruxsat etilmagan",
+      "access_denied": "Kirish rad etildi",
       "no_permission": "Kechirasiz, ushbu sahifani ko'rish uchun sizda yetarli huquqlar yo'q.",
       "go_to_home": "Bosh sahifaga o'tish"
     },
@@ -190,7 +190,7 @@
       "edit_social_media": "Ijtimoiy tarmoq havolalarini tahrirlash",
       "save_button": "Saqlash",
       "success_message": "Ijtimoiy tarmoq havolalari muvaffaqiyatli yangilandi!",
-      "error_message": "Ijtimoiy tarmoq havolalarini yangilashda xatolik yuz berdi."
+      "error_message": "Ijtimoiy tarmoq havolalarini yangilashda xato yuz berdi."
     },
     "create_property": {
       "title": "Yangi mulk qo'shish",
@@ -250,7 +250,7 @@
       "validation": {
         "fill_required_fields": "Iltimos, barcha majburiy maydonlarni to'ldiring.",
         "success_message": "Mulk muvaffaqiyatli yaratildi",
-        "error_submitting": "Yuborishda xatolik:",
+        "error_submitting": "Yuborishda xato:",
         "check_mark": "✓"
       }
     },
@@ -261,7 +261,7 @@
       "reload": "Qayta yuklash",
       "total_edvertise": "Jami e'lonlar: {{count}}",
       "no_advertises_found": "E'lonlar topilmadi",
-      "you_have_not_added_any_advertises_yet": "Siz hali birorta e'lon qo'shmadingiz.",
+      "you_have_not_added_any_advertises_yet": "Siz hali birorta e'lon qo'shmagansiz.",
       "add_first_property": "Birinchi e'lonni qo'shing"
     },
     "sellers_page": {
@@ -274,13 +274,13 @@
       "reload": "Qayta yuklash",
       "total_properties": "Jami: {{count}} ta mulk",
       "no_properties_found": "Mulklar topilmadi",
-      "you_have_not_added_any_properties_yet": "Siz hali birorta mulk qo'shmadingiz. Birinchi mulkingizni qo'shish uchun quyidagi tugmani bosing.",
+      "you_have_not_added_any_properties_yet": "Siz hali birorta mulk qo'shmagansiz. Birinchi mulkingizni qo'shish uchun quyidagi tugmani bosing.",
       "add_first_property": "Birinchi mulkni qo'shish",
       "previous": "Oldingisi",
       "next": "Keyingisi"
     },
     "hero": {
-      "title": "O'zbekistonning markazidagi orzu uylar",
+      "title": "O'zbekiston markazidagi orzu uylar",
       "search": {
         "search_placeholder": "Shahar yoki mamlakat bo'yicha qidiruv...",
         "dropdown_menu": {
@@ -293,14 +293,14 @@
     "property_card": {
       "verified": "Tasdiqlangan",
       "new": "Yangi",
-      "inactive": "Faol emas",
+      "inactive": "Noaktiv",
       "premium": "Premium",
       "views": "ko'rishlar",
       "area": "Maydon",
       "bedrooms": "xonalar",
       "bathrooms": "hammomlar",
       "floor": "qavat",
-      "parking": "turargoh",
+      "parking": "avtojoy",
       "price_formats": {
         "per_month": "/oy",
         "per_day": "/kun",
@@ -313,7 +313,7 @@
       }
     },
     "property_banner_card": {
-      "delivery": "Yetkazib berish",
+      "delivery": "Topshirish",
       "sales_started": "Sotuvlar boshlandi",
       "price": "Narx",
       "payment_plans": "to'lov rejalari"
@@ -340,11 +340,11 @@
     },
     "register_page": {
       "welcome": "Ko'chmas mulk qidiruviga xush kelibsiz",
-      "create_account": "Hisob yaratish",
+      "create_account": "Hisobingizni yarating",
       "continue_with_google": "Google bilan davom etish",
       "continue_with_apple": "Apple bilan davom etish",
       "continue_with_facebook": "Facebook bilan davom etish",
-      "terms_and_conditions": "Men <1>Foydalanish shartlari</1> va <3>Maxfiylik siyosati</3>ga roziman",
+      "terms_and_conditions": "Men <1>Shartlar</1> va <3>Maxfiylik siyosati</3>ga roziman",
       "signing_in": "Kirilmoqda...",
       "continue": "Davom etish",
       "error_select_role": "Ortga qayting va rol tanlang!"
@@ -366,7 +366,7 @@
       "subtitle": "Quyidagi mavjud rollardan birini tanlang",
       "roles": {
         "physical": "Jismoniy shaxs",
-        "seller": "Sotish/Ijaraga berish",
+        "seller": "Sotish/Ijara",
         "legal": "Yuridik shaxs"
       }
     },
@@ -381,36 +381,36 @@
       "no_results_subtitle": "",
       "featured_properties": {
         "title": "Tanlangan mulklar",
-        "subtitle": "Eng yaxshi mulklarimizning saralangan tanlovini o'rganing.",
+        "subtitle": "Bizning saralangan eng yaxshi mulklarimizni o'rganing.",
         "view_all": "Barcha mulklarni ko'rish",
         "showcase_title": "Tanlangan mulklar ko'rgazmasi",
         "showcase_description": "Bu yerda saralangan mulklar ko'rsatiladi. Hozirda tanlangan mulklar mavjud emas."
       },
       "ai_agent": {
         "title": "AI mulk yordamchisi bilan tanishing",
-        "description": "Cheksiz qidiruvdan charchadingizmi? Orzuingizdagi uyni tasvirlab bering va bizning sun'iy intellektimiz uni siz uchun topadi. Bu tez, aqlli va oddiy.",
+        "description": "Cheksiz qidirishdan charchadingizmi? Orzuingizdagi uyni tasvirlab bering va bizning sun'iy intellektimiz uni siz uchun topadi. Bu tez, aqlli va oddiy.",
         "button": "AI qidiruvni sinab ko'ring"
       },
       "how_it_works": {
         "title": "Bu qanday ishlaydi",
-        "subtitle": "Biz bilan keyingi mulkingizni topish juda oson.",
+        "subtitle": "Keyingi mulkingizni topish biz bilan oson.",
         "step1_title": "Qidirish va kashf qilish",
         "step1_desc": "Mezonlaringizga mos keladigan mulklarni topish uchun bizning kuchli qidiruv, filtrlar yoki AI yordamchisidan foydalaning.",
         "step2_title": "Bog'lanish va so'rov yuborish",
-        "step2_desc": "Savollar berish, ko'rishni rejalashtirish yoki taklif yuborish uchun sotuvchilar yoki agentlar bilan bevosita bog'laning.",
-        "step3_title": "Joyni band qiling",
+        "step2_desc": "Savollar berish, ko'rishni rejalashtirish yoki taklif qilish uchun sotuvchilar yoki agentlar bilan bevosita bog'laning.",
+        "step3_title": "Joyingizni ta'minlang",
         "step3_desc": "Kelishuvni yakunlang, shartnomalarni imzolang va yangi mulkingiz kalitlarini oling."
       },
       "statistics": {
         "title": "Bizning yutuqlarimiz",
-        "subtitle": "Raqamlar biz uchun gapiradi.",
+        "subtitle": "Raqamlar o'zlari haqida gapiradi.",
         "properties_listed": "Ro'yxatga olingan mulklar",
         "satisfied_users": "Mamnun foydalanuvchilar",
         "positive_feedback": "Ijobiy fikrlar"
       },
       "map": {
-        "title": "Mulkni xaritada o'rganing",
-        "description": "O'zingiz xohlagan mahallalardagi e'lonlarni vizual tarzda ko'ring, nimalar yaqinligini biling va mukammal joyni toping.",
+        "title": "Mulklarni xaritada o'rganing",
+        "description": "O'zingiz xohlagan mahallalardagi e'lonlarni vizual ko'rib chiqing, nimalar yaqinligini ko'ring va mukammal joyni toping.",
         "button": "Xaritani ochish"
       },
       "browse_sellers_cta": {
@@ -420,10 +420,10 @@
       }
     },
     "map_page": {
-      "error_loading_map": "Xaritani yuklashda xatolik:",
+      "error_loading_map": "Xaritani yuklashda xato:",
       "loading_map": "Xarita yuklanmoqda...",
-      "error_getting_data": "Ma'lumot olishda xatolik:",
-      "loading_data": "Ma'lumot yuklanmoqda...",
+      "error_getting_data": "Ma'lumot olishda xato:",
+      "loading_data": "Ma'lumotlar yuklanmoqda...",
       "no_address": "Manzil ko'rsatilmagan",
       "rooms": "xonalar",
       "zoom_in_prompt_title": "Mulklarni ko'rish uchun",
@@ -435,7 +435,7 @@
       "saved_properties": "Saqlangan mulklar",
       "search_notification": "Qidiruv bildirishnomasi",
       "contacts": "Kontaktlar",
-      "contacts_placeholder": "Sizning kontaktlaringiz bu yerda ko'rinadi",
+      "contacts_placeholder": "Sizning kontaktlaringiz shu yerda paydo bo'ladi",
       "saved_properties_placeholder": "Foydalanuvchi tomonidan saqlangan mulklar",
       "saved_properties_empty": "Hali saqlangan mulklar yo'q",
       "saved_properties_empty_description": "Mulkni saqlashni boshlang va ularni keyinroq shu yerda toping",
@@ -456,7 +456,7 @@
     },
     "property_page": {
       "no_coordinates": "Koordinatalar yo'q",
-      "map_load_error": "Xaritani yuklashda xatolik yuz berdi",
+      "map_load_error": "Xarita yuklanmadi",
       "map_loading": "Xarita yuklanmoqda...",
       "video_unsupported": "Sizning brauzeringiz video tegini qo'llab-quvvatlamaydi.",
       "verified": "Tasdiqlangan",
@@ -490,7 +490,7 @@
       "no": "Yo'q",
       "price_analysis": "Narxlar tahlili",
       "price_trends": "Narxlar tendentsiyasi",
-      "apartments_for_sale": "Harbour Gate Tower 2 va Dubai Creek Harbour'da 3 xonali kvartiralar sotuvi",
+      "apartments_for_sale": "Harbour Gate Tower 2 va Dubai Creek Harbour (The Lagoons) da 3 xonali kvartiralar sotiladi",
       "1_year": "1 yil",
       "2_years": "2 yil",
       "5_years": "5 yil",
@@ -507,7 +507,7 @@
       "loan_term": "Kredit muddati",
       "years": "yil",
       "interest_rate": "Foiz stavkasi",
-      "estimate_monthly_payment": "Oylik ipoteka to'lovini hisoblang",
+      "estimate_monthly_payment": "Oylik ipoteka to'lovingizni hisoblang",
       "monthly_payment": "Oylik to'lov",
       "confirm_mortgage": "Ipotekani tasdiqlash"
     },
@@ -519,7 +519,7 @@
     "physical_seller_register": {
       "self_employed": "O'zini o'zi band qilgan",
       "physical_person": "Jismoniy shaxs",
-      "self_employed_details": "O'zini o'zi band qilgan shaxs tafsilotlari",
+      "self_employed_details": "O'zini o'zi band qilganlik tafsilotlari",
       "physical_person_details": "Jismoniy shaxs tafsilotlari",
       "first_name": "Ism",
       "last_name": "Familiya",
@@ -534,7 +534,7 @@
       "birth_date_required": "Tug'ilgan sana kiritilishi shart",
       "jshshir_14_digits": "JSHSHIR 14 ta raqamdan iborat bo'lishi shart",
       "jshshir_required": "JSHSHIR kiritilishi shart",
-      "failed_to_save_details": "Ma'lumotlarni saqlashda xatolik yuz berdi"
+      "failed_to_save_details": "Ma'lumotlarni saqlashda xato yuz berdi"
     },
     "business_type_tab": {
       "choose_business_type": "Biznes turini tanlang",
@@ -545,13 +545,13 @@
     },
     "commissioner_tab": {
       "contract_number_required": "Shartnoma raqami majburiy",
-      "contract_start_date_required": "Shartnoma boshlanish sanasi majburiy",
+      "contract_start_date_required": "Shartnoma boshlanishi sanasi majburiy",
       "contract_end_date_required": "Shartnoma tugash sanasi majburiy",
       "contract_end_date_must_be_future": "Shartnoma tugash sanasi kelajakda bo'lishi kerak",
-      "error_saving_commissioner_details": "Komissioner tafsilotlarini saqlashda xatolik:",
-      "only_pdf_allowed": "Faqat PDF fayllar ruxsat etiladi",
+      "error_saving_commissioner_details": "Komissioner tafsilotlarini saqlashda xato:",
+      "only_pdf_allowed": "Faqat PDF fayllarga ruxsat beriladi",
       "file_size_max_10mb": "Fayl hajmi 10MB dan oshmasligi kerak",
-      "file_not_selected": "Fayl tanlanmadi",
+      "file_not_selected": "Fayl tanlanmagan",
       "commissioner": "Komissioner",
       "enter_amaar_market_commissioner_details": "Amaar Market komissioner tafsilotlarini kiriting",
       "instructions": "Ko'rsatmalar:",
@@ -559,14 +559,14 @@
       "go_to_e_tax_website": "Elektron soliq xizmatlari portaliga o'ting",
       "use_digital_signature_to_login": "Kirish uchun elektron raqamli imzo (ERI) dan foydalaning",
       "find_and_select_service": "Soliq hisobi bo'limidan \"Jismoniy shaxslar uchun komissionerlar ro'yxatini shakllantirish\" xizmatini tanlang",
-      "click_add_and_enter_details": "Komissioner yaratish oynasida \"Qo'shish\" tugmasini bosing va quyidagi ma'lumotlarni kiriting:",
+      "click_add_and_enter_details": "Komissioner yaratish oynasida Qo'shish tugmasini bosing va quyidagi ma'lumotlarni kiriting:",
       "stir_or_jshshir": "STIR yoki JSHSHIR *",
       "company_name": "Kompaniya nomi *",
       "commissioner_bank_mfo": "Komissioner bankining MFOsi *",
       "account_number": "Hisob raqami *",
       "contract_number": "Shartnoma raqami *",
       "enter_contract_number": "Shartnoma raqamini kiriting",
-      "contract_start_date": "Shartnoma boshlanish sanasi *",
+      "contract_start_date": "Shartnoma boshlanishi sanasi *",
       "contract_end_date": "Shartnoma tugash sanasi *",
       "contract_file": "Shartnoma fayli *",
       "upload": "Yuklash",
@@ -577,7 +577,7 @@
       "registration_successful": "Ro'yxatdan o'tish muvaffaqiyatli yakunlandi",
       "waiting_for_admin_approval": "Administrator tasdig'i kutilmoqda",
       "your_data_is_being_verified": "Ma'lumotlaringiz administrator tomonidan tekshirilmoqda. Bu jarayon odatda <strong>24 soatgacha</strong> davom etadi.",
-      "you_will_be_notified_by_email": "📧 Tasdiqlanganingizdan so'ng email orqali xabar olasiz",
+      "you_will_be_notified_by_email": "📧 Tasdiqlanganingizdan so'ng email orqali xabardor qilinadi",
       "next_steps": "Keyingi qadamlar",
       "data_being_verified": "Ma'lumotlar tekshirilmoqda",
       "admin_approval": "Administrator tasdig'i",
@@ -609,10 +609,10 @@
     "registration_status": "Ro'yxatdan o'tish holati",
     "registered": "Ro'yxatdan o'tgan",
     "not_registered": "Ro'yxatdan o'tmagan",
-    "created_at": "Yaratilgan vaqti",
-    "updated_at": "Yangilangan vaqti",
+    "created_at": "Yaratilgan sana",
+    "updated_at": "Yangilangan sana",
     "bank_account": "Bank hisobi",
-    "your_banking_information": "Bank ma'lumotlaringiz",
+    "your_banking_information": "Sizning bank ma'lumotlaringiz",
     "bank_name": "Bank nomi",
     "account_number": "Hisob raqami",
     "owner_full_name": "Egasining to'liq ismi",
@@ -638,7 +638,7 @@
     "company": "Kompaniya",
     "contract_number": "Shartnoma raqami",
     "inn_or_jshshir": "INN yoki JSHSHIR",
-    "contract_start_date": "Shartnoma boshlanish sanasi",
+    "contract_start_date": "Shartnoma boshlanishi sanasi",
     "contract_end_date": "Shartnoma tugash sanasi",
     "contract_document": "Shartnoma hujjati",
     "contract_file": "Shartnoma fayli"
@@ -670,9 +670,9 @@
     "owner_full_name_min_5": "To'liq ism kamida 5 ta belgidan iborat bo'lishi kerak",
     "owner_full_name_max_100": "To'liq ism 100 ta belgidan oshmasligi kerak",
     "owner_full_name_required": "Hisob egasining to'liq ismi majburiy",
-    "swift_code_8_11_digits": "SWIFT kodi 8 yoki 11 ta belgidan iborat bo'lishi kerak",
+    "swift_code_8_11_digits": "SWIFT kodi 8 yoki 11 ta belgi/raqamdan iborat bo'lishi kerak",
     "swift_code_required": "SWIFT kodi majburiy",
-    "error_saving_bank_details": "Bank tafsilotlarini saqlashda xatolik yuz berdi:",
+    "error_saving_bank_details": "Bank hisobi ma'lumotlarini saqlashda xato:",
     "bank_account_number": "Bank hisob raqami",
     "bank_name": "Bank nomi *",
     "enter_bank_name": "Bank nomini kiriting",
@@ -696,11 +696,11 @@
     "oked_code_required": "OKED kodi majburiy",
     "address_min_10": "Manzil kamida 10 ta belgidan iborat bo'lishi kerak",
     "registration_address_required": "Ro'yxatdan o'tish manzili majburiy",
-    "error_submitting_form": "Formani yuborishda xatolik:",
-    "only_pdf_jpg_png_allowed": "Faqat PDF, JPG, PNG fayllar qabul qilinadi",
+    "error_submitting_form": "Formani yuborishda xato:",
+    "only_pdf_jpg_png_allowed": "Faqat PDF, JPG, PNG fayllarga ruxsat beriladi",
     "file_size_max_5mb": "Fayl hajmi 5MB dan oshmasligi kerak",
-    "must_upload_required_files": "Quyidagi majburiy fayllarni yuklashingiz kerak: ",
-    "must_upload_vat_certificate": "QQS guvohnomasini yuklashingiz kerak",
+    "must_upload_required_files": "Siz quyidagi majburiy fayllarni yuklashingiz kerak: ",
+    "must_upload_vat_certificate": "Siz QQS guvohnomasini yuklashingiz kerak",
     "file_not_selected": "Fayl tanlanmagan",
     "mchj_details": "MCHJ tafsilotlari",
     "company_name": "Kompaniya nomi *",
@@ -715,7 +715,7 @@
     "mchj_certificate": "MCHJ guvohnomasi *",
     "upload": "Yuklash",
     "ustav_file": "Ustav fayli *",
-    "director_appointment_document": "Direktor tayinlash hujjati *",
+    "director_appointment_document": "Direktorni tayinlash hujjati *",
     "director_passport_copy": "Direktor pasporti nusxasi *",
     "legal_address_document": "Yuridik manzil hujjati *",
     "kadastr_file": "Kadastr fayli *",
@@ -739,12 +739,12 @@
     "registration_number_required": "Ro'yxatdan o'tish raqami majburiy",
     "address_min_10": "Manzil kamida 10 ta belgidan iborat bo'lishi kerak",
     "registration_address_required": "Ro'yxatdan o'tish manzili majburiy",
-    "error_submitting_form": "Formani yuborishda xatolik:",
-    "only_pdf_jpg_png_allowed": "Faqat PDF, JPG, PNG fayllar qabul qilinadi",
+    "error_submitting_form": "Formani yuborishda xato:",
+    "only_pdf_jpg_png_allowed": "Faqat PDF, JPG, PNG fayllarga ruxsat beriladi",
     "file_size_max_5mb": "Fayl hajmi 5MB dan oshmasligi kerak",
-    "must_upload_passport_file": "Pasport faylini yuklashingiz kerak",
-    "must_upload_self_employment_certificate": "O'zini o'zi band qilganlik guvohnomasini yuklashingiz kerak",
-    "must_upload_vat_certificate": "QQS guvohnomasini yuklashingiz kerak",
+    "must_upload_passport_file": "Siz pasport faylini yuklashingiz kerak",
+    "must_upload_self_employment_certificate": "Siz o'zini o'zi band qilganlik guvohnomasini yuklashingiz kerak",
+    "must_upload_vat_certificate": "Siz QQS guvohnomasini yuklashingiz kerak",
     "file_not_selected": "Fayl tanlanmagan",
     "self_employed_entrepreneur_details": "O'zini o'zi band qilgan tadbirkor tafsilotlari",
     "first_name": "Ism *",
@@ -769,12 +769,12 @@
     "if_vat_payer_upload_certificate": "Agar QQS to'lovchi bo'lsangiz, guvohnomani yuklashingiz mumkin"
   },
   "ytt_section": {
-    "error_submitting_form": "Formani yuborishda xatolik:",
-    "only_pdf_allowed": "Faqat PDF fayllar qabul qilinadi",
+    "error_submitting_form": "Formani yuborishda xato:",
+    "only_pdf_allowed": "Faqat PDF fayllarga ruxsat beriladi",
     "file_size_max_5mb": "Fayl hajmi 5MB dan oshmasligi kerak",
-    "must_upload_passport_file": "Pasport faylini yuklashingiz kerak",
-    "must_upload_ytt_certificate": "YTT guvohnomasini yuklashingiz kerak",
-    "must_upload_vat_certificate": "QQS guvohnomasini yuklashingiz kerak",
+    "must_upload_passport_file": "Siz pasport faylini yuklashingiz kerak",
+    "must_upload_ytt_certificate": "Siz YTT guvohnomasini yuklashingiz kerak",
+    "must_upload_vat_certificate": "Siz QQS guvohnomasini yuklashingiz kerak",
     "file_not_selected": "Fayl tanlanmagan",
     "ytt_seller_details": "YTT Sotuvchi tafsilotlari",
     "company_name": "Kompaniya nomi *",
@@ -795,7 +795,7 @@
     "vat_certificate": "QQS guvohnomasi *"
   },
   "user_details_tab": {
-    "error_creating_seller": "Sotuvchi yaratishda xatolik:",
+    "error_creating_seller": "Sotuvchi yaratishda xato:",
     "personal_details": "Shaxsiy ma'lumotlar",
     "first_name": "Ism *",
     "enter_first_name": "Ismingizni kiriting",
@@ -808,7 +808,7 @@
     "phone_placeholder": "+998 XX XXX XX XX",
     "passport": "Pasport *",
     "passport_placeholder": "AA 1234567",
-    "passport_format_error": "Pasport formati AA1234567 ko'rinishida bo'lishi kerak (2 ta harf va 7 ta raqam)",
+    "passport_format_error": "Pasport AA1234567 formatida bo'lishi kerak (2 ta katta harf va 7 ta raqam)",
     "language": "Til *",
     "select_language": "Tilni tanlang",
     "uzbek": "O'zbekcha",
@@ -818,6 +818,78 @@
   "seller_register": {
     "physical_person": "Jismoniy shaxs",
     "legal_entity": "Yuridik shaxs"
+  },
+  "physical_seller_register": {
+    "self_employed": "O'zini o'zi band qilgan",
+    "physical_person": "Jismoniy shaxs",
+    "self_employed_details": "O'zini o'zi band qilganlik tafsilotlari",
+    "physical_person_details": "Jismoniy shaxs tafsilotlari",
+    "first_name": "Ism",
+    "last_name": "Familiya",
+    "middle_name": "Otasining ismi",
+    "birth_date": "Tug'ilgan sana",
+    "jshshir": "JSHSHIR",
+    "passport_file": "Pasport fayli",
+    "self_employment_certificate": "O'zini o'zi band qilganlik guvohnomasi",
+    "first_name_required": "Ism kiritilishi shart",
+    "last_name_required": "Familiya kiritilishi shart",
+    "middle_name_required": "Otasining ismi kiritilishi shart",
+    "birth_date_required": "Tug'ilgan sana kiritilishi shart",
+    "jshshir_14_digits": "JSHSHIR 14 ta raqamdan iborat bo'lishi shart",
+    "jshshir_required": "JSHSHIR kiritilishi shart",
+    "failed_to_save_details": "Tafsilotlarni saqlash muvaffaqiyatsiz tugadi"
+  },
+  "business_type_tab": {
+    "choose_business_type": "Biznes turini tanlang",
+    "choose_one_of_the_following": "Quyidagilardan birini tanlang",
+    "individual_entrepreneur": "Yakka tartibdagi tadbirkor",
+    "llc_or_other_legal_entity": "MCHJ yoki boshqa yuridik shaxs",
+    "self_employed_person": "O'zini o'zi band qilgan shaxs"
+  },
+  "commissioner_tab": {
+    "contract_number_required": "Shartnoma raqami majburiy",
+    "contract_start_date_required": "Shartnoma boshlanishi sanasi majburiy",
+    "contract_end_date_required": "Shartnoma tugash sanasi majburiy",
+    "contract_end_date_must_be_future": "Shartnoma tugash sanasi kelajakda bo'lishi kerak",
+    "error_saving_commissioner_details": "Komissioner tafsilotlarini saqlashda xato:",
+    "only_pdf_allowed": "Faqat PDF fayllarga ruxsat beriladi",
+    "file_size_max_10mb": "Fayl hajmi 10MB dan oshmasligi kerak",
+    "file_not_selected": "Fayl tanlanmagan",
+    "commissioner": "Komissioner",
+    "enter_amaar_market_commissioner_details": "Amaar Market komissioner tafsilotlarini kiriting",
+    "instructions": "Ko'rsatmalar:",
+    "add_amaar_market_to_commissioner_list": "Elektron soliq xizmatlari portalida Amaar Marketni komissionerlar ro'yxatiga qo'shing",
+    "go_to_e_tax_website": "Elektron soliq xizmatlari portaliga o'ting",
+    "use_digital_signature_to_login": "Kirish uchun raqamli imzoingizdan foydalaning",
+    "find_and_select_service": "Soliq hisobi bo'limida qidiruvdan foydalaning va \"Jismoniy shaxslar uchun komissionerlar ro'yxatini shakllantirish\" xizmatini tanlang",
+    "click_add_and_enter_details": "Komissioner yaratish oynasida Qo'shish tugmasini bosing va quyidagi ma'lumotlarni kiriting:",
+    "stir_or_jshshir": "STIR yoki JSHSHIR *",
+    "company_name": "Kompaniya nomi *",
+    "commissioner_bank_mfo": "Komissioner bankining MFOsi *",
+    "account_number": "Hisob raqami *",
+    "contract_number": "Shartnoma raqami *",
+    "enter_contract_number": "Shartnoma raqamini kiriting",
+    "contract_start_date": "Shartnoma boshlanishi sanasi *",
+    "contract_end_date": "Shartnoma tugash sanasi *",
+    "contract_file": "Shartnoma fayli *",
+    "upload": "Yuklash",
+    "upload_in_pdf_format": "PDF formatida yuklang"
+  },
+  "finish_tab": {
+    "congratulations": "Tabriklaymiz!",
+    "registration_successful": "Ro'yxatdan o'tish muvaffaqiyatli yakunlandi",
+    "waiting_for_admin_approval": "Administrator tasdig'i kutilmoqda",
+    "your_data_is_being_verified": "Ma'lumotlaringiz administrator tomonidan tekshirilmoqda. Bu jarayon odatda <strong>24 soatgacha</strong> davom etadi.",
+    "you_will_be_notified_by_email": "📧 Tasdiqlanganingizdan so'ng email orqali xabardor qilinadi",
+    "next_steps": "Keyingi qadamlar",
+    "data_being_verified": "Ma'lumotlar tekshirilmoqda",
+    "admin_approval": "Administrator tasdig'i",
+    "receive_confirmation_email": "Tasdiqlash xabarini olish",
+    "current_status": "Hozirgi holat",
+    "waiting_for_approval": "Tasdiq kutilmoqda",
+    "data_verification_in_progress": "Ma'lumotlarni tekshirish jarayonda",
+    "if_not_approved_in_24_hours": "Agar 24 soat ichida tasdiqlanmasa, iltimos",
+    "contact_us_at": "biz bilan bog'laning:"
   },
   "mortgageCalculator": {
     "placeholder_price": "Narxni kiriting",
@@ -833,7 +905,7 @@
     "annual_interest_rate": "Yillik foiz stavkasi",
     "ten_years": "10 yil",
     "six_months": "6 oy",
-    "reset_to_default": "Asli holiga qaytarish",
+    "reset_to_default": "Asl holiga qaytarish",
     "loan_amount": "Kredit miqdori",
     "of_property_price": "Mulk narxining {{percent}}% qismi",
     "monthly_payment": "Oylik to'lov",
@@ -842,7 +914,7 @@
     "total_interest": "Jami foizlar",
     "monthly_interest": "Oylik foiz",
     "disclaimer1": "* Hisob-kitoblar taxminiy. Aniq shartlar bank tomonidan belgilanadi.",
-    "disclaimer2": "* Kreditga qo'shimcha xizmat ko'rsatish va sug'urta to'lovlari kiritilmagan.",
+    "disclaimer2": "* Kreditga qo'shimcha xizmat va sug'urta to'lovlari kiritilmagan.",
     "years_and_months_full": "{{years}} yil {{months}} oy",
     "years_only": "{{count}} yil",
     "months_only": "{{count}} oy"
@@ -851,11 +923,11 @@
     "title": "AI Mulk qidiruvchisi",
     "subtitle": "Tabiiy tildan foydalanib mulk qidiring",
     "welcome_title": "AI Mulk qidiruvchisiga xush kelibsiz",
-    "welcome_description": "Nima qidirayotganingizni oddiy tilda tasvirlab bering. Masalan: 'Toshkentdan 5 milliondan kamroqqa ijaraga 3 xonali kvartiralarni ko'rsat'.",
+    "welcome_description": "Nima qidirayotganingizni tabiiy tilda tasvirlab bering. Masalan: 'Toshkentdan 3 xonali ijaraga beriladigan kvartiralarni 5 milliondan arzonroqqa ko'rsat'.",
     "found_properties": "Siz uchun ba'zi mulklar topildi!",
-    "no_properties_found": "Sizning so'rovingiz bo'yicha mulklar topilmadi.",
+    "no_properties_found": "Sizning so'rovingiz bo'yicha hech qanday mulk topilmadi.",
     "error_message": "Kechirasiz, xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
-    "error_fetching_more": "Qo'shimcha mulklarni yuklashda xatolik:",
+    "error_fetching_more": "Qo'shimcha mulklarni yuklashda xato:",
     "searching": "AI qidirmoqda...",
     "loading_more": "Yuklanmoqda...",
     "load_more_button": "Yana yuklash",
