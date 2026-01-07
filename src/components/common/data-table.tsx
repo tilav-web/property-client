@@ -5,8 +5,8 @@ import {
   useReactTable,
   getSortedRowModel,
   type SortingState,
+  type OnChangeFn,
 } from "@tanstack/react-table";
-import * as React from "react";
 import {
   Table,
   TableBody,
@@ -34,7 +34,7 @@ interface DataTableProps<TData, TValue> {
   setPage: (page: number) => void;
   // Sorting props
   sorting: SortingState;
-  onSortingChange: (updater: (prev: SortingState) => SortingState) => void;
+  onSortingChange: OnChangeFn<SortingState>;
 }
 
 export function DataTable<TData, TValue>({

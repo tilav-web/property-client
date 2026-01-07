@@ -1,55 +1,56 @@
-import { useState, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { type ColumnDef } from '@tanstack/react-table';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { DataTable } from '@/components/common/data-table';
-import { adminTagService } from '../../_services/admin-tag.service';
-import type { ITag } from '@/interfaces/tag/tag.interface';
-import { toast } from 'sonner';
+import { useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { type ColumnDef, type SortingState } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { DataTable } from "@/components/common/data-table";
+import { adminTagService } from "../../_services/admin-tag.service";
+import type { ITag } from "@/interfaces/tag/tag.interface";
+import { toast } from "sonner";
 
 const DEFAULT_LIMIT = 10;
 
 const TagsPage = () => {
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [newTag, setNewTag] = useState('');
+  const [newTag, setNewTag] = useState("");
+  const [sorting, setSorting] = useState<SortingState>([]);
 
-  const page = Number(searchParams.get('page') ?? 1);
-  const limit = Number(searchParams.get('limit') ?? DEFAULT_LIMIT);
+  const page = Number(searchParams.get("page") ?? 1);
+  const limit = Number(searchParams.get("limit") ?? DEFAULT_LIMIT);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['admin-tags', page, limit],
+    queryKey: ["admin-tags", page, limit],
     queryFn: () => adminTagService.getAll({ page, limit }),
   });
 
   const addMutation = useMutation({
     mutationFn: (value: string) => adminTagService.create(value),
     onSuccess: () => {
-      toast.success('Tag added successfully');
-      setNewTag('');
-      queryClient.invalidateQueries({ queryKey: ['admin-tags'] });
+      toast.success("Tag added successfully");
+      setNewTag("");
+      queryClient.invalidateQueries({ queryKey: ["admin-tags"] });
     },
     onError: () => {
-      toast.error('Failed to add tag');
+      toast.error("Failed to add tag");
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => adminTagService.remove(id),
     onSuccess: () => {
-      toast.success('Tag deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['admin-tags'] });
+      toast.success("Tag deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["admin-tags"] });
     },
     onError: () => {
-      toast.error('Failed to delete tag');
+      toast.error("Failed to delete tag");
     },
   });
 
   const handleAddTag = () => {
     if (!newTag.trim()) {
-      toast.error('Tag value cannot be empty');
+      toast.error("Tag value cannot be empty");
       return;
     }
     addMutation.mutate(newTag);
@@ -62,16 +63,16 @@ const TagsPage = () => {
   const columns: ColumnDef<ITag>[] = useMemo(
     () => [
       {
-        accessorKey: '_id',
-        header: 'ID',
+        accessorKey: "_id",
+        header: "ID",
       },
       {
-        accessorKey: 'value',
-        header: 'Value',
+        accessorKey: "value",
+        header: "Value",
       },
       {
-        id: 'actions',
-        header: 'Actions',
+        id: "actions",
+        header: "Actions",
         cell: ({ row }) => (
           <Button
             variant="destructive"
@@ -84,7 +85,7 @@ const TagsPage = () => {
         ),
       },
     ],
-    [deleteMutation],
+    [deleteMutation]
   );
 
   return (
@@ -100,7 +101,7 @@ const TagsPage = () => {
           disabled={addMutation.isPending}
         />
         <Button onClick={handleAddTag} disabled={addMutation.isPending}>
-          {addMutation.isPending ? 'Adding...' : 'Add Tag'}
+          {addMutation.isPending ? "Adding..." : "Add Tag"}
         </Button>
       </div>
 
@@ -113,9 +114,12 @@ const TagsPage = () => {
         total={data?.total || 0}
         hasMore={(data?.page ?? 1) < (data?.totalPages ?? 1)}
         setPage={changePage}
+        sorting={sorting}
+        onSortingChange={setSorting}
       />
     </div>
   );
 };
 
 export default TagsPage;
+

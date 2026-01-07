@@ -16,30 +16,37 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { EditSellerForm } from "./components/edit-seller-form";
-import { type ISeller, sellerBusinessTypes, sellerStatuses, type SellerStatus, type SellerBusinessType } from "@/interfaces/users/seller.interface";
+import {
+  type ISeller,
+  sellerBusinessTypes,
+  sellerStatuses,
+  type SellerStatus,
+  type SellerBusinessType,
+} from "@/interfaces/users/seller.interface";
 import { adminSellerService } from "../../_services/admin-seller.service";
 import { DataTable } from "@/components/common/data-table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
+import type { SortingState } from "@tanstack/react-table";
 
 const DEFAULT_LIMIT = 10;
 
 export default function AdminSellers() {
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const page = Number(searchParams.get("page") ?? 1);
   const limit = Number(searchParams.get("limit") ?? DEFAULT_LIMIT);
   const searchQuery = searchParams.get("search") || "";
   const status = (searchParams.get("status") as SellerStatus) || undefined;
-  const business_type = (searchParams.get("business_type") as SellerBusinessType) || undefined;
+  const business_type =
+    (searchParams.get("business_type") as SellerBusinessType) || undefined;
 
   const [searchInput, setSearchInput] = useState(searchQuery);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedSeller, setSelectedSeller] = useState<ISeller | null>(
-    null
-  );
+  const [selectedSeller, setSelectedSeller] = useState<ISeller | null>(null);
 
   const { data, isLoading } = useQuery({
     queryKey: [
@@ -113,7 +120,6 @@ export default function AdminSellers() {
     });
   };
 
-
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
@@ -130,10 +136,7 @@ export default function AdminSellers() {
           <Search className="h-4 w-4 mr-2" />
           Search
         </Button>
-        <Select
-          onValueChange={onStatusChange}
-          value={status}
-        >
+        <Select onValueChange={onStatusChange} value={status}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
@@ -146,10 +149,7 @@ export default function AdminSellers() {
             ))}
           </SelectContent>
         </Select>
-        <Select
-          onValueChange={onBusinessTypeChange}
-          value={business_type}
-        >
+        <Select onValueChange={onBusinessTypeChange} value={business_type}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Business Type" />
           </SelectTrigger>
@@ -172,6 +172,8 @@ export default function AdminSellers() {
         total={data?.total || 0}
         hasMore={data?.hasMore || false}
         setPage={changePage}
+        sorting={sorting}
+        onSortingChange={setSorting}
       />
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
         <DialogContent>

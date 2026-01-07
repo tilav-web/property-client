@@ -30,34 +30,32 @@ import {
   categories,
   type CategoryType,
 } from "@/interfaces/types/category.type";
+import type { SortingState } from "@tanstack/react-table";
 
 const DEFAULT_LIMIT = 10;
 
 export default function AdminProperties() {
   const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const page = Number(searchParams.get("page") ?? 1);
   const limit = Number(searchParams.get("limit") ?? DEFAULT_LIMIT);
   const searchQuery = searchParams.get("search") || "";
-  const status = (searchParams.get("status") as PropertyStatusType) || undefined;
+  const status =
+    (searchParams.get("status") as PropertyStatusType) || undefined;
   const category = (searchParams.get("category") as CategoryType) || undefined;
 
   const [searchInput, setSearchInput] = useState(searchQuery);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState<IAdminProperty | null>( // Changed to IAdminProperty
-    null
-  );
+  const [selectedProperty, setSelectedProperty] =
+    useState<IAdminProperty | null>(
+      // Changed to IAdminProperty
+      null
+    );
 
   const { data, isLoading } = useQuery({
-    queryKey: [
-      "admin-properties",
-      page,
-      limit,
-      searchQuery,
-      status,
-      category,
-    ],
+    queryKey: ["admin-properties", page, limit, searchQuery, status, category],
     queryFn: () =>
       adminPropertyService.getProperties({
         page,
@@ -68,7 +66,8 @@ export default function AdminProperties() {
       }),
   });
 
-  const openEditModal = (property: IAdminProperty) => { // Changed to IAdminProperty
+  const openEditModal = (property: IAdminProperty) => {
+    // Changed to IAdminProperty
     setSelectedProperty(property);
     setIsEditModalOpen(true);
   };
@@ -121,7 +120,6 @@ export default function AdminProperties() {
     });
   };
 
-
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
@@ -138,10 +136,7 @@ export default function AdminProperties() {
           <Search className="h-4 w-4 mr-2" />
           Search
         </Button>
-        <Select
-          onValueChange={onStatusChange}
-          value={status}
-        >
+        <Select onValueChange={onStatusChange} value={status}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
@@ -154,10 +149,7 @@ export default function AdminProperties() {
             ))}
           </SelectContent>
         </Select>
-        <Select
-          onValueChange={onCategoryChange}
-          value={category}
-        >
+        <Select onValueChange={onCategoryChange} value={category}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
@@ -180,6 +172,8 @@ export default function AdminProperties() {
         total={data?.total || 0}
         hasMore={data?.hasMore || false}
         setPage={changePage}
+        sorting={sorting}
+        onSortingChange={setSorting}
       />
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
         <DialogContent>
