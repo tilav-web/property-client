@@ -846,6 +846,10 @@
     "english": "English",
     "russian": "Русский"
   },
+  "seller_register": {
+    "physical_person": "Физическое лицо",
+    "legal_entity": "Юридическое лицо"
+  },
   "physical_seller_register": {
     "self_employed": "Самозанятый",
     "physical_person": "Физическое лицо",

@@ -4,11 +4,18 @@ import YTTProfile from "./ytt-profile";
 import MCHJProfile from "./mchj-profile";
 import SelfEmployedProfile from "./self-employed-profile";
 import PhysicalProfile from "./physical-profile";
+import { useUserStore } from "@/stores/user.store";
+import SellerRegisterTabs from "./_components/seller-register-tabs";
 
 export default function SellerProfile() {
   const { seller } = useSellerStore();
+  const { user } = useUserStore();
 
   if (seller === undefined) return <Loading />;
+
+  if (!seller && user) {
+    return <SellerRegisterTabs />;
+  }
 
   if (!seller) {
     // This should not happen if the user is on this page,

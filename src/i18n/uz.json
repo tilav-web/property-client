@@ -776,6 +776,10 @@
       "if_not_approved_in_24_hours": "Agar 24 soat ichida tasdiqlanmasa, iltimos",
       "contact_us_at": "manziliga murojaat qiling"
     },
+    "seller_register": {
+      "physical_person": "Jismoniy shaxs",
+      "legal_entity": "Yuridik shaxs"
+    },
     "user_details_tab": {
       "error_creating_seller": "Sotuvchi yaratishda xatolik:",
       "personal_details": "Shaxsiy ma'lumotlar",

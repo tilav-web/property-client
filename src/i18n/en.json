@@ -815,6 +815,10 @@
     "english": "English",
     "russian": "Русский"
   },
+  "seller_register": {
+    "physical_person": "Physical Person",
+    "legal_entity": "Legal Entity"
+  },
   "physical_seller_register": {
     "self_employed": "Self-Employed",
     "physical_person": "Physical Person",
