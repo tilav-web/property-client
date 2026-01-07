@@ -32,6 +32,7 @@ interface ApartmentSaleFormData {
   parking: boolean;
   elevator: boolean;
   amenities: AmenitiesType[];
+  mortgage_available: boolean;
 }
 
 interface Props {
@@ -67,6 +68,7 @@ const defaultFormData: ApartmentSaleFormData = {
   parking: false,
   elevator: false,
   amenities: [],
+  mortgage_available: false,
 };
 
 export default function ApartmentSaleForm({ data, setData }: Props) {
@@ -310,6 +312,24 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
                 Lift
               </Label>
             </div>
+            
+
+          </div>
+
+          <div className="flex items-center space-x-2 pt-4 border-t">
+            <Checkbox
+              id="mortgage_available"
+              checked={formData.mortgage_available}
+              onCheckedChange={(checked) =>
+                handleBooleanChange("mortgage_available", checked as boolean)
+              }
+            />
+            <Label
+              htmlFor="mortgage_available"
+              className="text-sm cursor-pointer"
+            >
+              Ipoteka Mavjud
+            </Label>
           </div>
         </div>
 
