@@ -67,7 +67,7 @@ export const API_ENDPOINTS = {
     message: "/properties/message",
     tags: {
       base: "tags",
-      findTags: "/properties/tags/search",
+      findTags: "/tags",
     },
   },
   SELLER: {
