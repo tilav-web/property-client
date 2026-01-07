@@ -56,6 +56,7 @@ export const API_ENDPOINTS = {
     sellers: '/admins/sellers',
     advertises: '/admins/advertises',
     logout: '/admins/logout',
+    changePassword: '/admins/change-password',
     statistics: {
       dashboard: '/admins/statistics/dashboard',
     },

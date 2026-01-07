@@ -23,6 +23,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { adminService } from "../../_services/admin.service";
 import { toast } from "sonner";
 import { useAdminStore } from "@/stores/admin.store";
+import { PasswordChangeDialog } from "../dialogs/password-change-dialog";
 
 export default function AdminSidebar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -89,7 +90,7 @@ export default function AdminSidebar() {
     },
   ];
 
-  const bottomItems = [
+    const bottomItems = [
     {
       id: "notifications",
       label: "Notifications",
@@ -105,27 +106,33 @@ export default function AdminSidebar() {
       path: "/admin/settings",
     },
     {
-      id: "help",
-      label: "Help & Support",
+      id: "change-password",
+      label: "Parolni o'zgartirish",
       icon: <HelpCircle className="h-5 w-5" />,
       badge: null,
-      path: "/admin/help",
     },
   ];
 
   const [activeItem, setActiveItem] = useState("dashboard");
+  const [isPasswordChangeOpen, setIsPasswordChangeOpen] = useState(false);
 
   useEffect(() => {
     const currentPath = location.pathname;
     const allItems = [...menuItems, ...bottomItems];
-    const active = allItems.find((item) => item.path === currentPath);
+    const active = allItems.find(
+      (item) => item.path && item.path === currentPath,
+    );
     if (active) {
       setActiveItem(active.id);
     }
   }, [location.pathname]);
 
-  const handleItemClick = (path: string) => {
-    navigate(path);
+  const handleItemClick = (id: string, path?: string) => {
+    if (id === "change-password") {
+      setIsPasswordChangeOpen(true);
+    } else if (path) {
+      navigate(path);
+    }
     setIsMobileOpen(false);
   };
 
@@ -166,7 +173,7 @@ export default function AdminSidebar() {
               key={item.id}
               variant={activeItem === item.id ? "secondary" : "ghost"}
               className={`w-full justify-start px-3`}
-              onClick={() => handleItemClick(item.path)}
+              onClick={() => handleItemClick(item.id, item.path)}
             >
               <div className="flex items-center w-full">
                 <span className="flex-shrink-0">{item.icon}</span>
@@ -191,7 +198,7 @@ export default function AdminSidebar() {
             key={item.id}
             variant="ghost"
             className={`w-full justify-start px-3`}
-            onClick={() => handleItemClick(item.path)}
+            onClick={() => handleItemClick(item.id, item.path)}
           >
             <div className="flex items-center w-full">
               <span className="flex-shrink-0">{item.icon}</span>
@@ -260,7 +267,7 @@ export default function AdminSidebar() {
                   key={item.id}
                   variant={activeItem === item.id ? "secondary" : "ghost"}
                   className="w-full justify-start px-3"
-                  onClick={() => handleItemClick(item.path)}
+                  onClick={() => handleItemClick(item.id, item.path)}
                 >
                   <div className="flex items-center w-full">
                     <span className="flex-shrink-0">{item.icon}</span>
@@ -285,7 +292,7 @@ export default function AdminSidebar() {
                 key={item.id}
                 variant="ghost"
                 className="w-full justify-start px-3"
-                onClick={() => handleItemClick(item.path)}
+                onClick={() => handleItemClick(item.id, item.path)}
               >
                 <div className="flex items-center w-full">
                   <span className="flex-shrink-0">{item.icon}</span>
@@ -322,6 +329,10 @@ export default function AdminSidebar() {
     <>
       <MobileSidebar />
       <DesktopSidebar />
+      <PasswordChangeDialog
+        isOpen={isPasswordChangeOpen}
+        onClose={() => setIsPasswordChangeOpen(false)}
+      />
     </>
   );
 }

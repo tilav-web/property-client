@@ -44,6 +44,25 @@ class AdminService {
       throw error;
     }
   }
+
+  async changePassword({
+    oldPassword,
+    newPassword,
+  }: {
+    oldPassword: string;
+    newPassword: string;
+  }) {
+    try {
+      const res = await adminApi.post(API_ENDPOINTS.ADMIN.changePassword, {
+        oldPassword,
+        newPassword,
+      });
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }
 
 export const adminService = new AdminService();
