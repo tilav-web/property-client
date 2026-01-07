@@ -61,9 +61,9 @@ export default function SellerLegalRegister() {
     <div className="w-full">
       <div className="bg-white mb-16 p-4 rounded-2xl">
         <h3 className="text-2xl font-bold">
-          {t("pages.seller_register_page.business_registration")}
+          {t("seller_register_page.business_registration")}
         </h3>
-        <p>{t("pages.seller_register_page.fill_your_details")}</p>
+        <p>{t("seller_register_page.fill_your_details")}</p>
       </div>
       <div className="w-full">
         <Tabs
@@ -74,7 +74,7 @@ export default function SellerLegalRegister() {
         >
           <div className="w-full lg:max-w-xs bg-white p-8 rounded-2xl">
             <h5 className="mb-4 text-2xl font-bold">
-              {t("pages.seller_register_page.process")}
+              {t("seller_register_page.process")}
             </h5>
             <TabsList className="flex-col h-full bg-white items-start gap-4 w-full mb-4">
               <TabsTrigger
@@ -84,7 +84,7 @@ export default function SellerLegalRegister() {
               >
                 <CircleCheck className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
                 <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
-                  {t("pages.seller_register_page.business_form")}
+                  {t("seller_register_page.business_form")}
                 </p>
               </TabsTrigger>
               <TabsTrigger
@@ -94,7 +94,7 @@ export default function SellerLegalRegister() {
               >
                 <User className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
                 <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
-                  {t("pages.seller_register_page.personal_details")}
+                  {t("seller_register_page.personal_details")}
                 </p>
               </TabsTrigger>
               <TabsTrigger
@@ -104,7 +104,7 @@ export default function SellerLegalRegister() {
               >
                 <ClipboardList className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
                 <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
-                  {t("pages.seller_register_page.business_details")}
+                  {t("seller_register_page.business_details")}
                 </p>
               </TabsTrigger>
               <TabsTrigger
@@ -114,7 +114,7 @@ export default function SellerLegalRegister() {
               >
                 <Landmark className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
                 <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
-                  {t("pages.seller_register_page.bank_account_number")}
+                  {t("seller_register_page.bank_account_number")}
                 </p>
               </TabsTrigger>
               <TabsTrigger
@@ -124,28 +124,28 @@ export default function SellerLegalRegister() {
               >
                 <Users className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
                 <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
-                  {t("pages.seller_register_page.commissioner")}
+                  {t("seller_register_page.commissioner")}
                 </p>
               </TabsTrigger>
             </TabsList>
             <div className="bg-blue-500/10 px-6 py-4 rounded-xl">
               <div className="flex items-center justify-between">
                 <p className="mb-2 text-gray-800 font-medium">
-                  {t("pages.seller_register_page.process")}
+                  {t("seller_register_page.process")}
                 </p>
                 <p className="text-sm">
                   {selectedTab === "business_type" &&
-                    t("pages.seller_register_page.0%")}
+                    t("seller_register_page.0%")}
                   {selectedTab === "user_details" &&
-                    t("pages.seller_register_page.20%")}
+                    t("seller_register_page.20%")}
                   {selectedTab === "busisess_details" &&
-                    t("pages.seller_register_page.40%")}
+                    t("seller_register_page.40%")}
                   {selectedTab === "bank_account_number" &&
-                    t("pages.seller_register_page.60%")}
+                    t("seller_register_page.60%")}
                   {selectedTab === "commissioner" &&
-                    t("pages.seller_register_page.80%")}
+                    t("seller_register_page.80%")}
                   {selectedTab === "finish_tab" &&
-                    t("pages.seller_register_page.100%")}
+                    t("seller_register_page.100%")}
                 </p>
               </div>
 

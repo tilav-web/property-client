@@ -31,10 +31,10 @@ export default function BusinessTypeTab({
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold text-gray-900">
-        {t("pages.business_type_tab.choose_business_type")}
+        {t("business_type_tab.choose_business_type")}
       </h3>
       <p className="text-sm text-gray-600">
-        {t("pages.business_type_tab.choose_one_of_the_following")}
+        {t("business_type_tab.choose_one_of_the_following")}
       </p>
 
       <RadioGroup
@@ -52,7 +52,7 @@ export default function BusinessTypeTab({
             htmlFor="ytt"
             className="text-base cursor-pointer flex-1 h-full"
           >
-            {t("pages.business_type_tab.individual_entrepreneur")}
+            {t("business_type_tab.individual_entrepreneur")}
           </Label>
         </div>
 
@@ -66,7 +66,7 @@ export default function BusinessTypeTab({
             htmlFor="mchj"
             className="text-base cursor-pointer flex-1 h-full"
           >
-            {t("pages.business_type_tab.llc_or_other_legal_entity")}
+            {t("business_type_tab.llc_or_other_legal_entity")}
           </Label>
         </div>
       </RadioGroup>

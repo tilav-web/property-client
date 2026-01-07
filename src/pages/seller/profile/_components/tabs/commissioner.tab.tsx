@@ -14,16 +14,16 @@ import { useTranslation } from "react-i18next";
 // Validation schema
 const validationSchema = (t: any) => Yup.object({
   contract_number: Yup.string()
-    .min(1, t("pages.commissioner_tab.contract_number_required"))
-    .required(t("pages.commissioner_tab.contract_number_required")),
+    .min(1, t("commissioner_tab.contract_number_required"))
+    .required(t("commissioner_tab.contract_number_required")),
   contract_start_date: Yup.string().required(
-    t("pages.commissioner_tab.contract_start_date_required")
+    t("commissioner_tab.contract_start_date_required")
   ),
   contract_end_date: Yup.string()
-    .required(t("pages.commissioner_tab.contract_end_date_required"))
+    .required(t("commissioner_tab.contract_end_date_required"))
     .test(
       "is-future",
-      t("pages.commissioner_tab.contract_end_date_must_be_future"),
+      t("commissioner_tab.contract_end_date_must_be_future"),
       function (value) {
         const startDate = this.parent.contract_start_date;
         if (!startDate || !value) return true;
@@ -94,7 +94,7 @@ export default function CommissionerTab({
         setSeller(data);
         handleSelectTab("finish_tab");
       } catch (error) {
-        console.error(t("pages.commissioner_tab.error_saving_commissioner_details"), error);
+        console.error(t("commissioner_tab.error_saving_commissioner_details"), error);
       }
     },
   });
@@ -107,7 +107,7 @@ export default function CommissionerTab({
 
       if (!allowedTypes.includes(uploadedFile.type)) {
         toast("Error", {
-          description: t("pages.commissioner_tab.only_pdf_allowed"),
+          description: t("commissioner_tab.only_pdf_allowed"),
         });
         return;
       }
@@ -115,7 +115,7 @@ export default function CommissionerTab({
       // Fayl hajmini tekshirish (masalan, 10MB)
       if (uploadedFile.size > 10 * 1024 * 1024) {
         toast("Error", {
-          description: t("pages.commissioner_tab.file_size_max_10mb"),
+          description: t("commissioner_tab.file_size_max_10mb"),
         });
         return;
       }
@@ -129,24 +129,24 @@ export default function CommissionerTab({
   };
 
   const getFileName = () => {
-    return file.contract_file ? file.contract_file.name : t("pages.commissioner_tab.file_not_selected");
+    return file.contract_file ? file.contract_file.name : t("commissioner_tab.file_not_selected");
   };
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900">{t("pages.commissioner_tab.commissioner")}</h3>
+      <h3 className="text-lg font-semibold text-gray-900">{t("commissioner_tab.commissioner")}</h3>
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <p className="text-blue-800 font-medium mb-2">
-          {t("pages.commissioner_tab.enter_amaar_market_commissioner_details")}
+          {t("commissioner_tab.enter_amaar_market_commissioner_details")}
         </p>
       </div>
 
       {/* Ko'rsatmalar */}
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-        <h4 className="font-semibold text-gray-900 mb-3">{t("pages.commissioner_tab.instructions")}</h4>
+        <h4 className="font-semibold text-gray-900 mb-3">{t("commissioner_tab.instructions")}</h4>
         <p className="text-gray-700 mb-4">
-          {t("pages.commissioner_tab.add_amaar_market_to_commissioner_list")}
+          {t("commissioner_tab.add_amaar_market_to_commissioner_list")}
         </p>
 
         <ol className="list-decimal list-inside space-y-2 text-gray-700 text-sm">
@@ -157,16 +157,16 @@ export default function CommissionerTab({
               rel="noopener noreferrer"
               className="text-blue-600 hover:text-blue-800 inline-flex items-center gap-1"
             >
-              {t("pages.commissioner_tab.go_to_e_tax_website")}
+              {t("commissioner_tab.go_to_e_tax_website")}
               <ExternalLink size={14} />
             </a>
           </li>
-          <li>{t("pages.commissioner_tab.use_digital_signature_to_login")}</li>
+          <li>{t("commissioner_tab.use_digital_signature_to_login")}</li>
           <li>
-            {t("pages.commissioner_tab.find_and_select_service")}
+            {t("commissioner_tab.find_and_select_service")}
           </li>
           <li>
-            {t("pages.commissioner_tab.click_add_and_enter_details")}
+            {t("commissioner_tab.click_add_and_enter_details")}
           </li>
         </ol>
       </div>
@@ -175,7 +175,7 @@ export default function CommissionerTab({
         <div className="space-y-4">
           {/* STIR yoki JShShIR */}
           <div className="space-y-2">
-            <Label htmlFor="inn_or_jshshir">{t("pages.commissioner_tab.stir_or_jshshir")}</Label>
+            <Label htmlFor="inn_or_jshshir">{t("commissioner_tab.stir_or_jshshir")}</Label>
             <Input
               id="inn_or_jshshir"
               name="inn_or_jshshir"
@@ -187,7 +187,7 @@ export default function CommissionerTab({
 
           {/* Firma nomi */}
           <div className="space-y-2">
-            <Label htmlFor="company">{t("pages.commissioner_tab.company_name")}</Label>
+            <Label htmlFor="company">{t("commissioner_tab.company_name")}</Label>
             <Input
               id="company"
               name="company"
@@ -200,7 +200,7 @@ export default function CommissionerTab({
           {/* MFO va Hisob raqami */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="mfo">{t("pages.commissioner_tab.commissioner_bank_mfo")}</Label>
+              <Label htmlFor="mfo">{t("commissioner_tab.commissioner_bank_mfo")}</Label>
               <Input
                 id="mfo"
                 name="mfo"
@@ -211,7 +211,7 @@ export default function CommissionerTab({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="account_number">{t("pages.commissioner_tab.account_number")}</Label>
+              <Label htmlFor="account_number">{t("commissioner_tab.account_number")}</Label>
               <Input
                 id="account_number"
                 name="account_number"
@@ -224,7 +224,7 @@ export default function CommissionerTab({
 
           {/* Shartnoma raqami */}
           <div className="space-y-2">
-            <Label htmlFor="contract_number">{t("pages.commissioner_tab.contract_number")}</Label>
+            <Label htmlFor="contract_number">{t("commissioner_tab.contract_number")}</Label>
             <Input
               id="contract_number"
               name="contract_number"
@@ -233,7 +233,7 @@ export default function CommissionerTab({
                   ? "border-red-500"
                   : ""
               }`}
-              placeholder={t("pages.commissioner_tab.enter_contract_number")}
+              placeholder={t("commissioner_tab.enter_contract_number")}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.contract_number}
@@ -250,7 +250,7 @@ export default function CommissionerTab({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="contract_start_date">
-                {t("pages.commissioner_tab.contract_start_date")}
+                {t("commissioner_tab.contract_start_date")}
               </Label>
               <Input
                 id="contract_start_date"
@@ -276,7 +276,7 @@ export default function CommissionerTab({
 
             <div className="space-y-2">
               <Label htmlFor="contract_end_date">
-                {t("pages.commissioner_tab.contract_end_date")}
+                {t("commissioner_tab.contract_end_date")}
               </Label>
               <Input
                 id="contract_end_date"
@@ -303,7 +303,7 @@ export default function CommissionerTab({
 
           {/* Fayl yuklash */}
           <div className="space-y-2">
-            <Label htmlFor="contract_file">{t("pages.commissioner_tab.contract_file")}</Label>
+            <Label htmlFor="contract_file">{t("commissioner_tab.contract_file")}</Label>
             <div className="flex items-center gap-2">
               <Input value={getFileName()} className="bg-gray-50" readOnly />
               <input
@@ -318,7 +318,7 @@ export default function CommissionerTab({
                 className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
               >
                 <Upload size={16} />
-                {t("pages.commissioner_tab.upload")}
+                {t("commissioner_tab.upload")}
               </label>
               {file.contract_file && (
                 <button
@@ -332,7 +332,7 @@ export default function CommissionerTab({
             </div>
             <p className="text-sm text-gray-500 flex items-center gap-1">
               <FileText size={14} />
-              {t("pages.commissioner_tab.upload_in_pdf_format")}
+              {t("commissioner_tab.upload_in_pdf_format")}
             </p>
           </div>
         </div>

@@ -70,7 +70,7 @@ export default function YttSection({
         setSeller(data);
         handleSelectTab("bank_account_number");
       } catch (error) {
-        console.error(t("pages.ytt_section.error_submitting_form"), error);
+        console.error(t("ytt_section.error_submitting_form"), error);
       }
     },
   });
@@ -83,13 +83,13 @@ export default function YttSection({
     if (file) {
       // Fayl turini tekshirish
       if (file.type !== "application/pdf") {
-        alert(t("pages.ytt_section.only_pdf_allowed"));
+        alert(t("ytt_section.only_pdf_allowed"));
         return;
       }
 
       // Fayl hajmini tekshirish (masalan, 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert(t("pages.ytt_section.file_size_max_5mb"));
+        alert(t("ytt_section.file_size_max_5mb"));
         return;
       }
 
@@ -111,21 +111,21 @@ export default function YttSection({
     // Majburiy fayllarni tekshirish
     if (!files.passport_file) {
       toast.error("Error", {
-        description: t("pages.ytt_section.must_upload_passport_file"),
+        description: t("ytt_section.must_upload_passport_file"),
       });
       return;
     }
 
     if (!files.ytt_certificate_file) {
       toast.error("Error", {
-        description: t("pages.ytt_section.must_upload_ytt_certificate"),
+        description: t("ytt_section.must_upload_ytt_certificate"),
       });
       return;
     }
 
     if (formik.values.is_vat_payer && !files.vat_file) {
       toast.error("Error", {
-        description: t("pages.ytt_section.must_upload_vat_certificate"),
+        description: t("ytt_section.must_upload_vat_certificate"),
       });
       return;
     }
@@ -135,23 +135,23 @@ export default function YttSection({
   };
 
   const getFileName = (file: File | null) => {
-    return file ? file.name : t("pages.ytt_section.file_not_selected");
+    return file ? file.name : t("ytt_section.file_not_selected");
   };
 
   return (
     <div className="space-y-6">
       <h3 className="text-lg font-semibold text-gray-900">
-        {t("pages.ytt_section.ytt_seller_details")}
+        {t("ytt_section.ytt_seller_details")}
       </h3>
 
       <form className="space-y-4">
         {/* Korxona nomi */}
         <div className="space-y-2">
-          <Label htmlFor="company_name">{t("pages.ytt_section.company_name")}</Label>
+          <Label htmlFor="company_name">{t("ytt_section.company_name")}</Label>
           <Input
             id="company_name"
             name="company_name"
-            placeholder={t("pages.ytt_section.enter_company_name")}
+            placeholder={t("ytt_section.enter_company_name")}
             className={`bg-gray-50 ${
               formik.touched.company_name && formik.errors.company_name
                 ? "border-red-500"
@@ -171,11 +171,11 @@ export default function YttSection({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* STIR (INN) */}
           <div className="space-y-2">
-            <Label htmlFor="inn">{t("pages.ytt_section.stir_inn")}</Label>
+            <Label htmlFor="inn">{t("ytt_section.stir_inn")}</Label>
             <Input
               id="inn"
               name="inn"
-              placeholder={t("pages.ytt_section.stir_placeholder")}
+              placeholder={t("ytt_section.stir_placeholder")}
               className={`bg-gray-50 ${
                 formik.touched.inn && formik.errors.inn ? "border-red-500" : ""
               }`}
@@ -190,11 +190,11 @@ export default function YttSection({
 
           {/* JShShIR (PINFL) */}
           <div className="space-y-2">
-            <Label htmlFor="pinfl">{t("pages.ytt_section.jshshir_pinfl")}</Label>
+            <Label htmlFor="pinfl">{t("ytt_section.jshshir_pinfl")}</Label>
             <Input
               id="pinfl"
               name="pinfl"
-              placeholder={t("pages.ytt_section.jshshir_placeholder")}
+              placeholder={t("ytt_section.jshshir_placeholder")}
               className={`bg-gray-50 ${
                 formik.touched.pinfl && formik.errors.pinfl
                   ? "border-red-500"
@@ -213,12 +213,12 @@ export default function YttSection({
         {/* Ro'yxatdan o'tish raqami */}
         <div className="space-y-2">
           <Label htmlFor="business_reg_number">
-            {t("pages.ytt_section.registration_number")}
+            {t("ytt_section.registration_number")}
           </Label>
           <Input
             id="business_reg_number"
             name="business_reg_number"
-            placeholder={t("pages.ytt_section.enter_registration_number")}
+            placeholder={t("ytt_section.enter_registration_number")}
             className={`bg-gray-50 ${
               formik.touched.business_reg_number &&
               formik.errors.business_reg_number
@@ -240,12 +240,12 @@ export default function YttSection({
         {/* Ro'yxatdan o'tgan manzil */}
         <div className="space-y-2">
           <Label htmlFor="business_reg_address">
-            {t("pages.ytt_section.registration_address")}
+            {t("ytt_section.registration_address")}
           </Label>
           <Textarea
             id="business_reg_address"
             name="business_reg_address"
-            placeholder={t("pages.ytt_section.enter_full_address")}
+            placeholder={t("ytt_section.enter_full_address")}
             className={`bg-gray-50 min-h-[80px] ${
               formik.touched.business_reg_address &&
               formik.errors.business_reg_address
@@ -268,7 +268,7 @@ export default function YttSection({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Pasport fayli */}
           <div className="space-y-2">
-            <Label htmlFor="passport_file">{t("pages.ytt_section.passport_copy")}</Label>
+            <Label htmlFor="passport_file">{t("ytt_section.passport_copy")}</Label>
             <div className="flex items-center gap-2">
               <Input
                 value={getFileName(files.passport_file)}
@@ -287,7 +287,7 @@ export default function YttSection({
                 className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
               >
                 <Upload size={16} />
-                {t("pages.ytt_section.upload")}
+                {t("ytt_section.upload")}
               </label>
               {files.passport_file && (
                 <button
@@ -301,13 +301,13 @@ export default function YttSection({
             </div>
             <p className="text-sm text-gray-500 flex items-center gap-1">
               <FileText size={14} />
-              {t("pages.ytt_section.pdf_format_accepted")}
+              {t("ytt_section.pdf_format_accepted")}
             </p>
           </div>
 
           {/* YTT guvohnomasi */}
           <div className="space-y-2">
-            <Label htmlFor="ytt_certificate_file">{t("pages.ytt_section.ytt_certificate")}</Label>
+            <Label htmlFor="ytt_certificate_file">{t("ytt_section.ytt_certificate")}</Label>
             <div className="flex items-center gap-2">
               <Input
                 value={getFileName(files.ytt_certificate_file)}
@@ -326,7 +326,7 @@ export default function YttSection({
                 className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
               >
                 <Upload size={16} />
-                {t("pages.ytt_section.upload")}
+                {t("ytt_section.upload")}
               </label>
               {files.ytt_certificate_file && (
                 <button
@@ -340,7 +340,7 @@ export default function YttSection({
             </div>
             <p className="text-sm text-gray-500 flex items-center gap-1">
               <FileText size={14} />
-              {t("pages.ytt_section.pdf_format_accepted")}
+              {t("ytt_section.pdf_format_accepted")}
             </p>
           </div>
         </div>
@@ -355,14 +355,14 @@ export default function YttSection({
             }
           />
           <Label htmlFor="is_vat_payer" className="text-sm font-medium">
-            {t("pages.ytt_section.i_am_vat_payer")}
+            {t("ytt_section.i_am_vat_payer")}
           </Label>
         </div>
 
         {/* QQS fayli (shart emas) */}
         {formik.values.is_vat_payer && (
           <div className="space-y-2">
-            <Label htmlFor="vat_file">{t("pages.ytt_section.vat_certificate")}</Label>
+            <Label htmlFor="vat_file">{t("ytt_section.vat_certificate")}</Label>
             <div className="flex items-center gap-2">
               <Input
                 value={getFileName(files.vat_file)}
@@ -381,7 +381,7 @@ export default function YttSection({
                 className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
               >
                 <Upload size={16} />
-                {t("pages.ytt_section.upload")}
+                {t("ytt_section.upload")}
               </label>
               {files.vat_file && (
                 <button
@@ -395,7 +395,7 @@ export default function YttSection({
             </div>
             <p className="text-sm text-gray-500 flex items-center gap-1">
               <FileText size={14} />
-              {t("pages.ytt_section.pdf_format_accepted")}
+              {t("ytt_section.pdf_format_accepted")}
             </p>
           </div>
         )}

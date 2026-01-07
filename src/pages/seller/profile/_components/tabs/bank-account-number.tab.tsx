@@ -12,25 +12,25 @@ import { useTranslation } from "react-i18next";
 // Validation schema
 const validationSchema = (t: any) => Yup.object({
   account_number: Yup.string()
-    .matches(/^\d{20}$/, t("pages.bank_account_number_tab.account_number_20_digits"))
-    .required(t("pages.bank_account_number_tab.account_number_required")),
+    .matches(/^\d{20}$/, t("bank_account_number_tab.account_number_20_digits"))
+    .required(t("bank_account_number_tab.account_number_required")),
   bank_name: Yup.string()
-    .min(2, t("pages.bank_account_number_tab.bank_name_min_2"))
-    .max(100, t("pages.bank_account_number_tab.bank_name_max_100"))
-    .required(t("pages.bank_account_number_tab.bank_name_required")),
+    .min(2, t("bank_account_number_tab.bank_name_min_2"))
+    .max(100, t("bank_account_number_tab.bank_name_max_100"))
+    .required(t("bank_account_number_tab.bank_name_required")),
   mfo: Yup.string()
-    .matches(/^\d{5,6}$/, t("pages.bank_account_number_tab.mfo_5_6_digits"))
-    .required(t("pages.bank_account_number_tab.mfo_required")),
+    .matches(/^\d{5,6}$/, t("bank_account_number_tab.mfo_5_6_digits"))
+    .required(t("bank_account_number_tab.mfo_required")),
   owner_full_name: Yup.string()
-    .min(5, t("pages.bank_account_number_tab.owner_full_name_min_5"))
-    .max(100, t("pages.bank_account_number_tab.owner_full_name_max_100"))
-    .required(t("pages.bank_account_number_tab.owner_full_name_required")),
+    .min(5, t("bank_account_number_tab.owner_full_name_min_5"))
+    .max(100, t("bank_account_number_tab.owner_full_name_max_100"))
+    .required(t("bank_account_number_tab.owner_full_name_required")),
   swift_code: Yup.string()
     .matches(
       /^[A-Z0-9]{8,11}$/,
-      t("pages.bank_account_number_tab.swift_code_8_11_digits")
+      t("bank_account_number_tab.swift_code_8_11_digits")
     )
-    .required(t("pages.bank_account_number_tab.swift_code_required")),
+    .required(t("bank_account_number_tab.swift_code_required")),
 });
 
 interface FormValues {
@@ -67,7 +67,7 @@ export default function BankAccountNumberTab({
         setSeller(data);
         handleSelectTab("commissioner");
       } catch (error) {
-        console.error(t("pages.bank_account_number_tab.error_saving_bank_details"), error);
+        console.error(t("bank_account_number_tab.error_saving_bank_details"), error);
       }
     },
   });
@@ -104,13 +104,13 @@ export default function BankAccountNumberTab({
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900">{t("pages.bank_account_number_tab.bank_account_number")}</h3>
+      <h3 className="text-lg font-semibold text-gray-900">{t("bank_account_number_tab.bank_account_number")}</h3>
 
       <form>
         <div className="space-y-4">
           {/* Bank nomi */}
           <div className="space-y-2">
-            <Label htmlFor="bank_name">{t("pages.bank_account_number_tab.bank_name")}</Label>
+            <Label htmlFor="bank_name">{t("bank_account_number_tab.bank_name")}</Label>
             <Input
               id="bank_name"
               name="bank_name"
@@ -119,7 +119,7 @@ export default function BankAccountNumberTab({
                   ? "border-red-500"
                   : ""
               }`}
-              placeholder={t("pages.bank_account_number_tab.enter_bank_name")}
+              placeholder={t("bank_account_number_tab.enter_bank_name")}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.bank_name}
@@ -133,7 +133,7 @@ export default function BankAccountNumberTab({
 
           {/* Hisob raqami */}
           <div className="space-y-2">
-            <Label htmlFor="account_number">{t("pages.bank_account_number_tab.account_number_placeholder")}</Label>
+            <Label htmlFor="account_number">{t("bank_account_number_tab.account_number_placeholder")}</Label>
             <Input
               id="account_number"
               name="account_number"
@@ -142,7 +142,7 @@ export default function BankAccountNumberTab({
                   ? "border-red-500"
                   : ""
               }`}
-              placeholder={t("pages.bank_account_number_tab.account_number_placeholder")}
+              placeholder={t("bank_account_number_tab.account_number_placeholder")}
               value={formatAccountNumber(formik.values.account_number)}
               onChange={handleAccountNumberChange}
               onBlur={formik.handleBlur}
@@ -158,7 +158,7 @@ export default function BankAccountNumberTab({
           {/* MFO va SWIFT kodi */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="mfo">{t("pages.bank_account_number_tab.mfo")}</Label>
+              <Label htmlFor="mfo">{t("bank_account_number_tab.mfo")}</Label>
               <Input
                 id="mfo"
                 name="mfo"
@@ -167,7 +167,7 @@ export default function BankAccountNumberTab({
                     ? "border-red-500"
                     : ""
                 }`}
-                placeholder={t("pages.bank_account_number_tab.mfo_number")}
+                placeholder={t("bank_account_number_tab.mfo_number")}
                 onChange={handleMfoChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.mfo}
@@ -179,7 +179,7 @@ export default function BankAccountNumberTab({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="swift_code">{t("pages.bank_account_number_tab.swift_code")}</Label>
+              <Label htmlFor="swift_code">{t("bank_account_number_tab.swift_code")}</Label>
               <Input
                 id="swift_code"
                 name="swift_code"
@@ -188,7 +188,7 @@ export default function BankAccountNumberTab({
                     ? "border-red-500"
                     : ""
                 }`}
-                placeholder={t("pages.bank_account_number_tab.swift_code_placeholder")}
+                placeholder={t("bank_account_number_tab.swift_code_placeholder")}
                 onChange={handleSwiftCodeChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.swift_code}
@@ -205,7 +205,7 @@ export default function BankAccountNumberTab({
           {/* Hisob egasining to'liq ismi */}
           <div className="space-y-2">
             <Label htmlFor="owner_full_name">
-              {t("pages.bank_account_number_tab.owner_full_name")}
+              {t("bank_account_number_tab.owner_full_name")}
             </Label>
             <Input
               id="owner_full_name"
@@ -218,7 +218,7 @@ export default function BankAccountNumberTab({
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.owner_full_name}
-              placeholder={t("pages.bank_account_number_tab.owner_full_name_placeholder")}
+              placeholder={t("bank_account_number_tab.owner_full_name_placeholder")}
             />
             {formik.touched.owner_full_name &&
               formik.errors.owner_full_name && (

@@ -47,7 +47,7 @@ export default function UserDetailsTab({
         setSeller(data.seller);
         handleSelectTab("busisess_details");
       } catch (error) {
-        console.error(t("pages.user_details_tab.error_creating_seller"), error);
+        console.error(t("user_details_tab.error_creating_seller"), error);
       }
     },
     enableReinitialize: true,
@@ -79,13 +79,13 @@ export default function UserDetailsTab({
   return (
     <div className="space-y-6">
       <h3 className="text-lg font-semibold text-gray-900">
-        {t("pages.user_details_tab.personal_details")}
+        {t("user_details_tab.personal_details")}
       </h3>
 
       <form onSubmit={formik.handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="first_name">{t("pages.user_details_tab.first_name")}</Label>
+            <Label htmlFor="first_name">{t("user_details_tab.first_name")}</Label>
             <Input
               id="first_name"
               name="first_name"
@@ -97,7 +97,7 @@ export default function UserDetailsTab({
                   ? "border-red-500"
                   : ""
               }`}
-              placeholder={t("pages.user_details_tab.enter_first_name")}
+              placeholder={t("user_details_tab.enter_first_name")}
             />
             {formik.touched.first_name && formik.errors.first_name && (
               <div className="text-red-500 text-sm">
@@ -107,7 +107,7 @@ export default function UserDetailsTab({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="last_name">{t("pages.user_details_tab.last_name")}</Label>
+            <Label htmlFor="last_name">{t("user_details_tab.last_name")}</Label>
             <Input
               id="last_name"
               name="last_name"
@@ -119,7 +119,7 @@ export default function UserDetailsTab({
                   ? "border-red-500"
                   : ""
               }`}
-              placeholder={t("pages.user_details_tab.enter_last_name")}
+              placeholder={t("user_details_tab.enter_last_name")}
             />
             {formik.touched.last_name && formik.errors.last_name && (
               <div className="text-red-500 text-sm">
@@ -130,7 +130,7 @@ export default function UserDetailsTab({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">{t("pages.user_details_tab.email")}</Label>
+          <Label htmlFor="email">{t("user_details_tab.email")}</Label>
           <div className="flex items-center gap-2 relative">
             <Input
               id="email"
@@ -143,7 +143,7 @@ export default function UserDetailsTab({
               <button
                 type="button"
                 className="absolute right-2 top-0 bottom-0 my-auto text-green-500"
-                title={t("pages.user_details_tab.verified")}
+                title={t("user_details_tab.verified")}
               >
                 <Check size={16} />
               </button>
@@ -151,7 +151,7 @@ export default function UserDetailsTab({
               <button
                 type="button"
                 className="absolute right-2 top-0 bottom-0 my-auto text-red-500"
-                title={t("pages.user_details_tab.not_verified")}
+                title={t("user_details_tab.not_verified")}
               >
                 <X size={16} />
               </button>
@@ -161,7 +161,7 @@ export default function UserDetailsTab({
 
         <div className="flex items-center gap-4">
           <div className="space-y-2 flex-1">
-            <Label htmlFor="phone">{t("pages.user_details_tab.phone")}</Label>
+            <Label htmlFor="phone">{t("user_details_tab.phone")}</Label>
             <div className="flex items-center gap-2 relative">
               <Input
                 id="phone"
@@ -175,13 +175,13 @@ export default function UserDetailsTab({
                     ? "border-red-500"
                     : ""
                 }`}
-                placeholder={t("pages.user_details_tab.phone_placeholder")}
+                placeholder={t("user_details_tab.phone_placeholder")}
               />
               {user?.phone?.isVerified ? (
                 <button
                   type="button"
                   className="absolute right-2 top-0 bottom-0 my-auto text-green-500"
-                  title={t("pages.user_details_tab.verified")}
+                  title={t("user_details_tab.verified")}
                 >
                   <Check size={16} />
                 </button>
@@ -189,7 +189,7 @@ export default function UserDetailsTab({
                 <button
                   type="button"
                   className="absolute right-2 top-0 bottom-0 my-auto text-red-500"
-                  title={t("pages.user_details_tab.not_verified")}
+                  title={t("user_details_tab.not_verified")}
                 >
                   <X size={16} />
                 </button>
@@ -201,7 +201,7 @@ export default function UserDetailsTab({
           </div>
 
           <div className="space-y-2 flex-1">
-            <Label htmlFor="passport">{t("pages.user_details_tab.passport")}</Label>
+            <Label htmlFor="passport">{t("user_details_tab.passport")}</Label>
             <Input
               id="passport"
               name="passport"
@@ -213,7 +213,7 @@ export default function UserDetailsTab({
                   ? "border-red-500"
                   : ""
               }`}
-              placeholder={t("pages.user_details_tab.passport_placeholder")}
+              placeholder={t("user_details_tab.passport_placeholder")}
               maxLength={10}
             />
             {formik.touched.passport && formik.errors.passport && (
@@ -226,7 +226,7 @@ export default function UserDetailsTab({
 
         <div className="flex items-end justify-between">
           <div className="space-y-2">
-            <Label htmlFor="language">{t("pages.user_details_tab.language")}</Label>
+            <Label htmlFor="language">{t("user_details_tab.language")}</Label>
             <Select
               name="lan"
               value={formik.values.lan}
@@ -239,12 +239,12 @@ export default function UserDetailsTab({
                     : ""
                 }`}
               >
-                <SelectValue placeholder={t("pages.user_details_tab.select_language")} />
+                <SelectValue placeholder={t("user_details_tab.select_language")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="uz">{t("pages.user_details_tab.uzbek")}</SelectItem>
-                <SelectItem value="en">{t("pages.user_details_tab.english")}</SelectItem>
-                <SelectItem value="ru">{t("pages.user_details_tab.russian")}</SelectItem>
+                <SelectItem value="uz">{t("user_details_tab.uzbek")}</SelectItem>
+                <SelectItem value="en">{t("user_details_tab.english")}</SelectItem>
+                <SelectItem value="ru">{t("user_details_tab.russian")}</SelectItem>
               </SelectContent>
             </Select>
             {formik.touched.lan && formik.errors.lan && (

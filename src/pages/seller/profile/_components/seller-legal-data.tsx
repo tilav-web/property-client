@@ -30,7 +30,7 @@ export default function SellerLegalData() {
         <div className="text-center space-y-3">
           <XCircle className="w-12 h-12 mx-auto text-muted-foreground" />
           <p className="text-muted-foreground">
-            {t("pages.seller_data_page.no_seller_data")}
+            {t("seller_data_page.no_seller_data")}
           </p>
         </div>
       </div>
@@ -61,10 +61,10 @@ export default function SellerLegalData() {
           {/* Header */}
           <div className="space-y-2">
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-balance">
-              {t("pages.seller_data_page.seller_information")}
+              {t("seller_data_page.seller_information")}
             </h1>
             <p className="text-muted-foreground">
-              {t("pages.seller_data_page.manage_your_business")}
+              {t("seller_data_page.manage_your_business")}
             </p>
           </div>
 
@@ -77,10 +77,10 @@ export default function SellerLegalData() {
                 </div>
                 <div>
                   <CardTitle>
-                    {t("pages.seller_data_page.general_details")}
+                    {t("seller_data_page.general_details")}
                   </CardTitle>
                   <CardDescription>
-                    {t("pages.seller_data_page.business_information_status")}
+                    {t("seller_data_page.business_information_status")}
                   </CardDescription>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function SellerLegalData() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">
-                    {t("pages.seller_data_page.business_type")}
+                    {t("seller_data_page.business_type")}
                   </p>
                   <p className="font-medium capitalize">
                     {seller?.business_type.replace("_", " ")}
@@ -97,33 +97,33 @@ export default function SellerLegalData() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">
-                    {t("pages.seller_data_page.passport")}
+                    {t("seller_data_page.passport")}
                   </p>
                   <p className="font-medium font-mono">{seller?.passport}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">
-                    {t("pages.seller_data_page.status")}
+                    {t("seller_data_page.status")}
                   </p>
                   <div>{getStatusBadge(seller?.status)}</div>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">
-                    {t("pages.seller_data_page.registration_status")}
+                    {t("seller_data_page.registration_status")}
                   </p>
                   <div className="flex items-center gap-2">
                     {seller?.status ? (
                       <>
                         <CheckCircle2 className="w-4 h-4 text-green-500" />
                         <span className="font-medium">
-                          {t("pages.seller_data_page.registered")}
+                          {t("seller_data_page.registered")}
                         </span>
                       </>
                     ) : (
                       <>
                         <XCircle className="w-4 h-4 text-destructive" />
                         <span className="font-medium">
-                          {t("pages.seller_data_page.not_registered")}
+                          {t("seller_data_page.not_registered")}
                         </span>
                       </>
                     )}
@@ -131,7 +131,7 @@ export default function SellerLegalData() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">
-                    {t("pages.seller_data_page.created_at")}
+                    {t("seller_data_page.created_at")}
                   </p>
                   <p className="font-medium">
                     {seller?.createdAt &&
@@ -144,7 +144,7 @@ export default function SellerLegalData() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">
-                    {t("pages.seller_data_page.updated_at")}
+                    {t("seller_data_page.updated_at")}
                   </p>
                   <p className="font-medium">
                     {seller?.updatedAt &&
@@ -169,10 +169,10 @@ export default function SellerLegalData() {
                   </div>
                   <div>
                     <CardTitle>
-                      {t("pages.seller_data_page.bank_account")}
+                      {t("seller_data_page.bank_account")}
                     </CardTitle>
                     <CardDescription>
-                      {t("pages.seller_data_page.your_banking_information")}
+                      {t("seller_data_page.your_banking_information")}
                     </CardDescription>
                   </div>
                 </div>
@@ -181,7 +181,7 @@ export default function SellerLegalData() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t("pages.seller_data_page.bank_name")}
+                      {t("seller_data_page.bank_name")}
                     </p>
                     <p className="font-medium">
                       {seller?.bank_account.bank_name}
@@ -189,7 +189,7 @@ export default function SellerLegalData() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t("pages.seller_data_page.account_number")}
+                      {t("seller_data_page.account_number")}
                     </p>
                     <p className="font-medium font-mono">
                       {seller?.bank_account.account_number}
@@ -197,7 +197,7 @@ export default function SellerLegalData() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t("pages.seller_data_page.owner_full_name")}
+                      {t("seller_data_page.owner_full_name")}
                     </p>
                     <p className="font-medium">
                       {seller?.bank_account.owner_full_name}
@@ -205,7 +205,7 @@ export default function SellerLegalData() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t("pages.seller_data_page.mfo")}
+                      {t("seller_data_page.mfo")}
                     </p>
                     <p className="font-medium font-mono">
                       {seller?.bank_account.mfo}
@@ -213,7 +213,7 @@ export default function SellerLegalData() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t("pages.seller_data_page.swift_code")}
+                      {t("seller_data_page.swift_code")}
                     </p>
                     <p className="font-medium font-mono">
                       {seller?.bank_account.swift_code}
@@ -235,7 +235,7 @@ export default function SellerLegalData() {
                     </div>
                     <div>
                       <CardTitle>
-                        {t("pages.seller_data_page.self_employed_details")}
+                        {t("seller_data_page.self_employed_details")}
                       </CardTitle>
                       <CardDescription>
                         {t(
@@ -249,7 +249,7 @@ export default function SellerLegalData() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">
-                        {t("pages.seller_data_page.full_name")}
+                        {t("seller_data_page.full_name")}
                       </p>
                       <p className="font-medium">
                         {seller?.self_employed.first_name}{" "}
@@ -259,7 +259,7 @@ export default function SellerLegalData() {
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">
-                        {t("pages.seller_data_page.birth_date")}
+                        {t("seller_data_page.birth_date")}
                       </p>
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-muted-foreground" />
@@ -276,7 +276,7 @@ export default function SellerLegalData() {
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">
-                        {t("pages.seller_data_page.jshshir")}
+                        {t("seller_data_page.jshshir")}
                       </p>
                       <p className="font-medium font-mono">
                         {seller?.self_employed.jshshir}
@@ -284,7 +284,7 @@ export default function SellerLegalData() {
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">
-                        {t("pages.seller_data_page.registration_number")}
+                        {t("seller_data_page.registration_number")}
                       </p>
                       <p className="font-medium font-mono">
                         {seller?.self_employed.registration_number}
@@ -292,7 +292,7 @@ export default function SellerLegalData() {
                     </div>
                     <div className="space-y-1 sm:col-span-2">
                       <p className="text-sm text-muted-foreground">
-                        {t("pages.seller_data_page.registration_address")}
+                        {t("seller_data_page.registration_address")}
                       </p>
                       <p className="font-medium">
                         {seller?.self_employed.registration_address}
@@ -300,21 +300,21 @@ export default function SellerLegalData() {
                     </div>
                     <div className="space-y-1">
                       <p className="text-sm text-muted-foreground">
-                        {t("pages.seller_data_page.vat_payer")}
+                        {t("seller_data_page.vat_payer")}
                       </p>
                       <div className="flex items-center gap-2">
                         {seller?.self_employed.is_vat_payer ? (
                           <>
                             <CheckCircle2 className="w-4 h-4 text-green-500" />
                             <span className="font-medium">
-                              {t("pages.seller_data_page.yes")}
+                              {t("seller_data_page.yes")}
                             </span>
                           </>
                         ) : (
                           <>
                             <XCircle className="w-4 h-4 text-muted-foreground" />
                             <span className="font-medium">
-                              {t("pages.seller_data_page.no")}
+                              {t("seller_data_page.no")}
                             </span>
                           </>
                         )}
@@ -327,7 +327,7 @@ export default function SellerLegalData() {
                     <div className="flex items-center gap-2">
                       <FileText className="w-4 h-4 text-muted-foreground" />
                       <p className="text-sm font-medium">
-                        {t("pages.seller_data_page.documents")}
+                        {t("seller_data_page.documents")}
                       </p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -343,10 +343,10 @@ export default function SellerLegalData() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium truncate">
-                              {t("pages.seller_data_page.passport_file")}
+                              {t("seller_data_page.passport_file")}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                              {t("pages.seller_data_page.view_document")}
+                              {t("seller_data_page.view_document")}
                             </p>
                           </div>
                           <Download className="w-4 h-4 text-muted-foreground group-hover:text-foreground" />
@@ -371,7 +371,7 @@ export default function SellerLegalData() {
                               )}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                              {t("pages.seller_data_page.view_document")}
+                              {t("seller_data_page.view_document")}
                             </p>
                           </div>
                           <Download className="w-4 h-4 text-muted-foreground group-hover:text-foreground" />
@@ -389,10 +389,10 @@ export default function SellerLegalData() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium truncate">
-                              {t("pages.seller_data_page.vat_file")}
+                              {t("seller_data_page.vat_file")}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                              {t("pages.seller_data_page.view_document")}
+                              {t("seller_data_page.view_document")}
                             </p>
                           </div>
                           <Download className="w-4 h-4 text-muted-foreground group-hover:text-foreground" />
@@ -414,7 +414,7 @@ export default function SellerLegalData() {
                   </div>
                   <div>
                     <CardTitle>
-                      {t("pages.seller_data_page.commissioner_details")}
+                      {t("seller_data_page.commissioner_details")}
                     </CardTitle>
                     <CardDescription>
                       {t(
@@ -428,7 +428,7 @@ export default function SellerLegalData() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t("pages.seller_data_page.company")}
+                      {t("seller_data_page.company")}
                     </p>
                     <p className="font-medium">
                       {seller?.commissioner.company}
@@ -436,7 +436,7 @@ export default function SellerLegalData() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t("pages.seller_data_page.account_number")}
+                      {t("seller_data_page.account_number")}
                     </p>
                     <p className="font-medium font-mono">
                       {seller?.commissioner.account_number}
@@ -444,7 +444,7 @@ export default function SellerLegalData() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t("pages.seller_data_page.contract_number")}
+                      {t("seller_data_page.contract_number")}
                     </p>
                     <p className="font-medium font-mono">
                       {seller?.commissioner.contract_number}
@@ -452,7 +452,7 @@ export default function SellerLegalData() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t("pages.seller_data_page.inn_or_jshshir")}
+                      {t("seller_data_page.inn_or_jshshir")}
                     </p>
                     <p className="font-medium font-mono">
                       {seller?.commissioner.inn_or_jshshir}
@@ -460,7 +460,7 @@ export default function SellerLegalData() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t("pages.seller_data_page.mfo")}
+                      {t("seller_data_page.mfo")}
                     </p>
                     <p className="font-medium font-mono">
                       {seller?.commissioner.mfo}
@@ -468,7 +468,7 @@ export default function SellerLegalData() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t("pages.seller_data_page.contract_start_date")}
+                      {t("seller_data_page.contract_start_date")}
                     </p>
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-muted-foreground" />
@@ -485,7 +485,7 @@ export default function SellerLegalData() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-muted-foreground">
-                      {t("pages.seller_data_page.contract_end_date")}
+                      {t("seller_data_page.contract_end_date")}
                     </p>
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-muted-foreground" />
@@ -508,7 +508,7 @@ export default function SellerLegalData() {
                     <div className="flex items-center gap-2">
                       <FileText className="w-4 h-4 text-muted-foreground" />
                       <p className="text-sm font-medium">
-                        {t("pages.seller_data_page.contract_document")}
+                        {t("seller_data_page.contract_document")}
                       </p>
                     </div>
                     <a
@@ -522,10 +522,10 @@ export default function SellerLegalData() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium truncate">
-                          {t("pages.seller_data_page.contract_file")}
+                          {t("seller_data_page.contract_file")}
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          {t("pages.seller_data_page.view_document")}
+                          {t("seller_data_page.view_document")}
                         </p>
                       </div>
                       <Download className="w-4 h-4 text-muted-foreground group-hover:text-foreground" />

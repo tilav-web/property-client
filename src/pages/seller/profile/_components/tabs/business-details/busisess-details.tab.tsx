@@ -18,7 +18,7 @@ export default function BusisessDetailsTab({
       ) : seller?.business_type === "mchj" ? (
         <MchjSection handleSelectTab={handleSelectTab} />
       ) : (
-        <p>{t("pages.busisess_details_tab.business_form_not_selected")}</p>
+        <p>{t("busisess_details_tab.business_form_not_selected")}</p>
       )}
     </div>
   );
