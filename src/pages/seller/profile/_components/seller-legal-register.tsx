@@ -58,21 +58,21 @@ export default function SellerLegalRegister() {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <div className="bg-white mb-16 p-4 rounded-2xl">
         <h3 className="text-2xl font-bold">
           {t("pages.seller_register_page.business_registration")}
         </h3>
         <p>{t("pages.seller_register_page.fill_your_details")}</p>
       </div>
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full">
         <Tabs
           defaultValue={selectedTab}
           value={selectedTab}
           onValueChange={setSelectedTab}
-          className="flex-row gap-4 items-start"
+          className="flex flex-col lg:flex-row gap-4 items-start"
         >
-          <div className="max-w-md w-full bg-white p-8 rounded-2xl">
+          <div className="w-full lg:max-w-xs bg-white p-8 rounded-2xl">
             <h5 className="mb-4 text-2xl font-bold">
               {t("pages.seller_register_page.process")}
             </h5>
@@ -170,48 +170,53 @@ export default function SellerLegalRegister() {
             </div>
           </div>
 
-          {/* Business type tab */}
-          <TabsContent
-            className="bg-white rounded-2xl p-6"
-            value="business_type"
-          >
-            <BusinessTypeTab handleSelectTab={handleSelectTab} />
-          </TabsContent>
+          <div className="w-full">
+            {/* Business type tab */}
+            <TabsContent
+              className="bg-white rounded-2xl p-6"
+              value="business_type"
+            >
+              <BusinessTypeTab handleSelectTab={handleSelectTab} />
+            </TabsContent>
 
-          {/* User details tab */}
-          <TabsContent
-            className="bg-white rounded-2xl p-6"
-            value="user_details"
-          >
-            <UserDetailsTab handleSelectTab={handleSelectTab} />
-          </TabsContent>
+            {/* User details tab */}
+            <TabsContent
+              className="bg-white rounded-2xl p-6"
+              value="user_details"
+            >
+              <UserDetailsTab handleSelectTab={handleSelectTab} />
+            </TabsContent>
 
-          {/* Business details tab */}
-          <TabsContent
-            className="bg-white rounded-2xl p-4"
-            value="busisess_details"
-          >
-            <BusisessDetailsTab handleSelectTab={handleSelectTab} />
-          </TabsContent>
+            {/* Business details tab */}
+            <TabsContent
+              className="bg-white rounded-2xl p-4"
+              value="busisess_details"
+            >
+              <BusisessDetailsTab handleSelectTab={handleSelectTab} />
+            </TabsContent>
 
-          {/* Bank account number */}
-          <TabsContent
-            className="bg-white rounded-2xl p-4"
-            value="bank_account_number"
-          >
-            <BankAccountNumberTab handleSelectTab={handleSelectTab} />
-          </TabsContent>
+            {/* Bank account number */}
+            <TabsContent
+              className="bg-white rounded-2xl p-4"
+              value="bank_account_number"
+            >
+              <BankAccountNumberTab handleSelectTab={handleSelectTab} />
+            </TabsContent>
 
-          {/* Commissioner */}
-          <TabsContent
-            className="bg-white rounded-2xl p-4"
-            value="commissioner"
-          >
-            <CommissionerTab handleSelectTab={handleSelectTab} />
-          </TabsContent>
-          <TabsContent className="bg-white rounded-2xl p-4" value="finish_tab">
-            <FinishTab />
-          </TabsContent>
+            {/* Commissioner */}
+            <TabsContent
+              className="bg-white rounded-2xl p-4"
+              value="commissioner"
+            >
+              <CommissionerTab handleSelectTab={handleSelectTab} />
+            </TabsContent>
+            <TabsContent
+              className="bg-white rounded-2xl p-4"
+              value="finish_tab"
+            >
+              <FinishTab />
+            </TabsContent>
+          </div>
         </Tabs>
       </div>
     </div>

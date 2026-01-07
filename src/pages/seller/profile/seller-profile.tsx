@@ -13,7 +13,7 @@ export default function SellerProfile() {
 
   if (seller === undefined) return <Loading />;
 
-  if (!seller && user) {
+  if ((!seller || seller.status === "in_progress") && user) {
     return <SellerRegisterTabs />;
   }
 

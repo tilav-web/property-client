@@ -13,7 +13,7 @@ export default function SellerRegisterTabs() {
 
   return (
     <div className="flex justify-center">
-      <div className="w-full max-w-2xl bg-white rounded-2xl p-6">
+      <div className="w-full bg-white rounded-2xl p-6">
         {user?.role === "physical" ? (
           <SellerPhysicalRegister />
         ) : (
