@@ -12,13 +12,12 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { serverUrl } from "@/utils/shared";
-import { useNavigate } from "react-router-dom";
+import type { NavigateFunction } from "react-router-dom";
 
 export const getColumns = (
-  openEditModal: (seller: ISeller) => void
+  openEditModal: (seller: ISeller) => void,
+  navigate: NavigateFunction
 ): ColumnDef<ISeller>[] => {
-  const navigate = useNavigate();
-
   return [
     {
       accessorKey: "user.first_name",

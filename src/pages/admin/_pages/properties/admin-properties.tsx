@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { getColumns } from "./components/columns";
 import {
   Select,
@@ -78,7 +78,8 @@ export default function AdminProperties() {
     queryClient.invalidateQueries({ queryKey: ["admin-properties"] });
   };
 
-  const columns = getColumns(openEditModal);
+  const navigate = useNavigate();
+  const columns = getColumns(openEditModal, navigate);
 
   const applySearch = () => {
     setSearchParams({

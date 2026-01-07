@@ -1,5 +1,5 @@
-import { type ColumnDef } from '@tanstack/react-table';
-import { type IAdminProperty } from '@/interfaces/admin/property/admin-property.interface'; // Changed to IAdminProperty
+import { type ColumnDef } from "@tanstack/react-table";
+import { type IAdminProperty } from "@/interfaces/admin/property/admin-property.interface"; // Changed to IAdminProperty
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,24 +7,25 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { MoreHorizontal } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { MoreHorizontal } from "lucide-react";
+import type { NavigateFunction } from "react-router-dom";
 
 export const getColumns = (
   openEditModal: (property: IAdminProperty) => void, // Changed to IAdminProperty
-): ColumnDef<IAdminProperty>[] => { // Changed to IAdminProperty
-  const navigate = useNavigate();
+  navigate: NavigateFunction
+): ColumnDef<IAdminProperty>[] => {
+  // Changed to IAdminProperty
   return [
     {
-      accessorKey: 'title',
-      header: 'Title',
+      accessorKey: "title",
+      header: "Title",
       cell: ({ row }) => <div>{row.original.title.uz}</div>, // Changed to .uz
     },
     {
-      accessorKey: 'author.first_name',
-      header: 'Author',
+      accessorKey: "author.first_name",
+      header: "Author",
       cell: ({ row }) => (
         <div>
           {row.original.author?.first_name} {row.original.author?.last_name}
@@ -32,16 +33,16 @@ export const getColumns = (
       ),
     },
     {
-      accessorKey: 'category',
-      header: 'Category',
+      accessorKey: "category",
+      header: "Category",
     },
     {
-      accessorKey: 'status',
-      header: 'Status',
+      accessorKey: "status",
+      header: "Status",
     },
     {
-      accessorKey: 'price',
-      header: 'Price',
+      accessorKey: "price",
+      header: "Price",
       cell: ({ row }) => (
         <div>
           {row.original.price} {row.original.currency}
@@ -49,7 +50,7 @@ export const getColumns = (
       ),
     },
     {
-      id: 'actions',
+      id: "actions",
       cell: ({ row }) => {
         const property = row.original;
 
