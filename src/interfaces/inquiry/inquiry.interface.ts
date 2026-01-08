@@ -29,3 +29,17 @@ export interface IInquiry {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IInquiryPopulated extends Omit<IInquiry, 'user' | 'property'> {
+  user: {
+    _id: string;
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    avatar?: string;
+  };
+  property: {
+    _id: string;
+    title?: string;
+  };
+}

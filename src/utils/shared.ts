@@ -120,4 +120,11 @@ export const API_ENDPOINTS = {
   AI_PROPERTY: {
     searchProperty: "ai-property/search",
   },
+  INQUIRY_RESPONSE: {
+    base: "/inquiry-responses",
+  },
+  INQUIRY: {
+    base: "/inquiry",
+    myResponses: "/inquiry/my-responses",
+  },
 };

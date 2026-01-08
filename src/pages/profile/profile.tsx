@@ -12,7 +12,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import AccountDetails from "./_components/account_details";
 import SavedPropertiesTab from "./_components/saved-properties-tab";
+import InquiryResponsesTab from "./_components/inquiry-responses-tab";
 import { useSaveStore } from "@/stores/save.store";
+import { useInquiryResponseStore } from "@/stores/inquiry-response.store";
 import { Globe, ChevronDown, LogOut } from "lucide-react";
 import type { ILanguage } from "@/interfaces/language/language.interface";
 import { userService } from "@/services/user.service";
@@ -30,16 +32,22 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useEffect } from "react";
 
 export default function Profile() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { savedProperties } = useSaveStore();
+  const { inquiryResponses, fetchMyInquiryResponses } = useInquiryResponseStore();
   const { user, logout } = useUserStore();
   const { logout: sellerLogout } = useSellerStore();
   const { setLanguage } = useLanguageStore();
 
   const languages = Object.values<ILanguage>(["uz", "ru", "en"]);
+
+  useEffect(() => {
+    fetchMyInquiryResponses();
+  }, [fetchMyInquiryResponses]);
 
   const handleChangeUserLan = async (lan: ILanguage) => {
     try {
@@ -111,7 +119,8 @@ export default function Profile() {
                       className={`w-2 h-2 rounded-full ${
                         lan === i18n.language ? "bg-green-500" : "bg-gray-300"
                       }`}
-                    ></span>
+                    >
+                    </span>
                     {t(`common.header.languages.${lan}`)}
                   </DropdownMenuItem>
                 ))}
@@ -196,7 +205,7 @@ export default function Profile() {
               >
                 {t("pages.profile_page.contacts")}
                 <span className="ml-2 bg-gray-200 text-gray-700 text-xs font-semibold px-2 py-0.5 rounded-full">
-                  2
+                  {inquiryResponses.length}
                 </span>
               </TabsTrigger>
             </TabsList>
@@ -216,11 +225,7 @@ export default function Profile() {
                 </div>
               </TabsContent>
               <TabsContent className="min-h-96 m-0" value="contact_properties">
-                <div className="text-center py-12">
-                  <p className="text-gray-500">
-                    {t("pages.profile_page.contacts_placeholder")}
-                  </p>
-                </div>
+                <InquiryResponsesTab />
               </TabsContent>
             </div>
           </Tabs>

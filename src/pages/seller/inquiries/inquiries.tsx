@@ -1,5 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { inquiryService } from "@/services/inquiry.service";
+import { inquiryResponseService } from "@/services/inquiry-response.service";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,8 +18,27 @@ import {
 } from "lucide-react";
 import type { IInquiry } from "@/interfaces/inquiry/inquiry.interface";
 import { serverUrl } from "@/utils/shared";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import type { CreateInquiryResponseDto } from "@/modules/inquiry/dto/create-inquiry-response.dto";
+import { toast } from "sonner";
 
 export default function InquiriesPage() {
+  const queryClient = useQueryClient();
+  const [showDialog, setShowDialog] = useState(false);
+  const [dialogType, setDialogType] = useState<"approve" | "reject" | null>(
+    null
+  );
+  const [selectedInquiry, setSelectedInquiry] = useState<IInquiry | null>(null);
+  const [description, setDescription] = useState("");
 
   const {
     data: inquiries,
@@ -26,6 +47,22 @@ export default function InquiriesPage() {
   } = useQuery({
     queryKey: ["inquiries"],
     queryFn: () => inquiryService.findSellerInquiries(),
+  });
+
+  const { mutate: createInquiryResponse, isPending } = useMutation({
+    mutationFn: (dto: CreateInquiryResponseDto) =>
+      inquiryResponseService.createInquiryResponse(dto),
+    onSuccess: () => {
+      toast.success("So'rovga javob yuborildi!");
+      queryClient.invalidateQueries({ queryKey: ["inquiries"] });
+      setShowDialog(false);
+      setDescription("");
+      setSelectedInquiry(null);
+    },
+    onError: (err: any) => {
+      console.log(err);
+      toast.error(err?.response?.data?.message || "Xatolik yuz berdi!");
+    },
   });
 
   const getInitials = (
@@ -41,6 +78,28 @@ export default function InquiriesPage() {
       month: "long",
       day: "numeric",
     });
+  };
+
+  const handleOpenDialog = (type: "approve" | "reject", inquiry: IInquiry) => {
+    setDialogType(type);
+    setSelectedInquiry(inquiry);
+    setShowDialog(true);
+  };
+
+  const handleSubmitResponse = () => {
+    if (!selectedInquiry || !dialogType) return;
+
+    const status = dialogType === "approve" ? "approved" : "rejected";
+
+    const dto: CreateInquiryResponseDto = {
+      status,
+      description,
+      user: selectedInquiry.user._id,
+      inquiry: selectedInquiry._id,
+      property: selectedInquiry.property._id,
+    };
+
+    createInquiryResponse(dto);
   };
 
   if (isLoading) {
@@ -83,18 +142,19 @@ export default function InquiriesPage() {
                   <div className="flex items-center space-x-3">
                     <Avatar className="h-12 w-12">
                       <AvatarImage
-                        src={`${serverUrl}/uploads${inquiry.user.avatar ?? ''}`}
+                        src={`${serverUrl}/uploads${inquiry.user.avatar ?? ""}`}
                       />
                       <AvatarFallback>
                         {getInitials(
-                          inquiry.user.first_name ?? '',
-                          inquiry.user.last_name ?? ''
+                          inquiry.user.first_name ?? "",
+                          inquiry.user.last_name ?? ""
                         )}
                       </AvatarFallback>
                     </Avatar>
                     <div>
                       <CardTitle className="text-lg">
-                        {inquiry.user.first_name ?? ''} {inquiry.user.last_name ?? ''}
+                        {inquiry.user.first_name ?? ""}{" "}
+                        {inquiry.user.last_name ?? ""}
                       </CardTitle>
                       <p className="text-sm text-muted-foreground">
                         {inquiry?.user?.email?.value}
@@ -154,6 +214,8 @@ export default function InquiriesPage() {
                       size="sm"
                       variant="outline"
                       className="gap-1 text-red-600 hover:text-red-700"
+                      onClick={() => handleOpenDialog("reject", inquiry)}
+                      disabled={inquiry.status !== "pending"}
                     >
                       <X className="h-4 w-4" />
                       Rad etish
@@ -161,6 +223,8 @@ export default function InquiriesPage() {
                     <Button
                       size="sm"
                       className="gap-1 bg-green-600 hover:bg-green-700"
+                      onClick={() => handleOpenDialog("approve", inquiry)}
+                      disabled={inquiry.status !== "pending"}
                     >
                       <Check className="h-4 w-4" />
                       Qabul qilish
@@ -172,6 +236,45 @@ export default function InquiriesPage() {
           ))}
         </div>
       )}
+
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>
+              So'rovni {dialogType === "approve" ? "tasdiqlash" : "rad etish"}
+            </DialogTitle>
+            <DialogDescription>
+              {dialogType === "approve"
+                ? "So'rovni tasdiqlash uchun izoh qoldiring."
+                : "So'rovni rad etish uchun sababini kiriting."}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid w-full gap-1.5">
+              <Label htmlFor="description">Izoh</Label>
+              <Textarea
+                placeholder="Izoh yozing..."
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              type="submit"
+              onClick={handleSubmitResponse}
+              disabled={isPending || !description.trim()}
+            >
+              {isPending
+                ? "Yuklanmoqda..."
+                : dialogType === "approve"
+                ? "Tasdiqlash"
+                : "Rad etish"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
