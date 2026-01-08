@@ -9,7 +9,6 @@ import {
   ArrowRight,
   Loader2,
 } from "lucide-react";
-import { serverUrl } from "@/utils/shared";
 import { Button } from "@/components/ui/button";
 
 export default function InquiryResponsesTab() {
@@ -75,8 +74,10 @@ export default function InquiryResponsesTab() {
                   <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
                     {response.seller.user?.avatar ? (
                       <img
-                        src={`${serverUrl}${response.seller.user?.avatar}`}
-                        alt={response.seller.user?.first_name || "Foydalanuvchi"}
+                        src={response.seller.user?.avatar}
+                        alt={
+                          response.seller.user?.first_name || "Foydalanuvchi"
+                        }
                         className="w-12 h-12 rounded-full object-cover"
                       />
                     ) : (
