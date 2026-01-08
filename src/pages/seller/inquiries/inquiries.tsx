@@ -28,7 +28,6 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import type { CreateInquiryResponseDto } from "@/modules/inquiry/dto/create-inquiry-response.dto";
 import { toast } from "sonner";
 
 export default function InquiriesPage() {
@@ -50,8 +49,7 @@ export default function InquiriesPage() {
   });
 
   const { mutate: createInquiryResponse, isPending } = useMutation({
-    mutationFn: (dto: CreateInquiryResponseDto) =>
-      inquiryResponseService.createInquiryResponse(dto),
+    mutationFn: (dto: any) => inquiryResponseService.createInquiryResponse(dto),
     onSuccess: () => {
       toast.success("So'rovga javob yuborildi!");
       queryClient.invalidateQueries({ queryKey: ["inquiries"] });
@@ -91,7 +89,7 @@ export default function InquiriesPage() {
 
     const status = dialogType === "approve" ? "approved" : "rejected";
 
-    const dto: CreateInquiryResponseDto = {
+    const dto: any = {
       status,
       description,
       user: selectedInquiry.user._id,
