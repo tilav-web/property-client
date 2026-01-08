@@ -17,4 +17,5 @@ export interface IApartmentSale extends IProperty {
   parking?: boolean;
   elevator?: boolean;
   amenities?: AmenitiesType[];
+  mortgage_available?: boolean;
 }

@@ -232,35 +232,37 @@ export default function BidPriceButton({
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* So'rov turini tanlash */}
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  {t("common.buttons.bid_price_form.inquiry_type")}
-                </label>
-                <div className="grid md:grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => handleInputChange("type", "purchase")}
-                    className={`p-3 border rounded-lg text-center transition-colors ${
-                      formData.type === "purchase"
-                        ? "border-blue-500 bg-blue-50 text-blue-700"
-                        : "border-gray-300 hover:border-gray-400"
-                    }`}
-                  >
-                    {t("common.buttons.bid_price_form.purchase")}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleInputChange("type", "mortgage")}
-                    className={`p-3 border rounded-lg text-center transition-colors ${
-                      formData.type === "mortgage"
-                        ? "border-blue-500 bg-blue-50 text-blue-700"
-                        : "border-gray-300 hover:border-gray-400"
-                    }`}
-                  >
-                    {t("common.buttons.bid_price_form.mortgage")}
-                  </button>
+              {property.mortgage_available ? (
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    {t("common.buttons.bid_price_form.inquiry_type")}
+                  </label>
+                  <div className="grid md:grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => handleInputChange("type", "purchase")}
+                      className={`p-3 border rounded-lg text-center transition-colors ${
+                        formData.type === "purchase"
+                          ? "border-blue-500 bg-blue-50 text-blue-700"
+                          : "border-gray-300 hover:border-gray-400"
+                      }`}
+                    >
+                      {t("common.buttons.bid_price_form.purchase")}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleInputChange("type", "mortgage")}
+                      className={`p-3 border rounded-lg text-center transition-colors ${
+                        formData.type === "mortgage"
+                          ? "border-blue-500 bg-blue-50 text-blue-700"
+                          : "border-gray-300 hover:border-gray-400"
+                      }`}
+                    >
+                      {t("common.buttons.bid_price_form.mortgage")}
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ) : null}
 
               {/* Narx slider */}
               <div className="space-y-4">
