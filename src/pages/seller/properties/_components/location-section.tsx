@@ -156,7 +156,7 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
     }
 
     // Update draggable status
-    placemarkRef.current.options.set("draggable", !isSubmitting);
+    placemarkRef.current.properties.set("draggable", !isSubmitting);
   }, [location, isSubmitting]);
 
   return (

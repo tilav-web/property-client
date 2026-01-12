@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Home, DollarSign, MapPin } from "lucide-react";
+import { Home, MapPin } from "lucide-react";
 import type { CategoryType } from "@/interfaces/types/category.type";
 
 interface Props {

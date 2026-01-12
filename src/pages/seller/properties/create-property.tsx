@@ -1,6 +1,5 @@
 // components/property/PropertyForm.tsx
 import { useState } from "react";
-import type { CategoryType } from "@/interfaces/types/category.type";
 import MediaSection from "./_components/media-section";
 import BasicInfoSection from "./_components/basic-info-section";
 import ApartmentSaleForm, {
@@ -16,13 +15,15 @@ import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-type CategorySpecificData =
-  | ApartmentSaleFormData
-  | ApartmentRentFormData
-  | Record<string, any>;
+// CategorySpecificData is not directly used here after refactoring,
+// as the individual forms handle their own data types.
+// Removing this type definition as it's no longer necessary here.
 
 export default function PropertyForm() {
-  const {
+  const navigate = useNavigate(); // Initialize useNavigate
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { // Moved inside the function
     step,
     photos,
     videos,
@@ -40,9 +41,6 @@ export default function PropertyForm() {
     prevStep,
     reset,
   } = usePropertyCreationStore();
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
