@@ -11,9 +11,10 @@ const mapContainerStyle = {
 interface Props {
   location: { lat: number; lng: number };
   setLocation: (loc: { lat: number; lng: number }) => void;
+  isSubmitting?: boolean; // New prop for disabling interaction
 }
 
-export default function LocationSection({ location, setLocation }: Props) {
+export default function LocationSection({ location, setLocation, isSubmitting = false }: Props) {
   const mapRef = useRef<ymaps.Map | null>(null);
   const placemarkRef = useRef<ymaps.Placemark | null>(null);
   const ymapsReadyPromise = useRef<Promise<void> | null>(null);
@@ -41,20 +42,22 @@ export default function LocationSection({ location, setLocation }: Props) {
 
   const handleMapClick = useCallback(
     (e: ymaps.IEvent<ymaps.Map, MouseEvent>) => {
+      if (isSubmitting) return; // Prevent clicks when submitting
       const coords = e.get("coords");
       if (coords) {
         setLocation({ lat: coords[0], lng: coords[1] });
       }
     },
-    [setLocation]
+    [setLocation, isSubmitting]
   );
 
   const handlePlacemarkDrag = useCallback(() => {
+    if (isSubmitting) return; // Prevent dragging when submitting
     const coords = placemarkRef.current?.geometry?.getCoordinates();
     if (coords) {
       setLocation({ lat: coords[0], lng: coords[1] });
     }
-  }, [setLocation]);
+  }, [setLocation, isSubmitting]);
 
   // Get user's location on initial load
   useEffect(() => {
@@ -90,21 +93,24 @@ export default function LocationSection({ location, setLocation }: Props) {
           controls: ["zoomControl", "fullscreenControl", "geolocationControl"],
         });
 
+        // Add 'locationchange' event listener to GeolocationControl
         const geolocationControl = map.controls.get("geolocationControl");
-        geolocationControl.events.add(
-          "locationchange",
-          (e: ymaps.IEvent<ymaps.control.GeolocationControl, { position: number[] }>) => {
-            const coords = e.get("position");
-            if (coords) {
-              setLocation({ lat: coords[0], lng: coords[1] });
+        if (geolocationControl) {
+          geolocationControl.events.add(
+            "locationchange",
+            (e: ymaps.IEvent<ymaps.control.GeolocationControl, { position: number[] }>) => {
+              const coords = e.get("position");
+              if (coords) {
+                setLocation({ lat: coords[0], lng: coords[1] });
+              }
             }
-          }
-        );
+          );
+        }
 
         const placemark = new ymaps.Placemark(
           initialCoords,
           {},
-          { preset: "islands#redIcon", draggable: true }
+          { preset: "islands#redIcon", draggable: !isSubmitting } // Disable dragging based on prop
         );
 
         map.geoObjects.add(placemark);
@@ -130,9 +136,9 @@ export default function LocationSection({ location, setLocation }: Props) {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadYmaps, handleMapClick, handlePlacemarkDrag, setLocation]);
+  }, [loadYmaps, handleMapClick, handlePlacemarkDrag, setLocation, isSubmitting]); // Add isSubmitting to deps
 
-  // Update placemark position when `location` prop changes
+  // Update placemark position and draggable status when `location` or `isSubmitting` prop changes
   useEffect(() => {
     if (!placemarkRef.current || !mapRef.current) return;
 
@@ -148,7 +154,10 @@ export default function LocationSection({ location, setLocation }: Props) {
       placemarkRef.current.geometry?.setCoordinates(newCoords);
       mapRef.current.setCenter(newCoords);
     }
-  }, [location]);
+
+    // Update draggable status
+    placemarkRef.current.options.set("draggable", !isSubmitting);
+  }, [location, isSubmitting]);
 
   return (
     <Card className="mt-8">
@@ -177,13 +186,18 @@ export default function LocationSection({ location, setLocation }: Props) {
             id="location-map-container"
             className="w-full h-full rounded-lg"
           />
+           {isSubmitting && (
+            <div className="absolute inset-0 bg-gray-200 opacity-50 z-10 flex items-center justify-center">
+              <p className="text-gray-700 font-semibold">Yuklanmoqda...</p>
+            </div>
+          )}
         </div>
 
         <p className="mt-4 text-sm text-gray-600">
           Hozirgi koordinatalar: {location.lat.toFixed(6)},{" "}
           {location.lng.toFixed(6)}
         </p>
-      </CardContent>.
+      </CardContent>
     </Card>
   );
 }

@@ -10,8 +10,11 @@ import ApartmentRentForm, {
   type ApartmentRentFormData,
 } from "./_components/category-forms/apartment-rent.form";
 import LocationSection from "./_components/location-section";
-import SubmitSection from "./_components/submit-section";
 import { propertyService } from "@/services/property.service";
+import { usePropertyCreationStore } from "@/stores/property-creation.store";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 type CategorySpecificData =
   | ApartmentSaleFormData
@@ -19,29 +22,30 @@ type CategorySpecificData =
   | Record<string, any>;
 
 export default function PropertyForm() {
-  const [category, setCategory] = useState<CategoryType | "">("");
+  const {
+    step,
+    photos,
+    videos,
+    category,
+    commonData,
+    categoryData,
+    location,
+    setPhotos,
+    setVideos,
+    setCategory,
+    setCommonData,
+    setCategoryData,
+    setLocation,
+    nextStep,
+    prevStep,
+    reset,
+  } = usePropertyCreationStore();
 
-  // Umumiy ma'lumotlar (b
-  const [commonData, setCommonData] = useState<{
-    title: string;
-    description: string;
-    address: string;
-    price: string | number;
-  }>({
-    title: "",
-    description: "",
-    address: "",
-    price: "",
-  });
-
-  const [location, setLocation] = useState({ lat: 41.2995, lng: 69.2401 });
-  const [photos, setPhotos] = useState<{ file: File; preview: string }[]>([]);
-  const [videos, setVideos] = useState<{ file: File; preview: string }[]>([]);
-
-  // Har bir kategoriya o‘z holicha saqlaydi
-  const [categoryData, setCategoryData] = useState<CategorySpecificData>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async () => {
+    setIsSubmitting(true);
     try {
       const formData = new FormData();
 
@@ -80,57 +84,137 @@ export default function PropertyForm() {
 
       const resData = await propertyService.create(formData);
       console.log("Form data submitted successfully:", resData);
-    } catch (error) {
+      toast.success("Property created successfully!");
+      reset(); // Reset the form after successful submission
+      navigate("/seller/properties"); // Redirect to properties page
+    } catch (error: any) {
       console.error("Error submitting form:", error);
+      toast.error(error.message || "Failed to create property.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const canSubmit = () => {
-    return (
-      photos.length > 0 &&
-      commonData.title &&
-      commonData.description &&
-      commonData.address &&
-      category &&
-      Object.keys(categoryData).length > 0
-    );
+  const canGoNext = () => {
+    switch (step) {
+      case 1: // Photo Upload
+        return photos.length > 0;
+      case 2: // Video Upload (optional, always true to proceed if no videos)
+        return true;
+      case 3: // Basic Info, Category, Location, Category-Specific
+        return (
+          commonData.title &&
+          commonData.description &&
+          commonData.address &&
+          category &&
+          Object.keys(categoryData).length > 0 &&
+          location.lat !== 41.2995 && // Assuming default is 41.2995
+          location.lng !== 69.2401 // Assuming default is 69.2401
+        );
+      default:
+        return false;
+    }
   };
+
+  const isFinalStep = step === 3; // Assuming 3 steps for now: Photos, Videos, Details
+  // The original canSubmit logic will be moved to the final submit button
+  const canSubmit = photos.length > 0 &&
+  commonData.title &&
+  commonData.description &&
+  commonData.address &&
+  category &&
+  Object.keys(categoryData).length > 0;
 
   return (
     <div className="min-h-screen p-4 md:p-8">
       <div className="max-w-5xl mx-auto">
-        <MediaSection
-          photos={photos}
-          setPhotos={setPhotos}
-          videos={videos}
-          setVideos={setVideos}
-        />
+        {/* Step Indicators would go here */}
+        <div className="mb-8 text-center text-lg font-semibold">
+          Step {step} of 3
+        </div>
 
-        <BasicInfoSection
-          data={commonData}
-          setData={setCommonData}
-          category={category}
-          setCategory={setCategory}
-        />
-
-        {/* Kategoriyaga qarab maxsus forma */}
-        {category === "APARTMENT_SALE" && (
-          <ApartmentSaleForm
-            data={categoryData as ApartmentSaleFormData}
-            setData={setCategoryData}
-          />
-        )}
-        {category === "APARTMENT_RENT" && (
-          <ApartmentRentForm
-            data={categoryData as ApartmentRentFormData}
-            setData={setCategoryData}
+        {step === 1 && (
+          <MediaSection
+            photos={photos}
+            setPhotos={setPhotos}
+            videos={videos} // Pass videos even if not used in this step yet, to avoid prop drilling
+            setVideos={setVideos}
+            mediaType="photos" // Indicate that this section is for photos
+            isSubmitting={isSubmitting}
           />
         )}
 
-        <LocationSection location={location} setLocation={setLocation} />
+        {step === 2 && (
+          <MediaSection
+            photos={photos}
+            setPhotos={setPhotos}
+            videos={videos}
+            setVideos={setVideos}
+            mediaType="videos" // Indicate that this section is for videos
+            isSubmitting={isSubmitting}
+          />
+        )}
 
-        <SubmitSection onSubmit={handleSubmit} disabled={!canSubmit()} />
+        {step === 3 && (
+          <>
+            <BasicInfoSection
+              data={commonData}
+              setData={setCommonData}
+              category={category}
+              setCategory={setCategory}
+              isSubmitting={isSubmitting} // Pass isSubmitting prop
+            />
+
+            {/* Kategoriyaga qarab maxsus forma */}
+                    {category === "APARTMENT_SALE" && (
+                      <ApartmentSaleForm
+                        data={categoryData as ApartmentSaleFormData}
+                        setData={setCategoryData}
+                        isSubmitting={isSubmitting} // Pass isSubmitting prop
+                      />
+                    )}            {category === "APARTMENT_RENT" && (
+              <ApartmentRentForm
+                data={categoryData as ApartmentRentFormData}
+                setData={setCategoryData}
+                isSubmitting={isSubmitting} // Pass isSubmitting prop
+              />
+            )}
+
+            <LocationSection location={location} setLocation={setLocation} isSubmitting={isSubmitting} />
+          </>
+        )}
+
+        <div className="mt-8 flex justify-between">
+          {step > 1 && (
+            <button
+              onClick={prevStep}
+              className="px-4 py-2 bg-gray-300 rounded-md"
+              disabled={isSubmitting} // Disable during submission
+            >
+              Back
+            </button>
+          )}
+          {!isFinalStep && (
+            <button
+              onClick={nextStep}
+              disabled={!canGoNext() || isSubmitting} // Disable during submission
+              className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:bg-gray-400 ml-auto"
+            >
+              Next
+            </button>
+          )}
+          {isFinalStep && (
+            <button
+              onClick={handleSubmit}
+              disabled={!canSubmit || isSubmitting}
+              className="px-4 py-2 bg-green-500 text-white rounded-md disabled:bg-gray-400 ml-auto"
+            >
+              {isSubmitting ? "Submitting..." : "Submit Property"}
+            </button>
+          )}
+        </div>
       </div>
+      <Toaster />
     </div>
   );
 }

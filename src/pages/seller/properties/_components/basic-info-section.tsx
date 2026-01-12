@@ -28,6 +28,7 @@ interface Props {
   }) => void;
   category: CategoryType | "";
   setCategory: (cat: CategoryType | "") => void;
+  isSubmitting?: boolean; // New prop for disabling inputs
 }
 
 const categories = [
@@ -40,6 +41,7 @@ export default function BasicInfoSection({
   setData,
   category,
   setCategory,
+  isSubmitting = false,
 }: Props) {
   return (
     <Card className="border-2 shadow-sm hover:shadow-md transition-shadow">
@@ -61,6 +63,7 @@ export default function BasicInfoSection({
             value={data.title}
             onChange={(e) => setData({ ...data, title: e.target.value })}
             className="border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+            disabled={isSubmitting} // Disable during submission
           />
         </div>
 
@@ -73,6 +76,7 @@ export default function BasicInfoSection({
             value={data.description}
             onChange={(e) => setData({ ...data, description: e.target.value })}
             className="border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 min-h-[100px] resize-y"
+            disabled={isSubmitting} // Disable during submission
           />
         </div>
 
@@ -88,6 +92,7 @@ export default function BasicInfoSection({
             value={data.address}
             onChange={(e) => setData({ ...data, address: e.target.value })}
             className="border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 min-h-[80px] resize-y"
+            disabled={isSubmitting} // Disable during submission
           />
         </div>
 
@@ -104,6 +109,7 @@ export default function BasicInfoSection({
               value={data.price}
               onChange={(e) => setData({ ...data, price: e.target.value })}
               className="border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+              disabled={isSubmitting} // Disable during submission
             />
           </div>
 
@@ -113,6 +119,7 @@ export default function BasicInfoSection({
             <Select
               value={category}
               onValueChange={(v) => setCategory(v as CategoryType)}
+              disabled={isSubmitting} // Disable during submission
             >
               <SelectTrigger className="border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200">
                 <SelectValue placeholder="Kategoriyani tanlang" />

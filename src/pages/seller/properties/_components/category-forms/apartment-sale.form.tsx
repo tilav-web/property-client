@@ -38,6 +38,7 @@ interface ApartmentSaleFormData {
 interface Props {
   data: ApartmentSaleFormData;
   setData: (data: ApartmentSaleFormData) => void;
+  isSubmitting?: boolean; // New prop for disabling inputs
 }
 
 // Doimiy ma'lumotlar
@@ -71,7 +72,7 @@ const defaultFormData: ApartmentSaleFormData = {
   mortgage_available: false,
 };
 
-export default function ApartmentSaleForm({ data, setData }: Props) {
+export default function ApartmentSaleForm({ data, setData, isSubmitting = false }: Props) {
   // Ma'lumotlarni default qiymatlar bilan birlashtirish
   const formData = { ...defaultFormData, ...data };
 
@@ -134,6 +135,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
               value={formData.bedrooms}
               onChange={(e) => handleNumberChange("bedrooms", e.target.value)}
               placeholder="3"
+              disabled={isSubmitting} // Disable during submission
             />
           </div>
 
@@ -146,6 +148,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
               value={formData.bathrooms}
               onChange={(e) => handleNumberChange("bathrooms", e.target.value)}
               placeholder="2"
+              disabled={isSubmitting} // Disable during submission
             />
           </div>
 
@@ -160,6 +163,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
                 handleNumberChange("floor_level", e.target.value)
               }
               placeholder="5"
+              disabled={isSubmitting} // Disable during submission
             />
           </div>
 
@@ -174,6 +178,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
                 handleNumberChange("total_floors", e.target.value)
               }
               placeholder="9"
+              disabled={isSubmitting} // Disable during submission
             />
           </div>
         </div>
@@ -190,6 +195,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
               value={formData.area}
               onChange={(e) => handleNumberChange("area", e.target.value)}
               placeholder="85"
+              disabled={isSubmitting} // Disable during submission
             />
           </div>
         </div>
@@ -203,6 +209,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
               onValueChange={(value: string) =>
                 handleSelectChange("repair_type", value)
               }
+              disabled={isSubmitting} // Disable during submission
             >
               <SelectTrigger id="repair_type">
                 <SelectValue placeholder="Tanlang" />
@@ -224,6 +231,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
               onValueChange={(value: string) =>
                 handleSelectChange("heating", value)
               }
+              disabled={isSubmitting} // Disable during submission
             >
               <SelectTrigger id="heating">
                 <SelectValue placeholder="Tanlang" />
@@ -252,6 +260,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
                 onCheckedChange={(checked) =>
                   handleBooleanChange("balcony", checked as boolean)
                 }
+                disabled={isSubmitting} // Disable during submission
               />
               <Label htmlFor="balcony" className="text-sm cursor-pointer">
                 Balkon
@@ -265,6 +274,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
                 onCheckedChange={(checked) =>
                   handleBooleanChange("furnished", checked as boolean)
                 }
+                disabled={isSubmitting} // Disable during submission
               />
               <Label htmlFor="furnished" className="text-sm cursor-pointer">
                 Mebel bilan
@@ -278,6 +288,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
                 onCheckedChange={(checked) =>
                   handleBooleanChange("air_conditioning", checked as boolean)
                 }
+                disabled={isSubmitting} // Disable during submission
               />
               <Label
                 htmlFor="air_conditioning"
@@ -294,6 +305,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
                 onCheckedChange={(checked) =>
                   handleBooleanChange("parking", checked as boolean)
                 }
+                disabled={isSubmitting} // Disable during submission
               />
               <Label htmlFor="parking" className="text-sm cursor-pointer">
                 Parking
@@ -307,6 +319,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
                 onCheckedChange={(checked) =>
                   handleBooleanChange("elevator", checked as boolean)
                 }
+                disabled={isSubmitting} // Disable during submission
               />
               <Label htmlFor="elevator" className="text-sm cursor-pointer">
                 Lift
@@ -323,6 +336,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
               onCheckedChange={(checked) =>
                 handleBooleanChange("mortgage_available", checked as boolean)
               }
+              disabled={isSubmitting} // Disable during submission
             />
             <Label
               htmlFor="mortgage_available"
@@ -347,6 +361,7 @@ export default function ApartmentSaleForm({ data, setData }: Props) {
                   onCheckedChange={(checked) =>
                     handleAmenityChange(amenity, checked as boolean)
                   }
+                  disabled={isSubmitting} // Disable during submission
                 />
                 <Label
                   htmlFor={`amenity-${amenity}`}
