@@ -6,6 +6,7 @@ import SelfEmployedProfile from "./self-employed-profile";
 import PhysicalProfile from "./physical-profile";
 import { useUserStore } from "@/stores/user.store";
 import SellerRegisterTabs from "./_components/seller-register-tabs";
+import FinishTab from "./_components/tabs/finish.tab";
 
 export default function SellerProfile() {
   const { seller } = useSellerStore();
@@ -15,6 +16,9 @@ export default function SellerProfile() {
 
   if ((!seller || seller.status === "in_progress") && user) {
     return <SellerRegisterTabs />;
+  }
+  if (seller && seller.status === "completed") {
+    return <FinishTab />;
   }
 
   if (!seller) {

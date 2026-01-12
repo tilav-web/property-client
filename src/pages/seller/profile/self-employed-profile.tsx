@@ -6,7 +6,7 @@ export default function SelfEmployedProfile() {
   const { seller } = useSellerStore();
   return (
     <>
-      {seller?.status === "approved" ? (
+      {seller?.status === "approved" || seller?.status === "completed" ? (
         <SellerPhysicalData />
       ) : (
         <SellerPhysicalRegister />
