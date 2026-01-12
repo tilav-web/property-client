@@ -126,6 +126,7 @@
       "select_label": "Select {{label}}"
     },
     "not_specified": "Not specified",
+    "continue": "Continue",
     "no_data_available": "No data available",
     "no_coordinates_available": "No coordinates available",
     "alerts": {
@@ -277,7 +278,12 @@
       "you_have_not_added_any_properties_yet": "You haven't added any properties yet. Click the button below to add your first property.",
       "add_first_property": "Add First Property",
       "previous": "Previous",
-      "next": "Next"
+      "next": "Next",
+      "delete_success": "Property deleted successfully.",
+      "delete_error": "Error deleting property.",
+      "delete_confirmation_title": "Are you absolutely sure?",
+      "delete_confirmation_description": "This action cannot be undone. This will permanently delete your property and remove your data from our servers.",
+      "no_property_selected": "No property selected for deletion."
     },
     "hero": {
       "title": "Dream homes in the heart of Uzbekistan",

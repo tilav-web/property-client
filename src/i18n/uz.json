@@ -3,6 +3,7 @@
     "back": "Ortga",
     "login": "Kirish",
     "search": "Qidiruv",
+    "continue": "Davom etish",
     "search_placeholder": "Shahar, mahalla yoki bino",
     "buy": "Sotib olish",
     "rent_apartments": "Ijaraga olish",
@@ -277,7 +278,12 @@
       "you_have_not_added_any_properties_yet": "Siz hali birorta mulk qo'shmagansiz. Birinchi mulkingizni qo'shish uchun quyidagi tugmani bosing.",
       "add_first_property": "Birinchi mulkni qo'shish",
       "previous": "Oldingisi",
-      "next": "Keyingisi"
+      "next": "Keyingisi",
+      "delete_success": "Mulk muvaffaqiyatli o'chirildi.",
+      "delete_error": "Mulkni o'chirishda xato.",
+      "delete_confirmation_title": "Ishonchingiz komilmi?",
+      "delete_confirmation_description": "Bu amalni bekor qilib bo'lmaydi. Bu sizning mulkingizni butunlay o'chirib tashlaydi va ma'lumotlaringizni serverlarimizdan olib tashlaydi.",
+      "no_property_selected": "O'chirish uchun mulk tanlanmagan."
     },
     "hero": {
       "title": "O'zbekiston markazida orzudagi uylar",

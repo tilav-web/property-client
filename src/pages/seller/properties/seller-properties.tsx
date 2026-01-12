@@ -290,7 +290,7 @@ export default function SellerProperties() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>
-              {t("pages.seller_properties_page.cancel")}
+              {t("common.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
@@ -305,7 +305,7 @@ export default function SellerProperties() {
                 );
               }}
             >
-              {t("pages.seller_properties_page.continue")}
+              {t("common.continue")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -126,6 +126,7 @@
       "select_label": "Выберите {{label}}"
     },
     "not_specified": "Не указано",
+    "continue": "Продолжить",
     "no_data_available": "Данные отсутствуют",
     "no_coordinates_available": "Координаты отсутствуют",
     "alerts": {
@@ -277,7 +278,12 @@
       "you_have_not_added_any_properties_yet": "Вы еще не добавили ни одного объекта. Нажмите кнопку ниже, чтобы добавить свой первый объект.",
       "add_first_property": "Добавить первый объект",
       "previous": "Назад",
-      "next": "Далее"
+      "next": "Далее",
+      "delete_success": "Объект успешно удален.",
+      "delete_error": "Ошибка при удалении объекта.",
+      "delete_confirmation_title": "Вы абсолютно уверены?",
+      "delete_confirmation_description": "Это действие нельзя отменить. Это навсегда удалит вашу недвижимость и удалит ваши данные с наших серверов.",
+      "no_property_selected": "Не выбрана недвижимость для удаления."
     },
     "hero": {
       "title": "Дома мечты в самом сердце Узбекистана",
@@ -337,17 +343,6 @@
       "sign_in": "Войти",
       "no_account": "Нет аккаунта?",
       "sign_up": "Регистрация"
-    },
-    "register_page": {
-      "welcome": "Добро пожаловать в поиск недвижимости",
-      "create_account": "Создайте свой аккаунт",
-      "continue_with_google": "Продолжить с Google",
-      "continue_with_apple": "Продолжить с Apple",
-      "continue_with_facebook": "Продолжить с Facebook",
-      "terms_and_conditions": "Я согласен с <1>Условиями</1> и <3>Политикой конфиденциальности</3>",
-      "signing_in": "Вход в систему...",
-      "continue": "Продолжить",
-      "error_select_role": "Вернитесь назад и выберите роль!"
     },
     "otp_page": {
       "title": "Подтверждение безопасности",
@@ -886,7 +881,7 @@
     "admin_approval": "Одобрение администратора",
     "receive_confirmation_email": "Получить электронное письмо с подтверждением",
     "current_status": "Текущий статус",
-    "waiting_for_approval": "Ожидание одобрения",
+    "waiting_for_approval": "В ожидании одобрения",
     "data_verification_in_progress": "Проверка данных в процессе",
     "if_not_approved_in_24_hours": "Если не одобрено в течение 24 часов, пожалуйста,",
     "contact_us_at": "свяжитесь с нами по адресу"
