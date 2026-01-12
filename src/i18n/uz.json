@@ -280,7 +280,7 @@
       "next": "Keyingisi"
     },
     "hero": {
-      "title": "O'zbekiston markazidagi orzu uylar",
+      "title": "O'zbekiston markazida orzudagi uylar",
       "search": {
         "search_placeholder": "Shahar yoki mamlakat bo'yicha qidiruv...",
         "dropdown_menu": {
@@ -512,7 +512,7 @@
       "confirm_mortgage": "Ipotekani tasdiqlash"
     },
     "category_page": {
-      "title": "O'zbekiston markazidagi orzu uylar",
+      "title": "O'zbekiston markazida orzudagi uylar",
       "no_more_results": "Barcha ma'lumotlar ko'rsatildi!",
       "select_category_prompt": "Ma'lumot topilmadi"
     },

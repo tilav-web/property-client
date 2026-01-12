@@ -38,6 +38,7 @@ import SellerDetailsPage from "./pages/admin/_pages/sellers/seller-details-page"
 import PropertyDetailsPage from "./pages/admin/_pages/properties/property-details-page";
 import SellersPage from "./pages/sellers/sellers";
 import PublicSellerDetailsPage from "./pages/sellers/seller-details-public";
+import AdminsPage from "./pages/admin/admins";
 const AdminTagsPage = lazy(() => import("./pages/admin/_pages/tags"));
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/create-property")
@@ -259,6 +260,10 @@ const router = createBrowserRouter([
       {
         path: "ads",
         element: <AdminAdvertises />,
+      },
+      {
+        path: "admins",
+        element: <AdminsPage />,
       },
     ],
   },

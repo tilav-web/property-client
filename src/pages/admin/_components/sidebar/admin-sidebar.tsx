@@ -75,11 +75,11 @@ export default function AdminSidebar() {
       path: "/admin/ads",
     },
     {
-      id: "content",
-      label: "Content",
+      id: "admins",
+      label: "Admins",
       icon: <FileText className="h-5 w-5" />,
       badge: null,
-      path: "/admin/content",
+      path: "/admin/admins",
     },
     {
       id: "billing",

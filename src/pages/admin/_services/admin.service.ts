@@ -1,7 +1,37 @@
+import type { IAdmin } from "@/interfaces/admin/admin.interface";
 import { adminApi } from "@/lib/api-instance";
 import { API_ENDPOINTS } from "@/utils/shared";
 
 class AdminService {
+  async getAdmins(): Promise<IAdmin[]> {
+    const { data } = await adminApi.get<IAdmin[]>(API_ENDPOINTS.ADMIN.admins);
+    return data;
+  }
+
+  async createAdmin(dto: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+  }): Promise<IAdmin> {
+    const { data } = await adminApi.post<IAdmin>(API_ENDPOINTS.ADMIN.admins, dto);
+    return data;
+  }
+
+  async updateAdmin(id: string, dto: {
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    password?: string;
+  }): Promise<IAdmin> {
+    const { data } = await adminApi.patch<IAdmin>(`${API_ENDPOINTS.ADMIN.admins}/${id}`, dto);
+    return data;
+  }
+
+  async deleteAdmin(id: string): Promise<void> {
+    await adminApi.delete(`${API_ENDPOINTS.ADMIN.admins}/${id}`);
+  }
+
   async login({ email, password }: { email: string; password: string }) {
     try {
       const res = await adminApi.post(API_ENDPOINTS.ADMIN.login, {

@@ -60,6 +60,7 @@ export const API_ENDPOINTS = {
     statistics: {
       dashboard: '/admins/statistics/dashboard',
     },
+    admins: '/admins',
   },
   PROPERTIES: {
     base: "/properties",
