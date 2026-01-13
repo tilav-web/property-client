@@ -177,6 +177,11 @@
     },
     "repair_type": {
       "NEW": "New"
+    },
+    "heating_type": {
+      "CENTRAL": "Central",
+      "INDIVIDUAL": "Individual",
+      "NONE": "None"
     }
   },
   "pages": {

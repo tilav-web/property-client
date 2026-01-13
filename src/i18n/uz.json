@@ -152,6 +152,11 @@
       "parking": "Avtoturargoh",
       "elevator": "Lift"
     },
+    "heating_type": {
+      "CENTRAL": "Markazlashgan",
+      "INDIVIDUAL": "Individual",
+      "NONE": "Yo'q"
+    },
     "construction_status": {
       "ready": "Tayyor",
       "under_construction": "Qurilmoqda",

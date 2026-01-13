@@ -152,6 +152,11 @@
       "parking": "Парковка",
       "elevator": "Лифт"
     },
+    "heating_type": {
+      "CENTRAL": "Централизованное",
+      "INDIVIDUAL": "Индивидуальное",
+      "NONE": "Нет"
+    },
     "construction_status": {
       "ready": "Готово",
       "under_construction": "Строится",
