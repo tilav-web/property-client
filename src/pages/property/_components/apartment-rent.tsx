@@ -102,17 +102,16 @@ function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
 
   if (!coordinates) {
     return (
-      <div className="w-full h-[600px] rounded-xl bg-gray-200 flex items-center justify-center">
+      <div className="w-full h-[30vh] lg:h-[60vh] rounded-xl bg-gray-200 flex items-center justify-center">
         <span className="text-gray-500">
           {t("common.no_coordinates_available")}
-        </span>{" "}
-        {/* Translated */}
+        </span>
       </div>
     );
   }
 
   return (
-    <div className="w-full h-[600px] rounded-xl overflow-hidden">
+    <div className="w-full h-[30vh] lg:h-[60vh] rounded-xl overflow-hidden">
       <div ref={mapContainerRef} className="w-full h-full" />
     </div>
   );
