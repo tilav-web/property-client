@@ -62,7 +62,6 @@ export default function PropertyCard({
   };
 
   const isRent = category.includes('RENT');
-  const isSale = category.includes('SALE');
 
   const formatAddress = (address: string) => {
     const maxLength = 40;
