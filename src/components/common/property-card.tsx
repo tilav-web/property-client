@@ -39,7 +39,6 @@ export default function PropertyCard({
     rating,
     liked,
     saved,
-    description,
   } = property;
 
   const isNew =
