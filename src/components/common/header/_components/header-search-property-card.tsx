@@ -134,7 +134,7 @@ export default function HeaderSearchPropertyCard({
         {/* Price */}
         <div className="flex items-center gap-1 mb-2">
           <span className="font-bold text-lg text-green-700">
-            {property.price.toLocaleString("en-US")} so'm
+            RM {property.price.toLocaleString("en-US")}
           </span>
         </div>
 

@@ -103,7 +103,7 @@ export default function ApartmentCard({
         </div>
 
         <p className="font-bold text-lg">
-          {property.price?.toLocaleString()} so'm
+          RM {property.price?.toLocaleString()}
         </p>
       </div>
     </div>

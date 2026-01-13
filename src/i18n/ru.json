@@ -171,7 +171,7 @@
       "auction": "Аукцион"
     },
     "property_currency": {
-      "uzs": "UZS",
+      "rm": "RM",
       "usd": "USD",
       "eur": "EUR"
     },
@@ -313,7 +313,7 @@
         "per_sqm": "/м²"
       },
       "currency_symbols": {
-        "uzs": "сум",
+        "rm": "RM",
         "usd": "$",
         "eur": "€"
       }

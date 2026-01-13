@@ -182,7 +182,7 @@ export default function InquiriesPage() {
                     <DollarSign className="h-4 w-4 mr-2 text-muted-foreground" />
                     <span className="font-medium mr-2">Taklif:</span>
                     <span>
-                      {inquiry.offered_price?.toLocaleString() || "N/A"} UZS
+                      {inquiry.offered_price?.toLocaleString() || "N/A"} RM
                     </span>
                   </div>
                   <div className="flex items-center text-sm">

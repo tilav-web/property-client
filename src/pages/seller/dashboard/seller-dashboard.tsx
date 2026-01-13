@@ -137,7 +137,7 @@ const InquiryCard = ({ inquiry }: { inquiry: IInquiry }) => {
         <div className="flex justify-between items-center text-sm">
           <span className="font-medium">
             {inquiry.offered_price &&
-              `${inquiry.offered_price.toLocaleString()} UZS`}
+              `${inquiry.offered_price.toLocaleString()} RM`}
           </span>
           <span className="text-muted-foreground">
             {new Date(inquiry.createdAt).toLocaleDateString()}
