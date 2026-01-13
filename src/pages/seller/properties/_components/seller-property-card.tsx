@@ -165,6 +165,9 @@ export default function SellerPropertyCard({
                 size="icon"
                 className="h-8 w-8"
                 title="Tahrirlash"
+                onClick={() =>
+                  navigate(`/seller/properties/update/${property._id}`)
+                }
               >
                 <Edit2 className="w-4 h-4" />
               </Button>

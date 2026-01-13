@@ -11,8 +11,10 @@ const mapContainerStyle = {
 interface Props {
   location: { lat: number; lng: number };
   setLocation: (loc: { lat: number; lng: number }) => void;
-  isSubmitting?: boolean; // New prop for disabling interaction
+  isSubmitting?: boolean;
 }
+
+const roundCoord = (num: number) => parseFloat(num.toFixed(6));
 
 export default function LocationSection({ location, setLocation, isSubmitting = false }: Props) {
   const mapRef = useRef<ymaps.Map | null>(null);
@@ -42,31 +44,37 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
 
   const handleMapClick = useCallback(
     (e: ymaps.IEvent<ymaps.Map, MouseEvent>) => {
-      if (isSubmitting) return; // Prevent clicks when submitting
+      if (isSubmitting) return;
       const coords = e.get("coords");
       if (coords) {
-        setLocation({ lat: coords[0], lng: coords[1] });
+        setLocation({
+          lat: roundCoord(coords[0]),
+          lng: roundCoord(coords[1]),
+        });
       }
     },
     [setLocation, isSubmitting]
   );
 
   const handlePlacemarkDrag = useCallback(() => {
-    if (isSubmitting) return; // Prevent dragging when submitting
+    if (isSubmitting) return;
     const coords = placemarkRef.current?.geometry?.getCoordinates();
     if (coords) {
-      setLocation({ lat: coords[0], lng: coords[1] });
+      setLocation({
+        lat: roundCoord(coords[0]),
+        lng: roundCoord(coords[1]),
+      });
     }
   }, [setLocation, isSubmitting]);
 
-  // Get user's location on initial load
+  // Get user's location on initial load - ONLY if location is not set
   useEffect(() => {
-    if (navigator.geolocation) {
+    if ((!location || (location.lat === 0 && location.lng === 0)) && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
+            lat: roundCoord(position.coords.latitude),
+            lng: roundCoord(position.coords.longitude),
           });
         },
         (err) => {
@@ -74,7 +82,8 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
         }
       );
     }
-  }, [setLocation]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setLocation]); // Run only once on mount if location is not available
 
   // Initialize map on mount
   useEffect(() => {
@@ -92,25 +101,11 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
           zoom: 14,
           controls: ["zoomControl", "fullscreenControl", "geolocationControl"],
         });
-
-        // Add 'locationchange' event listener to GeolocationControl
-        const geolocationControl = map.controls.get("geolocationControl");
-        if (geolocationControl) {
-          geolocationControl.events.add(
-            "locationchange",
-            (e: ymaps.IEvent<ymaps.control.GeolocationControl, { position: number[] }>) => {
-              const coords = e.get("position");
-              if (coords) {
-                setLocation({ lat: coords[0], lng: coords[1] });
-              }
-            }
-          );
-        }
-
+        
         const placemark = new ymaps.Placemark(
           initialCoords,
           {},
-          { preset: "islands#redIcon", draggable: !isSubmitting } // Disable dragging based on prop
+          { preset: "islands#redIcon", draggable: !isSubmitting }
         );
 
         map.geoObjects.add(placemark);
@@ -124,7 +119,7 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
       .catch((error) => {
         console.error("Yandex map initialization error:", error);
         if (isComponentMounted) {
-          setIsMapLoading(false); // Stop loading even on error
+          setIsMapLoading(false);
         }
       });
 
@@ -136,26 +131,29 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadYmaps, handleMapClick, handlePlacemarkDrag, setLocation, isSubmitting]); // Add isSubmitting to deps
+  }, [loadYmaps, handleMapClick, handlePlacemarkDrag]);
 
   // Update placemark position and draggable status when `location` or `isSubmitting` prop changes
   useEffect(() => {
     if (!placemarkRef.current || !mapRef.current) return;
 
-    const newCoords: [number, number] = [location.lat, location.lng];
+    const newLat = roundCoord(location.lat);
+    const newLng = roundCoord(location.lng);
+    
     const placemarkCoords = placemarkRef.current.geometry?.getCoordinates();
 
-    // Prevent feedback loop by checking if coordinates are different
+    // Prevent feedback loop by checking if rounded coordinates are different
     if (
       placemarkCoords &&
-      (placemarkCoords[0] !== newCoords[0] ||
-        placemarkCoords[1] !== newCoords[1])
+      (roundCoord(placemarkCoords[0]) !== newLat ||
+       roundCoord(placemarkCoords[1]) !== newLng)
     ) {
+      // Use original precise coordinates for setting map to avoid losing precision
+      const newCoords: [number, number] = [location.lat, location.lng];
       placemarkRef.current.geometry?.setCoordinates(newCoords);
       mapRef.current.setCenter(newCoords);
     }
 
-    // Update draggable status
     placemarkRef.current.properties.set("draggable", !isSubmitting);
   }, [location, isSubmitting]);
 

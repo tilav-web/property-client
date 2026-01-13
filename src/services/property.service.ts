@@ -79,6 +79,45 @@ class PropertyService {
     }
   }
 
+  async update(id: string, payload: any) {
+    const formData = new FormData();
+
+    // Append all fields from the payload to formData
+    for (const key in payload) {
+      if (payload.hasOwnProperty(key)) {
+        const value = payload[key];
+
+        if (key === 'new_photos' || key === 'new_videos') {
+          // Handle file arrays
+          if (Array.isArray(value)) {
+            value.forEach((file) => {
+              formData.append(key, file);
+            });
+          }
+        } else if (Array.isArray(value)) { // This handles other string/number arrays like amenities
+          value.forEach((item) => {
+            formData.append(`${key}[]`, item);
+          });
+        } else if (value !== undefined && value !== null) {
+          // Handle other non-array, non-null, non-undefined fields
+          formData.append(key, value);
+        }
+      }
+    }
+
+    try {
+      const res = await apiInstance.patch(`${API_ENDPOINTS.PROPERTIES.base}/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
   async remove(id: string) {
     try {
       const res = await apiInstance.delete(
@@ -102,5 +141,18 @@ class PropertyService {
       throw error;
     }
   }
+
+  async findOnePropertyForUpdate(id: string) {
+    try {
+      const res = await apiInstance.get(
+        `${API_ENDPOINTS.PROPERTIES.base}/update/${id}`
+      );
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
 }
 export const propertyService = new PropertyService();
