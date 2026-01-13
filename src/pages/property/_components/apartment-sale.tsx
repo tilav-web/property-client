@@ -193,7 +193,7 @@ export default function ApartmentSale({
               </div>
             </div>
             <div className="font-bold flex items-center justify-end gap-8">
-              <p className="text-4xl text-red-500">
+              <p className="text-4xl text-red-500 uppercase">
                 {formatPrice(apartment.price || 0)}
               </p>
               <BidPriceButton property={apartment} />

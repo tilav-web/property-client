@@ -103,7 +103,10 @@ function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
   if (!coordinates) {
     return (
       <div className="w-full h-[600px] rounded-xl bg-gray-200 flex items-center justify-center">
-        <span className="text-gray-500">{t("common.no_coordinates_available")}</span> {/* Translated */}
+        <span className="text-gray-500">
+          {t("common.no_coordinates_available")}
+        </span>{" "}
+        {/* Translated */}
       </div>
     );
   }
@@ -136,7 +139,8 @@ export default function ApartmentRent({
       <div className="py-8">
         <BackButton className="mb-6" />
         <div className="text-center py-20">
-          <div className="text-gray-500">{t("common.no_data_available")}</div> {/* Translated */}
+          <div className="text-gray-500">{t("common.no_data_available")}</div>{" "}
+          {/* Translated */}
         </div>
       </div>
     );
@@ -184,16 +188,14 @@ export default function ApartmentRent({
                   />
                 )}
                 {apartment.author?.seller?.telegram && (
-                  <TelegramButton
-                    username={apartment.author.seller.telegram}
-                  />
+                  <TelegramButton username={apartment.author.seller.telegram} />
                 )}
                 <HeartButton property={apartment} />
                 <EllipsisVerticalButton property={apartment} />
               </div>
             </div>
             <div className="font-bold flex items-center justify-end gap-8">
-              <p className="text-4xl text-red-500">
+              <p className="text-4xl text-red-500 uppercase">
                 {formatPrice(apartment.price || 0)}
               </p>
               <FormalizeRentButton property={apartment} />
@@ -202,7 +204,6 @@ export default function ApartmentRent({
           <div>
             <h2 className="mb-4 text-xl font-semibold">{apartment.title}</h2>
             <p className="mb-4 text-gray-600">{apartment.description}</p>
-
             <h3 className="mb-2 font-medium text-gray-800">
               {t("pages.property_page.property_details")}
             </h3>{" "}
@@ -294,7 +295,9 @@ export default function ApartmentRent({
             <div className="flex items-center gap-3">
               <Rotate3D className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">{t("pages.property_page.floor")}</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.floor")}
+                </span>
                 <p className="font-medium text-gray-800">
                   {apartment.floor_level || 0} /{" "}
                   {apartment.total_floors || t("common.not_specified")}
@@ -351,7 +354,9 @@ export default function ApartmentRent({
             <div className="flex items-center gap-3">
               <Warehouse className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">{t("pages.property_page.parking")}</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.parking")}
+                </span>
                 <p className="font-medium text-gray-800">
                   {t(
                     apartment.parking
@@ -366,7 +371,9 @@ export default function ApartmentRent({
             <div className="flex items-center gap-3">
               <Wrench className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">{t("pages.property_page.repair_type")}</span>
+                <span className="text-gray-600 text-sm">
+                  {t("pages.property_page.repair_type")}
+                </span>
                 <p className="font-medium text-gray-800">
                   {apartment.repair_type
                     ? t(`enums.repair_type.${apartment.repair_type}`)
@@ -377,7 +384,6 @@ export default function ApartmentRent({
             </div>
           </div>
         </div>
-
         {/* Amenities */}
         {apartment.amenities && apartment.amenities.length > 0 && (
           <div>
@@ -403,7 +409,6 @@ export default function ApartmentRent({
             </div>
           </div>
         )}
-
         {/* Additional Features */}
         <div className="mt-8">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">
