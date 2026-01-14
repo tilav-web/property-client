@@ -1,18 +1,18 @@
-import type { IProperty } from "../property/property.interface";
+import type { IInquiry } from "./inquiry.interface";
 import type { ISeller } from "../users/seller.interface";
 import type { IUser } from "../users/user.interface";
-import type { IInquiry } from "./inquiry.interface";
+import type { IProperty } from "../property/property.interface";
 
-export type InquiryResponseStatusType = "approved" | "rejected";
+export type TInquiryResponseStatus = "approved" | "rejected";
 
 export interface IInquiryResponse {
   _id: string;
-  status: InquiryResponseStatusType;
+  status: TInquiryResponseStatus;
   description: string;
+  seller: ISeller;
   user: IUser;
   inquiry: IInquiry;
   property: IProperty;
-  seller: ISeller;
   createdAt: string;
   updatedAt: string;
 }

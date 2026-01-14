@@ -26,6 +26,7 @@ export interface IInquiry {
   rental_period?: RentalPeriod;
   comment: string;
   status: TInquiryStatus;
+  response?: IInquiryResponse;
   createdAt: string;
   updatedAt: string;
 }
