@@ -152,18 +152,18 @@ function ReviewCard({ message }: { message: Message }) {
 
   const userInitials = useMemo(
     () =>
-      `${message.user.first_name?.[0] || ""}${
-        message.user.last_name?.[0] || ""
+      `${message.user?.first_name?.[0] || ""}${
+        message.user?.last_name?.[0] || ""
       }`,
-    [message.user.first_name, message.user.last_name]
+    [message.user?.first_name, message.user?.last_name]
   );
 
   return (
     <div className="flex flex-col sm:flex-row gap-4 p-4 border rounded-lg shadow-sm bg-white">
       <Avatar className="w-12 h-12 shrink-0">
         <AvatarImage
-          src={message.user.avatar}
-          alt={`${message.user.first_name} ${message.user.last_name}`}
+          src={message.user?.avatar}
+          alt={`${message.user?.first_name} ${message.user?.last_name}`}
         />
         <AvatarFallback>{userInitials}</AvatarFallback>
       </Avatar>
@@ -171,7 +171,7 @@ function ReviewCard({ message }: { message: Message }) {
       <div className="flex-grow min-w-0">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1 gap-2">
           <h3 className="font-semibold text-gray-800">
-            {message.user.first_name} {message.user.last_name}
+            {message.user?.first_name} {message.user?.last_name}
           </h3>
           <StarRating rating={message.rating} />
         </div>
