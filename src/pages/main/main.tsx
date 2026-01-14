@@ -17,8 +17,8 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import heroImage from "@/assets/images/hero-image.jpg";
 import BrowseSellersCta from "@/components/common/browse-sellers-cta";
+import { heroImage } from "@/utils/shared";
 
 function FeaturedProperties() {
   const { t } = useTranslation();

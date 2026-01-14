@@ -1,5 +1,4 @@
-import mainImage from "@/assets/images/main-image.webp";
-import heroImage from "@/assets/images/hero-image.jpg";
+import heroImage from "@/assets/images/hero-image.webp";
 import roleImage1 from "@/assets/images/role-image1.png";
 import roleImage3 from "@/assets/images/role-image3.png";
 import defaultImageAvatar from "@/assets/images/default-avatar.png";
@@ -10,7 +9,6 @@ import heroSectionCategoryImage from "@/assets/images/hero-section-category.jpg"
 import logo from "@/assets/images/amaar-propert-logo.png";
 
 export {
-  mainImage,
   courtSvg,
   roleImage1,
   roleImage3,

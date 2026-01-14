@@ -14,7 +14,6 @@ import {
   MessageSquare,
   Building,
   User,
-  DollarSign,
   Calendar,
   Check,
   X,
@@ -307,7 +306,6 @@ export default function InquiriesPage() {
                               Taklif qilingan narx
                             </span>
                             <span className="text-lg font-bold text-primary flex items-center gap-2">
-                              <DollarSign className="h-4 w-4" />
                               {inquiry.offered_price?.toLocaleString() || "N/A"} RM
                             </span>
                           </div>
