@@ -1,10 +1,11 @@
 
+import type { IInquiryResponse } from "./inquiry-response.interface";
 import type { IProperty } from "../property/property.interface";
 import type { IUser } from "../users/user.interface";
 
 export type TInquiryType = "purchase" | "rent" | "mortgage";
 
-export type TInquiryStatus = 
+export type TInquiryStatus =
   | "pending"
   | "viewed"
   | "responded"

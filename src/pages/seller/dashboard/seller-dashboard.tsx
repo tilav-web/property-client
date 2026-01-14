@@ -110,13 +110,13 @@ const PropertyCard = ({ property }: { property: IProperty }) => {
 
 // So'rov kartasi komponenti
 const InquiryCard = ({ inquiry }: { inquiry: IInquiry }) => {
-  const statusColors: Record<IInquiry['status'], string> = {
+  const statusColors: Record<IInquiry["status"], string> = {
     pending: "bg-yellow-100 text-yellow-800",
     viewed: "bg-blue-100 text-blue-800",
     responded: "bg-green-100 text-green-800",
     accepted: "bg-green-100 text-green-800",
     rejected: "bg-red-100 text-red-800",
-    canceled: "bg-gray-100 text-gray-800"
+    canceled: "bg-gray-100 text-gray-800",
   };
 
   return (
@@ -127,9 +127,12 @@ const InquiryCard = ({ inquiry }: { inquiry: IInquiry }) => {
             <CardTitle className="text-sm">{inquiry.user.first_name}</CardTitle>
             <CardDescription>{inquiry.property.title}</CardDescription>
           </div>
-          <Badge className={statusColors[inquiry.status]}>
-            {inquiry.status}
-          </Badge>
+          <div className="flex gap-1">
+            <Badge className={statusColors[inquiry.status]}>
+              {inquiry.status}
+            </Badge>
+            {inquiry.response && <Badge variant="secondary">Javob berilgan</Badge>}
+          </div>
         </div>
       </CardHeader>
       <CardContent>
