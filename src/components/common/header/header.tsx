@@ -17,6 +17,7 @@ import {
   Globe,
   ChevronDown,
   Users,
+  PhoneCall,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -152,6 +153,12 @@ export default function Header({ className }: IHeaderProps) {
           </nav>
 
           <div className="flex items-center gap-2">
+            <div
+              className="mr-4 animate-pulse-call"
+              onClick={() => (window.location.href = "tel:+1234567890")}
+            >
+              <PhoneCall size={18} className="cursor-pointer" />
+            </div>
             {!user && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
