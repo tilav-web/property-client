@@ -155,7 +155,7 @@ export default function Header({ className }: IHeaderProps) {
           <div className="flex items-center gap-2">
             <div
               className="mr-4 animate-pulse-call"
-              onClick={() => (window.location.href = "tel:+1234567890")}
+              onClick={() => (window.location.href = "tel:+998554011515")}
             >
               <PhoneCall size={18} className="cursor-pointer" />
             </div>
