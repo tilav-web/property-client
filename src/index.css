@@ -148,6 +148,6 @@ html {
   100% { transform: translateX(0); }
 }
 
-.animate-pulse-call {
+.animate-pulse-call:hover {
   animation: vibrate-call 0.2s linear infinite;
 }
