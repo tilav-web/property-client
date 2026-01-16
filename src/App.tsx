@@ -39,10 +39,13 @@ import PropertyDetailsPage from "./pages/admin/_pages/properties/property-detail
 import SellersPage from "./pages/sellers/sellers";
 import PublicSellerDetailsPage from "./pages/sellers/seller-details-public";
 import AdminsPage from "./pages/admin/admins";
-import UpdateProperty from "./pages/seller/properties/update-property";
+
 const AdminTagsPage = lazy(() => import("./pages/admin/_pages/tags"));
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/create-property")
+);
+const UpdateProperty = lazy(
+  () => import("./pages/seller/properties/update-property")
 );
 
 const router = createBrowserRouter([
