@@ -102,6 +102,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         icon: <User className="h-5 w-5" />,
         text: t("common.seller_sidebar.personal_info"),
       },
+            {
+        to: "/seller/advertise",
+        icon: <Share2 className="h-5 w-5" />,
+        text: t("common.seller_sidebar.advertise"),
+      },
     ],
   };
 
