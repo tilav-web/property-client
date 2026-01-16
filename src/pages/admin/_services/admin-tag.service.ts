@@ -2,7 +2,7 @@ import { adminApi } from '@/lib/api-instance';
 import type { ITag } from '@/interfaces/tag/tag.interface';
 
 class AdminTagService {
-  async getAll(params: { page: number; limit: number }) {
+  async getAll(params: { page: number; limit: number; q?: string }) {
     const { data } = await adminApi.get('/admins/tags', { params });
     return data;
   }
