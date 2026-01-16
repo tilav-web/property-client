@@ -2,14 +2,32 @@ import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { advertiseService } from "@/services/advertise.service";
 import AdvertiseCard from "@/components/common/cards/advertise-card";
 import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function SellerAdvertise() {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedAdvertiseId, setSelectedAdvertiseId] = useState<string | null>(
+    null
+  );
+
   const {
     data: advertises,
     isLoading,
@@ -22,10 +40,38 @@ export default function SellerAdvertise() {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => advertiseService.remove(id),
+    onSuccess: () => {
+      toast.success(t("pages.seller_advertises_page.advertise_deleted"));
+      queryClient.invalidateQueries({ queryKey: ["advertises/my"] });
+      setIsDeleteDialogOpen(false);
+      setSelectedAdvertiseId(null);
+    },
+    onError: () => {
+      toast.error(t("pages.seller_advertises_page.delete_error"));
+    },
+  });
+
   const navigate = useNavigate();
   // Yangi advertise yaratish sahifasiga o'tish
   const handleCreateAdvertise = () => {
     navigate("/seller/advertise/create");
+  };
+
+  const handleEdit = (id: string) => {
+    navigate(`/seller/advertise/edit/${id}`);
+  };
+
+  const handleDelete = (id: string) => {
+    setSelectedAdvertiseId(id);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (selectedAdvertiseId) {
+      deleteMutation.mutate(selectedAdvertiseId);
+    }
   };
 
   // Loading holati
@@ -126,10 +172,38 @@ export default function SellerAdvertise() {
         // Propertylar mavjud bo'lganda
         <div className="grid grid-cols-3 gap-6">
           {advertises.map((advertise: IAdvertise) => (
-            <AdvertiseCard key={advertise?._id} advertise={advertise} />
+            <AdvertiseCard
+              key={advertise?._id}
+              advertise={advertise}
+              onEdit={() => handleEdit(advertise._id)}
+              onDelete={() => handleDelete(advertise._id)}
+            />
           ))}
         </div>
       )}
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {t("pages.seller_advertises_page.confirm_delete_title")}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("pages.seller_advertises_page.confirm_delete_description")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              {t("general.cancel")}
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmDelete}>
+              {t("general.delete")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

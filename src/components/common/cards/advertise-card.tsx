@@ -9,10 +9,13 @@ import {
   XCircle,
   AlertCircle,
 } from "lucide-react";
+import AdvertiseCardDropdownMenu from "@/pages/seller/advertise/_components/advertise-card-dropdown-menu";
 import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
 
 interface Props {
   advertise: IAdvertise;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
 // --- Status konfiguratsiyasi
@@ -46,7 +49,7 @@ const typeConfig = {
   image: { label: "Rasm", color: "bg-orange-50 text-orange-700" },
 } as const;
 
-export default function AdvertiseCard({ advertise }: Props) {
+export default function AdvertiseCard({ advertise, onEdit, onDelete }: Props) {
   // Agar status yoki type noto‘g‘ri bo‘lsa — default holatni tanlaymiz
   const statusInfo =
     statusConfig[
@@ -99,7 +102,7 @@ export default function AdvertiseCard({ advertise }: Props) {
           )}
 
           {/* Reklama turi */}
-          <div className="absolute flex z-10 top-0 flex-row-reverse justify-between items-center w-full p-2">
+          <div className="absolute flex z-10 top-0 justify-between items-center w-full p-2">
             <div>
               <Badge
                 className={`flex items-center gap-1.5 px-3 rounded-full text-xs font-medium hover:text-white cursor-pointer border ${statusInfo.color}`}
@@ -108,12 +111,13 @@ export default function AdvertiseCard({ advertise }: Props) {
                 {statusInfo.label}
               </Badge>
             </div>
-            <div>
+            <div className="flex items-center gap-2">
               <Badge
                 className={`px-2 py-1 text-xs font-medium rounded-md hover:text-white cursor-pointer ${typeInfo.color}`}
               >
                 {typeInfo.label}
               </Badge>
+              <AdvertiseCardDropdownMenu onEdit={onEdit} onDelete={onDelete} />
             </div>
           </div>
         </div>

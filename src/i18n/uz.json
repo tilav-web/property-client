@@ -140,6 +140,12 @@
       }
     }
   },
+  "general": {
+    "actions": "Amallar",
+    "edit": "Tahrirlash",
+    "delete": "O'chirish",
+    "cancel": "Bekor qilish"
+  },
   "error_boundary": {
     "title": "Xatolik yuz berdi!",
     "message": "Ma'lumotlarni ko'rsatishda xato. Iltimos, sahifani yangilang.",
@@ -270,7 +276,11 @@
       "total_edvertise": "Jami e'lonlar: {{count}}",
       "no_advertises_found": "E'lonlar topilmadi",
       "you_have_not_added_any_advertises_yet": "Siz hali birorta e'lon qo'shmagansiz.",
-      "add_first_property": "Birinchi e'lonni qo'shing"
+      "add_first_property": "Birinchi e'lonni qo'shing",
+      "advertise_deleted": "E'lon muvaffaqiyatli o'chirildi",
+      "delete_error": "E'lonni o'chirishda xato",
+      "confirm_delete_title": "Haqiqatan ham bu e'lonni oʻchirib tashlamoqchimisiz?",
+      "confirm_delete_description": "Bu amalni bekor qilib bo'lmaydi. Bu sizning e'loningizni butunlay o'chirib tashlaydi."
     },
     "sellers_page": {
       "title": "Sotuvchilar"

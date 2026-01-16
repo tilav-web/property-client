@@ -13,6 +13,36 @@ class AdvertiseService {
     }
   }
 
+  async findOne(id: string) {
+    try {
+      const res = await apiInstance.get(API_ENDPOINTS.ADVERTISE.findOne(id));
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async update(id: string, dto: FormData) {
+    try {
+      const res = await apiInstance.patch(API_ENDPOINTS.ADVERTISE.update(id), dto);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async remove(id: string) {
+    try {
+      const res = await apiInstance.delete(API_ENDPOINTS.ADVERTISE.remove(id));
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
   async priceCalculus(days: string) {
     try {
       const res = await apiInstance.get(API_ENDPOINTS.ADVERTISE.priceCalculus, {
@@ -65,7 +95,7 @@ class AdvertiseService {
 
   async incrementView(id: string) {
     try {
-      await apiInstance.put(`${API_ENDPOINTS.ADVERTISE.base}/${id}/view`);
+      await apiInstance.put(API_ENDPOINTS.ADVERTISE.incrementView(id));
     } catch (error) {
       console.error('Failed to increment view count', error);
     }
@@ -73,7 +103,7 @@ class AdvertiseService {
 
   async incrementClick(id: string) {
     try {
-      await apiInstance.put(`${API_ENDPOINTS.ADVERTISE.base}/${id}/click`);
+      await apiInstance.put(API_ENDPOINTS.ADVERTISE.incrementClick(id));
     } catch (error) {
       console.error('Failed to increment click count', error);
     }

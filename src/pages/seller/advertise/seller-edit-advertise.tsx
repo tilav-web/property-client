@@ -11,19 +11,31 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { AdvertiseType } from "@/interfaces/advertise/advertise.interface";
+import type { IAdvertise, AdvertiseType } from "@/interfaces/advertise/advertise.interface";
 import BannerTypeTab from "./_components/tabs/banner-type-tab";
 import AsideTypeTab from "./_components/tabs/aside-type-tab";
 import ImageTypeTab from "./_components/tabs/image-type-tab";
 import { toast } from "sonner";
 import { advertiseService } from "@/services/advertise.service";
+import { useNavigate, useParams } from "react-router-dom";
+import { Trash2 } from "lucide-react";
 
-export default function SellerCreateAdvertise() {
+export default function SellerEditAdvertise() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
+  // Initial data
+  const [initialData, setInitialData] = useState<IAdvertise | null>(null);
+
+  // Form state
   const [adType, setAdType] = useState<"aside" | "banner" | "image">("aside");
   const [targetUrl, setTargetUrl] = useState("");
   const [days, setDays] = useState<string>("1");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
+  const [isImageMarkedForDeletion, setIsImageMarkedForDeletion] = useState(false);
+
+  // UI state
   const [isLoading, setIsLoading] = useState(false);
   const [priceCalculus, setPriceCalculus] = useState<{
     days: number;
@@ -31,10 +43,37 @@ export default function SellerCreateAdvertise() {
     currency: string;
   }>();
 
+  useEffect(() => {
+    if (id) {
+      (async () => {
+        try {
+          setIsLoading(true);
+          const data = await advertiseService.findOne(id);
+          setInitialData(data);
+          setAdType(data.type);
+          setTargetUrl(data.target);
+          setDays(String(data.days));
+          if (data.image) {
+            setImagePreview(data.image);
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error("Xatolik", {
+            description: "Reklama ma'lumotlarini yuklashda xatolik yuz berdi",
+          });
+          navigate("/seller/advertise");
+        } finally {
+          setIsLoading(false);
+        }
+      })();
+    }
+  }, [id, navigate]);
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setSelectedImage(file);
+      setIsImageMarkedForDeletion(false); // Unmark for deletion if a new image is selected
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader?.result as string);
@@ -43,73 +82,91 @@ export default function SellerCreateAdvertise() {
     }
   };
 
+  const handleImageDelete = () => {
+    setSelectedImage(null);
+    setImagePreview("");
+    setIsImageMarkedForDeletion(true);
+    toast.info("Rasm o'chirishga belgilandi. O'zgarishlarni saqlashni unutmang.");
+  };
+
   const handleSubmit = async () => {
-    if (!selectedImage) {
+    if (!targetUrl || !days) {
       toast.error("Xatolik", {
-        description: "Iltimos, reklama rasmini yuklang",
+        description: "Iltimos, barcha majburiy maydonlarni to'ldiring",
       });
       return;
     }
 
-    if (!targetUrl) {
-      toast.error("Xatolik", {
-        description: "Iltimos, havolani kiriting",
-      });
-      return;
-    }
-
-    if (!days) {
-      toast.error("Xatolik", {
-        description: "Iltimos, reklama muddatini kiriting",
-      });
-      return;
-    }
+    if (!id || !initialData) return;
 
     setIsLoading(true);
 
     try {
       const formData = new FormData();
-      formData.append("target", targetUrl);
-      formData.append("type", adType);
-      formData.append("days", days);
-      formData.append("image", selectedImage);
+      let hasChanges = false;
 
-      const data = await advertiseService.create(formData);
-      console.log(data);
+      // Append changed fields
+      if (targetUrl !== initialData.target) {
+        formData.append("target", targetUrl);
+        hasChanges = true;
+      }
+      if (adType !== initialData.type) {
+        formData.append("type", adType);
+        hasChanges = true;
+      }
+      if (days !== String(initialData.days)) {
+        formData.append("days", days);
+        hasChanges = true;
+      }
+      if (selectedImage) {
+        formData.append("image", selectedImage);
+        hasChanges = true;
+      }
+      if (isImageMarkedForDeletion) {
+        formData.append("image_to_delete", "true");
+        hasChanges = true;
+      }
+
+      if (!hasChanges) {
+        toast.info("Hech qanday o'zgarish qilinmadi");
+        return;
+      }
+
+      await advertiseService.update(id, formData);
       toast.success("Muvaffaqiyatli", {
-        description: "Reklama muvaffaqiyatli yaratildi!",
+        description: "Reklama muvaffaqiyatli yangilandi!",
       });
-      setTargetUrl("");
-      setDays("1");
-      setSelectedImage(null);
-      setImagePreview("");
+      navigate("/seller/advertise");
+
     } catch (error) {
       console.error(error);
+      toast.error("Xatolik", {
+        description: "Reklamani yangilashda xatolik yuz berdi",
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (days) {
-          const data = await advertiseService.priceCalculus(days);
-          setPriceCalculus(data);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    })();
+    if (days) {
+      advertiseService.priceCalculus(days)
+        .then(setPriceCalculus)
+        .catch(console.error);
+    }
   }, [days]);
+
+  if (!initialData && isLoading) {
+      return <div className="container mx-auto p-6 w-full">Yuklanmoqda...</div>
+  }
 
   return (
     <div className="container mx-auto p-6 w-full">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Reklama Yaratish</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Reklamani Tahrirlash</h1>
         <p className="text-gray-600 mt-2">
-          Reklama turini tanlang va ma'lumotlarni to'ldiring. Pastda reklamangiz
-          qanday ko'rinishini ko'rasiz.
+          Reklama ma'lumotlarini o'zgartiring. Pastda reklamangiz qanday
+          ko'rinishini ko'rasiz.
         </p>
       </div>
 
@@ -124,16 +181,15 @@ export default function SellerCreateAdvertise() {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="adImage" className="text-sm">
-                Reklama Rasmı *
+                Reklama Rasmi
               </Label>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center transition-colors hover:border-gray-400">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center transition-colors hover:border-gray-400 relative">
                 <input
                   type="file"
                   id="adImage"
                   accept="image/*"
                   onChange={handleImageChange}
                   className="hidden"
-                  required
                 />
                 <label htmlFor="adImage" className="cursor-pointer block">
                   {imagePreview ? (
@@ -145,10 +201,10 @@ export default function SellerCreateAdvertise() {
                       />
                       <div>
                         <p className="text-green-600 font-medium text-sm">
-                          Rasm yuklandi
+                          {selectedImage ? "Yangi rasm yuklandi" : "Mavjud rasm"}
                         </p>
                         <p className="text-xs text-gray-500">
-                          Yangilash uchun yana bosing
+                          O'zgartirish uchun rasm ustiga bosing
                         </p>
                       </div>
                     </div>
@@ -164,6 +220,16 @@ export default function SellerCreateAdvertise() {
                     </div>
                   )}
                 </label>
+                {imagePreview && !selectedImage && (
+                  <Button
+                    variant="destructive"
+                    size="icon"
+                    className="absolute top-2 right-2 h-7 w-7"
+                    onClick={handleImageDelete}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                )}
               </div>
             </div>
             <div className="space-y-2">
@@ -187,7 +253,7 @@ export default function SellerCreateAdvertise() {
               <Input
                 id="days"
                 type="number"
-                defaultValue={1}
+                value={days}
                 onChange={(e) => setDays(e.target.value)}
                 className="h-9 text-sm"
                 required
@@ -223,7 +289,6 @@ export default function SellerCreateAdvertise() {
             <Tabs
               value={adType}
               onValueChange={(value) => setAdType(value as AdvertiseType)}
-              defaultValue="aside"
             >
               <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="aside" className="flex items-center gap-2">
@@ -279,18 +344,18 @@ export default function SellerCreateAdvertise() {
       </Card>
       <Button
         onClick={handleSubmit}
-        className="w-full h-9 text-sm"
+        className="w-full h-9 text-sm mt-4"
         disabled={isLoading}
       >
         {isLoading ? (
           <>
             <i className="fas fa-spinner fa-spin mr-2 text-xs"></i>
-            Joylanmoqda...
+            Yangilanmoqda...
           </>
         ) : (
           <>
-            <i className="fas fa-paper-plane mr-2 text-xs"></i>
-            Reklamani Joylash
+            <i className="fas fa-save mr-2 text-xs"></i>
+            O'zgarishlarni Saqlash
           </>
         )}
       </Button>

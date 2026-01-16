@@ -140,6 +140,12 @@
       }
     }
   },
+  "general": {
+    "actions": "Действия",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "cancel": "Отмена"
+  },
   "error_boundary": {
     "title": "Произошла ошибка!",
     "message": "Ошибка отображения данных. Пожалуйста, перезагрузите.",
@@ -270,7 +276,11 @@
       "total_edvertise": "Всего объявлений: {{count}}",
       "no_advertises_found": "Объявления не найдены",
       "you_have_not_added_any_advertises_yet": "Вы еще не добавили ни одного объявления.",
-      "add_first_property": "Добавить первое объявление"
+      "add_first_property": "Добавить первое объявление",
+      "advertise_deleted": "Объявление успешно удалено",
+      "delete_error": "Ошибка при удалении объявления",
+      "confirm_delete_title": "Вы уверены, что хотите удалить это объявление?",
+      "confirm_delete_description": "Это действие нельзя отменить. Это навсегда удалит ваше объявление."
     },
     "sellers_page": {
       "title": "Продавцы"

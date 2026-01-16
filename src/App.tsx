@@ -22,6 +22,7 @@ import AiAgent from "./pages/ai-agent/ai-agent";
 import SellerDashboard from "./pages/seller/dashboard/seller-dashboard";
 import SellerAdvertise from "./pages/seller/advertise/seller-advertise";
 import SellerCreateAdvertise from "./pages/seller/advertise/seller-create-advertise";
+import SellerEditAdvertise from "./pages/seller/advertise/seller-edit-advertise";
 import Category from "./pages/property/category";
 import YandexMap from "./pages/map/yandex-map";
 import { yandexMapKey } from "./utils/shared";
@@ -182,6 +183,14 @@ const router = createBrowserRouter([
         element: (
           <SellerLayout>
             <SellerCreateAdvertise />
+          </SellerLayout>
+        ),
+      },
+      {
+        path: "/seller/advertise/edit/:id",
+        element: (
+          <SellerLayout>
+            <SellerEditAdvertise />
           </SellerLayout>
         ),
       },
