@@ -13,35 +13,35 @@ export default function Footer() {
           <div className="md:col-span-1">
             <p className="text-sm mb-4">{t("common.footer.question")}</p>
             <Link
-              to="tel:+998901234567"
+              to="tel:+998554011515"
               className="text-2xl font-bold mb-6 block"
             >
-              +998 90 123 45 67
+              +998 55 401 1515
             </Link>
 
             {/* Social Media Icons */}
             <div className="flex gap-3 mb-6">
               <Link
                 to="#"
-                className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-gray-700 transition-colors"
+                className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-blue-600 transition-colors"
               >
                 <Facebook size={20} />
               </Link>
               <Link
                 to="#"
-                className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-gray-700 transition-colors"
+                className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-sky-500 transition-colors"
               >
                 <Send size={20} />
               </Link>
               <Link
                 to="#"
-                className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-gray-700 transition-colors"
+                className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-pink-600 transition-colors"
               >
                 <Instagram size={20} />
               </Link>
               <Link
                 to="#"
-                className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-gray-700 transition-colors"
+                className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-red-600 transition-colors"
               >
                 <Youtube size={20} />
               </Link>
