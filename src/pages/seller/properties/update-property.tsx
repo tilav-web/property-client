@@ -29,6 +29,7 @@ import { Loader, Trash2, Upload } from "lucide-react";
 import LocationSection from "./_components/location-section";
 import type { CategoryType } from "@/interfaces/types/category.type";
 import { toast } from "sonner";
+import type { AxiosError } from "axios";
 
 // Schema remains mostly for client-side guidance, server has its own validation
 const schema = yup.object().shape({
@@ -230,9 +231,12 @@ export default function UpdateProperty() {
       toast.success("Mulk muvaffaqiyatli yangilandi!");
       navigate("/seller/properties");
     } catch (error) {
-      console.error("Update failed", error);
+      const err = error as AxiosError<any>;
+
       toast.dismiss();
-      toast.error("Mulkni yangilashda xatolik yuz berdi.");
+      toast.error(
+        err.response?.data?.message ?? "Mulkni yangilashda xatolik yuz berdi.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -358,7 +362,7 @@ export default function UpdateProperty() {
                 name="category"
                 control={control}
                 render={({ field }) => (
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select disabled onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger id="category">
                       <SelectValue />
                     </SelectTrigger>
