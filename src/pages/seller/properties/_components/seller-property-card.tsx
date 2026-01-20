@@ -77,6 +77,18 @@ export default function SellerPropertyCard({
               Tasdiqlangan
             </Badge>
           )}
+          {property.status === "PENDING" && (
+            <Badge className="bg-gradient-to-r from-yellow-500 to-yellow-900 text-white border-0">
+              <CheckCircle2 className="w-3 h-3 mr-1" />
+              Jarayonda
+            </Badge>
+          )}
+          {property.status === "REJECTED" && (
+            <Badge className="bg-gradient-to-r from-red-500 to-red-900 text-white border-0">
+              <CheckCircle2 className="w-3 h-3 mr-1" />
+              Rad etildi
+            </Badge>
+          )}
         </div>
 
         <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
