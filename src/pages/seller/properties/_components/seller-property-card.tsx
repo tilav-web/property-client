@@ -72,7 +72,7 @@ export default function SellerPropertyCard({
             </Badge>
           )}
           {property.status === "APPROVED" && (
-            <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white border-0">
+            <Badge className="bg-gradient-to-r from-green-500 to-green-900 text-white border-0">
               <CheckCircle2 className="w-3 h-3 mr-1" />
               Tasdiqlangan
             </Badge>
