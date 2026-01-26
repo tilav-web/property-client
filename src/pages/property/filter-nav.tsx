@@ -55,7 +55,7 @@ export default function FilterNav() {
       staleTime: 5 * 60 * 1000, // 5 minutes
     });
 
-  const observer = useRef<IntersectionObserver>();
+  const observer = useRef<IntersectionObserver>(null);
   const lastPropertyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

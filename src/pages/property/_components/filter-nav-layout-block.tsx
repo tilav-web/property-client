@@ -24,7 +24,7 @@ export default function FilterNavLayoutBlock({
         <div className="w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             {properties.map((property) => {
-              return <ApartmentCard key={property.id} property={property} />;
+              return <ApartmentCard key={property._id} property={property} />;
             })}
           </div>
         </div>
