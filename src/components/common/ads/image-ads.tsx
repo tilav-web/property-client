@@ -28,25 +28,27 @@ export default function ImageAds() {
     }
   };
 
-  if (isLoading) return <ImageAdsSkeleton />;
+  if (isLoading) return <div className="my-4"><ImageAdsSkeleton /></div>;
   if (!ads) return null;
 
   return (
-    <div className="w-full h-full relative lg:h-86 rounded-md overflow-hidden shadow-lg">
-      <img
-        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-        src={ads.image ?? ""}
-        alt={"ads image"}
-      />
-      {ads.target && (
-        <a
-          href={ads.target}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute inset-0"
-          onClick={handleClick}
+    <div className="my-4">
+      <div className="w-full h-full relative lg:h-86 rounded-md overflow-hidden shadow-lg">
+        <img
+          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+          src={ads.image ?? ""}
+          alt={"ads image"}
         />
-      )}
+        {ads.target && (
+          <a
+            href={ads.target}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0"
+            onClick={handleClick}
+          />
+        )}
+      </div>
     </div>
   );
 }

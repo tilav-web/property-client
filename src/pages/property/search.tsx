@@ -3,13 +3,16 @@ import type { IApartmentSale } from "@/interfaces/property/categories/apartment-
 import type { FindAllParams } from "@/services/property.service";
 import { propertyService } from "@/services/property.service";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useMemo, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import FilterNavLayoutBlock from "./_components/filter-nav-layout-block";
 import { useLanguageStore } from "@/stores/language.store";
-import LoadMoreButton from "@/components/common/buttons/load-more.button";
 import type { CategoryFilterType } from "@/interfaces/types/category-filter.type";
+import BannerAds from "@/components/common/ads/banner-ads";
+import ImageAds from "@/components/common/ads/image-ads";
+import ImageAdsSkeleton from "@/components/common/ads/image-ads-skeleton";
+import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
 
 interface PropertyPage {
   properties: IApartmentSale[];
@@ -100,7 +103,7 @@ export default function SearchPage() {
       queryFn: async ({ pageParam }) => {
         const paramsToSend: Partial<FindAllParams> = {
           page: pageParam as number,
-          limit: 8,
+          limit: 10, // Changed from 8 to 10
         };
 
         if (filterCategory && filterCategory !== "all")
@@ -129,28 +132,71 @@ export default function SearchPage() {
       staleTime: 5 * 60 * 1000,
     });
 
+  const observer = useRef<IntersectionObserver>(null);
+  const lastPropertyRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isFetchingNextPage) return;
+
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    });
+
+    if (lastPropertyRef.current) {
+      observer.current.observe(lastPropertyRef.current);
+    }
+  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+
+  const allProperties = useMemo(() => {
+    return data?.pages.flatMap((page) => page.properties) ?? [];
+  }, [data]);
+
   const hasNoResults =
-    !isLoading &&
-    !isFetchingNextPage &&
-    data?.pages.every((p) => p.properties.length === 0);
+    !isLoading && !isFetchingNextPage && allProperties.length === 0;
 
   return (
     <div className="py-4">
       <SearchFilterHeader />
 
-      {/* RENDER RESULTS */}
-      {data?.pages.map((page, index) => (
-        <FilterNavLayoutBlock
-          key={index}
-          properties={page.properties}
-          isLoading={false}
-        />
-      ))}
+      {/* RENDER RESULTS WITH ADS */}
+      {Array.from({ length: Math.ceil(allProperties.length / 10) }).map(
+        (_, pageIndex) => {
+          const pageProperties = allProperties.slice(
+            pageIndex * 10,
+            (pageIndex + 1) * 10
+          );
+          return (
+            <div key={pageIndex}>
+              <FilterNavLayoutBlock
+                properties={pageProperties.slice(0, 6)}
+                isLoading={false}
+              />
+              {pageProperties.length > 6 && <ImageAds />}
+              <FilterNavLayoutBlock
+                properties={pageProperties.slice(6, 10)}
+                isLoading={false}
+              />
+              {pageProperties.length > 9 && <BannerAds />}
+            </div>
+          );
+        }
+      )}
 
       {/* LOADING SKELETONS */}
       {(isLoading || isFetchingNextPage) && (
-        <FilterNavLayoutBlock properties={[]} isLoading={true} />
+        <div className="w-full">
+          <FilterNavLayoutBlock properties={[]} isLoading={true} />
+          <ImageAdsSkeleton />
+          <FilterNavLayoutBlock properties={[]} isLoading={true} />
+          <BannerAdsSkeleton />
+        </div>
       )}
+
+      <div ref={lastPropertyRef} />
 
       {/* NO RESULTS */}
       {hasNoResults && (
@@ -163,16 +209,6 @@ export default function SearchPage() {
               {t("pages.main_page.no_results_subtitle")}
             </p>
           </div>
-        </div>
-      )}
-
-      {/* LOAD MORE */}
-      {hasNextPage && (
-        <div className="w-full flex justify-center my-6">
-          <LoadMoreButton
-            loading={isFetchingNextPage}
-            fetchNextPage={fetchNextPage}
-          />
         </div>
       )}
     </div>

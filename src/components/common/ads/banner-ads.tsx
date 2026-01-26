@@ -28,25 +28,27 @@ export default function BannerAds() {
     }
   };
 
-  if (isLoading) return <BannerAdsSkeleton />;
+  if (isLoading) return <div className="my-4"><BannerAdsSkeleton /></div>;
   if (!ads) return null;
 
   return (
-    <div className="w-full h-[302px] relative rounded-md overflow-hidden border border-black">
-      <img
-        className="w-full h-full object-cover"
-        src={ads.image ?? ""}
-        alt={"banner ad"}
-      />
-      {ads.target && (
-        <a
-          href={ads.target}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute inset-0"
-          onClick={handleClick}
+    <div className="my-4">
+      <div className="w-full h-[302px] relative rounded-md overflow-hidden border border-black">
+        <img
+          className="w-full h-full object-cover"
+          src={ads.image ?? ""}
+          alt={"banner ad"}
         />
-      )}
+        {ads.target && (
+          <a
+            href={ads.target}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute inset-0"
+            onClick={handleClick}
+          />
+        )}
+      </div>
     </div>
   );
 }

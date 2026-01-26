@@ -3,14 +3,18 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { propertyService } from "@/services/property.service";
 import type { CategoryFilterType } from "@/interfaces/types/category-filter.type";
-import FilterNavLayoutBlock from "./_components/filter-nav-layout-block"; // FilterNavLayoutBlock ni import qildik
-import type { PropertyType } from "@/interfaces/property/property.interface"; // IProperty o'rniga PropertyType import qilindi
-import LoadMoreButton from "@/components/common/buttons/load-more.button";
+import FilterNavLayoutBlock from "./_components/filter-nav-layout-block";
+import type { PropertyType } from "@/interfaces/property/property.interface";
 import HeroSection from "@/components/common/hero-section";
 import { heroSectionCategoryImage } from "@/utils/shared";
+import { useRef, useEffect, useMemo } from "react";
+import BannerAds from "@/components/common/ads/banner-ads";
+import ImageAds from "@/components/common/ads/image-ads";
+import ImageAdsSkeleton from "@/components/common/ads/image-ads-skeleton";
+import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
 
 interface PropertyPage {
-  properties: PropertyType[]; // IProperty o'rniga PropertyType ishlatildi
+  properties: PropertyType[];
   page: number;
   limit: number;
   totalPages: number;
@@ -31,11 +35,10 @@ export default function Category() {
   } = useInfiniteQuery<PropertyPage>({
     queryKey: ["category-page", filterCategory],
     queryFn: async ({ pageParam = 1 }) => {
-      const result = await propertyService.findAll({
-        filterCategory,
-        page: pageParam as number,
-        limit: 6,
-      });
+              const result = await propertyService.findAll({
+                filterCategory,
+                page: pageParam as number,
+                limit: 10,      });
       return result as PropertyPage;
     },
     getNextPageParam: (lastPage) => {
@@ -51,7 +54,29 @@ export default function Category() {
 
   const isLoading = status === "pending";
   const noCategorySelected = !filterCategory;
-  const allProperties = data?.pages.flatMap((page) => page.properties) ?? [];
+  const allProperties = useMemo(
+    () => data?.pages.flatMap((page) => page.properties) ?? [],
+    [data]
+  );
+
+  const observer = useRef<IntersectionObserver>(null);
+  const lastPropertyRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isFetchingNextPage) return;
+
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    });
+
+    if (lastPropertyRef.current) {
+      observer.current.observe(lastPropertyRef.current);
+    }
+  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
   return (
     <div className="py-12">
@@ -65,50 +90,61 @@ export default function Category() {
           </div>
         ) : (
           <>
-            {/* INITIAL LOADING SKELETONS / NEXT PAGE FETCHING SKELETONS */}
-            {(isLoading || isFetchingNextPage) && (
-              <FilterNavLayoutBlock properties={[]} isLoading={true} />
+            {Array.from({ length: Math.ceil(allProperties.length / 10) }).map(
+              (_, pageIndex) => {
+                const pageProperties = allProperties.slice(
+                  pageIndex * 10,
+                  (pageIndex + 1) * 10
+                );
+                return (
+                  <div key={pageIndex}>
+                    <FilterNavLayoutBlock
+                      properties={pageProperties.slice(0, 6)}
+                      isLoading={false}
+                    />
+                    {pageProperties.length > 6 && <ImageAds />}
+                    <FilterNavLayoutBlock
+                      properties={pageProperties.slice(6, 10)}
+                      isLoading={false}
+                    />
+                    {pageProperties.length > 9 && <BannerAds />}
+                  </div>
+                );
+              }
             )}
 
-            {/* RENDER BLOCKS */}
-            {!isLoading &&
-              data?.pages.map((page, index) => (
-                <FilterNavLayoutBlock
-                  key={index}
-                  properties={page.properties}
-                  isLoading={false}
-                />
-              ))}
+            {/* LOADING SKELETONS */}
+            {(isLoading || isFetchingNextPage) && (
+              <div className="w-full">
+                <FilterNavLayoutBlock properties={[]} isLoading={true} />
+                <div className="my-4">
+                  <ImageAdsSkeleton />
+                </div>
+                <FilterNavLayoutBlock properties={[]} isLoading={true} />
+                <div className="my-4">
+                  <BannerAdsSkeleton />
+                </div>
+              </div>
+            )}
+            <div ref={lastPropertyRef} />
 
             {/* NO RESULTS */}
-            {!isLoading &&
-              !isFetchingNextPage &&
-              (!data || allProperties.length === 0) && (
-                <div className="text-center py-20">
-                  <h2 className="text-3xl font-bold mb-2">
-                    {t("pages.main_page.no_results_title")}
-                  </h2>
-                  <p className="text-gray-500">
-                    {t("pages.main_page.no_results_subtitle")}
-                  </p>
-                </div>
-              )}
+            {!isLoading && !isFetchingNextPage && allProperties.length === 0 && (
+              <div className="text-center py-20">
+                <h2 className="text-3xl font-bold mb-2">
+                  {t("pages.main_page.no_results_title")}
+                </h2>
+                <p className="text-gray-500">
+                  {t("pages.main_page.no_results_subtitle")}
+                </p>
+              </div>
+            )}
 
             {/* ERROR HANDLING */}
             {status === "error" && (
               <div className="text-center py-20 text-red-500">
                 <p>{t("pages.category_page.error_loading")}</p>
                 <p>{error?.message || "Unknown error"}</p>
-              </div>
-            )}
-
-            {/* MORE button */}
-            {hasNextPage && (
-              <div className="w-full text-center mt-8">
-                <LoadMoreButton
-                  loading={isFetchingNextPage}
-                  fetchNextPage={fetchNextPage}
-                />
               </div>
             )}
 
