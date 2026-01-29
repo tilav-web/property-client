@@ -103,7 +103,9 @@ export default function ApartmentCard({
         </div>
 
         <p className="font-bold text-lg">
-          RM {property.price?.toLocaleString()}
+          {property.currency === 'rm'
+            ? `RM ${property.price?.toLocaleString()}`
+            : `${property.price?.toLocaleString()} so'm`}
         </p>
       </div>
     </div>

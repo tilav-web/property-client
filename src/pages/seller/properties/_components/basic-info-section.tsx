@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Home, MapPin } from "lucide-react";
 import type { CategoryType } from "@/interfaces/types/category.type";
+import { type CurrencyType } from "@/interfaces/types/currency.type";
 
 interface Props {
   data: {
@@ -19,12 +20,14 @@ interface Props {
     description: string;
     address: string;
     price: number | string;
+    currency: CurrencyType; // Updated type
   };
   setData: (data: {
     title: string;
     description: string;
     address: string;
     price: number | string;
+    currency: CurrencyType; // Updated type
   }) => void;
   category: CategoryType | "";
   setCategory: (cat: CategoryType | "") => void;
@@ -34,6 +37,11 @@ interface Props {
 const categories = [
   { value: "APARTMENT_SALE" as const, label: "Kvartira sotish" },
   { value: "APARTMENT_RENT" as const, label: "Kvartira ijarasi" },
+];
+
+const currencies = [
+  { value: "rm" as const, label: "RM" }, // Updated value
+  { value: "uzs" as const, label: "UZS" }, // Updated value
 ];
 
 export default function BasicInfoSection({
@@ -103,14 +111,34 @@ export default function BasicInfoSection({
             <div className="flex items-center gap-2">
               <Label className="font-medium">Narx *</Label>
             </div>
-            <Input
-              type="number"
-              placeholder="Masalan: 85000000"
-              value={data.price}
-              onChange={(e) => setData({ ...data, price: e.target.value })}
-              className="border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
-              disabled={isSubmitting} // Disable during submission
-            />
+            <div className="flex gap-2">
+              <Input
+                type="number"
+                placeholder="Masalan: 85000000"
+                value={data.price}
+                onChange={(e) => setData({ ...data, price: e.target.value })}
+                className="border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+                disabled={isSubmitting} // Disable during submission
+              />
+              <Select
+                value={data.currency}
+                onValueChange={(value) =>
+                  setData({ ...data, currency: value as CurrencyType })
+                }
+                disabled={isSubmitting}
+              >
+                <SelectTrigger className="w-[100px] border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200">
+                  <SelectValue placeholder="Valyuta" />
+                </SelectTrigger>
+                <SelectContent>
+                  {currencies.map((currency) => (
+                    <SelectItem key={currency.value} value={currency.value}>
+                      {currency.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           {/* Category Select */}

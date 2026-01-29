@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { CategoryType } from "@/interfaces/types/category.type";
+import { type CurrencyType } from "@/interfaces/types/currency.type";
 
 interface PhotoFile {
   file: File;
@@ -16,6 +17,7 @@ interface CommonData {
   description: string;
   address: string;
   price: string | number;
+  currency: CurrencyType; // Updated type
 }
 
 interface LocationData {
@@ -63,6 +65,7 @@ const initialCommonData: CommonData = {
   description: "",
   address: "",
   price: "",
+  currency: "uzs", // Updated default value
 };
 
 const initialLocationData: LocationData = {

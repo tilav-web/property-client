@@ -306,7 +306,9 @@ export default function InquiriesPage() {
                               Taklif qilingan narx
                             </span>
                             <span className="text-lg font-bold text-primary flex items-center gap-2">
-                              {inquiry.offered_price?.toLocaleString() || "N/A"} RM
+                              {selectedInquiry.property.currency === 'rm'
+                                ? `RM ${selectedInquiry.offered_price?.toLocaleString() || "N/A"}`
+                                : `${selectedInquiry.offered_price?.toLocaleString() || "N/A"} so'm`}
                             </span>
                           </div>
                         </div>
@@ -467,7 +469,10 @@ export default function InquiriesPage() {
                 {selectedInquiry.user.first_name} {selectedInquiry.user.last_name}
               </p>
               <p className="text-sm text-muted-foreground">
-                Taklif: {selectedInquiry.offered_price?.toLocaleString()} RM
+                Taklif:{" "}
+                {selectedInquiry.property.currency === 'rm'
+                  ? `RM ${selectedInquiry.offered_price?.toLocaleString()}`
+                  : `${selectedInquiry.offered_price?.toLocaleString()} so'm`}
               </p>
             </div>
           )}

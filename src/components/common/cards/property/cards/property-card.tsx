@@ -28,7 +28,9 @@ export default function PropertyCard({ property }: PropertyCardProps) {
       maximumFractionDigits: 0,
     }).format(property.price);
 
-    return `${formatted} ${property.currency.toUpperCase()}`;
+    return property.currency === 'rm'
+      ? `RM ${formatted}`
+      : `${formatted} so'm`;
   };
 
   const getCategoryIcon = (category: CategoryType) => {

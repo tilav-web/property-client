@@ -1,1 +1,1 @@
-export type CurrencyType = "rm";
+export type CurrencyType = "rm" | "uzs";

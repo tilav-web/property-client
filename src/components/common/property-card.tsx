@@ -133,10 +133,9 @@ export default function PropertyCard({
             <div className="text-right">
               <div className="flex items-baseline gap-1">
                 <span className="text-xl font-bold text-gray-900">
-                  {formatPrice(price)}
-                </span>
-                <span className="text-sm font-medium text-gray-500">
-                  {currency.toUpperCase()}
+                  {currency === 'rm'
+                    ? `RM ${formatPrice(price)}`
+                    : `${formatPrice(price)} so'm`}
                 </span>
               </div>
             </div>

@@ -30,6 +30,7 @@ import LocationSection from "./_components/location-section";
 import type { CategoryType } from "@/interfaces/types/category.type";
 import { toast } from "sonner";
 import type { AxiosError } from "axios";
+import { type CurrencyType } from "@/interfaces/types/currency.type";
 
 // Schema remains mostly for client-side guidance, server has its own validation
 const schema = yup.object().shape({
@@ -53,6 +54,9 @@ const schema = yup.object().shape({
     .typeError("Narx raqam bo'lishi kerak")
     .positive("Narx musbat bo'lishi kerak")
     .required("Narx majburiy"),
+  currency: yup
+    .string<CurrencyType>() // Updated type
+    .required("Valyuta majburiy"),
   category: yup.string<CategoryType>().required("Kategoriya majburiy"),
 });
 
@@ -77,6 +81,7 @@ export default function UpdateProperty() {
         location: { type: "Point", coordinates: [69.279737, 41.311151] },
         photos: [],
         videos: [],
+        currency: "uzs", // Updated default value
       },
     },
   );
@@ -197,6 +202,7 @@ export default function UpdateProperty() {
       const simpleFields: (keyof FormValues)[] = [
         "category",
         "price",
+        "currency",
         "is_archived",
         "bedrooms",
         "bathrooms",
@@ -346,37 +352,65 @@ export default function UpdateProperty() {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="price">Narx</Label>
-              <Controller
-                name="price"
-                control={control}
-                render={({ field }) => (
-                  <Input id="price" type="number" {...field} />
-                )}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="category">Kategoriya</Label>
-              <Controller
-                name="category"
-                control={control}
-                render={({ field }) => (
-                  <Select disabled onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger id="category">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="APARTMENT_RENT">
-                        Apartment Rent
-                      </SelectItem>
-                      <SelectItem value="APARTMENT_SALE">
-                        Apartment Sale
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
-              />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="price">Narx</Label>
+                <Controller
+                  name="price"
+                  control={control}
+                  render={({ field }) => (
+                    <Input id="price" type="number" {...field} />
+                  )}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="currency">Valyuta</Label>
+                <Controller
+                  name="currency"
+                  control={control}
+                  render={({ field }) => (
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger id="currency">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value={'rm'}>
+                          RM
+                        </SelectItem>
+                        <SelectItem value={'uzs'}>
+                          UZS
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="category">Kategoriya</Label>
+                <Controller
+                  name="category"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      disabled
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
+                      <SelectTrigger id="category">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="APARTMENT_RENT">
+                          Apartment Rent
+                        </SelectItem>
+                        <SelectItem value="APARTMENT_SALE">
+                          Apartment Sale
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
             </div>
           </div>
         </CardContent>

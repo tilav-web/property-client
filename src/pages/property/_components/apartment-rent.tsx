@@ -130,7 +130,9 @@ export default function ApartmentRent({
   };
 
   const formatPrice = (price: number) => {
-    return `${apartment.currency || "RM"} ${formatNumber(price)}`;
+    return apartment.currency === 'rm'
+      ? `RM ${formatNumber(price)}`
+      : `${formatNumber(price)} so'm`;
   };
 
   if (!apartment) {

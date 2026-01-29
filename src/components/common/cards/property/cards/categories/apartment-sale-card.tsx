@@ -66,7 +66,9 @@ export default function ApartmentSaleCard({
             </div>
 
             <p className="text-xl lg:text-2xl font-bold text-[#FF0000]">
-              RM {apartment.price.toLocaleString()}
+              {apartment.currency === 'rm'
+                ? `RM ${apartment.price.toLocaleString()}`
+                : `${apartment.price.toLocaleString()} so'm`}
             </p>
           </div>
           <p className="text-sm hidden lg:block md:text-base text-gray-700 font-bold line-clamp-2">

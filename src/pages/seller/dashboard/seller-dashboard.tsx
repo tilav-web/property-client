@@ -79,7 +79,9 @@ const PropertyCard = ({ property }: { property: IProperty }) => {
         <div className="grid grid-cols-2 gap-4 mb-3">
           <div>
             <p className="text-2xl font-bold text-primary">
-              {property.price.toLocaleString()} {property.currency}
+              {property.currency === 'rm'
+                ? `RM ${property.price.toLocaleString()}`
+                : `${property.price.toLocaleString()} so'm`}
             </p>
           </div>
           <div className="space-y-1">
@@ -140,7 +142,9 @@ const InquiryCard = ({ inquiry }: { inquiry: IInquiry }) => {
         <div className="flex justify-between items-center text-sm">
           <span className="font-medium">
             {inquiry.offered_price &&
-              `${inquiry.offered_price.toLocaleString()} RM`}
+              (inquiry.property.currency === 'rm'
+                ? `RM ${inquiry.offered_price.toLocaleString()}`
+                : `${inquiry.offered_price.toLocaleString()} so'm`)}
           </span>
           <span className="text-muted-foreground">
             {new Date(inquiry.createdAt).toLocaleDateString()}
