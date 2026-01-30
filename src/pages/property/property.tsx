@@ -29,7 +29,7 @@ export default function Property() {
     return (
       <>
         <ApartmentSale apartment={property} />
-        <MortgageCalculator price={property.price} />
+        <MortgageCalculator price={property.price} currency={property.currency} />
         <Messages propertyId={id} />
       </>
     );

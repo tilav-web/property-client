@@ -306,9 +306,11 @@ export default function InquiriesPage() {
                               Taklif qilingan narx
                             </span>
                             <span className="text-lg font-bold text-primary flex items-center gap-2">
-                              {selectedInquiry.property.currency === 'rm'
-                                ? `RM ${selectedInquiry.offered_price?.toLocaleString() || "N/A"}`
-                                : `${selectedInquiry.offered_price?.toLocaleString() || "N/A"} so'm`}
+                              {selectedInquiry && selectedInquiry.property && selectedInquiry.offered_price !== undefined ? (
+                                selectedInquiry.property.currency === 'rm'
+                                  ? `RM ${selectedInquiry.offered_price.toLocaleString()}`
+                                  : `${selectedInquiry.offered_price.toLocaleString()} so'm`
+                              ) : "N/A"}
                             </span>
                           </div>
                         </div>
