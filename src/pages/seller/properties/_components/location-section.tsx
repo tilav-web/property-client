@@ -85,7 +85,7 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
           ],
         });
 
-        suggestViewRef.current.events.add("select", async (e: any) => {
+        suggestViewRef.current!.events.add("select", async (e: any) => {
           if (isSubmitting) return;
 
           const selectedSuggestion = e.get("item");
