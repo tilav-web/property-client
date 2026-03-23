@@ -110,4 +110,23 @@ declare namespace ymaps {
     get(path: string, defaultValue?: any): any;
     set(path: string, value: any): this;
   }
+
+  class SuggestView {
+    constructor(element: string | HTMLElement, options?: ISuggestOptions);
+    events: IEventManager;
+  }
+
+  interface ISuggestOptions {
+    results?: number;
+    boundedBy?: number[][];
+    strictBounds?: boolean;
+    provider?: any;
+  }
+
+  interface ISuggestResult {
+    displayName: string;
+    title: string;
+    subtitle?: string;
+    type: string;
+  }
 }
