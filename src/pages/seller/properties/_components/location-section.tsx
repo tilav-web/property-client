@@ -16,6 +16,12 @@ interface Props {
 
 const roundCoord = (num: number) => parseFloat(num.toFixed(6));
 
+// Uzbekistan bounds for better search results
+const UZBEKISTAN_BOUNDS = [
+  [37.17, 55.91], // South-West
+  [45.57, 73.15], // North-East
+];
+
 export default function LocationSection({ location, setLocation, isSubmitting = false }: Props) {
   const mapRef = useRef<ymaps.Map | null>(null);
   const placemarkRef = useRef<ymaps.Placemark | null>(null);
@@ -29,8 +35,10 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
 
     ymapsReadyPromise.current = new Promise<void>((resolve, reject) => {
       const timeout = setTimeout(() => {
-        clearInterval(check);
-        reject(new Error("Yandex Maps API failed to load in 10 seconds."));
+        if (ymapsReadyPromise.current) {
+          clearInterval(check);
+          reject(new Error("Yandex Maps API failed to load in 10 seconds."));
+        }
       }, 10000);
 
       const check = setInterval(() => {
@@ -79,10 +87,8 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
 
         suggestViewRef.current = new ymaps.SuggestView(searchInputRef.current!, {
           results: 5,
-          boundedBy: [
-            [41.0, 69.0],
-            [41.5, 69.5],
-          ],
+          boundedBy: UZBEKISTAN_BOUNDS,
+          provider: 'yandex#map', // Better search for cities and regions
         });
 
         suggestViewRef.current!.events.add("select", async (e: any) => {
@@ -94,15 +100,24 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
           try {
             const results = await ymaps.geocode(selectedSuggestion.value, {
               results: 1,
+              boundedBy: UZBEKISTAN_BOUNDS,
             });
 
             const geoObject = results.geoObjects.get(0);
             if (geoObject) {
               const coords = geoObject.geometry.getCoordinates() as [number, number];
-              setLocation({
+              const newLoc = {
                 lat: roundCoord(coords[0]),
                 lng: roundCoord(coords[1]),
-              });
+              };
+              setLocation(newLoc);
+              
+              // Move map to selected location
+              if (mapRef.current) {
+                mapRef.current.setCenter([newLoc.lat, newLoc.lng], 16, {
+                  duration: 300,
+                });
+              }
             }
           } catch (error) {
             console.error("Geocode error:", error);
@@ -146,7 +161,20 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
         const map = new ymaps.Map("location-map-container", {
           center: initialCoords,
           zoom: 14,
-          controls: ["zoomControl", "fullscreenControl", "geolocationControl"],
+          controls: ["zoomControl", "fullscreenControl", "geolocationControl", "searchControl"],
+        });
+
+        // Sync searchControl results with our state
+        const searchControl = map.controls.get('searchControl');
+        searchControl.events.add('resultselect', (e: any) => {
+          const index = e.get('index');
+          searchControl.getResult(index).then((res: any) => {
+            const coords = res.geometry.getCoordinates();
+            setLocation({
+              lat: roundCoord(coords[0]),
+              lng: roundCoord(coords[1]),
+            });
+          });
         });
 
         const placemark = new ymaps.Placemark(
