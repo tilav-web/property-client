@@ -32,7 +32,7 @@ const SellerCard = ({ seller }: { seller: ISeller }) => (
           {seller.user.first_name} {seller.user.last_name}
         </CardTitle>
         <CardDescription className="text-sm text-gray-500">
-          {seller.user.email.value}
+          {seller.user.email?.value}
         </CardDescription>
         <div className="mt-2">
           <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">

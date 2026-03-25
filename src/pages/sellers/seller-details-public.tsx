@@ -229,8 +229,8 @@ export default function PublicSellerDetailsPage() {
               <CardTitle>Contact Information</CardTitle>
             </CardHeader>
             <CardContent className="flex items-center gap-2">
-              <CallButton phone={data.user.phone.value} />
-              <MailButton mail={data.user.email.value} />
+              {data.user.phone?.value && <CallButton phone={data.user.phone.value} />}
+              {data.user.email?.value && <MailButton mail={data.user.email.value} />}
               {data.instagram && <InstagramButton username={data.instagram} />}
               {data.telegram && <TelegramButton username={data.telegram} />}
               {data.whatsapp && <WhatsAppButton phone={data.whatsapp} />}
