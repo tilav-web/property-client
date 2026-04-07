@@ -1,19 +1,19 @@
 import { createInstance } from "i18next";
 import { initReactI18next } from "react-i18next";
 import type { ILanguage } from "@/interfaces/language/language.interface";
+import en from "./en.json";
+import ru from "./ru.json";
+import uz from "./uz.json";
 
 const DEFAULT_LANGUAGE: ILanguage = "uz";
 const FALLBACK_LANGUAGE: ILanguage = "en";
 
-const translationLoaders: Record<ILanguage, () => Promise<{ default: object }>> =
-  {
-    en: () => import("./en.json"),
-    ru: () => import("./ru.json"),
-    uz: () => import("./uz.json"),
-  };
-
 const i18n = createInstance();
-const pendingResourceLoads = new Map<ILanguage, Promise<void>>();
+const resources = {
+  en: { translation: en },
+  ru: { translation: ru },
+  uz: { translation: uz },
+} as const;
 
 function getInitialLanguage(): ILanguage {
   if (typeof window === "undefined") {
@@ -29,66 +29,29 @@ function getInitialLanguage(): ILanguage {
   return DEFAULT_LANGUAGE;
 }
 
-async function loadLanguageResources(language: ILanguage) {
-  const resources = await translationLoaders[language]();
-
-  return resources.default;
-}
-
 export async function ensureLanguageResources(language: ILanguage) {
-  await i18nReady;
-
-  if (i18n.hasResourceBundle(language, "translation")) {
-    return;
+  if (!i18n.hasResourceBundle(language, "translation")) {
+    i18n.addResourceBundle(
+      language,
+      "translation",
+      resources[language].translation,
+      true,
+      true
+    );
   }
-
-  const pendingLoad = pendingResourceLoads.get(language);
-
-  if (pendingLoad) {
-    await pendingLoad;
-    return;
-  }
-
-  const loadPromise = loadLanguageResources(language)
-    .then((resources) => {
-      i18n.addResourceBundle(language, "translation", resources, true, true);
-    })
-    .finally(() => {
-      pendingResourceLoads.delete(language);
-    });
-
-  pendingResourceLoads.set(language, loadPromise);
-
-  await loadPromise;
 }
 
 const initialLanguage = getInitialLanguage();
-export const i18nReady = (async () => {
-  const initialResources: Partial<
-    Record<ILanguage, { translation: Awaited<ReturnType<typeof loadLanguageResources>> }>
-  > = {
-    [initialLanguage]: {
-      translation: await loadLanguageResources(initialLanguage),
-    },
-  };
-
-  if (initialLanguage !== FALLBACK_LANGUAGE) {
-    initialResources[FALLBACK_LANGUAGE] = {
-      translation: await loadLanguageResources(FALLBACK_LANGUAGE),
-    };
-  }
-
-  await i18n.use(initReactI18next).init({
-    lng: initialLanguage,
-    fallbackLng: FALLBACK_LANGUAGE,
-    supportedLngs: ["uz", "ru", "en"],
-    ns: ["translation"],
-    defaultNS: "translation",
-    resources: initialResources,
-    initImmediate: false,
-    interpolation: { escapeValue: false },
-    react: { useSuspense: false },
-  });
-})();
+export const i18nReady = i18n.use(initReactI18next).init({
+  lng: initialLanguage,
+  fallbackLng: FALLBACK_LANGUAGE,
+  supportedLngs: ["uz", "ru", "en"],
+  ns: ["translation"],
+  defaultNS: "translation",
+  resources,
+  initImmediate: false,
+  interpolation: { escapeValue: false },
+  react: { useSuspense: false },
+});
 
 export default i18n;
