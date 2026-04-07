@@ -1,4 +1,4 @@
-import i18n, { type BackendModule } from "i18next";
+import { createInstance } from "i18next";
 import { initReactI18next } from "react-i18next";
 import type { ILanguage } from "@/interfaces/language/language.interface";
 
@@ -11,6 +11,8 @@ const translationLoaders: Record<ILanguage, () => Promise<{ default: object }>> 
     ru: () => import("./ru.json"),
     uz: () => import("./uz.json"),
   };
+
+const i18n = createInstance();
 
 function getInitialLanguage(): ILanguage {
   if (typeof window === "undefined") {
@@ -26,54 +28,42 @@ function getInitialLanguage(): ILanguage {
   return DEFAULT_LANGUAGE;
 }
 
+async function loadLanguageResources(language: ILanguage) {
+  const resources = await translationLoaders[language]();
+
+  return resources.default;
+}
+
 export async function ensureLanguageResources(language: ILanguage) {
   if (i18n.hasResourceBundle(language, "translation")) {
     return;
   }
 
-  const resources = await translationLoaders[language]();
+  const resources = await loadLanguageResources(language);
 
-  i18n.addResourceBundle(
-    language,
-    "translation",
-    resources.default,
-    true,
-    true
-  );
+  i18n.addResourceBundle(language, "translation", resources, true, true);
 }
 
-const resourcesBackend: BackendModule = {
-  type: "backend",
-  init: () => {},
-  read: async (language, _namespace, callback) => {
-    try {
-      if (language !== "uz" && language !== "ru" && language !== "en") {
-        callback(null, {});
-        return;
-      }
-
-      const resources = await translationLoaders[language]();
-      callback(null, resources.default);
-    } catch (error) {
-      callback(error as Error, false);
-    }
+const initialLanguage = getInitialLanguage();
+const initialResources = {
+  [initialLanguage]: {
+    translation: await loadLanguageResources(initialLanguage),
   },
 };
 
-const initialLanguage = getInitialLanguage();
-
-await ensureLanguageResources(initialLanguage);
-
 if (initialLanguage !== FALLBACK_LANGUAGE) {
-  await ensureLanguageResources(FALLBACK_LANGUAGE);
+  initialResources[FALLBACK_LANGUAGE] = {
+    translation: await loadLanguageResources(FALLBACK_LANGUAGE),
+  };
 }
 
-await i18n.use(resourcesBackend).use(initReactI18next).init({
+await i18n.use(initReactI18next).init({
   lng: initialLanguage,
   fallbackLng: FALLBACK_LANGUAGE,
   supportedLngs: ["uz", "ru", "en"],
   ns: ["translation"],
   defaultNS: "translation",
+  resources: initialResources,
   interpolation: { escapeValue: false },
   react: { useSuspense: false },
 });
