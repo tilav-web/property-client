@@ -65,7 +65,6 @@ class UserService {
       const res = await apiInstance.get(API_ENDPOINTS.USER.me);
       return res.data;
     } catch (error) {
-      console.error(error);
       throw error;
     }
   }
@@ -104,4 +103,3 @@ class UserService {
 }
 
 export const userService = new UserService();
-

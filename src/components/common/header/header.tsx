@@ -28,7 +28,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import Login from "@/pages/auth/login";
 import { useUserStore } from "@/stores/user.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { defaultImageAvatar, logo } from "@/utils/shared";
@@ -37,10 +36,13 @@ import { useLanguageStore } from "@/stores/language.store";
 import type { ILanguage } from "@/interfaces/language/language.interface";
 import { cn } from "@/lib/utils";
 import { useUiStore } from "@/stores/ui.store";
+import { lazy, Suspense } from "react";
 
 interface IHeaderProps {
   className?: string;
 }
+
+const LoginDialogContent = lazy(() => import("@/pages/auth/login"));
 
 export default function Header({ className }: IHeaderProps) {
   const { t, i18n } = useTranslation();
@@ -110,6 +112,9 @@ export default function Header({ className }: IHeaderProps) {
                       className="w-full h-auto object-cover"
                       src={logo}
                       alt="logo"
+                      width={2966}
+                      height={935}
+                      decoding="async"
                     />
                   </Link>
 
@@ -135,6 +140,9 @@ export default function Header({ className }: IHeaderProps) {
                 className="w-full h-auto object-cover"
                 src={logo}
                 alt="logo"
+                width={2966}
+                height={935}
+                decoding="async"
               />
             </Link>
           </div>
@@ -225,7 +233,11 @@ export default function Header({ className }: IHeaderProps) {
                   <DialogTitle>{t("common.header.login_title")}</DialogTitle>
                   <DialogDescription></DialogDescription>
                 </DialogHeader>
-                <Login />
+                {isLoginDialogOpen ? (
+                  <Suspense fallback={null}>
+                    <LoginDialogContent />
+                  </Suspense>
+                ) : null}
               </DialogContent>
             </Dialog>
           </div>

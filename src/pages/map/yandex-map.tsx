@@ -5,6 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { propertyService } from "@/services/property.service";
 import type { PropertyType } from "@/interfaces/property/property.interface";
 import { useMapStore } from "@/stores/map.store";
+import { yandexMapKey } from "@/utils/shared";
 
 declare global {
   interface Window {
@@ -16,6 +17,7 @@ const DEFAULT_CENTER: [number, number] = [41.2995, 69.2401]; // Toshkent
 const DEFAULT_ZOOM = 12;
 const MIN_ZOOM = 10;
 const DEBOUNCE_DELAY = 500;
+const YANDEX_MAP_SCRIPT_ID = "yandex-maps-script";
 
 const getAreaKey = (lat: number, lng: number): string => {
   const AREA_SIZE = 0.2;
@@ -48,17 +50,33 @@ export default function YandexMap() {
 
   // 1. YMAPS KUTISH
   const waitForYmaps = (): Promise<void> => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (window.ymaps) {
         window.ymaps.ready(() => resolve());
-      } else {
-        const check = setInterval(() => {
-          if (window.ymaps) {
-            clearInterval(check);
-            window.ymaps.ready(() => resolve());
-          }
-        }, 100);
+        return;
       }
+
+      const handleReady = () => window.ymaps.ready(() => resolve());
+      const handleError = () =>
+        reject(new Error("Failed to load Yandex Maps script"));
+      const existingScript = document.getElementById(
+        YANDEX_MAP_SCRIPT_ID
+      ) as HTMLScriptElement | null;
+
+      if (existingScript) {
+        existingScript.addEventListener("load", handleReady, { once: true });
+        existingScript.addEventListener("error", handleError, { once: true });
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.id = YANDEX_MAP_SCRIPT_ID;
+      script.src = `https://api-maps.yandex.ru/2.1/?apikey=${yandexMapKey}&lang=en_RU`;
+      script.async = true;
+      script.defer = true;
+      script.addEventListener("load", handleReady, { once: true });
+      script.addEventListener("error", handleError, { once: true });
+      document.body.appendChild(script);
     });
   };
 

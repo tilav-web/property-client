@@ -207,6 +207,9 @@ export default function HeroSection({ img, title }: HeroSectionProps) {
           fetchPriority="high"
           loading="eager"
           decoding="async"
+          width={1899}
+          height={1209}
+          sizes="100vw"
           className="w-full h-full object-cover"
         />
 

@@ -1,53 +1,92 @@
+import type { ReactNode } from "react";
+import { Suspense, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RootLayout from "./layouts/root-layout";
-import SubLayout from "./layouts/sub-layout";
-import Main from "./pages/main/main";
-import RoleChecked from "./pages/auth/role-checked";
-import Register from "./pages/auth/register";
-import OtpConfirmation from "./pages/auth/otp-confirmation";
-import Profile from "./pages/profile/profile";
-import Property from "./pages/property/property";
-import Favorites from "./pages/favorites/favorites";
-import Login from "./pages/auth/login";
-import SellerLayout from "./layouts/seller-layout";
-import Unauthorized from "./pages/unauthorized/unauthorized";
-import SellerProfile from "./pages/seller/profile/seller-profile";
-import Inquiries from "./pages/seller/inquiries/inquiries";
-import Feedback from "./pages/seller/feedback/feedback";
-import SellerProperties from "./pages/seller/properties/seller-properties";
-import { lazy, Suspense, useEffect } from "react";
-import SocialCallback from "./pages/auth/social-callback";
-import FilterNav from "./pages/property/filter-nav";
-import AiAgent from "./pages/ai-agent/ai-agent";
-import SellerDashboard from "./pages/seller/dashboard/seller-dashboard";
-import SellerAdvertise from "./pages/seller/advertise/seller-advertise";
-import SellerCreateAdvertise from "./pages/seller/advertise/seller-create-advertise";
-import SellerEditAdvertise from "./pages/seller/advertise/seller-edit-advertise";
-import Category from "./pages/property/category";
-import YandexMap from "./pages/map/yandex-map";
-import { yandexMapKey } from "./utils/shared";
-import Search from "./pages/property/search";
-import AdminLayout from "./layouts/admin-layout";
-import AdminDashboard from "./pages/admin/_pages/dashboard/admin-dashboard";
-import AdminLogin from "./pages/admin/_pages/auth/admin-login";
-import AdminUsers from "./pages/admin/_pages/users/admin-users";
-import AdminProperties from "./pages/admin/_pages/properties/admin-properties";
-import AdminSellers from "./pages/admin/_pages/sellers/admin-sellers";
-import AdminAdvertises from "./pages/admin/_pages/advertises/admin-advertises";
 import MainLayout from "./layouts/main-layout";
-import SellerDetailsPage from "./pages/admin/_pages/sellers/seller-details-page";
-import PropertyDetailsPage from "./pages/admin/_pages/properties/property-details-page";
-import SellersPage from "./pages/sellers/sellers";
-import PublicSellerDetailsPage from "./pages/sellers/seller-details-public";
-import AdminsPage from "./pages/admin/admins";
+import RootLayout from "./layouts/root-layout";
+import Main from "./pages/main/main";
 
+const AdminLayout = lazy(() => import("./layouts/admin-layout"));
+const SellerLayout = lazy(() => import("./layouts/seller-layout"));
+const SubLayout = lazy(() => import("./layouts/sub-layout"));
+
+const AdminsPage = lazy(() => import("./pages/admin/admins"));
+const AdminDashboard = lazy(
+  () => import("./pages/admin/_pages/dashboard/admin-dashboard")
+);
+const AdminAdvertises = lazy(
+  () => import("./pages/admin/_pages/advertises/admin-advertises")
+);
+const AdminLogin = lazy(() => import("./pages/admin/_pages/auth/admin-login"));
+const AdminProperties = lazy(
+  () => import("./pages/admin/_pages/properties/admin-properties")
+);
+const PropertyDetailsPage = lazy(
+  () => import("./pages/admin/_pages/properties/property-details-page")
+);
+const AdminSellers = lazy(
+  () => import("./pages/admin/_pages/sellers/admin-sellers")
+);
+const SellerDetailsPage = lazy(
+  () => import("./pages/admin/_pages/sellers/seller-details-page")
+);
 const AdminTagsPage = lazy(() => import("./pages/admin/_pages/tags"));
+const AdminUsers = lazy(() => import("./pages/admin/_pages/users/admin-users"));
+const AiAgent = lazy(() => import("./pages/ai-agent/ai-agent"));
+const Login = lazy(() => import("./pages/auth/login"));
+const OtpConfirmation = lazy(() => import("./pages/auth/otp-confirmation"));
+const Register = lazy(() => import("./pages/auth/register"));
+const RoleChecked = lazy(() => import("./pages/auth/role-checked"));
+const SocialCallback = lazy(() => import("./pages/auth/social-callback"));
+const Favorites = lazy(() => import("./pages/favorites/favorites"));
+const YandexMap = lazy(() => import("./pages/map/yandex-map"));
+const Profile = lazy(() => import("./pages/profile/profile"));
+const Category = lazy(() => import("./pages/property/category"));
+const FilterNav = lazy(() => import("./pages/property/filter-nav"));
+const Property = lazy(() => import("./pages/property/property"));
+const Search = lazy(() => import("./pages/property/search"));
+const Feedback = lazy(() => import("./pages/seller/feedback/feedback"));
+const Inquiries = lazy(() => import("./pages/seller/inquiries/inquiries"));
+const SellerCreateAdvertise = lazy(
+  () => import("./pages/seller/advertise/seller-create-advertise")
+);
+const SellerEditAdvertise = lazy(
+  () => import("./pages/seller/advertise/seller-edit-advertise")
+);
+const SellerAdvertise = lazy(
+  () => import("./pages/seller/advertise/seller-advertise")
+);
+const SellerDashboard = lazy(
+  () => import("./pages/seller/dashboard/seller-dashboard")
+);
+const SellerProfile = lazy(
+  () => import("./pages/seller/profile/seller-profile")
+);
 const CreateProperty = lazy(
   () => import("./pages/seller/properties/create-property")
+);
+const SellerProperties = lazy(
+  () => import("./pages/seller/properties/seller-properties")
 );
 const UpdateProperty = lazy(
   () => import("./pages/seller/properties/update-property")
 );
+const PublicSellerDetailsPage = lazy(
+  () => import("./pages/sellers/seller-details-public")
+);
+const SellersPage = lazy(() => import("./pages/sellers/sellers"));
+const Unauthorized = lazy(() => import("./pages/unauthorized/unauthorized"));
+
+function RouteFallback() {
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center text-sm text-gray-500">
+      Loading...
+    </div>
+  );
+}
+
+function withSuspense(element: ReactNode) {
+  return <Suspense fallback={<RouteFallback />}>{element}</Suspense>;
+}
 
 const router = createBrowserRouter([
   {
@@ -64,7 +103,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/sellers",
-        element: (
+        element: withSuspense(
           <SubLayout>
             <SellersPage />
           </SubLayout>
@@ -72,7 +111,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/sellers/:sellerId",
-        element: (
+        element: withSuspense(
           <SubLayout>
             <PublicSellerDetailsPage />
           </SubLayout>
@@ -80,7 +119,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/property/:id",
-        element: (
+        element: withSuspense(
           <SubLayout>
             <Property />
           </SubLayout>
@@ -88,7 +127,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/filter-nav",
-        element: (
+        element: withSuspense(
           <SubLayout>
             <FilterNav />
           </SubLayout>
@@ -96,7 +135,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/search",
-        element: (
+        element: withSuspense(
           <SubLayout>
             <Search />
           </SubLayout>
@@ -104,7 +143,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/favorites",
-        element: (
+        element: withSuspense(
           <SubLayout>
             <Favorites />
           </SubLayout>
@@ -112,35 +151,35 @@ const router = createBrowserRouter([
       },
       {
         path: "/auth",
-        element: <RoleChecked />,
+        element: withSuspense(<RoleChecked />),
       },
       {
         path: "/ai-agent",
-        element: <AiAgent />,
+        element: withSuspense(<AiAgent />),
       },
       {
         path: "/map",
-        element: <YandexMap />,
+        element: withSuspense(<YandexMap />),
       },
       {
         path: "/auth/register",
-        element: <Register />,
+        element: withSuspense(<Register />),
       },
       {
         path: "/auth/otp",
-        element: <OtpConfirmation />,
+        element: withSuspense(<OtpConfirmation />),
       },
       {
         path: "/auth/login",
-        element: <Login />,
+        element: withSuspense(<Login />),
       },
       {
-        path: "/auth/social", // New route for social login callback
-        element: <SocialCallback />,
+        path: "/auth/social",
+        element: withSuspense(<SocialCallback />),
       },
       {
         path: "/profile",
-        element: (
+        element: withSuspense(
           <SubLayout>
             <Profile />
           </SubLayout>
@@ -148,7 +187,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/category",
-        element: (
+        element: withSuspense(
           <SubLayout>
             <Category />
           </SubLayout>
@@ -156,7 +195,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/seller",
-        element: (
+        element: withSuspense(
           <SellerLayout>
             <SellerDashboard />
           </SellerLayout>
@@ -164,7 +203,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/seller/profile",
-        element: (
+        element: withSuspense(
           <SellerLayout>
             <SellerProfile />
           </SellerLayout>
@@ -172,7 +211,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/seller/advertise",
-        element: (
+        element: withSuspense(
           <SellerLayout>
             <SellerAdvertise />
           </SellerLayout>
@@ -180,7 +219,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/seller/advertise/create",
-        element: (
+        element: withSuspense(
           <SellerLayout>
             <SellerCreateAdvertise />
           </SellerLayout>
@@ -188,7 +227,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/seller/advertise/edit/:id",
-        element: (
+        element: withSuspense(
           <SellerLayout>
             <SellerEditAdvertise />
           </SellerLayout>
@@ -196,7 +235,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/seller/inquiries",
-        element: (
+        element: withSuspense(
           <SellerLayout>
             <Inquiries />
           </SellerLayout>
@@ -204,7 +243,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/seller/feedback",
-        element: (
+        element: withSuspense(
           <SellerLayout>
             <Feedback />
           </SellerLayout>
@@ -212,7 +251,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/seller/properties",
-        element: (
+        element: withSuspense(
           <SellerLayout>
             <SellerProperties />
           </SellerLayout>
@@ -220,7 +259,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/seller/properties/update/:id",
-        element: (
+        element: withSuspense(
           <SellerLayout>
             <UpdateProperty />
           </SellerLayout>
@@ -228,81 +267,66 @@ const router = createBrowserRouter([
       },
       {
         path: "/seller/properties/create",
-        element: (
-          <Suspense fallback={<p>Loading...</p>}>
-            <SellerLayout>
-              <CreateProperty />
-            </SellerLayout>
-          </Suspense>
+        element: withSuspense(
+          <SellerLayout>
+            <CreateProperty />
+          </SellerLayout>
         ),
       },
       {
         path: "/unauthorized",
-        element: <Unauthorized />,
+        element: withSuspense(<Unauthorized />),
       },
     ],
   },
   {
     path: "/admin",
-    element: <AdminLayout />,
+    element: withSuspense(<AdminLayout />),
     children: [
       {
-        index: true, // index route: /admin
-        element: <AdminDashboard />,
+        index: true,
+        element: withSuspense(<AdminDashboard />),
       },
       {
         path: "users",
-        element: <AdminUsers />,
+        element: withSuspense(<AdminUsers />),
       },
       {
         path: "properties",
-        element: <AdminProperties />,
+        element: withSuspense(<AdminProperties />),
       },
       {
         path: "properties/:propertyId",
-        element: <PropertyDetailsPage />,
+        element: withSuspense(<PropertyDetailsPage />),
       },
       {
         path: "sellers",
-        element: <AdminSellers />,
+        element: withSuspense(<AdminSellers />),
       },
       {
         path: "sellers/:sellerId",
-        element: <SellerDetailsPage />,
+        element: withSuspense(<SellerDetailsPage />),
       },
       {
         path: "tags",
-        element: (
-          <Suspense fallback={<p>Loading...</p>}>
-            <AdminTagsPage />
-          </Suspense>
-        ),
+        element: withSuspense(<AdminTagsPage />),
       },
       {
         path: "ads",
-        element: <AdminAdvertises />,
+        element: withSuspense(<AdminAdvertises />),
       },
       {
         path: "admins",
-        element: <AdminsPage />,
+        element: withSuspense(<AdminsPage />),
       },
     ],
   },
   {
-    path: "/admin/login", // /admin/login
-    element: <AdminLogin />,
+    path: "/admin/login",
+    element: withSuspense(<AdminLogin />),
   },
 ]);
 
 export default function App() {
-  useEffect(() => {
-    if (!document.getElementById("yandex-maps-script")) {
-      const script = document.createElement("script");
-      script.id = "yandex-maps-script";
-      script.src = `https://api-maps.yandex.ru/2.1/?apikey=${yandexMapKey}&lang=en_RU`;
-      document.body.appendChild(script);
-    }
-  }, []);
-
   return <RouterProvider router={router} />;
 }

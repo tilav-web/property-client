@@ -82,6 +82,10 @@ export default function PropertyCard({
           <img
             src={photos?.[0] ? getImageUrl(photos[0]) : "/placeholder.svg"}
             alt={title}
+            loading="lazy"
+            decoding="async"
+            width={800}
+            height={600}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
 

@@ -15,20 +15,35 @@ export default function RootLayout() {
   const { i18n } = useTranslation();
 
   useEffect(() => {
-    (async () => {
-      i18n.changeLanguage(
-        user?.lan ? user?.lan : handleStorage({ key: "language" }) ?? "uz"
-      );
+    const language = user?.lan ?? handleStorage({ key: "language" }) ?? "uz";
+
+    if (i18n.language !== language) {
+      void i18n.changeLanguage(language);
+    }
+  }, [i18n, user?.lan]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (user || user === null) return;
+
+    void (async () => {
       try {
-        if (user || user === null) return;
         const data = await userService.findMe();
-        setUser(data);
-      } catch (error) {
-        console.error(error);
-        logout();
+        if (isMounted) {
+          setUser(data);
+        }
+      } catch {
+        if (isMounted) {
+          logout();
+        }
       }
     })();
-  }, [setUser, logout]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [logout, setUser, user]);
 
   useEffect(() => {
     if (user?._id && !likedProperties.length) {
@@ -37,7 +52,13 @@ export default function RootLayout() {
     if (user?._id && !savedProperties.length) {
       fetchSavedProperties();
     }
-  }, [user?._id, fetchLikedProperties, fetchSavedProperties]);
+  }, [
+    fetchLikedProperties,
+    fetchSavedProperties,
+    likedProperties.length,
+    savedProperties.length,
+    user?._id,
+  ]);
 
   return <Outlet />;
 }
