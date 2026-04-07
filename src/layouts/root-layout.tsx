@@ -1,4 +1,6 @@
+import { ensureLanguageResources } from "@/i18n/i18n";
 import { userService } from "@/services/user.service";
+import { useLanguageStore } from "@/stores/language.store";
 import { useLikeStore } from "@/stores/like.store";
 import { useSaveStore } from "@/stores/save.store";
 import { useUserStore } from "@/stores/user.store";
@@ -9,18 +11,38 @@ import { Outlet } from "react-router-dom";
 
 export default function RootLayout() {
   const { setUser, user, logout } = useUserStore();
+  const { language, setLanguage } = useLanguageStore();
   const { fetchLikedProperties, likedProperties } = useLikeStore();
   const { savedProperties, fetchSavedProperties } = useSaveStore();
 
   const { i18n } = useTranslation();
 
   useEffect(() => {
-    const language = user?.lan ?? handleStorage({ key: "language" }) ?? "uz";
+    const resolvedLanguage =
+      user?.lan ?? handleStorage({ key: "language" }) ?? "uz";
 
-    if (i18n.language !== language) {
-      void i18n.changeLanguage(language);
+    if (
+      resolvedLanguage !== "uz" &&
+      resolvedLanguage !== "ru" &&
+      resolvedLanguage !== "en"
+    ) {
+      return;
     }
-  }, [i18n, user?.lan]);
+
+    if (document.documentElement.lang !== resolvedLanguage) {
+      document.documentElement.lang = resolvedLanguage;
+    }
+
+    if (language !== resolvedLanguage) {
+      setLanguage(resolvedLanguage);
+    }
+
+    if (i18n.language !== resolvedLanguage) {
+      void ensureLanguageResources(resolvedLanguage).then(() =>
+        i18n.changeLanguage(resolvedLanguage)
+      );
+    }
+  }, [i18n, language, setLanguage, user?.lan]);
 
   useEffect(() => {
     let isMounted = true;

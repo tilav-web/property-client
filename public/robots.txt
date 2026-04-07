@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /favorites
+Disallow: /profile
+Disallow: /seller
+
+Sitemap: https://amaarproperties.com/sitemap.xml

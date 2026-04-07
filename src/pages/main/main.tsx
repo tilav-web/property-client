@@ -1,5 +1,5 @@
 import HeroSection from "@/components/common/hero-section";
-import { heroImage } from "@/utils/shared";
+import { heroImage, heroImageSrcSet } from "@/utils/shared";
 import { Suspense, lazy, useEffect, useState } from "react";
 
 const FeaturedPropertiesSection = lazy(
@@ -52,7 +52,13 @@ export default function Main() {
 
   return (
     <div className="w-full">
-      <HeroSection title="pages.hero.title" img={heroImage} />
+      <HeroSection
+        title="pages.hero.title"
+        img={heroImage}
+        imgSrcSet={heroImageSrcSet}
+        imageWidth={1600}
+        imageHeight={1019}
+      />
 
       <div className="container mx-auto px-4 py-8">
         {showDeferredSections ? (

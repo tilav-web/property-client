@@ -1,6 +1,6 @@
 import BrowseSellersCta from "@/components/common/browse-sellers-cta";
 import { Button } from "@/components/ui/button";
-import { heroImage } from "@/utils/shared";
+import { heroImage, heroImageSrcSet } from "@/utils/shared";
 import {
   ArrowRight,
   BarChart,
@@ -102,11 +102,13 @@ function MapCta() {
       <div className="relative my-16 overflow-hidden rounded-2xl">
         <img
           src={heroImage}
+          srcSet={heroImageSrcSet}
           loading="lazy"
           fetchPriority="low"
           decoding="async"
-          width={1899}
-          height={1209}
+          sizes="100vw"
+          width={1600}
+          height={1019}
           className="absolute inset-0 h-full w-full object-cover"
           alt="Map background"
         />

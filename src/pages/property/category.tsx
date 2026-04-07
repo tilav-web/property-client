@@ -6,7 +6,10 @@ import type { CategoryFilterType } from "@/interfaces/types/category-filter.type
 import FilterNavLayoutBlock from "./_components/filter-nav-layout-block";
 import type { PropertyType } from "@/interfaces/property/property.interface";
 import HeroSection from "@/components/common/hero-section";
-import { heroSectionCategoryImage } from "@/utils/shared";
+import {
+  heroSectionCategoryImage,
+  heroSectionCategoryImageSrcSet,
+} from "@/utils/shared";
 import { useRef, useEffect, useMemo } from "react";
 import BannerAds from "@/components/common/ads/banner-ads";
 import ImageAds from "@/components/common/ads/image-ads";
@@ -80,7 +83,13 @@ export default function Category() {
 
   return (
     <div className="py-12">
-      <HeroSection title="" img={heroSectionCategoryImage} />
+      <HeroSection
+        title=""
+        img={heroSectionCategoryImage}
+        imgSrcSet={heroSectionCategoryImageSrcSet}
+        imageWidth={1600}
+        imageHeight={960}
+      />
       <div className="w-full flex flex-col items-center gap-y-8 px-4 py-8">
         {noCategorySelected ? (
           <div className="text-center py-20">

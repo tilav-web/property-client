@@ -33,6 +33,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useEffect } from "react";
+import { ensureLanguageResources } from "@/i18n/i18n";
 
 export default function Profile() {
   const { t, i18n } = useTranslation();
@@ -57,7 +58,8 @@ export default function Profile() {
         await userService.update(formData);
       }
       setLanguage(lan);
-      i18n.changeLanguage(lan);
+      await ensureLanguageResources(lan);
+      await i18n.changeLanguage(lan);
     } catch (error) {
       console.error(error);
     }

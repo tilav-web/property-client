@@ -1,12 +1,17 @@
-import heroImage from "@/assets/images/hero-image.webp";
 import roleImage1 from "@/assets/images/role-image1.png";
 import roleImage3 from "@/assets/images/role-image3.png";
 import defaultImageAvatar from "@/assets/images/default-avatar.png";
 import registerHouseImage from "@/assets/images/register-house-image.jpg";
 import courtSvg from "@/assets/icons/court.svg";
 import type { AdvertiseType } from "@/interfaces/advertise/advertise.interface";
-import heroSectionCategoryImage from "@/assets/images/hero-section-category.jpg";
 import logo from "@/assets/images/amaar-propert-logo.png";
+
+const heroImage = "/images/hero/home-hero-1600.webp";
+const heroImageSrcSet =
+  "/images/hero/home-hero-800.webp 800w, /images/hero/home-hero-1600.webp 1600w";
+const heroSectionCategoryImage = "/images/hero/category-hero-1600.jpg";
+const heroSectionCategoryImageSrcSet =
+  "/images/hero/category-hero-800.jpg 800w, /images/hero/category-hero-1600.jpg 1600w";
 
 export {
   courtSvg,
@@ -14,8 +19,10 @@ export {
   roleImage3,
   registerHouseImage,
   heroImage,
+  heroImageSrcSet,
   defaultImageAvatar,
   heroSectionCategoryImage,
+  heroSectionCategoryImageSrcSet,
   logo,
 };
 

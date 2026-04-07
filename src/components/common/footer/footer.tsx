@@ -6,7 +6,7 @@ export default function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-black text-white py-12">
+    <footer className="bg-black py-12 text-white [contain-intrinsic-size:1px_620px] [content-visibility:auto]">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Contact Section */}
@@ -21,30 +21,34 @@ export default function Footer() {
 
             {/* Social Media Icons */}
             <div className="flex gap-3 mb-6">
-              <Link
-                to="#"
+              <a
+                href="#"
+                aria-label="Facebook"
                 className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-blue-600 transition-colors"
               >
-                <Facebook size={20} />
-              </Link>
-              <Link
-                to="#"
+                <Facebook size={20} aria-hidden="true" />
+              </a>
+              <a
+                href="#"
+                aria-label="Telegram"
                 className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-sky-500 transition-colors"
               >
-                <Send size={20} />
-              </Link>
-              <Link
-                to="#"
+                <Send size={20} aria-hidden="true" />
+              </a>
+              <a
+                href="#"
+                aria-label="Instagram"
                 className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-pink-600 transition-colors"
               >
-                <Instagram size={20} />
-              </Link>
-              <Link
-                to="#"
+                <Instagram size={20} aria-hidden="true" />
+              </a>
+              <a
+                href="#"
+                aria-label="YouTube"
                 className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-red-600 transition-colors"
               >
-                <Youtube size={20} />
-              </Link>
+                <Youtube size={20} aria-hidden="true" />
+              </a>
             </div>
 
             <Link to="#" className="text-sm underline">

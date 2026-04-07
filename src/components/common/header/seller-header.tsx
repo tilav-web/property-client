@@ -15,6 +15,7 @@ import { handleStorage } from "@/utils/handle-storage";
 import { userService } from "@/services/user.service";
 import type { ILanguage } from "@/interfaces/language/language.interface";
 import { useLanguageStore } from "@/stores/language.store";
+import { ensureLanguageResources } from "@/i18n/i18n";
 
 interface HeaderProps {
   isSidebarOpen: boolean;
@@ -43,7 +44,8 @@ export default function SellerHeader({
         setUser(data);
       }
       setLanguage(lan);
-      i18n.changeLanguage(lan);
+      await ensureLanguageResources(lan);
+      await i18n.changeLanguage(lan);
     } catch (error) {
       console.error(error);
     }
@@ -75,6 +77,7 @@ export default function SellerHeader({
           <Button
             variant="ghost"
             size="icon"
+            aria-label={isSidebarOpen ? "Close menu" : "Open menu"}
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             className="md:hidden h-9 w-9 rounded-lg hover:bg-gray-100 transition-colors"
           >
@@ -119,6 +122,7 @@ export default function SellerHeader({
           <Button
             variant="ghost"
             size="icon"
+            aria-label={t("common.seller_header.search_placeholder")}
             className="md:hidden h-9 w-9 rounded-lg hover:bg-gray-100"
           >
             <Search className="h-4 w-4" />
@@ -128,6 +132,7 @@ export default function SellerHeader({
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Notifications"
             className="relative h-9 w-9 rounded-lg hover:bg-gray-100 transition-colors"
           >
             <Bell className="h-4 w-4" />

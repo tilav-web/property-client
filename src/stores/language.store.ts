@@ -7,8 +7,22 @@ interface LanguageState {
   setLanguage: (language: ILanguage) => void;
 }
 
+const getStoredLanguage = (): ILanguage => {
+  if (typeof window === "undefined") {
+    return "uz";
+  }
+
+  const storedLanguage = handleStorage({ key: "language" });
+
+  if (storedLanguage === "uz" || storedLanguage === "ru" || storedLanguage === "en") {
+    return storedLanguage;
+  }
+
+  return "uz";
+};
+
 export const useLanguageStore = create<LanguageState>((set) => ({
-  language: "uz",
+  language: getStoredLanguage(),
   setLanguage: (language: ILanguage) =>
     set((state) => {
       state.language = language;

@@ -2,7 +2,7 @@ import HeroSection from "@/components/common/hero-section";
 import type { IApartmentSale } from "@/interfaces/property/categories/apartment-sale.interface";
 import type { CategoryType } from "@/interfaces/types/category.type";
 import { propertyService } from "@/services/property.service";
-import { heroImage } from "@/utils/shared";
+import { heroImage, heroImageSrcSet } from "@/utils/shared";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -83,6 +83,9 @@ export default function FilterNav() {
       <HeroSection
         title={t("pages.category_page.title")}
         img={heroImage}
+        imgSrcSet={heroImageSrcSet}
+        imageWidth={1600}
+        imageHeight={1019}
         className="text-white"
       />
       {Array.from({ length: Math.ceil(allProperties.length / 10) }).map(

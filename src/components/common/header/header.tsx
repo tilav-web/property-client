@@ -36,6 +36,7 @@ import { useLanguageStore } from "@/stores/language.store";
 import type { ILanguage } from "@/interfaces/language/language.interface";
 import { cn } from "@/lib/utils";
 import { useUiStore } from "@/stores/ui.store";
+import { ensureLanguageResources } from "@/i18n/i18n";
 import { lazy, Suspense } from "react";
 
 interface IHeaderProps {
@@ -62,7 +63,8 @@ export default function Header({ className }: IHeaderProps) {
         setUser(data);
       }
       setLanguage(lan);
-      i18n.changeLanguage(lan);
+      await ensureLanguageResources(lan);
+      await i18n.changeLanguage(lan);
     } catch (error) {
       console.error(error);
     }
@@ -101,7 +103,12 @@ export default function Header({ className }: IHeaderProps) {
           <div className="flex items-center gap-4">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="lg:hidden">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="lg:hidden"
+                  aria-label="Open menu"
+                >
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
@@ -161,12 +168,14 @@ export default function Header({ className }: IHeaderProps) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <div
-              className="mr-4 animate-pulse-call"
+            <button
+              type="button"
+              aria-label="Call Amaar Properties"
+              className="mr-4 animate-pulse-call border-0 bg-transparent p-0"
               onClick={() => (window.location.href = "tel:+998554011515")}
             >
               <PhoneCall size={18} className="cursor-pointer" />
-            </div>
+            </button>
             {!user && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
