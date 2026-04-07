@@ -217,6 +217,81 @@
         }
       }
     </script>
+    <script>
+      (() => {
+        const recoveryKey = "__amaar_client_asset_recovery__";
+
+        const reloadWithCacheBust = () => {
+          try {
+            if (window.sessionStorage.getItem(recoveryKey) === "1") {
+              return;
+            }
+
+            window.sessionStorage.setItem(recoveryKey, "1");
+          } catch {
+            return;
+          }
+
+          const url = new URL(window.location.href);
+          url.searchParams.set("_r", Date.now().toString());
+          window.location.replace(url.toString());
+        };
+
+        window.addEventListener("load", () => {
+          try {
+            window.sessionStorage.removeItem(recoveryKey);
+          } catch {
+            console.warn("Failed to clear asset recovery flag");
+          }
+        });
+
+        window.addEventListener("vite:preloadError", (event) => {
+          event.preventDefault();
+          reloadWithCacheBust();
+        });
+
+        window.addEventListener(
+          "error",
+          (event) => {
+            const target = event.target;
+
+            if (
+              !(target instanceof HTMLScriptElement) &&
+              !(target instanceof HTMLLinkElement)
+            ) {
+              return;
+            }
+
+            const resourceUrl =
+              target instanceof HTMLLinkElement ? target.href : target.src;
+
+            if (!/\/assets\/.+\.(js|css)$/i.test(resourceUrl)) {
+              return;
+            }
+
+            reloadWithCacheBust();
+          },
+          true
+        );
+
+        window.addEventListener("unhandledrejection", (event) => {
+          const reason = event.reason;
+          const message =
+            typeof reason === "string"
+              ? reason
+              : typeof reason?.message === "string"
+                ? reason.message
+                : "";
+
+          if (
+            message.includes("Failed to fetch dynamically imported module") ||
+            message.includes("Importing a module script failed")
+          ) {
+            reloadWithCacheBust();
+          }
+        });
+      })();
+    </script>
   </head>
   <body>
     <div id="root">
