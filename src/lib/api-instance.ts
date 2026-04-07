@@ -12,7 +12,14 @@ const apiInstance = axios.create({
 apiInstance.interceptors.request.use((config) => {
   const access_token = handleStorage({ key: "access_token" });
   const language = handleStorage({ key: "language" }) ?? "uz";
-  config.headers["Authorization"] = `Bearer ${access_token}`;
+  config.headers = config.headers || {};
+
+  if (access_token) {
+    config.headers["Authorization"] = `Bearer ${access_token}`;
+  } else {
+    delete config.headers["Authorization"];
+  }
+
   config.headers["Accept-Language"] = language;
 
   if (config.data instanceof FormData) {
@@ -64,6 +71,18 @@ apiInstance.interceptors.response.use(
 );
 
 export default apiInstance;
+
+export const publicApi = axios.create({
+  baseURL: serverUrl,
+});
+
+publicApi.interceptors.request.use((config) => {
+  const language = handleStorage({ key: "language" }) ?? "uz";
+  config.headers = config.headers || {};
+  config.headers["Accept-Language"] = language;
+
+  return config;
+});
 
 export const adminApi = axios.create({
   baseURL: serverUrl,

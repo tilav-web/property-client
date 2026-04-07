@@ -40,6 +40,7 @@ export default function Messages({ propertyId }: MessagesProps) {
     queryFn: ({ pageParam }) =>
       messageService.findMessageByProperty(propertyId!, pageParam as number),
     initialPageParam: 1,
+    retry: false,
     getNextPageParam: (lastPage) => {
       const totalPages = Math.ceil(lastPage.total / lastPage.limit);
       return lastPage.page < totalPages ? lastPage.page + 1 : undefined;

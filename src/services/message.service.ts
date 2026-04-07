@@ -1,4 +1,4 @@
-import apiInstance from "@/lib/api-instance";
+import apiInstance, { publicApi } from "@/lib/api-instance";
 import { API_ENDPOINTS } from "@/utils/shared";
 
 class MessageService {
@@ -24,7 +24,7 @@ class MessageService {
 
   async findMessageByProperty(id: string, page = 1, limit = 15) {
     try {
-      const res = await apiInstance.get(
+      const res = await publicApi.get(
         `${API_ENDPOINTS.MESSAGE.findMessageByProperty(
           id,
         )}?page=${page}&limit=${limit}`,
