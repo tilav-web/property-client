@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import type { IApartmentSale } from "@/interfaces/property/categories/apartment-sale.interface";
 import { useTranslation } from "react-i18next"; // Import useTranslation
 
