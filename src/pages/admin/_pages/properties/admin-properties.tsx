@@ -45,6 +45,7 @@ export default function AdminProperties() {
   const status =
     (searchParams.get("status") as PropertyStatusType) || undefined;
   const category = (searchParams.get("category") as CategoryType) || undefined;
+  const archived = searchParams.get("archived") || undefined;
 
   const [searchInput, setSearchInput] = useState(searchQuery);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -55,7 +56,7 @@ export default function AdminProperties() {
     );
 
   const { data, isLoading } = useQuery({
-    queryKey: ["admin-properties", page, limit, searchQuery, status, category],
+    queryKey: ["admin-properties", page, limit, searchQuery, status, category, archived],
     queryFn: () =>
       adminPropertyService.getProperties({
         page,
@@ -63,6 +64,7 @@ export default function AdminProperties() {
         search: searchQuery || undefined,
         status,
         category,
+        is_archived: archived === "true" ? true : archived === "false" ? false : undefined,
       }),
   });
 
@@ -81,44 +83,42 @@ export default function AdminProperties() {
   const navigate = useNavigate();
   const columns = getColumns(openEditModal, navigate);
 
-  const applySearch = () => {
-    setSearchParams({
+  const buildParams = (overrides: Record<string, string | undefined>) => {
+    const base: Record<string, string> = {
       page: "1",
       limit: limit.toString(),
-      search: searchInput,
-      ...(status && { status }),
-      ...(category && { category }),
-    });
+    };
+    const merged = {
+      search: searchQuery,
+      status,
+      category,
+      archived,
+      ...overrides,
+    };
+    for (const [key, val] of Object.entries(merged)) {
+      if (val && val !== "all") base[key] = val;
+    }
+    return base;
+  };
+
+  const applySearch = () => {
+    setSearchParams(buildParams({ search: searchInput }));
   };
 
   const changePage = (newPage: number) => {
-    setSearchParams({
-      page: newPage.toString(),
-      limit: limit.toString(),
-      ...(searchQuery && { search: searchQuery }),
-      ...(status && { status }),
-      ...(category && { category }),
-    });
+    setSearchParams(buildParams({ page: newPage.toString() }));
   };
 
   const onStatusChange = (value: string) => {
-    setSearchParams({
-      page: "1",
-      limit: limit.toString(),
-      ...(value !== "all" && { status: value }),
-      ...(searchQuery && { search: searchQuery }),
-      ...(category && { category }),
-    });
+    setSearchParams(buildParams({ status: value }));
   };
 
   const onCategoryChange = (value: string) => {
-    setSearchParams({
-      page: "1",
-      limit: limit.toString(),
-      ...(value !== "all" && { category: value }),
-      ...(searchQuery && { search: searchQuery }),
-      ...(status && { status }),
-    });
+    setSearchParams(buildParams({ category: value }));
+  };
+
+  const onArchivedChange = (value: string) => {
+    setSearchParams(buildParams({ archived: value }));
   };
 
   return (
@@ -161,6 +161,16 @@ export default function AdminProperties() {
                 {c}
               </SelectItem>
             ))}
+          </SelectContent>
+        </Select>
+        <Select onValueChange={onArchivedChange} value={archived}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Archive" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="true">Archived</SelectItem>
+            <SelectItem value="false">Active</SelectItem>
           </SelectContent>
         </Select>
       </div>
