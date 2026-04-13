@@ -29,7 +29,7 @@ export default function InquiryResponsesTab() {
       return `${diffHours} soat oldin`;
     }
 
-    return date.toLocaleDateString("uz-UZ", {
+    return date.toLocaleDateString("en-MY", {
       month: "short",
       day: "numeric",
       hour: "2-digit",

@@ -33,7 +33,7 @@ export default function SellerHeader({
   const lanValue = handleStorage({ key: "language" });
   const { setLanguage } = useLanguageStore();
 
-  const languages = Object.values<ILanguage>(["uz", "ru", "en"]);
+  const languages = Object.values<ILanguage>(["en", "ru", "uz"]);
 
   const handleChangeUserLan = async (lan: ILanguage) => {
     try {
@@ -152,7 +152,7 @@ export default function SellerHeader({
               >
                 <Globe className="h-4 w-4" />
                 <span className="text-sm uppercase">
-                  {user?.lan ? user?.lan : lanValue ? lanValue : "uz"}
+                  {user?.lan ? user?.lan : lanValue ? lanValue : "en"}
                 </span>
                 <ChevronDown className="h-3 w-3" />
               </Button>

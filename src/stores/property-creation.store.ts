@@ -65,55 +65,57 @@ const initialCommonData: CommonData = {
   description: "",
   address: "",
   price: "",
-  currency: "uzs", // Updated default value
+  currency: "rm",
 };
 
 const initialLocationData: LocationData = {
-  lat: 41.2995, // Default latitude for Tashkent, Uzbekistan
-  lng: 69.2401, // Default longitude for Tashkent, Uzbekistan
+  lat: 3.139,
+  lng: 101.6869,
 };
 
-export const usePropertyCreationStore = create<PropertyCreationState>((set) => ({
-  step: 1,
-  photos: [],
-  videos: [],
-  category: "",
-  commonData: initialCommonData,
-  categoryData: {},
-  location: initialLocationData,
+export const usePropertyCreationStore = create<PropertyCreationState>(
+  (set) => ({
+    step: 1,
+    photos: [],
+    videos: [],
+    category: "",
+    commonData: initialCommonData,
+    categoryData: {},
+    location: initialLocationData,
 
-  nextStep: () => set((state) => ({ step: state.step + 1 })),
-  prevStep: () => set((state) => ({ step: state.step - 1 })),
-  setStep: (step: number) => set({ step }),
+    nextStep: () => set((state) => ({ step: state.step + 1 })),
+    prevStep: () => set((state) => ({ step: state.step - 1 })),
+    setStep: (step: number) => set({ step }),
 
-  setPhotos: (photos) => set({ photos }),
-  setVideos: (videos) => set({ videos }),
-  addPhoto: (photo) => set((state) => ({ photos: [...state.photos, photo] })),
-  addVideo: (video) => set((state) => ({ videos: [...state.videos, video] })),
-  removePhoto: (preview) =>
-    set((state) => ({
-      photos: state.photos.filter((p) => p.preview !== preview),
-    })),
-  removeVideo: (preview) =>
-    set((state) => ({
-      videos: state.videos.filter((v) => v.preview !== preview),
-    })),
+    setPhotos: (photos) => set({ photos }),
+    setVideos: (videos) => set({ videos }),
+    addPhoto: (photo) => set((state) => ({ photos: [...state.photos, photo] })),
+    addVideo: (video) => set((state) => ({ videos: [...state.videos, video] })),
+    removePhoto: (preview) =>
+      set((state) => ({
+        photos: state.photos.filter((p) => p.preview !== preview),
+      })),
+    removeVideo: (preview) =>
+      set((state) => ({
+        videos: state.videos.filter((v) => v.preview !== preview),
+      })),
 
-  setCategory: (category) => set({ category }),
-  setCommonData: (data) => set({ commonData: data }),
+    setCategory: (category) => set({ category }),
+    setCommonData: (data) => set({ commonData: data }),
 
-  setCategoryData: (data) => set({ categoryData: data }),
+    setCategoryData: (data) => set({ categoryData: data }),
 
-  setLocation: (location) => set({ location }),
+    setLocation: (location) => set({ location }),
 
-  reset: () =>
-    set({
-      step: 1,
-      photos: [],
-      videos: [],
-      category: "",
-      commonData: initialCommonData,
-      categoryData: {},
-      location: initialLocationData,
-    }),
-}));
+    reset: () =>
+      set({
+        step: 1,
+        photos: [],
+        videos: [],
+        category: "",
+        commonData: initialCommonData,
+        categoryData: {},
+        location: initialLocationData,
+      }),
+  }),
+);

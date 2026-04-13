@@ -13,7 +13,7 @@ declare global {
   }
 }
 
-const DEFAULT_CENTER: [number, number] = [41.2995, 69.2401]; // Toshkent
+const DEFAULT_CENTER: [number, number] = [3.139, 101.6869];
 const DEFAULT_ZOOM = 12;
 const MIN_ZOOM = 10;
 const DEBOUNCE_DELAY = 500;
@@ -60,7 +60,7 @@ export default function YandexMap() {
       const handleError = () =>
         reject(new Error("Failed to load Yandex Maps script"));
       const existingScript = document.getElementById(
-        YANDEX_MAP_SCRIPT_ID
+        YANDEX_MAP_SCRIPT_ID,
       ) as HTMLScriptElement | null;
 
       if (existingScript) {
@@ -118,7 +118,7 @@ export default function YandexMap() {
         setIsLoading(false);
       }
     },
-    []
+    [],
   );
 
   // 3. DEBOUNCED LOAD - FAQAT AREA ALMASHGANDA VA CACHE YO'Q BO'LGANDA
@@ -148,7 +148,7 @@ export default function YandexMap() {
         loadProperties(sw_lat, sw_lng, ne_lat, ne_lng);
       }, DEBOUNCE_DELAY);
     },
-    [loadProperties]
+    [loadProperties],
   );
 
   // 4. SEARCH MARKER (YASHIL)
@@ -185,7 +185,7 @@ export default function YandexMap() {
         iconImageHref: `data:image/svg+xml;base64,${btoa(greenIcon)}`,
         iconImageSize: [48, 48],
         iconImageOffset: [-24, -48],
-      }
+      },
     );
 
     mapRef.current.geoObjects.add(marker);
@@ -195,8 +195,10 @@ export default function YandexMap() {
 
   // 5. PROPERTY MARKER LAR (KO'K) - CLUSTERER BILAN
   const createBalloon = useCallback((p: PropertyType) => {
-    const fallbackImage = "https://via.placeholder.com/300x200.png?text=No+Image";
-    const imageUrl = p.photos && p.photos.length > 0 ? p.photos[0] : fallbackImage;
+    const fallbackImage =
+      "https://via.placeholder.com/300x200.png?text=No+Image";
+    const imageUrl =
+      p.photos && p.photos.length > 0 ? p.photos[0] : fallbackImage;
     const detailUrl = `/property/${p._id}`;
 
     return `
@@ -225,7 +227,7 @@ export default function YandexMap() {
 
     if (!clustererRef.current) {
       clustererRef.current = new window.ymaps.Clusterer({
-        preset: 'islands#invertedBlueClusterIcons',
+        preset: "islands#invertedBlueClusterIcons",
         groupByCoordinates: false,
         clusterDisableClickZoom: true,
         clusterHideIconOnBalloonOpen: false,
@@ -248,7 +250,7 @@ export default function YandexMap() {
       const marker = new window.ymaps.Placemark(
         [lat, lng],
         { balloonContent: createBalloon(property) },
-        { preset: "islands#blueDotIcon" }
+        { preset: "islands#blueDotIcon" },
       );
 
       markers.push(marker);
@@ -288,7 +290,7 @@ export default function YandexMap() {
               navigator.geolocation.getCurrentPosition(resolve, reject, {
                 timeout: 5000,
               });
-            }
+            },
           );
           centerLat = position.coords.latitude;
           centerLng = position.coords.longitude;

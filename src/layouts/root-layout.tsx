@@ -19,7 +19,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     const resolvedLanguage =
-      user?.lan ?? handleStorage({ key: "language" }) ?? "uz";
+      user?.lan ?? handleStorage({ key: "language" }) ?? "en";
 
     if (
       resolvedLanguage !== "uz" &&
@@ -39,7 +39,7 @@ export default function RootLayout() {
 
     if (i18n.language !== resolvedLanguage) {
       void ensureLanguageResources(resolvedLanguage).then(() =>
-        i18n.changeLanguage(resolvedLanguage)
+        i18n.changeLanguage(resolvedLanguage),
       );
     }
   }, [i18n, language, setLanguage, user?.lan]);

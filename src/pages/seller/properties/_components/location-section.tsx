@@ -16,13 +16,16 @@ interface Props {
 
 const roundCoord = (num: number) => parseFloat(num.toFixed(6));
 
-// Uzbekistan bounds for better search results
-const UZBEKISTAN_BOUNDS = [
-  [37.17, 55.91], // South-West
-  [45.57, 73.15], // North-East
+const MALAYSIA_BOUNDS = [
+  [0.85, 99.64],
+  [7.36, 119.27],
 ];
 
-export default function LocationSection({ location, setLocation, isSubmitting = false }: Props) {
+export default function LocationSection({
+  location,
+  setLocation,
+  isSubmitting = false,
+}: Props) {
   const mapRef = useRef<ymaps.Map | null>(null);
   const placemarkRef = useRef<ymaps.Placemark | null>(null);
   const suggestViewRef = useRef<ymaps.SuggestView | null>(null);
@@ -63,7 +66,7 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
         });
       }
     },
-    [setLocation, isSubmitting]
+    [setLocation, isSubmitting],
   );
 
   const handlePlacemarkDrag = useCallback(() => {
@@ -85,11 +88,14 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
       .then(() => {
         const ymaps = window.ymaps;
 
-        suggestViewRef.current = new ymaps.SuggestView(searchInputRef.current!, {
-          results: 5,
-          boundedBy: UZBEKISTAN_BOUNDS,
-          provider: 'yandex#map', // Better search for cities and regions
-        });
+        suggestViewRef.current = new ymaps.SuggestView(
+          searchInputRef.current!,
+          {
+            results: 5,
+            boundedBy: MALAYSIA_BOUNDS,
+            provider: "yandex#map", // Better search for cities and regions
+          },
+        );
 
         suggestViewRef.current!.events.add("select", async (e: any) => {
           if (isSubmitting) return;
@@ -100,18 +106,21 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
           try {
             const results = await ymaps.geocode(selectedSuggestion.value, {
               results: 1,
-              boundedBy: UZBEKISTAN_BOUNDS,
+              boundedBy: MALAYSIA_BOUNDS,
             });
 
             const geoObject = results.geoObjects.get(0);
             if (geoObject) {
-              const coords = geoObject.geometry.getCoordinates() as [number, number];
+              const coords = geoObject.geometry.getCoordinates() as [
+                number,
+                number,
+              ];
               const newLoc = {
                 lat: roundCoord(coords[0]),
                 lng: roundCoord(coords[1]),
               };
               setLocation(newLoc);
-              
+
               // Move map to selected location
               if (mapRef.current) {
                 mapRef.current.setCenter([newLoc.lat, newLoc.lng], 16, {
@@ -131,7 +140,10 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
 
   // Get user's location on initial load - ONLY if location is not set
   useEffect(() => {
-    if ((!location || (location.lat === 0 && location.lng === 0)) && navigator.geolocation) {
+    if (
+      (!location || (location.lat === 0 && location.lng === 0)) &&
+      navigator.geolocation
+    ) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setLocation({
@@ -141,10 +153,10 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
         },
         (err) => {
           console.error("Geolocation error: ", err);
-        }
+        },
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setLocation]);
 
   // Initialize map on mount
@@ -161,13 +173,18 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
         const map = new ymaps.Map("location-map-container", {
           center: initialCoords,
           zoom: 14,
-          controls: ["zoomControl", "fullscreenControl", "geolocationControl", "searchControl"],
+          controls: [
+            "zoomControl",
+            "fullscreenControl",
+            "geolocationControl",
+            "searchControl",
+          ],
         });
 
         // Sync searchControl results with our state
-        const searchControl = map.controls.get('searchControl');
-        searchControl.events.add('resultselect', (e: any) => {
-          const index = e.get('index');
+        const searchControl = map.controls.get("searchControl");
+        searchControl.events.add("resultselect", (e: any) => {
+          const index = e.get("index");
           searchControl.getResult(index).then((res: any) => {
             const coords = res.geometry.getCoordinates();
             setLocation({
@@ -180,7 +197,7 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
         const placemark = new ymaps.Placemark(
           initialCoords,
           {},
-          { preset: "islands#redIcon", draggable: !isSubmitting }
+          { preset: "islands#redIcon", draggable: !isSubmitting },
         );
 
         map.geoObjects.add(placemark);
@@ -220,7 +237,7 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
     if (
       placemarkCoords &&
       (roundCoord(placemarkCoords[0]) !== newLat ||
-       roundCoord(placemarkCoords[1]) !== newLng)
+        roundCoord(placemarkCoords[1]) !== newLng)
     ) {
       const newCoords: [number, number] = [location.lat, location.lng];
       placemarkRef.current.geometry?.setCoordinates(newCoords);
@@ -270,7 +287,7 @@ export default function LocationSection({ location, setLocation, isSubmitting = 
             id="location-map-container"
             className="w-full h-full rounded-lg"
           />
-           {isSubmitting && (
+          {isSubmitting && (
             <div className="absolute inset-0 bg-gray-200 opacity-50 z-10 flex items-center justify-center">
               <p className="text-gray-700 font-semibold">Yuklanmoqda...</p>
             </div>

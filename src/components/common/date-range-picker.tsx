@@ -1,14 +1,15 @@
-
 import { useTranslation } from "react-i18next";
 import * as React from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { uz } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 
 interface DateRangePickerProps {
   onDateChange: (dateRange: { from: Date; to: Date }) => void;
 }
 
-export default function DateRangePicker({ onDateChange }: DateRangePickerProps) {
+export default function DateRangePicker({
+  onDateChange,
+}: DateRangePickerProps) {
   const { t, i18n } = useTranslation();
   const [date, setDate] = React.useState<{
     from: Date | undefined;
@@ -24,16 +25,17 @@ export default function DateRangePicker({ onDateChange }: DateRangePickerProps) 
   const nights =
     date?.from && date?.to
       ? Math.ceil(
-          (date.to.getTime() - date.from.getTime()) / (1000 * 60 * 60 * 24)
+          (date.to.getTime() - date.from.getTime()) / (1000 * 60 * 60 * 24),
         )
       : 0;
-
 
   return (
     <div>
       <div className="mb-4">
         <p className="font-semibold text-lg">
-          {nights > 0 ? `${nights} ${t("common.date_range_picker.nights")}` : t("common.date_range_picker.select_dates")}
+          {nights > 0
+            ? `${nights} ${t("common.date_range_picker.nights")}`
+            : t("common.date_range_picker.select_dates")}
         </p>
         {date?.from && date?.to && (
           <p className="text-sm text-gray-500">
@@ -58,7 +60,7 @@ export default function DateRangePicker({ onDateChange }: DateRangePickerProps) 
         selected={date}
         onSelect={setDate}
         numberOfMonths={2}
-        locale={uz}
+        locale={enUS}
         className="rounded-md border shadow-sm w-full"
         required={true}
       />

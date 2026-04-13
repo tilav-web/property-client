@@ -11,7 +11,7 @@ const apiInstance = axios.create({
 
 apiInstance.interceptors.request.use((config) => {
   const access_token = handleStorage({ key: "access_token" });
-  const language = handleStorage({ key: "language" }) ?? "uz";
+  const language = handleStorage({ key: "language" }) ?? "en";
   config.headers = config.headers || {};
 
   if (access_token) {
@@ -67,7 +67,7 @@ apiInstance.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default apiInstance;
@@ -77,7 +77,7 @@ export const publicApi = axios.create({
 });
 
 publicApi.interceptors.request.use((config) => {
-  const language = handleStorage({ key: "language" }) ?? "uz";
+  const language = handleStorage({ key: "language" }) ?? "en";
   config.headers = config.headers || {};
   config.headers["Accept-Language"] = language;
 
@@ -91,7 +91,7 @@ export const adminApi = axios.create({
 
 adminApi.interceptors.request.use((config) => {
   const admin_access_token = useAdminStore.getState().getAdminAccessToken();
-  const language = handleStorage({ key: "language" }) ?? "uz";
+  const language = handleStorage({ key: "language" }) ?? "en";
   config.headers["Authorization"] = `Bearer ${admin_access_token}`;
   config.headers["Accept-Language"] = language;
 
@@ -113,15 +113,14 @@ adminApi.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-                const res = await adminApi.post(API_ENDPOINTS.ADMIN.refreshToken);
-                        const admin_access_token = res.data;
-                        useAdminStore.getState().setAdminAccessToken(admin_access_token);
-                        originalRequest.headers = originalRequest.headers || {};
-                        originalRequest.headers[
-                          "Authorization"
-                        ] = `Bearer ${admin_access_token}`;
-                        return adminApi(originalRequest);
-                      } catch (error) {
+        const res = await adminApi.post(API_ENDPOINTS.ADMIN.refreshToken);
+        const admin_access_token = res.data;
+        useAdminStore.getState().setAdminAccessToken(admin_access_token);
+        originalRequest.headers = originalRequest.headers || {};
+        originalRequest.headers["Authorization"] =
+          `Bearer ${admin_access_token}`;
+        return adminApi(originalRequest);
+      } catch (error) {
         useAdminStore.getState().logout();
         return Promise.reject(error);
       }
@@ -141,5 +140,5 @@ adminApi.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );

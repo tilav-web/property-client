@@ -78,10 +78,10 @@ export default function UpdateProperty() {
     {
       resolver: yupResolver(schema as any),
       defaultValues: {
-        location: { type: "Point", coordinates: [69.279737, 41.311151] },
+        location: { type: "Point", coordinates: [101.6869, 3.139] },
         photos: [],
         videos: [],
-        currency: "uzs", // Updated default value
+        currency: "rm",
       },
     },
   );
@@ -102,8 +102,8 @@ export default function UpdateProperty() {
 
   const displayLocation = useMemo(
     () => ({
-      lat: location?.coordinates?.[1] || 41.311151,
-      lng: location?.coordinates?.[0] || 69.279737,
+      lat: location?.coordinates?.[1] || 3.139,
+      lng: location?.coordinates?.[0] || 101.6869,
     }),
     [location],
   );
@@ -374,12 +374,8 @@ export default function UpdateProperty() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value={'rm'}>
-                          RM
-                        </SelectItem>
-                        <SelectItem value={'uzs'}>
-                          UZS
-                        </SelectItem>
+                        <SelectItem value={"rm"}>RM</SelectItem>
+                        <SelectItem value={"uzs"}>UZS</SelectItem>
                       </SelectContent>
                     </Select>
                   )}

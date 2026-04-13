@@ -39,12 +39,13 @@ export default function Profile() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { savedProperties } = useSaveStore();
-  const { inquiryResponses, fetchMyInquiryResponses } = useInquiryResponseStore();
+  const { inquiryResponses, fetchMyInquiryResponses } =
+    useInquiryResponseStore();
   const { user, logout } = useUserStore();
   const { logout: sellerLogout } = useSellerStore();
   const { setLanguage } = useLanguageStore();
 
-  const languages = Object.values<ILanguage>(["uz", "ru", "en"]);
+  const languages = Object.values<ILanguage>(["en", "ru", "uz"]);
 
   useEffect(() => {
     fetchMyInquiryResponses();
@@ -89,9 +90,7 @@ export default function Profile() {
               <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {t("pages.profile_page.my_account")}
               </h1>
-              <p className="text-sm text-gray-600 mt-1">
-                {user?.email.value}
-              </p>
+              <p className="text-sm text-gray-600 mt-1">{user?.email.value}</p>
             </div>
           </div>
 
@@ -121,8 +120,7 @@ export default function Profile() {
                       className={`w-2 h-2 rounded-full ${
                         lan === i18n.language ? "bg-green-500" : "bg-gray-300"
                       }`}
-                    >
-                    </span>
+                    ></span>
                     {t(`common.header.languages.${lan}`)}
                   </DropdownMenuItem>
                 ))}

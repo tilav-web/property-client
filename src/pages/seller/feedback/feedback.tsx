@@ -144,7 +144,7 @@ export default function Feedback() {
   const openDeleteDialog = (
     messageId: string | null,
     userName: string,
-    type: "single" | "all" = "single"
+    type: "single" | "all" = "single",
   ): void => {
     setDeleteDialog({
       isOpen: true,
@@ -164,7 +164,7 @@ export default function Feedback() {
   };
 
   const formatDate = (dateString: string): string => {
-    return new Date(dateString).toLocaleDateString("uz-UZ", {
+    return new Date(dateString).toLocaleDateString("en-MY", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -287,12 +287,12 @@ export default function Feedback() {
                     <Avatar className="h-10 w-10">
                       <AvatarImage
                         src={message.message.user.avatar ?? defaultImageAvatar}
-                        alt={`${message.message.user.first_name ?? ''} ${message.message.user.last_name ?? ''}`}
+                        alt={`${message.message.user.first_name ?? ""} ${message.message.user.last_name ?? ""}`}
                       />
                       <AvatarFallback>
                         {getInitials(
-                          message.message.user.first_name ?? '',
-                          message.message.user.last_name ?? ''
+                          message.message.user.first_name ?? "",
+                          message.message.user.last_name ?? "",
                         )}
                       </AvatarFallback>
                     </Avatar>
@@ -368,7 +368,7 @@ export default function Feedback() {
                       onClick={() =>
                         openDeleteDialog(
                           message._id,
-                          `${message.message.user.first_name} ${message.message.user.last_name}`
+                          `${message.message.user.first_name} ${message.message.user.last_name}`,
                         )
                       }
                       className="gap-1 text-destructive hover:text-destructive hover:bg-destructive/10"

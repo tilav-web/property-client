@@ -23,7 +23,8 @@ export default function PropertyForm() {
   const navigate = useNavigate(); // Initialize useNavigate
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { // Moved inside the function
+  const {
+    // Moved inside the function
     step,
     photos,
     videos,
@@ -106,8 +107,8 @@ export default function PropertyForm() {
           commonData.address &&
           category &&
           Object.keys(categoryData).length > 0 &&
-          location.lat !== 41.2995 && // Assuming default is 41.2995
-          location.lng !== 69.2401 // Assuming default is 69.2401
+          location.lat !== 3.139 &&
+          location.lng !== 101.6869
         );
       default:
         return false;
@@ -116,12 +117,13 @@ export default function PropertyForm() {
 
   const isFinalStep = step === 3; // Assuming 3 steps for now: Photos, Videos, Details
   // The original canSubmit logic will be moved to the final submit button
-  const canSubmit = photos.length > 0 &&
-  commonData.title &&
-  commonData.description &&
-  commonData.address &&
-  category &&
-  Object.keys(categoryData).length > 0;
+  const canSubmit =
+    photos.length > 0 &&
+    commonData.title &&
+    commonData.description &&
+    commonData.address &&
+    category &&
+    Object.keys(categoryData).length > 0;
 
   return (
     <div className="min-h-screen p-4 md:p-8">
@@ -162,23 +164,26 @@ export default function PropertyForm() {
               setCategory={setCategory}
               isSubmitting={isSubmitting} // Pass isSubmitting prop
             />
-
             {/* Kategoriyaga qarab maxsus forma */}
-                    {category === "APARTMENT_SALE" && (
-                      <ApartmentSaleForm
-                        data={categoryData as ApartmentSaleFormData}
-                        setData={setCategoryData}
-                        isSubmitting={isSubmitting} // Pass isSubmitting prop
-                      />
-                    )}            {category === "APARTMENT_RENT" && (
+            {category === "APARTMENT_SALE" && (
+              <ApartmentSaleForm
+                data={categoryData as ApartmentSaleFormData}
+                setData={setCategoryData}
+                isSubmitting={isSubmitting} // Pass isSubmitting prop
+              />
+            )}{" "}
+            {category === "APARTMENT_RENT" && (
               <ApartmentRentForm
                 data={categoryData as ApartmentRentFormData}
                 setData={setCategoryData}
                 isSubmitting={isSubmitting} // Pass isSubmitting prop
               />
             )}
-
-            <LocationSection location={location} setLocation={setLocation} isSubmitting={isSubmitting} />
+            <LocationSection
+              location={location}
+              setLocation={setLocation}
+              isSubmitting={isSubmitting}
+            />
           </>
         )}
 

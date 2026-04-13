@@ -141,7 +141,7 @@ export default function AdvertiseCard({ advertise, onEdit, onDelete }: Props) {
             <div className="flex items-center gap-1.5 text-lg font-bold text-green-600">
               <span>
                 {advertise?.price
-                  ? advertise.price?.toLocaleString("uz-UZ")
+                  ? advertise.price?.toLocaleString("en-MY")
                   : "0"}
               </span>
               <span className="text-sm font-normal text-gray-500">

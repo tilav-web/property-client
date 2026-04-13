@@ -38,7 +38,9 @@ interface EditUserFormProps {
 const formSchema = Yup.object({
   first_name: Yup.string().optional(),
   last_name: Yup.string().optional(),
-  role: Yup.string().oneOf(["physical", "legal"] as const).optional(),
+  role: Yup.string()
+    .oneOf(["physical", "legal"] as const)
+    .optional(),
   lan: Yup.string().optional(),
   phoneValue: Yup.string().optional(),
   phoneIsVerified: Yup.boolean().optional(),
@@ -65,7 +67,7 @@ export function EditUserForm({
       first_name: user?.first_name || "",
       last_name: user?.last_name || "",
       role: user?.role || "physical",
-      lan: user?.lan || "uz",
+      lan: user?.lan || "en",
       phoneValue: user?.phone?.value || "",
       phoneIsVerified: user?.phone?.isVerified || false,
       emailValue: user?.email?.value || "",
@@ -120,8 +122,8 @@ export function EditUserForm({
     // Filter out undefined values to send only updated fields
     const filteredDto: Partial<FormData> = Object.fromEntries(
       Object.entries(values).filter(
-        ([, value]) => value !== undefined && value !== ""
-      )
+        ([, value]) => value !== undefined && value !== "",
+      ),
     );
 
     // Explicitly handle avatar removal by sending null if it was cleared

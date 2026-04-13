@@ -9,16 +9,20 @@ interface LanguageState {
 
 const getStoredLanguage = (): ILanguage => {
   if (typeof window === "undefined") {
-    return "uz";
+    return "en";
   }
 
   const storedLanguage = handleStorage({ key: "language" });
 
-  if (storedLanguage === "uz" || storedLanguage === "ru" || storedLanguage === "en") {
+  if (
+    storedLanguage === "uz" ||
+    storedLanguage === "ru" ||
+    storedLanguage === "en"
+  ) {
     return storedLanguage;
   }
 
-  return "uz";
+  return "en";
 };
 
 export const useLanguageStore = create<LanguageState>((set) => ({

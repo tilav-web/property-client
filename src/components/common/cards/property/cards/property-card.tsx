@@ -23,14 +23,12 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   if (!property) return null;
 
   const formatPrice = () => {
-    const formatted = new Intl.NumberFormat("uz-UZ", {
+    const formatted = new Intl.NumberFormat("en-MY", {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(property.price);
 
-    return property.currency === 'rm'
-      ? `RM ${formatted}`
-      : `${formatted} so'm`;
+    return property.currency === "rm" ? `RM ${formatted}` : `${formatted} so'm`;
   };
 
   const getCategoryIcon = (category: CategoryType) => {
@@ -56,7 +54,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   };
 
   const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString("uz-UZ", {
+    return new Date(date).toLocaleDateString("en-MY", {
       day: "numeric",
       month: "short",
       year: "numeric",

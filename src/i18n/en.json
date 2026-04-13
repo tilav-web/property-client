@@ -303,7 +303,7 @@
       "no_property_selected": "No property selected for deletion."
     },
     "hero": {
-      "title": "Dream homes in the heart of Uzbekistan",
+      "title": "Dream homes in the heart of Malaysia",
       "search": {
         "search_placeholder": "Search with City or Country...",
         "dropdown_menu": {
@@ -535,7 +535,7 @@
       "confirm_mortgage": "Confirm mortgage"
     },
     "category_page": {
-      "title": "Dream apartments in the heart of Uzbekistan",
+      "title": "Dream apartments in the heart of Malaysia",
       "no_more_results": "All information is displayed!",
       "select_category_prompt": "No information found"
     },
@@ -946,7 +946,7 @@
     "title": "AI Property Finder",
     "subtitle": "Search for properties using natural language",
     "welcome_title": "Welcome to AI Property Finder",
-    "welcome_description": "Describe what you are looking for in natural language. For example: 'Show 3-bedroom apartments for rent in Tashkent for less than 5 million'.",
+    "welcome_description": "Describe what you are looking for in natural language. For example: 'Show 3-bedroom apartments for rent in Kuala Lumpur for less than RM 5,000'.",
     "found_properties": "Found some properties for you!",
     "no_properties_found": "No properties found for your request.",
     "error_message": "Sorry, I encountered an error. Please try again.",
@@ -959,8 +959,8 @@
     "premium": "Premium",
     "welcome_title_new": "How can I help you?",
     "welcome_description_new": "To get started faster, choose one of the templates below or write your own query.",
-    "prompt1": "3-room apartment in Tashkent",
-    "prompt2": "2-room apartment in Yunusobod district up to $50,000",
+    "prompt1": "3-room apartment in Kuala Lumpur",
+    "prompt2": "2-room apartment in Bukit Bintang up to RM 250,000",
     "prompt3": "Furnished apartment for rent",
     "prompt4": "Are there houses for sale on mortgage?"
   }

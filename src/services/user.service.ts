@@ -69,6 +69,15 @@ class UserService {
     }
   }
 
+  async refreshToken() {
+    try {
+      const res = await apiInstance.post(API_ENDPOINTS.USER.refreshToken);
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async update(dto: FormData) {
     try {
       const res = await apiInstance.put(API_ENDPOINTS.USER.base, dto);

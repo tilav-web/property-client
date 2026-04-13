@@ -303,7 +303,7 @@
       "no_property_selected": "O'chirish uchun mulk tanlanmagan."
     },
     "hero": {
-      "title": "O'zbekiston markazida orzudagi uylar",
+      "title": "Malaysia markazida orzudagi uylar",
       "search": {
         "search_placeholder": "Shahar yoki mamlakat bo'yicha qidiruv...",
         "dropdown_menu": {
@@ -535,7 +535,7 @@
       "confirm_mortgage": "Ipotekani tasdiqlash"
     },
     "category_page": {
-      "title": "O'zbekiston markazida orzudagi uylar",
+      "title": "Malaysia markazida orzudagi uylar",
       "no_more_results": "Barcha ma'lumotlar ko'rsatildi!",
       "select_category_prompt": "Ma'lumot topilmadi"
     },
@@ -946,7 +946,7 @@
     "title": "AI Mulk qidiruvchisi",
     "subtitle": "Tabiiy tildan foydalanib mulk qidiring",
     "welcome_title": "AI Mulk qidiruvchisiga xush kelibsiz",
-    "welcome_description": "Nima qidirayotganingizni tabiiy tilda tasvirlab bering. Masalan: 'Toshkentdan 3 xonali ijaraga beriladigan kvartiralarni 5 milliondan arzonroqqa ko'rsat'.",
+    "welcome_description": "Nima qidirayotganingizni tabiiy tilda tasvirlab bering. Masalan: 'Kuala Lumpurdan 3 xonali ijaraga beriladigan kvartiralarni RM 5,000 dan arzonroqqa ko'rsat'.",
     "found_properties": "Siz uchun ba'zi mulklar topildi!",
     "no_properties_found": "Sizning so'rovingiz bo'yicha hech qanday mulk topilmadi.",
     "error_message": "Kechirasiz, xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
@@ -959,8 +959,8 @@
     "premium": "Premium",
     "welcome_title_new": "Sizga qanday yordam bera olaman?",
     "welcome_description_new": "Tezroq boshlash uchun quyidagi namunalardan birini tanlang yoki o'z so'rovingizni yozing.",
-    "prompt1": "Toshkentdan 3 xonali kvartira",
-    "prompt2": "Yunusobod tumanidan $50,000 gacha bo'lgan 2 xonali kvartira",
+    "prompt1": "Kuala Lumpurdan 3 xonali kvartira",
+    "prompt2": "Bukit Bintangdan RM 250,000 gacha bo'lgan 2 xonali kvartira",
     "prompt3": "Jihozlangan ijaraga beriladigan kvartira",
     "prompt4": "Ipotekaga sotiladigan uylar bormi?"
   }

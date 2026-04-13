@@ -12,7 +12,7 @@ export const useCurrentLanguage = () => {
     if (lanValue && ["uz", "ru", "en"].includes(lanValue)) {
       return lanValue as "uz" | "ru" | "en";
     }
-    return "uz";
+    return "en";
   };
 
   const getLocalizedText = (text: {
@@ -21,7 +21,7 @@ export const useCurrentLanguage = () => {
     en: string;
   }): string => {
     const lang = getCurrentLanguage();
-    return text?.[lang] || text?.uz || "";
+    return text?.[lang] || text?.en || "";
   };
 
   return {

@@ -36,7 +36,7 @@ export default function UserDetailsTab({
       last_name: user?.last_name || "",
       phone: user?.phone?.value || "+998 ",
       passport: seller?.passport || "",
-      lan: user?.lan || "uz",
+      lan: user?.lan || "en",
       business_type: business_type || "self_employed",
     },
     validationSchema: userDetailsSchema(t),
@@ -59,7 +59,7 @@ export default function UserDetailsTab({
     if (numbers.startsWith("998")) {
       return `+998 ${numbers.substring(3, 5)} ${numbers.substring(
         5,
-        8
+        8,
       )} ${numbers.substring(8, 10)} ${numbers.substring(10, 12)}`.trim();
     }
     return value;
@@ -85,7 +85,9 @@ export default function UserDetailsTab({
       <form onSubmit={formik.handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="first_name">{t("user_details_tab.first_name")}</Label>
+            <Label htmlFor="first_name">
+              {t("user_details_tab.first_name")}
+            </Label>
             <Input
               id="first_name"
               name="first_name"
@@ -239,12 +241,20 @@ export default function UserDetailsTab({
                     : ""
                 }`}
               >
-                <SelectValue placeholder={t("user_details_tab.select_language")} />
+                <SelectValue
+                  placeholder={t("user_details_tab.select_language")}
+                />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="uz">{t("user_details_tab.uzbek")}</SelectItem>
-                <SelectItem value="en">{t("user_details_tab.english")}</SelectItem>
-                <SelectItem value="ru">{t("user_details_tab.russian")}</SelectItem>
+                <SelectItem value="uz">
+                  {t("user_details_tab.uzbek")}
+                </SelectItem>
+                <SelectItem value="en">
+                  {t("user_details_tab.english")}
+                </SelectItem>
+                <SelectItem value="ru">
+                  {t("user_details_tab.russian")}
+                </SelectItem>
               </SelectContent>
             </Select>
             {formik.touched.lan && formik.errors.lan && (

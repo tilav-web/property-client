@@ -41,7 +41,7 @@ export default function InquiriesPage() {
   const queryClient = useQueryClient();
   const [showDialog, setShowDialog] = useState(false);
   const [dialogType, setDialogType] = useState<"approve" | "reject" | null>(
-    null
+    null,
   );
   const [selectedInquiry, setSelectedInquiry] = useState<IInquiry | null>(null);
   const [description, setDescription] = useState("");
@@ -70,20 +70,20 @@ export default function InquiriesPage() {
       console.log(err);
       toast.error(
         (err.response?.data as { message: string })?.message ||
-          "Xatolik yuz berdi!"
+          "Xatolik yuz berdi!",
       );
     },
   });
 
   const getInitials = (
     firstName: string = "",
-    lastName: string = ""
+    lastName: string = "",
   ): string => {
     return `${firstName?.[0] || ""}${lastName?.[0] || ""}`.toUpperCase();
   };
 
   const formatDate = (dateString: string): string => {
-    return new Date(dateString).toLocaleDateString("uz-UZ", {
+    return new Date(dateString).toLocaleDateString("en-MY", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -164,14 +164,16 @@ export default function InquiriesPage() {
             <Clock className="h-4 w-4" />
             Kutilmoqda
             <Badge variant="secondary" className="ml-2">
-              {inquiries?.filter((i: IInquiry) => i.status === "pending")?.length || 0}
+              {inquiries?.filter((i: IInquiry) => i.status === "pending")
+                ?.length || 0}
             </Badge>
           </TabsTrigger>
           <TabsTrigger value="responded" className="flex items-center gap-2">
             <Send className="h-4 w-4" />
             Javob berilgan
             <Badge variant="secondary" className="ml-2">
-              {inquiries?.filter((i: IInquiry) => i.status === "responded")?.length || 0}
+              {inquiries?.filter((i: IInquiry) => i.status === "responded")
+                ?.length || 0}
             </Badge>
           </TabsTrigger>
         </TabsList>
@@ -182,29 +184,29 @@ export default function InquiriesPage() {
               <CardContent className="pt-6 text-center py-16">
                 <MessageSquare className="h-16 w-16 text-muted-foreground/40 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold mb-2">
-                  {activeTab === "pending" 
-                    ? "Kutilayotgan so'rovlar yo'q" 
-                    : activeTab === "responded" 
-                    ? "Javob berilgan so'rovlar yo'q"
-                    : "So'rovlar topilmadi"}
+                  {activeTab === "pending"
+                    ? "Kutilayotgan so'rovlar yo'q"
+                    : activeTab === "responded"
+                      ? "Javob berilgan so'rovlar yo'q"
+                      : "So'rovlar topilmadi"}
                 </h3>
                 <p className="text-muted-foreground max-w-md mx-auto">
-                  {activeTab === "pending" 
-                    ? "Barcha so'rovlarga javob berilgan" 
-                    : activeTab === "responded" 
-                    ? "Hozircha javob berilgan so'rovlar mavjud emas"
-                    : "Hozircha yangi so'rovlar mavjud emas."}
+                  {activeTab === "pending"
+                    ? "Barcha so'rovlarga javob berilgan"
+                    : activeTab === "responded"
+                      ? "Hozircha javob berilgan so'rovlar mavjud emas"
+                      : "Hozircha yangi so'rovlar mavjud emas."}
                 </p>
               </CardContent>
             </Card>
           ) : (
             <div className="space-y-4">
               {filteredInquiries?.map((inquiry: IInquiry) => (
-                <Card 
-                  key={inquiry._id} 
+                <Card
+                  key={inquiry._id}
                   className={`overflow-hidden transition-all hover:shadow-md ${
-                    inquiry.status === "pending" 
-                      ? "border-l-4 border-l-primary" 
+                    inquiry.status === "pending"
+                      ? "border-l-4 border-l-primary"
                       : "border-l-4 border-l-muted"
                   }`}
                 >
@@ -216,12 +218,12 @@ export default function InquiriesPage() {
                           <Avatar className="h-14 w-14 border-2 border-background shadow-sm">
                             <AvatarImage
                               src={`${serverUrl}/uploads${inquiry.user.avatar ?? ""}`}
-                              alt={inquiry.user.first_name ??""}
+                              alt={inquiry.user.first_name ?? ""}
                             />
                             <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/10 text-primary">
                               {getInitials(
                                 inquiry.user.first_name ?? "",
-                                inquiry.user.last_name ?? ""
+                                inquiry.user.last_name ?? "",
                               )}
                             </AvatarFallback>
                           </Avatar>
@@ -236,13 +238,13 @@ export default function InquiriesPage() {
                                   inquiry.status === "pending"
                                     ? "default"
                                     : inquiry.status === "responded"
-                                    ? "secondary"
-                                    : "outline"
+                                      ? "secondary"
+                                      : "outline"
                                 }
                                 className="whitespace-nowrap"
                               >
-                                {inquiry.status === "pending" 
-                                  ? "Kutilmoqda" 
+                                {inquiry.status === "pending"
+                                  ? "Kutilmoqda"
                                   : "Javob berilgan"}
                               </Badge>
                             </div>
@@ -256,7 +258,8 @@ export default function InquiriesPage() {
                               </span>
                               <span className="text-xs text-muted-foreground flex items-center gap-1">
                                 <Building className="h-3 w-3" />
-                                {inquiry?.property?.title || "Mulk nomi mavjud emas"}
+                                {inquiry?.property?.title ||
+                                  "Mulk nomi mavjud emas"}
                               </span>
                             </div>
                           </div>
@@ -269,7 +272,9 @@ export default function InquiriesPage() {
                               size="sm"
                               variant="outline"
                               className="h-9 px-4 gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
-                              onClick={() => handleOpenDialog("reject", inquiry)}
+                              onClick={() =>
+                                handleOpenDialog("reject", inquiry)
+                              }
                             >
                               <X className="h-4 w-4" />
                               Rad etish
@@ -277,7 +282,9 @@ export default function InquiriesPage() {
                             <Button
                               size="sm"
                               className="h-9 px-4 gap-2 bg-green-600 hover:bg-green-700"
-                              onClick={() => handleOpenDialog("approve", inquiry)}
+                              onClick={() =>
+                                handleOpenDialog("approve", inquiry)
+                              }
                             >
                               <Check className="h-4 w-4" />
                               Qabul qilish
@@ -300,17 +307,19 @@ export default function InquiriesPage() {
                               {inquiry.type}
                             </span>
                           </div>
-                          
+
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-medium text-muted-foreground">
                               Taklif qilingan narx
                             </span>
                             <span className="text-lg font-bold text-primary flex items-center gap-2">
-                              {selectedInquiry && selectedInquiry.property && selectedInquiry.offered_price !== undefined ? (
-                                selectedInquiry.property.currency === 'rm'
+                              {selectedInquiry &&
+                              selectedInquiry.property &&
+                              selectedInquiry.offered_price !== undefined
+                                ? selectedInquiry.property.currency === "rm"
                                   ? `RM ${selectedInquiry.offered_price.toLocaleString()}`
                                   : `${selectedInquiry.offered_price.toLocaleString()} so'm`
-                              ) : "N/A"}
+                                : "N/A"}
                             </span>
                           </div>
                         </div>
@@ -324,7 +333,7 @@ export default function InquiriesPage() {
                               {inquiry?.property?.title || "N/A"}
                             </span>
                           </div>
-                          
+
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-medium text-muted-foreground">
                               Status
@@ -334,12 +343,12 @@ export default function InquiriesPage() {
                                 inquiry.status === "pending"
                                   ? "default"
                                   : inquiry.status === "responded"
-                                  ? "secondary"
-                                  : "outline"
+                                    ? "secondary"
+                                    : "outline"
                               }
                             >
-                              {inquiry.status === "pending" 
-                                ? "Javob kutilmoqda" 
+                              {inquiry.status === "pending"
+                                ? "Javob kutilmoqda"
                                 : "Javob berilgan"}
                             </Badge>
                           </div>
@@ -361,11 +370,13 @@ export default function InquiriesPage() {
 
                       {/* Response Section - Only show if inquiry has response AND status is responded */}
                       {inquiry.status === "responded" && inquiry.response && (
-                        <div className={`rounded-xl p-4 border ${
-                          inquiry.response.status === "approved" 
-                            ? "bg-green-50 border-green-200" 
-                            : "bg-red-50 border-red-200"
-                        }`}>
+                        <div
+                          className={`rounded-xl p-4 border ${
+                            inquiry.response.status === "approved"
+                              ? "bg-green-50 border-green-200"
+                              : "bg-red-50 border-red-200"
+                          }`}
+                        >
                           <div className="flex items-center justify-between mb-2">
                             <p className="text-sm font-medium flex items-center gap-2">
                               <Send className="h-4 w-4" />
@@ -379,31 +390,36 @@ export default function InquiriesPage() {
                               }
                               className="font-medium"
                             >
-                              {inquiry.response.status === "approved" 
-                                ? "Qabul qilindi" 
+                              {inquiry.response.status === "approved"
+                                ? "Qabul qilindi"
                                 : "Rad etildi"}
                             </Badge>
                           </div>
-                          <p className={`text-sm pl-6 ${
-                            inquiry.response.status === "approved" 
-                              ? "text-green-700" 
-                              : "text-red-700"
-                          }`}>
+                          <p
+                            className={`text-sm pl-6 ${
+                              inquiry.response.status === "approved"
+                                ? "text-green-700"
+                                : "text-red-700"
+                            }`}
+                          >
                             "{inquiry.response.description}"
                           </p>
                           <p className="text-xs text-muted-foreground mt-2 pl-6">
-                            Javob berilgan vaqt: {formatDate(inquiry.response.createdAt)}
+                            Javob berilgan vaqt:{" "}
+                            {formatDate(inquiry.response.createdAt)}
                           </p>
                         </div>
                       )}
 
                       {/* Eski versiya uchun - agar response mavjud bo'lsa, lekin status responded bo'lmasa */}
                       {inquiry.status !== "pending" && inquiry.response && (
-                        <div className={`rounded-xl p-4 border ${
-                          inquiry.response.status === "approved" 
-                            ? "bg-green-50 border-green-200" 
-                            : "bg-red-50 border-red-200"
-                        }`}>
+                        <div
+                          className={`rounded-xl p-4 border ${
+                            inquiry.response.status === "approved"
+                              ? "bg-green-50 border-green-200"
+                              : "bg-red-50 border-red-200"
+                          }`}
+                        >
                           <div className="flex items-center justify-between mb-2">
                             <p className="text-sm font-medium flex items-center gap-2">
                               <Send className="h-4 w-4" />
@@ -417,20 +433,23 @@ export default function InquiriesPage() {
                               }
                               className="font-medium"
                             >
-                              {inquiry.response.status === "approved" 
-                                ? "Qabul qilindi" 
+                              {inquiry.response.status === "approved"
+                                ? "Qabul qilindi"
                                 : "Rad etildi"}
                             </Badge>
                           </div>
-                          <p className={`text-sm pl-6 ${
-                            inquiry.response.status === "approved" 
-                              ? "text-green-700" 
-                              : "text-red-700"
-                          }`}>
+                          <p
+                            className={`text-sm pl-6 ${
+                              inquiry.response.status === "approved"
+                                ? "text-green-700"
+                                : "text-red-700"
+                            }`}
+                          >
                             "{inquiry.response.description}"
                           </p>
                           <p className="text-xs text-muted-foreground mt-2 pl-6">
-                            Javob berilgan vaqt: {formatDate(inquiry.response.createdAt)}
+                            Javob berilgan vaqt:{" "}
+                            {formatDate(inquiry.response.createdAt)}
                           </p>
                         </div>
                       )}
@@ -446,15 +465,19 @@ export default function InquiriesPage() {
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <div className={`p-3 rounded-lg mb-4 ${
-              dialogType === "approve" 
-                ? "bg-green-50 text-green-700" 
-                : "bg-red-50 text-red-700"
-            }`}>
+            <div
+              className={`p-3 rounded-lg mb-4 ${
+                dialogType === "approve"
+                  ? "bg-green-50 text-green-700"
+                  : "bg-red-50 text-red-700"
+              }`}
+            >
               <DialogTitle className="flex items-center gap-2">
-                {dialogType === "approve" 
-                  ? <Check className="h-5 w-5" /> 
-                  : <X className="h-5 w-5" />}
+                {dialogType === "approve" ? (
+                  <Check className="h-5 w-5" />
+                ) : (
+                  <X className="h-5 w-5" />
+                )}
                 So'rovni {dialogType === "approve" ? "tasdiqlash" : "rad etish"}
               </DialogTitle>
             </div>
@@ -464,30 +487,33 @@ export default function InquiriesPage() {
                 : "So'rovni rad etish sababini quyida yozing."}
             </DialogDescription>
           </DialogHeader>
-          
+
           {selectedInquiry && (
             <div className="bg-muted/30 rounded-lg p-4 mb-4">
               <p className="text-sm font-medium mb-1">
-                {selectedInquiry.user.first_name} {selectedInquiry.user.last_name}
+                {selectedInquiry.user.first_name}{" "}
+                {selectedInquiry.user.last_name}
               </p>
               <p className="text-sm text-muted-foreground">
                 Taklif:{" "}
-                {selectedInquiry.property.currency === 'rm'
+                {selectedInquiry.property.currency === "rm"
                   ? `RM ${selectedInquiry.offered_price?.toLocaleString()}`
                   : `${selectedInquiry.offered_price?.toLocaleString()} so'm`}
               </p>
             </div>
           )}
-          
+
           <div className="grid gap-4 py-4">
             <div className="grid w-full gap-2">
               <Label htmlFor="description" className="text-sm font-medium">
-                {dialogType === "approve" ? "Tasdiqlash izohi" : "Rad etish sababi"}
+                {dialogType === "approve"
+                  ? "Tasdiqlash izohi"
+                  : "Rad etish sababi"}
               </Label>
               <Textarea
                 placeholder={
-                  dialogType === "approve" 
-                    ? "Tasdiqlash haqida izoh..." 
+                  dialogType === "approve"
+                    ? "Tasdiqlash haqida izoh..."
                     : "Rad etish sababini yozing..."
                 }
                 id="description"
@@ -496,8 +522,8 @@ export default function InquiriesPage() {
                 className="min-h-[120px]"
               />
               <p className="text-xs text-muted-foreground">
-                {dialogType === "approve" 
-                  ? "Bu izoh mijozga ko'rsatiladi" 
+                {dialogType === "approve"
+                  ? "Bu izoh mijozga ko'rsatiladi"
                   : "Bu sabab mijozga yetkaziladi"}
               </p>
             </div>
@@ -515,8 +541,8 @@ export default function InquiriesPage() {
               onClick={handleSubmitResponse}
               disabled={isPending || !description.trim()}
               className={
-                dialogType === "approve" 
-                  ? "bg-green-600 hover:bg-green-700" 
+                dialogType === "approve"
+                  ? "bg-green-600 hover:bg-green-700"
                   : "bg-red-600 hover:bg-red-700"
               }
             >
@@ -524,8 +550,8 @@ export default function InquiriesPage() {
               {isPending
                 ? "Yuborilmoqda..."
                 : dialogType === "approve"
-                ? "Tasdiqlash"
-                : "Rad etish"}
+                  ? "Tasdiqlash"
+                  : "Rad etish"}
             </Button>
           </DialogFooter>
         </DialogContent>

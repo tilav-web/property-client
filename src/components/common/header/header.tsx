@@ -52,7 +52,7 @@ export default function Header({ className }: IHeaderProps) {
   const { setLanguage } = useLanguageStore();
   const { isLoginDialogOpen, openLoginDialog, closeLoginDialog } = useUiStore();
 
-  const languages = Object.values<ILanguage>(["uz", "ru", "en"]);
+  const languages = Object.values<ILanguage>(["en", "ru", "uz"]);
 
   const handleChangeUserLan = async (lan: ILanguage) => {
     try {
@@ -95,7 +95,7 @@ export default function Header({ className }: IHeaderProps) {
     <header
       className={cn(
         "w-full bg-white border-b border-gray-200 shadow-sm",
-        className
+        className,
       )}
     >
       <div className="container mx-auto">
