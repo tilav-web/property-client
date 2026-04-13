@@ -9,6 +9,9 @@ const apiInstance = axios.create({
   withCredentials: true,
 });
 
+const mapLanguageForBackend = (lang: string): string =>
+  lang === "ms" ? "en" : lang;
+
 apiInstance.interceptors.request.use((config) => {
   const access_token = handleStorage({ key: "access_token" });
   const language = handleStorage({ key: "language" }) ?? "en";
@@ -20,7 +23,7 @@ apiInstance.interceptors.request.use((config) => {
     delete config.headers["Authorization"];
   }
 
-  config.headers["Accept-Language"] = language;
+  config.headers["Accept-Language"] = mapLanguageForBackend(language);
 
   if (config.data instanceof FormData) {
     config.headers["Content-Type"] = "multipart/form-data";
@@ -79,7 +82,7 @@ export const publicApi = axios.create({
 publicApi.interceptors.request.use((config) => {
   const language = handleStorage({ key: "language" }) ?? "en";
   config.headers = config.headers || {};
-  config.headers["Accept-Language"] = language;
+  config.headers["Accept-Language"] = mapLanguageForBackend(language);
 
   return config;
 });
@@ -93,7 +96,7 @@ adminApi.interceptors.request.use((config) => {
   const admin_access_token = useAdminStore.getState().getAdminAccessToken();
   const language = handleStorage({ key: "language" }) ?? "en";
   config.headers["Authorization"] = `Bearer ${admin_access_token}`;
-  config.headers["Accept-Language"] = language;
+  config.headers["Accept-Language"] = mapLanguageForBackend(language);
 
   if (config.data instanceof FormData) {
     config.headers["Content-Type"] = "multipart/form-data";

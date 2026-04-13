@@ -47,7 +47,8 @@
       "languages": {
         "uz": "O'zbek",
         "ru": "Русский",
-        "en": "English"
+        "en": "English",
+        "ms": "Bahasa Melayu"
       }
     },
     "seller_header": {
@@ -67,24 +68,18 @@
       "advertise": "Реклама"
     },
     "footer": {
-      "question": "Есть вопросы? Звоните",
-      "store_addresses": "Адреса магазинов",
+      "description": "Ваш надежный партнер в поиске идеальной недвижимости. Покупайте, арендуйте и инвестируйте с уверенностью.",
+      "quick_links": "Быстрые ссылки",
       "company": "Компания",
-      "for_legal_entities": "Для юридических лиц",
       "about": "Об Amaar",
-      "news_and_blogs": "Новости и блоги",
-      "imei_check": "Проверка IMEI",
-      "information": "Информация",
-      "free_delivery": "Бесплатная доставка",
-      "work_at_amaar": "Работа в Amaar",
-      "personal_account": "Личный кабинет",
-      "contact_numbers": "Контактные номера",
-      "customer_help": "Помощь покупателю",
-      "return_of_goods": "Возврат товара",
-      "warranty_for_goods": "Гарантия на товар",
-      "download_app": "Скачать приложение",
-      "qr_code": "QR-код",
-      "scan_qr": "Отсканируйте QR-код для скачивания"
+      "privacy_policy": "Политика конфиденциальности",
+      "terms_of_service": "Условия использования",
+      "offices": "Наши офисы",
+      "office_malaysia": "Куала-Лумпур, Малайзия",
+      "office_uae": "Дубай, ОАЭ",
+      "follow_us": "Мы в соцсетях",
+      "all_rights_reserved": "Все права защищены.",
+      "made_with_love": "Сделано с любовью Tilav Web"
     },
     "buttons": {
       "bid_price": "Ваша цена",

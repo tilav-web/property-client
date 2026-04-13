@@ -4,15 +4,19 @@ import type { ILanguage } from "@/interfaces/language/language.interface";
 import en from "./en.json";
 import ru from "./ru.json";
 import uz from "./uz.json";
+import ms from "./ms.json";
 
 const DEFAULT_LANGUAGE: ILanguage = "en";
 const FALLBACK_LANGUAGE: ILanguage = "en";
+
+const SUPPORTED_LANGUAGES: ILanguage[] = ["en", "ru", "uz", "ms"];
 
 const i18n = createInstance();
 const resources = {
   en: { translation: en },
   ru: { translation: ru },
   uz: { translation: uz },
+  ms: { translation: ms },
 } as const;
 
 function getInitialLanguage(): ILanguage {
@@ -22,12 +26,8 @@ function getInitialLanguage(): ILanguage {
 
   const storedLanguage = window.localStorage.getItem("language");
 
-  if (
-    storedLanguage === "uz" ||
-    storedLanguage === "ru" ||
-    storedLanguage === "en"
-  ) {
-    return storedLanguage;
+  if (storedLanguage && SUPPORTED_LANGUAGES.includes(storedLanguage as ILanguage)) {
+    return storedLanguage as ILanguage;
   }
 
   return DEFAULT_LANGUAGE;
@@ -49,7 +49,7 @@ const initialLanguage = getInitialLanguage();
 export const i18nReady = i18n.use(initReactI18next).init({
   lng: initialLanguage,
   fallbackLng: FALLBACK_LANGUAGE,
-  supportedLngs: ["en", "ru", "uz"],
+  supportedLngs: SUPPORTED_LANGUAGES,
   ns: ["translation"],
   defaultNS: "translation",
   resources,

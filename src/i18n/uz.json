@@ -48,7 +48,8 @@
       "languages": {
         "uz": "O'zbek",
         "ru": "Русский",
-        "en": "English"
+        "en": "English",
+        "ms": "Bahasa Melayu"
       }
     },
     "seller_header": {
@@ -68,24 +69,18 @@
       "advertise": "Reklama"
     },
     "footer": {
-      "question": "Savolingiz bormi? Qo'ng'iroq qiling",
-      "store_addresses": "Do'kon manzillari",
+      "description": "Mukammal mulkni topishda ishonchli hamkoringiz. Ishonch bilan sotib oling, ijaraga oling va investitsiya qiling.",
+      "quick_links": "Tezkor havolalar",
       "company": "Kompaniya",
-      "for_legal_entities": "Yuridik shaxslar uchun",
       "about": "Amaar haqida",
-      "news_and_blogs": "Yangiliklar va bloglar",
-      "imei_check": "IMEI tekshiruvi",
-      "information": "Ma'lumot",
-      "free_delivery": "Bepul yetkazib berish",
-      "work_at_amaar": "Amaar'da ishlash",
-      "personal_account": "Shaxsiy kabinet",
-      "contact_numbers": "Kontakt raqamlari",
-      "customer_help": "Mijozlarga yordam",
-      "return_of_goods": "Tovarlarni qaytarish",
-      "warranty_for_goods": "Tovarlarga kafolat",
-      "download_app": "Ilovani yuklab oling",
-      "qr_code": "QR-kod",
-      "scan_qr": "Yuklab olish uchun QR-kodni skanerlang"
+      "privacy_policy": "Maxfiylik siyosati",
+      "terms_of_service": "Foydalanish shartlari",
+      "offices": "Ofislarimiz",
+      "office_malaysia": "Kuala Lumpur, Malayziya",
+      "office_uae": "Dubay, BAA",
+      "follow_us": "Bizni kuzating",
+      "all_rights_reserved": "Barcha huquqlar himoyalangan.",
+      "made_with_love": "Tilav Web tomonidan yaratilgan"
     },
     "buttons": {
       "bid_price": "Sizning narxingiz",

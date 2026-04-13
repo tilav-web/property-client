@@ -17,7 +17,8 @@ const getStoredLanguage = (): ILanguage => {
   if (
     storedLanguage === "uz" ||
     storedLanguage === "ru" ||
-    storedLanguage === "en"
+    storedLanguage === "en" ||
+    storedLanguage === "ms"
   ) {
     return storedLanguage;
   }

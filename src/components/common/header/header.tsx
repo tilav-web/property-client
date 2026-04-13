@@ -52,7 +52,7 @@ export default function Header({ className }: IHeaderProps) {
   const { setLanguage } = useLanguageStore();
   const { isLoginDialogOpen, openLoginDialog, closeLoginDialog } = useUiStore();
 
-  const languages = Object.values<ILanguage>(["en", "ru", "uz"]);
+  const languages: ILanguage[] = ["en", "ms", "ru", "uz"];
 
   const handleChangeUserLan = async (lan: ILanguage) => {
     try {

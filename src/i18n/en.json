@@ -47,7 +47,8 @@
       "languages": {
         "uz": "O'zbek",
         "ru": "Русский",
-        "en": "English"
+        "en": "English",
+        "ms": "Bahasa Melayu"
       }
     },
     "seller_header": {
@@ -67,24 +68,18 @@
       "advertise": "Advertise"
     },
     "footer": {
-      "question": "Have a question? Call",
-      "store_addresses": "Store addresses",
+      "description": "Your trusted partner in finding the perfect property. Buy, rent, and invest with confidence.",
+      "quick_links": "Quick Links",
       "company": "Company",
-      "for_legal_entities": "For legal entities",
       "about": "About Amaar",
-      "news_and_blogs": "News and blogs",
-      "imei_check": "IMEI check",
-      "information": "Information",
-      "free_delivery": "Free delivery",
-      "work_at_amaar": "Work at Amaar",
-      "personal_account": "Personal account",
-      "contact_numbers": "Contact numbers",
-      "customer_help": "Customer help",
-      "return_of_goods": "Return of goods",
-      "warranty_for_goods": "Warranty for goods",
-      "download_app": "Download the app",
-      "qr_code": "QR-code",
-      "scan_qr": "Scan the QR code to download"
+      "privacy_policy": "Privacy Policy",
+      "terms_of_service": "Terms of Service",
+      "offices": "Our Offices",
+      "office_malaysia": "Kuala Lumpur, Malaysia",
+      "office_uae": "Dubai, UAE",
+      "follow_us": "Follow Us",
+      "all_rights_reserved": "All rights reserved.",
+      "made_with_love": "Made with love by Tilav Web"
     },
     "buttons": {
       "bid_price": "Your price",

@@ -1,85 +1,112 @@
 import { useTranslation } from "react-i18next";
-import { Facebook, Instagram, Youtube, Send } from "lucide-react";
+import { Facebook, Instagram, Send, Mail, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
+import { logo } from "@/utils/shared";
 
 export default function Footer() {
   const { t } = useTranslation();
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-black py-12 text-white [contain-intrinsic-size:1px_620px] [content-visibility:auto]">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-          {/* Contact Section */}
-          <div className="md:col-span-1">
-            <p className="text-sm mb-4">{t("common.footer.question")}</p>
-            <div className="mb-6 space-y-2">
-              <Link
-                to="tel:+601139029480"
-                className="text-xl font-bold flex items-center gap-2"
-              >
-                <span>🇲🇾</span> +60 113 902 9480
-              </Link>
-              <Link
-                to="tel:+971562911117"
-                className="text-xl font-bold flex items-center gap-2"
-              >
-                <span>🇦🇪</span> +971 56 291 1117
-              </Link>
-            </div>
-
-            {/* Social Media Icons */}
-            <div className="flex gap-3 mb-6">
-              <a
-                href="#"
-                aria-label="Facebook"
-                className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-blue-600 transition-colors"
-              >
-                <Facebook size={20} aria-hidden="true" />
-              </a>
-              <a
-                href="#"
-                aria-label="Telegram"
-                className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-sky-500 transition-colors"
-              >
-                <Send size={20} aria-hidden="true" />
-              </a>
-              <a
-                href="#"
-                aria-label="Instagram"
-                className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-pink-600 transition-colors"
-              >
-                <Instagram size={20} aria-hidden="true" />
-              </a>
-              <a
-                href="#"
-                aria-label="YouTube"
-                className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center hover:bg-red-600 transition-colors"
-              >
-                <Youtube size={20} aria-hidden="true" />
-              </a>
-            </div>
-
-            <Link to="#" className="text-sm underline">
-              {t("common.footer.store_addresses")}
+    <footer className="bg-gray-900 text-gray-300">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          {/* Brand & Contact */}
+          <div>
+            <Link to="/" className="inline-block mb-5">
+              <img
+                src={logo}
+                alt="Amaar Properties"
+                className="h-10 w-auto brightness-0 invert"
+              />
             </Link>
+            <p className="text-sm text-gray-400 mb-6">
+              {t("common.footer.description")}
+            </p>
+            <div className="space-y-3">
+              <a
+                href="tel:+601139029480"
+                className="flex items-center gap-3 text-sm hover:text-white transition-colors"
+              >
+                <Phone size={16} />
+                <span>+60 113 902 9480</span>
+              </a>
+              <a
+                href="tel:+971562911117"
+                className="flex items-center gap-3 text-sm hover:text-white transition-colors"
+              >
+                <Phone size={16} />
+                <span>+971 56 291 1117</span>
+              </a>
+              <a
+                href="mailto:info@amaarproperties.com"
+                className="flex items-center gap-3 text-sm hover:text-white transition-colors"
+              >
+                <Mail size={16} />
+                <span>info@amaarproperties.com</span>
+              </a>
+            </div>
           </div>
 
-          {/* Company Section */}
+          {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">{t("common.footer.company")}</h3>
+            <h3 className="text-white font-semibold mb-5">
+              {t("common.footer.quick_links")}
+            </h3>
             <ul className="space-y-3">
               <li>
                 <Link
-                  to="#"
-                  className="text-sm hover:text-gray-300 transition-colors"
+                  to="/filter-nav?category=APARTMENT_SALE"
+                  className="text-sm hover:text-white transition-colors"
                 >
-                  {t("common.footer.for_legal_entities")}
+                  {t("common.buy")}
                 </Link>
               </li>
               <li>
                 <Link
+                  to="/filter-nav?category=APARTMENT_RENT"
+                  className="text-sm hover:text-white transition-colors"
+                >
+                  {t("common.rent_apartments")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/sellers"
+                  className="text-sm hover:text-white transition-colors"
+                >
+                  {t("common.sellers")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/ai-agent"
+                  className="text-sm hover:text-white transition-colors"
+                >
+                  {t("common.ai_agent")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/filter-nav?is_new=1"
+                  className="text-sm hover:text-white transition-colors"
+                >
+                  {t("common.new_projects")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h3 className="text-white font-semibold mb-5">
+              {t("common.footer.company")}
+            </h3>
+            <ul className="space-y-3">
+              <li>
+                <Link
                   to="#"
-                  className="text-sm hover:text-gray-300 transition-colors"
+                  className="text-sm hover:text-white transition-colors"
                 >
                   {t("common.footer.about")}
                 </Link>
@@ -87,112 +114,77 @@ export default function Footer() {
               <li>
                 <Link
                   to="#"
-                  className="text-sm hover:text-gray-300 transition-colors"
+                  className="text-sm hover:text-white transition-colors"
                 >
-                  {t("common.footer.news_and_blogs")}
+                  {t("common.footer.privacy_policy")}
                 </Link>
               </li>
               <li>
                 <Link
                   to="#"
-                  className="text-sm hover:text-gray-300 transition-colors"
+                  className="text-sm hover:text-white transition-colors"
                 >
-                  {t("common.footer.imei_check")}
+                  {t("common.footer.terms_of_service")}
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Information Section */}
+          {/* Offices & Social */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">{t("common.footer.information")}</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  to="#"
-                  className="text-sm hover:text-gray-300 transition-colors"
-                >
-                  {t("common.footer.free_delivery")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="#"
-                  className="text-sm hover:text-gray-300 transition-colors"
-                >
-                  {t("common.footer.work_at_amaar")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="#"
-                  className="text-sm hover:text-gray-300 transition-colors"
-                >
-                  {t("common.footer.personal_account")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="#"
-                  className="text-sm hover:text-gray-300 transition-colors"
-                >
-                  {t("common.footer.contact_numbers")}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Customer Help Section */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">{t("common.footer.customer_help")}</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  to="#"
-                  className="text-sm hover:text-gray-300 transition-colors"
-                >
-                  {t("common.footer.return_of_goods")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="#"
-                  className="text-sm hover:text-gray-300 transition-colors"
-                >
-                  {t("common.footer.warranty_for_goods")}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Download App Section */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">{t("common.footer.download_app")}</h3>
-
-            {/* QR Code */}
-            <div className="bg-white p-4 rounded-lg mb-4 w-32 h-32 flex items-center justify-center">
-              <div className="text-black text-xs text-center">{t("common.footer.qr_code")}</div>
-            </div>
-
-            {/* App Store Icons */}
-            <div className="flex gap-2 mb-2">
-              <div className="w-8 h-8 bg-green-600 rounded flex items-center justify-center">
-                <div className="w-4 h-4 bg-white rounded-sm flex items-center justify-center">
-                  <div className="w-0 h-0 border-l-2 border-l-green-600 border-t-1 border-t-transparent border-b-1 border-b-transparent"></div>
-                </div>
+            <h3 className="text-white font-semibold mb-5">
+              {t("common.footer.offices")}
+            </h3>
+            <div className="space-y-4 mb-6">
+              <div className="flex items-start gap-3 text-sm">
+                <MapPin size={16} className="mt-0.5 flex-shrink-0" />
+                <span>{t("common.footer.office_malaysia")}</span>
               </div>
-              <div className="w-8 h-8 bg-gray-800 rounded flex items-center justify-center">
-                <div className="text-white text-xs">🍎</div>
-              </div>
-              <div className="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
-                <div className="text-white text-xs font-bold">A</div>
+              <div className="flex items-start gap-3 text-sm">
+                <MapPin size={16} className="mt-0.5 flex-shrink-0" />
+                <span>{t("common.footer.office_uae")}</span>
               </div>
             </div>
 
-            <p className="text-xs text-gray-400">
-              {t("common.footer.scan_qr")}
-            </p>
+            <h3 className="text-white font-semibold mb-4">
+              {t("common.footer.follow_us")}
+            </h3>
+            <div className="flex gap-3">
+              <a
+                href="#"
+                aria-label="Facebook"
+                className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors"
+              >
+                <Facebook size={18} />
+              </a>
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-pink-600 transition-colors"
+              >
+                <Instagram size={18} />
+              </a>
+              <a
+                href="#"
+                aria-label="Telegram"
+                className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-sky-500 transition-colors"
+              >
+                <Send size={18} />
+              </a>
+            </div>
           </div>
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="border-t border-gray-800">
+        <div className="container mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-gray-500">
+            &copy; {currentYear} Amaar Properties. {t("common.footer.all_rights_reserved")}
+          </p>
+          <p className="text-xs text-gray-600">
+            {t("common.footer.made_with_love")}
+          </p>
         </div>
       </div>
     </footer>
