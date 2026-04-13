@@ -168,47 +168,60 @@ export default function Header({ className }: IHeaderProps) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              aria-label="Call Amaar Properties"
-              className="mr-4 animate-pulse-call border-0 bg-transparent p-0"
-              onClick={() => (window.location.href = "tel:+998554011515")}
-            >
-              <PhoneCall size={18} className="cursor-pointer" />
-            </button>
-            {!user && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="flex items-center gap-1"
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  aria-label="Call Amaar Properties"
+                  className="mr-4 animate-pulse-call border-0 bg-transparent p-0"
+                >
+                  <PhoneCall size={18} className="cursor-pointer" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48 select-none">
+                <DropdownMenuItem asChild>
+                  <a href="tel:+601139029480" className="flex items-center gap-2">
+                    <span>🇲🇾</span> +60 113 902 9480
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a href="tel:+971562911117" className="flex items-center gap-2">
+                    <span>🇦🇪</span> +971 56 291 1117
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center gap-1"
+                >
+                  <Globe className="h-4 w-4" />
+                  <span className="text-sm uppercase hidden sm:inline">
+                    {i18n.language}
+                  </span>
+                  <ChevronDown className="h-3 w-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-32 select-none">
+                {languages.map((lan) => (
+                  <DropdownMenuItem
+                    key={lan}
+                    onClick={() => handleChangeUserLan(lan)}
+                    className="flex items-center gap-2 select-none"
                   >
-                    <Globe className="h-4 w-4" />
-                    <span className="text-sm uppercase hidden sm:inline">
-                      {i18n.language}
-                    </span>
-                    <ChevronDown className="h-3 w-3" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-32 select-none">
-                  {languages.map((lan) => (
-                    <DropdownMenuItem
-                      key={lan}
-                      onClick={() => handleChangeUserLan(lan)}
-                      className="flex items-center gap-2 select-none"
-                    >
-                      <span
-                        className={`w-2 h-2 rounded-full ${
-                          lan === i18n.language ? "bg-green-500" : "bg-gray-300"
-                        }`}
-                      ></span>
-                      {t(`common.header.languages.${lan}`)}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+                    <span
+                      className={`w-2 h-2 rounded-full ${
+                        lan === i18n.language ? "bg-green-500" : "bg-gray-300"
+                      }`}
+                    ></span>
+                    {t(`common.header.languages.${lan}`)}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
             {user ? (
               <div
                 onClick={() => navigate("/profile")}

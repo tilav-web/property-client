@@ -12,12 +12,20 @@ export default function Footer() {
           {/* Contact Section */}
           <div className="md:col-span-1">
             <p className="text-sm mb-4">{t("common.footer.question")}</p>
-            <Link
-              to="tel:+998554011515"
-              className="text-2xl font-bold mb-6 block"
-            >
-              +998 55 401 1515
-            </Link>
+            <div className="mb-6 space-y-2">
+              <Link
+                to="tel:+601139029480"
+                className="text-xl font-bold flex items-center gap-2"
+              >
+                <span>🇲🇾</span> +60 113 902 9480
+              </Link>
+              <Link
+                to="tel:+971562911117"
+                className="text-xl font-bold flex items-center gap-2"
+              >
+                <span>🇦🇪</span> +971 56 291 1117
+              </Link>
+            </div>
 
             {/* Social Media Icons */}
             <div className="flex gap-3 mb-6">
