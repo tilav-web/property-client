@@ -5,7 +5,7 @@ export type AuthProvider = "local" | "google" | "facebook" | "github";
 // (EnumAuthProvider ichidagi qiymatlarga moslab kengaytirasan)
 
 export type UserRole = "physical" | "legal";
-export type UserLan = "uz" | "en" | "ru";
+export type UserLan = "uz" | "en" | "ru" | "ms";
 
 export interface IIdentifier {
   value: string | null;
