@@ -44,24 +44,33 @@ const amenityIcons = {
 };
 
 // Xarita komponenti
+import { googleMapKey } from "@/utils/shared";
+
+let googleMapsPromise: Promise<void> | null = null;
+function loadGoogleMapsScript(): Promise<void> {
+  if (googleMapsPromise) return googleMapsPromise;
+  if (window.google?.maps) {
+    googleMapsPromise = Promise.resolve();
+    return googleMapsPromise;
+  }
+  googleMapsPromise = new Promise<void>((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapKey}`;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Failed to load Google Maps"));
+    document.head.appendChild(script);
+  });
+  return googleMapsPromise;
+}
+
 function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
-  const mapInstanceRef = useRef<ymaps.Map | null>(null);
-  const ymapsReadyPromise = useRef<Promise<void> | null>(null);
-  const mapContainerRef = useRef<HTMLDivElement | null>(null); // Fixed initialization
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapInstanceRef = useRef<google.maps.Map | null>(null);
+  const markerRef = useRef<google.maps.Marker | null>(null);
 
-  const loadYmaps = useCallback(() => {
-    if (ymapsReadyPromise.current) return ymapsReadyPromise.current;
-
-    ymapsReadyPromise.current = new Promise<void>((resolve) => {
-      const check = setInterval(() => {
-        if (window.ymaps) {
-          clearInterval(check);
-          window.ymaps.ready(() => resolve());
-        }
-      }, 100);
-    });
-    return ymapsReadyPromise.current;
-  }, []);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!coordinates) return;
@@ -69,36 +78,47 @@ function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
     let destroyed = false;
     const [lng, lat] = coordinates;
 
-    loadYmaps().then(() => {
+    loadGoogleMapsScript().then(() => {
       if (destroyed || !mapContainerRef.current) return;
+
+      const position = { lat, lng };
+
       if (mapInstanceRef.current) {
-        mapInstanceRef.current.setCenter([lat, lng], 15);
+        mapInstanceRef.current.setCenter(position);
+        mapInstanceRef.current.setZoom(15);
+        if (markerRef.current) {
+          markerRef.current.setPosition(position);
+        }
         return;
       }
 
-      const ymaps = window.ymaps;
-      const map = new ymaps.Map(mapContainerRef.current, {
-        center: [lat, lng],
+      const map = new google.maps.Map(mapContainerRef.current, {
+        center: position,
         zoom: 15,
-        controls: ["zoomControl", "fullscreenControl", "geolocationControl"],
+        zoomControl: true,
+        fullscreenControl: true,
+        mapTypeControl: false,
+        streetViewControl: false,
       });
 
-      const placemark = new ymaps.Placemark([lat, lng]);
-      map.geoObjects.add(placemark);
+      const marker = new google.maps.Marker({
+        position,
+        map,
+      });
 
       mapInstanceRef.current = map;
+      markerRef.current = marker;
     });
 
     return () => {
       destroyed = true;
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.destroy();
-        mapInstanceRef.current = null;
+      if (markerRef.current) {
+        markerRef.current.setMap(null);
+        markerRef.current = null;
       }
+      mapInstanceRef.current = null;
     };
-  }, [coordinates, loadYmaps]);
-
-  const { t } = useTranslation(); // Initialize useTranslation for PropertyMap
+  }, [coordinates]);
 
   if (!coordinates) {
     return (

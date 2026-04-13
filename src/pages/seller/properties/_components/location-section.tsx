@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin } from "lucide-react";
 import { useEffect, useRef, useCallback, useState } from "react";
+import { googleMapKey } from "@/utils/shared";
 
 const mapContainerStyle = {
   width: "100%",
@@ -16,127 +17,62 @@ interface Props {
 
 const roundCoord = (num: number) => parseFloat(num.toFixed(6));
 
-const MALAYSIA_BOUNDS = [
-  [0.85, 99.64],
-  [7.36, 119.27],
-];
+const MALAYSIA_BOUNDS = {
+  south: 0.85,
+  west: 99.64,
+  north: 7.36,
+  east: 119.27,
+};
+
+let googleMapsLoadPromise: Promise<void> | null = null;
+
+function loadGoogleMapsScript(): Promise<void> {
+  if (googleMapsLoadPromise) return googleMapsLoadPromise;
+
+  if (window.google?.maps) {
+    googleMapsLoadPromise = Promise.resolve();
+    return googleMapsLoadPromise;
+  }
+
+  googleMapsLoadPromise = new Promise<void>((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapKey}&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Failed to load Google Maps API"));
+    document.head.appendChild(script);
+  });
+
+  return googleMapsLoadPromise;
+}
 
 export default function LocationSection({
   location,
   setLocation,
   isSubmitting = false,
 }: Props) {
-  const mapRef = useRef<ymaps.Map | null>(null);
-  const placemarkRef = useRef<ymaps.Placemark | null>(null);
-  const suggestViewRef = useRef<ymaps.SuggestView | null>(null);
-  const ymapsReadyPromise = useRef<Promise<void> | null>(null);
+  const mapRef = useRef<google.maps.Map | null>(null);
+  const markerRef = useRef<google.maps.Marker | null>(null);
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const [isMapLoading, setIsMapLoading] = useState(true);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const isSubmittingRef = useRef(isSubmitting);
 
-  const loadYmaps = useCallback(() => {
-    if (ymapsReadyPromise.current) return ymapsReadyPromise.current;
-
-    ymapsReadyPromise.current = new Promise<void>((resolve, reject) => {
-      const timeout = setTimeout(() => {
-        if (ymapsReadyPromise.current) {
-          clearInterval(check);
-          reject(new Error("Yandex Maps API failed to load in 10 seconds."));
-        }
-      }, 10000);
-
-      const check = setInterval(() => {
-        if (window.ymaps) {
-          clearInterval(check);
-          clearTimeout(timeout);
-          window.ymaps.ready(resolve);
-        }
-      }, 100);
-    });
-    return ymapsReadyPromise.current;
-  }, []);
-
-  const handleMapClick = useCallback(
-    (e: ymaps.IEvent<ymaps.Map, MouseEvent>) => {
-      if (isSubmitting) return;
-      const coords = e.get("coords");
-      if (coords) {
-        setLocation({
-          lat: roundCoord(coords[0]),
-          lng: roundCoord(coords[1]),
-        });
-      }
-    },
-    [setLocation, isSubmitting],
-  );
-
-  const handlePlacemarkDrag = useCallback(() => {
-    if (isSubmitting) return;
-    const coords = placemarkRef.current?.geometry?.getCoordinates();
-    if (coords) {
-      setLocation({
-        lat: roundCoord(coords[0]),
-        lng: roundCoord(coords[1]),
-      });
-    }
-  }, [setLocation, isSubmitting]);
-
-  // Initialize Yandex SuggestView
+  // Keep isSubmitting ref in sync so callbacks always see the latest value
   useEffect(() => {
-    if (!searchInputRef.current) return;
+    isSubmittingRef.current = isSubmitting;
+    if (markerRef.current) {
+      markerRef.current.setDraggable(!isSubmitting);
+    }
+  }, [isSubmitting]);
 
-    loadYmaps()
-      .then(() => {
-        const ymaps = window.ymaps;
-
-        suggestViewRef.current = new ymaps.SuggestView(
-          searchInputRef.current!,
-          {
-            results: 5,
-            boundedBy: MALAYSIA_BOUNDS,
-            provider: "yandex#map", // Better search for cities and regions
-          },
-        );
-
-        suggestViewRef.current!.events.add("select", async (e: any) => {
-          if (isSubmitting) return;
-
-          const selectedSuggestion = e.get("item");
-          if (!selectedSuggestion) return;
-
-          try {
-            const results = await ymaps.geocode(selectedSuggestion.value, {
-              results: 1,
-              boundedBy: MALAYSIA_BOUNDS,
-            });
-
-            const geoObject = results.geoObjects.get(0);
-            if (geoObject) {
-              const coords = geoObject.geometry.getCoordinates() as [
-                number,
-                number,
-              ];
-              const newLoc = {
-                lat: roundCoord(coords[0]),
-                lng: roundCoord(coords[1]),
-              };
-              setLocation(newLoc);
-
-              // Move map to selected location
-              if (mapRef.current) {
-                mapRef.current.setCenter([newLoc.lat, newLoc.lng], 16, {
-                  duration: 300,
-                });
-              }
-            }
-          } catch (error) {
-            console.error("Geocode error:", error);
-          }
-        });
-      })
-      .catch((error) => {
-        console.error("SuggestView initialization error:", error);
-      });
-  }, [loadYmaps, setLocation, isSubmitting]);
+  const updateLocation = useCallback(
+    (lat: number, lng: number) => {
+      setLocation({ lat: roundCoord(lat), lng: roundCoord(lng) });
+    },
+    [setLocation],
+  );
 
   // Get user's location on initial load - ONLY if location is not set
   useEffect(() => {
@@ -163,53 +99,86 @@ export default function LocationSection({
   useEffect(() => {
     let isComponentMounted = true;
 
-    loadYmaps()
+    loadGoogleMapsScript()
       .then(() => {
         if (!isComponentMounted || mapRef.current) return;
 
-        const ymaps = window.ymaps;
-        const initialCoords: [number, number] = [location.lat, location.lng];
+        const mapContainer = document.getElementById("location-map-container");
+        if (!mapContainer) return;
 
-        const map = new ymaps.Map("location-map-container", {
-          center: initialCoords,
+        const map = new google.maps.Map(mapContainer, {
+          center: { lat: location.lat, lng: location.lng },
           zoom: 14,
-          controls: [
-            "zoomControl",
-            "fullscreenControl",
-            "geolocationControl",
-            "searchControl",
-          ],
+          fullscreenControl: true,
+          zoomControl: true,
+          streetViewControl: false,
+          mapTypeControl: false,
         });
 
-        // Sync searchControl results with our state
-        const searchControl = map.controls.get("searchControl");
-        searchControl.events.add("resultselect", (e: any) => {
-          const index = e.get("index");
-          searchControl.getResult(index).then((res: any) => {
-            const coords = res.geometry.getCoordinates();
-            setLocation({
-              lat: roundCoord(coords[0]),
-              lng: roundCoord(coords[1]),
-            });
+        const marker = new google.maps.Marker({
+          position: { lat: location.lat, lng: location.lng },
+          map,
+          draggable: !isSubmittingRef.current,
+          icon: {
+            url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+          },
+        });
+
+        // Click-to-place marker
+        map.addListener("click", (e: google.maps.MapMouseEvent) => {
+          if (isSubmittingRef.current || !e.latLng) return;
+          const lat = e.latLng.lat();
+          const lng = e.latLng.lng();
+          marker.setPosition(e.latLng);
+          updateLocation(lat, lng);
+        });
+
+        // Draggable marker
+        marker.addListener("dragend", () => {
+          if (isSubmittingRef.current) return;
+          const pos = marker.getPosition();
+          if (pos) {
+            updateLocation(pos.lat(), pos.lng());
+          }
+        });
+
+        // Google Places Autocomplete
+        if (searchInputRef.current) {
+          const autocomplete = new google.maps.places.Autocomplete(
+            searchInputRef.current,
+            {
+              bounds: new google.maps.LatLngBounds(
+                { lat: MALAYSIA_BOUNDS.south, lng: MALAYSIA_BOUNDS.west },
+                { lat: MALAYSIA_BOUNDS.north, lng: MALAYSIA_BOUNDS.east },
+              ),
+              fields: ["geometry", "formatted_address"],
+            },
+          );
+
+          autocomplete.addListener("place_changed", () => {
+            if (isSubmittingRef.current) return;
+            const place = autocomplete.getPlace();
+            if (place?.geometry?.location) {
+              const lat = place.geometry.location.lat();
+              const lng = place.geometry.location.lng();
+              const newPos = { lat, lng };
+
+              marker.setPosition(newPos);
+              map.setCenter(newPos);
+              map.setZoom(16);
+              updateLocation(lat, lng);
+            }
           });
-        });
 
-        const placemark = new ymaps.Placemark(
-          initialCoords,
-          {},
-          { preset: "islands#redIcon", draggable: !isSubmitting },
-        );
-
-        map.geoObjects.add(placemark);
-        map.events.add("click", handleMapClick);
-        placemark.events.add("dragend", handlePlacemarkDrag);
+          autocompleteRef.current = autocomplete;
+        }
 
         mapRef.current = map;
-        placemarkRef.current = placemark;
+        markerRef.current = marker;
         setIsMapLoading(false);
       })
       .catch((error) => {
-        console.error("Yandex map initialization error:", error);
+        console.error("Google Maps initialization error:", error);
         if (isComponentMounted) {
           setIsMapLoading(false);
         }
@@ -217,35 +186,33 @@ export default function LocationSection({
 
     return () => {
       isComponentMounted = false;
-      if (mapRef.current) {
-        mapRef.current.destroy();
-        mapRef.current = null;
+      if (markerRef.current) {
+        markerRef.current.setMap(null);
+        markerRef.current = null;
       }
+      mapRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadYmaps, handleMapClick, handlePlacemarkDrag]);
+  }, [updateLocation]);
 
-  // Update placemark position and draggable status when `location` or `isSubmitting` prop changes
+  // Update marker position when `location` prop changes externally
   useEffect(() => {
-    if (!placemarkRef.current || !mapRef.current) return;
+    if (!markerRef.current || !mapRef.current) return;
 
     const newLat = roundCoord(location.lat);
     const newLng = roundCoord(location.lng);
 
-    const placemarkCoords = placemarkRef.current.geometry?.getCoordinates();
-
+    const currentPos = markerRef.current.getPosition();
     if (
-      placemarkCoords &&
-      (roundCoord(placemarkCoords[0]) !== newLat ||
-        roundCoord(placemarkCoords[1]) !== newLng)
+      currentPos &&
+      (roundCoord(currentPos.lat()) !== newLat ||
+        roundCoord(currentPos.lng()) !== newLng)
     ) {
-      const newCoords: [number, number] = [location.lat, location.lng];
-      placemarkRef.current.geometry?.setCoordinates(newCoords);
-      mapRef.current.setCenter(newCoords);
+      const newPos = { lat: location.lat, lng: location.lng };
+      markerRef.current.setPosition(newPos);
+      mapRef.current.setCenter(newPos);
     }
-
-    placemarkRef.current.properties.set("draggable", !isSubmitting);
-  }, [location, isSubmitting]);
+  }, [location]);
 
   return (
     <Card className="mt-8">
