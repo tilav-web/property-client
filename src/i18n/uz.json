@@ -189,7 +189,9 @@
       "eur": "EUR"
     },
     "repair_type": {
-      "NEW": "Yangi"
+      "NEW": "Yangi",
+      "RENOVATED": "Ta'mirlangan",
+      "OLD": "Eski"
     }
   },
   "pages": {

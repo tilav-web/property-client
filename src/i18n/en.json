@@ -184,7 +184,9 @@
       "eur": "EUR"
     },
     "repair_type": {
-      "NEW": "New"
+      "NEW": "New",
+      "RENOVATED": "Renovated",
+      "OLD": "Old"
     },
     "heating_type": {
       "CENTRAL": "Central",

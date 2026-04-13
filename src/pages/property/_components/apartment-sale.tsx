@@ -259,7 +259,7 @@ export default function ApartmentSale({
       </div>
 
       {/* Property details */}
-      <div className="max-w-5xl mb-8">
+      <div className="mb-8">
         <h2 className="text-xl font-semibold text-gray-800 mb-6">
           {t("pages.property_page.property_details")}
         </h2>{" "}
