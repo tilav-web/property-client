@@ -21,7 +21,8 @@ export const useCurrentLanguage = () => {
     en: string;
   }): string => {
     const lang = getCurrentLanguage();
-    return text?.[lang] || text?.en || "";
+    const backendLang = lang === "ms" ? "en" : lang;
+    return text?.[backendLang] || text?.en || "";
   };
 
   return {
