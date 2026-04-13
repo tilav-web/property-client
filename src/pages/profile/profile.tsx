@@ -54,8 +54,9 @@ export default function Profile() {
   const handleChangeUserLan = async (lan: ILanguage) => {
     try {
       if (user) {
+        const backendLan = lan === "ms" ? "en" : lan;
         const formData = new FormData();
-        formData.append("lan", lan);
+        formData.append("lan", backendLan);
         await userService.update(formData);
       }
       setLanguage(lan);

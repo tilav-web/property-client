@@ -33,13 +33,14 @@ export default function SellerHeader({
   const lanValue = handleStorage({ key: "language" });
   const { setLanguage } = useLanguageStore();
 
-  const languages = Object.values<ILanguage>(["en", "ru", "uz"]);
+  const languages: ILanguage[] = ["en", "ms", "ru", "uz"];
 
   const handleChangeUserLan = async (lan: ILanguage) => {
     try {
       if (user) {
+        const backendLan = lan === "ms" ? "en" : lan;
         const formData = new FormData();
-        formData.append("lan", lan);
+        formData.append("lan", backendLan);
         const data = await userService.update(formData);
         setUser(data);
       }

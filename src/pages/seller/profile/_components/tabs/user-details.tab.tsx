@@ -42,7 +42,8 @@ export default function UserDetailsTab({
     validationSchema: userDetailsSchema(t),
     onSubmit: async (values) => {
       try {
-        const data = await sellerService.createSeller(values);
+        const backendValues = { ...values, lan: values.lan === "ms" ? "en" : values.lan };
+        const data = await sellerService.createSeller(backendValues);
         setUser(data.user);
         setSeller(data.seller);
         handleSelectTab("busisess_details");
@@ -246,14 +247,17 @@ export default function UserDetailsTab({
                 />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="uz">
-                  {t("user_details_tab.uzbek")}
-                </SelectItem>
                 <SelectItem value="en">
                   {t("user_details_tab.english")}
                 </SelectItem>
+                <SelectItem value="ms">
+                  {t("user_details_tab.malay")}
+                </SelectItem>
                 <SelectItem value="ru">
                   {t("user_details_tab.russian")}
+                </SelectItem>
+                <SelectItem value="uz">
+                  {t("user_details_tab.uzbek")}
                 </SelectItem>
               </SelectContent>
             </Select>
