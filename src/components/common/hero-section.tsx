@@ -57,7 +57,7 @@ export default function HeroSection({
   const resolvedSubtitle = subtitle ? t(subtitle) : "";
 
   return (
-    <div className={cn("relative w-full overflow-hidden", className)}>
+    <div className={cn("relative w-full", className)}>
       <div className="relative h-[340px] w-full transition-all duration-300 md:h-[520px]">
         <img
           src={img}
@@ -74,10 +74,11 @@ export default function HeroSection({
 
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40" />
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 pb-32 md:pb-44">
+        {/* Content overlay — title, subtitle, va search controls */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-4 py-6">
           {resolvedTitle ? (
             <h1
-              className="text-center text-3xl leading-tight text-white drop-shadow-lg md:max-w-4xl md:text-5xl"
+              className="mb-2 text-center text-3xl leading-tight text-white drop-shadow-lg md:max-w-4xl md:text-5xl"
               style={{ fontFamily: "Edu NSW ACT Foundation" }}
             >
               {resolvedTitle}
@@ -85,12 +86,13 @@ export default function HeroSection({
           ) : null}
 
           {resolvedSubtitle ? (
-            <p className="mt-3 text-center text-base text-white/90 drop-shadow md:text-lg">
+            <p className="mb-4 text-center text-base text-white/90 drop-shadow md:text-lg">
               {resolvedSubtitle}
             </p>
           ) : null}
         </div>
 
+        {/* Search controls — absolute positioned */}
         {shouldLoadSearchControls ? (
           <Suspense fallback={null}>
             <HeroSearchControls />

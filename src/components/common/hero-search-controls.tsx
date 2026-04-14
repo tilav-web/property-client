@@ -332,7 +332,7 @@ export default function HeroSearchControls() {
         type="button"
         onClick={() => setMobileSearchActive(true)}
         aria-label={t("common.search")}
-        className="mt-6 flex w-full max-w-sm items-center rounded-full border border-white/20 bg-white/95 p-2 shadow-xl backdrop-blur"
+        className="absolute bottom-6 left-1/2 z-40 flex w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 items-center rounded-full border border-white/20 bg-white/95 p-2 shadow-xl backdrop-blur"
       >
         <div className="mr-3 rounded-full bg-yellow-400 p-2 text-black">
           <Search size={18} aria-hidden="true" />
@@ -533,8 +533,9 @@ export default function HeroSearchControls() {
 
           <Button
             onClick={handleSearch}
-            className="h-12 rounded-full bg-red-500 px-8 font-semibold text-white hover:bg-red-600"
+            className="h-12 rounded-xl bg-yellow-400 px-8 font-bold text-black hover:bg-yellow-500"
           >
+            <Search size={18} className="mr-2" />
             {t("pages.main_page.search_filters.find")}
           </Button>
         </div>
@@ -598,12 +599,6 @@ export default function HeroSearchControls() {
             {areaContent}
           </FilterDropdown>
 
-          <div className="ml-auto">
-            <span className="flex items-center gap-1.5 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700">
-              {t("pages.main_page.search_filters.residential")}
-              <ChevronDown size={14} className="text-gray-400" />
-            </span>
-          </div>
         </div>
       </div>
     </div>

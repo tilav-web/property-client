@@ -1,4 +1,3 @@
-import BrowseSellersCta from "@/components/common/browse-sellers-cta";
 import { Button } from "@/components/ui/button";
 import { heroImage, heroImageSrcSet } from "@/utils/shared";
 import {
@@ -155,7 +154,6 @@ function MapCta() {
 export default function HomeSecondarySections() {
   return (
     <>
-      <BrowseSellersCta />
       <MapCta />
       <AiAgentCta />
       <ListPropertyCta />

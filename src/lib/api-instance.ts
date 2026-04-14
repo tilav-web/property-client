@@ -7,6 +7,9 @@ import { toast } from "sonner";
 const apiInstance = axios.create({
   baseURL: serverUrl,
   withCredentials: true,
+  paramsSerializer: {
+    indexes: null, // bedrooms=1&bedrooms=2 (not bedrooms[]=1)
+  },
 });
 
 const mapLanguageForBackend = (lang: string): string =>
