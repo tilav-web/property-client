@@ -84,7 +84,7 @@ export default function YandexMap() {
 
       const script = document.createElement("script");
       script.id = GOOGLE_MAP_SCRIPT_ID;
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapKey}&callback=__googleMapsCallback&libraries=marker`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapKey}&callback=__googleMapsCallback&libraries=marker,places`;
       script.async = true;
       script.defer = true;
       script.addEventListener(

@@ -18,6 +18,8 @@ interface Props {
 
 const roundCoord = (num: number) => parseFloat(num.toFixed(6));
 
+const GOOGLE_MAP_SCRIPT_ID = "google-maps-script";
+
 let googleMapsLoadPromise: Promise<void> | null = null;
 
 function loadGoogleMapsScript(): Promise<void> {
@@ -29,8 +31,20 @@ function loadGoogleMapsScript(): Promise<void> {
   }
 
   googleMapsLoadPromise = new Promise<void>((resolve, reject) => {
+    const existing = document.getElementById(GOOGLE_MAP_SCRIPT_ID);
+    if (existing) {
+      const onLoad = () => {
+        if (window.google?.maps) resolve();
+        else reject(new Error("Google Maps failed to initialize"));
+      };
+      existing.addEventListener("load", onLoad, { once: true });
+      if (window.google?.maps) resolve();
+      return;
+    }
+
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapKey}&libraries=places`;
+    script.id = GOOGLE_MAP_SCRIPT_ID;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapKey}&libraries=places,marker`;
     script.async = true;
     script.defer = true;
     script.onload = () => resolve();
