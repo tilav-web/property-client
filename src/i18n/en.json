@@ -405,8 +405,8 @@
         "rent": "Rent",
         "buy": "Buy",
         "new_projects": "New projects",
-        "commercial_rent": "Commercial rent",
-        "commercial_buy": "Commercial buy"
+        "commercial_rent": "Rent Commercial",
+        "commercial_buy": "Purchase Commercial"
       },
       "search_filters": {
         "location_placeholder": "City, community or building",
