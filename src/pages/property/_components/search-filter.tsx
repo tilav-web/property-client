@@ -7,7 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { X, ChevronsUpDown, Tag } from "lucide-react";
+import { X, ChevronDown, Search, SlidersHorizontal, Tag } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { propertyService } from "@/services/property.service";
@@ -21,126 +21,181 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Input } from "@/components/ui/input";
 
-const BEDROOMS = ["1", "2", "3", "4", "5", "6", "7"] as const;
+const BEDROOMS = ["0", "1", "2", "3", "4", "5", "6", "7"] as const;
 const BATHROOMS = ["1", "2", "3", "4", "5", "6", "7"] as const;
 const TAG_DEBOUNCE_MS = 300;
+
+const CATEGORY_TABS = [
+  { key: "all", label: "common.all" },
+  { key: "APARTMENT_RENT", label: "common.rent_apartments" },
+  { key: "APARTMENT_SALE", label: "common.buy" },
+] as const;
+
+function FilterChip({
+  label,
+  children,
+  hasValue,
+}: {
+  label: string;
+  children: React.ReactNode;
+  hasValue?: boolean;
+}) {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          className={cn(
+            "flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm transition-colors",
+            hasValue
+              ? "border-yellow-400 bg-yellow-50 font-medium text-yellow-800"
+              : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+          )}
+        >
+          {label}
+          <ChevronDown size={14} className="text-gray-400" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent
+        className="w-72 p-4"
+        align="start"
+        sideOffset={8}
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
+        {children}
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 const SearchFilterHeader: React.FC = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // States for Tag Search
   const [openTag, setOpenTag] = useState(false);
   const [tagSearch, setTagSearch] = useState("");
   const [debouncedTagSearch] = useDebounce(tagSearch, TAG_DEBOUNCE_MS);
 
-  // URL'dan joriy filterlarni o'qish - BITTA TAG
+  // URL dan joriy filterlarni o'qish
   const currentTag = searchParams.get("tag") || "";
-  const currentCategory = searchParams.get("filterCategory") || "all";
+  const currentSearch = searchParams.get("search") || "";
+  const currentCategory = searchParams.get("category") || searchParams.get("filterCategory") || "all";
   const currentBedrooms = searchParams.getAll("bdr");
   const currentBathrooms = searchParams.getAll("bthr");
+  const currentMinPrice = searchParams.get("minPrice") || "";
+  const currentMaxPrice = searchParams.get("maxPrice") || "";
+  const currentMinArea = searchParams.get("minArea") || "";
+  const currentMaxArea = searchParams.get("maxArea") || "";
+  const currentFurnished = searchParams.get("furnished") === "true";
+  const currentParking = searchParams.get("parking") === "true";
+  const currentIsNew = searchParams.get("is_new") === "1";
+  const currentIsPremium = searchParams.get("is_premium") === "true";
 
-  // Kategoriyalarni olish
   const { data: categories = [] } = useQuery({
     queryKey: ["category-counts"],
     queryFn: propertyService.getCategories,
     staleTime: 5 * 60 * 1000,
   });
 
-  // Tag'larni qidirish
   const { data: fetchedTags = [], isFetching: isTagsLoading } = useQuery({
     queryKey: ["tags", debouncedTagSearch],
     queryFn: () => tagService.findTags(debouncedTagSearch),
     enabled: debouncedTagSearch.length > 0,
   });
 
-  // Filterlarni o'zgartirish funksiyasi
   const updateSearchParams = useCallback(
     (updates: Record<string, string | string[] | null>) => {
       const newParams = new URLSearchParams(searchParams);
-
       Object.entries(updates).forEach(([key, value]) => {
-        newParams.delete(key); // avval o'chirib
-        if (value === null) {
-          // hech nima qo'shmaslik
-        } else if (Array.isArray(value)) {
+        newParams.delete(key);
+        if (value === null) return;
+        if (Array.isArray(value)) {
           value.forEach((v) => newParams.append(key, v));
         } else if (value) {
           newParams.set(key, value);
         }
       });
-
       setSearchParams(newParams);
     },
     [searchParams, setSearchParams]
   );
 
-  // Tag tanlash funksiyasi - BITTA TAG
   const handleTagSelect = useCallback(
     (tag: string) => {
-      updateSearchParams({ tag: tag });
+      updateSearchParams({ tag });
       setTagSearch("");
       setOpenTag(false);
     },
     [updateSearchParams]
   );
 
-  // Tag o'chirish
   const removeTag = useCallback(() => {
     updateSearchParams({ tag: null });
   }, [updateSearchParams]);
 
-  // Bitta filter o'chirish (badge X tugmasi uchun)
-  const removeFilter = (key: string, value?: string) => {
-    if (key === "filterCategory") {
-      updateSearchParams({ filterCategory: "all" });
-    } else if (key === "tag") {
-      removeTag();
-    } else if (key === "bdr" && value) {
-      updateSearchParams({ bdr: currentBedrooms.filter((b) => b !== value) });
-    } else if (key === "bthr" && value) {
-      updateSearchParams({ bthr: currentBathrooms.filter((b) => b !== value) });
-    }
-  };
+  const clearAll = () => setSearchParams(new URLSearchParams());
 
-  // Hammasini tozalash
-  const clearAll = () => {
-    setSearchParams(new URLSearchParams());
-  };
-
-  // Faol filterlar soni
+  // Active filter count
   const activeFilterCount =
     (currentTag ? 1 : 0) +
+    (currentSearch ? 1 : 0) +
     (currentCategory !== "all" ? 1 : 0) +
     (currentBedrooms.length > 0 ? 1 : 0) +
-    (currentBathrooms.length > 0 ? 1 : 0);
+    (currentBathrooms.length > 0 ? 1 : 0) +
+    (currentMinPrice || currentMaxPrice ? 1 : 0) +
+    (currentMinArea || currentMaxArea ? 1 : 0) +
+    (currentFurnished ? 1 : 0) +
+    (currentParking ? 1 : 0) +
+    (currentIsNew ? 1 : 0) +
+    (currentIsPremium ? 1 : 0);
 
   return (
-    <div className="w-full border-b bg-white sticky top-0 z-40">
-      {/* Asosiy filter qatori */}
-      <div className="flex items-center justify-between p-4 gap-4">
-        <div className="flex items-center gap-3 flex-1 flex-wrap">
-          {/* Tag qidirish inputi */}
+    <div className="w-full rounded-xl border bg-white shadow-sm">
+      {/* Category tabs */}
+      <div className="flex items-center gap-1 border-b px-4 pt-3">
+        {CATEGORY_TABS.map((tab) => (
+          <button
+            key={tab.key}
+            type="button"
+            onClick={() =>
+              updateSearchParams({
+                category: tab.key === "all" ? null : tab.key,
+                filterCategory: null,
+              })
+            }
+            className={cn(
+              "rounded-t-lg px-4 py-2.5 text-sm font-medium transition-colors",
+              currentCategory === tab.key
+                ? "border-b-2 border-yellow-400 bg-yellow-50 text-yellow-800"
+                : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+            )}
+          >
+            {t(tab.label)}
+          </button>
+        ))}
+      </div>
+
+      {/* Search + filters row */}
+      <div className="flex flex-col gap-3 p-4 lg:flex-row lg:items-center">
+        {/* Tag search */}
+        <div className="relative min-w-0 flex-1">
           <Popover open={openTag} onOpenChange={setOpenTag}>
             <PopoverTrigger asChild>
-              <div className="relative flex items-center gap-2 min-w-[280px]">
+              <div className="relative flex items-center">
                 <Tag
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                   size={18}
                 />
-                
-                {/* Tanlangan tag ko'rinishi */}
                 {currentTag && (
                   <Badge
                     variant="secondary"
-                    className="absolute left-10 top-1/2 -translate-y-1/2 flex items-center gap-1 py-1 px-2 capitalize z-10"
+                    className="absolute left-10 top-1/2 z-10 -translate-y-1/2 capitalize"
                   >
                     {currentTag}
                     <X
                       size={14}
-                      className="cursor-pointer ml-1"
+                      className="ml-1 cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
                         removeTag();
@@ -148,15 +203,12 @@ const SearchFilterHeader: React.FC = () => {
                     />
                   </Badge>
                 )}
-                
-                <Input
+                <input
                   placeholder={
-                    currentTag
-                      ? ""
-                      : t("pages.hero.search.search_placeholder")
+                    currentTag ? "" : t("pages.main_page.search_filters.location_placeholder")
                   }
                   className={cn(
-                    "h-10 w-full",
+                    "h-11 w-full rounded-lg border border-gray-200 bg-gray-50 pr-4 text-sm outline-none transition-colors focus:border-yellow-500 focus:bg-white",
                     currentTag ? "pl-32" : "pl-10"
                   )}
                   value={tagSearch}
@@ -168,7 +220,7 @@ const SearchFilterHeader: React.FC = () => {
               </div>
             </PopoverTrigger>
             <PopoverContent
-              className="p-1 w-64"
+              className="w-64 p-1"
               align="start"
               onOpenAutoFocus={(e) => e.preventDefault()}
             >
@@ -176,7 +228,7 @@ const SearchFilterHeader: React.FC = () => {
                 <CommandList>
                   {isTagsLoading && (
                     <div className="p-4 text-center text-sm">
-                      {t("common.loading")}...
+                      {t("common.loading")}
                     </div>
                   )}
                   {!isTagsLoading &&
@@ -202,187 +254,319 @@ const SearchFilterHeader: React.FC = () => {
               </Command>
             </PopoverContent>
           </Popover>
-
-          {/* Kategoriya */}
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2">
-                {currentCategory === "all"
-                  ? t("common.category")
-                  : t(`categories.${currentCategory}`)}
-                <ChevronsUpDown className="h-4 w-4 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-56 p-2" align="start">
-              <div
-                onClick={() => updateSearchParams({ filterCategory: "all" })}
-                className={cn(
-                  "px-3 py-2 text-sm rounded-md cursor-pointer hover:bg-accent",
-                  currentCategory === "all" && "bg-accent"
-                )}
-              >
-                {t("common.all")}
-              </div>
-              {categories.map((cat: { category: string; count: number }) => (
-                <div
-                  key={cat.category}
-                  onClick={() => updateSearchParams({ filterCategory: cat.category })}
-                  className={cn(
-                    "px-3 py-2 text-sm rounded-md cursor-pointer hover:bg-accent flex justify-between",
-                    currentCategory === cat.category && "bg-accent"
-                  )}
-                >
-                  <span>{t(`categories.${cat.category}`)}</span>
-                  <span className="text-muted-foreground">({cat.count})</span>
-                </div>
-              ))}
-            </PopoverContent>
-          </Popover>
-
-          {/* Xonalar (Bedrooms) */}
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2">
-                {t("common.bedrooms")}
-                {currentBedrooms.length > 0 && (
-                  <Badge variant="secondary" className="ml-1 px-1.5">
-                    {currentBedrooms.length}
-                  </Badge>
-                )}
-                <ChevronsUpDown className="h-4 w-4 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-4">
-              <div className="flex flex-wrap gap-2">
-                {BEDROOMS.map((room) => (
-                  <Button
-                    key={room}
-                    size="sm"
-                    variant={
-                      currentBedrooms.includes(room) ? "default" : "outline"
-                    }
-                    onClick={() => {
-                      const newBedrooms = currentBedrooms.includes(room)
-                        ? currentBedrooms.filter((b) => b !== room)
-                        : [...currentBedrooms, room];
-                      updateSearchParams({ bdr: newBedrooms });
-                    }}
-                  >
-                    {room === "7" ? "7+" : room}
-                  </Button>
-                ))}
-              </div>
-            </PopoverContent>
-          </Popover>
-
-          {/* Hammomlar (Bathrooms) */}
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2">
-                {t("common.bathrooms")}
-                {currentBathrooms.length > 0 && (
-                  <Badge variant="secondary" className="ml-1 px-1.5">
-                    {currentBathrooms.length}
-                  </Badge>
-                )}
-                <ChevronsUpDown className="h-4 w-4 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-4">
-              <div className="flex flex-wrap gap-2">
-                {BATHROOMS.map((room) => (
-                  <Button
-                    key={room}
-                    size="sm"
-                    variant={
-                      currentBathrooms.includes(room) ? "default" : "outline"
-                    }
-                    onClick={() => {
-                      const newBathrooms = currentBathrooms.includes(room)
-                        ? currentBathrooms.filter((b) => b !== room)
-                        : [...currentBathrooms, room];
-                      updateSearchParams({ bthr: newBathrooms });
-                    }}
-                  >
-                    {room === "7" ? "7+" : room}
-                  </Button>
-                ))}
-              </div>
-            </PopoverContent>
-          </Popover>
         </div>
 
-        {/* O'ng taraf - Clear All */}
-        <div className="flex items-center gap-3">
+        {/* Filter chips */}
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Beds & Baths */}
+          <FilterChip
+            label={t("pages.main_page.search_filters.beds_baths")}
+            hasValue={currentBedrooms.length > 0 || currentBathrooms.length > 0}
+          >
+            <div className="space-y-4">
+              <div>
+                <p className="mb-2 text-sm font-semibold">{t("pages.main_page.search_filters.beds")}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {BEDROOMS.map((room) => (
+                    <button
+                      key={room}
+                      type="button"
+                      onClick={() => {
+                        const newBeds = currentBedrooms.includes(room)
+                          ? currentBedrooms.filter((b) => b !== room)
+                          : [...currentBedrooms, room];
+                        updateSearchParams({ bdr: newBeds });
+                      }}
+                      className={cn(
+                        "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+                        currentBedrooms.includes(room)
+                          ? "border-yellow-500 bg-yellow-400 text-black"
+                          : "border-gray-200 text-gray-700 hover:border-gray-300"
+                      )}
+                    >
+                      {room === "0" ? t("pages.main_page.search_filters.studio") : room === "7" ? "7+" : room}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="mb-2 text-sm font-semibold">{t("pages.main_page.search_filters.baths")}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {BATHROOMS.map((room) => (
+                    <button
+                      key={room}
+                      type="button"
+                      onClick={() => {
+                        const newBaths = currentBathrooms.includes(room)
+                          ? currentBathrooms.filter((b) => b !== room)
+                          : [...currentBathrooms, room];
+                        updateSearchParams({ bthr: newBaths });
+                      }}
+                      className={cn(
+                        "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+                        currentBathrooms.includes(room)
+                          ? "border-yellow-500 bg-yellow-400 text-black"
+                          : "border-gray-200 text-gray-700 hover:border-gray-300"
+                      )}
+                    >
+                      {room === "7" ? "7+" : room}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </FilterChip>
+
+          {/* Price */}
+          <FilterChip
+            label={t("pages.main_page.search_filters.price")}
+            hasValue={!!(currentMinPrice || currentMaxPrice)}
+          >
+            <div className="space-y-3">
+              <p className="text-sm font-semibold">{t("pages.main_page.search_filters.price")}</p>
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  placeholder={t("pages.main_page.search_filters.min")}
+                  defaultValue={currentMinPrice}
+                  onBlur={(e) => updateSearchParams({ minPrice: e.target.value || null })}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
+                />
+                <span className="text-gray-400">—</span>
+                <input
+                  type="number"
+                  placeholder={t("pages.main_page.search_filters.max")}
+                  defaultValue={currentMaxPrice}
+                  onBlur={(e) => updateSearchParams({ maxPrice: e.target.value || null })}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
+                />
+              </div>
+            </div>
+          </FilterChip>
+
+          {/* Area */}
+          <FilterChip
+            label={t("pages.main_page.search_filters.area_sqft")}
+            hasValue={!!(currentMinArea || currentMaxArea)}
+          >
+            <div className="space-y-3">
+              <p className="text-sm font-semibold">{t("pages.main_page.search_filters.area_sqft")}</p>
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  placeholder={t("pages.main_page.search_filters.min")}
+                  defaultValue={currentMinArea}
+                  onBlur={(e) => updateSearchParams({ minArea: e.target.value || null })}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
+                />
+                <span className="text-gray-400">—</span>
+                <input
+                  type="number"
+                  placeholder={t("pages.main_page.search_filters.max")}
+                  defaultValue={currentMaxArea}
+                  onBlur={(e) => updateSearchParams({ maxArea: e.target.value || null })}
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
+                />
+              </div>
+            </div>
+          </FilterChip>
+
+          {/* Amenities */}
+          <FilterChip
+            label={t("pages.main_page.search_filters.amenities")}
+            hasValue={currentFurnished || currentParking}
+          >
+            <div className="space-y-3">
+              <label className="flex cursor-pointer items-center gap-2.5">
+                <input
+                  type="checkbox"
+                  checked={currentFurnished}
+                  onChange={(e) =>
+                    updateSearchParams({
+                      furnished: e.target.checked ? "true" : null,
+                    })
+                  }
+                  className="h-4 w-4 rounded border-gray-300 accent-yellow-500"
+                />
+                <span className="text-sm">{t("pages.main_page.search_filters.furnished")}</span>
+              </label>
+              <label className="flex cursor-pointer items-center gap-2.5">
+                <input
+                  type="checkbox"
+                  checked={currentParking}
+                  onChange={(e) =>
+                    updateSearchParams({
+                      parking: e.target.checked ? "true" : null,
+                    })
+                  }
+                  className="h-4 w-4 rounded border-gray-300 accent-yellow-500"
+                />
+                <span className="text-sm">{t("pages.main_page.search_filters.with_parking")}</span>
+              </label>
+            </div>
+          </FilterChip>
+
+          {/* More toggles */}
+          <button
+            type="button"
+            onClick={() =>
+              updateSearchParams({
+                is_new: currentIsNew ? null : "1",
+              })
+            }
+            className={cn(
+              "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
+              currentIsNew
+                ? "border-yellow-400 bg-yellow-50 text-yellow-800"
+                : "border-gray-200 text-gray-700 hover:border-gray-300"
+            )}
+          >
+            {t("common.new")}
+          </button>
+
+          <button
+            type="button"
+            onClick={() =>
+              updateSearchParams({
+                is_premium: currentIsPremium ? null : "true",
+              })
+            }
+            className={cn(
+              "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
+              currentIsPremium
+                ? "border-yellow-400 bg-yellow-50 text-yellow-800"
+                : "border-gray-200 text-gray-700 hover:border-gray-300"
+            )}
+          >
+            {t("common.premium")}
+          </button>
+
+          {/* Clear all */}
           {activeFilterCount > 0 && (
-            <>
-              <Badge variant="secondary">
-                {activeFilterCount} {t("common.filters")}
-              </Badge>
-              <Button variant="ghost" size="sm" onClick={clearAll}>
-                <X className="h-4 w-4 mr-1" />
-                {t("common.clear_all")}
-              </Button>
-            </>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearAll}
+              className="ml-auto gap-1 text-gray-500"
+            >
+              <X size={14} />
+              {t("common.clear_all")} ({activeFilterCount})
+            </Button>
           )}
         </div>
       </div>
 
-      {/* Faol filterlar (badges) */}
-      {(currentTag ||
-        currentCategory !== "all" ||
-        currentBedrooms.length > 0 ||
-        currentBathrooms.length > 0) && (
-        <div className="px-4 pb-3 pt-3 border-t bg-gray-50">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm text-muted-foreground mr-2">
-              {t("common.active_filters")}:
-            </span>
+      {/* Active filter badges */}
+      {activeFilterCount > 0 && (
+        <div className="flex flex-wrap items-center gap-2 border-t bg-gray-50/50 px-4 py-3">
+          <span className="text-xs text-gray-400">{t("common.active_filters")}:</span>
 
-            {/* Tag - BITTA */}
-            {currentTag && (
-              <Badge variant="secondary" className="gap-1 py-1 capitalize">
-                {currentTag}
-                <X
-                  className="h-3 w-3 cursor-pointer"
-                  onClick={() => removeFilter("tag")}
-                />
-              </Badge>
-            )}
-
-            {/* Category */}
-            {currentCategory !== "all" && (
-              <Badge variant="secondary" className="gap-1 py-1">
-                {t(`categories.${currentCategory}`)}
-                <X
-                  className="h-3 w-3 cursor-pointer"
-                  onClick={() => removeFilter("filterCategory")}
-                />
-              </Badge>
-            )}
-
-            {/* Bedrooms */}
-            {currentBedrooms.length > 0 && (
-              <Badge variant="secondary" className="gap-1 py-1">
-                {t("common.bedrooms")}: {currentBedrooms.join(", ")}
-                <X
-                  className="h-3 w-3 cursor-pointer"
-                  onClick={() => updateSearchParams({ bdr: [] })}
-                />
-              </Badge>
-            )}
-
-            {/* Bathrooms */}
-            {currentBathrooms.length > 0 && (
-              <Badge variant="secondary" className="gap-1 py-1">
-                {t("common.bathrooms")}: {currentBathrooms.join(", ")}
-                <X
-                  className="h-3 w-3 cursor-pointer"
-                  onClick={() => updateSearchParams({ bthr: [] })}
-                />
-              </Badge>
-            )}
-          </div>
+          {currentTag && (
+            <Badge variant="secondary" className="gap-1 capitalize">
+              {currentTag}
+              <X size={12} className="cursor-pointer" onClick={() => removeTag()} />
+            </Badge>
+          )}
+          {currentSearch && (
+            <Badge variant="secondary" className="gap-1">
+              "{currentSearch}"
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ search: null })}
+              />
+            </Badge>
+          )}
+          {currentCategory !== "all" && (
+            <Badge variant="secondary" className="gap-1">
+              {t(`categories.${currentCategory}`)}
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ category: null, filterCategory: null })}
+              />
+            </Badge>
+          )}
+          {currentBedrooms.length > 0 && (
+            <Badge variant="secondary" className="gap-1">
+              {t("pages.main_page.search_filters.beds")}: {currentBedrooms.join(", ")}
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ bdr: [] })}
+              />
+            </Badge>
+          )}
+          {currentBathrooms.length > 0 && (
+            <Badge variant="secondary" className="gap-1">
+              {t("pages.main_page.search_filters.baths")}: {currentBathrooms.join(", ")}
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ bthr: [] })}
+              />
+            </Badge>
+          )}
+          {(currentMinPrice || currentMaxPrice) && (
+            <Badge variant="secondary" className="gap-1">
+              {t("pages.main_page.search_filters.price")}: {currentMinPrice || "0"} — {currentMaxPrice || "∞"}
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ minPrice: null, maxPrice: null })}
+              />
+            </Badge>
+          )}
+          {(currentMinArea || currentMaxArea) && (
+            <Badge variant="secondary" className="gap-1">
+              {t("pages.main_page.search_filters.area_sqft")}: {currentMinArea || "0"} — {currentMaxArea || "∞"}
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ minArea: null, maxArea: null })}
+              />
+            </Badge>
+          )}
+          {currentFurnished && (
+            <Badge variant="secondary" className="gap-1">
+              {t("pages.main_page.search_filters.furnished")}
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ furnished: null })}
+              />
+            </Badge>
+          )}
+          {currentParking && (
+            <Badge variant="secondary" className="gap-1">
+              {t("pages.main_page.search_filters.with_parking")}
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ parking: null })}
+              />
+            </Badge>
+          )}
+          {currentIsNew && (
+            <Badge variant="secondary" className="gap-1">
+              {t("common.new")}
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ is_new: null })}
+              />
+            </Badge>
+          )}
+          {currentIsPremium && (
+            <Badge variant="secondary" className="gap-1">
+              {t("common.premium")}
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ is_premium: null })}
+              />
+            </Badge>
+          )}
         </div>
       )}
     </div>

@@ -21,7 +21,7 @@ function AiAgentCta() {
     <section className="py-8 [content-visibility:auto] [contain-intrinsic-size:1px_280px]">
       <div className="flex flex-col items-center justify-between gap-8 rounded-2xl bg-gray-800 p-8 text-white shadow-xl md:flex-row md:p-12">
         <div className="text-center md:w-1/2 md:text-left">
-          <BrainCircuit className="mx-auto mb-4 h-14 w-14 text-purple-400 md:mx-0" />
+          <BrainCircuit className="mx-auto mb-4 h-14 w-14 text-yellow-400 md:mx-0" />
           <h2 className="mb-3 text-2xl font-bold md:text-3xl">
             {t("pages.main_page.ai_agent.title")}
           </h2>
@@ -33,7 +33,7 @@ function AiAgentCta() {
           <Link to="/ai-agent">
             <Button
               size="lg"
-              className="h-12 rounded-xl bg-purple-600 px-8 font-semibold text-white hover:bg-purple-700"
+              className="h-12 rounded-xl bg-yellow-400 px-8 font-semibold text-black hover:bg-yellow-500"
             >
               {t("pages.main_page.ai_agent.button")}
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -52,7 +52,7 @@ function HowItWorks() {
       icon: <Search className="h-8 w-8" />,
       title: t("pages.main_page.how_it_works.step1_title"),
       description: t("pages.main_page.how_it_works.step1_desc"),
-      color: "bg-purple-50 text-purple-600",
+      color: "bg-yellow-50 text-yellow-600",
       step: "01",
     },
     {
@@ -140,7 +140,7 @@ function MapCta() {
           <Link to="/map">
             <Button
               size="lg"
-              className="h-12 rounded-xl bg-purple-600 px-8 font-semibold text-white hover:bg-purple-700"
+              className="h-12 rounded-xl bg-yellow-400 px-8 font-semibold text-black hover:bg-yellow-500"
             >
               {t("pages.main_page.map.button")}
               <ArrowRight className="ml-2 h-5 w-5" />

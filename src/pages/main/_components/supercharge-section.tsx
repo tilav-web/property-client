@@ -91,7 +91,7 @@ export default function SuperchargeSection() {
             <Link
               key={feature.titleKey}
               to={feature.href}
-              className="group flex items-start gap-4 rounded-xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-purple-100 hover:shadow-md"
+              className="group flex items-start gap-4 rounded-xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-yellow-200 hover:shadow-md"
             >
               <div
                 className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${feature.color}`}
@@ -99,7 +99,7 @@ export default function SuperchargeSection() {
                 <Icon size={22} />
               </div>
               <div className="min-w-0">
-                <h3 className="text-sm font-semibold text-gray-900 group-hover:text-purple-700">
+                <h3 className="text-sm font-semibold text-gray-900 group-hover:text-yellow-700">
                   {t(feature.titleKey)}
                 </h3>
                 <p className="mt-1 text-xs leading-relaxed text-gray-500">

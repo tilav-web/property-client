@@ -20,7 +20,7 @@ const STATS = [
     icon: Users,
     value: "10K+",
     labelKey: "pages.main_page.app_banner.happy_users",
-    color: "text-purple-600 bg-purple-50",
+    color: "text-yellow-600 bg-yellow-50",
   },
 ];
 
@@ -59,7 +59,7 @@ export default function AppStatsBanner() {
             </div>
 
             <Link to="/search" className="mt-8 inline-block">
-              <Button className="h-12 rounded-xl bg-purple-600 px-8 font-semibold text-white hover:bg-purple-700">
+              <Button className="h-12 rounded-xl bg-yellow-400 px-8 font-semibold text-black hover:bg-yellow-500">
                 {t("pages.main_page.app_banner.get_started")}
                 <ArrowRight className="ml-2" size={18} />
               </Button>
@@ -67,7 +67,7 @@ export default function AppStatsBanner() {
           </div>
 
           {/* Right - Visual */}
-          <div className="hidden items-center justify-center bg-gradient-to-br from-purple-600/20 to-purple-900/40 p-10 md:flex">
+          <div className="hidden items-center justify-center bg-gradient-to-br from-yellow-400/20 to-amber-900/40 p-10 md:flex">
             <div className="grid grid-cols-2 gap-4">
               {[1, 2, 3, 4].map((i) => (
                 <div

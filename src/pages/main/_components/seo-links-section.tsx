@@ -73,7 +73,7 @@ export default function SeoLinksSection() {
                 <li key={link.href + link.label}>
                   <Link
                     to={link.href}
-                    className="text-sm text-gray-500 transition-colors hover:text-purple-600"
+                    className="text-sm text-gray-500 transition-colors hover:text-yellow-600"
                   >
                     {link.label}
                   </Link>
