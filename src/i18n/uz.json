@@ -381,6 +381,24 @@
       "go_back": "← Ortga qaytish",
       "error_invalid_code": "Iltimos, 6 xonali kodni to'liq kiriting"
     },
+    "forgot_password": {
+      "title": "Parolingizni unutdingizmi?",
+      "subtitle": "Email manzilingizni kiriting va biz sizga parolni tiklash uchun tasdiqlash kodi yuboramiz.",
+      "send_code": "Tasdiqlash kodini yuborish",
+      "verify_code": "Kodni tasdiqlash",
+      "new_password_title": "Yangi parol yarating",
+      "new_password_subtitle": "Yangi parolingizni kiriting. Kamida 8 ta belgi bo'lishi kerak.",
+      "new_password": "Yangi parol",
+      "confirm_password": "Parolni tasdiqlash",
+      "reset_button": "Parolni tiklash",
+      "success_title": "Parol tiklandi!",
+      "success_subtitle": "Parolingiz muvaffaqiyatli yangilandi. Endi yangi parolingiz bilan tizimga kirishingiz mumkin.",
+      "email_not_found": "Bu email bilan tasdiqlangan hisob topilmadi.",
+      "password_min_length": "Parol kamida 8 ta belgidan iborat bo'lishi kerak.",
+      "passwords_not_match": "Parollar mos kelmaydi.",
+      "reset_error": "Parolni tiklashda xatolik yuz berdi. Qayta urinib ko'ring.",
+      "resend_error": "Kodni qayta yuborishda xatolik. Biroz kuting va qayta urinib ko'ring."
+    },
     "role_page": {
       "title": "Rolingizni tanlang",
       "subtitle": "Quyidagi mavjud rollardan birini tanlang",
@@ -514,6 +532,13 @@
         "properties_by_type": "Turi bo'yicha mulklar",
         "explore_areas": "Hududlarni o'rganing"
       }
+    },
+    "location_section": {
+      "title": "Joylashuv",
+      "description": "Xaritada aniq joyni bosing, belgini suring yoki manzilni qidiring.",
+      "search_label": "Manzilni qidirish",
+      "search_placeholder": "Shahar, tuman, ko'cha nomi yoki joy...",
+      "coordinates": "Hozirgi koordinatalar"
     },
     "map_page": {
       "error_loading_map": "Xaritani yuklashda xato:",

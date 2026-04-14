@@ -190,7 +190,7 @@ export default function Login() {
             </label>
           </div>
 
-          <Link to="/" className="text-sm text-blue-600 hover:text-blue-500">
+          <Link to="/auth/forgot-password" className="text-sm text-blue-600 hover:text-blue-500">
             {t("pages.login_page.forgot_password")}
           </Link>
         </div>

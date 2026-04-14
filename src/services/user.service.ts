@@ -98,6 +98,40 @@ class UserService {
     }
   }
 
+  async forgotPassword(email: string) {
+    try {
+      const res = await apiInstance.post(
+        `${API_ENDPOINTS.USER.base}/forgot-password`,
+        { email }
+      );
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async resetPassword({
+    userId,
+    code,
+    newPassword,
+  }: {
+    userId: string;
+    code: string;
+    newPassword: string;
+  }) {
+    try {
+      const res = await apiInstance.post(
+        `${API_ENDPOINTS.USER.base}/reset-password`,
+        { userId, code, newPassword }
+      );
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
   googleLogin() {
     window.location.href = API_ENDPOINTS.USER.auth.google;
   }

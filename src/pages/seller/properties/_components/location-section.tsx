@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin } from "lucide-react";
+import { MapPin, Search } from "lucide-react";
 import { useEffect, useRef, useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { googleMapKey } from "@/utils/shared";
 
 const mapContainerStyle = {
@@ -16,13 +17,6 @@ interface Props {
 }
 
 const roundCoord = (num: number) => parseFloat(num.toFixed(6));
-
-const MALAYSIA_BOUNDS = {
-  south: 0.85,
-  west: 99.64,
-  north: 7.36,
-  east: 119.27,
-};
 
 let googleMapsLoadPromise: Promise<void> | null = null;
 
@@ -52,6 +46,7 @@ export default function LocationSection({
   setLocation,
   isSubmitting = false,
 }: Props) {
+  const { t } = useTranslation();
   const mapRef = useRef<google.maps.Map | null>(null);
   const markerRef = useRef<google.maps.Marker | null>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -59,7 +54,6 @@ export default function LocationSection({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const isSubmittingRef = useRef(isSubmitting);
 
-  // Keep isSubmitting ref in sync so callbacks always see the latest value
   useEffect(() => {
     isSubmittingRef.current = isSubmitting;
     if (markerRef.current) {
@@ -74,7 +68,7 @@ export default function LocationSection({
     [setLocation],
   );
 
-  // Get user's location on initial load - ONLY if location is not set
+  // Get user's location on initial load
   useEffect(() => {
     if (
       (!location || (location.lat === 0 && location.lng === 0)) &&
@@ -95,7 +89,7 @@ export default function LocationSection({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setLocation]);
 
-  // Initialize map on mount
+  // Initialize map
   useEffect(() => {
     let isComponentMounted = true;
 
@@ -142,16 +136,13 @@ export default function LocationSection({
           }
         });
 
-        // Google Places Autocomplete
+        // Google Places Autocomplete — global search
         if (searchInputRef.current) {
           const autocomplete = new google.maps.places.Autocomplete(
             searchInputRef.current,
             {
-              bounds: new google.maps.LatLngBounds(
-                { lat: MALAYSIA_BOUNDS.south, lng: MALAYSIA_BOUNDS.west },
-                { lat: MALAYSIA_BOUNDS.north, lng: MALAYSIA_BOUNDS.east },
-              ),
-              fields: ["geometry", "formatted_address"],
+              fields: ["geometry", "formatted_address", "name"],
+              types: ["geocode", "establishment"],
             },
           );
 
@@ -195,7 +186,7 @@ export default function LocationSection({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateLocation]);
 
-  // Update marker position when `location` prop changes externally
+  // Update marker when location prop changes externally
   useEffect(() => {
     if (!markerRef.current || !mapRef.current) return;
 
@@ -218,51 +209,54 @@ export default function LocationSection({
     <Card className="mt-8">
       <CardHeader>
         <CardTitle className="flex items-center gap-3 text-2xl">
-          <MapPin className="w-7 h-7 text-red-600" />
-          Joylashuv
+          <MapPin className="h-7 w-7 text-red-600" />
+          {t("pages.location_section.title")}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-gray-600 mb-4">
-          Xaritada aniq joyni bosing, belgini suring yoki manzilni qidiring.
+        <p className="mb-4 text-gray-600">
+          {t("pages.location_section.description")}
         </p>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Manzilni qidirish
+          <label className="mb-2 block text-sm font-medium text-gray-700">
+            {t("pages.location_section.search_label")}
           </label>
-          <input
-            ref={searchInputRef}
-            id="location-search"
-            type="text"
-            placeholder="Shahar, tuman yoki ko'cha nomi..."
-            disabled={isSubmitting}
-            className="w-full h-12 px-4 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
-          />
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+            <input
+              ref={searchInputRef}
+              id="location-search"
+              type="text"
+              placeholder={t("pages.location_section.search_placeholder")}
+              disabled={isSubmitting}
+              className="h-12 w-full rounded-lg border border-gray-300 pl-10 pr-4 text-base outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/20 disabled:cursor-not-allowed disabled:bg-gray-100"
+            />
+          </div>
         </div>
 
         <div
           style={mapContainerStyle}
-          className="relative bg-gray-100 rounded-lg"
+          className="relative rounded-lg bg-gray-100"
         >
           {isMapLoading && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-gray-500">Xarita yuklanmoqda...</p>
+              <p className="text-gray-500">{t("pages.map_page.loading_map")}</p>
             </div>
           )}
           <div
             id="location-map-container"
-            className="w-full h-full rounded-lg"
+            className="h-full w-full rounded-lg"
           />
           {isSubmitting && (
-            <div className="absolute inset-0 bg-gray-200 opacity-50 z-10 flex items-center justify-center">
-              <p className="text-gray-700 font-semibold">Yuklanmoqda...</p>
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-gray-200 opacity-50">
+              <p className="font-semibold text-gray-700">{t("common.loading")}</p>
             </div>
           )}
         </div>
 
         <p className="mt-4 text-sm text-gray-600">
-          Hozirgi koordinatalar: {location.lat.toFixed(6)},{" "}
+          {t("pages.location_section.coordinates")}: {location.lat.toFixed(6)},{" "}
           {location.lng.toFixed(6)}
         </p>
       </CardContent>

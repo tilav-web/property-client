@@ -381,6 +381,24 @@
       "go_back": "← Go back",
       "error_invalid_code": "Please enter the 6-digit code in full"
     },
+    "forgot_password": {
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email address and we'll send you a verification code to reset your password.",
+      "send_code": "Send Verification Code",
+      "verify_code": "Verify Code",
+      "new_password_title": "Create New Password",
+      "new_password_subtitle": "Enter your new password below. Must be at least 8 characters.",
+      "new_password": "New Password",
+      "confirm_password": "Confirm Password",
+      "reset_button": "Reset Password",
+      "success_title": "Password Reset!",
+      "success_subtitle": "Your password has been successfully updated. You can now sign in with your new password.",
+      "email_not_found": "No verified account found with this email address.",
+      "password_min_length": "Password must be at least 8 characters.",
+      "passwords_not_match": "Passwords do not match.",
+      "reset_error": "Failed to reset password. Please try again.",
+      "resend_error": "Failed to resend code. Please wait and try again."
+    },
     "role_page": {
       "title": "Select Your Role",
       "subtitle": "Choose one of the available roles below",
@@ -515,6 +533,13 @@
         "properties_by_type": "Properties by Type",
         "explore_areas": "Explore Areas"
       }
+    },
+    "location_section": {
+      "title": "Location",
+      "description": "Click an exact location on the map, drag the marker or search for an address.",
+      "search_label": "Search address",
+      "search_placeholder": "City, district, street name or place...",
+      "coordinates": "Current coordinates"
     },
     "map_page": {
       "error_loading_map": "Error loading map:",

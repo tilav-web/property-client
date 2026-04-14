@@ -36,6 +36,7 @@ const Login = lazy(() => import("./pages/auth/login"));
 const OtpConfirmation = lazy(() => import("./pages/auth/otp-confirmation"));
 const Register = lazy(() => import("./pages/auth/register"));
 const RoleChecked = lazy(() => import("./pages/auth/role-checked"));
+const ForgotPassword = lazy(() => import("./pages/auth/forgot-password"));
 const SocialCallback = lazy(() => import("./pages/auth/social-callback"));
 const Favorites = lazy(() => import("./pages/favorites/favorites"));
 const YandexMap = lazy(() => import("./pages/map/yandex-map"));
@@ -172,6 +173,10 @@ const router = createBrowserRouter([
       {
         path: "/auth/login",
         element: withSuspense(<Login />),
+      },
+      {
+        path: "/auth/forgot-password",
+        element: withSuspense(<ForgotPassword />),
       },
       {
         path: "/auth/social",
