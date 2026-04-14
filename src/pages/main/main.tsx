@@ -8,6 +8,9 @@ const FeaturedPropertiesSection = lazy(
 const HomeSecondarySections = lazy(
   () => import("./_components/home-secondary-sections")
 );
+const SuperchargeSection = lazy(
+  () => import("./_components/supercharge-section")
+);
 
 function DeferredHomeFallback() {
   return (
@@ -54,6 +57,7 @@ export default function Main() {
     <div className="w-full">
       <HeroSection
         title="pages.hero.title"
+        subtitle="pages.main_page.hero_subheadline"
         img={heroImage}
         imgSrcSet={heroImageSrcSet}
         imageWidth={1600}
@@ -63,6 +67,7 @@ export default function Main() {
       <div className="container mx-auto px-4 py-8">
         {showDeferredSections ? (
           <Suspense fallback={<DeferredHomeFallback />}>
+            <SuperchargeSection />
             <FeaturedPropertiesSection />
             <HomeSecondarySections />
           </Suspense>

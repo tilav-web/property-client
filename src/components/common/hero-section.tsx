@@ -6,6 +6,7 @@ const HeroSearchControls = lazy(() => import("./hero-search-controls"));
 
 interface HeroSectionProps {
   title: string;
+  subtitle?: string;
   img: string;
   className?: string;
   imgSrcSet?: string;
@@ -18,6 +19,7 @@ interface HeroSectionProps {
 export default function HeroSection({
   img,
   title,
+  subtitle,
   className,
   imgSrcSet,
   imgSizes = "100vw",
@@ -52,10 +54,11 @@ export default function HeroSection({
   }, [enableSearch]);
 
   const resolvedTitle = title ? t(title) : "";
+  const resolvedSubtitle = subtitle ? t(subtitle) : "";
 
   return (
-    <div className={cn("relative mb-4 w-full overflow-hidden", className)}>
-      <div className="relative h-[300px] w-full transition-all duration-300 md:h-[450px]">
+    <div className={cn("relative w-full overflow-hidden", className)}>
+      <div className="relative h-[340px] w-full transition-all duration-300 md:h-[520px]">
         <img
           src={img}
           srcSet={imgSrcSet}
@@ -69,22 +72,30 @@ export default function HeroSection({
           className="h-full w-full object-cover"
         />
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/20 p-6">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40" />
+
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 pb-32 md:pb-44">
           {resolvedTitle ? (
             <h1
-              className="text-center text-3xl leading-tight text-white drop-shadow-lg md:max-w-4xl md:text-6xl"
+              className="text-center text-3xl leading-tight text-white drop-shadow-lg md:max-w-4xl md:text-5xl"
               style={{ fontFamily: "Edu NSW ACT Foundation" }}
             >
               {resolvedTitle}
             </h1>
           ) : null}
 
-          {shouldLoadSearchControls ? (
-            <Suspense fallback={null}>
-              <HeroSearchControls />
-            </Suspense>
+          {resolvedSubtitle ? (
+            <p className="mt-3 text-center text-base text-white/90 drop-shadow md:text-lg">
+              {resolvedSubtitle}
+            </p>
           ) : null}
         </div>
+
+        {shouldLoadSearchControls ? (
+          <Suspense fallback={null}>
+            <HeroSearchControls />
+          </Suspense>
+        ) : null}
       </div>
     </div>
   );

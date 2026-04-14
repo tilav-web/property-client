@@ -6,8 +6,8 @@ import { API_ENDPOINTS } from "@/utils/shared";
 export interface FindAllParams {
   page?: number;
   limit?: number;
-  lng?: number; // New parameter
-  lat?: number; // New parameter
+  lng?: number;
+  lat?: number;
   category?: CategoryType;
   search?: string;
   is_premium?: boolean;
@@ -22,6 +22,13 @@ export interface FindAllParams {
   sw_lat?: number;
   ne_lng?: number;
   ne_lat?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  minArea?: number;
+  maxArea?: number;
+  amenities?: string[];
+  furnished?: boolean;
+  parking?: boolean;
 }
 
 class PropertyService {
