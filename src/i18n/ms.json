@@ -437,6 +437,82 @@
         "title": "Terokai Penjual Terbaik Kami",
         "description": "Temui pelbagai hartanah yang ditawarkan oleh penjual dipercayai kami. Cari padanan yang sempurna untuk keperluan anda.",
         "button": "Semak Penjual"
+      },
+      "hero_subheadline": "Cari hartanah untuk sewa, beli atau pelaburan",
+      "search_tabs": {
+        "rent": "Sewa",
+        "buy": "Beli",
+        "new_projects": "Projek baharu",
+        "commercial_rent": "Sewa komersial",
+        "commercial_buy": "Beli komersial"
+      },
+      "search_filters": {
+        "location_placeholder": "Bandar, komuniti atau bangunan",
+        "find": "Cari",
+        "property_type": "Jenis hartanah",
+        "beds_baths": "Bilik",
+        "price": "Harga",
+        "amenities": "Kemudahan",
+        "area_sqft": "Luas (m²)",
+        "residential": "Kediaman",
+        "any": "Semua",
+        "studio": "Studio",
+        "min": "Min",
+        "max": "Maks",
+        "apply": "Guna",
+        "reset": "Set semula",
+        "beds": "Bilik tidur",
+        "baths": "Bilik mandi",
+        "furnished": "Berperabot",
+        "with_parking": "Dengan tempat letak kereta"
+      },
+      "home_search_simplified": "Carian rumah, dipermudahkan",
+      "home_search_simplified_desc": "Alat berkuasa untuk membantu anda mencari hartanah sempurna",
+      "supercharge": {
+        "area_insights": "Maklumat Kawasan",
+        "area_insights_desc": "Terokai data kawasan, trend dan kemudahan tempatan",
+        "mortgage_calc": "Kalkulator Pinjaman",
+        "mortgage_calc_desc": "Kira bayaran bulanan anda dan cari kadar terbaik",
+        "ai_search": "Carian AI Hartanah",
+        "ai_search_desc": "Pembantu AI kami akan cari hartanah mengikut kriteria anda",
+        "super_agents": "Penjual Teratas",
+        "super_agents_desc": "Berhubung dengan penjual berkadar tinggi di kawasan anda",
+        "price_trends": "Trend Harga",
+        "price_trends_desc": "Jejaki perubahan harga hartanah dan pergerakan pasaran",
+        "verified_listings": "Senarai Disahkan",
+        "verified_listings_desc": "Semak hartanah yang disahkan oleh pasukan kami",
+        "explore_map": "Terokai Peta",
+        "explore_map_desc": "Semak senarai hartanah secara visual di peta interaktif",
+        "new_projects": "Projek Baharu",
+        "new_projects_desc": "Temui pembangunan terkini dan hartanah dalam pembinaan"
+      },
+      "transactions": {
+        "title": "Semak transaksi hartanah",
+        "subtitle": "Berdasarkan data transaksi hartanah di kawasan anda.",
+        "new_rentals": "Sewaan baharu",
+        "new_sales": "Jualan baharu",
+        "listings": "Senarai",
+        "total": "Transaksi"
+      },
+      "list_property_cta": {
+        "title": "Ingin jual atau sewakan hartanah anda?",
+        "description": "Senaraikan hartanah anda di platform kami dan capai ribuan bakal pembeli dan penyewa.",
+        "button": "Senaraikan Hartanah"
+      },
+      "app_banner": {
+        "title": "Cari hartanah sempurna anda lebih pantas",
+        "description": "Cari hartanah, hubungi penjual, dan dapatkan cadangan AI — semua di satu tempat.",
+        "downloads": "Muat turun",
+        "properties": "Hartanah",
+        "happy_users": "Pengguna gembira",
+        "get_started": "Mulakan"
+      },
+      "seo_links": {
+        "popular_searches": "Carian popular",
+        "apartments_for_rent": "Pangsapuri untuk disewa",
+        "apartments_for_sale": "Pangsapuri untuk dijual",
+        "properties_by_type": "Mengikut jenis hartanah",
+        "explore_areas": "Terokai kawasan"
       }
     },
     "map_page": {
