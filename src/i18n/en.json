@@ -486,6 +486,26 @@
         "title": "Explore Our Top Sellers",
         "description": "Discover a diverse range of properties offered by our trusted sellers. Find the perfect match for your needs.",
         "button": "Browse Sellers"
+      },
+      "list_property_cta": {
+        "title": "Looking to sell or rent your property?",
+        "description": "List your property on our platform and reach thousands of potential buyers and tenants.",
+        "button": "List Your Property"
+      },
+      "app_banner": {
+        "title": "Find your perfect property faster",
+        "description": "Search properties, connect with sellers, and get AI-powered recommendations — all in one place.",
+        "downloads": "Downloads",
+        "properties": "Properties",
+        "happy_users": "Happy Users",
+        "get_started": "Get Started"
+      },
+      "seo_links": {
+        "popular_searches": "Popular Searches",
+        "apartments_for_rent": "Apartments for Rent",
+        "apartments_for_sale": "Apartments for Sale",
+        "properties_by_type": "Properties by Type",
+        "explore_areas": "Explore Areas"
       }
     },
     "map_page": {
