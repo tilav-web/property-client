@@ -7,10 +7,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { X, ChevronDown, Search, SlidersHorizontal, Tag } from "lucide-react";
+import { X, ChevronDown, Tag } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { propertyService } from "@/services/property.service";
 import { cn } from "@/lib/utils";
 import { useDebounce } from "use-debounce";
 import { tagService } from "@/services/tag.service";
@@ -91,12 +90,6 @@ const SearchFilterHeader: React.FC = () => {
   const currentParking = searchParams.get("parking") === "true";
   const currentIsNew = searchParams.get("is_new") === "1";
   const currentIsPremium = searchParams.get("is_premium") === "true";
-
-  const { data: categories = [] } = useQuery({
-    queryKey: ["category-counts"],
-    queryFn: propertyService.getCategories,
-    staleTime: 5 * 60 * 1000,
-  });
 
   const { data: fetchedTags = [], isFetching: isTagsLoading } = useQuery({
     queryKey: ["tags", debouncedTagSearch],
