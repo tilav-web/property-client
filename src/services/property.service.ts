@@ -149,6 +149,18 @@ class PropertyService {
     }
   }
 
+  async getTransactionStats() {
+    try {
+      const res = await apiInstance.get(
+        `${API_ENDPOINTS.PROPERTIES.base}/stats/transactions`
+      );
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
   async findOnePropertyForUpdate(id: string) {
     try {
       const res = await apiInstance.get(

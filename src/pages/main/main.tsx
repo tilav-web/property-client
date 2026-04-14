@@ -11,6 +11,9 @@ const HomeSecondarySections = lazy(
 const SuperchargeSection = lazy(
   () => import("./_components/supercharge-section")
 );
+const TransactionsSection = lazy(
+  () => import("./_components/transactions-section")
+);
 
 function DeferredHomeFallback() {
   return (
@@ -69,6 +72,7 @@ export default function Main() {
           <Suspense fallback={<DeferredHomeFallback />}>
             <SuperchargeSection />
             <FeaturedPropertiesSection />
+            <TransactionsSection />
             <HomeSecondarySections />
           </Suspense>
         ) : (
