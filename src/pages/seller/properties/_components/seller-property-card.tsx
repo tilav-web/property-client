@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import type { IProperty } from "@/interfaces/property/property.interface";
 import { useNavigate } from "react-router-dom";
+import { formatPrice } from "@/utils/format-price";
 
 interface SellerPropertyCardProps {
   property: IProperty;
@@ -115,9 +116,7 @@ export default function SellerPropertyCard({
       <CardContent className="p-4 flex-1">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg sm:text-xl font-bold text-gray-900">
-            {property.currency === 'rm'
-              ? `RM ${property.price.toLocaleString()}`
-              : `${property.price.toLocaleString()} so'm`}
+            {formatPrice(property.price, property.currency)}
           </h3>
           <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-full">
             <Star className="w-4 h-4 text-amber-500 fill-amber-500" />

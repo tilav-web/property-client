@@ -14,6 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { formatPrice } from "@/utils/format-price";
 
 interface PropertyCardProps {
   property: IProperty;
@@ -49,10 +50,6 @@ export default function PropertyCard({
       return photo;
     }
     return `${import.meta.env.VITE_API_URL}/uploads/photos/${photo}`;
-  };
-
-  const formatPrice = (price: number) => {
-    return price.toLocaleString();
   };
 
   const isRent = category.includes("RENT");
@@ -137,9 +134,7 @@ export default function PropertyCard({
             <div className="text-right">
               <div className="flex items-baseline gap-1">
                 <span className="text-xl font-bold text-gray-900">
-                  {currency === 'rm'
-                    ? `RM ${formatPrice(price)}`
-                    : `${formatPrice(price)} so'm`}
+                  {formatPrice(price, currency)}
                 </span>
               </div>
             </div>

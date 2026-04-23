@@ -1,1 +1,3 @@
-export type CurrencyType = "rm" | "uzs";
+import type { CurrencyCode } from "@/constants/currencies";
+
+export type CurrencyType = CurrencyCode;

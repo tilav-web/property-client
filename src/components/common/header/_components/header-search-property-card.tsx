@@ -13,6 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/utils/format-price";
 
 export default function HeaderSearchPropertyCard({
   property,
@@ -134,9 +135,7 @@ export default function HeaderSearchPropertyCard({
         {/* Price */}
         <div className="flex items-center gap-1 mb-2">
           <span className="font-bold text-lg text-green-700">
-            {property.currency === 'rm'
-              ? `RM ${property.price.toLocaleString("en-US")}`
-              : `${property.price.toLocaleString("en-US")} so'm`}
+            {formatPrice(property.price, property.currency)}
           </span>
         </div>
 

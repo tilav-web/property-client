@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { inquiryService } from "@/services/inquiry.service";
+import { formatPrice } from "@/utils/format-price";
 import {
   inquiryResponseService,
   type CreateInquiryResponseDto,
@@ -316,9 +317,10 @@ export default function InquiriesPage() {
                               {selectedInquiry &&
                               selectedInquiry.property &&
                               selectedInquiry.offered_price !== undefined
-                                ? selectedInquiry.property.currency === "rm"
-                                  ? `RM ${selectedInquiry.offered_price.toLocaleString()}`
-                                  : `${selectedInquiry.offered_price.toLocaleString()} so'm`
+                                ? formatPrice(
+                                    selectedInquiry.offered_price,
+                                    selectedInquiry.property.currency,
+                                  )
                                 : "N/A"}
                             </span>
                           </div>
@@ -496,9 +498,11 @@ export default function InquiriesPage() {
               </p>
               <p className="text-sm text-muted-foreground">
                 Taklif:{" "}
-                {selectedInquiry.property.currency === "rm"
-                  ? `RM ${selectedInquiry.offered_price?.toLocaleString()}`
-                  : `${selectedInquiry.offered_price?.toLocaleString()} so'm`}
+                {selectedInquiry.offered_price !== undefined &&
+                  formatPrice(
+                    selectedInquiry.offered_price,
+                    selectedInquiry.property.currency,
+                  )}
               </p>
             </div>
           )}

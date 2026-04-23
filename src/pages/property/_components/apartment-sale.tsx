@@ -22,6 +22,7 @@ import {
 
 // Button komponentlari
 import BackButton from "@/components/common/buttons/back-button";
+import { formatPrice as formatCurrency } from "@/utils/format-price";
 import OnlineContractButton from "@/components/common/buttons/online-contract-button";
 import CallButton from "@/components/common/buttons/call-button";
 import MailButton from "@/components/common/buttons/mail-button";
@@ -143,15 +144,8 @@ export default function ApartmentSale({
 }) {
   const { t } = useTranslation(); // Initialize useTranslation
 
-  const formatNumber = (num: number) => {
-    return new Intl.NumberFormat("ru-RU").format(Math.round(num));
-  };
-
-  const formatPrice = (price: number) => {
-    return apartment.currency === 'rm'
-      ? `RM ${formatNumber(price)}`
-      : `${formatNumber(price)} so'm`;
-  };
+  const formatPrice = (price: number) =>
+    formatCurrency(price, apartment.currency);
 
   if (!apartment) {
     return (

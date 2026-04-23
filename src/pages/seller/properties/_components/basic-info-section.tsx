@@ -13,6 +13,7 @@ import {
 import { Home, MapPin } from "lucide-react";
 import type { CategoryType } from "@/interfaces/types/category.type";
 import { type CurrencyType } from "@/interfaces/types/currency.type";
+import { CURRENCIES, SUPPORTED_CURRENCIES } from "@/constants/currencies";
 
 interface Props {
   data: {
@@ -39,10 +40,10 @@ const categories = [
   { value: "APARTMENT_RENT" as const, label: "Kvartira ijarasi" },
 ];
 
-const currencies = [
-  { value: "rm" as const, label: "RM" }, // Updated value
-  { value: "uzs" as const, label: "UZS" }, // Updated value
-];
+const currencies = SUPPORTED_CURRENCIES.map((code) => ({
+  value: code,
+  label: `${CURRENCIES[code].symbol} (${code})`,
+}));
 
 export default function BasicInfoSection({
   data,

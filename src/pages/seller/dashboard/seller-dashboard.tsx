@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { statisticService } from "@/services/statistic.service";
+import { formatPrice } from "@/utils/format-price";
 import Loading from "@/components/common/loadings/loading";
 import { propertyService } from "@/services/property.service";
 import { inquiryService } from "@/services/inquiry.service";
@@ -79,9 +80,7 @@ const PropertyCard = ({ property }: { property: IProperty }) => {
         <div className="grid grid-cols-2 gap-4 mb-3">
           <div>
             <p className="text-2xl font-bold text-primary">
-              {property.currency === 'rm'
-                ? `RM ${property.price.toLocaleString()}`
-                : `${property.price.toLocaleString()} so'm`}
+              {formatPrice(property.price, property.currency)}
             </p>
           </div>
           <div className="space-y-1">
@@ -142,9 +141,7 @@ const InquiryCard = ({ inquiry }: { inquiry: IInquiry }) => {
         <div className="flex justify-between items-center text-sm">
           <span className="font-medium">
             {inquiry.offered_price &&
-              (inquiry.property.currency === 'rm'
-                ? `RM ${inquiry.offered_price.toLocaleString()}`
-                : `${inquiry.offered_price.toLocaleString()} so'm`)}
+              formatPrice(inquiry.offered_price, inquiry.property.currency)}
           </span>
           <span className="text-muted-foreground">
             {new Date(inquiry.createdAt).toLocaleDateString()}

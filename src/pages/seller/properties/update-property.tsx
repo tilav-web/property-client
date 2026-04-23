@@ -31,6 +31,11 @@ import type { CategoryType } from "@/interfaces/types/category.type";
 import { toast } from "sonner";
 import type { AxiosError } from "axios";
 import { type CurrencyType } from "@/interfaces/types/currency.type";
+import {
+  CURRENCIES,
+  DEFAULT_CURRENCY,
+  SUPPORTED_CURRENCIES,
+} from "@/constants/currencies";
 
 // Schema remains mostly for client-side guidance, server has its own validation
 const schema = yup.object().shape({
@@ -81,7 +86,7 @@ export default function UpdateProperty() {
         location: { type: "Point", coordinates: [101.6869, 3.139] },
         photos: [],
         videos: [],
-        currency: "rm",
+        currency: DEFAULT_CURRENCY,
       },
     },
   );
@@ -374,8 +379,11 @@ export default function UpdateProperty() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value={"rm"}>RM</SelectItem>
-                        <SelectItem value={"uzs"}>UZS</SelectItem>
+                        {SUPPORTED_CURRENCIES.map((code) => (
+                          <SelectItem key={code} value={code}>
+                            {CURRENCIES[code].symbol} ({code})
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   )}

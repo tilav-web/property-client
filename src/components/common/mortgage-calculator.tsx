@@ -5,6 +5,10 @@ import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTranslation } from "react-i18next"; // Import useTranslation
+import {
+  formatPrice as formatCurrency,
+  getCurrencySymbol,
+} from "@/utils/format-price";
 
 export default function MortgageCalculator({
   price,
@@ -43,10 +47,9 @@ export default function MortgageCalculator({
         (Math.pow(1 + monthlyInterestRate, loanTermMonths) - 1)
       : 0;
 
-  // Formatlash funksiyasi
-  const formatNumber = (num: number) => {
-    return new Intl.NumberFormat("en-MY").format(Math.round(num));
-  };
+  // Valyuta bilan formatlash
+  const formatMoney = (num: number) => formatCurrency(num, currency);
+  const currencySymbol = getCurrencySymbol(currency);
 
   // Oylarni yilga aylantirish (pluralizatsiya bilan)
   const getYearsAndMonths = (totalMonths: number) => {
@@ -103,7 +106,7 @@ export default function MortgageCalculator({
             {isEditingPrice ? (
               <div className="flex items-center gap-2">
                 <span className="text-muted-foreground whitespace-nowrap">
-                  {currency === "rm" ? "RM" : ""}
+                  {currencySymbol}
                 </span>
                 <Input
                   value={formatPriceInput(editablePrice)}
@@ -111,9 +114,6 @@ export default function MortgageCalculator({
                   className="w-full sm:w-48 text-right font-bold text-lg"
                   placeholder={t("mortgageCalculator.placeholder_price")}
                 />
-                <span className="text-muted-foreground whitespace-nowrap">
-                  {currency === "so'm" ? "so'm" : ""}
-                </span>
                 <Button
                   size="sm"
                   onClick={() => setIsEditingPrice(false)}
@@ -128,9 +128,7 @@ export default function MortgageCalculator({
                 {/* Added flex-wrap for mobile */}
                 <div className="text-right">
                   <p className="text-2xl sm:text-3xl font-bold">
-                    {currency === "rm" ? "RM " : ""}
-                    {formatNumber(editablePrice)}
-                    {currency === "so'm" ? " so'm" : ""}
+                    {formatMoney(editablePrice)}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     {t("mortgageCalculator.currency")}
@@ -180,9 +178,7 @@ export default function MortgageCalculator({
               <div className="text-right">
                 <p className="text-2xl font-bold">{downPaymentPercent}%</p>
                 <p className="text-sm text-muted-foreground">
-                  {currency === "rm" ? "RM " : ""}
-                  {formatNumber(downPaymentAmount)}
-                  {currency === "so'm" ? " so'm" : ""}
+                  {formatMoney(downPaymentAmount)}
                 </p>
               </div>
             </div>
@@ -281,13 +277,7 @@ export default function MortgageCalculator({
               {t("mortgageCalculator.loan_amount")}
             </p>
             <div className="flex items-baseline gap-2">
-              <p className="text-4xl font-bold">
-                {currency === "rm" ? "RM " : ""}
-                {formatNumber(loanAmount)}
-              </p>
-              <span className="text-muted-foreground">
-                {currency === "so'm" ? "so'm" : ""}
-              </span>
+              <p className="text-4xl font-bold">{formatMoney(loanAmount)}</p>
             </div>
             <p className="text-sm text-muted-foreground">
               {t("mortgageCalculator.of_property_price", {
@@ -305,12 +295,8 @@ export default function MortgageCalculator({
             </p>
             <div className="flex items-baseline gap-2">
               <p className="text-5xl font-bold text-primary">
-                {currency === "rm" ? "RM " : ""}
-                {formatNumber(monthlyPayment)}
+                {formatMoney(monthlyPayment)}
               </p>
-              <span className="text-muted-foreground">
-                {currency === "so'm" ? "so'm" : ""}
-              </span>
             </div>
             <p className="text-sm text-muted-foreground">
               {t("mortgageCalculator.for_months_duration", {
@@ -329,11 +315,9 @@ export default function MortgageCalculator({
                 {t("mortgageCalculator.total_repayment")}
               </p>
               <p className="text-lg font-semibold">
-                {currency === "rm" ? "RM " : ""}
-                {formatNumber(
+                {formatMoney(
                   downPaymentAmount + monthlyPayment * loanTermMonths,
                 )}
-                {currency === "so'm" ? " so'm" : ""}
               </p>
             </Card>
             <Card className="p-4 bg-muted/50">
@@ -341,9 +325,7 @@ export default function MortgageCalculator({
                 {t("mortgageCalculator.total_interest")}
               </p>
               <p className="text-lg font-semibold">
-                {currency === "rm" ? "RM " : ""}
-                {formatNumber(monthlyPayment * loanTermMonths - loanAmount)}
-                {currency === "so'm" ? " so'm" : ""}
+                {formatMoney(monthlyPayment * loanTermMonths - loanAmount)}
               </p>
             </Card>
           </div>

@@ -5,6 +5,7 @@ import { MapPin, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import HeartButton from "@/components/common/buttons/heart-button";
 import type { PropertyType } from "@/interfaces/property/property.interface";
+import { formatPrice } from "@/utils/format-price";
 
 export default function ApartmentCard({
   property,
@@ -103,9 +104,7 @@ export default function ApartmentCard({
         </div>
 
         <p className="font-bold text-lg">
-          {property.currency === 'rm'
-            ? `RM ${property.price?.toLocaleString()}`
-            : `${property.price?.toLocaleString()} so'm`}
+          {formatPrice(property.price, property.currency)}
         </p>
       </div>
     </div>
