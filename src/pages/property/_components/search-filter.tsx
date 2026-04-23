@@ -14,6 +14,32 @@ import { cn } from "@/lib/utils";
 import { useDebounce } from "use-debounce";
 import { tagService } from "@/services/tag.service";
 import type { ITag } from "@/interfaces/tag/tag.interface";
+import { CURRENCIES, SUPPORTED_CURRENCIES } from "@/constants/currencies";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const AMENITIES = [
+  { value: "pool", labelKey: "amenities.pool", fallback: "Pool" },
+  { value: "balcony", labelKey: "amenities.balcony", fallback: "Balcony" },
+  { value: "security", labelKey: "amenities.security", fallback: "Security" },
+  { value: "air_conditioning", labelKey: "amenities.air_conditioning", fallback: "A/C" },
+  { value: "parking", labelKey: "amenities.parking", fallback: "Parking" },
+  { value: "elevator", labelKey: "amenities.elevator", fallback: "Elevator" },
+] as const;
+
+const SORT_OPTIONS = [
+  { value: "newest", labelKey: "sort.newest", fallback: "Newest" },
+  { value: "oldest", labelKey: "sort.oldest", fallback: "Oldest" },
+  { value: "price_asc", labelKey: "sort.price_asc", fallback: "Price ↑" },
+  { value: "price_desc", labelKey: "sort.price_desc", fallback: "Price ↓" },
+  { value: "rating", labelKey: "sort.rating", fallback: "Top rated" },
+  { value: "popular", labelKey: "sort.popular", fallback: "Most popular" },
+] as const;
 import {
   Command,
   CommandGroup,
@@ -80,8 +106,8 @@ const SearchFilterHeader: React.FC = () => {
   const currentTag = searchParams.get("tag") || "";
   const currentSearch = searchParams.get("search") || "";
   const currentCategory = searchParams.get("category") || searchParams.get("filterCategory") || "all";
-  const currentBedrooms = searchParams.getAll("bdr");
-  const currentBathrooms = searchParams.getAll("bthr");
+  const currentBedrooms = searchParams.getAll("bedrooms");
+  const currentBathrooms = searchParams.getAll("bathrooms");
   const currentMinPrice = searchParams.get("minPrice") || "";
   const currentMaxPrice = searchParams.get("maxPrice") || "";
   const currentMinArea = searchParams.get("minArea") || "";
@@ -90,6 +116,9 @@ const SearchFilterHeader: React.FC = () => {
   const currentParking = searchParams.get("parking") === "true";
   const currentIsNew = searchParams.get("is_new") === "1";
   const currentIsPremium = searchParams.get("is_premium") === "true";
+  const currentCurrency = searchParams.get("currency") || "";
+  const currentAmenities = searchParams.getAll("amenities");
+  const currentSort = searchParams.get("sort") || "newest";
 
   const { data: fetchedTags = [], isFetching: isTagsLoading } = useQuery({
     queryKey: ["tags", debouncedTagSearch],
@@ -141,7 +170,18 @@ const SearchFilterHeader: React.FC = () => {
     (currentFurnished ? 1 : 0) +
     (currentParking ? 1 : 0) +
     (currentIsNew ? 1 : 0) +
-    (currentIsPremium ? 1 : 0);
+    (currentIsPremium ? 1 : 0) +
+    (currentCurrency ? 1 : 0) +
+    (currentAmenities.length > 0 ? 1 : 0) +
+    (currentSort && currentSort !== "newest" ? 1 : 0);
+
+  const commitOnEnter =
+    (key: string) => (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        updateSearchParams({ [key]: e.currentTarget.value || null });
+      }
+    };
 
   return (
     <div className="w-full rounded-xl border bg-white shadow-sm">
@@ -323,6 +363,7 @@ const SearchFilterHeader: React.FC = () => {
                   placeholder={t("pages.main_page.search_filters.min")}
                   defaultValue={currentMinPrice}
                   onBlur={(e) => updateSearchParams({ minPrice: e.target.value || null })}
+                  onKeyDown={commitOnEnter("minPrice")}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
                 />
                 <span className="text-gray-400">—</span>
@@ -331,8 +372,58 @@ const SearchFilterHeader: React.FC = () => {
                   placeholder={t("pages.main_page.search_filters.max")}
                   defaultValue={currentMaxPrice}
                   onBlur={(e) => updateSearchParams({ maxPrice: e.target.value || null })}
+                  onKeyDown={commitOnEnter("maxPrice")}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
                 />
+              </div>
+            </div>
+          </FilterChip>
+
+          {/* Currency */}
+          <FilterChip
+            label={
+              currentCurrency
+                ? `${CURRENCIES[currentCurrency as keyof typeof CURRENCIES]?.symbol ?? currentCurrency}`
+                : t("pages.main_page.search_filters.currency", {
+                    defaultValue: "Currency",
+                  })
+            }
+            hasValue={!!currentCurrency}
+          >
+            <div className="space-y-2">
+              <p className="text-sm font-semibold">
+                {t("pages.main_page.search_filters.currency", {
+                  defaultValue: "Currency",
+                })}
+              </p>
+              <div className="grid grid-cols-2 gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => updateSearchParams({ currency: null })}
+                  className={cn(
+                    "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
+                    !currentCurrency
+                      ? "border-yellow-500 bg-yellow-50 text-yellow-800"
+                      : "border-gray-200 text-gray-700 hover:border-gray-300"
+                  )}
+                >
+                  {t("common.all")}
+                </button>
+                {SUPPORTED_CURRENCIES.map((code) => (
+                  <button
+                    key={code}
+                    type="button"
+                    onClick={() => updateSearchParams({ currency: code })}
+                    className={cn(
+                      "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
+                      currentCurrency === code
+                        ? "border-yellow-500 bg-yellow-50 text-yellow-800"
+                        : "border-gray-200 text-gray-700 hover:border-gray-300"
+                    )}
+                  >
+                    {CURRENCIES[code].symbol} ({code})
+                  </button>
+                ))}
               </div>
             </div>
           </FilterChip>
@@ -350,6 +441,7 @@ const SearchFilterHeader: React.FC = () => {
                   placeholder={t("pages.main_page.search_filters.min")}
                   defaultValue={currentMinArea}
                   onBlur={(e) => updateSearchParams({ minArea: e.target.value || null })}
+                  onKeyDown={commitOnEnter("minArea")}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
                 />
                 <span className="text-gray-400">—</span>
@@ -358,6 +450,7 @@ const SearchFilterHeader: React.FC = () => {
                   placeholder={t("pages.main_page.search_filters.max")}
                   defaultValue={currentMaxArea}
                   onBlur={(e) => updateSearchParams({ maxArea: e.target.value || null })}
+                  onKeyDown={commitOnEnter("maxArea")}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
                 />
               </div>
@@ -367,7 +460,9 @@ const SearchFilterHeader: React.FC = () => {
           {/* Amenities */}
           <FilterChip
             label={t("pages.main_page.search_filters.amenities")}
-            hasValue={currentFurnished || currentParking}
+            hasValue={
+              currentFurnished || currentParking || currentAmenities.length > 0
+            }
           >
             <div className="space-y-3">
               <label className="flex cursor-pointer items-center gap-2.5">
@@ -381,7 +476,9 @@ const SearchFilterHeader: React.FC = () => {
                   }
                   className="h-4 w-4 rounded border-gray-300 accent-yellow-500"
                 />
-                <span className="text-sm">{t("pages.main_page.search_filters.furnished")}</span>
+                <span className="text-sm">
+                  {t("pages.main_page.search_filters.furnished")}
+                </span>
               </label>
               <label className="flex cursor-pointer items-center gap-2.5">
                 <input
@@ -394,8 +491,43 @@ const SearchFilterHeader: React.FC = () => {
                   }
                   className="h-4 w-4 rounded border-gray-300 accent-yellow-500"
                 />
-                <span className="text-sm">{t("pages.main_page.search_filters.with_parking")}</span>
+                <span className="text-sm">
+                  {t("pages.main_page.search_filters.with_parking")}
+                </span>
               </label>
+              <div className="pt-2 border-t">
+                <p className="mb-2 text-xs font-semibold text-gray-500">
+                  {t("pages.main_page.search_filters.amenities")}
+                </p>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {AMENITIES.map((a) => {
+                    const checked = currentAmenities.includes(a.value);
+                    return (
+                      <label
+                        key={a.value}
+                        className="flex cursor-pointer items-center gap-2"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={() => {
+                            const next = checked
+                              ? currentAmenities.filter((v) => v !== a.value)
+                              : [...currentAmenities, a.value];
+                            updateSearchParams({
+                              amenities: next.length ? next : null,
+                            });
+                          }}
+                          className="h-4 w-4 rounded border-gray-300 accent-yellow-500"
+                        />
+                        <span className="text-sm">
+                          {t(a.labelKey, { defaultValue: a.fallback })}
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </FilterChip>
 
@@ -433,6 +565,25 @@ const SearchFilterHeader: React.FC = () => {
           >
             {t("common.premium")}
           </button>
+
+          {/* Sort */}
+          <Select
+            value={currentSort}
+            onValueChange={(v) =>
+              updateSearchParams({ sort: v === "newest" ? null : v })
+            }
+          >
+            <SelectTrigger className="h-10 w-[150px] text-sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {SORT_OPTIONS.map((s) => (
+                <SelectItem key={s.value} value={s.value}>
+                  {t(s.labelKey, { defaultValue: s.fallback })}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
           {/* Clear all */}
           {activeFilterCount > 0 && (
@@ -507,6 +658,42 @@ const SearchFilterHeader: React.FC = () => {
                 size={12}
                 className="cursor-pointer"
                 onClick={() => updateSearchParams({ minPrice: null, maxPrice: null })}
+              />
+            </Badge>
+          )}
+          {currentCurrency && (
+            <Badge variant="secondary" className="gap-1">
+              {CURRENCIES[currentCurrency as keyof typeof CURRENCIES]?.symbol ?? currentCurrency}
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ currency: null })}
+              />
+            </Badge>
+          )}
+          {currentAmenities.length > 0 && (
+            <Badge variant="secondary" className="gap-1">
+              {currentAmenities
+                .map(
+                  (a) =>
+                    AMENITIES.find((x) => x.value === a)?.fallback ?? a,
+                )
+                .join(", ")}
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ amenities: null })}
+              />
+            </Badge>
+          )}
+          {currentSort && currentSort !== "newest" && (
+            <Badge variant="secondary" className="gap-1">
+              {SORT_OPTIONS.find((s) => s.value === currentSort)?.fallback ??
+                currentSort}
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => updateSearchParams({ sort: null })}
               />
             </Badge>
           )}

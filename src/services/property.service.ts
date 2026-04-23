@@ -1,7 +1,16 @@
 import type { CategoryFilterType } from "@/interfaces/types/category-filter.type";
 import type { CategoryType } from "@/interfaces/types/category.type";
+import type { CurrencyCode } from "@/constants/currencies";
 import apiInstance from "@/lib/api-instance";
 import { API_ENDPOINTS } from "@/utils/shared";
+
+export type SortOption =
+  | "newest"
+  | "oldest"
+  | "price_asc"
+  | "price_desc"
+  | "rating"
+  | "popular";
 
 export interface FindAllParams {
   page?: number;
@@ -9,6 +18,7 @@ export interface FindAllParams {
   lng?: number;
   lat?: number;
   category?: CategoryType;
+  currency?: CurrencyCode;
   search?: string;
   is_premium?: boolean;
   is_new?: boolean;
@@ -29,6 +39,7 @@ export interface FindAllParams {
   amenities?: string[];
   furnished?: boolean;
   parking?: boolean;
+  sort?: SortOption;
 }
 
 class PropertyService {

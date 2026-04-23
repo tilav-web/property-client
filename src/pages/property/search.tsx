@@ -1,6 +1,6 @@
 import SearchFilterHeader from "./_components/search-filter";
 import type { IApartmentSale } from "@/interfaces/property/categories/apartment-sale.interface";
-import type { FindAllParams } from "@/services/property.service";
+import type { FindAllParams, SortOption } from "@/services/property.service";
 import { propertyService } from "@/services/property.service";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo, useRef, useEffect } from "react";
@@ -10,40 +10,38 @@ import FilterNavLayoutBlock from "./_components/filter-nav-layout-block";
 import { useLanguageStore } from "@/stores/language.store";
 import type { CategoryType } from "@/interfaces/types/category.type";
 import type { CategoryFilterType } from "@/interfaces/types/category-filter.type";
+import type { CurrencyCode } from "@/constants/currencies";
 import BannerAds from "@/components/common/ads/banner-ads";
 import ImageAds from "@/components/common/ads/image-ads";
 import ImageAdsSkeleton from "@/components/common/ads/image-ads-skeleton";
 import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
 import { Search } from "lucide-react";
 
+const PAGE_SIZE = 10;
+
 interface PropertyPage {
   properties: IApartmentSale[];
   page: number;
   limit: number;
-  totalPages: number;
+  totalPages: number | null;
+  totalItems: number | null;
 }
 
 function parseNumberArray(values: string[] | null | undefined): number[] {
   if (!values || values.length === 0) return [];
   return values
-    .map((v) => {
-      const n = Number(v);
-      return Number.isNaN(n) ? undefined : n;
-    })
-    .filter((v): v is number => typeof v === "number");
+    .map((v) => Number(v))
+    .filter((n): n is number => Number.isFinite(n));
 }
 
-export default function SearchPage() {
-  const [params] = useSearchParams();
-  const { t } = useTranslation();
-  const { language } = useLanguageStore();
+function buildFilters(params: URLSearchParams): Partial<FindAllParams> {
+  const out: Partial<FindAllParams> = {};
 
-  // Read all filter params
   const category = params.get("category");
   const filterCategory = params.get("filterCategory");
+  const tag = params.get("tag")?.trim();
+  const search = params.get("search")?.trim();
   const is_new = params.get("is_new");
-  const tag = params.get("tag");
-  const search = params.get("search");
   const is_premium = params.get("is_premium");
   const rating = params.get("rating");
   const radius = params.get("radius");
@@ -55,110 +53,70 @@ export default function SearchPage() {
   const maxArea = params.get("maxArea");
   const furnished = params.get("furnished");
   const parking = params.get("parking");
+  const currency = params.get("currency");
+  const sort = params.get("sort");
+  const amenities = params.getAll("amenities");
 
-  const bedroomParams = params.getAll("bedrooms").length
-    ? params.getAll("bedrooms")
-    : params.getAll("bdr");
-  const bathroomParams = params.getAll("bathrooms").length
-    ? params.getAll("bathrooms")
-    : params.getAll("bthr");
+  const bedrooms = parseNumberArray(params.getAll("bedrooms"));
+  const bathrooms = parseNumberArray(params.getAll("bathrooms"));
 
-  const selectedBedrooms = parseNumberArray(bedroomParams);
-  const selectedBathrooms = parseNumberArray(bathroomParams);
+  if (category) out.category = category as CategoryType;
+  if (filterCategory && filterCategory !== "all")
+    out.filterCategory = filterCategory as CategoryFilterType;
+  if (is_new === "1") out.is_new = true;
+  if (is_premium === "true") out.is_premium = true;
+  if (rating) out.rating = Number(rating);
+  if (radius) out.radius = Number(radius);
+  if (lng) out.lng = Number(lng);
+  if (lat) out.lat = Number(lat);
+  if (minPrice) out.minPrice = Number(minPrice);
+  if (maxPrice) out.maxPrice = Number(maxPrice);
+  if (minArea) out.minArea = Number(minArea);
+  if (maxArea) out.maxArea = Number(maxArea);
+  if (furnished === "true") out.furnished = true;
+  if (parking === "true") out.parking = true;
+  if (bedrooms.length) out.bedrooms = bedrooms;
+  if (bathrooms.length) out.bathrooms = bathrooms;
+  if (currency) out.currency = currency as CurrencyCode;
+  if (sort) out.sort = sort as SortOption;
+  if (amenities.length) out.amenities = amenities;
 
-  const bedroomsKey = useMemo(
-    () => selectedBedrooms.sort((a, b) => a - b).join("-"),
-    [selectedBedrooms]
-  );
-  const bathroomsKey = useMemo(
-    () => selectedBathrooms.sort((a, b) => a - b).join("-"),
-    [selectedBathrooms]
-  );
+  const searchTerms = [tag, search].filter(Boolean).join(" ").trim();
+  if (searchTerms) out.search = searchTerms;
 
-  const queryKey = useMemo(
-    () => [
-      "property-search",
-      category,
-      filterCategory,
-      is_new,
-      tag,
-      search,
-      is_premium,
-      rating,
-      radius,
-      bedroomsKey,
-      bathroomsKey,
-      lng,
-      lat,
-      minPrice,
-      maxPrice,
-      minArea,
-      maxArea,
-      furnished,
-      parking,
-      language,
-    ],
-    [
-      category,
-      filterCategory,
-      is_new,
-      tag,
-      search,
-      is_premium,
-      rating,
-      radius,
-      bedroomsKey,
-      bathroomsKey,
-      lng,
-      lat,
-      minPrice,
-      maxPrice,
-      minArea,
-      maxArea,
-      furnished,
-      parking,
-      language,
-    ]
-  );
+  return out;
+}
+
+export default function SearchPage() {
+  const [params] = useSearchParams();
+  const { t } = useTranslation();
+  const { language } = useLanguageStore();
+
+  const filters = useMemo(() => buildFilters(params), [params]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery<PropertyPage>({
-      queryKey,
+      queryKey: ["property-search", filters, language],
       queryFn: async ({ pageParam }) => {
-        const paramsToSend: Partial<FindAllParams> = {
+        const data = await propertyService.findAll({
+          ...filters,
           page: pageParam as number,
-          limit: 10,
-        };
-
-        if (category) paramsToSend.category = category as CategoryType;
-        if (filterCategory && filterCategory !== "all")
-          paramsToSend.filterCategory = filterCategory as CategoryFilterType;
-        if (is_new === "1") paramsToSend.is_new = true;
-        if (tag) paramsToSend.search = tag;
-        if (search) paramsToSend.search = search;
-        if (is_premium === "true") paramsToSend.is_premium = true;
-        if (rating) paramsToSend.rating = Number(rating);
-        if (radius) paramsToSend.radius = Number(radius);
-        if (selectedBedrooms.length) paramsToSend.bedrooms = selectedBedrooms;
-        if (selectedBathrooms.length) paramsToSend.bathrooms = selectedBathrooms;
-        if (lng) paramsToSend.lng = Number(lng);
-        if (lat) paramsToSend.lat = Number(lat);
-        if (minPrice) paramsToSend.minPrice = Number(minPrice);
-        if (maxPrice) paramsToSend.maxPrice = Number(maxPrice);
-        if (minArea) paramsToSend.minArea = Number(minArea);
-        if (maxArea) paramsToSend.maxArea = Number(maxArea);
-        if (furnished === "true") paramsToSend.furnished = true;
-        if (parking === "true") paramsToSend.parking = true;
-
-        const data = await propertyService.findAll(paramsToSend);
+          limit: PAGE_SIZE,
+        });
         return data as PropertyPage;
       },
       initialPageParam: 1,
       getNextPageParam: (lastPage) => {
-        if (lastPage.page < lastPage.totalPages) {
-          return lastPage.page + 1;
+        // Birinchi sahifada totalPages bor — uni ishlatamiz
+        if (lastPage.totalPages !== null) {
+          return lastPage.page < lastPage.totalPages
+            ? lastPage.page + 1
+            : undefined;
         }
-        return undefined;
+        // Keyingi sahifalarda: agar to'liq sahifa bo'lsa, yana bo'lishi mumkin
+        return lastPage.properties.length >= lastPage.limit
+          ? lastPage.page + 1
+          : undefined;
       },
       staleTime: 5 * 60 * 1000,
     });
@@ -182,13 +140,12 @@ export default function SearchPage() {
     }
   }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
-  const allProperties = useMemo(() => {
-    return data?.pages.flatMap((page) => page.properties) ?? [];
-  }, [data]);
+  const allProperties = useMemo(
+    () => data?.pages.flatMap((page) => page.properties) ?? [],
+    [data],
+  );
 
-  const totalItems = data?.pages[0]?.totalPages
-    ? data.pages[0].totalPages * 10
-    : 0;
+  const totalItems = data?.pages[0]?.totalItems ?? 0;
 
   const hasNoResults =
     !isLoading && !isFetchingNextPage && allProperties.length === 0;
@@ -202,7 +159,7 @@ export default function SearchPage() {
         <div className="mt-4 flex items-center justify-between px-1">
           <p className="text-sm text-gray-500">
             {allProperties.length}
-            {totalItems > allProperties.length && ` / ~${totalItems}`}{" "}
+            {totalItems > allProperties.length && ` / ${totalItems}`}{" "}
             {t("pages.main_page.statistics.properties_listed").toLowerCase()}
           </p>
         </div>
@@ -210,28 +167,34 @@ export default function SearchPage() {
 
       {/* Results */}
       <div className="mt-4">
-        {Array.from({ length: Math.ceil(allProperties.length / 10) }).map(
-          (_, pageIndex) => {
-            const pageProperties = allProperties.slice(
-              pageIndex * 10,
-              (pageIndex + 1) * 10
-            );
-            return (
-              <div key={pageIndex}>
-                <FilterNavLayoutBlock
-                  properties={pageProperties.slice(0, 6)}
-                  isLoading={false}
-                />
-                {pageProperties.length > 6 && <ImageAds />}
-                <FilterNavLayoutBlock
-                  properties={pageProperties.slice(6, 10)}
-                  isLoading={false}
-                />
-                {pageProperties.length > 9 && <BannerAds />}
-              </div>
-            );
-          }
-        )}
+        {Array.from({
+          length: Math.ceil(allProperties.length / PAGE_SIZE),
+        }).map((_, pageIndex) => {
+          const pageProperties = allProperties.slice(
+            pageIndex * PAGE_SIZE,
+            (pageIndex + 1) * PAGE_SIZE,
+          );
+          return (
+            <div
+              key={pageIndex}
+              style={{
+                contentVisibility: "auto",
+                containIntrinsicSize: "0 800px",
+              }}
+            >
+              <FilterNavLayoutBlock
+                properties={pageProperties.slice(0, 6)}
+                isLoading={false}
+              />
+              {pageProperties.length > 6 && <ImageAds />}
+              <FilterNavLayoutBlock
+                properties={pageProperties.slice(6, PAGE_SIZE)}
+                isLoading={false}
+              />
+              {pageProperties.length > 9 && <BannerAds />}
+            </div>
+          );
+        })}
       </div>
 
       {/* Loading */}
