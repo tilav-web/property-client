@@ -34,6 +34,22 @@ function parseNumberArray(values: string[] | null | undefined): number[] {
     .filter((n): n is number => Number.isFinite(n));
 }
 
+function readStoredLocation(): { lat: number; lng: number } | null {
+  try {
+    const raw = localStorage.getItem("geolocation:last");
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as {
+      lat: number;
+      lng: number;
+      timestamp: number;
+    };
+    if (Date.now() - parsed.timestamp > 60 * 60 * 1000) return null;
+    return { lat: parsed.lat, lng: parsed.lng };
+  } catch {
+    return null;
+  }
+}
+
 function buildFilters(params: URLSearchParams): Partial<FindAllParams> {
   const out: Partial<FindAllParams> = {};
 
@@ -47,6 +63,7 @@ function buildFilters(params: URLSearchParams): Partial<FindAllParams> {
   const radius = params.get("radius");
   const lng = params.get("lng");
   const lat = params.get("lat");
+  const near = params.get("near");
   const minPrice = params.get("minPrice");
   const maxPrice = params.get("maxPrice");
   const minArea = params.get("minArea");
@@ -80,6 +97,16 @@ function buildFilters(params: URLSearchParams): Partial<FindAllParams> {
   if (currency) out.currency = currency as CurrencyCode;
   if (sort) out.sort = sort as SortOption;
   if (amenities.length) out.amenities = amenities;
+
+  // Near me: URL'da faqat bayroq va radius, lat/lng esa localStorage'dan.
+  if (near === "1" && out.lat === undefined && out.lng === undefined) {
+    const coords = readStoredLocation();
+    if (coords) {
+      out.lat = coords.lat;
+      out.lng = coords.lng;
+      if (!out.sort) out.sort = "distance";
+    }
+  }
 
   const searchTerms = [tag, search].filter(Boolean).join(" ").trim();
   if (searchTerms) out.search = searchTerms;

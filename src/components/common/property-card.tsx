@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { formatPrice } from "@/utils/format-price";
+import DistanceBadge from "@/components/common/distance-badge";
 
 interface PropertyCardProps {
   property: IProperty;
@@ -103,6 +104,7 @@ export default function PropertyCard({
                 {t("common.new")}
               </Badge>
             )}
+            <DistanceBadge distanceMeters={property.distance_m} />
           </div>
 
           {/* Save Button */}

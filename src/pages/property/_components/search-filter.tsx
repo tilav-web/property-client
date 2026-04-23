@@ -22,6 +22,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import NearMeToggle, {
+  DEFAULT_NEAR_ME_RADIUS,
+  type NearMeState,
+} from "@/components/common/near-me-toggle";
 
 const AMENITIES = [
   { value: "pool", labelKey: "amenities.pool", fallback: "Pool" },
@@ -119,6 +123,9 @@ const SearchFilterHeader: React.FC = () => {
   const currentCurrency = searchParams.get("currency") || "";
   const currentAmenities = searchParams.getAll("amenities");
   const currentSort = searchParams.get("sort") || "newest";
+  const currentNearEnabled = searchParams.get("near") === "1";
+  const currentNearRadius =
+    Number(searchParams.get("radius")) || DEFAULT_NEAR_ME_RADIUS;
 
   const { data: fetchedTags = [], isFetching: isTagsLoading } = useQuery({
     queryKey: ["tags", debouncedTagSearch],
@@ -173,7 +180,30 @@ const SearchFilterHeader: React.FC = () => {
     (currentIsPremium ? 1 : 0) +
     (currentCurrency ? 1 : 0) +
     (currentAmenities.length > 0 ? 1 : 0) +
-    (currentSort && currentSort !== "newest" ? 1 : 0);
+    (currentSort && currentSort !== "newest" ? 1 : 0) +
+    (currentNearEnabled ? 1 : 0);
+
+  const handleNearMeChange = useCallback(
+    (state: NearMeState) => {
+      if (state.enabled) {
+        updateSearchParams({
+          near: "1",
+          radius: String(state.radius),
+          // Near me ishlaydi → sort=distance. Eski sort holatiga qaytish uchun
+          // foydalanuvchi toggle ni o'chiradi.
+          sort: "distance",
+        });
+      } else {
+        updateSearchParams({
+          near: null,
+          radius: null,
+          // Sort distance edi — uni default ga qaytaramiz.
+          sort: currentSort === "distance" ? null : currentSort,
+        });
+      }
+    },
+    [updateSearchParams, currentSort],
+  );
 
   const commitOnEnter =
     (key: string) => (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -566,15 +596,37 @@ const SearchFilterHeader: React.FC = () => {
             {t("common.premium")}
           </button>
 
+          {/* Near me */}
+          <NearMeToggle
+            enabled={currentNearEnabled}
+            radius={currentNearRadius}
+            onChange={handleNearMeChange}
+          />
+
           {/* Sort */}
           <Select
-            value={currentSort}
+            value={currentNearEnabled ? "distance" : currentSort}
             onValueChange={(v) =>
               updateSearchParams({ sort: v === "newest" ? null : v })
             }
+            disabled={currentNearEnabled}
           >
             <SelectTrigger className="h-10 w-[150px] text-sm">
-              <SelectValue />
+              <SelectValue>
+                {currentNearEnabled
+                  ? t("common.near_me.by_distance", {
+                      defaultValue: "By distance",
+                    })
+                  : t(
+                      SORT_OPTIONS.find((s) => s.value === currentSort)
+                        ?.labelKey ?? "sort.newest",
+                      {
+                        defaultValue:
+                          SORT_OPTIONS.find((s) => s.value === currentSort)
+                            ?.fallback ?? "Newest",
+                      },
+                    )}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {SORT_OPTIONS.map((s) => (
@@ -686,7 +738,7 @@ const SearchFilterHeader: React.FC = () => {
               />
             </Badge>
           )}
-          {currentSort && currentSort !== "newest" && (
+          {currentSort && currentSort !== "newest" && !currentNearEnabled && (
             <Badge variant="secondary" className="gap-1">
               {SORT_OPTIONS.find((s) => s.value === currentSort)?.fallback ??
                 currentSort}
@@ -694,6 +746,23 @@ const SearchFilterHeader: React.FC = () => {
                 size={12}
                 className="cursor-pointer"
                 onClick={() => updateSearchParams({ sort: null })}
+              />
+            </Badge>
+          )}
+          {currentNearEnabled && (
+            <Badge variant="secondary" className="gap-1">
+              📍 {currentNearRadius} km
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() =>
+                  handleNearMeChange({
+                    enabled: false,
+                    radius: currentNearRadius,
+                    lat: null,
+                    lng: null,
+                  })
+                }
               />
             </Badge>
           )}

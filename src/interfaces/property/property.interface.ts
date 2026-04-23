@@ -33,6 +33,9 @@ export interface IProperty {
 
   createdAt: Date;
   updatedAt: Date;
+
+  // `$geoNear` aggregate stage qo'shadi — faqat `sort=distance` bo'lganda
+  distance_m?: number;
 }
 
 export type PropertyType = IApartmentRent | IApartmentSale;

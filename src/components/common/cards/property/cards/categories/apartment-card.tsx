@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import HeartButton from "@/components/common/buttons/heart-button";
 import type { PropertyType } from "@/interfaces/property/property.interface";
 import { formatPrice } from "@/utils/format-price";
+import DistanceBadge from "@/components/common/distance-badge";
 
 export default function ApartmentCard({
   property,
@@ -57,6 +58,7 @@ export default function ApartmentCard({
               {t("pages.property_card.premium")}
             </Badge>
           )}
+          <DistanceBadge distanceMeters={property.distance_m} />
         </div>
       </div>
       <div className="p-3">

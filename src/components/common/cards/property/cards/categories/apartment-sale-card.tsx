@@ -7,6 +7,7 @@ import WhatsAppButton from "@/components/common/buttons/whats-app-button";
 import type { IApartmentSale } from "@/interfaces/property/categories/apartment-sale.interface";
 import { isNewProperty } from "@/utils/is-new-property";
 import { formatPrice } from "@/utils/format-price";
+import DistanceBadge from "@/components/common/distance-badge";
 import { Badge, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -42,6 +43,7 @@ export default function ApartmentSaleCard({
                 {t("pages.property_card.new")}
               </Badge>
             )}
+            <DistanceBadge distanceMeters={apartment.distance_m} />
           </div>
 
           {apartment.location?.coordinates && (

@@ -10,7 +10,8 @@ export type SortOption =
   | "price_asc"
   | "price_desc"
   | "rating"
-  | "popular";
+  | "popular"
+  | "distance";
 
 export interface FindAllParams {
   page?: number;
