@@ -1,12 +1,10 @@
 import {
   BarChart3,
-  BrainCircuit,
   Building2,
   CheckCircle,
   Map,
   Calculator,
   TrendingUp,
-  Users,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -25,20 +23,6 @@ const FEATURES = [
     descKey: "pages.main_page.supercharge.mortgage_calc_desc",
     href: "/search",
     color: "bg-green-50 text-green-600",
-  },
-  {
-    icon: BrainCircuit,
-    titleKey: "pages.main_page.supercharge.ai_search",
-    descKey: "pages.main_page.supercharge.ai_search_desc",
-    href: "/ai-agent",
-    color: "bg-purple-50 text-purple-600",
-  },
-  {
-    icon: Users,
-    titleKey: "pages.main_page.supercharge.super_agents",
-    descKey: "pages.main_page.supercharge.super_agents_desc",
-    href: "/sellers",
-    color: "bg-orange-50 text-orange-600",
   },
   {
     icon: TrendingUp,

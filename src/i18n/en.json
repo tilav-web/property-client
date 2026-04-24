@@ -7,12 +7,10 @@
     "buy": "Buy",
     "rent_apartments": "Rent",
     "rent_land": "Rent Land",
-    "ai_agent": "AI agent",
     "mortgage": "Mortgage",
     "new_projects": "New Projects",
     "new": "New",
     "premium": "Premium",
-    "sellers": "Sellers",
     "favorites": "Favorites",
     "sell_or_rent": "Sell / Rent",
     "save": "Save",
@@ -61,7 +59,6 @@
       "title": "Seller",
       "personal_info": "Personal Information",
       "dashboard": "Dashboard",
-      "inquiries": "Inquiries",
       "feedback": "Feedback",
       "properties": "Properties",
       "settings": "Settings",
@@ -453,10 +450,6 @@
         "area_insights_desc": "Explore neighborhood data, trends and local amenities",
         "mortgage_calc": "Mortgage Calculator",
         "mortgage_calc_desc": "Calculate your monthly payments and find the best rates",
-        "ai_search": "AI Property Search",
-        "ai_search_desc": "Let our AI assistant find properties matching your criteria",
-        "super_agents": "Top Sellers",
-        "super_agents_desc": "Connect with top-rated sellers in your area",
         "price_trends": "Price Trends",
         "price_trends_desc": "Track property price changes and market movements",
         "verified_listings": "Verified Listings",
@@ -472,11 +465,6 @@
         "view_all": "View All Properties",
         "showcase_title": "Featured Properties Showcase",
         "showcase_description": "This is where handpicked properties will be displayed. Currently, there are no properties available to feature."
-      },
-      "ai_agent": {
-        "title": "Meet Your AI Property Assistant",
-        "description": "Tired of endless scrolling? Describe your dream home, and our AI will find it for you. It's fast, smart, and simple.",
-        "button": "Try AI Search"
       },
       "how_it_works": {
         "title": "How It Works",
@@ -1041,27 +1029,5 @@
     "years_and_months_full": "{{years}} years {{months}} months",
     "years_only": "{{count}} years",
     "months_only": "{{count}} months"
-  },
-  "ai_agent_page": {
-    "title": "AI Property Finder",
-    "subtitle": "Search for properties using natural language",
-    "welcome_title": "Welcome to AI Property Finder",
-    "welcome_description": "Describe what you are looking for in natural language. For example: 'Show 3-bedroom apartments for rent in Kuala Lumpur for less than RM 5,000'.",
-    "found_properties": "Found some properties for you!",
-    "no_properties_found": "No properties found for your request.",
-    "error_message": "Sorry, I encountered an error. Please try again.",
-    "error_fetching_more": "Error fetching more properties:",
-    "searching": "AI is searching...",
-    "loading_more": "Loading more...",
-    "load_more_button": "Load More",
-    "input_placeholder": "Describe the property you're looking for...",
-    "no_image": "No image",
-    "premium": "Premium",
-    "welcome_title_new": "How can I help you?",
-    "welcome_description_new": "To get started faster, choose one of the templates below or write your own query.",
-    "prompt1": "3-room apartment in Kuala Lumpur",
-    "prompt2": "2-room apartment in Bukit Bintang up to RM 250,000",
-    "prompt3": "Furnished apartment for rent",
-    "prompt4": "Are there houses for sale on mortgage?"
   }
 }

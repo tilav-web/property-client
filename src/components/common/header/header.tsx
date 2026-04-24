@@ -11,12 +11,10 @@ import {
   Heart,
   Home,
   Building,
-  Handshake,
   Star,
   User,
   Globe,
   ChevronDown,
-  Users,
   PhoneCall,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -84,13 +82,11 @@ export default function Header({ className }: IHeaderProps) {
       label: t("common.rent_apartments"),
       href: "/filter-nav?category=APARTMENT_RENT",
     },
-    { icon: Handshake, label: t("common.ai_agent"), href: "/ai-agent" },
     {
       icon: Star,
       label: t("common.new_projects"),
       href: "/filter-nav?is_new=1",
     },
-    { icon: Users, label: t("common.sellers"), href: "/sellers" },
     { icon: Heart, label: t("common.favorites"), href: "/favorites" },
   ];
 

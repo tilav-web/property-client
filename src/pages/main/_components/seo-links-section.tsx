@@ -37,13 +37,11 @@ const SEO_LINK_GROUPS: LinkGroup[] = [
       { label: "Premium Properties", href: "/search?is_premium=true" },
       { label: "New Listings", href: "/search?is_new=true" },
       { label: "Properties on Map", href: "/map" },
-      { label: "AI Property Search", href: "/ai-agent" },
     ],
   },
   {
     titleKey: "pages.main_page.seo_links.explore_areas",
     links: [
-      { label: "Browse All Sellers", href: "/sellers" },
       { label: "Top Rated Properties", href: "/search?rating=4" },
       { label: "Affordable Rentals", href: "/search?category=APARTMENT_RENT&maxPrice=5000" },
       { label: "Luxury Properties", href: "/search?minPrice=50000" },

@@ -1,48 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { heroImage, heroImageSrcSet } from "@/utils/shared";
-import {
-  ArrowRight,
-  BrainCircuit,
-  Contact,
-  Map,
-  Search,
-} from "lucide-react";
+import { ArrowRight, Contact, Map, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import ListPropertyCta from "./list-property-cta";
 import AppStatsBanner from "./app-stats-banner";
 import SeoLinksSection from "./seo-links-section";
-
-function AiAgentCta() {
-  const { t } = useTranslation();
-
-  return (
-    <section className="py-8 [content-visibility:auto] [contain-intrinsic-size:1px_280px]">
-      <div className="flex flex-col items-center justify-between gap-8 rounded-2xl bg-gray-800 p-8 text-white shadow-xl md:flex-row md:p-12">
-        <div className="text-center md:w-1/2 md:text-left">
-          <BrainCircuit className="mx-auto mb-4 h-14 w-14 text-yellow-400 md:mx-0" />
-          <h2 className="mb-3 text-2xl font-bold md:text-3xl">
-            {t("pages.main_page.ai_agent.title")}
-          </h2>
-          <p className="mx-auto max-w-lg text-gray-400 md:mx-0">
-            {t("pages.main_page.ai_agent.description")}
-          </p>
-        </div>
-        <div className="flex justify-center md:w-1/2 md:justify-end">
-          <Link to="/ai-agent">
-            <Button
-              size="lg"
-              className="h-12 rounded-xl bg-yellow-400 px-8 font-semibold text-black hover:bg-yellow-500"
-            >
-              {t("pages.main_page.ai_agent.button")}
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function HowItWorks() {
   const { t } = useTranslation();
@@ -155,7 +118,6 @@ export default function HomeSecondarySections() {
   return (
     <>
       <MapCta />
-      <AiAgentCta />
       <ListPropertyCta />
       <HowItWorks />
       <AppStatsBanner />

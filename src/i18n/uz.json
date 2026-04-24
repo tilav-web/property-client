@@ -8,12 +8,10 @@
     "buy": "Sotib olish",
     "rent_apartments": "Ijaraga olish",
     "rent_land": "Yer ijarasi",
-    "ai_agent": "AI agenti",
     "mortgage": "Ipoteka",
     "new_projects": "Yangi loyihalar",
     "new": "Yangi",
     "premium": "Premium",
-    "sellers": "Sotuvchilar",
     "favorites": "Sevimlilar",
     "sell_or_rent": "Sotish / Ijaraga berish",
     "save": "Saqlash",
@@ -62,7 +60,6 @@
       "title": "Sotuvchi",
       "personal_info": "Shaxsiy ma'lumotlar",
       "dashboard": "Boshqaruv paneli",
-      "inquiries": "So'rovlar",
       "feedback": "Fikr-mulohazalar",
       "properties": "Mulklar",
       "settings": "Sozlamalar",
@@ -424,11 +421,6 @@
         "showcase_title": "Tanlangan mulklar ko'rgazmasi",
         "showcase_description": "Bu yerda saralangan mulklar ko'rsatiladi. Hozirda tanlangan mulklar mavjud emas."
       },
-      "ai_agent": {
-        "title": "AI mulk yordamchisi bilan tanishing",
-        "description": "Cheksiz qidirishdan charchadingizmi? Orzuingizdagi uyni tasvirlab bering va bizning sun'iy intellektimiz uni siz uchun topadi. Bu tez, aqlli va oddiy.",
-        "button": "AI qidiruvni sinab ko'ring"
-      },
       "how_it_works": {
         "title": "Bu qanday ishlaydi",
         "subtitle": "Keyingi mulkingizni topish biz bilan oson.",
@@ -491,10 +483,6 @@
         "area_insights_desc": "Mahalla ma'lumotlari, tendensiyalar va mahalliy qulayliklarni o'rganing",
         "mortgage_calc": "Ipoteka kalkulyatori",
         "mortgage_calc_desc": "Oylik to'lovlaringizni hisoblang va eng yaxshi stavkalarni toping",
-        "ai_search": "AI mulk qidiruvi",
-        "ai_search_desc": "AI yordamchimiz mezonlaringizga mos mulklarni topsin",
-        "super_agents": "Top sotuvchilar",
-        "super_agents_desc": "Hududingizdagi eng yaxshi sotuvchilar bilan bog'laning",
         "price_trends": "Narx tendensiyalari",
         "price_trends_desc": "Mulk narxlari o'zgarishi va bozor harakatlarini kuzating",
         "verified_listings": "Tasdiqlangan e'lonlar",
@@ -1040,27 +1028,5 @@
     "years_and_months_full": "{{years}} yil {{months}} oy",
     "years_only": "{{count}} yil",
     "months_only": "{{count}} oy"
-  },
-  "ai_agent_page": {
-    "title": "AI Mulk qidiruvchisi",
-    "subtitle": "Tabiiy tildan foydalanib mulk qidiring",
-    "welcome_title": "AI Mulk qidiruvchisiga xush kelibsiz",
-    "welcome_description": "Nima qidirayotganingizni tabiiy tilda tasvirlab bering. Masalan: 'Kuala Lumpurdan 3 xonali ijaraga beriladigan kvartiralarni RM 5,000 dan arzonroqqa ko'rsat'.",
-    "found_properties": "Siz uchun ba'zi mulklar topildi!",
-    "no_properties_found": "Sizning so'rovingiz bo'yicha hech qanday mulk topilmadi.",
-    "error_message": "Kechirasiz, xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
-    "error_fetching_more": "Qo'shimcha mulklarni yuklashda xato:",
-    "searching": "AI qidirmoqda...",
-    "loading_more": "Yuklanmoqda...",
-    "load_more_button": "Yana yuklash",
-    "input_placeholder": "Qidirayotgan mulkingizni tasvirlang...",
-    "no_image": "Rasm yo'q",
-    "premium": "Premium",
-    "welcome_title_new": "Sizga qanday yordam bera olaman?",
-    "welcome_description_new": "Tezroq boshlash uchun quyidagi namunalardan birini tanlang yoki o'z so'rovingizni yozing.",
-    "prompt1": "Kuala Lumpurdan 3 xonali kvartira",
-    "prompt2": "Bukit Bintangdan RM 250,000 gacha bo'lgan 2 xonali kvartira",
-    "prompt3": "Jihozlangan ijaraga beriladigan kvartira",
-    "prompt4": "Ipotekaga sotiladigan uylar bormi?"
   }
 }

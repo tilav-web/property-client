@@ -72,22 +72,6 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  to="/sellers"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  {t("common.sellers")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/ai-agent"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  {t("common.ai_agent")}
-                </Link>
-              </li>
-              <li>
-                <Link
                   to="/filter-nav?is_new=1"
                   className="text-sm hover:text-white transition-colors"
                 >

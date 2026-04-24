@@ -31,7 +31,6 @@ const SellerDetailsPage = lazy(
 );
 const AdminTagsPage = lazy(() => import("./pages/admin/_pages/tags"));
 const AdminUsers = lazy(() => import("./pages/admin/_pages/users/admin-users"));
-const AiAgent = lazy(() => import("./pages/ai-agent/ai-agent"));
 const Login = lazy(() => import("./pages/auth/login"));
 const OtpConfirmation = lazy(() => import("./pages/auth/otp-confirmation"));
 const Register = lazy(() => import("./pages/auth/register"));
@@ -71,10 +70,6 @@ const SellerProperties = lazy(
 const UpdateProperty = lazy(
   () => import("./pages/seller/properties/update-property")
 );
-const PublicSellerDetailsPage = lazy(
-  () => import("./pages/sellers/seller-details-public")
-);
-const SellersPage = lazy(() => import("./pages/sellers/sellers"));
 const Unauthorized = lazy(() => import("./pages/unauthorized/unauthorized"));
 
 function RouteFallback() {
@@ -100,22 +95,6 @@ const router = createBrowserRouter([
           <MainLayout>
             <Main />
           </MainLayout>
-        ),
-      },
-      {
-        path: "/sellers",
-        element: withSuspense(
-          <SubLayout>
-            <SellersPage />
-          </SubLayout>
-        ),
-      },
-      {
-        path: "/sellers/:sellerId",
-        element: withSuspense(
-          <SubLayout>
-            <PublicSellerDetailsPage />
-          </SubLayout>
         ),
       },
       {
@@ -154,11 +133,7 @@ const router = createBrowserRouter([
         path: "/auth",
         element: withSuspense(<RoleChecked />),
       },
-      {
-        path: "/ai-agent",
-        element: withSuspense(<AiAgent />),
-      },
-      {
+{
         path: "/map",
         element: withSuspense(<YandexMap />),
       },

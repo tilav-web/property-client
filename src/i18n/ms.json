@@ -7,12 +7,10 @@
     "buy": "Beli",
     "rent_apartments": "Sewa",
     "rent_land": "Sewa Tanah",
-    "ai_agent": "Ejen AI",
     "mortgage": "Pinjaman Perumahan",
     "new_projects": "Projek Baharu",
     "new": "Baharu",
     "premium": "Premium",
-    "sellers": "Penjual",
     "favorites": "Kegemaran",
     "sell_or_rent": "Jual / Sewa",
     "save": "Simpan",
@@ -61,7 +59,6 @@
       "title": "Penjual",
       "personal_info": "Maklumat Peribadi",
       "dashboard": "Papan Pemuka",
-      "inquiries": "Pertanyaan",
       "feedback": "Maklum Balas",
       "properties": "Hartanah",
       "settings": "Tetapan",
@@ -424,11 +421,6 @@
         "showcase_title": "Pameran Hartanah Pilihan",
         "showcase_description": "Di sinilah hartanah pilihan akan dipaparkan. Pada masa ini, tiada hartanah yang tersedia untuk ditampilkan."
       },
-      "ai_agent": {
-        "title": "Temui Pembantu Hartanah AI Anda",
-        "description": "Penat menatal tanpa henti? Huraikan rumah impian anda, dan AI kami akan mencarinya untuk anda. Pantas, pintar, dan mudah.",
-        "button": "Cuba Carian AI"
-      },
       "how_it_works": {
         "title": "Cara Ia Berfungsi",
         "subtitle": "Mencari hartanah seterusnya adalah mudah bersama kami.",
@@ -491,10 +483,6 @@
         "area_insights_desc": "Terokai data kawasan, trend dan kemudahan tempatan",
         "mortgage_calc": "Kalkulator Pinjaman",
         "mortgage_calc_desc": "Kira bayaran bulanan anda dan cari kadar terbaik",
-        "ai_search": "Carian AI Hartanah",
-        "ai_search_desc": "Pembantu AI kami akan cari hartanah mengikut kriteria anda",
-        "super_agents": "Penjual Teratas",
-        "super_agents_desc": "Berhubung dengan penjual berkadar tinggi di kawasan anda",
         "price_trends": "Trend Harga",
         "price_trends_desc": "Jejaki perubahan harga hartanah dan pergerakan pasaran",
         "verified_listings": "Senarai Disahkan",
@@ -1040,27 +1028,5 @@
     "years_and_months_full": "{{years}} tahun {{months}} bulan",
     "years_only": "{{count}} tahun",
     "months_only": "{{count}} bulan"
-  },
-  "ai_agent_page": {
-    "title": "Pencari Hartanah AI",
-    "subtitle": "Cari hartanah menggunakan bahasa semula jadi",
-    "welcome_title": "Selamat Datang ke Pencari Hartanah AI",
-    "welcome_description": "Huraikan apa yang anda cari dalam bahasa semula jadi. Contohnya: 'Tunjukkan apartment 3 bilik tidur untuk disewa di Kuala Lumpur kurang daripada RM 5,000'.",
-    "found_properties": "Beberapa hartanah telah ditemui untuk anda!",
-    "no_properties_found": "Tiada hartanah ditemui untuk permintaan anda.",
-    "error_message": "Maaf, saya menghadapi ralat. Sila cuba lagi.",
-    "error_fetching_more": "Ralat mengambil lebih banyak hartanah:",
-    "searching": "AI sedang mencari...",
-    "loading_more": "Memuatkan lagi...",
-    "load_more_button": "Muatkan Lagi",
-    "input_placeholder": "Huraikan hartanah yang anda cari...",
-    "no_image": "Tiada gambar",
-    "premium": "Premium",
-    "welcome_title_new": "Bagaimana saya boleh membantu anda?",
-    "welcome_description_new": "Untuk bermula dengan lebih pantas, pilih salah satu templat di bawah atau tulis pertanyaan anda sendiri.",
-    "prompt1": "Apartment 3 bilik di Kuala Lumpur",
-    "prompt2": "Apartment 2 bilik di Bukit Bintang sehingga RM 250,000",
-    "prompt3": "Apartment berperabot untuk disewa",
-    "prompt4": "Adakah terdapat rumah untuk dijual dengan pinjaman perumahan?"
   }
 }
