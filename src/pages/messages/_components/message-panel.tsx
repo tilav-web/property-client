@@ -283,11 +283,13 @@ export default function MessagePanel({ conversation, onBack }: Props) {
           const responded = inquiryId
             ? respondedInquiries.get(inquiryId) ?? null
             : null;
+          const senderIsAi = Boolean(isAiPeer && m.sender !== me?._id);
           return (
             <MessageBubble
               key={m._id}
               message={m}
               isMine={m.sender === me?._id}
+              senderIsAi={senderIsAi}
               respondedStatus={responded}
               canRespond={
                 !isAiPeer && iAmSellerOfProperty && m.sender !== me?._id

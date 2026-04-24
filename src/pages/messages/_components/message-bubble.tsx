@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
-import { Check, Home, Loader2, X } from "lucide-react";
+import { Bot, Check, Home, Loader2, X } from "lucide-react";
 import type { IChatMessage } from "@/interfaces/chat/chat-message.interface";
 import { MessageType } from "@/interfaces/chat/message-type";
 import { cn } from "@/lib/utils";
@@ -23,6 +23,7 @@ export type TResponseStatus = "approved" | "rejected";
 interface Props {
   message: IChatMessage;
   isMine: boolean;
+  senderIsAi?: boolean;
   respondedStatus?: TResponseStatus | null;
   canRespond?: boolean;
   onRespond?: (
@@ -43,6 +44,7 @@ function timeLabel(iso: string): string {
 export default function MessageBubble({
   message,
   isMine,
+  senderIsAi,
   respondedStatus,
   canRespond,
   onRespond,
@@ -52,11 +54,16 @@ export default function MessageBubble({
   const [submitting, setSubmitting] = useState(false);
 
   const align = isMine ? "items-end" : "items-start";
-  const bubbleBase =
-    "max-w-[75%] rounded-2xl px-3 py-2 text-sm shadow-sm break-words";
+  // AI xabarlari kengroq — property cards siqilmasligi uchun
+  const bubbleBase = cn(
+    "rounded-2xl px-3 py-2 text-sm shadow-sm break-words",
+    senderIsAi ? "max-w-[88%]" : "max-w-[75%]",
+  );
   const bubbleColor = isMine
     ? "bg-blue-500 text-white rounded-br-md"
-    : "bg-white text-gray-900 rounded-bl-md border border-gray-200";
+    : senderIsAi
+      ? "bg-gradient-to-br from-indigo-50 to-purple-50 text-gray-900 rounded-bl-md border border-indigo-200"
+      : "bg-white text-gray-900 rounded-bl-md border border-gray-200";
 
   if (message.type === MessageType.SYSTEM) {
     const meta = (message.metadata ?? {}) as Record<string, unknown>;
@@ -304,12 +311,132 @@ export default function MessageBubble({
     );
   }
 
+  const meta = (message.metadata ?? {}) as Record<string, unknown>;
+  const propertiesRaw = meta.properties;
+  const properties: AiProperty[] = Array.isArray(propertiesRaw)
+    ? (propertiesRaw as AiProperty[])
+    : [];
+  const searchQuery =
+    typeof meta.searchQuery === "string" ? meta.searchQuery : "";
+
+  const bubbleContent = (
+    <div className={cn(bubbleBase, bubbleColor)}>
+      <div className="whitespace-pre-wrap">{message.body}</div>
+      {searchQuery && properties.length > 0 && (
+        <div className="mt-1 text-[10px] italic opacity-70">
+          🔍 {searchQuery}
+        </div>
+      )}
+      {properties.length > 0 && (
+        <div className="mt-3 space-y-2">
+          {properties.map((p) => (
+            <AiPropertyCard key={p._id} property={p} isMine={isMine} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  if (senderIsAi) {
+    return (
+      <div className={cn("flex w-full flex-col gap-1", align)}>
+        <div className="flex items-end gap-2">
+          <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm">
+            <Bot size={14} />
+          </div>
+          {bubbleContent}
+        </div>
+        <span className="pl-9 text-[10px] text-gray-400">
+          AI Yordamchi · {timeLabel(message.createdAt)}
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div className={cn("flex w-full flex-col gap-1", align)}>
-      <div className={cn(bubbleBase, bubbleColor)}>{message.body}</div>
+      {bubbleContent}
       <span className="px-1 text-[10px] text-gray-400">
         {timeLabel(message.createdAt)}
       </span>
     </div>
+  );
+}
+
+interface AiProperty {
+  _id: string;
+  title: string;
+  address?: string;
+  category?: string;
+  price?: number;
+  currency?: string;
+  photo?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  area?: number;
+}
+
+function AiPropertyCard({
+  property,
+  isMine,
+}: {
+  property: AiProperty;
+  isMine: boolean;
+}) {
+  return (
+    <Link
+      to={`/property/${property._id}`}
+      className={cn(
+        "flex gap-2 overflow-hidden rounded-lg border transition-colors",
+        isMine
+          ? "border-white/30 bg-white/10 text-white hover:bg-white/20"
+          : "border-gray-200 bg-white text-gray-900 hover:bg-gray-50",
+      )}
+    >
+      {property.photo ? (
+        <img
+          src={property.photo}
+          alt={property.title}
+          className="h-20 w-20 flex-shrink-0 object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-100 text-indigo-400">
+          <Home size={24} />
+        </div>
+      )}
+      <div className="min-w-0 flex-1 py-2 pr-2">
+        <p className="line-clamp-1 text-sm font-semibold">
+          {property.title}
+        </p>
+        {property.price !== undefined && (
+          <p
+            className={cn(
+              "text-xs font-bold",
+              isMine ? "text-white" : "text-blue-600",
+            )}
+          >
+            {formatPrice(property.price, property.currency)}
+          </p>
+        )}
+        <div
+          className={cn(
+            "mt-0.5 flex flex-wrap gap-x-2 text-[10px]",
+            isMine ? "text-white/80" : "text-gray-500",
+          )}
+        >
+          {property.bedrooms !== undefined && (
+            <span>🛏️ {property.bedrooms}</span>
+          )}
+          {property.bathrooms !== undefined && (
+            <span>🛁 {property.bathrooms}</span>
+          )}
+          {property.area !== undefined && <span>📐 {property.area}m²</span>}
+          {property.address && (
+            <span className="line-clamp-1">📍 {property.address}</span>
+          )}
+        </div>
+      </div>
+    </Link>
   );
 }
