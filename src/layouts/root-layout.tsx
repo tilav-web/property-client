@@ -8,12 +8,25 @@ import { handleStorage } from "@/utils/handle-storage";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router-dom";
+import { useRealtime } from "@/hooks/use-realtime";
+import { useChatStore } from "@/stores/chat.store";
+import { useNotificationStore } from "@/stores/notification.store";
 
 export default function RootLayout() {
   const { setUser, user, logout } = useUserStore();
   const { language, setLanguage } = useLanguageStore();
   const { fetchLikedProperties, likedProperties } = useLikeStore();
   const { savedProperties, fetchSavedProperties } = useSaveStore();
+
+  useRealtime();
+  const loadConversations = useChatStore((s) => s.loadConversations);
+  const loadNotifications = useNotificationStore((s) => s.loadInitial);
+
+  useEffect(() => {
+    if (!user?._id) return;
+    loadConversations();
+    loadNotifications();
+  }, [user?._id, loadConversations, loadNotifications]);
 
   const { i18n } = useTranslation();
 

@@ -6,9 +6,11 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Building, MapPin, TrendingDown, TrendingUp } from "lucide-react";
 import { inquiryService } from "@/services/inquiry.service";
+import { chatService } from "@/services/chat.service";
 import type { TInquiryType } from "@/interfaces/inquiry/inquiry.interface";
 import { toast } from "sonner";
 import { useState, useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Slider } from "@/components/ui/slider";
 import type { IApartmentSale } from "@/interfaces/property/categories/apartment-sale.interface";
 import { useUiStore } from "@/stores/ui.store";
@@ -28,6 +30,7 @@ export default function BidPriceButton({
   const { user } = useUserStore();
   const { openLoginDialog } = useUiStore();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -89,6 +92,21 @@ export default function BidPriceButton({
         comment: "",
       });
       setIsOpen(false);
+
+      // Sellerga chat allaqachon backend tomonidan yaratildi.
+      // User'ni xuddi shu conversation'ga yo'naltiramiz.
+      const sellerId = property?.author?._id;
+      if (sellerId) {
+        try {
+          const conv = await chatService.openConversation({
+            peerUserId: sellerId,
+            propertyId: property._id,
+          });
+          navigate(`/messages?c=${conv._id}`);
+        } catch (err) {
+          console.error("open chat failed:", err);
+        }
+      }
     } catch (error) {
       console.error("Failed to submit inquiry:", error);
       toast.error(t("common.buttons.bid_price_form.error_title"), {

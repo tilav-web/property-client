@@ -13,6 +13,8 @@ import {
 import AccountDetails from "./_components/account_details";
 import SavedPropertiesTab from "./_components/saved-properties-tab";
 import InquiryResponsesTab from "./_components/inquiry-responses-tab";
+import NotificationsTab from "./_components/notifications-tab";
+import { useNotificationStore } from "@/stores/notification.store";
 import { useSaveStore } from "@/stores/save.store";
 import { useInquiryResponseStore } from "@/stores/inquiry-response.store";
 import { Globe, ChevronDown, LogOut } from "lucide-react";
@@ -44,6 +46,7 @@ export default function Profile() {
   const { user, logout } = useUserStore();
   const { logout: sellerLogout } = useSellerStore();
   const { setLanguage } = useLanguageStore();
+  const unreadNotifications = useNotificationStore((s) => s.unreadCount);
 
   const languages = Object.values<ILanguage>(["en", "ru", "uz"]);
 
@@ -196,8 +199,14 @@ export default function Profile() {
                 className="rounded-none border-b-2 border-transparent data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:bg-white data-[state=active]:text-blue-600 text-gray-600 hover:text-gray-900 flex-1 sm:flex-none"
               >
                 {t("pages.profile_page.search_notification")}
-                <span className="ml-2 bg-gray-200 text-gray-700 text-xs font-semibold px-2 py-0.5 rounded-full">
-                  0
+                <span
+                  className={`ml-2 text-xs font-semibold px-2 py-0.5 rounded-full ${
+                    unreadNotifications > 0
+                      ? "bg-red-100 text-red-700"
+                      : "bg-gray-200 text-gray-700"
+                  }`}
+                >
+                  {unreadNotifications}
                 </span>
               </TabsTrigger>
               <TabsTrigger
@@ -219,11 +228,7 @@ export default function Profile() {
                 <SavedPropertiesTab />
               </TabsContent>
               <TabsContent className="min-h-96 m-0" value="notification">
-                <div className="text-center py-12">
-                  <p className="text-gray-500">
-                    {t("pages.profile_page.search_notification_placeholder")}
-                  </p>
-                </div>
+                <NotificationsTab />
               </TabsContent>
               <TabsContent className="min-h-96 m-0" value="contact_properties">
                 <InquiryResponsesTab />

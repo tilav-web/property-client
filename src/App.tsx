@@ -41,6 +41,7 @@ const SocialCallback = lazy(() => import("./pages/auth/social-callback"));
 const Favorites = lazy(() => import("./pages/favorites/favorites"));
 const YandexMap = lazy(() => import("./pages/map/yandex-map"));
 const Profile = lazy(() => import("./pages/profile/profile"));
+const Messages = lazy(() => import("./pages/messages/messages"));
 const Category = lazy(() => import("./pages/property/category"));
 const FilterNav = lazy(() => import("./pages/property/filter-nav"));
 const Property = lazy(() => import("./pages/property/property"));
@@ -187,6 +188,14 @@ const router = createBrowserRouter([
         element: withSuspense(
           <SubLayout>
             <Profile />
+          </SubLayout>
+        ),
+      },
+      {
+        path: "/messages",
+        element: withSuspense(
+          <SubLayout>
+            <Messages />
           </SubLayout>
         ),
       },

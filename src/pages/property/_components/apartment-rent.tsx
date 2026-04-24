@@ -25,6 +25,7 @@ import BackButton from "@/components/common/buttons/back-button";
 import { formatPrice as formatCurrency } from "@/utils/format-price";
 import OnlineContractButton from "@/components/common/buttons/online-contract-button";
 import CallButton from "@/components/common/buttons/call-button";
+import MessageSellerButton from "@/components/common/buttons/message-seller-button";
 import MailButton from "@/components/common/buttons/mail-button";
 import WhatsAppButton from "@/components/common/buttons/whats-app-button";
 import HeartButton from "@/components/common/buttons/heart-button";
@@ -188,6 +189,12 @@ export default function ApartmentRent({
                 <OnlineContractButton file={apartment.contract_file} />
               )}
               <div className="flex items-center gap-3 flex-wrap justify-end">
+                {apartment.author?._id && (
+                  <MessageSellerButton
+                    sellerId={apartment.author._id}
+                    propertyId={apartment._id}
+                  />
+                )}
                 {apartment.author?.phone?.value && (
                   <CallButton phone={apartment.author.phone.value} />
                 )}

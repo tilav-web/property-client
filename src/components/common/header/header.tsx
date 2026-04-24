@@ -38,6 +38,8 @@ import { cn } from "@/lib/utils";
 import { useUiStore } from "@/stores/ui.store";
 import { ensureLanguageResources } from "@/i18n/i18n";
 import { lazy, Suspense } from "react";
+import ChatIcon from "./_components/chat-icon";
+import NotificationIcon from "./_components/notification-icon";
 
 interface IHeaderProps {
   className?: string;
@@ -224,21 +226,27 @@ export default function Header({ className }: IHeaderProps) {
               </DropdownMenuContent>
             </DropdownMenu>
             {user ? (
-              <div
-                onClick={() => navigate("/profile")}
-                className="cursor-pointer"
-              >
-                <Avatar>
-                  <AvatarImage
-                    src={`${user?.avatar ? user?.avatar : defaultImageAvatar}`}
-                    className="object-cover"
-                  />
-                  <AvatarFallback>
-                    {user?.first_name?.slice(0, 1) ?? ""}
-                    {user?.last_name?.slice(0, 1) ?? ""}
-                  </AvatarFallback>
-                </Avatar>
-              </div>
+              <>
+                <ChatIcon />
+                <NotificationIcon />
+                <div
+                  onClick={() => navigate("/profile")}
+                  className="cursor-pointer"
+                >
+                  <Avatar>
+                    <AvatarImage
+                      src={`${
+                        user?.avatar ? user?.avatar : defaultImageAvatar
+                      }`}
+                      className="object-cover"
+                    />
+                    <AvatarFallback>
+                      {user?.first_name?.slice(0, 1) ?? ""}
+                      {user?.last_name?.slice(0, 1) ?? ""}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+              </>
             ) : (
               <Button
                 variant="ghost"
