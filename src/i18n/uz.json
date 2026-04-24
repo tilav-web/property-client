@@ -111,6 +111,30 @@
         "success_message": "So'rovingiz muvaffaqiyatli yuborildi!",
         "error_title": "Xatolik",
         "error_message": "So'rov yuborishda xato yuz berdi."
+      },
+      "property_actions": {
+        "share": "Ulashish",
+        "save": "Saqlash",
+        "saved": "Saqlangan",
+        "comment": "Izoh",
+        "link_copied": "Havola nusxalandi",
+        "save_login_required": "Saqlash uchun tizimga kiring",
+        "unsave_hint": "Saqlanganlardan o‘chirish",
+        "save_hint": "Saqlab qo‘yish",
+        "comment_login_required": "Izoh qoldirish uchun tizimga kiring",
+        "rate_dialog": {
+          "title": "E‘lonni baholang",
+          "description": "Fikringizni bildiring va 5 yulduzli tizimda baholang.",
+          "select_rating": "Baholashni tanlang",
+          "star_single": "{{count}} yulduz",
+          "star_multiple": "{{count}} yulduz",
+          "your_opinion": "Sizning fikringiz",
+          "placeholder": "E‘lon haqida fikringizni yozing...",
+          "cancel": "Bekor qilish",
+          "submit": "Yuborish",
+          "success_title": "Rahmat",
+          "success_description": "Izohingiz yuborildi."
+        }
       }
     },
     "loading_component": {

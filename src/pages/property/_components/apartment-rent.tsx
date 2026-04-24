@@ -29,7 +29,9 @@ import MessageSellerButton from "@/components/common/buttons/message-seller-butt
 import MailButton from "@/components/common/buttons/mail-button";
 import WhatsAppButton from "@/components/common/buttons/whats-app-button";
 import HeartButton from "@/components/common/buttons/heart-button";
-import EllipsisVerticalButton from "@/components/common/buttons/ellipsis-vertical-button";
+import ShareButton from "@/components/common/buttons/share-button";
+import SaveButton from "@/components/common/buttons/save-button";
+import CommentButton from "@/components/common/buttons/comment-button";
 import PropertyMediaGallery from "./property-media-gallery";
 import FormalizeRentButton from "@/components/common/buttons/formalize-rent-button";
 import InstagramButton from "@/components/common/buttons/instagram-button";
@@ -188,13 +190,16 @@ export default function ApartmentRent({
               {apartment.contract_file && (
                 <OnlineContractButton file={apartment.contract_file} />
               )}
-              <div className="flex items-center gap-3 flex-wrap justify-end">
+              <div className="flex items-center gap-2 flex-wrap justify-end">
                 {apartment.author?._id && (
                   <MessageSellerButton
                     sellerId={apartment.author._id}
                     propertyId={apartment._id}
                   />
                 )}
+                <ShareButton property={apartment} />
+                <SaveButton property={apartment} />
+                <CommentButton property={apartment} />
                 {apartment.author?.phone?.value && (
                   <CallButton phone={apartment.author.phone.value} />
                 )}
@@ -213,7 +218,6 @@ export default function ApartmentRent({
                   <TelegramButton username={apartment.author.seller.telegram} />
                 )}
                 <HeartButton property={apartment} />
-                <EllipsisVerticalButton property={apartment} />
               </div>
             </div>
             <div className="font-bold flex items-center justify-end gap-8">

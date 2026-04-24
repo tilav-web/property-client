@@ -110,6 +110,30 @@
         "success_message": "Ваш запрос был успешно отправлен!",
         "error_title": "Ошибка",
         "error_message": "Произошла ошибка при отправке запроса."
+      },
+      "property_actions": {
+        "share": "Поделиться",
+        "save": "Сохранить",
+        "saved": "Сохранено",
+        "comment": "Отзыв",
+        "link_copied": "Ссылка скопирована",
+        "save_login_required": "Войдите, чтобы сохранить",
+        "unsave_hint": "Удалить из сохранённых",
+        "save_hint": "Сохранить в избранное",
+        "comment_login_required": "Войдите, чтобы оставить отзыв",
+        "rate_dialog": {
+          "title": "Оценить объект",
+          "description": "Поделитесь мнением и поставьте оценку по 5-балльной шкале.",
+          "select_rating": "Выберите оценку",
+          "star_single": "{{count}} звезда",
+          "star_multiple": "{{count}} звёзд",
+          "your_opinion": "Ваше мнение",
+          "placeholder": "Напишите ваш отзыв об этом объекте...",
+          "cancel": "Отмена",
+          "submit": "Отправить",
+          "success_title": "Спасибо",
+          "success_description": "Ваш отзыв отправлен."
+        }
       }
     },
     "loading_component": {

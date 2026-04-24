@@ -110,6 +110,30 @@
         "success_message": "Pertanyaan anda telah berjaya dihantar!",
         "error_title": "Ralat",
         "error_message": "Ralat berlaku semasa menghantar pertanyaan."
+      },
+      "property_actions": {
+        "share": "Kongsi",
+        "save": "Simpan",
+        "saved": "Disimpan",
+        "comment": "Ulasan",
+        "link_copied": "Pautan disalin",
+        "save_login_required": "Log masuk untuk simpan",
+        "unsave_hint": "Buang dari simpanan",
+        "save_hint": "Simpan ke kegemaran",
+        "comment_login_required": "Log masuk untuk menulis ulasan",
+        "rate_dialog": {
+          "title": "Nilai hartanah ini",
+          "description": "Kongsi pendapat anda dan nilaikan pada skala 5 bintang.",
+          "select_rating": "Pilih penilaian",
+          "star_single": "{{count}} bintang",
+          "star_multiple": "{{count}} bintang",
+          "your_opinion": "Pendapat anda",
+          "placeholder": "Tulis ulasan anda tentang hartanah ini...",
+          "cancel": "Batal",
+          "submit": "Hantar",
+          "success_title": "Terima kasih",
+          "success_description": "Ulasan anda telah dihantar."
+        }
       }
     },
     "loading_component": {

@@ -110,6 +110,30 @@
         "success_message": "Your inquiry was sent successfully!",
         "error_title": "Error",
         "error_message": "An error occurred while sending the inquiry."
+      },
+      "property_actions": {
+        "share": "Share",
+        "save": "Save",
+        "saved": "Saved",
+        "comment": "Review",
+        "link_copied": "Link copied to clipboard",
+        "save_login_required": "Log in to save",
+        "unsave_hint": "Remove from saved",
+        "save_hint": "Save to favorites",
+        "comment_login_required": "Log in to write a review",
+        "rate_dialog": {
+          "title": "Rate this property",
+          "description": "Share your opinion and rate this property on a 5-star scale.",
+          "select_rating": "Select a rating",
+          "star_single": "{{count}} star",
+          "star_multiple": "{{count}} stars",
+          "your_opinion": "Your opinion",
+          "placeholder": "Write your feedback about this property...",
+          "cancel": "Cancel",
+          "submit": "Submit",
+          "success_title": "Thank you",
+          "success_description": "Your review has been submitted."
+        }
       }
     },
     "loading_component": {
