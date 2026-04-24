@@ -7,7 +7,6 @@ import {
   ArrowLeftToLine,
   Building2,
   Home,
-  Pointer,
   Settings,
   Share2,
   Stars,
@@ -50,12 +49,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         icon: <Home className="h-5 w-5" />,
         text: t("common.seller_sidebar.dashboard"),
       },
-      {
-        to: "/seller/inquiries",
-        icon: <Pointer className="h-5 w-5" />,
-        text: t("common.seller_sidebar.inquiries"),
-      },
-      {
+{
         to: "/seller/feedback",
         icon: <Stars className="h-5 w-5" />,
         text: t("common.seller_sidebar.feedback"),
@@ -82,12 +76,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         icon: <Home className="h-5 w-5" />,
         text: t("common.seller_sidebar.dashboard"),
       },
-      {
-        to: "/seller/inquiries",
-        icon: <Pointer className="h-5 w-5" />,
-        text: t("common.seller_sidebar.inquiries"),
-      },
-      {
+{
         to: "/seller/feedback",
         icon: <Stars className="h-5 w-5" />,
         text: t("common.seller_sidebar.feedback"),

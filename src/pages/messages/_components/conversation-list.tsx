@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { formatDistanceToNow } from "date-fns";
+import { Bot } from "lucide-react";
 import type { IConversation } from "@/interfaces/chat/conversation.interface";
 import { useUserStore } from "@/stores/user.store";
 import { cn } from "@/lib/utils";
@@ -33,11 +34,16 @@ export default function ConversationList({
     <ul className="divide-y divide-gray-100">
       {conversations.map((c) => {
         const peer = c.participants.find((p) => p._id !== me?._id);
-        const name = peer
-          ? `${peer.first_name ?? ""} ${peer.last_name ?? ""}`.trim() ||
-            (typeof peer.email === "string" ? peer.email : peer.email?.value) ||
-            "User"
-          : "User";
+        const isAiPeer = Boolean(peer?.isAI);
+        const name = isAiPeer
+          ? "AI Yordamchi"
+          : peer
+            ? `${peer.first_name ?? ""} ${peer.last_name ?? ""}`.trim() ||
+              (typeof peer.email === "string"
+                ? peer.email
+                : peer.email?.value) ||
+              "User"
+            : "User";
         const initials = name
           .split(" ")
           .map((w) => w[0])
@@ -58,10 +64,16 @@ export default function ConversationList({
                 isActive && "bg-blue-50 hover:bg-blue-50",
               )}
             >
-              <Avatar className="h-11 w-11">
-                <AvatarImage src={peer?.avatar ?? undefined} alt={name} />
-                <AvatarFallback>{initials || "?"}</AvatarFallback>
-              </Avatar>
+              {isAiPeer ? (
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white">
+                  <Bot size={22} />
+                </div>
+              ) : (
+                <Avatar className="h-11 w-11">
+                  <AvatarImage src={peer?.avatar ?? undefined} alt={name} />
+                  <AvatarFallback>{initials || "?"}</AvatarFallback>
+                </Avatar>
+              )}
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between gap-2">
                   <p className="truncate text-sm font-medium text-gray-900">

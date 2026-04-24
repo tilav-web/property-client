@@ -47,7 +47,6 @@ const FilterNav = lazy(() => import("./pages/property/filter-nav"));
 const Property = lazy(() => import("./pages/property/property"));
 const Search = lazy(() => import("./pages/property/search"));
 const Feedback = lazy(() => import("./pages/seller/feedback/feedback"));
-const Inquiries = lazy(() => import("./pages/seller/inquiries/inquiries"));
 const SellerCreateAdvertise = lazy(
   () => import("./pages/seller/advertise/seller-create-advertise")
 );
@@ -244,14 +243,6 @@ const router = createBrowserRouter([
         element: withSuspense(
           <SellerLayout>
             <SellerEditAdvertise />
-          </SellerLayout>
-        ),
-      },
-      {
-        path: "/seller/inquiries",
-        element: withSuspense(
-          <SellerLayout>
-            <Inquiries />
           </SellerLayout>
         ),
       },

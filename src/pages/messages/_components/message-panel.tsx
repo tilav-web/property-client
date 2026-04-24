@@ -1,16 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ChevronUp, Home } from "lucide-react";
+import { ArrowLeft, Bot, ChevronUp, Home } from "lucide-react";
+import { toast } from "sonner";
+import type { AxiosError } from "axios";
 import type { IConversation } from "@/interfaces/chat/conversation.interface";
+import { MessageType } from "@/interfaces/chat/message-type";
 import { useChatStore } from "@/stores/chat.store";
 import { useUserStore } from "@/stores/user.store";
 import { chatService } from "@/services/chat.service";
+import { inquiryResponseService } from "@/services/inquiry-response.service";
 import { socketManager } from "@/lib/socket";
 import { useConversationSubscription } from "@/hooks/use-realtime";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import MessageBubble from "./message-bubble";
+import MessageBubble, { type TResponseStatus } from "./message-bubble";
 import MessageInput from "./message-input";
 
 interface Props {
@@ -39,11 +43,16 @@ export default function MessagePanel({ conversation, onBack }: Props) {
   const { t, i18n } = useTranslation();
   const me = useUserStore((s) => s.user);
   const peer = conversation.participants.find((p) => p._id !== me?._id);
-  const peerName = peer
-    ? `${peer.first_name ?? ""} ${peer.last_name ?? ""}`.trim() ||
-      (typeof peer.email === "string" ? peer.email : peer.email?.value) ||
-      "User"
-    : "User";
+  const isAiPeer = Boolean(peer?.isAI);
+  const peerName = isAiPeer
+    ? "AI Yordamchi"
+    : peer
+      ? `${peer.first_name ?? ""} ${peer.last_name ?? ""}`.trim() ||
+        (typeof peer.email === "string"
+          ? peer.email
+          : peer.email?.value) ||
+        "User"
+      : "User";
   const initials = peerName
     .split(" ")
     .map((w) => w[0])
@@ -67,6 +76,54 @@ export default function MessagePanel({ conversation, onBack }: Props) {
   const isPeerTyping = Boolean(
     peer && typingSet && typingSet.has(peer._id),
   );
+
+  // Bu user konversatsiyadagi property'ning sotuvchisi (author)
+  const propertyAuthorId = conversation.property?.author
+    ? typeof conversation.property.author === "string"
+      ? conversation.property.author
+      : (conversation.property.author as { _id?: string })._id
+    : undefined;
+  const iAmSellerOfProperty = Boolean(
+    me?._id && propertyAuthorId && propertyAuthorId === me._id,
+  );
+
+  // Inquiry javoblarini xabardan yig'ib olamiz (SYSTEM metadata.inquiryId + responseStatus)
+  const respondedInquiries = useMemo(() => {
+    const map = new Map<string, TResponseStatus>();
+    for (const m of messages) {
+      if (m.type !== MessageType.SYSTEM) continue;
+      const meta = (m.metadata ?? {}) as Record<string, unknown>;
+      const iid = meta.inquiryId as string | undefined;
+      const st = meta.responseStatus as TResponseStatus | undefined;
+      if (iid && (st === "approved" || st === "rejected")) {
+        map.set(iid, st);
+      }
+    }
+    return map;
+  }, [messages]);
+
+  const handleRespond = async (
+    inquiryId: string,
+    status: TResponseStatus,
+    description: string,
+  ) => {
+    try {
+      await inquiryResponseService.createInquiryResponse({
+        inquiryId,
+        status,
+        description,
+      });
+      toast.success(
+        status === "approved"
+          ? "Taklif qabul qilindi"
+          : "Taklif rad etildi",
+      );
+    } catch (err) {
+      const ax = err as AxiosError<{ message?: string }>;
+      toast.error(ax.response?.data?.message ?? "Javob yuborilmadi");
+      throw err;
+    }
+  };
 
   useConversationSubscription(conversation._id);
 
@@ -128,6 +185,7 @@ export default function MessagePanel({ conversation, onBack }: Props) {
   };
 
   const handleTyping = (typing: boolean) => {
+    if (isAiPeer) return; // AI'ga typing yubormaymiz
     const socket = socketManager.instance;
     socket?.emit("chat:typing", {
       conversationId: conversation._id,
@@ -152,20 +210,34 @@ export default function MessagePanel({ conversation, onBack }: Props) {
             <ArrowLeft size={18} />
           </button>
         )}
-        <Avatar className="h-10 w-10">
-          <AvatarImage src={peer?.avatar ?? undefined} alt={peerName} />
-          <AvatarFallback>{initials || "?"}</AvatarFallback>
-        </Avatar>
+        {isAiPeer ? (
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white">
+            <Bot size={20} />
+          </div>
+        ) : (
+          <Avatar className="h-10 w-10">
+            <AvatarImage src={peer?.avatar ?? undefined} alt={peerName} />
+            <AvatarFallback>{initials || "?"}</AvatarFallback>
+          </Avatar>
+        )}
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold text-gray-900">
             {peerName}
           </p>
           <p className="truncate text-xs text-gray-500">
-            {isPeerTyping
-              ? t("pages.messages.typing", { defaultValue: "yozmoqda..." })
-              : (typeof peer?.email === "string"
-                  ? peer?.email
-                  : peer?.email?.value) ?? ""}
+            {isAiPeer
+              ? isPeerTyping
+                ? t("pages.messages.ai_typing", {
+                    defaultValue: "AI o'ylayapti...",
+                  })
+                : t("pages.messages.ai_hint", {
+                    defaultValue: "Malayziya ko'chmas mulk bo'yicha savollaringizni bering",
+                  })
+              : isPeerTyping
+                ? t("pages.messages.typing", { defaultValue: "yozmoqda..." })
+                : (typeof peer?.email === "string"
+                    ? peer?.email
+                    : peer?.email?.value) ?? ""}
           </p>
         </div>
         {conversation.property && (
@@ -205,13 +277,25 @@ export default function MessagePanel({ conversation, onBack }: Props) {
             </Button>
           </div>
         )}
-        {messages.map((m) => (
-          <MessageBubble
-            key={m._id}
-            message={m}
-            isMine={m.sender === me?._id}
-          />
-        ))}
+        {messages.map((m) => {
+          const meta = (m.metadata ?? {}) as Record<string, unknown>;
+          const inquiryId = meta.inquiryId as string | undefined;
+          const responded = inquiryId
+            ? respondedInquiries.get(inquiryId) ?? null
+            : null;
+          return (
+            <MessageBubble
+              key={m._id}
+              message={m}
+              isMine={m.sender === me?._id}
+              respondedStatus={responded}
+              canRespond={
+                !isAiPeer && iAmSellerOfProperty && m.sender !== me?._id
+              }
+              onRespond={handleRespond}
+            />
+          );
+        })}
         {isPeerTyping && (
           <div className="px-2 text-xs italic text-gray-500">
             {t("pages.messages.typing", { defaultValue: "yozmoqda..." })}

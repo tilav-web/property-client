@@ -6,6 +6,7 @@ export interface IConversationProperty {
   photos?: string[];
   price?: number;
   currency?: string;
+  author?: string | { _id?: string };
 }
 
 export interface IConversation {

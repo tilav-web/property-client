@@ -5,9 +5,7 @@ import type { TInquiryResponseStatus } from "@/interfaces/inquiry/inquiry-respon
 export interface CreateInquiryResponseDto {
   status: TInquiryResponseStatus;
   description: string;
-  user: string;
-  inquiry: string;
-  property: string;
+  inquiryId: string;
 }
 
 class InquiryResponseService {

@@ -37,6 +37,8 @@ export interface IUser {
 
   seller?: ISeller;
 
+  isAI?: boolean;
+
   password?: string; // select:false
 
   createdAt?: Date;
