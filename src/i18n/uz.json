@@ -561,7 +561,24 @@
       "no_address": "Manzil ko'rsatilmagan",
       "rooms": "xonalar",
       "zoom_in_prompt_title": "Mulklarni ko'rish uchun",
-      "zoom_in_prompt_subtitle": "Xaritani yaqinlashtiring"
+      "zoom_in_prompt_subtitle": "Xaritani yaqinlashtiring",
+      "search_location": "Qidirilgan joy",
+      "view_details": "Batafsil",
+      "loading": "Yuklanmoqda...",
+      "properties_count": "ta e'lon",
+      "property_marker": "E'lon",
+      "locate_me": "Joylashuvim",
+      "search_placeholder": "Joy, hudud, manzil qidirish",
+      "filters": {
+        "price": "Narx",
+        "price_range": "Narx oralig'i",
+        "beds": "Xonalar",
+        "bedrooms": "Yotoq xonalari",
+        "amenities": "Qulayliklar",
+        "more": "Ko'proq",
+        "furnished": "Mebel bilan",
+        "sort": "Saralash"
+      }
     },
     "profile_page": {
       "my_account": "Mening hisobim",

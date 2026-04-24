@@ -561,7 +561,24 @@
       "no_address": "Alamat tidak dinyatakan",
       "rooms": "bilik",
       "zoom_in_prompt_title": "Untuk melihat hartanah",
-      "zoom_in_prompt_subtitle": "Zum masuk pada peta"
+      "zoom_in_prompt_subtitle": "Zum masuk pada peta",
+      "search_location": "Lokasi carian",
+      "view_details": "Lihat Butiran",
+      "loading": "Memuatkan...",
+      "properties_count": "hartanah",
+      "property_marker": "Hartanah",
+      "locate_me": "Lokasi saya",
+      "search_placeholder": "Cari tempat, kawasan, alamat",
+      "filters": {
+        "price": "Harga",
+        "price_range": "Julat harga",
+        "beds": "Bilik",
+        "bedrooms": "Bilik tidur",
+        "amenities": "Kemudahan",
+        "more": "Lagi",
+        "furnished": "Berperabot",
+        "sort": "Susun"
+      }
     },
     "profile_page": {
       "my_account": "Akaun saya",

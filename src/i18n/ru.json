@@ -550,7 +550,24 @@
       "no_address": "Адрес не указан",
       "rooms": "комнат",
       "zoom_in_prompt_title": "Чтобы увидеть объекты",
-      "zoom_in_prompt_subtitle": "Приблизьте карту"
+      "zoom_in_prompt_subtitle": "Приблизьте карту",
+      "search_location": "Место поиска",
+      "view_details": "Подробнее",
+      "loading": "Загрузка...",
+      "properties_count": "объектов",
+      "property_marker": "Объект",
+      "locate_me": "Моё местоположение",
+      "search_placeholder": "Поиск мест, районов, адресов",
+      "filters": {
+        "price": "Цена",
+        "price_range": "Диапазон цен",
+        "beds": "Спальни",
+        "bedrooms": "Спальни",
+        "amenities": "Удобства",
+        "more": "Ещё",
+        "furnished": "С мебелью",
+        "sort": "Сортировка"
+      }
     },
     "profile_page": {
       "my_account": "Мой аккаунт",
