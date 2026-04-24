@@ -21,8 +21,10 @@ interface Props {
   setPhotos: (photos: PhotoFile[]) => void;
   videos: VideoFile[];
   setVideos: (videos: VideoFile[]) => void;
-  mediaType: "photos" | "videos"; // New prop to determine which section to render
-  isSubmitting?: boolean; // New prop for disabling inputs
+  mediaType: "photos" | "videos";
+  /** Kamida ... ta rasm kerak (odatda bedrooms soniga bog'liq) */
+  minPhotos?: number;
+  isSubmitting?: boolean;
 }
 
 export default function MediaSection({
@@ -31,6 +33,7 @@ export default function MediaSection({
   videos,
   setVideos,
   mediaType,
+  minPhotos = 1,
   isSubmitting = false,
 }: Props) {
   const handleFileUpload = (
@@ -77,10 +80,32 @@ export default function MediaSection({
                     Ko'proq rasmlar obyekt haqida to'liqroq tasavvur beradi
                   </p>
                 </div>
-                <div className="text-sm text-gray-500 bg-blue-50 px-4 py-2 rounded-full">
-                  {photos.length} ta rasm
+                <div
+                  className={cn(
+                    "text-sm px-4 py-2 rounded-full",
+                    photos.length >= minPhotos
+                      ? "bg-green-50 text-green-700"
+                      : "bg-amber-50 text-amber-700",
+                  )}
+                >
+                  {photos.length} / {minPhotos}+ ta rasm
                 </div>
               </div>
+
+              {photos.length < minPhotos && (
+                <div className="flex items-start gap-3 p-4 bg-amber-50 rounded-xl border border-amber-200">
+                  <FileWarning className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-medium text-amber-800">
+                      Kamida {minPhotos} ta rasm yuklash kerak
+                    </p>
+                    <p className="text-sm text-amber-700 mt-1">
+                      Xonalar soni bo'yicha aniqlandi. Har bir xonadan bittadan
+                      rasm yuklashingiz tavsiya etiladi.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               <div
                 className={cn(

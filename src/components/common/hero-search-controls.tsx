@@ -139,7 +139,6 @@ export default function HeroSearchControls() {
   const [minArea, setMinArea] = useState("");
   const [maxArea, setMaxArea] = useState("");
   const [furnished, setFurnished] = useState(false);
-  const [withParking, setWithParking] = useState(false);
 
   const { data: categories = [] } = useQuery({
     queryKey: ["category-counts", language],
@@ -178,7 +177,6 @@ export default function HeroSearchControls() {
     if (minArea) queryParams.set("minArea", minArea);
     if (maxArea) queryParams.set("maxArea", maxArea);
     if (furnished) queryParams.set("furnished", "true");
-    if (withParking) queryParams.set("parking", "true");
 
     navigate(`/search?${queryParams.toString()}`);
     setMobileSearchActive(false);
@@ -194,7 +192,6 @@ export default function HeroSearchControls() {
     minArea,
     maxArea,
     furnished,
-    withParking,
   ]);
 
   const tabs: { key: DealTab; label: string }[] = [
@@ -284,17 +281,6 @@ export default function HeroSearchControls() {
         />
         <span className="text-sm text-gray-700">
           {t("pages.main_page.search_filters.furnished")}
-        </span>
-      </label>
-      <label className="flex cursor-pointer items-center gap-2.5">
-        <input
-          type="checkbox"
-          checked={withParking}
-          onChange={(e) => setWithParking(e.target.checked)}
-          className="h-4 w-4 rounded border-gray-300 accent-yellow-500"
-        />
-        <span className="text-sm text-gray-700">
-          {t("pages.main_page.search_filters.with_parking")}
         </span>
       </label>
     </div>

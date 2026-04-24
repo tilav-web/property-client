@@ -1,5 +1,10 @@
-// components/property/forms/ApartmentSaleForm.tsx
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -10,27 +15,35 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Bath,
+  Bed,
+  Building2,
+  Check,
+  Hammer,
+  Home,
+  Landmark,
+  Maximize,
+  Sofa,
+  Thermometer,
+} from "lucide-react";
 import type { RepairType } from "@/interfaces/types/repair.type";
 import type { HeatingType } from "@/interfaces/types/heating.type";
 import {
   amenitiesOptions,
   type AmenitiesType,
 } from "@/interfaces/types/amenities.type";
+import { cn } from "@/lib/utils";
 
-// Form ma'lumotlari interfeysi
 interface ApartmentSaleFormData {
   bedrooms: number | string;
   bathrooms: number | string;
   floor_level: number | string;
   total_floors: number | string;
   area: number | string;
-  balcony: boolean;
   furnished: boolean;
   repair_type: RepairType | "";
   heating: HeatingType | "";
-  air_conditioning: boolean;
-  parking: boolean;
-  elevator: boolean;
   amenities: AmenitiesType[];
   mortgage_available: boolean;
 }
@@ -38,181 +51,153 @@ interface ApartmentSaleFormData {
 interface Props {
   data: ApartmentSaleFormData;
   setData: (data: ApartmentSaleFormData) => void;
-  isSubmitting?: boolean; // New prop for disabling inputs
+  isSubmitting?: boolean;
 }
 
-// Doimiy ma'lumotlar
-const repairTypes = [
-  { value: "NEW" as RepairType, label: "Yangi ta'mir" },
-  { value: "RENOVATED" as RepairType, label: "Ta'mirlangan" },
-  { value: "OLD" as RepairType, label: "Eski" },
-];
+const AMENITY_ICONS: Record<AmenitiesType, string> = {
+  pool: "🏊",
+  balcony: "🌇",
+  security: "🛡️",
+  air_conditioning: "❄️",
+  parking: "🚗",
+  elevator: "🛗",
+};
 
-const heatingTypes = [
-  { value: "CENTRAL" as HeatingType, label: "Markaziy" },
-  { value: "INDIVIDUAL" as HeatingType, label: "Individual" },
-  { value: "NONE" as HeatingType, label: "Yo'q" },
-];
-
-// Default values
 const defaultFormData: ApartmentSaleFormData = {
   bedrooms: "",
   bathrooms: "",
   floor_level: "",
   total_floors: "",
   area: "",
-  balcony: false,
   furnished: false,
   repair_type: "",
   heating: "",
-  air_conditioning: false,
-  parking: false,
-  elevator: false,
   amenities: [],
   mortgage_available: false,
 };
 
-export default function ApartmentSaleForm({ data, setData, isSubmitting = false }: Props) {
-  // Ma'lumotlarni default qiymatlar bilan birlashtirish
+export default function ApartmentSaleForm({
+  data,
+  setData,
+  isSubmitting = false,
+}: Props) {
+  const { t } = useTranslation();
   const formData = { ...defaultFormData, ...data };
 
-  // Raqamli inputlarni boshqarish
-  const handleNumberChange = (
-    key: keyof ApartmentSaleFormData,
-    value: string
-  ) => {
+  const repairTypes = [
+    { value: "NEW" as RepairType, label: t("property_form.repair.new", { defaultValue: "New" }) },
+    { value: "RENOVATED" as RepairType, label: t("property_form.repair.renovated", { defaultValue: "Renovated" }) },
+    { value: "OLD" as RepairType, label: t("property_form.repair.old", { defaultValue: "Old" }) },
+  ];
+
+  const heatingTypes = [
+    { value: "CENTRAL" as HeatingType, label: t("property_form.heating.central", { defaultValue: "Central" }) },
+    { value: "INDIVIDUAL" as HeatingType, label: t("property_form.heating.individual", { defaultValue: "Individual" }) },
+    { value: "NONE" as HeatingType, label: t("property_form.heating.none", { defaultValue: "None" }) },
+  ];
+
+  const handleNumberChange = (key: keyof ApartmentSaleFormData, value: string) => {
     const numValue = value === "" ? "" : Number(value);
     setData({ ...formData, [key]: numValue });
   };
 
-  // Boolean qiymatlarni boshqarish
   const handleBooleanChange = (
     key: keyof ApartmentSaleFormData,
-    value: boolean
-  ) => {
+    value: boolean,
+  ) => setData({ ...formData, [key]: value });
+
+  const handleSelectChange = (key: keyof ApartmentSaleFormData, value: string) =>
     setData({ ...formData, [key]: value });
-  };
 
-  // Select qiymatlarini boshqarish
-  const handleSelectChange = (
-    key: keyof ApartmentSaleFormData,
-    value: string
-  ) => {
-    setData({ ...formData, [key]: value });
-  };
-
-  // Qulayliklarni boshqarish
-  const handleAmenityChange = (amenity: AmenitiesType, checked: boolean) => {
-    const currentAmenities = formData.amenities || [];
-
-    if (checked) {
-      setData({
-        ...formData,
-        amenities: [...currentAmenities, amenity],
-      });
-    } else {
-      setData({
-        ...formData,
-        amenities: currentAmenities.filter((a) => a !== amenity),
-      });
-    }
+  const handleAmenityToggle = (amenity: AmenitiesType) => {
+    const current = formData.amenities || [];
+    const next = current.includes(amenity)
+      ? current.filter((a) => a !== amenity)
+      : [...current, amenity];
+    setData({ ...formData, amenities: next });
   };
 
   return (
-    <Card className="mt-8">
+    <Card className="mt-6">
       <CardHeader>
-        <CardTitle>Kvartira sotish – Tafsilotlar</CardTitle>
+        <CardTitle>
+          {t("property_form.sale.title", {
+            defaultValue: "Apartment for sale — details",
+          })}
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Asosiy raqamli maydonlar */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="bedrooms">Xonalar</Label>
-            <Input
-              id="bedrooms"
-              type="number"
-              min="0"
-              value={formData.bedrooms}
-              onChange={(e) => handleNumberChange("bedrooms", e.target.value)}
-              placeholder="3"
-              disabled={isSubmitting} // Disable during submission
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="bathrooms">Vannalar</Label>
-            <Input
-              id="bathrooms"
-              type="number"
-              min="0"
-              value={formData.bathrooms}
-              onChange={(e) => handleNumberChange("bathrooms", e.target.value)}
-              placeholder="2"
-              disabled={isSubmitting} // Disable during submission
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="floor_level">Qavat</Label>
-            <Input
-              id="floor_level"
-              type="number"
-              min="0"
-              value={formData.floor_level}
-              onChange={(e) =>
-                handleNumberChange("floor_level", e.target.value)
-              }
-              placeholder="5"
-              disabled={isSubmitting} // Disable during submission
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="total_floors">Jami qavatlar</Label>
-            <Input
-              id="total_floors"
-              type="number"
-              min="0"
-              value={formData.total_floors}
-              onChange={(e) =>
-                handleNumberChange("total_floors", e.target.value)
-              }
-              placeholder="9"
-              disabled={isSubmitting} // Disable during submission
-            />
-          </div>
+          <NumberField
+            id="bedrooms"
+            label={t("property_form.bedrooms", { defaultValue: "Bedrooms" })}
+            icon={<Bed size={14} />}
+            value={formData.bedrooms}
+            onChange={(v) => handleNumberChange("bedrooms", v)}
+            disabled={isSubmitting}
+            placeholder="3"
+          />
+          <NumberField
+            id="bathrooms"
+            label={t("property_form.bathrooms", { defaultValue: "Bathrooms" })}
+            icon={<Bath size={14} />}
+            value={formData.bathrooms}
+            onChange={(v) => handleNumberChange("bathrooms", v)}
+            disabled={isSubmitting}
+            placeholder="2"
+          />
+          <NumberField
+            id="floor_level"
+            label={t("property_form.floor_level", { defaultValue: "Floor" })}
+            icon={<Building2 size={14} />}
+            value={formData.floor_level}
+            onChange={(v) => handleNumberChange("floor_level", v)}
+            disabled={isSubmitting}
+            placeholder="5"
+          />
+          <NumberField
+            id="total_floors"
+            label={t("property_form.total_floors", {
+              defaultValue: "Total floors",
+            })}
+            icon={<Building2 size={14} />}
+            value={formData.total_floors}
+            onChange={(v) => handleNumberChange("total_floors", v)}
+            disabled={isSubmitting}
+            placeholder="9"
+          />
         </div>
 
-        {/* Maydon */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="area">Maydon (m²)</Label>
-            <Input
-              id="area"
-              type="number"
-              min="0"
-              step="0.1"
-              value={formData.area}
-              onChange={(e) => handleNumberChange("area", e.target.value)}
-              placeholder="85"
-              disabled={isSubmitting} // Disable during submission
-            />
-          </div>
+          <NumberField
+            id="area"
+            label={t("property_form.area", { defaultValue: "Area (m²)" })}
+            icon={<Maximize size={14} />}
+            value={formData.area}
+            onChange={(v) => handleNumberChange("area", v)}
+            disabled={isSubmitting}
+            placeholder="85"
+            step="0.1"
+          />
         </div>
 
-        {/* Ta'mir va isitish turlari */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="repair_type">Ta'mir turi</Label>
+            <Label htmlFor="repair_type" className="flex items-center gap-1.5">
+              <Hammer size={14} />
+              {t("property_form.repair_type", { defaultValue: "Renovation" })}
+            </Label>
             <Select
               value={formData.repair_type}
-              onValueChange={(value: string) =>
-                handleSelectChange("repair_type", value)
-              }
-              disabled={isSubmitting} // Disable during submission
+              onValueChange={(v: string) => handleSelectChange("repair_type", v)}
+              disabled={isSubmitting}
             >
               <SelectTrigger id="repair_type">
-                <SelectValue placeholder="Tanlang" />
+                <SelectValue
+                  placeholder={t("property_form.select", {
+                    defaultValue: "Select",
+                  })}
+                />
               </SelectTrigger>
               <SelectContent>
                 {repairTypes.map((type) => (
@@ -225,16 +210,21 @@ export default function ApartmentSaleForm({ data, setData, isSubmitting = false 
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="heating">Isitish</Label>
+            <Label htmlFor="heating" className="flex items-center gap-1.5">
+              <Thermometer size={14} />
+              {t("property_form.heating_label", { defaultValue: "Heating" })}
+            </Label>
             <Select
               value={formData.heating}
-              onValueChange={(value: string) =>
-                handleSelectChange("heating", value)
-              }
-              disabled={isSubmitting} // Disable during submission
+              onValueChange={(v: string) => handleSelectChange("heating", v)}
+              disabled={isSubmitting}
             >
               <SelectTrigger id="heating">
-                <SelectValue placeholder="Tanlang" />
+                <SelectValue
+                  placeholder={t("property_form.select", {
+                    defaultValue: "Select",
+                  })}
+                />
               </SelectTrigger>
               <SelectContent>
                 {heatingTypes.map((type) => (
@@ -247,136 +237,139 @@ export default function ApartmentSaleForm({ data, setData, isSubmitting = false 
           </div>
         </div>
 
-        {/* Qo'shimcha imkoniyatlar */}
-        <div className="bg-blue-50 p-6 rounded-lg space-y-4">
-          <Label className="text-lg font-semibold">
-            Qo'shimcha imkoniyatlar
+        <div className="rounded-xl border bg-gradient-to-br from-indigo-50 to-purple-50 p-5">
+          <Label className="mb-3 block text-base font-semibold">
+            {t("property_form.amenities_title", { defaultValue: "Amenities" })}
           </Label>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="balcony"
-                checked={formData.balcony}
-                onCheckedChange={(checked) =>
-                  handleBooleanChange("balcony", checked as boolean)
-                }
-                disabled={isSubmitting} // Disable during submission
-              />
-              <Label htmlFor="balcony" className="text-sm cursor-pointer">
-                Balkon
-              </Label>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="furnished"
-                checked={formData.furnished}
-                onCheckedChange={(checked) =>
-                  handleBooleanChange("furnished", checked as boolean)
-                }
-                disabled={isSubmitting} // Disable during submission
-              />
-              <Label htmlFor="furnished" className="text-sm cursor-pointer">
-                Mebel bilan
-              </Label>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="air_conditioning"
-                checked={formData.air_conditioning}
-                onCheckedChange={(checked) =>
-                  handleBooleanChange("air_conditioning", checked as boolean)
-                }
-                disabled={isSubmitting} // Disable during submission
-              />
-              <Label
-                htmlFor="air_conditioning"
-                className="text-sm cursor-pointer"
-              >
-                Konditsioner
-              </Label>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="parking"
-                checked={formData.parking}
-                onCheckedChange={(checked) =>
-                  handleBooleanChange("parking", checked as boolean)
-                }
-                disabled={isSubmitting} // Disable during submission
-              />
-              <Label htmlFor="parking" className="text-sm cursor-pointer">
-                Parking
-              </Label>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="elevator"
-                checked={formData.elevator}
-                onCheckedChange={(checked) =>
-                  handleBooleanChange("elevator", checked as boolean)
-                }
-                disabled={isSubmitting} // Disable during submission
-              />
-              <Label htmlFor="elevator" className="text-sm cursor-pointer">
-                Lift
-              </Label>
-            </div>
-            
-
-          </div>
-
-          <div className="flex items-center space-x-2 pt-4 border-t">
-            <Checkbox
-              id="mortgage_available"
-              checked={formData.mortgage_available}
-              onCheckedChange={(checked) =>
-                handleBooleanChange("mortgage_available", checked as boolean)
-              }
-              disabled={isSubmitting} // Disable during submission
-            />
-            <Label
-              htmlFor="mortgage_available"
-              className="text-sm cursor-pointer"
-            >
-              Ipoteka Mavjud
-            </Label>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5">
+            {amenitiesOptions.map((amenity) => {
+              const active = (formData.amenities || []).includes(amenity);
+              return (
+                <button
+                  key={amenity}
+                  type="button"
+                  onClick={() => handleAmenityToggle(amenity)}
+                  disabled={isSubmitting}
+                  className={cn(
+                    "flex items-center gap-2 rounded-lg border px-3 py-2 text-sm transition-all",
+                    active
+                      ? "border-indigo-500 bg-indigo-500 text-white shadow-sm"
+                      : "border-gray-200 bg-white text-gray-700 hover:border-indigo-300",
+                  )}
+                >
+                  <span className="text-base">{AMENITY_ICONS[amenity]}</span>
+                  <span className="flex-1 text-left">
+                    {t(`property_form.amenity.${amenity}`, {
+                      defaultValue: amenity.replace("_", " "),
+                    })}
+                  </span>
+                  {active && <Check size={14} />}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Qulayliklar */}
-        <div className="space-y-2">
-          <Label className="text-lg font-semibold">
-            Qulayliklar (ixtiyoriy)
-          </Label>
-          <div className="flex flex-wrap gap-4">
-            {amenitiesOptions.map((amenity) => (
-              <div key={amenity} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`amenity-${amenity}`}
-                  checked={(formData.amenities || []).includes(amenity)}
-                  onCheckedChange={(checked) =>
-                    handleAmenityChange(amenity, checked as boolean)
-                  }
-                  disabled={isSubmitting} // Disable during submission
-                />
-                <Label
-                  htmlFor={`amenity-${amenity}`}
-                  className="text-sm cursor-pointer"
-                >
-                  {amenity}
-                </Label>
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <ToggleRow
+            id="furnished"
+            label={t("property_form.furnished", { defaultValue: "Furnished" })}
+            icon={<Sofa size={16} />}
+            checked={formData.furnished}
+            onChange={(v) => handleBooleanChange("furnished", v)}
+            disabled={isSubmitting}
+          />
+          <ToggleRow
+            id="mortgage_available"
+            label={t("property_form.mortgage_available", {
+              defaultValue: "Mortgage available",
+            })}
+            icon={<Landmark size={16} />}
+            checked={formData.mortgage_available}
+            onChange={(v) => handleBooleanChange("mortgage_available", v)}
+            disabled={isSubmitting}
+          />
         </div>
       </CardContent>
     </Card>
   );
 }
 
-// Export qo'shimcha typelar
+function NumberField({
+  id,
+  label,
+  icon,
+  value,
+  onChange,
+  disabled,
+  placeholder,
+  step,
+}: {
+  id: string;
+  label: string;
+  icon?: React.ReactNode;
+  value: number | string;
+  onChange: (v: string) => void;
+  disabled?: boolean;
+  placeholder?: string;
+  step?: string;
+}) {
+  return (
+    <div className="space-y-1.5">
+      <Label htmlFor={id} className="flex items-center gap-1.5 text-xs">
+        {icon}
+        {label}
+      </Label>
+      <Input
+        id={id}
+        type="number"
+        min="0"
+        step={step}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        disabled={disabled}
+      />
+    </div>
+  );
+}
+
+function ToggleRow({
+  id,
+  label,
+  icon,
+  checked,
+  onChange,
+  disabled,
+}: {
+  id: string;
+  label: string;
+  icon?: React.ReactNode;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  disabled?: boolean;
+}) {
+  return (
+    <label
+      htmlFor={id}
+      className={cn(
+        "flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors",
+        checked
+          ? "border-indigo-500 bg-indigo-50"
+          : "border-gray-200 bg-white hover:bg-gray-50",
+      )}
+    >
+      <Checkbox
+        id={id}
+        checked={checked}
+        onCheckedChange={(v) => onChange(v as boolean)}
+        disabled={disabled}
+      />
+      <Home size={0} className="hidden" />
+      {icon}
+      <span className="text-sm font-medium">{label}</span>
+    </label>
+  );
+}
+
 export type { ApartmentSaleFormData };

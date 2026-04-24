@@ -16,7 +16,6 @@ import {
   Warehouse,
   Waves,
   Home,
-  Sofa,
   Wrench,
 } from "lucide-react";
 
@@ -376,21 +375,6 @@ export default function ApartmentSale({
             </div>
 
             <div className="flex items-center gap-3">
-              <Warehouse className="w-5 h-5 text-gray-500" />
-              <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">{t("pages.property_page.parking")}</span>
-                <p className="font-medium text-gray-800">
-                  {t(
-                    apartment.parking
-                      ? "pages.property_page.parking_available"
-                      : "pages.property_page.parking_not_available"
-                  )}
-                </p>{" "}
-                {/* Translated and dynamic */}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
               <Wrench className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
                 <span className="text-gray-600 text-sm">{t("pages.property_page.repair_type")}</span>
@@ -431,51 +415,6 @@ export default function ApartmentSale({
           </div>
         )}
 
-        {/* Additional Features */}
-        <div className="mt-8">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            {t("pages.property_page.additional_features")}
-          </h3>{" "}
-          {/* Translated */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="flex items-center gap-2">
-              <Sofa className="w-4 h-4 text-gray-500" />
-              <span className="text-sm text-gray-600">
-                {t("pages.property_page.air_conditioning")}:{" "}
-                {t(
-                  apartment.air_conditioning
-                    ? "pages.property_page.yes"
-                    : "pages.property_page.no"
-                )}
-              </span>{" "}
-              {/* Translated and dynamic */}
-            </div>
-            <div className="flex items-center gap-2">
-              <Building className="w-4 h-4 text-gray-500" />
-              <span className="text-sm text-gray-600">
-                {t("pages.property_page.balcony")}:{" "}
-                {t(
-                  apartment.balcony
-                    ? "pages.property_page.yes"
-                    : "pages.property_page.no"
-                )}
-              </span>{" "}
-              {/* Translated and dynamic */}
-            </div>
-            <div className="flex items-center gap-2">
-              <UserCheck className="w-4 h-4 text-gray-500" />
-              <span className="text-sm text-gray-600">
-                {t("pages.property_page.elevator")}:{" "}
-                {t(
-                  apartment.elevator
-                    ? "pages.property_page.yes"
-                    : "pages.property_page.no"
-                )}
-              </span>{" "}
-              {/* Translated and dynamic */}
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

@@ -214,13 +214,9 @@ export default function UpdateProperty() {
         "floor_level",
         "total_floors",
         "area",
-        "balcony",
         "furnished",
         "repair_type",
         "heating",
-        "air_conditioning",
-        "parking",
-        "elevator",
         "amenities",
         "contract_duration_months",
         "mortgage_available",
@@ -649,20 +645,6 @@ const ApartmentRentFields = ({ control }: { control: any }) => (
     </div>
     <div className="flex flex-wrap gap-4">
       <Controller
-        name="balcony"
-        control={control}
-        render={({ field }) => (
-          <div className="flex items-center gap-2">
-            <Switch
-              id="balcony"
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-            <Label htmlFor="balcony">Balkon</Label>
-          </div>
-        )}
-      />
-      <Controller
         name="furnished"
         control={control}
         render={({ field }) => (
@@ -673,48 +655,6 @@ const ApartmentRentFields = ({ control }: { control: any }) => (
               onCheckedChange={field.onChange}
             />
             <Label htmlFor="furnished">Mebelli</Label>
-          </div>
-        )}
-      />
-      <Controller
-        name="air_conditioning"
-        control={control}
-        render={({ field }) => (
-          <div className="flex items-center gap-2">
-            <Switch
-              id="air_conditioning"
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-            <Label htmlFor="air_conditioning">Konditsioner</Label>
-          </div>
-        )}
-      />
-      <Controller
-        name="parking"
-        control={control}
-        render={({ field }) => (
-          <div className="flex items-center gap-2">
-            <Switch
-              id="parking"
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-            <Label htmlFor="parking">Parkovka</Label>
-          </div>
-        )}
-      />
-      <Controller
-        name="elevator"
-        control={control}
-        render={({ field }) => (
-          <div className="flex items-center gap-2">
-            <Switch
-              id="elevator"
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-            <Label htmlFor="elevator">Lift</Label>
           </div>
         )}
       />
@@ -779,20 +719,6 @@ const ApartmentSaleFields = ({ control }: { control: any }) => (
     </div>
     <div className="flex flex-wrap gap-4">
       <Controller
-        name="balcony"
-        control={control}
-        render={({ field }) => (
-          <div className="flex items-center gap-2">
-            <Switch
-              id="balcony-sale"
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-            <Label htmlFor="balcony-sale">Balkon</Label>
-          </div>
-        )}
-      />
-      <Controller
         name="furnished"
         control={control}
         render={({ field }) => (
@@ -803,48 +729,6 @@ const ApartmentSaleFields = ({ control }: { control: any }) => (
               onCheckedChange={field.onChange}
             />
             <Label htmlFor="furnished-sale">Mebelli</Label>
-          </div>
-        )}
-      />
-      <Controller
-        name="air_conditioning"
-        control={control}
-        render={({ field }) => (
-          <div className="flex items-center gap-2">
-            <Switch
-              id="air_conditioning-sale"
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-            <Label htmlFor="air_conditioning-sale">Konditsioner</Label>
-          </div>
-        )}
-      />
-      <Controller
-        name="parking"
-        control={control}
-        render={({ field }) => (
-          <div className="flex items-center gap-2">
-            <Switch
-              id="parking-sale"
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-            <Label htmlFor="parking-sale">Parkovka</Label>
-          </div>
-        )}
-      />
-      <Controller
-        name="elevator"
-        control={control}
-        render={({ field }) => (
-          <div className="flex items-center gap-2">
-            <Switch
-              id="elevator-sale"
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-            <Label htmlFor="elevator-sale">Lift</Label>
           </div>
         )}
       />

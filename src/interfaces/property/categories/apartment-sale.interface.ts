@@ -9,13 +9,9 @@ export interface IApartmentSale extends IProperty {
   floor_level?: number;
   total_floors?: number;
   area?: number;
-  balcony?: boolean;
   furnished?: boolean;
   repair_type?: RepairType;
   heating?: HeatingType;
-  air_conditioning?: boolean;
-  parking?: boolean;
-  elevator?: boolean;
   amenities?: AmenitiesType[];
   mortgage_available?: boolean;
 }

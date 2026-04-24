@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Bell, Search, Globe, ChevronDown } from "lucide-react";
+import { Menu, X, Search, Globe, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useUserStore } from "@/stores/user.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -16,17 +16,17 @@ import { userService } from "@/services/user.service";
 import type { ILanguage } from "@/interfaces/language/language.interface";
 import { useLanguageStore } from "@/stores/language.store";
 import { ensureLanguageResources } from "@/i18n/i18n";
+import ChatIcon from "./_components/chat-icon";
+import NotificationIcon from "./_components/notification-icon";
 
 interface HeaderProps {
   isSidebarOpen: boolean;
   setIsSidebarOpen: (isOpen: boolean) => void;
-  notificationCount?: number;
 }
 
 export default function SellerHeader({
   isSidebarOpen,
   setIsSidebarOpen,
-  notificationCount = 0,
 }: HeaderProps) {
   const { t, i18n } = useTranslation();
   const { user, setUser } = useUserStore();
@@ -129,20 +129,13 @@ export default function SellerHeader({
             <Search className="h-4 w-4" />
           </Button>
 
-          {/* Notifications */}
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label="Notifications"
-            className="relative h-9 w-9 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            <Bell className="h-4 w-4" />
-            {notificationCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-medium text-white">
-                {notificationCount > 9 ? "9+" : notificationCount}
-              </span>
-            )}
-          </Button>
+          {/* Chat + Notifications — user paneli bilan bir xil komponentlardan */}
+          {user?._id && (
+            <>
+              <ChatIcon />
+              <NotificationIcon />
+            </>
+          )}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

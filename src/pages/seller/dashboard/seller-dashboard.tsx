@@ -12,13 +12,21 @@ import {
   Heart,
   Bookmark,
   MapPin,
+  Plus,
+  Star,
+  TrendingUp,
+  Eye,
+  ArrowRight,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { statisticService } from "@/services/statistic.service";
 import { formatPrice } from "@/utils/format-price";
 import Loading from "@/components/common/loadings/loading";
 import { propertyService } from "@/services/property.service";
 import { inquiryService } from "@/services/inquiry.service";
+import { useUserStore } from "@/stores/user.store";
 import type { IProperty } from "@/interfaces/property/property.interface";
 import type { IInquiry } from "@/interfaces/inquiry/inquiry.interface";
 import type { IApartmentRent } from "@/interfaces/property/categories/apartment-rent.interface";
@@ -29,130 +37,151 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   Bar,
+  CartesianGrid,
 } from "recharts";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface StatCardProps {
   title: string;
-  value: string | number;
+  value: string | number | undefined;
   icon: React.ReactNode;
-  description: string;
+  accent: string;
+  description?: string;
 }
 
-// Statistik kartochka komponenti
-const StatCard = ({ title, value, icon, description }: StatCardProps) => (
-  <Card>
-    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-      <CardTitle className="text-sm font-medium">{title}</CardTitle>
-      {icon}
-    </CardHeader>
-    <CardContent>
-      <div className="text-2xl font-bold">{value}</div>
-      <p className="text-xs text-muted-foreground">{description}</p>
+const StatCard = ({
+  title,
+  value,
+  icon,
+  accent,
+  description,
+}: StatCardProps) => (
+  <Card className="overflow-hidden border-0 shadow-sm hover:shadow-md transition-shadow">
+    <CardContent className="p-5">
+      <div className="flex items-start justify-between mb-3">
+        <div
+          className={cn(
+            "flex h-11 w-11 items-center justify-center rounded-xl",
+            accent,
+          )}
+        >
+          {icon}
+        </div>
+      </div>
+      <div className="text-3xl font-bold text-gray-900">{value ?? 0}</div>
+      <p className="mt-1 text-sm font-medium text-gray-600">{title}</p>
+      {description && (
+        <p className="mt-1 text-xs text-gray-400">{description}</p>
+      )}
     </CardContent>
   </Card>
 );
 
-// Property kartasi komponenti
-const PropertyCard = ({ property }: { property: IProperty }) => {
-  const apartmentProperty = property as IApartmentRent | IApartmentSale;
+const PropertyMiniCard = ({ property }: { property: IProperty }) => {
+  const ap = property as IApartmentRent | IApartmentSale;
+  const titleText =
+    typeof property.title === "string"
+      ? property.title
+      : ((property.title as Record<string, string> | undefined)?.en ??
+        "Listing");
+  const photo = property.photos?.[0];
+
   return (
-    <Card className="hover:shadow-lg transition-shadow">
-      <CardHeader>
-        <div className="flex justify-between items-start">
-          <div>
-            <CardTitle className="text-lg">{property.title}</CardTitle>
-            <CardDescription className="flex items-center gap-2 mt-1">
-              <MapPin className="w-4 h-4" />
-              {apartmentProperty.area}m² • {apartmentProperty.bedrooms} xona
-            </CardDescription>
-          </div>
-          <div className="flex gap-1">
-            {property.is_premium && <Badge variant="secondary">Premium</Badge>}
-            {property.status === "APPROVED" && (
-              <Badge variant="default">Tasdiqlangan</Badge>
+    <Link
+      to={`/property/${property._id}`}
+      className="group flex gap-3 rounded-xl border bg-white p-3 hover:shadow-md transition-shadow"
+    >
+      {photo ? (
+        <img
+          src={photo}
+          alt={titleText}
+          className="h-20 w-20 flex-shrink-0 rounded-lg object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <div className="h-20 w-20 flex-shrink-0 rounded-lg bg-gray-100 flex items-center justify-center">
+          <Home className="h-6 w-6 text-gray-400" />
+        </div>
+      )}
+      <div className="min-w-0 flex-1">
+        <div className="flex items-start justify-between gap-2">
+          <h4 className="line-clamp-1 text-sm font-semibold text-gray-900 group-hover:text-blue-600">
+            {titleText}
+          </h4>
+          <div className="flex shrink-0 gap-1">
+            {property.is_premium && (
+              <Badge variant="secondary" className="h-5 px-1.5 text-[10px]">
+                ⭐
+              </Badge>
             )}
           </div>
         </div>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-2 gap-4 mb-3">
-          <div>
-            <p className="text-2xl font-bold text-primary">
-              {formatPrice(property.price, property.currency)}
-            </p>
-          </div>
-          <div className="space-y-1">
-            <div className="flex justify-between text-sm">
-              <span>Rating:</span>
-              <span className="font-medium">{property.rating}/5</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span>Likes:</span>
-              <span className="font-medium">{property.liked}</span>
-            </div>
-          </div>
+        <p className="text-sm font-bold text-blue-600 mt-0.5">
+          {formatPrice(property.price, property.currency)}
+        </p>
+        <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-gray-500">
+          {ap.bedrooms !== undefined && <span>🛏 {ap.bedrooms}</span>}
+          {ap.area !== undefined && <span>📐 {ap.area}m²</span>}
+          <span className="flex items-center gap-0.5">
+            <Heart size={11} /> {property.liked ?? 0}
+          </span>
+          <span className="flex items-center gap-0.5">
+            <Star size={11} /> {property.rating ?? 0}
+          </span>
         </div>
-        <div className="flex justify-between text-sm">
-          <div className="flex items-center gap-1">
-            <Heart className="w-4 h-4 text-red-500" />
-            <span>{property.liked}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Bookmark className="w-4 h-4 text-blue-500" />
-            <span>{property.saved}</span>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+    </Link>
   );
 };
 
-// So'rov kartasi komponenti
-const InquiryCard = ({ inquiry }: { inquiry: IInquiry }) => {
-  const statusColors: Record<IInquiry["status"], string> = {
-    pending: "bg-yellow-100 text-yellow-800",
-    viewed: "bg-blue-100 text-blue-800",
-    responded: "bg-green-100 text-green-800",
-    accepted: "bg-green-100 text-green-800",
-    rejected: "bg-red-100 text-red-800",
-    canceled: "bg-gray-100 text-gray-800",
+const InquiryMiniCard = ({ inquiry }: { inquiry: IInquiry }) => {
+  const statusColor: Record<IInquiry["status"], string> = {
+    pending: "bg-amber-100 text-amber-700",
+    viewed: "bg-blue-100 text-blue-700",
+    responded: "bg-green-100 text-green-700",
+    accepted: "bg-green-100 text-green-700",
+    rejected: "bg-red-100 text-red-700",
+    canceled: "bg-gray-100 text-gray-700",
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex justify-between items-start">
-          <div>
-            <CardTitle className="text-sm">{inquiry.user.first_name}</CardTitle>
-            <CardDescription>{inquiry.property.title}</CardDescription>
-          </div>
-          <div className="flex gap-1">
-            <Badge className={statusColors[inquiry.status]}>
-              {inquiry.status}
-            </Badge>
-            {inquiry.response && <Badge variant="secondary">Javob berilgan</Badge>}
-          </div>
+    <div className="flex flex-col gap-2 rounded-xl border bg-white p-3">
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold text-gray-900">
+            {inquiry.user.first_name}
+          </p>
+          <p className="truncate text-xs text-gray-500">
+            {inquiry.property.title}
+          </p>
         </div>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm mb-2">{inquiry.comment}</p>
-        <div className="flex justify-between items-center text-sm">
-          <span className="font-medium">
-            {inquiry.offered_price &&
-              formatPrice(inquiry.offered_price, inquiry.property.currency)}
-          </span>
-          <span className="text-muted-foreground">
-            {new Date(inquiry.createdAt).toLocaleDateString()}
-          </span>
-        </div>
-      </CardContent>
-    </Card>
+        <Badge
+          className={cn("h-5 px-1.5 text-[10px]", statusColor[inquiry.status])}
+        >
+          {inquiry.status}
+        </Badge>
+      </div>
+      <p className="line-clamp-2 text-xs text-gray-600">{inquiry.comment}</p>
+      <div className="flex items-center justify-between text-xs">
+        <span className="font-semibold text-blue-600">
+          {inquiry.offered_price
+            ? formatPrice(inquiry.offered_price, inquiry.property.currency)
+            : ""}
+        </span>
+        <span className="text-gray-400">
+          {new Date(inquiry.createdAt).toLocaleDateString()}
+        </span>
+      </div>
+    </div>
   );
 };
 
 export default function SellerDashboard() {
+  const { t } = useTranslation();
+  const { user } = useUserStore();
+
   const {
     data: dashboardData,
     isLoading: isDashboardLoading,
@@ -162,154 +191,267 @@ export default function SellerDashboard() {
     queryFn: () => statisticService.getSellerDashboard(),
   });
 
-  const {
-    data: propertiesData,
-    isLoading: isPropertiesLoading,
-    isError: isPropertiesError,
-  } = useQuery({
+  const { data: propertiesData, isLoading: isPropertiesLoading } = useQuery({
     queryKey: ["my-properties"],
-    queryFn: () => propertyService.findMyProperties({ page: 1, limit: 10 }),
+    queryFn: () => propertyService.findMyProperties({ page: 1, limit: 6 }),
   });
 
-  const {
-    data: inquiriesData,
-    isLoading: isInquiriesLoading,
-    isError: isInquiriesError,
-  } = useQuery({
+  const { data: inquiriesData, isLoading: isInquiriesLoading } = useQuery({
     queryKey: ["my-inquiries"],
     queryFn: () => inquiryService.findSellerInquiries(),
   });
 
   const analyticsData = [
-    { name: "Properties", value: dashboardData?.totalProperties || 0 },
-    { name: "Inquiries", value: dashboardData?.totalInquiries || 0 },
-    { name: "Likes", value: dashboardData?.totalLikes || 0 },
-    { name: "Saves", value: dashboardData?.totalSaves || 0 },
+    {
+      name: t("seller_dashboard.chart.properties", {
+        defaultValue: "Properties",
+      }),
+      value: dashboardData?.totalProperties || 0,
+    },
+    {
+      name: t("seller_dashboard.chart.inquiries", {
+        defaultValue: "Inquiries",
+      }),
+      value: dashboardData?.totalInquiries || 0,
+    },
+    {
+      name: t("seller_dashboard.chart.likes", { defaultValue: "Likes" }),
+      value: dashboardData?.totalLikes || 0,
+    },
+    {
+      name: t("seller_dashboard.chart.saves", { defaultValue: "Saves" }),
+      value: dashboardData?.totalSaves || 0,
+    },
   ];
 
+  const recentInquiries = (inquiriesData ?? []).slice(0, 6);
+
   return (
-    <div className="min-h-screen bg-gray-50/30 p-6">
+    <div className="min-h-screen">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Sarlavha */}
-        <div className="flex justify-between items-center">
+        {/* Welcome header */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 rounded-2xl bg-gradient-to-br from-indigo-500 via-blue-500 to-cyan-500 p-6 text-white shadow-sm">
           <div>
-            <h1 className="text-3xl font-bold">Seller Dashboard</h1>
-            <p className="text-muted-foreground">
-              Sizning propertylaringiz statistikasi va boshqaruvi
+            <p className="text-sm text-white/80">
+              {t("seller_dashboard.welcome", { defaultValue: "Welcome back," })}
+            </p>
+            <h1 className="mt-0.5 text-2xl md:text-3xl font-bold">
+              {user?.first_name || "Seller"} 👋
+            </h1>
+            <p className="mt-1 text-sm text-white/80">
+              {t("seller_dashboard.subtitle", {
+                defaultValue:
+                  "Here's an overview of your listings and inquiries.",
+              })}
             </p>
           </div>
+          <Link to="/seller/properties/create">
+            <Button
+              size="lg"
+              className="bg-white text-blue-700 hover:bg-white/90"
+            >
+              <Plus size={16} className="mr-1" />
+              {t("seller_dashboard.add_property", {
+                defaultValue: "Add property",
+              })}
+            </Button>
+          </Link>
         </div>
 
-        {/* Umumiy ko'rinish */}
-        <div className="space-y-6">
-          {isDashboardLoading ? (
-            <Loading />
-          ) : isDashboardError ? (
-            <div>Error loading dashboard.</div>
-          ) : (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <StatCard
-                title="Jami Propertylar"
-                value={dashboardData?.totalProperties}
-                icon={<Home className="w-4 h-4 text-muted-foreground" />}
-                description="Barcha listinglar"
-              />
-              <StatCard
-                title="Jami So'rovlar"
-                value={dashboardData?.totalInquiries}
-                icon={
-                  <MessageSquare className="w-4 h-4 text-muted-foreground" />
-                }
-                description="Barcha so'rovlar"
-              />
-              <StatCard
-                title="Jami Like-lar"
-                value={dashboardData?.totalLikes}
-                icon={<Heart className="w-4 h-4 text-muted-foreground" />}
-                description="Foydalanuvchilar yoqtirishlari"
-              />
-              <StatCard
-                title="Jami Saqlanganlar"
-                value={dashboardData?.totalSaves}
-                icon={<Bookmark className="w-4 h-4 text-muted-foreground" />}
-                description="Property saqlashlar"
-              />
-            </div>
-          )}
-        </div>
+        {/* Stat cards */}
+        {isDashboardLoading ? (
+          <Loading />
+        ) : isDashboardError ? (
+          <div className="text-sm text-red-600">
+            {t("seller_dashboard.error_stats", {
+              defaultValue: "Failed to load stats",
+            })}
+          </div>
+        ) : (
+          <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+            <StatCard
+              title={t("seller_dashboard.stats.properties", {
+                defaultValue: "Properties",
+              })}
+              value={dashboardData?.totalProperties}
+              icon={<Home className="w-5 h-5 text-blue-600" />}
+              accent="bg-blue-50"
+            />
+            <StatCard
+              title={t("seller_dashboard.stats.inquiries", {
+                defaultValue: "Inquiries",
+              })}
+              value={dashboardData?.totalInquiries}
+              icon={<MessageSquare className="w-5 h-5 text-amber-600" />}
+              accent="bg-amber-50"
+            />
+            <StatCard
+              title={t("seller_dashboard.stats.likes", {
+                defaultValue: "Likes",
+              })}
+              value={dashboardData?.totalLikes}
+              icon={<Heart className="w-5 h-5 text-rose-600" />}
+              accent="bg-rose-50"
+            />
+            <StatCard
+              title={t("seller_dashboard.stats.saves", {
+                defaultValue: "Saved",
+              })}
+              value={dashboardData?.totalSaves}
+              icon={<Bookmark className="w-5 h-5 text-emerald-600" />}
+              accent="bg-emerald-50"
+            />
+          </div>
+        )}
 
-        {/* Analitika */}
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Analitika</CardTitle>
-              <CardDescription>
-                Statistik ma'lumotlarning grafik ko'rinishi
-              </CardDescription>
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* Analytics */}
+          <Card className="lg:col-span-2 border-0 shadow-sm">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <TrendingUp size={18} className="text-blue-600" />
+                  {t("seller_dashboard.analytics", {
+                    defaultValue: "Analytics",
+                  })}
+                </CardTitle>
+                <CardDescription>
+                  {t("seller_dashboard.analytics_description", {
+                    defaultValue: "Your activity at a glance",
+                  })}
+                </CardDescription>
+              </div>
             </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={analyticsData}>
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="value" fill="#8884d8" />
+            <CardContent className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={analyticsData}
+                  margin={{ top: 5, right: 5, left: -15, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                  <XAxis
+                    dataKey="name"
+                    stroke="#94a3b8"
+                    fontSize={12}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis
+                    stroke="#94a3b8"
+                    fontSize={12}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      background: "#fff",
+                      border: "1px solid #e2e8f0",
+                      borderRadius: 8,
+                    }}
+                  />
+                  <Bar
+                    dataKey="value"
+                    fill="#6366f1"
+                    radius={[6, 6, 0, 0]}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
           </Card>
+
+          {/* Recent inquiries */}
+          <Card className="border-0 shadow-sm">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <MessageSquare size={18} className="text-amber-600" />
+                  {t("seller_dashboard.recent_inquiries", {
+                    defaultValue: "Recent inquiries",
+                  })}
+                </CardTitle>
+                <CardDescription>
+                  {recentInquiries.length}{" "}
+                  {t("seller_dashboard.recent_inquiries_count", {
+                    defaultValue: "new",
+                  })}
+                </CardDescription>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {isInquiriesLoading ? (
+                <Loading />
+              ) : recentInquiries.length === 0 ? (
+                <p className="text-sm text-gray-500 py-6 text-center">
+                  {t("seller_dashboard.no_inquiries", {
+                    defaultValue: "No inquiries yet",
+                  })}
+                </p>
+              ) : (
+                recentInquiries.map((inq: IInquiry) => (
+                  <InquiryMiniCard key={inq._id} inquiry={inq} />
+                ))
+              )}
+            </CardContent>
+          </Card>
         </div>
 
-        {/* So'rovlar */}
-        <div className="space-y-6">
-          {isInquiriesLoading ? (
-            <Loading />
-          ) : isInquiriesError ? (
-            <div>Error loading inquiries.</div>
-                      ) : (
-                        <Card>
-                          <CardHeader>
-                            <CardTitle>So'nggi So'rovlar</CardTitle>
-                            <CardDescription>
-                              Sizning listinglaringizga kelgan so'nggi so'rovlar
-                            </CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                              {inquiriesData?.map((inquiry: IInquiry) => (
-                                <InquiryCard key={inquiry._id} inquiry={inquiry} />
-                              ))}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      )}
-                    </div>
-          
-                    {/* Propertylar */}
-                    <div className="space-y-6">
-                      {isPropertiesLoading ? (
-                        <Loading />
-                      ) : isPropertiesError ? (
-                        <div>Error loading properties.</div>
-                      ) : (
-                        <Card>
-                          <CardHeader>
-                            <CardTitle>Barcha Propertylar</CardTitle>
-                            <CardDescription>
-                              Sizning barcha listinglaringiz ro'yxati
-                            </CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                              {propertiesData?.properties.map((property: IProperty) => (
-                                <PropertyCard key={property._id} property={property} />
-                              ))}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      )}
-                    </div>      </div>
+        {/* Recent properties */}
+        <Card className="border-0 shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                <Home size={18} className="text-blue-600" />
+                {t("seller_dashboard.recent_properties", {
+                  defaultValue: "Recent properties",
+                })}
+              </CardTitle>
+              <CardDescription>
+                {t("seller_dashboard.recent_properties_description", {
+                  defaultValue: "Your latest listings",
+                })}
+              </CardDescription>
+            </div>
+            <Link to="/seller/properties">
+              <Button variant="ghost" size="sm">
+                <Eye size={14} className="mr-1" />
+                {t("seller_dashboard.view_all", { defaultValue: "View all" })}
+                <ArrowRight size={14} className="ml-1" />
+              </Button>
+            </Link>
+          </CardHeader>
+          <CardContent>
+            {isPropertiesLoading ? (
+              <Loading />
+            ) : !propertiesData?.properties?.length ? (
+              <div className="py-8 text-center">
+                <Home className="mx-auto h-12 w-12 text-gray-300" />
+                <p className="mt-2 text-sm text-gray-500">
+                  {t("seller_dashboard.no_properties", {
+                    defaultValue: "No properties yet",
+                  })}
+                </p>
+                <Link to="/seller/properties/create">
+                  <Button className="mt-4" size="sm">
+                    <Plus size={14} className="mr-1" />
+                    {t("seller_dashboard.add_first", {
+                      defaultValue: "Add your first property",
+                    })}
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                {propertiesData.properties.map((p: IProperty) => (
+                  <PropertyMiniCard key={p._id} property={p} />
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
+
+// Keep MapPin export available for TS purposes (unused)
+void MapPin;

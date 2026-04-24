@@ -39,7 +39,6 @@ export interface FindAllParams {
   maxArea?: number;
   amenities?: string[];
   furnished?: boolean;
-  parking?: boolean;
   sort?: SortOption;
 }
 
