@@ -587,10 +587,22 @@
       "search_notification": "Qidiruv bildirishnomasi",
       "contacts": "Kontaktlar",
       "contacts_placeholder": "Sizning kontaktlaringiz shu yerda paydo bo'ladi",
+      "my_approved_offers": "Mening takliflarim",
       "saved_properties_placeholder": "Foydalanuvchi tomonidan saqlangan mulklar",
       "saved_properties_empty": "Hali saqlangan mulklar yo'q",
       "saved_properties_empty_description": "Mulkni saqlashni boshlang va ularni keyinroq shu yerda toping",
-      "search_notification_placeholder": "Foydalanuvchi qidiruviga mos keladigan mulklar"
+      "search_notification_placeholder": "Foydalanuvchi qidiruviga mos keladigan mulklar",
+      "approved_offers": {
+        "empty_title": "Qabul qilingan takliflar hali yo'q",
+        "empty_subtitle": "Sotuvchi sizning narxingizni qabul qilsa, bu yerda ko'rinadi — davom ettirsa bo'ladigan e'lonlar ro'yxati.",
+        "info_banner": "{{count}} ta sotuvchi taklifingizni qabul qildi. Ularga yozing yoki e'lonni qayta ko'ring.",
+        "approved_badge": "Qabul qilindi",
+        "view_property": "E'lonni ochish",
+        "seller_response": "Sotuvchi javobi",
+        "property_page": "E'lon",
+        "hours_ago_one": "{{count}} soat oldin",
+        "hours_ago_other": "{{count}} soat oldin"
+      }
     },
     "account_details_page": {
       "change_avatar_instruction": "Rasmni o'zgartirish uchun kamera tugmasini bosing",

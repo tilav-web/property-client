@@ -587,10 +587,22 @@
       "search_notification": "Pemberitahuan carian",
       "contacts": "Kenalan",
       "contacts_placeholder": "Kenalan anda akan muncul di sini",
+      "my_approved_offers": "Tawaran saya",
       "saved_properties_placeholder": "Hartanah yang disimpan oleh pengguna",
       "saved_properties_empty": "Belum ada hartanah yang disimpan",
       "saved_properties_empty_description": "Mula menyimpan hartanah untuk mencarinya di sini kemudian",
-      "search_notification_placeholder": "Hartanah yang sepadan dengan carian pengguna"
+      "search_notification_placeholder": "Hartanah yang sepadan dengan carian pengguna",
+      "approved_offers": {
+        "empty_title": "Belum ada tawaran diterima",
+        "empty_subtitle": "Apabila penjual menerima harga tawaran anda, ia akan muncul di sini — senarai hartanah yang boleh anda teruskan.",
+        "info_banner": "{{count}} penjual telah menerima tawaran anda. Hubungi mereka atau buka semula hartanah.",
+        "approved_badge": "Diterima",
+        "view_property": "Lihat hartanah",
+        "seller_response": "Nota penjual",
+        "property_page": "Hartanah",
+        "hours_ago_one": "{{count}} jam lalu",
+        "hours_ago_other": "{{count}} jam lalu"
+      }
     },
     "account_details_page": {
       "change_avatar_instruction": "Klik butang kamera untuk menukar gambar",

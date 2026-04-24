@@ -588,10 +588,22 @@
       "search_notification": "Search notification",
       "contacts": "Contacts",
       "contacts_placeholder": "Your contacts will appear here",
+      "my_approved_offers": "My offers",
       "saved_properties_placeholder": "Properties saved by user",
       "saved_properties_empty": "No saved properties yet",
       "saved_properties_empty_description": "Start saving properties to find them here later",
-      "search_notification_placeholder": "Properties matching user's search"
+      "search_notification_placeholder": "Properties matching user's search",
+      "approved_offers": {
+        "empty_title": "No approved offers yet",
+        "empty_subtitle": "When a seller accepts your price offer, it will appear here — your shortlist of properties you can move forward with.",
+        "info_banner": "{{count}} seller(s) accepted your offer. Message them directly or revisit the property.",
+        "approved_badge": "Accepted",
+        "view_property": "View property",
+        "seller_response": "Seller's note",
+        "property_page": "Property",
+        "hours_ago_one": "{{count}}h ago",
+        "hours_ago_other": "{{count}}h ago"
+      }
     },
     "account_details_page": {
       "change_avatar_instruction": "Click the camera button to change the image",

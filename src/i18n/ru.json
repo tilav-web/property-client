@@ -576,10 +576,24 @@
       "search_notification": "Уведомления о поиске",
       "contacts": "Контакты",
       "contacts_placeholder": "Ваши контакты появятся здесь",
+      "my_approved_offers": "Мои предложения",
       "saved_properties_placeholder": "Объекты, сохраненные пользователем",
       "saved_properties_empty": "Пока нет сохраненных объектов",
       "saved_properties_empty_description": "Начните сохранять объекты, чтобы найти их здесь позже",
-      "search_notification_placeholder": "Объекты, соответствующие поиску пользователя"
+      "search_notification_placeholder": "Объекты, соответствующие поиску пользователя",
+      "approved_offers": {
+        "empty_title": "Пока нет принятых предложений",
+        "empty_subtitle": "Когда продавец примет вашу цену, предложение появится здесь — ваш шорт-лист объектов, по которым можно двигаться дальше.",
+        "info_banner": "Ваши предложения приняли: {{count}}. Напишите продавцу или откройте объект.",
+        "approved_badge": "Принято",
+        "view_property": "К объекту",
+        "seller_response": "Ответ продавца",
+        "property_page": "Объект",
+        "hours_ago_one": "{{count}} ч назад",
+        "hours_ago_few": "{{count}} ч назад",
+        "hours_ago_many": "{{count}} ч назад",
+        "hours_ago_other": "{{count}} ч назад"
+      }
     },
     "account_details_page": {
       "change_avatar_instruction": "Нажмите на кнопку камеры, чтобы изменить изображение",

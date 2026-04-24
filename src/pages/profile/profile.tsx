@@ -213,9 +213,12 @@ export default function Profile() {
                 value="contact_properties"
                 className="rounded-none border-b-2 border-transparent data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:bg-white data-[state=active]:text-blue-600 text-gray-600 hover:text-gray-900 flex-1 sm:flex-none"
               >
-                {t("pages.profile_page.contacts")}
-                <span className="ml-2 bg-gray-200 text-gray-700 text-xs font-semibold px-2 py-0.5 rounded-full">
-                  {inquiryResponses.length}
+                {t("pages.profile_page.my_approved_offers")}
+                <span className="ml-2 bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded-full">
+                  {
+                    inquiryResponses.filter((r) => r.status === "approved")
+                      .length
+                  }
                 </span>
               </TabsTrigger>
             </TabsList>
