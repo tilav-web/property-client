@@ -1041,5 +1041,75 @@
     "years_and_months_full": "{{years}} лет {{months}} месяцев",
     "years_only": "{{count}} лет",
     "months_only": "{{count}} месяцев"
+  },
+  "property_form": {
+    "sale": {
+      "title": "Квартира на продажу — детали"
+    },
+    "rent": {
+      "title": "Квартира в аренду — детали"
+    },
+    "bedrooms": "Спальни",
+    "bathrooms": "Ванные",
+    "floor_level": "Этаж",
+    "total_floors": "Всего этажей",
+    "area": "Площадь (м²)",
+    "contract_duration": "Договор (мес.)",
+    "repair_type": "Ремонт",
+    "heating_label": "Отопление",
+    "select": "Выбрать",
+    "amenities_title": "Удобства",
+    "furnished": "С мебелью",
+    "mortgage_available": "Доступна ипотека",
+    "repair": {
+      "new": "Новый",
+      "renovated": "Отремонтирован",
+      "old": "Старый"
+    },
+    "heating": {
+      "central": "Центральное",
+      "individual": "Индивидуальное",
+      "none": "Нет"
+    },
+    "amenity": {
+      "pool": "Бассейн",
+      "balcony": "Балкон",
+      "security": "Охрана",
+      "air_conditioning": "Кондиционер",
+      "parking": "Парковка",
+      "elevator": "Лифт"
+    }
+  },
+  "seller_create": {
+    "step1": "Детали",
+    "step2": "Фото",
+    "step3": "Видео",
+    "back": "Назад",
+    "next": "Далее",
+    "submit": "Опубликовать",
+    "submitting": "Отправка...",
+    "success": "Объявление создано!"
+  },
+  "media_section": {
+    "photos_title": "Фото",
+    "photos_description": "Чем больше фото, тем полнее представление об объекте",
+    "photos_required": "Требуется минимум {{count}} фото",
+    "photos_required_description": "Количество определяется числом спален. Рекомендуем хотя бы одно фото с каждой комнаты.",
+    "photo_upload_title": "Загрузите фото",
+    "photo_upload_hint": "PNG, JPG или WebP, до 5MB",
+    "photo_upload_button": "Выбрать файлы",
+    "uploaded_photos": "Загруженные фото",
+    "delete_all": "Удалить все",
+    "videos_title": "Видео",
+    "videos_optional": "Необязательно",
+    "videos_description": "Видеотуры помогают покупателям быстрее принять решение",
+    "video_upload_title": "Загрузите видео",
+    "video_upload_hint": "MP4, MOV или WebM, до 100MB",
+    "video_upload_button": "Выбрать видео",
+    "uploaded_videos": "Загруженные видео",
+    "video_recommended_title": "Рекомендуется видео",
+    "video_recommended_description": "Загрузите хотя бы одно видео, чтобы помочь покупателям.",
+    "photos_suffix": "фото",
+    "videos_suffix": "видео"
   }
 }

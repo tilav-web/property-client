@@ -1052,5 +1052,75 @@
     "years_and_months_full": "{{years}} yil {{months}} oy",
     "years_only": "{{count}} yil",
     "months_only": "{{count}} oy"
+  },
+  "property_form": {
+    "sale": {
+      "title": "Sotiladigan kvartira — tafsilotlar"
+    },
+    "rent": {
+      "title": "Ijaraga beriladigan kvartira — tafsilotlar"
+    },
+    "bedrooms": "Xonalar",
+    "bathrooms": "Hammomlar",
+    "floor_level": "Qavat",
+    "total_floors": "Jami qavatlar",
+    "area": "Maydon (m²)",
+    "contract_duration": "Shartnoma (oy)",
+    "repair_type": "Taʼmir",
+    "heating_label": "Isitish",
+    "select": "Tanlang",
+    "amenities_title": "Qulayliklar",
+    "furnished": "Mebelli",
+    "mortgage_available": "Ipoteka mavjud",
+    "repair": {
+      "new": "Yangi",
+      "renovated": "Taʼmirlangan",
+      "old": "Eski"
+    },
+    "heating": {
+      "central": "Markaziy",
+      "individual": "Individual",
+      "none": "Yoʻq"
+    },
+    "amenity": {
+      "pool": "Basseyn",
+      "balcony": "Balkon",
+      "security": "Xavfsizlik",
+      "air_conditioning": "Konditsioner",
+      "parking": "Avtoturargoh",
+      "elevator": "Lift"
+    }
+  },
+  "seller_create": {
+    "step1": "Tafsilotlar",
+    "step2": "Rasmlar",
+    "step3": "Videolar",
+    "back": "Orqaga",
+    "next": "Keyingi",
+    "submit": "E'lon yuborish",
+    "submitting": "Yuborilmoqda...",
+    "success": "E'lon yaratildi!"
+  },
+  "media_section": {
+    "photos_title": "Rasmlar",
+    "photos_description": "Ko'proq rasmlar obyekt haqida to'liqroq tasavvur beradi",
+    "photos_required": "Kamida {{count}} ta rasm yuklash kerak",
+    "photos_required_description": "Xonalar soni bo'yicha aniqlandi. Har bir xonadan bittadan rasm yuklashingiz tavsiya etiladi.",
+    "photo_upload_title": "Rasm yuklash",
+    "photo_upload_hint": "PNG, JPG yoki WebP, maksimum 5MB",
+    "photo_upload_button": "Fayllarni tanlash",
+    "uploaded_photos": "Yuklangan rasmlar",
+    "delete_all": "Barchasini o'chirish",
+    "videos_title": "Videolar",
+    "videos_optional": "Ixtiyoriy",
+    "videos_description": "360° tur va virtual sayr videolari mijozlarga yordam beradi",
+    "video_upload_title": "Video yuklash",
+    "video_upload_hint": "MP4, MOV yoki WebM, maksimum 100MB",
+    "video_upload_button": "Videolarni tanlash",
+    "uploaded_videos": "Yuklangan videolar",
+    "video_recommended_title": "Video tavsiya etiladi",
+    "video_recommended_description": "Obyekt haqida to'liq tasavvur berish uchun kamida bitta video yuklang.",
+    "photos_suffix": "ta rasm",
+    "videos_suffix": "ta video"
   }
 }

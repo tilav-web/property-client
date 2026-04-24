@@ -1053,5 +1053,75 @@
     "years_and_months_full": "{{years}} years {{months}} months",
     "years_only": "{{count}} years",
     "months_only": "{{count}} months"
+  },
+  "property_form": {
+    "sale": {
+      "title": "Apartment for sale — details"
+    },
+    "rent": {
+      "title": "Apartment for rent — details"
+    },
+    "bedrooms": "Bedrooms",
+    "bathrooms": "Bathrooms",
+    "floor_level": "Floor",
+    "total_floors": "Total floors",
+    "area": "Area (m²)",
+    "contract_duration": "Contract (months)",
+    "repair_type": "Renovation",
+    "heating_label": "Heating",
+    "select": "Select",
+    "amenities_title": "Amenities",
+    "furnished": "Furnished",
+    "mortgage_available": "Mortgage available",
+    "repair": {
+      "new": "New",
+      "renovated": "Renovated",
+      "old": "Old"
+    },
+    "heating": {
+      "central": "Central",
+      "individual": "Individual",
+      "none": "None"
+    },
+    "amenity": {
+      "pool": "Pool",
+      "balcony": "Balcony",
+      "security": "Security",
+      "air_conditioning": "Air conditioning",
+      "parking": "Parking",
+      "elevator": "Elevator"
+    }
+  },
+  "seller_create": {
+    "step1": "Details",
+    "step2": "Photos",
+    "step3": "Videos",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit property",
+    "submitting": "Submitting...",
+    "success": "Property created!"
+  },
+  "media_section": {
+    "photos_title": "Photos",
+    "photos_description": "More photos give a complete picture of the property",
+    "photos_required": "At least {{count}} photo(s) required",
+    "photos_required_description": "Based on the number of bedrooms. We recommend at least one photo per room.",
+    "photo_upload_title": "Upload photos",
+    "photo_upload_hint": "PNG, JPG or WebP, max 5MB",
+    "photo_upload_button": "Choose files",
+    "uploaded_photos": "Uploaded photos",
+    "delete_all": "Delete all",
+    "videos_title": "Videos",
+    "videos_optional": "Optional",
+    "videos_description": "360° tours and walk-through videos help buyers",
+    "video_upload_title": "Upload video",
+    "video_upload_hint": "MP4, MOV or WebM, max 100MB",
+    "video_upload_button": "Choose videos",
+    "uploaded_videos": "Uploaded videos",
+    "video_recommended_title": "Video recommended",
+    "video_recommended_description": "Upload at least one video to help buyers decide.",
+    "photos_suffix": "photos",
+    "videos_suffix": "videos"
   }
 }

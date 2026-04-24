@@ -1052,5 +1052,75 @@
     "years_and_months_full": "{{years}} tahun {{months}} bulan",
     "years_only": "{{count}} tahun",
     "months_only": "{{count}} bulan"
+  },
+  "property_form": {
+    "sale": {
+      "title": "Apartmen untuk jualan — butiran"
+    },
+    "rent": {
+      "title": "Apartmen untuk sewa — butiran"
+    },
+    "bedrooms": "Bilik tidur",
+    "bathrooms": "Bilik mandi",
+    "floor_level": "Tingkat",
+    "total_floors": "Jumlah tingkat",
+    "area": "Keluasan (m²)",
+    "contract_duration": "Kontrak (bulan)",
+    "repair_type": "Pengubahsuaian",
+    "heating_label": "Pemanasan",
+    "select": "Pilih",
+    "amenities_title": "Kemudahan",
+    "furnished": "Berperabot",
+    "mortgage_available": "Gadai janji tersedia",
+    "repair": {
+      "new": "Baru",
+      "renovated": "Diubahsuai",
+      "old": "Lama"
+    },
+    "heating": {
+      "central": "Pusat",
+      "individual": "Individu",
+      "none": "Tiada"
+    },
+    "amenity": {
+      "pool": "Kolam renang",
+      "balcony": "Balkoni",
+      "security": "Keselamatan",
+      "air_conditioning": "Penyaman udara",
+      "parking": "Tempat letak kereta",
+      "elevator": "Lif"
+    }
+  },
+  "seller_create": {
+    "step1": "Butiran",
+    "step2": "Gambar",
+    "step3": "Video",
+    "back": "Kembali",
+    "next": "Seterusnya",
+    "submit": "Hantar hartanah",
+    "submitting": "Menghantar...",
+    "success": "Hartanah dicipta!"
+  },
+  "media_section": {
+    "photos_title": "Gambar",
+    "photos_description": "Lebih banyak gambar memberikan gambaran lebih lengkap",
+    "photos_required": "Sekurang-kurangnya {{count}} gambar diperlukan",
+    "photos_required_description": "Ditentukan berdasarkan bilangan bilik tidur. Kami cadangkan sekurang-kurangnya satu gambar setiap bilik.",
+    "photo_upload_title": "Muat naik gambar",
+    "photo_upload_hint": "PNG, JPG atau WebP, maksimum 5MB",
+    "photo_upload_button": "Pilih fail",
+    "uploaded_photos": "Gambar dimuat naik",
+    "delete_all": "Padam semua",
+    "videos_title": "Video",
+    "videos_optional": "Pilihan",
+    "videos_description": "Video 360° dan lawatan maya membantu pembeli",
+    "video_upload_title": "Muat naik video",
+    "video_upload_hint": "MP4, MOV atau WebM, maksimum 100MB",
+    "video_upload_button": "Pilih video",
+    "uploaded_videos": "Video dimuat naik",
+    "video_recommended_title": "Video disyorkan",
+    "video_recommended_description": "Muat naik sekurang-kurangnya satu video untuk membantu pembeli.",
+    "photos_suffix": "gambar",
+    "videos_suffix": "video"
   }
 }

@@ -1,4 +1,5 @@
 // components/property/sections/MediaSection.tsx
+import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,7 @@ export default function MediaSection({
   minPhotos = 1,
   isSubmitting = false,
 }: Props) {
+  const { t } = useTranslation();
   const handleFileUpload = (
     e: React.ChangeEvent<HTMLInputElement>,
     type: "photo" | "video"
@@ -74,10 +76,10 @@ export default function MediaSection({
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
                     <Image className="w-7 h-7 text-blue-600" />
-                    Rasmlar
+                    {t("media_section.photos_title")}
                   </h3>
                   <p className="text-gray-600 mt-2">
-                    Ko'proq rasmlar obyekt haqida to'liqroq tasavvur beradi
+                    {t("media_section.photos_description")}
                   </p>
                 </div>
                 <div
@@ -88,7 +90,8 @@ export default function MediaSection({
                       : "bg-amber-50 text-amber-700",
                   )}
                 >
-                  {photos.length} / {minPhotos}+ ta rasm
+                  {photos.length} / {minPhotos}+{" "}
+                  {t("media_section.photos_suffix")}
                 </div>
               </div>
 
@@ -97,11 +100,10 @@ export default function MediaSection({
                   <FileWarning className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-medium text-amber-800">
-                      Kamida {minPhotos} ta rasm yuklash kerak
+                      {t("media_section.photos_required", { count: minPhotos })}
                     </p>
                     <p className="text-sm text-amber-700 mt-1">
-                      Xonalar soni bo'yicha aniqlandi. Har bir xonadan bittadan
-                      rasm yuklashingiz tavsiya etiladi.
+                      {t("media_section.photos_required_description")}
                     </p>
                   </div>
                 </div>
@@ -137,18 +139,18 @@ export default function MediaSection({
                     </div>
                     <div>
                       <p className="text-xl font-semibold text-gray-900 mb-2">
-                        Rasm yuklash
+                        {t("media_section.photo_upload_title")}
                       </p>
                       <p className="text-gray-600 mb-4">
-                        PNG, JPG yoki WebP formatlari, maksimal 5MB
+                        {t("media_section.photo_upload_hint")}
                       </p>
                       <Button
                         type="button"
                         variant="outline"
                         className="bg-white border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400"
-                        disabled={isSubmitting} // Disable during submission
+                        disabled={isSubmitting}
                       >
-                        Fayllarni tanlash
+                        {t("media_section.photo_upload_button")}
                       </Button>
                     </div>
                   </Label>
@@ -160,15 +162,15 @@ export default function MediaSection({
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-medium text-gray-900">
-                      Yuklangan rasmlar
+                      {t("media_section.uploaded_photos")}
                     </h4>
                     <button
                       onClick={() => setPhotos([])}
                       className="text-sm text-red-600 hover:text-red-700 flex items-center gap-1"
-                      disabled={isSubmitting} // Disable during submission
+                      disabled={isSubmitting}
                     >
                       <X className="w-4 h-4" />
-                      Barchasini o'chirish
+                      {t("media_section.delete_all")}
                     </button>
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
@@ -214,17 +216,17 @@ export default function MediaSection({
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
                     <Video className="w-7 h-7 text-purple-600" />
-                    Videolar
+                    {t("media_section.videos_title")}
                     <span className="text-sm font-normal text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
-                      Ixtiyoriy
+                      {t("media_section.videos_optional")}
                     </span>
                   </h3>
                   <p className="text-gray-600 mt-2">
-                    360° tur va virtual sayr videolari mijozlarga yordam beradi
+                    {t("media_section.videos_description")}
                   </p>
                 </div>
                 <div className="text-sm text-gray-500 bg-purple-50 px-4 py-2 rounded-full">
-                  {videos.length} ta video
+                  {videos.length} {t("media_section.videos_suffix")}
                 </div>
               </div>
 
@@ -258,18 +260,18 @@ export default function MediaSection({
                     </div>
                     <div>
                       <p className="text-xl font-semibold text-gray-900 mb-2">
-                        Video yuklash
+                        {t("media_section.video_upload_title")}
                       </p>
                       <p className="text-gray-600 mb-4">
-                        MP4, MOV yoki WebM formatlari, maksimal 100MB
+                        {t("media_section.video_upload_hint")}
                       </p>
                       <Button
                         type="button"
                         variant="outline"
                         className="bg-white border-purple-300 text-purple-700 hover:bg-purple-50 hover:border-purple-400"
-                        disabled={isSubmitting} // Disable during submission
+                        disabled={isSubmitting}
                       >
-                        Videolarni tanlash
+                        {t("media_section.video_upload_button")}
                       </Button>
                     </div>
                   </Label>
@@ -281,15 +283,15 @@ export default function MediaSection({
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-medium text-gray-900">
-                      Yuklangan videolar
+                      {t("media_section.uploaded_videos")}
                     </h4>
                     <button
                       onClick={() => setVideos([])}
                       className="text-sm text-red-600 hover:text-red-700 flex items-center gap-1"
-                      disabled={isSubmitting} // Disable during submission
+                      disabled={isSubmitting}
                     >
                       <X className="w-4 h-4" />
-                      Barchasini o'chirish
+                      {t("media_section.delete_all")}
                     </button>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -337,12 +339,10 @@ export default function MediaSection({
                   <FileWarning className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-medium text-yellow-800">
-                      Video tavsiya etiladi
+                      {t("media_section.video_recommended_title")}
                     </p>
                     <p className="text-sm text-yellow-700 mt-1">
-                      Obyekt haqida to'liq tasavvur berish uchun kamida bitta
-                      video yuklang. Bu mijozlar qaror qabul qilishda yordam
-                      beradi.
+                      {t("media_section.video_recommended_description")}
                     </p>
                   </div>
                 </div>
