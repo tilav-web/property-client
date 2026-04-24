@@ -69,7 +69,6 @@ function buildFilters(params: URLSearchParams): Partial<FindAllParams> {
   const minArea = params.get("minArea");
   const maxArea = params.get("maxArea");
   const furnished = params.get("furnished");
-  const parking = params.get("parking");
   const currency = params.get("currency");
   const sort = params.get("sort");
   const amenities = params.getAll("amenities");
@@ -91,7 +90,6 @@ function buildFilters(params: URLSearchParams): Partial<FindAllParams> {
   if (minArea) out.minArea = Number(minArea);
   if (maxArea) out.maxArea = Number(maxArea);
   if (furnished === "true") out.furnished = true;
-  if (parking === "true") out.parking = true;
   if (bedrooms.length) out.bedrooms = bedrooms;
   if (bathrooms.length) out.bathrooms = bathrooms;
   if (currency) out.currency = currency as CurrencyCode;

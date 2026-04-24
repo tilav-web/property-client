@@ -100,12 +100,10 @@ export default function SellerProperties() {
     return matchesSearch && matchesStatus;
   });
 
-  const statusCounts = (data?.properties ?? []).reduce<
-    Record<string, number>
-  >((acc, p: PropertyType) => {
-    acc[p.status] = (acc[p.status] ?? 0) + 1;
-    return acc;
-  }, {});
+  const statusCounts: Record<string, number> = {};
+  for (const p of (data?.properties ?? []) as PropertyType[]) {
+    statusCounts[p.status] = (statusCounts[p.status] ?? 0) + 1;
+  }
 
   const statusOptions: {
     key: StatusFilter;

@@ -118,12 +118,6 @@ export default function PropertyDetailsPage() {
                 <p>{apartmentDetails.area}</p>
               </div>
             )}
-            {apartmentDetails.balcony !== undefined && (
-              <div>
-                <p className="text-sm text-muted-foreground">Balcony</p>
-                <p>{apartmentDetails.balcony ? "Yes" : "No"}</p>
-              </div>
-            )}
             {apartmentDetails.furnished !== undefined && (
               <div>
                 <p className="text-sm text-muted-foreground">Furnished</p>
@@ -140,26 +134,6 @@ export default function PropertyDetailsPage() {
               <div>
                 <p className="text-sm text-muted-foreground">Heating</p>
                 <p>{apartmentDetails.heating}</p>
-              </div>
-            )}
-            {apartmentDetails.air_conditioning !== undefined && (
-              <div>
-                <p className="text-sm text-muted-foreground">
-                  Air Conditioning
-                </p>
-                <p>{apartmentDetails.air_conditioning ? "Yes" : "No"}</p>
-              </div>
-            )}
-            {apartmentDetails.parking !== undefined && (
-              <div>
-                <p className="text-sm text-muted-foreground">Parking</p>
-                <p>{apartmentDetails.parking ? "Yes" : "No"}</p>
-              </div>
-            )}
-            {apartmentDetails.elevator !== undefined && (
-              <div>
-                <p className="text-sm text-muted-foreground">Elevator</p>
-                <p>{apartmentDetails.elevator ? "Yes" : "No"}</p>
               </div>
             )}
             {apartmentDetails.amenities &&
