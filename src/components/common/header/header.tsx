@@ -36,7 +36,6 @@ import { cn } from "@/lib/utils";
 import { useUiStore } from "@/stores/ui.store";
 import { ensureLanguageResources } from "@/i18n/i18n";
 import { lazy, Suspense } from "react";
-import ChatIcon from "./_components/chat-icon";
 import NotificationIcon from "./_components/notification-icon";
 
 interface IHeaderProps {
@@ -223,7 +222,6 @@ export default function Header({ className }: IHeaderProps) {
             </DropdownMenu>
             {user ? (
               <>
-                <ChatIcon />
                 <NotificationIcon />
                 <div
                   onClick={() => navigate("/profile")}

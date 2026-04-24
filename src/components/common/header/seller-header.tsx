@@ -16,7 +16,6 @@ import { userService } from "@/services/user.service";
 import type { ILanguage } from "@/interfaces/language/language.interface";
 import { useLanguageStore } from "@/stores/language.store";
 import { ensureLanguageResources } from "@/i18n/i18n";
-import ChatIcon from "./_components/chat-icon";
 import NotificationIcon from "./_components/notification-icon";
 
 interface HeaderProps {
@@ -129,13 +128,8 @@ export default function SellerHeader({
             <Search className="h-4 w-4" />
           </Button>
 
-          {/* Chat + Notifications — user paneli bilan bir xil komponentlardan */}
-          {user?._id && (
-            <>
-              <ChatIcon />
-              <NotificationIcon />
-            </>
-          )}
+          {/* Notifications — chat floating button sifatida pastda */}
+          {user?._id && <NotificationIcon />}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

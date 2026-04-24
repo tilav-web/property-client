@@ -11,6 +11,7 @@ import { Outlet } from "react-router-dom";
 import { useRealtime } from "@/hooks/use-realtime";
 import { useChatStore } from "@/stores/chat.store";
 import { useNotificationStore } from "@/stores/notification.store";
+import FloatingChatButton from "@/components/common/floating-chat-button";
 
 export default function RootLayout() {
   const { setUser, user, logout } = useUserStore();
@@ -95,5 +96,10 @@ export default function RootLayout() {
     user?._id,
   ]);
 
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      <FloatingChatButton />
+    </>
+  );
 }
