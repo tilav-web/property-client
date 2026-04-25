@@ -4,13 +4,19 @@ import type { PropertyType } from "@/interfaces/property/property.interface";
 import { useTranslation } from "react-i18next";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, FileSignature } from "lucide-react";
+import {
+  MapPin,
+  FileSignature,
+  TrendingDown,
+  TrendingUp,
+} from "lucide-react";
 import DateRangePicker from "../date-range-picker";
 import { inquiryService } from "@/services/inquiry.service";
 import type { TInquiryType } from "@/interfaces/inquiry/inquiry.interface";
 import { toast } from "sonner";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/input";
+import { Slider } from "@/components/ui/slider";
 import { useUiStore } from "@/stores/ui.store";
 
 // Custom Hook for Screen Size
@@ -40,12 +46,38 @@ export default function FormalizeRentButton({
 
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  // Narx diapazoni: -30% dan +30% gacha
+  const priceRange = useMemo(() => {
+    const basePrice = property?.price || 0;
+    return {
+      min: Math.floor(basePrice * 0.7),
+      max: Math.floor(basePrice * 1.3),
+      base: basePrice,
+    };
+  }, [property?.price]);
+
   const [formData, setFormData] = useState({
     type: "rent" as TInquiryType,
-    offered_price: "",
+    offered_price: priceRange.base.toString(),
     rental_period: { from: new Date(), to: new Date() },
     comment: "",
   });
+
+  // Narx foizi hisoblanishi
+  const pricePercentage = useMemo(() => {
+    const offered = Number(formData.offered_price);
+    const base = priceRange.base;
+    if (base === 0) return 0;
+    return Math.round(((offered - base) / base) * 100);
+  }, [formData.offered_price, priceRange.base]);
+
+  const handlePriceChange = useCallback((value: number[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      offered_price: value[0].toString(),
+    }));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -211,27 +243,90 @@ export default function FormalizeRentButton({
               Ijarani rasmiylashtirish
             </h3>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Taklif qilingan oylik ijara narxi (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Narx slider */}
+              <div className="space-y-4">
+                <label className="block text-sm font-medium">
+                  {t("common.buttons.bid_price_form.offered_price")} (
                   {property?.currency?.toUpperCase()})
                 </label>
-                <input
-                  type="number"
-                  value={formData.offered_price}
-                  onChange={(e) =>
-                    handleInputChange("offered_price", e.target.value)
-                  }
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Oylik ijara taklifingizni kiriting"
-                />
-                <p className="text-sm p-2">
-                  {formData?.offered_price
-                    ? Number(formData.offered_price).toLocaleString()
-                    : "0"}{" "}
-                  {property?.currency?.toUpperCase()}
-                </p>
+
+                {/* Joriy taklif ko'rsatkichi */}
+                <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-gray-600">
+                      {t("common.buttons.bid_price_form.your_offer")}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      {pricePercentage < 0 ? (
+                        <TrendingDown className="h-4 w-4 text-green-600" />
+                      ) : pricePercentage > 0 ? (
+                        <TrendingUp className="h-4 w-4 text-red-600" />
+                      ) : null}
+                      <span
+                        className={`text-sm font-semibold ${
+                          pricePercentage < 0
+                            ? "text-green-600"
+                            : pricePercentage > 0
+                            ? "text-red-600"
+                            : "text-gray-600"
+                        }`}
+                      >
+                        {pricePercentage > 0 && "+"}
+                        {pricePercentage}%
+                      </span>
+                    </div>
+                  </div>
+                  <div className="text-3xl font-bold text-gray-900">
+                    {Number(formData.offered_price).toLocaleString()}{" "}
+                    <span className="text-xl text-gray-600">
+                      {property?.currency?.toUpperCase()}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Slider */}
+                <div className="space-y-3">
+                  <Slider
+                    value={[Number(formData.offered_price)]}
+                    onValueChange={handlePriceChange}
+                    min={priceRange.min}
+                    max={priceRange.max}
+                    step={Math.max(
+                      Math.floor(priceRange.base * 0.01),
+                      1,
+                    )}
+                    className="w-full"
+                  />
+
+                  {/* Min/Max ko'rsatkichlar */}
+                  <div className="flex items-center justify-between text-xs text-gray-500">
+                    <div className="flex flex-col items-start">
+                      <span className="text-gray-400">
+                        {t("common.buttons.bid_price_form.min_label")}
+                      </span>
+                      <span className="font-medium text-gray-700">
+                        {priceRange.min.toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="hidden sm:flex flex-col items-center">
+                      <span className="text-gray-400">
+                        {t("common.buttons.bid_price_form.base_price")}
+                      </span>
+                      <span className="font-medium text-blue-600">
+                        {priceRange.base.toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="flex flex-col items-end">
+                      <span className="text-gray-400">
+                        {t("common.buttons.bid_price_form.max_label")}
+                      </span>
+                      <span className="font-medium text-gray-700">
+                        {priceRange.max.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div className="w-full">
