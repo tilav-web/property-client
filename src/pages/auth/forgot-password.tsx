@@ -8,14 +8,16 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { ArrowLeft, CheckCircle, Loader2, Mail } from "lucide-react";
+import { ArrowLeft, CheckCircle, Loader2, Mail, Phone } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-type Step = "email" | "otp" | "new-password" | "success";
+type Step = "identifier" | "otp" | "new-password" | "success";
 
 export default function ForgotPassword() {
   const { t } = useTranslation();
-  const [step, setStep] = useState<Step>("email");
-  const [email, setEmail] = useState("");
+  const [step, setStep] = useState<Step>("identifier");
+  const [authMethod, setAuthMethod] = useState<"email" | "phone">("email");
+  const [identifier, setIdentifier] = useState("");
   const [userId, setUserId] = useState("");
   const [otpCode, setOtpCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -28,7 +30,7 @@ export default function ForgotPassword() {
     setError("");
     setIsLoading(true);
     try {
-      const data = await userService.forgotPassword(email);
+      const data = await userService.forgotPassword(identifier);
       setUserId(data.userId);
       setStep("otp");
     } catch {
@@ -80,7 +82,7 @@ export default function ForgotPassword() {
     setError("");
     setIsLoading(true);
     try {
-      await userService.forgotPassword(email);
+      await userService.forgotPassword(identifier);
     } catch {
       setError(t("pages.forgot_password.resend_error"));
     } finally {
@@ -92,11 +94,15 @@ export default function ForgotPassword() {
     <div className="flex min-h-[80vh] items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="rounded-2xl border bg-white p-8 shadow-sm">
-          {/* Step 1: Email */}
-          {step === "email" && (
+          {/* Step 1: Identifier (email/phone) */}
+          {step === "identifier" && (
             <>
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-yellow-50">
-                <Mail className="h-7 w-7 text-yellow-600" />
+                {authMethod === "email" ? (
+                  <Mail className="h-7 w-7 text-yellow-600" />
+                ) : (
+                  <Phone className="h-7 w-7 text-yellow-600" />
+                )}
               </div>
               <h1 className="mb-2 text-2xl font-bold text-gray-900">
                 {t("pages.forgot_password.title")}
@@ -105,17 +111,59 @@ export default function ForgotPassword() {
                 {t("pages.forgot_password.subtitle")}
               </p>
 
+              <div className="mb-4 flex gap-1 rounded-lg bg-gray-100 p-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAuthMethod("email");
+                    setIdentifier("");
+                    setError("");
+                  }}
+                  className={cn(
+                    "flex-1 rounded-md py-2 text-sm font-medium transition-colors",
+                    authMethod === "email"
+                      ? "bg-white text-blue-700 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900",
+                  )}
+                >
+                  {t("pages.login_page.email")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAuthMethod("phone");
+                    setIdentifier("");
+                    setError("");
+                  }}
+                  className={cn(
+                    "flex-1 rounded-md py-2 text-sm font-medium transition-colors",
+                    authMethod === "phone"
+                      ? "bg-white text-blue-700 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900",
+                  )}
+                >
+                  {t("pages.login_page.phone", "Phone")}
+                </button>
+              </div>
+
               <form onSubmit={handleSendOtp} className="space-y-4">
                 <div>
                   <label className="mb-1 block text-sm font-medium text-gray-700">
-                    {t("pages.login_page.email")}
+                    {authMethod === "email"
+                      ? t("pages.login_page.email")
+                      : t("pages.login_page.phone", "Phone")}
                   </label>
                   <input
-                    type="email"
+                    type={authMethod === "email" ? "email" : "tel"}
+                    inputMode={authMethod === "phone" ? "tel" : undefined}
                     required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="email@example.com"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    placeholder={
+                      authMethod === "email"
+                        ? "email@example.com"
+                        : "+998901234567"
+                    }
                     className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/20"
                   />
                 </div>
@@ -124,7 +172,7 @@ export default function ForgotPassword() {
 
                 <Button
                   type="submit"
-                  disabled={isLoading || !email}
+                  disabled={isLoading || !identifier}
                   className="h-11 w-full bg-yellow-400 font-semibold text-black hover:bg-yellow-500"
                 >
                   {isLoading && (
@@ -151,7 +199,7 @@ export default function ForgotPassword() {
             <>
               <button
                 onClick={() => {
-                  setStep("email");
+                  setStep("identifier");
                   setError("");
                 }}
                 className="mb-4 flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
@@ -166,7 +214,9 @@ export default function ForgotPassword() {
               <p className="mb-1 text-sm text-gray-500">
                 {t("pages.otp_page.code_sent_to")}
               </p>
-              <p className="mb-6 text-sm font-medium text-gray-800">{email}</p>
+              <p className="mb-6 text-sm font-medium text-gray-800">
+                {identifier}
+              </p>
 
               <form onSubmit={handleVerifyOtp} className="space-y-5">
                 <div className="flex justify-center">

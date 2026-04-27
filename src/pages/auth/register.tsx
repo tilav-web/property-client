@@ -5,15 +5,21 @@ import { registerHouseImage } from "@/utils/shared";
 import { useFormik } from "formik";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+
+const PHONE_REGEX = /^\+?\d{9,15}$/;
 
 export default function Register() {
   const { t } = useTranslation();
   const [params] = useSearchParams();
   const role = params.get("role");
   const navigate = useNavigate();
+  const [authMethod, setAuthMethod] = useState<"email" | "phone">("email");
+
   const formik = useFormik({
     initialValues: {
-      email: "",
+      identifier: "",
       password: "",
       agreeToTerms: false,
     },
@@ -24,9 +30,14 @@ export default function Register() {
           return toast.error(t("common.error"), {
             description: t("pages.register_page.error_select_role"),
           });
+
+        const cleaned = values.identifier.replaceAll(/[\s-]/g, "");
+        const isPhone = PHONE_REGEX.test(cleaned);
+
         const data = await userService.register({
           role,
-          email: values.email,
+          email: isPhone ? undefined : values.identifier,
+          phone: isPhone ? cleaned : undefined,
           password: values.password,
         });
         toast.success(t("common.success"), {
@@ -125,25 +136,71 @@ export default function Register() {
             </div>
           </div>
           <form onSubmit={formik.handleSubmit} className="space-y-6">
-            <div className="flex flex-col gap-2">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+            <div className="flex gap-1 rounded-lg bg-gray-100 p-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthMethod("email");
+                  formik.setFieldValue("identifier", "");
+                }}
+                className={cn(
+                  "flex-1 rounded-md py-2 text-sm font-medium transition-colors",
+                  authMethod === "email"
+                    ? "bg-white text-blue-700 shadow-sm"
+                    : "text-gray-600 hover:text-gray-900",
+                )}
               >
                 {t("pages.login_page.email")}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthMethod("phone");
+                  formik.setFieldValue("identifier", "");
+                }}
+                className={cn(
+                  "flex-1 rounded-md py-2 text-sm font-medium transition-colors",
+                  authMethod === "phone"
+                    ? "bg-white text-blue-700 shadow-sm"
+                    : "text-gray-600 hover:text-gray-900",
+                )}
+              >
+                {t("pages.login_page.phone", "Phone")}
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="identifier"
+                className="block text-sm font-medium text-gray-700"
+              >
+                {authMethod === "email"
+                  ? t("pages.login_page.email")
+                  : t("pages.login_page.phone", "Phone")}
               </label>
               <input
-                id="email"
-                type="email"
-                autoComplete="email"
-                {...formik.getFieldProps("email")}
+                id="identifier"
+                type={authMethod === "email" ? "email" : "tel"}
+                inputMode={authMethod === "phone" ? "tel" : undefined}
+                autoComplete={authMethod === "email" ? "email" : "tel"}
+                {...formik.getFieldProps("identifier")}
                 className={`mt-1 block w-full px-3 py-2 border ${
-                  formik.touched.email && formik.errors.email
+                  formik.touched.identifier && formik.errors.identifier
                     ? "border-red-500"
                     : "border-gray-300"
                 } rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
-                placeholder="email@example.com"
+                placeholder={
+                  authMethod === "email"
+                    ? "email@example.com"
+                    : "+998901234567"
+                }
               />
+              {formik.touched.identifier && formik.errors.identifier && (
+                <p className="text-red-500 text-xs">
+                  {formik.errors.identifier}
+                </p>
+              )}
+
               <label
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
@@ -153,7 +210,7 @@ export default function Register() {
               <input
                 id="password"
                 type="password"
-                autoComplete="password"
+                autoComplete="new-password"
                 {...formik.getFieldProps("password")}
                 className={`mt-1 block w-full px-3 py-2 border ${
                   formik.touched.password && formik.errors.password

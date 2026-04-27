@@ -20,9 +20,11 @@ export default function Login() {
     userService.googleLogin();
   };
 
+  const [authMethod, setAuthMethod] = useState<"email" | "phone">("email");
+
   const formik = useFormik({
     initialValues: {
-      email: "",
+      identifier: "",
       password: "",
     },
     onSubmit: async (values) => {
@@ -125,29 +127,68 @@ export default function Login() {
       </div>
 
       <form onSubmit={formik.handleSubmit} className="space-y-4">
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mb-1"
+        <div className="flex gap-1 rounded-lg bg-gray-100 p-1">
+          <button
+            type="button"
+            onClick={() => {
+              setAuthMethod("email");
+              formik.setFieldValue("identifier", "");
+            }}
+            className={cn(
+              "flex-1 rounded-md py-2 text-sm font-medium transition-colors",
+              authMethod === "email"
+                ? "bg-white text-blue-700 shadow-sm"
+                : "text-gray-600 hover:text-gray-900",
+            )}
           >
             {t("pages.login_page.email")}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setAuthMethod("phone");
+              formik.setFieldValue("identifier", "");
+            }}
+            className={cn(
+              "flex-1 rounded-md py-2 text-sm font-medium transition-colors",
+              authMethod === "phone"
+                ? "bg-white text-blue-700 shadow-sm"
+                : "text-gray-600 hover:text-gray-900",
+            )}
+          >
+            {t("pages.login_page.phone", "Phone")}
+          </button>
+        </div>
+
+        <div>
+          <label
+            htmlFor="identifier"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            {authMethod === "email"
+              ? t("pages.login_page.email")
+              : t("pages.login_page.phone", "Phone")}
           </label>
           <input
-            id="email"
-            name="email"
-            type="email"
+            id="identifier"
+            name="identifier"
+            type={authMethod === "email" ? "email" : "tel"}
+            inputMode={authMethod === "phone" ? "tel" : undefined}
+            value={formik.values.identifier}
             className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${cn(
               "focus:border-blue-400",
-              formik.touched.email && formik.errors.email && "border-red-500"
+              formik.touched.identifier &&
+                formik.errors.identifier &&
+                "border-red-500",
             )}`}
-            placeholder="email@example.com"
+            placeholder={
+              authMethod === "email" ? "email@example.com" : "+998901234567"
+            }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          {formik.touched?.email && formik.errors.email && (
-            <p className="text-red-500 text-sm capitalize">
-              {formik.errors.email}
-            </p>
+          {formik.touched?.identifier && formik.errors.identifier && (
+            <p className="text-red-500 text-sm">{formik.errors.identifier}</p>
           )}
         </div>
 
@@ -162,9 +203,12 @@ export default function Login() {
             id="password"
             name="password"
             type="password"
+            value={formik.values.password}
             className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${cn(
               "focus:border-blue-400",
-              formik.touched.email && formik.errors.email && "border-red-500"
+              formik.touched.password &&
+                formik.errors.password &&
+                "border-red-500",
             )}`}
             placeholder="********"
             onChange={formik.handleChange}

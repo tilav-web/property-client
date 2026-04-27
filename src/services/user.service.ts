@@ -2,10 +2,16 @@ import apiInstance from "@/lib/api-instance";
 import { API_ENDPOINTS } from "@/utils/shared";
 
 class UserService {
-  async login({ email, password }: { email: string; password: string }) {
+  async login({
+    identifier,
+    password,
+  }: {
+    identifier: string;
+    password: string;
+  }) {
     try {
       const res = await apiInstance.post(API_ENDPOINTS.USER.login, {
-        email,
+        identifier,
         password,
       });
       return res.data;
@@ -17,19 +23,20 @@ class UserService {
 
   async register({
     email,
+    phone,
     role,
     password,
   }: {
-    email: string;
+    email?: string;
+    phone?: string;
     role: string;
     password: string;
   }) {
     try {
-      const res = await apiInstance.post(API_ENDPOINTS.USER.register, {
-        email,
-        role,
-        password,
-      });
+      const payload: Record<string, string> = { role, password };
+      if (email) payload.email = email;
+      if (phone) payload.phone = phone;
+      const res = await apiInstance.post(API_ENDPOINTS.USER.register, payload);
       return res.data;
     } catch (error) {
       console.error(error);
@@ -98,11 +105,11 @@ class UserService {
     }
   }
 
-  async forgotPassword(email: string) {
+  async forgotPassword(identifier: string) {
     try {
       const res = await apiInstance.post(
         `${API_ENDPOINTS.USER.base}/forgot-password`,
-        { email }
+        { identifier }
       );
       return res.data;
     } catch (error) {
