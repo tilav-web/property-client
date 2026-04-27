@@ -62,13 +62,30 @@ apiInstance.interceptors.response.use(
       toast.error("Error", {
         description: "Too Many Requests",
       });
+      return Promise.reject(error);
     }
 
-    const errorData: { error: string; message: string } = error.response
-      ?.data as { error: string; message: string };
-    if (errorData && "error" in errorData && errorData.error) {
+    const errorData = error.response?.data as
+      | {
+          error?: string;
+          message?: string;
+          errors?: Array<{ field?: string; message?: string }>;
+        }
+      | undefined;
+
+    // Legacy format: { error, message }
+    if (errorData?.error) {
       toast.error(errorData.error, {
         description: errorData.message || "Xato haqida ma’lumot yo‘q",
+      });
+      return Promise.reject(error);
+    }
+
+    // New validation format: { message, errors: [{field, message}] }
+    if (errorData?.message) {
+      const firstFieldError = errorData.errors?.[0]?.message;
+      toast.error("Xatolik", {
+        description: firstFieldError || errorData.message,
       });
     }
 
@@ -135,13 +152,30 @@ adminApi.interceptors.response.use(
       toast.error("Error", {
         description: "Too Many Requests",
       });
+      return Promise.reject(error);
     }
 
-    const errorData: { error: string; message: string } = error.response
-      ?.data as { error: string; message: string };
-    if (errorData && "error" in errorData && errorData.error) {
+    const errorData = error.response?.data as
+      | {
+          error?: string;
+          message?: string;
+          errors?: Array<{ field?: string; message?: string }>;
+        }
+      | undefined;
+
+    // Legacy format: { error, message }
+    if (errorData?.error) {
       toast.error(errorData.error, {
         description: errorData.message || "Xato haqida ma’lumot yo‘q",
+      });
+      return Promise.reject(error);
+    }
+
+    // New validation format: { message, errors: [{field, message}] }
+    if (errorData?.message) {
+      const firstFieldError = errorData.errors?.[0]?.message;
+      toast.error("Xatolik", {
+        description: firstFieldError || errorData.message,
       });
     }
 
