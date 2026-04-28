@@ -219,8 +219,8 @@ export default function ApartmentSale({
               <Price
                 amount={apartment.price || 0}
                 currency={apartment.currency}
-                className="text-4xl text-red-500 uppercase items-end"
-                originalClassName="text-sm normal-case"
+                className="text-2xl md:text-3xl text-red-500 justify-end"
+                originalClassName="text-base text-gray-500"
               />
               <BidPriceButton property={apartment} />
             </div>

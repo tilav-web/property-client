@@ -137,7 +137,7 @@ export default function PropertyCard({
               <Price
                 amount={price}
                 currency={currency}
-                className="items-end text-xl text-gray-900"
+                className="justify-end text-base text-gray-900"
               />
             </div>
           </div>

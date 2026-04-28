@@ -118,7 +118,7 @@ export default function ProjectDetailPage() {
                 <Price
                   amount={project.launch_price}
                   currency={project.currency}
-                  className="items-end text-2xl text-blue-900"
+                  className="justify-end text-xl text-blue-900"
                 />
               </div>
             )}
