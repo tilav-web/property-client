@@ -41,7 +41,7 @@ export interface IProject {
   address?: string;
   country?: string;
   city?: string;
-  location?: { type: "Point"; coordinates: [number, number] };
+  location?: { type: string; coordinates: [number, number] };
   delivery_date?: string;
   status: TProjectStatus;
   launch_price?: number;
