@@ -15,7 +15,9 @@ import BannerAds from "@/components/common/ads/banner-ads";
 import ImageAds from "@/components/common/ads/image-ads";
 import { Search } from "lucide-react";
 
-const PAGE_SIZE = 10;
+// 8 = ekran 4-ustunli grid'da to'liq 2 qator (4+4) qiladi.
+// Banner/image ad slot'lari to'g'ri o'rtaga tushadi, ranjit row'lar yo'q.
+const PAGE_SIZE = 8;
 
 interface PropertyPage {
   properties: IApartmentSale[];
@@ -206,15 +208,15 @@ export default function SearchPage() {
               }}
             >
               <FilterNavLayoutBlock
-                properties={pageProperties.slice(0, 6)}
+                properties={pageProperties.slice(0, 4)}
                 isLoading={false}
               />
-              {pageProperties.length > 6 && <ImageAds />}
+              {pageProperties.length > 4 && <ImageAds />}
               <FilterNavLayoutBlock
-                properties={pageProperties.slice(6, PAGE_SIZE)}
+                properties={pageProperties.slice(4, PAGE_SIZE)}
                 isLoading={false}
               />
-              {pageProperties.length > 9 && <BannerAds />}
+              {pageProperties.length >= PAGE_SIZE && <BannerAds />}
             </div>
           );
         })}
