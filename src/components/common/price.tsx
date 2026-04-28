@@ -2,6 +2,7 @@ import { useCurrencyStore } from "@/stores/currency.store";
 import { useExchangeRates } from "@/hooks/use-exchange-rates";
 import { convertPrice, formatPrice } from "@/utils/format-price";
 import { cn } from "@/lib/utils";
+import type { CurrencyCode } from "@/constants/currencies";
 
 interface PriceProps {
   amount: number | null | undefined;
@@ -38,7 +39,9 @@ export default function Price({
     : convertPrice(amount, sourceUpper, display, rates?.rates);
 
   const ratesAvailable =
-    !!rates?.rates && rates.rates[sourceUpper] && rates.rates[display];
+    !!rates?.rates &&
+    !!rates.rates[sourceUpper as CurrencyCode] &&
+    !!rates.rates[display];
 
   // Konvertatsiya muvaffaqiyatsiz bo'lsa, asl narxni asosiy ko'rsatamiz
   const useConverted = isSameCurrency || ratesAvailable;
