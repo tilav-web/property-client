@@ -159,7 +159,9 @@
         "cancel_button": "Cancel",
         "confirm_button": "Log out"
       }
-    }
+    },
+    "clear": "Clear",
+    "apply": "Apply"
   },
   "general": {
     "actions": "Actions",
@@ -765,6 +767,41 @@
       "data_verification_in_progress": "Data verification in progress",
       "if_not_approved_in_24_hours": "If not approved within 24 hours, please",
       "contact_us_at": "contact us at"
+    },
+    "projects": {
+      "title": "New Projects",
+      "subtitle": "Off-plan and new projects from leading developers",
+      "empty": "No projects match your filters",
+      "results": "results",
+      "new_badge": "New",
+      "list_view": "List",
+      "map_view": "Map",
+      "from": "From",
+      "launch_price": "Launch price",
+      "about": "About this project",
+      "unit_types": "Unit types",
+      "units": "units",
+      "contact_us": "Contact us",
+      "brochure": "Brochure",
+      "section_title": "New Projects",
+      "see_all": "See all",
+      "status": {
+        "pre_launch": "Pre-launch",
+        "on_sale": "On sale",
+        "sold_out": "Sold out",
+        "completed": "Completed"
+      },
+      "filters": {
+        "search_placeholder": "Project, developer, area...",
+        "more": "More",
+        "developer": "Developer",
+        "city": "City",
+        "beds_min": "Beds min",
+        "beds_max": "Beds max",
+        "price_min": "Price min",
+        "price_max": "Price max",
+        "delivery_year": "Delivery year"
+      }
     }
   },
   "categories": {

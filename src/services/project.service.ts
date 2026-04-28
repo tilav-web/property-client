@@ -15,6 +15,13 @@ interface ListParams {
   status?: TProjectStatus;
   is_featured?: boolean;
   sort?: "newest" | "oldest" | "price_asc" | "price_desc" | "popular";
+  beds_min?: number;
+  beds_max?: number;
+  price_min?: number;
+  price_max?: number;
+  delivery_year?: number;
+  bbox?: string; // "west,south,east,north"
+  is_map_view?: boolean;
 }
 
 class ProjectService {

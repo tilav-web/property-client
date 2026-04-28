@@ -159,7 +159,9 @@
         "cancel_button": "Отмена",
         "confirm_button": "Выйти"
       }
-    }
+    },
+    "clear": "Очистить",
+    "apply": "Применить"
   },
   "general": {
     "actions": "Действия",
@@ -755,6 +757,41 @@
       "data_verification_in_progress": "Проверка данных в процессе",
       "if_not_approved_in_24_hours": "Если не одобрено в течение 24 часов, пожалуйста,",
       "contact_us_at": "свяжитесь с нами по адресу"
+    },
+    "projects": {
+      "title": "Новые проекты",
+      "subtitle": "Off-plan и новые проекты от ведущих застройщиков",
+      "empty": "Не найдено проектов по вашему фильтру",
+      "results": "результатов",
+      "new_badge": "Новый",
+      "list_view": "Список",
+      "map_view": "Карта",
+      "from": "от",
+      "launch_price": "Стартовая цена",
+      "about": "О проекте",
+      "unit_types": "Типы юнитов",
+      "units": "юнитов",
+      "contact_us": "Связаться",
+      "brochure": "Брошюра",
+      "section_title": "Новые проекты",
+      "see_all": "Смотреть все",
+      "status": {
+        "pre_launch": "Скоро",
+        "on_sale": "В продаже",
+        "sold_out": "Продано",
+        "completed": "Завершён"
+      },
+      "filters": {
+        "search_placeholder": "Проект, застройщик, район...",
+        "more": "Еще",
+        "developer": "Застройщик",
+        "city": "Город",
+        "beds_min": "Мин спален",
+        "beds_max": "Макс спален",
+        "price_min": "Мин цена",
+        "price_max": "Макс цена",
+        "delivery_year": "Год сдачи"
+      }
     }
   },
   "categories": {

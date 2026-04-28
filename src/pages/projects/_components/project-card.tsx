@@ -1,4 +1,4 @@
-import { Calendar, MapPin, Bed } from "lucide-react";
+import { Calendar, MapPin, Bed, Sparkles } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Price from "@/components/common/price";
 import type { IProject } from "@/interfaces/project/project.interface";
@@ -10,9 +10,16 @@ const STATUS_COLORS: Record<string, string> = {
   completed: "bg-blue-100 text-blue-800",
 };
 
+const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+
 export default function ProjectCard({ project }: { project: IProject }) {
   const { t } = useTranslation();
   const photo = project.photos?.[0];
+
+  const createdMs = project.createdAt
+    ? new Date(project.createdAt).getTime()
+    : 0;
+  const isNew = createdMs > 0 && Date.now() - createdMs <= SEVEN_DAYS_MS;
 
   const beds =
     project.unit_types
@@ -40,6 +47,12 @@ export default function ProjectCard({ project }: { project: IProject }) {
           />
         )}
         <div className="absolute left-3 top-3 flex flex-col gap-1">
+          {isNew && (
+            <span className="flex items-center gap-1 rounded-md bg-red-500 px-2 py-0.5 text-[11px] font-semibold text-white shadow-sm">
+              <Sparkles size={11} />
+              {t("pages.projects.new_badge", "New")}
+            </span>
+          )}
           <span
             className={`rounded-md px-2 py-0.5 text-[11px] font-semibold ${
               STATUS_COLORS[project.status] || "bg-gray-100 text-gray-700"

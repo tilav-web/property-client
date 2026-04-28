@@ -159,7 +159,9 @@
         "cancel_button": "Bekor qilish",
         "confirm_button": "Chiqish"
       }
-    }
+    },
+    "clear": "Tozalash",
+    "apply": "Qo'llash"
   },
   "general": {
     "actions": "Amallar",
@@ -764,6 +766,41 @@
       "data_verification_in_progress": "Ma'lumotlarni tekshirish jarayonda",
       "if_not_approved_in_24_hours": "Agar 24 soat ichida tasdiqlanmasa, iltimos",
       "contact_us_at": "biz bilan bog'laning:"
+    },
+    "projects": {
+      "title": "Yangi loyihalar",
+      "subtitle": "Yetakchi qurilish kompaniyalaridan off-plan va yangi loyihalar",
+      "empty": "Filtrga mos loyihalar topilmadi",
+      "results": "natija",
+      "new_badge": "Yangi",
+      "list_view": "Ro'yxat",
+      "map_view": "Xarita",
+      "from": "dan",
+      "launch_price": "Boshlang'ich narx",
+      "about": "Loyiha haqida",
+      "unit_types": "Unit turlari",
+      "units": "ta unit",
+      "contact_us": "Bog'lanish",
+      "brochure": "Brochure",
+      "section_title": "Yangi loyihalar",
+      "see_all": "Hammasini ko'rish",
+      "status": {
+        "pre_launch": "Tez orada",
+        "on_sale": "Sotuvda",
+        "sold_out": "Sotilgan",
+        "completed": "Tugatilgan"
+      },
+      "filters": {
+        "search_placeholder": "Loyiha, developer, hudud...",
+        "more": "Ko'proq",
+        "developer": "Developer",
+        "city": "Shahar",
+        "beds_min": "Min xonalar",
+        "beds_max": "Max xonalar",
+        "price_min": "Min narx",
+        "price_max": "Max narx",
+        "delivery_year": "Topshirilish yili"
+      }
     }
   },
   "categories": {

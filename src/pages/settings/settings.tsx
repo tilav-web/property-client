@@ -29,7 +29,7 @@ import { useUserStore } from "@/stores/user.store";
 import { userService } from "@/services/user.service";
 import type { ILanguage } from "@/interfaces/language/language.interface";
 import { ensureLanguageResources } from "@/i18n/i18n";
-import BackButton from "@/components/common/back-button";
+import BackButton from "@/components/common/buttons/back-button";
 
 const LANGUAGES: { code: ILanguage; label: string }[] = [
   { code: "uz", label: "O'zbekcha" },

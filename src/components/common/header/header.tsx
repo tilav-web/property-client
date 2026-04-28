@@ -92,7 +92,7 @@ export default function Header({ className }: IHeaderProps) {
     },
     {
       icon: Sparkles,
-      label: t("common.projects_nav", "Projects"),
+      label: t("common.new_projects", "New Projects"),
       href: "/projects",
     },
     { icon: MapPin, label: t("common.map_nav"), href: "/map" },

@@ -159,7 +159,9 @@
         "cancel_button": "Batal",
         "confirm_button": "Log keluar"
       }
-    }
+    },
+    "clear": "Kosongkan",
+    "apply": "Sahkan"
   },
   "general": {
     "actions": "Tindakan",
@@ -764,6 +766,41 @@
       "data_verification_in_progress": "Pengesahan data sedang berlangsung",
       "if_not_approved_in_24_hours": "Jika tidak diluluskan dalam masa 24 jam, sila",
       "contact_us_at": "hubungi kami di"
+    },
+    "projects": {
+      "title": "Projek Baru",
+      "subtitle": "Projek off-plan dan baru daripada pemaju utama",
+      "empty": "Tiada projek sepadan dengan penapis anda",
+      "results": "keputusan",
+      "new_badge": "Baru",
+      "list_view": "Senarai",
+      "map_view": "Peta",
+      "from": "Dari",
+      "launch_price": "Harga pelancaran",
+      "about": "Tentang projek ini",
+      "unit_types": "Jenis unit",
+      "units": "unit",
+      "contact_us": "Hubungi kami",
+      "brochure": "Brosur",
+      "section_title": "Projek Baru",
+      "see_all": "Lihat semua",
+      "status": {
+        "pre_launch": "Akan dilancarkan",
+        "on_sale": "Dalam jualan",
+        "sold_out": "Habis dijual",
+        "completed": "Siap"
+      },
+      "filters": {
+        "search_placeholder": "Projek, pemaju, kawasan...",
+        "more": "Lagi",
+        "developer": "Pemaju",
+        "city": "Bandar",
+        "beds_min": "Bilik tidur min",
+        "beds_max": "Bilik tidur maks",
+        "price_min": "Harga min",
+        "price_max": "Harga maks",
+        "delivery_year": "Tahun siap"
+      }
     }
   },
   "categories": {
