@@ -89,6 +89,7 @@ export default function Header({ className }: IHeaderProps) {
       href: "/filter-nav?is_new=1",
     },
     { icon: MapPin, label: t("common.map_nav"), href: "/map" },
+    { icon: Bot, label: t("common.ai_chat", "AI"), href: "/ai-chat" },
     { icon: Heart, label: t("common.favorites"), href: "/favorites" },
   ];
 
@@ -225,13 +226,6 @@ export default function Header({ className }: IHeaderProps) {
             </DropdownMenu>
             {user ? (
               <>
-                <Link
-                  to="/ai-chat"
-                  aria-label={t("common.ai_chat", "AI yordamchi")}
-                  className="relative inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm hover:from-indigo-600 hover:to-purple-600 transition-colors"
-                >
-                  <Bot size={18} />
-                </Link>
                 <NotificationIcon />
                 <div
                   onClick={() => navigate("/profile")}

@@ -7,6 +7,7 @@ import { useChatStore } from "@/stores/chat.store";
 import { chatService } from "@/services/chat.service";
 import type { IConversation } from "@/interfaces/chat/conversation.interface";
 import MessagePanel from "@/pages/messages/_components/message-panel";
+import AnonymousAiChat from "./_components/anonymous-ai-chat";
 
 export default function AiChatPage() {
   const { t } = useTranslation();
@@ -20,10 +21,10 @@ export default function AiChatPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user?._id) {
-      navigate("/auth/login");
-      return;
-    }
+    // Anonim foydalanuvchi uchun authenticated flow ishlamaydi —
+    // alohida AnonymousAiChat komponenti ishlaydi.
+    if (!user?._id) return;
+
     let cancelled = false;
     (async () => {
       try {
@@ -34,15 +35,17 @@ export default function AiChatPage() {
         setConversation(conv);
       } catch (err) {
         console.error("Failed to open AI conversation", err);
-        if (!cancelled) setError(t("pages.ai_chat.error_load", "AI suhbatini ochib bo‘lmadi"));
+        if (!cancelled)
+          setError(
+            t("pages.ai_chat.error_load", "AI suhbatini ochib bo'lmadi"),
+          );
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [user?._id, navigate, upsertConversation, setActive, t]);
+  }, [user?._id, upsertConversation, setActive, t]);
 
-  // Subscribe to real-time updates from the conversations list
   useEffect(() => {
     if (!conversation?._id) return;
     const fresh = conversations.find((c) => c._id === conversation._id);
@@ -50,6 +53,17 @@ export default function AiChatPage() {
   }, [conversations, conversation]);
 
   const handleBack = () => navigate(-1);
+
+  // Anonymous (login bo'lmagan) foydalanuvchi
+  if (!user?._id) {
+    return (
+      <div className="-mx-4 sm:mx-0 sm:py-4">
+        <div className="flex h-[calc(100vh-65px)] sm:h-[calc(100vh-100px)] overflow-hidden border border-gray-200 bg-white sm:rounded-xl sm:shadow-sm">
+          <AnonymousAiChat onBack={handleBack} />
+        </div>
+      </div>
+    );
+  }
 
   if (error) {
     return (
@@ -78,8 +92,8 @@ export default function AiChatPage() {
   }
 
   return (
-    <div className="container mx-auto max-w-3xl px-0 sm:px-4 py-0 sm:py-4">
-      <div className="flex h-[calc(100vh-65px)] overflow-hidden border border-gray-200 bg-white sm:rounded-xl sm:shadow-sm">
+    <div className="-mx-4 sm:mx-0 sm:py-4">
+      <div className="flex h-[calc(100vh-65px)] sm:h-[calc(100vh-100px)] overflow-hidden border border-gray-200 bg-white sm:rounded-xl sm:shadow-sm">
         <div className="flex w-full flex-col">
           <MessagePanel conversation={conversation} onBack={handleBack} />
         </div>

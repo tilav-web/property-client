@@ -557,7 +557,12 @@
     },
     "ai_chat": {
       "loading": "Memuatkan pembantu AI...",
-      "error_load": "Gagal membuka perbualan AI"
+      "error_load": "Gagal membuka perbualan AI",
+      "title": "Pembantu AI",
+      "anonymous_subtitle": "Mod tetamu — perbualan tidak disimpan",
+      "welcome": "Hai! Saya pembantu AI Amaar Properties. Cari hartanah dalam teks biasa — cth: \"apartmen 2 bilik di KL\".",
+      "thinking": "AI sedang berfikir...",
+      "send_error": "Gagal dapat jawapan, sila cuba lagi"
     },
     "map_page": {
       "error_loading_map": "Ralat memuatkan peta:",

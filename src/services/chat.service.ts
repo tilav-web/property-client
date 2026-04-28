@@ -1,8 +1,33 @@
-import apiInstance from "@/lib/api-instance";
+import apiInstance, { publicApi } from "@/lib/api-instance";
 import type { IConversation } from "@/interfaces/chat/conversation.interface";
 import type { IChatMessagesPage } from "@/interfaces/chat/chat-message.interface";
 
 const BASE = "/chat";
+
+export interface AiCompactProperty {
+  _id: string;
+  title: string;
+  address?: string;
+  category?: string;
+  price?: number;
+  currency?: string;
+  photo?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  area?: number;
+}
+
+export interface AnonymousAiHistoryItem {
+  role: "user" | "assistant";
+  content: string;
+}
+
+export interface AnonymousAiReply {
+  body: string;
+  properties?: AiCompactProperty[];
+  searchQuery?: string;
+  noResults?: boolean;
+}
 
 class ChatService {
   async listConversations(): Promise<IConversation[]> {
@@ -32,6 +57,16 @@ class ChatService {
   async openAiConversation(): Promise<IConversation> {
     const res = await apiInstance.get<IConversation>(
       `${BASE}/ai-conversation`,
+    );
+    return res.data;
+  }
+
+  async askAiAnonymous(
+    history: AnonymousAiHistoryItem[],
+  ): Promise<AnonymousAiReply> {
+    const res = await publicApi.post<AnonymousAiReply>(
+      `${BASE}/ai-anonymous`,
+      { history },
     );
     return res.data;
   }

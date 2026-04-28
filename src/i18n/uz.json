@@ -557,7 +557,12 @@
     },
     "ai_chat": {
       "loading": "AI yordamchi yuklanmoqda...",
-      "error_load": "AI suhbatini ochib bo'lmadi"
+      "error_load": "AI suhbatini ochib bo'lmadi",
+      "title": "AI yordamchi",
+      "anonymous_subtitle": "Mehmon rejimi — suhbat saqlanmaydi",
+      "welcome": "Salom! Men Amaar Properties AI yordamchisiman. Mulk qidirish uchun oddiy tilda yozing — masalan: \"KLda 2 xonali kvartira\".",
+      "thinking": "AI o'ylayapti...",
+      "send_error": "Javob olinmadi, qayta urinib ko'ring"
     },
     "map_page": {
       "error_loading_map": "Xaritani yuklashda xato:",

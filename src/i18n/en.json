@@ -558,7 +558,12 @@
     },
     "ai_chat": {
       "loading": "Loading AI assistant...",
-      "error_load": "Failed to open the AI conversation"
+      "error_load": "Failed to open the AI conversation",
+      "title": "AI assistant",
+      "anonymous_subtitle": "Guest mode — chat is not saved",
+      "welcome": "Hi! I'm the Amaar Properties AI assistant. Search for properties in plain text — e.g., \"2-bedroom apartment in KL\".",
+      "thinking": "AI is thinking...",
+      "send_error": "Failed to get a reply, please try again"
     },
     "map_page": {
       "error_loading_map": "Error loading map:",
