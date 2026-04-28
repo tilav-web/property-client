@@ -13,6 +13,7 @@
     "premium": "Премиум",
     "favorites": "Избранное",
     "map_nav": "Карта",
+    "ai_chat": "AI-ассистент",
     "sell_or_rent": "Продать / Сдать",
     "save": "Сохранить",
     "cancel": "Отмена",
@@ -542,6 +543,10 @@
       "search_label": "Поиск адреса",
       "search_placeholder": "Город, район, улица или место...",
       "coordinates": "Текущие координаты"
+    },
+    "ai_chat": {
+      "loading": "Загрузка AI-ассистента...",
+      "error_load": "Не удалось открыть AI-чат"
     },
     "map_page": {
       "error_loading_map": "Ошибка загрузки карты:",

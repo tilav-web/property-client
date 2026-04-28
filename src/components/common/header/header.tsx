@@ -17,6 +17,7 @@ import {
   ChevronDown,
   PhoneCall,
   MapPin,
+  Bot,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -224,6 +225,13 @@ export default function Header({ className }: IHeaderProps) {
             </DropdownMenu>
             {user ? (
               <>
+                <Link
+                  to="/ai-chat"
+                  aria-label={t("common.ai_chat", "AI yordamchi")}
+                  className="relative inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm hover:from-indigo-600 hover:to-purple-600 transition-colors"
+                >
+                  <Bot size={18} />
+                </Link>
                 <NotificationIcon />
                 <div
                   onClick={() => navigate("/profile")}

@@ -14,6 +14,7 @@
     "premium": "Premium",
     "favorites": "Sevimlilar",
     "map_nav": "Xarita",
+    "ai_chat": "AI yordamchi",
     "sell_or_rent": "Sotish / Ijaraga berish",
     "save": "Saqlash",
     "cancel": "Bekor qilish",
@@ -553,6 +554,10 @@
       "search_label": "Manzilni qidirish",
       "search_placeholder": "Shahar, tuman, ko'cha nomi yoki joy...",
       "coordinates": "Hozirgi koordinatalar"
+    },
+    "ai_chat": {
+      "loading": "AI yordamchi yuklanmoqda...",
+      "error_load": "AI suhbatini ochib bo'lmadi"
     },
     "map_page": {
       "error_loading_map": "Xaritani yuklashda xato:",

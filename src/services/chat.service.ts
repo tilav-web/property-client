@@ -29,6 +29,13 @@ class ChatService {
     return res.data;
   }
 
+  async openAiConversation(): Promise<IConversation> {
+    const res = await apiInstance.get<IConversation>(
+      `${BASE}/ai-conversation`,
+    );
+    return res.data;
+  }
+
   async getConversation(id: string): Promise<IConversation> {
     const res = await apiInstance.get<IConversation>(
       `${BASE}/conversations/${id}`,

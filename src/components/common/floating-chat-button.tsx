@@ -4,7 +4,7 @@ import { useChatStore } from "@/stores/chat.store";
 import { useUserStore } from "@/stores/user.store";
 import { cn } from "@/lib/utils";
 
-const HIDDEN_PREFIXES = ["/messages", "/admin"];
+const HIDDEN_PREFIXES = ["/messages", "/admin", "/ai-chat"];
 
 export default function FloatingChatButton() {
   const user = useUserStore((s) => s.user);

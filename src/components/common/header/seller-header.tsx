@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Search, Globe, ChevronDown } from "lucide-react";
+import { Menu, X, Search, Globe, ChevronDown, Bot } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { useUserStore } from "@/stores/user.store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -128,8 +129,19 @@ export default function SellerHeader({
             <Search className="h-4 w-4" />
           </Button>
 
-          {/* Notifications — chat floating button sifatida pastda */}
-          {user?._id && <NotificationIcon />}
+          {/* AI yordamchi + notifications */}
+          {user?._id && (
+            <>
+              <Link
+                to="/ai-chat"
+                aria-label={t("common.ai_chat", "AI yordamchi")}
+                className="relative inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm hover:from-indigo-600 hover:to-purple-600 transition-colors"
+              >
+                <Bot size={18} />
+              </Link>
+              <NotificationIcon />
+            </>
+          )}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

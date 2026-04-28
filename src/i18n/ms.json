@@ -13,6 +13,7 @@
     "premium": "Premium",
     "favorites": "Kegemaran",
     "map_nav": "Peta",
+    "ai_chat": "Pembantu AI",
     "sell_or_rent": "Jual / Sewa",
     "save": "Simpan",
     "cancel": "Batal",
@@ -553,6 +554,10 @@
       "search_label": "Cari alamat",
       "search_placeholder": "Bandar, daerah, nama jalan atau tempat...",
       "coordinates": "Koordinat semasa"
+    },
+    "ai_chat": {
+      "loading": "Memuatkan pembantu AI...",
+      "error_load": "Gagal membuka perbualan AI"
     },
     "map_page": {
       "error_loading_map": "Ralat memuatkan peta:",

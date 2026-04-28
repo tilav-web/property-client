@@ -13,6 +13,7 @@
     "premium": "Premium",
     "favorites": "Favorites",
     "map_nav": "Map",
+    "ai_chat": "AI assistant",
     "sell_or_rent": "Sell / Rent",
     "save": "Save",
     "cancel": "Cancel",
@@ -554,6 +555,10 @@
       "search_label": "Search address",
       "search_placeholder": "City, district, street name or place...",
       "coordinates": "Current coordinates"
+    },
+    "ai_chat": {
+      "loading": "Loading AI assistant...",
+      "error_load": "Failed to open the AI conversation"
     },
     "map_page": {
       "error_loading_map": "Error loading map:",
