@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { IProject } from "@/interfaces/project/project.interface";
 import { googleMapKey, googleMapId } from "@/utils/shared";
 import { formatPrice } from "@/utils/format-price";
+import { Loader2, Locate } from "lucide-react";
+import { useGeolocation } from "@/hooks/use-geolocation";
+import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 declare global {
   interface Window {
@@ -12,8 +16,9 @@ declare global {
 }
 
 const GOOGLE_MAP_SCRIPT_ID = "google-maps-script";
-const DEFAULT_CENTER: [number, number] = [41.2995, 69.2401]; // Toshkent
+const DEFAULT_CENTER: [number, number] = [3.139, 101.6869]; // Kuala Lumpur (Malaysia)
 const DEFAULT_ZOOM = 11;
+const NEAR_ME_ZOOM = 13;
 
 interface Props {
   projects: IProject[];
@@ -77,12 +82,35 @@ export default function ProjectsMap({
   onMarkerClick,
   initialCenter,
 }: Props) {
+  const { t } = useTranslation();
+  const geo = useGeolocation();
+  const [locating, setLocating] = useState(false);
+  const userMarkerRef = useRef<any>(null);
+
   const mapEl = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<Map<string, any>>(new Map());
   const infoRef = useRef<google.maps.InfoWindow | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const initialCenterRef = useRef(initialCenter);
+  const initialCenterAppliedRef = useRef(false);
+
+  // Keep initialCenter ref fresh; pan map first time geo loads
+  useEffect(() => {
+    initialCenterRef.current = initialCenter;
+    if (
+      initialCenter &&
+      mapRef.current &&
+      !initialCenterAppliedRef.current
+    ) {
+      mapRef.current.setCenter({
+        lat: initialCenter[0],
+        lng: initialCenter[1],
+      });
+      mapRef.current.setZoom(NEAR_ME_ZOOM);
+      initialCenterAppliedRef.current = true;
+    }
+  }, [initialCenter]);
 
   const onBoundsChangeRef = useRef(onBoundsChange);
   useEffect(() => {
@@ -100,10 +128,11 @@ export default function ProjectsMap({
     waitForGoogleMaps()
       .then(() => {
         if (cancelled || !mapEl.current || mapRef.current) return;
+        const useUserCenter = !!initialCenterRef.current;
         const center = initialCenterRef.current ?? DEFAULT_CENTER;
         const map = new window.google.maps.Map(mapEl.current, {
           center: { lat: center[0], lng: center[1] },
-          zoom: DEFAULT_ZOOM,
+          zoom: useUserCenter ? NEAR_ME_ZOOM : DEFAULT_ZOOM,
           mapId: googleMapId,
           streetViewControl: false,
           fullscreenControl: false,
@@ -111,6 +140,9 @@ export default function ProjectsMap({
         });
         mapRef.current = map;
         infoRef.current = new window.google.maps.InfoWindow();
+        if (useUserCenter) {
+          initialCenterAppliedRef.current = true;
+        }
 
         map.addListener("idle", () => {
           if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -222,15 +254,93 @@ export default function ProjectsMap({
     mapRef.current.setZoom(DEFAULT_ZOOM);
   }, []);
 
+  const showUserMarker = useCallback((lat: number, lng: number) => {
+    if (!mapRef.current) return;
+    if (userMarkerRef.current) {
+      userMarkerRef.current.position = { lat, lng };
+      return;
+    }
+    const dot = document.createElement("div");
+    dot.className =
+      "h-3 w-3 rounded-full bg-blue-500 ring-4 ring-blue-200 shadow";
+    userMarkerRef.current =
+      new window.google.maps.marker.AdvancedMarkerElement({
+        map: mapRef.current,
+        position: { lat, lng },
+        content: dot,
+        title: "You are here",
+      });
+  }, []);
+
+  const handleLocateMe = useCallback(async () => {
+    setLocating(true);
+    try {
+      let coords: { lat: number; lng: number } | null = null;
+      if (geo.lat !== null && geo.lng !== null) {
+        coords = { lat: geo.lat, lng: geo.lng };
+      } else {
+        coords = await geo.request();
+      }
+      if (!coords) {
+        toast.error(
+          t("common.near_me.denied_title", {
+            defaultValue: "Joylashuv aniqlanmadi",
+          }),
+          {
+            description: t("common.near_me.denied_desc", {
+              defaultValue:
+                "Brauzer sozlamalarida GPS ruxsatini yoqib, qayta urinib ko'ring.",
+            }),
+          },
+        );
+        return;
+      }
+      if (!mapRef.current) return;
+      mapRef.current.setCenter({ lat: coords.lat, lng: coords.lng });
+      mapRef.current.setZoom(NEAR_ME_ZOOM);
+      showUserMarker(coords.lat, coords.lng);
+    } finally {
+      setLocating(false);
+    }
+  }, [geo, showUserMarker, t]);
+
+  const denied = geo.permission === "denied";
+
   return (
     <div className="relative h-full w-full">
       <div ref={mapEl} className="h-full w-full" />
+
+      {/* Locate me */}
+      <button
+        type="button"
+        onClick={handleLocateMe}
+        disabled={locating || denied}
+        title={
+          denied
+            ? t("common.near_me.denied_tooltip", {
+                defaultValue: "GPS ruxsati rad etilgan",
+              })
+            : t("common.near_me.label", { defaultValue: "Near me" })
+        }
+        aria-label={t("common.near_me.label", { defaultValue: "Near me" })}
+        className="absolute right-4 top-4 flex items-center gap-1.5 rounded-md bg-white px-3 py-2 text-xs font-medium shadow hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {locating ? (
+          <Loader2 size={14} className="animate-spin text-blue-600" />
+        ) : (
+          <Locate size={14} className="text-blue-600" />
+        )}
+        <span>
+          {t("common.near_me.label", { defaultValue: "Near me" })}
+        </span>
+      </button>
+
       <button
         type="button"
         onClick={handleResetView}
         className="absolute bottom-4 right-4 rounded-md bg-white px-3 py-1.5 text-xs font-medium shadow hover:bg-gray-50"
       >
-        Reset view
+        {t("common.reset_view", { defaultValue: "Reset view" })}
       </button>
     </div>
   );

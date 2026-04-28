@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/input-otp";
 import { ArrowLeft, CheckCircle, Loader2, Mail, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { PHONE_AUTH_ENABLED } from "@/constants/feature-flags";
 
 type Step = "identifier" | "otp" | "new-password" | "success";
 
@@ -111,40 +112,42 @@ export default function ForgotPassword() {
                 {t("pages.forgot_password.subtitle")}
               </p>
 
-              <div className="mb-4 flex gap-1 rounded-lg bg-gray-100 p-1">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAuthMethod("email");
-                    setIdentifier("");
-                    setError("");
-                  }}
-                  className={cn(
-                    "flex-1 rounded-md py-2 text-sm font-medium transition-colors",
-                    authMethod === "email"
-                      ? "bg-white text-blue-700 shadow-sm"
-                      : "text-gray-600 hover:text-gray-900",
-                  )}
-                >
-                  {t("pages.login_page.email")}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAuthMethod("phone");
-                    setIdentifier("");
-                    setError("");
-                  }}
-                  className={cn(
-                    "flex-1 rounded-md py-2 text-sm font-medium transition-colors",
-                    authMethod === "phone"
-                      ? "bg-white text-blue-700 shadow-sm"
-                      : "text-gray-600 hover:text-gray-900",
-                  )}
-                >
-                  {t("pages.login_page.phone", "Phone")}
-                </button>
-              </div>
+              {PHONE_AUTH_ENABLED && (
+                <div className="mb-4 flex gap-1 rounded-lg bg-gray-100 p-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAuthMethod("email");
+                      setIdentifier("");
+                      setError("");
+                    }}
+                    className={cn(
+                      "flex-1 rounded-md py-2 text-sm font-medium transition-colors",
+                      authMethod === "email"
+                        ? "bg-white text-blue-700 shadow-sm"
+                        : "text-gray-600 hover:text-gray-900",
+                    )}
+                  >
+                    {t("pages.login_page.email")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAuthMethod("phone");
+                      setIdentifier("");
+                      setError("");
+                    }}
+                    className={cn(
+                      "flex-1 rounded-md py-2 text-sm font-medium transition-colors",
+                      authMethod === "phone"
+                        ? "bg-white text-blue-700 shadow-sm"
+                        : "text-gray-600 hover:text-gray-900",
+                    )}
+                  >
+                    {t("pages.login_page.phone", "Phone")}
+                  </button>
+                </div>
+              )}
 
               <form onSubmit={handleSendOtp} className="space-y-4">
                 <div>
