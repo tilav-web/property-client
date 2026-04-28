@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { propertyService } from "@/services/property.service";
 import type { PropertyType } from "@/interfaces/property/property.interface";
 import { useMapStore } from "@/stores/map.store";
-import { googleMapKey } from "@/utils/shared";
+import { googleMapKey, googleMapId } from "@/utils/shared";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { Locate, Search as SearchIcon, X } from "lucide-react";
 import { formatPrice } from "@/utils/format-price";
@@ -380,7 +380,7 @@ export default function MapPage() {
       const map = new google.maps.Map(mapEl, {
         center: { lat: centerLat, lng: centerLng },
         zoom,
-        mapId: "property-map",
+        mapId: googleMapId,
         zoomControl: true,
         fullscreenControl: true,
         streetViewControl: false,

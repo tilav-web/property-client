@@ -29,6 +29,8 @@ export {
 // .ENV
 export const serverUrl = import.meta.env.VITE_API_URL;
 export const googleMapKey = import.meta.env.VITE_GOOGLE_MAPS;
+export const googleMapId =
+  (import.meta.env.VITE_GOOGLE_MAP_ID as string | undefined) || "property-map";
 export const yandexMapKey = import.meta.env.VITE_YANDEX_MAP;
 
 export const API_ENDPOINTS = {
