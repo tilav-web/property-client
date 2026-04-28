@@ -6,7 +6,13 @@ export interface ISiteSettings {
   hero_image_srcset?: string | null;
   hero_title_override?: string | null;
   hero_subtitle_override?: string | null;
+  hero_image_buy?: string | null;
+  hero_image_buy_srcset?: string | null;
+  hero_image_rent?: string | null;
+  hero_image_rent_srcset?: string | null;
 }
+
+export type HeroSlot = "main" | "buy" | "rent";
 
 class AdminSiteSettingsService {
   async getPublic() {
@@ -22,9 +28,9 @@ class AdminSiteSettingsService {
     return data;
   }
 
-  async clearHero() {
+  async clearHero(slot: HeroSlot = "main") {
     const { data } = await adminApi.delete<ISiteSettings>(
-      "/site-settings/hero-image",
+      `/site-settings/hero-image/${slot}`,
     );
     return data;
   }

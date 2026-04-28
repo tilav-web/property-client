@@ -5,6 +5,10 @@ export interface ISiteSettings {
   hero_image_srcset?: string | null;
   hero_title_override?: string | null;
   hero_subtitle_override?: string | null;
+  hero_image_buy?: string | null;
+  hero_image_buy_srcset?: string | null;
+  hero_image_rent?: string | null;
+  hero_image_rent_srcset?: string | null;
 }
 
 class SiteSettingsService {

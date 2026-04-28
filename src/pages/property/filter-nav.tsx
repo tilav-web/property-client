@@ -2,8 +2,9 @@ import HeroSection from "@/components/common/hero-section";
 import type { IApartmentSale } from "@/interfaces/property/categories/apartment-sale.interface";
 import type { CategoryType } from "@/interfaces/types/category.type";
 import { propertyService } from "@/services/property.service";
+import { siteSettingsService } from "@/services/site-settings.service";
 import { heroImage, heroImageSrcSet } from "@/utils/shared";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useMemo, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
@@ -32,6 +33,26 @@ export default function FilterNav() {
     () => ["filter-nav-layout", category, language],
     [category, language]
   );
+
+  const { data: siteSettings } = useQuery({
+    queryKey: ["site-settings"],
+    queryFn: () => siteSettingsService.get(),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const heroSlot = useMemo(() => {
+    if (category === "APARTMENT_SALE")
+      return {
+        img: siteSettings?.hero_image_buy || heroImage,
+        srcset: siteSettings?.hero_image_buy_srcset || heroImageSrcSet,
+      };
+    if (category === "APARTMENT_RENT")
+      return {
+        img: siteSettings?.hero_image_rent || heroImage,
+        srcset: siteSettings?.hero_image_rent_srcset || heroImageSrcSet,
+      };
+    return { img: heroImage, srcset: heroImageSrcSet };
+  }, [category, siteSettings]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery<PropertyPage>({
@@ -82,8 +103,8 @@ export default function FilterNav() {
     <div className="py-12">
       <HeroSection
         title={t("pages.category_page.title")}
-        img={heroImage}
-        imgSrcSet={heroImageSrcSet}
+        img={heroSlot.img}
+        imgSrcSet={heroSlot.srcset}
         imageWidth={1600}
         imageHeight={1019}
         className="text-white"
