@@ -2,15 +2,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { advertiseService } from "@/services/advertise.service";
 import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
-import ImageAdsSkeleton from "./image-ads-skeleton";
 import { useEffect, useState } from "react";
+import DevelopersPromoCard from "./developers-promo-card";
 
 export default function ImageAds() {
   const { data: ads, isLoading } = useQuery<IAdvertise | null, Error>({
     queryKey: ["image-ad"],
     queryFn: () =>
       advertiseService.findOneByType("image") as Promise<IAdvertise | null>,
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60 * 5,
   });
 
   const [hasViewed, setHasViewed] = useState(false);
@@ -28,8 +28,9 @@ export default function ImageAds() {
     }
   };
 
-  if (isLoading) return <div className="my-4"><ImageAdsSkeleton /></div>;
-  if (!ads) return null;
+  if (isLoading) return null;
+  // Reklama yo'q bo'lsa — top developerlar promo
+  if (!ads) return <DevelopersPromoCard />;
 
   return (
     <div className="my-4">

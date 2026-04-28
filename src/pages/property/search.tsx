@@ -13,8 +13,6 @@ import type { CategoryFilterType } from "@/interfaces/types/category-filter.type
 import type { CurrencyCode } from "@/constants/currencies";
 import BannerAds from "@/components/common/ads/banner-ads";
 import ImageAds from "@/components/common/ads/image-ads";
-import ImageAdsSkeleton from "@/components/common/ads/image-ads-skeleton";
-import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
 import { Search } from "lucide-react";
 
 const PAGE_SIZE = 10;
@@ -226,9 +224,7 @@ export default function SearchPage() {
       {(isLoading || isFetchingNextPage) && (
         <div className="mt-4 w-full">
           <FilterNavLayoutBlock properties={[]} isLoading={true} />
-          <ImageAdsSkeleton />
           <FilterNavLayoutBlock properties={[]} isLoading={true} />
-          <BannerAdsSkeleton />
         </div>
       )}
 
