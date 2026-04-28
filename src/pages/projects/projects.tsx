@@ -13,6 +13,7 @@ import ProjectsFilterBar, {
 } from "./_components/projects-filter-bar";
 import ProjectsMap from "./_components/projects-map";
 import { useDebounce } from "@/hooks/use-debounce";
+import { useGeolocation } from "@/hooks/use-geolocation";
 
 function readFiltersFromParams(
   params: URLSearchParams,
@@ -48,6 +49,13 @@ export default function ProjectsPage() {
 
   const filters = useMemo(() => readFiltersFromParams(params), [params]);
   const debouncedSearch = useDebounce(filters.search, 350);
+  const geo = useGeolocation();
+
+  // User location keshda bo'lsa darhol, bo'lmasa null → map fallback Toshkent
+  const initialCenter = useMemo<[number, number] | null>(() => {
+    if (geo.lat !== null && geo.lng !== null) return [geo.lat, geo.lng];
+    return null;
+  }, [geo.lat, geo.lng]);
 
   const [items, setItems] = useState<IProject[]>([]);
   const [total, setTotal] = useState(0);
@@ -220,6 +228,7 @@ export default function ProjectsPage() {
             selectedId={selectedId}
             onBoundsChange={handleBoundsChange}
             onMarkerClick={(id) => setSelectedId(id)}
+            initialCenter={initialCenter}
           />
         </div>
       </div>

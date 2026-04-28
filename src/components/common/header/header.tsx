@@ -11,7 +11,6 @@ import {
   Heart,
   Home,
   Building,
-  Star,
   User,
   Globe,
   ChevronDown,
@@ -84,11 +83,6 @@ export default function Header({ className }: IHeaderProps) {
       icon: Building,
       label: t("common.rent_apartments"),
       href: "/filter-nav?category=APARTMENT_RENT",
-    },
-    {
-      icon: Star,
-      label: t("common.new_projects"),
-      href: "/filter-nav?is_new=1",
     },
     {
       icon: Sparkles,

@@ -12,7 +12,7 @@ declare global {
 }
 
 const GOOGLE_MAP_SCRIPT_ID = "google-maps-script";
-const DEFAULT_CENTER: [number, number] = [3.139, 101.6869]; // Kuala Lumpur
+const DEFAULT_CENTER: [number, number] = [41.2995, 69.2401]; // Toshkent
 const DEFAULT_ZOOM = 11;
 
 interface Props {
@@ -20,6 +20,7 @@ interface Props {
   selectedId?: string | null;
   onBoundsChange?: (bbox: [number, number, number, number]) => void;
   onMarkerClick?: (id: string) => void;
+  initialCenter?: [number, number] | null;
 }
 
 const escapeHtml = (s: string) =>
@@ -74,12 +75,14 @@ export default function ProjectsMap({
   selectedId,
   onBoundsChange,
   onMarkerClick,
+  initialCenter,
 }: Props) {
   const mapEl = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<Map<string, any>>(new Map());
   const infoRef = useRef<google.maps.InfoWindow | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const initialCenterRef = useRef(initialCenter);
 
   const onBoundsChangeRef = useRef(onBoundsChange);
   useEffect(() => {
@@ -97,8 +100,9 @@ export default function ProjectsMap({
     waitForGoogleMaps()
       .then(() => {
         if (cancelled || !mapEl.current || mapRef.current) return;
+        const center = initialCenterRef.current ?? DEFAULT_CENTER;
         const map = new window.google.maps.Map(mapEl.current, {
-          center: { lat: DEFAULT_CENTER[0], lng: DEFAULT_CENTER[1] },
+          center: { lat: center[0], lng: center[1] },
           zoom: DEFAULT_ZOOM,
           mapId: googleMapId,
           streetViewControl: false,
