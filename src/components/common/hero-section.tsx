@@ -7,6 +7,9 @@ const HeroSearchControls = lazy(() => import("./hero-search-controls"));
 interface HeroSectionProps {
   title: string;
   subtitle?: string;
+  // Raw matn — i18n key emas. titleText/subtitleText berilsa, t() chaqirilmaydi.
+  titleText?: string;
+  subtitleText?: string;
   img: string;
   className?: string;
   imgSrcSet?: string;
@@ -20,6 +23,8 @@ export default function HeroSection({
   img,
   title,
   subtitle,
+  titleText,
+  subtitleText,
   className,
   imgSrcSet,
   imgSizes = "100vw",
@@ -53,8 +58,8 @@ export default function HeroSection({
     return () => globalThis.clearTimeout(timeoutId);
   }, [enableSearch]);
 
-  const resolvedTitle = title ? t(title) : "";
-  const resolvedSubtitle = subtitle ? t(subtitle) : "";
+  const resolvedTitle = titleText ?? (title ? t(title) : "");
+  const resolvedSubtitle = subtitleText ?? (subtitle ? t(subtitle) : "");
 
   return (
     <div className={cn("relative w-full", className)}>

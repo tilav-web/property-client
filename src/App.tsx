@@ -30,6 +30,16 @@ const SellerDetailsPage = lazy(
   () => import("./pages/admin/_pages/sellers/seller-details-page")
 );
 const AdminTagsPage = lazy(() => import("./pages/admin/_pages/tags"));
+const AdminDevelopersPage = lazy(
+  () => import("./pages/admin/_pages/developers"),
+);
+const AdminProjectsPage = lazy(() => import("./pages/admin/_pages/projects"));
+const AdminProjectInquiriesPage = lazy(
+  () => import("./pages/admin/_pages/project-inquiries"),
+);
+const AdminSiteSettingsPage = lazy(
+  () => import("./pages/admin/_pages/site-settings"),
+);
 const AdminUsers = lazy(() => import("./pages/admin/_pages/users/admin-users"));
 const Login = lazy(() => import("./pages/auth/login"));
 const OtpConfirmation = lazy(() => import("./pages/auth/otp-confirmation"));
@@ -42,6 +52,12 @@ const YandexMap = lazy(() => import("./pages/map/yandex-map"));
 const Profile = lazy(() => import("./pages/profile/profile"));
 const Messages = lazy(() => import("./pages/messages/messages"));
 const AiChat = lazy(() => import("./pages/ai-chat/ai-chat"));
+const Developers = lazy(() => import("./pages/developers/developers"));
+const DeveloperDetail = lazy(
+  () => import("./pages/developers/developer-detail"),
+);
+const Projects = lazy(() => import("./pages/projects/projects"));
+const ProjectDetail = lazy(() => import("./pages/projects/project-detail"));
 const Category = lazy(() => import("./pages/property/category"));
 const FilterNav = lazy(() => import("./pages/property/filter-nav"));
 const Property = lazy(() => import("./pages/property/property"));
@@ -183,6 +199,38 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/developers",
+        element: withSuspense(
+          <SubLayout>
+            <Developers />
+          </SubLayout>
+        ),
+      },
+      {
+        path: "/developer/:id",
+        element: withSuspense(
+          <SubLayout>
+            <DeveloperDetail />
+          </SubLayout>
+        ),
+      },
+      {
+        path: "/projects",
+        element: withSuspense(
+          <SubLayout>
+            <Projects />
+          </SubLayout>
+        ),
+      },
+      {
+        path: "/project/:id",
+        element: withSuspense(
+          <SubLayout>
+            <ProjectDetail />
+          </SubLayout>
+        ),
+      },
+      {
         path: "/category",
         element: withSuspense(
           <SubLayout>
@@ -307,6 +355,22 @@ const router = createBrowserRouter([
       {
         path: "admins",
         element: withSuspense(<AdminsPage />),
+      },
+      {
+        path: "developers",
+        element: withSuspense(<AdminDevelopersPage />),
+      },
+      {
+        path: "projects",
+        element: withSuspense(<AdminProjectsPage />),
+      },
+      {
+        path: "project-inquiries",
+        element: withSuspense(<AdminProjectInquiriesPage />),
+      },
+      {
+        path: "site-settings",
+        element: withSuspense(<AdminSiteSettingsPage />),
       },
     ],
   },

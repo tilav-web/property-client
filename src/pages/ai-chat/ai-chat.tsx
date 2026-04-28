@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import { useUserStore } from "@/stores/user.store";
 import { useChatStore } from "@/stores/chat.store";
 import { chatService } from "@/services/chat.service";
@@ -54,11 +54,23 @@ export default function AiChatPage() {
 
   const handleBack = () => navigate(-1);
 
+  const backButton = (
+    <button
+      type="button"
+      onClick={handleBack}
+      className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+    >
+      <ArrowLeft size={16} />
+      {t("common.back", "Orqaga")}
+    </button>
+  );
+
   // Anonymous (login bo'lmagan) foydalanuvchi
   if (!user?._id) {
     return (
       <div className="-mx-4 sm:mx-0 sm:py-4">
-        <div className="flex h-[calc(100vh-65px)] sm:h-[calc(100vh-100px)] overflow-hidden border border-gray-200 bg-white sm:rounded-xl sm:shadow-sm">
+        <div className="px-4 sm:px-0 mb-2 sm:mb-3">{backButton}</div>
+        <div className="flex h-[calc(100vh-115px)] sm:h-[calc(100vh-150px)] overflow-hidden border border-gray-200 bg-white sm:rounded-xl sm:shadow-sm">
           <AnonymousAiChat onBack={handleBack} />
         </div>
       </div>
@@ -93,7 +105,8 @@ export default function AiChatPage() {
 
   return (
     <div className="-mx-4 sm:mx-0 sm:py-4">
-      <div className="flex h-[calc(100vh-65px)] sm:h-[calc(100vh-100px)] overflow-hidden border border-gray-200 bg-white sm:rounded-xl sm:shadow-sm">
+      <div className="px-4 sm:px-0 mb-2 sm:mb-3">{backButton}</div>
+      <div className="flex h-[calc(100vh-115px)] sm:h-[calc(100vh-150px)] overflow-hidden border border-gray-200 bg-white sm:rounded-xl sm:shadow-sm">
         <div className="flex w-full flex-col">
           <MessagePanel conversation={conversation} onBack={handleBack} />
         </div>

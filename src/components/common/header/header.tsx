@@ -18,6 +18,7 @@ import {
   PhoneCall,
   MapPin,
   Bot,
+  Sparkles,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -87,6 +88,11 @@ export default function Header({ className }: IHeaderProps) {
       icon: Star,
       label: t("common.new_projects"),
       href: "/filter-nav?is_new=1",
+    },
+    {
+      icon: Sparkles,
+      label: t("common.projects_nav", "Projects"),
+      href: "/projects",
     },
     { icon: MapPin, label: t("common.map_nav"), href: "/map" },
     { icon: Bot, label: t("common.ai_chat", "AI"), href: "/ai-chat" },

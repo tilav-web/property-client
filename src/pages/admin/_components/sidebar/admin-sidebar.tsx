@@ -13,6 +13,9 @@ import {
   CreditCard,
   BriefcaseBusiness,
   Tags,
+  Building2,
+  Sparkles,
+  Inbox,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -75,11 +78,39 @@ export default function AdminSidebar() {
       path: "/admin/ads",
     },
     {
+      id: "developers",
+      label: "Developers",
+      icon: <Building2 className="h-5 w-5" />,
+      badge: null,
+      path: "/admin/developers",
+    },
+    {
+      id: "projects",
+      label: "Projects",
+      icon: <Sparkles className="h-5 w-5" />,
+      badge: null,
+      path: "/admin/projects",
+    },
+    {
+      id: "project-inquiries",
+      label: "Project inquiries",
+      icon: <Inbox className="h-5 w-5" />,
+      badge: null,
+      path: "/admin/project-inquiries",
+    },
+    {
       id: "admins",
       label: "Admins",
       icon: <FileText className="h-5 w-5" />,
       badge: null,
       path: "/admin/admins",
+    },
+    {
+      id: "site-settings",
+      label: "Site settings",
+      icon: <Settings className="h-5 w-5" />,
+      badge: null,
+      path: "/admin/site-settings",
     },
     {
       id: "billing",
