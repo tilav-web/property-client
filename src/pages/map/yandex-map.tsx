@@ -73,12 +73,14 @@ export default function MapPage() {
     lastAreaKeyRef.current = null;
   }, [currentFilterSig, setFilterSig]);
 
-  const waitForGoogleMaps = (): Promise<void> =>
+  const loadScript = (): Promise<void> =>
     new Promise((resolve, reject) => {
-      if (window.google?.maps) {
+      // Skript allaqachon yuklangan
+      if (window.google?.maps?.importLibrary) {
         resolve();
         return;
       }
+
       const existing = document.getElementById(
         GOOGLE_MAP_SCRIPT_ID,
       ) as HTMLScriptElement | null;
@@ -86,7 +88,7 @@ export default function MapPage() {
         existing.addEventListener(
           "load",
           () =>
-            window.google?.maps
+            window.google?.maps?.importLibrary
               ? resolve()
               : reject(new Error("Google Maps failed to initialize")),
           { once: true },
@@ -98,13 +100,16 @@ export default function MapPage() {
         );
         return;
       }
+
       window.__googleMapsCallback = () => {
         delete window.__googleMapsCallback;
         resolve();
       };
       const script = document.createElement("script");
       script.id = GOOGLE_MAP_SCRIPT_ID;
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapKey}&callback=__googleMapsCallback&libraries=marker,places`;
+      // loading=async — Google'ning rasmiy tavsiyasi (2024+)
+      // Library'larni keyin importLibrary() bilan aniq yuklab olamiz
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapKey}&loading=async&callback=__googleMapsCallback`;
       script.async = true;
       script.defer = true;
       script.addEventListener(
@@ -114,6 +119,17 @@ export default function MapPage() {
       );
       document.head.appendChild(script);
     });
+
+  const waitForGoogleMaps = async (): Promise<void> => {
+    await loadScript();
+    // Aniq yuklash — `libraries=marker,places` URL'da har doim ishonchli emas
+    // (yangi Google Maps API'da race condition).
+    await Promise.all([
+      google.maps.importLibrary("maps"),
+      google.maps.importLibrary("marker"),
+      google.maps.importLibrary("places"),
+    ]);
+  };
 
   const loadProperties = useCallback(
     async (sw_lat: number, sw_lng: number, ne_lat: number, ne_lng: number) => {
