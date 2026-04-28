@@ -61,7 +61,7 @@ export default function FilterNav() {
         const data = await propertyService.findAll({
           category,
           page: pageParam as number,
-          limit: 10,
+          limit: 8,
           is_new: is_new === "1" ? true : is_new === "0" ? false : undefined,
         });
         return data as PropertyPage;
@@ -109,43 +109,45 @@ export default function FilterNav() {
         imageHeight={1019}
         className="text-white"
       />
-      {Array.from({ length: Math.ceil(allProperties.length / 10) }).map(
-        (_, pageIndex) => {
-          const pageProperties = allProperties.slice(
-            pageIndex * 10,
-            (pageIndex + 1) * 10
-          );
-          return (
-            <div key={pageIndex}>
-              <FilterNavLayoutBlock
-                properties={pageProperties.slice(0, 6)}
-                isLoading={false}
-              />
-              {pageProperties.length > 6 && <ImageAds />}
-              <FilterNavLayoutBlock
-                properties={pageProperties.slice(6, 10)}
-                isLoading={false}
-              />
-              {pageProperties.length > 9 && <BannerAds />}
-            </div>
-          );
-        }
-      )}
+      <div className="px-4 sm:px-6 lg:px-8 xl:px-12 mt-6">
+        {Array.from({ length: Math.ceil(allProperties.length / 8) }).map(
+          (_, pageIndex) => {
+            const pageProperties = allProperties.slice(
+              pageIndex * 8,
+              (pageIndex + 1) * 8
+            );
+            return (
+              <div key={pageIndex}>
+                <FilterNavLayoutBlock
+                  properties={pageProperties.slice(0, 4)}
+                  isLoading={false}
+                />
+                {pageProperties.length > 4 && <ImageAds />}
+                <FilterNavLayoutBlock
+                  properties={pageProperties.slice(4, 8)}
+                  isLoading={false}
+                />
+                {pageProperties.length >= 8 && <BannerAds />}
+              </div>
+            );
+          }
+        )}
 
-      {/* LOADING SKELETONS */}
-      {(isLoading || isFetchingNextPage) && (
-        <div className="w-full">
-          <FilterNavLayoutBlock properties={[]} isLoading={true} />
-          <div className="my-4">
-            <ImageAdsSkeleton />
+        {/* LOADING SKELETONS */}
+        {(isLoading || isFetchingNextPage) && (
+          <div className="w-full">
+            <FilterNavLayoutBlock properties={[]} isLoading={true} />
+            <div className="my-4">
+              <ImageAdsSkeleton />
+            </div>
+            <FilterNavLayoutBlock properties={[]} isLoading={true} />
+            <div className="my-4">
+              <BannerAdsSkeleton />
+            </div>
           </div>
-          <FilterNavLayoutBlock properties={[]} isLoading={true} />
-          <div className="my-4">
-            <BannerAdsSkeleton />
-          </div>
-        </div>
-      )}
-      <div ref={lastPropertyRef} />
+        )}
+        <div ref={lastPropertyRef} />
+      </div>
       {/* NO RESULTS */}
       {!isLoading && !isFetchingNextPage && allProperties.length === 0 && (
         <div className="flex flex-col items-center gap-y-4 mt-8">

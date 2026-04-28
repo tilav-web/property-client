@@ -41,7 +41,7 @@ export default function Category() {
               const result = await propertyService.findAll({
                 filterCategory,
                 page: pageParam as number,
-                limit: 10,      });
+                limit: 8,      });
       return result as PropertyPage;
     },
     getNextPageParam: (lastPage) => {
@@ -99,24 +99,24 @@ export default function Category() {
           </div>
         ) : (
           <>
-            {Array.from({ length: Math.ceil(allProperties.length / 10) }).map(
+            {Array.from({ length: Math.ceil(allProperties.length / 8) }).map(
               (_, pageIndex) => {
                 const pageProperties = allProperties.slice(
-                  pageIndex * 10,
-                  (pageIndex + 1) * 10
+                  pageIndex * 8,
+                  (pageIndex + 1) * 8
                 );
                 return (
                   <div key={pageIndex}>
                     <FilterNavLayoutBlock
-                      properties={pageProperties.slice(0, 6)}
+                      properties={pageProperties.slice(0, 4)}
                       isLoading={false}
                     />
-                    {pageProperties.length > 6 && <ImageAds />}
+                    {pageProperties.length > 4 && <ImageAds />}
                     <FilterNavLayoutBlock
-                      properties={pageProperties.slice(6, 10)}
+                      properties={pageProperties.slice(4, 8)}
                       isLoading={false}
                     />
-                    {pageProperties.length > 9 && <BannerAds />}
+                    {pageProperties.length >= 8 && <BannerAds />}
                   </div>
                 );
               }
