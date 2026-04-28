@@ -14,18 +14,6 @@ import ProjectsFilterBar, {
 import ProjectsMap from "./_components/projects-map";
 import { useDebounce } from "@/hooks/use-debounce";
 
-const EMPTY_FILTERS: ProjectsFilterValues = {
-  search: "",
-  status: "",
-  developer: "",
-  city: "",
-  beds_min: "",
-  beds_max: "",
-  price_min: "",
-  price_max: "",
-  delivery_year: "",
-};
-
 function readFiltersFromParams(
   params: URLSearchParams,
 ): ProjectsFilterValues {
