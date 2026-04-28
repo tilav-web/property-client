@@ -16,6 +16,7 @@ import {
   Building2,
   Sparkles,
   Inbox,
+  Coins,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -104,6 +105,13 @@ export default function AdminSidebar() {
       icon: <FileText className="h-5 w-5" />,
       badge: null,
       path: "/admin/admins",
+    },
+    {
+      id: "exchange-rates",
+      label: "Exchange rates",
+      icon: <Coins className="h-5 w-5" />,
+      badge: null,
+      path: "/admin/exchange-rates",
     },
     {
       id: "site-settings",

@@ -21,7 +21,7 @@ import {
 
 // Button komponentlari
 import BackButton from "@/components/common/buttons/back-button";
-import { formatPrice as formatCurrency } from "@/utils/format-price";
+import Price from "@/components/common/price";
 import OnlineContractButton from "@/components/common/buttons/online-contract-button";
 import CallButton from "@/components/common/buttons/call-button";
 import MessageSellerButton from "@/components/common/buttons/message-seller-button";
@@ -148,9 +148,6 @@ export default function ApartmentRent({
 }) {
   const { t } = useTranslation(); // Initialize useTranslation
 
-  const formatPrice = (price: number) =>
-    formatCurrency(price, apartment.currency);
-
   if (!apartment) {
     return (
       <div className="py-8">
@@ -220,9 +217,12 @@ export default function ApartmentRent({
               </div>
             </div>
             <div className="font-bold flex items-center justify-end gap-8">
-              <p className="text-4xl text-red-500 uppercase">
-                {formatPrice(apartment.price || 0)}
-              </p>
+              <Price
+                amount={apartment.price || 0}
+                currency={apartment.currency}
+                className="text-4xl text-red-500 uppercase items-end"
+                originalClassName="text-sm normal-case"
+              />
               <FormalizeRentButton property={apartment} />
             </div>
           </div>

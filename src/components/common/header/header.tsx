@@ -40,6 +40,7 @@ import { useUiStore } from "@/stores/ui.store";
 import { ensureLanguageResources } from "@/i18n/i18n";
 import { lazy, Suspense } from "react";
 import NotificationIcon from "./_components/notification-icon";
+import CurrencySwitcher from "./_components/currency-switcher";
 
 interface IHeaderProps {
   className?: string;
@@ -199,6 +200,7 @@ export default function Header({ className }: IHeaderProps) {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+            <CurrencySwitcher />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button

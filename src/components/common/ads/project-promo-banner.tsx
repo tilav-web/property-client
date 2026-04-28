@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowRight, Calendar, Sparkles } from "lucide-react";
 import { projectService } from "@/services/project.service";
-import { formatPrice } from "@/utils/format-price";
+import Price from "@/components/common/price";
 
 /**
  * Reklama yo'q paytda banner slot'iga "Featured project" promo
@@ -64,10 +64,16 @@ export default function ProjectPromoBanner() {
             </p>
           )}
           {project.launch_price !== undefined && (
-            <p className="mt-1 text-base font-bold text-emerald-600 sm:text-lg">
-              {t("pages.projects.from", "From")}{" "}
-              {formatPrice(project.launch_price, project.currency)}
-            </p>
+            <div className="mt-1 flex items-baseline gap-1 text-emerald-600">
+              <span className="text-sm font-medium">
+                {t("pages.projects.from", "From")}
+              </span>
+              <Price
+                amount={project.launch_price}
+                currency={project.currency}
+                className="text-base sm:text-lg"
+              />
+            </div>
           )}
           <span className="mt-2 inline-flex w-fit items-center gap-1 rounded-full bg-blue-600 px-4 py-1.5 text-sm font-medium text-white group-hover:bg-blue-700">
             {t("ads.explore_project", "Explore")} <ArrowRight size={14} />

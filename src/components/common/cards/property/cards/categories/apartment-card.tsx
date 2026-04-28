@@ -5,7 +5,7 @@ import { MapPin, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import HeartButton from "@/components/common/buttons/heart-button";
 import type { PropertyType } from "@/interfaces/property/property.interface";
-import { formatPrice } from "@/utils/format-price";
+import Price from "@/components/common/price";
 import DistanceBadge from "@/components/common/distance-badge";
 
 export default function ApartmentCard({
@@ -105,9 +105,11 @@ export default function ApartmentCard({
           )}
         </div>
 
-        <p className="font-bold text-lg">
-          {formatPrice(property.price, property.currency)}
-        </p>
+        <Price
+          amount={property.price}
+          currency={property.currency}
+          className="text-lg"
+        />
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { projectService } from "@/services/project.service";
-import { formatPrice } from "@/utils/format-price";
+import Price from "@/components/common/price";
 import type { IProject } from "@/interfaces/project/project.interface";
 import ProjectContactDialog from "./_components/project-contact-dialog";
 
@@ -115,9 +115,11 @@ export default function ProjectDetailPage() {
                 <p className="text-xs uppercase tracking-wide text-blue-600">
                   {t("pages.projects.launch_price", "Launch price")}
                 </p>
-                <p className="text-2xl font-bold text-blue-900">
-                  {formatPrice(project.launch_price, project.currency)}
-                </p>
+                <Price
+                  amount={project.launch_price}
+                  currency={project.currency}
+                  className="items-end text-2xl text-blue-900"
+                />
               </div>
             )}
           </div>
@@ -189,10 +191,16 @@ export default function ProjectDetailPage() {
                     </p>
                   )}
                   {u.price_from !== undefined && (
-                    <p className="font-semibold text-emerald-600">
-                      {t("pages.projects.from", "From")}{" "}
-                      {formatPrice(u.price_from, project.currency)}
-                    </p>
+                    <div className="flex items-baseline gap-1 text-emerald-600">
+                      <span className="font-semibold">
+                        {t("pages.projects.from", "From")}
+                      </span>
+                      <Price
+                        amount={u.price_from}
+                        currency={project.currency}
+                        showOriginal={false}
+                      />
+                    </div>
                   )}
                   {u.count !== undefined && (
                     <p className="text-gray-400">

@@ -40,6 +40,9 @@ const AdminProjectInquiriesPage = lazy(
 const AdminSiteSettingsPage = lazy(
   () => import("./pages/admin/_pages/site-settings"),
 );
+const AdminExchangeRatesPage = lazy(
+  () => import("./pages/admin/_pages/exchange-rates"),
+);
 const AdminUsers = lazy(() => import("./pages/admin/_pages/users/admin-users"));
 const Login = lazy(() => import("./pages/auth/login"));
 const OtpConfirmation = lazy(() => import("./pages/auth/otp-confirmation"));
@@ -371,6 +374,10 @@ const router = createBrowserRouter([
       {
         path: "site-settings",
         element: withSuspense(<AdminSiteSettingsPage />),
+      },
+      {
+        path: "exchange-rates",
+        element: withSuspense(<AdminExchangeRatesPage />),
       },
     ],
   },

@@ -6,7 +6,7 @@ import MailButton from "@/components/common/buttons/mail-button";
 import WhatsAppButton from "@/components/common/buttons/whats-app-button";
 import type { IApartmentSale } from "@/interfaces/property/categories/apartment-sale.interface";
 import { isNewProperty } from "@/utils/is-new-property";
-import { formatPrice } from "@/utils/format-price";
+import Price from "@/components/common/price";
 import DistanceBadge from "@/components/common/distance-badge";
 import { Badge, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -68,9 +68,11 @@ export default function ApartmentSaleCard({
               </p>
             </div>
 
-            <p className="text-xl lg:text-2xl font-bold text-[#FF0000]">
-              {formatPrice(apartment.price, apartment.currency)}
-            </p>
+            <Price
+              amount={apartment.price}
+              currency={apartment.currency}
+              className="text-xl lg:text-2xl text-[#FF0000]"
+            />
           </div>
           <p className="text-sm hidden lg:block md:text-base text-gray-700 font-bold line-clamp-2">
             {apartment.title}

@@ -14,7 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { formatPrice } from "@/utils/format-price";
+import Price from "@/components/common/price";
 import DistanceBadge from "@/components/common/distance-badge";
 
 interface PropertyCardProps {
@@ -134,11 +134,11 @@ export default function PropertyCard({
             </Badge>
 
             <div className="text-right">
-              <div className="flex items-baseline gap-1">
-                <span className="text-xl font-bold text-gray-900">
-                  {formatPrice(price, currency)}
-                </span>
-              </div>
+              <Price
+                amount={price}
+                currency={currency}
+                className="items-end text-xl text-gray-900"
+              />
             </div>
           </div>
 

@@ -48,3 +48,34 @@ export function formatPrice(
     maximumFractionDigits: meta.decimals,
   }).format(amount);
 }
+
+/**
+ * Konvertatsiya: barcha kurslar `base` ga nisbatan saqlangan deb qabul qilamiz
+ * (1 base = X). amount * (rates[to] / rates[from]).
+ *
+ * Kurslar yetarli emas yoki noto'g'ri bo'lsa, asl summani qaytaradi.
+ */
+export function convertPrice(
+  amount: number,
+  from: string | undefined | null,
+  to: string | undefined | null,
+  rates: Partial<Record<string, number>> | null | undefined
+): number {
+  if (!rates || !from || !to) return amount;
+  const fromKey = from.toUpperCase();
+  const toKey = to.toUpperCase();
+  if (fromKey === toKey) return amount;
+
+  const fromRate = rates[fromKey];
+  const toRate = rates[toKey];
+  if (
+    typeof fromRate !== "number" ||
+    typeof toRate !== "number" ||
+    fromRate <= 0 ||
+    toRate <= 0
+  ) {
+    return amount;
+  }
+
+  return amount * (toRate / fromRate);
+}

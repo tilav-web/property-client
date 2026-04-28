@@ -14,7 +14,7 @@ import type { IProperty } from "@/interfaces/property/property.interface";
 import HeartButton from "@/components/common/buttons/heart-button";
 import EllipsisVerticalButton from "@/components/common/buttons/ellipsis-vertical-button";
 import type { CategoryType } from "@/interfaces/types/category.type";
-import { formatPrice } from "@/utils/format-price";
+import Price from "@/components/common/price";
 
 interface PropertyCardProps {
   property: IProperty;
@@ -22,9 +22,6 @@ interface PropertyCardProps {
 
 export default function PropertyCard({ property }: PropertyCardProps) {
   if (!property) return null;
-
-  const formatPriceDisplay = () =>
-    formatPrice(property.price, property.currency);
 
   const getCategoryIcon = (category: CategoryType) => {
     switch (category) {
@@ -99,9 +96,11 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           {/* Price and Category */}
           <div className="flex justify-between items-start mb-3">
             <div>
-              <div className="text-2xl font-bold text-gray-900">
-                {formatPriceDisplay()}
-              </div>
+              <Price
+                amount={property.price}
+                currency={property.currency}
+                className="text-2xl text-gray-900"
+              />
               <div className="flex items-center gap-1.5 mt-1">
                 <Badge variant="outline" className="flex items-center gap-1.5">
                   {getCategoryIcon(property.category)}

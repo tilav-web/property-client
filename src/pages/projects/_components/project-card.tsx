@@ -1,6 +1,6 @@
 import { Calendar, MapPin, Bed } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { formatPrice } from "@/utils/format-price";
+import Price from "@/components/common/price";
 import type { IProject } from "@/interfaces/project/project.interface";
 
 const STATUS_COLORS: Record<string, string> = {
@@ -86,9 +86,11 @@ export default function ProjectCard({ project }: { project: IProject }) {
             <p className="text-[11px] uppercase tracking-wide text-gray-400">
               {t("pages.projects.launch_price", "Launch price")}
             </p>
-            <p className="text-base font-bold text-gray-900">
-              {formatPrice(project.launch_price, project.currency)}
-            </p>
+            <Price
+              amount={project.launch_price}
+              currency={project.currency}
+              className="text-base text-gray-900"
+            />
           </div>
         )}
       </div>
