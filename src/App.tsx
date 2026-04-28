@@ -53,6 +53,7 @@ const SocialCallback = lazy(() => import("./pages/auth/social-callback"));
 const Favorites = lazy(() => import("./pages/favorites/favorites"));
 const YandexMap = lazy(() => import("./pages/map/yandex-map"));
 const Profile = lazy(() => import("./pages/profile/profile"));
+const Settings = lazy(() => import("./pages/settings/settings"));
 const Messages = lazy(() => import("./pages/messages/messages"));
 const AiChat = lazy(() => import("./pages/ai-chat/ai-chat"));
 const Developers = lazy(() => import("./pages/developers/developers"));
@@ -182,6 +183,14 @@ const router = createBrowserRouter([
         element: withSuspense(
           <SubLayout>
             <Profile />
+          </SubLayout>
+        ),
+      },
+      {
+        path: "/settings",
+        element: withSuspense(
+          <SubLayout>
+            <Settings />
           </SubLayout>
         ),
       },

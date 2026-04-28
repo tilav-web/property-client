@@ -17,7 +17,7 @@ import NotificationsTab from "./_components/notifications-tab";
 import { useNotificationStore } from "@/stores/notification.store";
 import { useSaveStore } from "@/stores/save.store";
 import { useInquiryResponseStore } from "@/stores/inquiry-response.store";
-import { Globe, ChevronDown, LogOut } from "lucide-react";
+import { Globe, ChevronDown, LogOut, Settings as SettingsIcon } from "lucide-react";
 import type { ILanguage } from "@/interfaces/language/language.interface";
 import { userService } from "@/services/user.service";
 import { handleStorage } from "@/utils/handle-storage";
@@ -130,6 +130,19 @@ export default function Profile() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
+
+            <Button
+              onClick={() => navigate("/settings")}
+              variant="outline"
+              size="sm"
+              aria-label={t("pages.settings.title", "Settings")}
+              className="border-gray-200"
+            >
+              <SettingsIcon className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">
+                {t("pages.settings.title", "Settings")}
+              </span>
+            </Button>
 
             <Button
               onClick={() => navigate("/seller/profile")}

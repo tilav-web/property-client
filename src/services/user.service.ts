@@ -139,6 +139,20 @@ class UserService {
     }
   }
 
+  async changePassword({
+    currentPassword,
+    newPassword,
+  }: {
+    currentPassword: string;
+    newPassword: string;
+  }) {
+    const res = await apiInstance.post(
+      `${API_ENDPOINTS.USER.base}/change-password`,
+      { currentPassword, newPassword }
+    );
+    return res.data;
+  }
+
   googleLogin() {
     window.location.href = API_ENDPOINTS.USER.auth.google;
   }
