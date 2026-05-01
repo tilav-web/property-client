@@ -126,7 +126,7 @@ function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
   if (!coordinates) {
     return (
       <div className="w-full h-[30vh] lg:h-[60vh] rounded-xl bg-gray-200 flex items-center justify-center">
-        <span className="text-gray-500">
+        <span className="text-muted-foreground">
           {t("common.no_coordinates_available")}
         </span>
       </div>
@@ -153,7 +153,7 @@ export default function ApartmentRent({
       <div className="py-8">
         <BackButton className="mb-6" />
         <div className="text-center py-20">
-          <div className="text-gray-500">{t("common.no_data_available")}</div>{" "}
+          <div className="text-muted-foreground">{t("common.no_data_available")}</div>{" "}
           {/* Translated */}
         </div>
       </div>
@@ -221,34 +221,34 @@ export default function ApartmentRent({
                 amount={apartment.price || 0}
                 currency={apartment.currency}
                 className="text-2xl md:text-3xl text-red-500 justify-end"
-                originalClassName="text-base text-gray-500"
+                originalClassName="text-base text-muted-foreground"
               />
               <FormalizeRentButton property={apartment} />
             </div>
           </div>
           <div>
-            <h2 className="mb-4 text-xl font-semibold">{apartment.title}</h2>
-            <p className="mb-4 text-gray-600">{apartment.description}</p>
-            <h3 className="mb-2 font-medium text-gray-800">
+            <h2 className="mb-4 font-display text-2xl text-foreground">{apartment.title}</h2>
+            <p className="mb-4 text-muted-foreground">{apartment.description}</p>
+            <h3 className="mb-2 font-medium text-foreground">
               {t("pages.property_page.property_details")}
             </h3>{" "}
             {/* Translated */}
-            <ul className="space-y-1 text-gray-600">
-              <li className="before:content-['-'] before:mr-2 before:text-gray-800">
+            <ul className="space-y-1 text-muted-foreground">
+              <li className="before:content-['-'] before:mr-2 before:text-foreground">
                 <span className="font-medium">
                   {t("pages.property_page.address")}:
                 </span>{" "}
                 {apartment.address}
               </li>{" "}
               {/* Translated */}
-              <li className="before:content-['-'] before:mr-2 before:text-gray-800">
+              <li className="before:content-['-'] before:mr-2 before:text-foreground">
                 <span className="font-medium">
                   {t("pages.property_page.category")}:
                 </span>{" "}
                 {t(`categories.${apartment.category}`)}
               </li>{" "}
               {/* Translated and dynamic */}
-              <li className="before:content-['-'] before:mr-2 before:text-gray-800">
+              <li className="before:content-['-'] before:mr-2 before:text-foreground">
                 <span className="font-medium">
                   {t("pages.property_page.furnished")}:
                 </span>{" "}
@@ -259,7 +259,7 @@ export default function ApartmentRent({
                 )}
               </li>{" "}
               {/* Translated and dynamic */}
-              <li className="before:content-['-'] before:mr-2 before:text-gray-800">
+              <li className="before:content-['-'] before:mr-2 before:text-foreground">
                 <span className="font-medium">
                   {t("pages.property_page.repair_type")}:
                 </span>{" "}
@@ -268,7 +268,7 @@ export default function ApartmentRent({
                   : t("common.not_specified")}
               </li>{" "}
               {/* Translated and dynamic */}
-              <li className="before:content-['-'] before:mr-2 before:text-gray-800">
+              <li className="before:content-['-'] before:mr-2 before:text-foreground">
                 <span className="font-medium">
                   {t("pages.property_page.heating")}:
                 </span>{" "}
@@ -284,20 +284,20 @@ export default function ApartmentRent({
 
       {/* Property details */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-gray-800 mb-6">
+        <h2 className="text-xl font-semibold text-foreground mb-6">
           {t("pages.property_page.property_details")}
         </h2>{" "}
         {/* Translated */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <Building2 className="w-5 h-5 text-gray-500" />
+              <Building2 className="w-5 h-5 text-muted-foreground" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
+                <span className="text-muted-foreground text-sm">
                   {t("pages.property_page.category")}
                 </span>{" "}
                 {/* Translated */}
-                <p className="font-medium text-gray-800 capitalize">
+                <p className="font-medium text-foreground capitalize">
                   {t(`categories.${apartment.category}`)}
                 </p>{" "}
                 {/* Translated and dynamic */}
@@ -305,25 +305,25 @@ export default function ApartmentRent({
             </div>
 
             <div className="flex items-center gap-3">
-              <Bed className="w-5 h-5 text-gray-500" />
+              <Bed className="w-5 h-5 text-muted-foreground" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
+                <span className="text-muted-foreground text-sm">
                   {t("pages.property_page.bedrooms")}
                 </span>{" "}
                 {/* Translated */}
-                <p className="font-medium text-gray-800">
+                <p className="font-medium text-foreground">
                   {apartment.bedrooms || 0}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <Rotate3D className="w-5 h-5 text-gray-500" />
+              <Rotate3D className="w-5 h-5 text-muted-foreground" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
+                <span className="text-muted-foreground text-sm">
                   {t("pages.property_page.floor")}
                 </span>
-                <p className="font-medium text-gray-800">
+                <p className="font-medium text-foreground">
                   {apartment.floor_level || 0} /{" "}
                   {apartment.total_floors || t("common.not_specified")}
                 </p>{" "}
@@ -332,13 +332,13 @@ export default function ApartmentRent({
             </div>
 
             <div className="flex items-center gap-3">
-              <Home className="w-5 h-5 text-gray-500" />
+              <Home className="w-5 h-5 text-muted-foreground" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
+                <span className="text-muted-foreground text-sm">
                   {t("pages.property_page.heating")}
                 </span>{" "}
                 {/* Translated */}
-                <p className="font-medium text-gray-800">
+                <p className="font-medium text-foreground">
                   {apartment.heating
                     ? t(`enums.heating_type.${apartment.heating}`)
                     : t("common.not_specified")}
@@ -350,13 +350,13 @@ export default function ApartmentRent({
 
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <Maximize className="w-5 h-5 text-gray-500" />
+              <Maximize className="w-5 h-5 text-muted-foreground" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
+                <span className="text-muted-foreground text-sm">
                   {t("pages.property_page.area")}
                 </span>{" "}
                 {/* Translated */}
-                <p className="font-medium text-gray-800">
+                <p className="font-medium text-foreground">
                   {apartment.area || 0} {t("pages.property_page.sq_m")}
                 </p>{" "}
                 {/* Translated */}
@@ -364,25 +364,25 @@ export default function ApartmentRent({
             </div>
 
             <div className="flex items-center gap-3">
-              <Bath className="w-5 h-5 text-gray-500" />
+              <Bath className="w-5 h-5 text-muted-foreground" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
+                <span className="text-muted-foreground text-sm">
                   {t("pages.property_page.bathrooms")}
                 </span>{" "}
                 {/* Translated */}
-                <p className="font-medium text-gray-800">
+                <p className="font-medium text-foreground">
                   {apartment.bathrooms || 0}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <Wrench className="w-5 h-5 text-gray-500" />
+              <Wrench className="w-5 h-5 text-muted-foreground" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
+                <span className="text-muted-foreground text-sm">
                   {t("pages.property_page.repair_type")}
                 </span>
-                <p className="font-medium text-gray-800">
+                <p className="font-medium text-foreground">
                   {apartment.repair_type
                     ? t(`enums.repair_type.${apartment.repair_type}`)
                     : t("common.not_specified")}
@@ -395,7 +395,7 @@ export default function ApartmentRent({
         {/* Amenities */}
         {apartment.amenities && apartment.amenities.length > 0 && (
           <div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+            <h3 className="text-lg font-semibold text-foreground mb-4">
               {t("pages.property_page.amenities")}
             </h3>{" "}
             {/* Translated */}

@@ -45,8 +45,8 @@ export default function AdminLogin() {
         <div className="p-8 pb-6 border-b border-slate-200/50 dark:border-slate-700/50">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                <Key className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              <div className="p-2 bg-accent dark:bg-blue-900/30 rounded-lg">
+                <Key className="w-5 h-5 text-primary dark:text-primary/70" />
               </div>
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
                 {isForgotPassword ? "Reset Password" : "Administrator Login"}
@@ -66,8 +66,8 @@ export default function AdminLogin() {
             /* Forgot Password Form */
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
-                <div className="flex items-start gap-3 p-4 bg-blue-50/50 dark:bg-blue-900/20 rounded-xl border border-blue-200/50 dark:border-blue-700/30">
-                  <AlertCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-4 bg-accent/50 dark:bg-blue-900/20 rounded-xl border border-blue-200/50 dark:border-blue-700/30">
+                  <AlertCircle className="w-5 h-5 text-primary dark:text-primary/70 flex-shrink-0 mt-0.5" />
                   <p className="text-sm text-blue-800 dark:text-blue-300">
                     We'll send a secure password reset link to your registered
                     email address.
@@ -85,7 +85,7 @@ export default function AdminLogin() {
                     <input
                       type="email"
                       placeholder="admin@amaarproperty.com"
-                      className="w-full px-4 py-3 pl-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200 text-slate-900 dark:text-white"
+                      className="w-full px-4 py-3 pl-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-primary transition-all duration-200 text-slate-900 dark:text-white"
                       autoComplete="email"
                     />
                     <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -126,7 +126,7 @@ export default function AdminLogin() {
                       type="email"
                       placeholder="admin@amaarproperty.com"
                       disabled={loading}
-                      className="w-full px-4 py-3 pl-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200 text-slate-900 dark:text-white"
+                      className="w-full px-4 py-3 pl-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-primary transition-all duration-200 text-slate-900 dark:text-white"
                     />
                     <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
                   </div>
@@ -143,7 +143,7 @@ export default function AdminLogin() {
                         type="button"
                         onClick={() => setIsForgotPassword(true)}
                         disabled={loading}
-                        className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+                        className="text-xs text-primary dark:text-primary/70 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
                       >
                         Forgot password?
                       </button>
@@ -155,7 +155,7 @@ export default function AdminLogin() {
                       type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
                       disabled={loading}
-                      className="w-full px-4 py-3 pl-11 pr-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-200 text-slate-900 dark:text-white"
+                      className="w-full px-4 py-3 pl-11 pr-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-primary transition-all duration-200 text-slate-900 dark:text-white"
                     />
                     <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
                     <button
@@ -178,7 +178,7 @@ export default function AdminLogin() {
                     type="checkbox"
                     id="remember"
                     disabled={loading}
-                    className="w-4 h-4 text-blue-600 bg-slate-100 border-slate-300 rounded focus:ring-blue-500 focus:ring-2"
+                    className="w-4 h-4 text-primary bg-slate-100 border-slate-300 rounded focus:ring-blue-500 focus:ring-2"
                   />
                   <label
                     htmlFor="remember"

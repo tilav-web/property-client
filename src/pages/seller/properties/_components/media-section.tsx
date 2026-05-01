@@ -74,11 +74,11 @@ export default function MediaSection({
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-                    <Image className="w-7 h-7 text-blue-600" />
+                  <h3 className="text-2xl font-bold text-foreground flex items-center gap-3">
+                    <Image className="w-7 h-7 text-primary" />
                     {t("media_section.photos_title")}
                   </h3>
-                  <p className="text-gray-600 mt-2">
+                  <p className="text-muted-foreground mt-2">
                     {t("media_section.photos_description")}
                   </p>
                 </div>
@@ -114,7 +114,7 @@ export default function MediaSection({
                   "border-3 border-dashed rounded-2xl p-12 text-center transition-all duration-300",
                   photos.length === 0
                     ? "border-blue-200 bg-blue-50 hover:bg-blue-100"
-                    : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+                    : "border-border/60 bg-gray-50 hover:bg-gray-100"
                 )}
               >
                 <div className="max-w-md mx-auto">
@@ -135,13 +135,13 @@ export default function MediaSection({
                       disabled={isSubmitting} // Disable during submission
                     />
                     <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white border-4 border-blue-100 shadow-lg">
-                      <Upload className="w-10 h-10 text-blue-600" />
+                      <Upload className="w-10 h-10 text-primary" />
                     </div>
                     <div>
-                      <p className="text-xl font-semibold text-gray-900 mb-2">
+                      <p className="text-xl font-semibold text-foreground mb-2">
                         {t("media_section.photo_upload_title")}
                       </p>
-                      <p className="text-gray-600 mb-4">
+                      <p className="text-muted-foreground mb-4">
                         {t("media_section.photo_upload_hint")}
                       </p>
                       <Button
@@ -161,7 +161,7 @@ export default function MediaSection({
               {photos.length > 0 && (
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <h4 className="font-medium text-gray-900">
+                    <h4 className="font-medium text-foreground">
                       {t("media_section.uploaded_photos")}
                     </h4>
                     <button
@@ -214,18 +214,18 @@ export default function MediaSection({
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                  <h3 className="text-2xl font-bold text-foreground flex items-center gap-3">
                     <Video className="w-7 h-7 text-purple-600" />
                     {t("media_section.videos_title")}
                     <span className="text-sm font-normal text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
                       {t("media_section.videos_optional")}
                     </span>
                   </h3>
-                  <p className="text-gray-600 mt-2">
+                  <p className="text-muted-foreground mt-2">
                     {t("media_section.videos_description")}
                   </p>
                 </div>
-                <div className="text-sm text-gray-500 bg-purple-50 px-4 py-2 rounded-full">
+                <div className="text-sm text-muted-foreground bg-purple-50 px-4 py-2 rounded-full">
                   {videos.length} {t("media_section.videos_suffix")}
                 </div>
               </div>
@@ -235,7 +235,7 @@ export default function MediaSection({
                   "border-3 border-dashed rounded-2xl p-12 text-center transition-all duration-300",
                   videos.length === 0
                     ? "border-purple-200 bg-purple-50 hover:bg-purple-100"
-                    : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+                    : "border-border/60 bg-gray-50 hover:bg-gray-100"
                 )}
               >
                 <div className="max-w-md mx-auto">
@@ -259,10 +259,10 @@ export default function MediaSection({
                       <Video className="w-10 h-10 text-purple-600" />
                     </div>
                     <div>
-                      <p className="text-xl font-semibold text-gray-900 mb-2">
+                      <p className="text-xl font-semibold text-foreground mb-2">
                         {t("media_section.video_upload_title")}
                       </p>
-                      <p className="text-gray-600 mb-4">
+                      <p className="text-muted-foreground mb-4">
                         {t("media_section.video_upload_hint")}
                       </p>
                       <Button
@@ -282,7 +282,7 @@ export default function MediaSection({
               {videos.length > 0 && (
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <h4 className="font-medium text-gray-900">
+                    <h4 className="font-medium text-foreground">
                       {t("media_section.uploaded_videos")}
                     </h4>
                     <button
@@ -320,10 +320,10 @@ export default function MediaSection({
                           </div>
                         </div>
                         <div className="p-4 bg-white">
-                          <p className="text-sm font-medium text-gray-900 truncate">
+                          <p className="text-sm font-medium text-foreground truncate">
                             {video.file.name}
                           </p>
-                          <p className="text-xs text-gray-500 mt-1">
+                          <p className="text-xs text-muted-foreground mt-1">
                             {(video.file.size / (1024 * 1024)).toFixed(1)} MB
                           </p>
                         </div>

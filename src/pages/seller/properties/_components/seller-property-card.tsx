@@ -49,7 +49,7 @@ export default function SellerPropertyCard({
   };
 
   return (
-    <Card className="overflow-hidden border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col">
+    <Card className="overflow-hidden border border-border/60 hover:border-border shadow-sm hover:shadow-md transition-all duration-300 flex flex-col">
       {/* Card Header - Image Section */}
       <div className="relative">
         <div className="h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
@@ -115,7 +115,7 @@ export default function SellerPropertyCard({
 
       <CardContent className="p-4 flex-1">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg sm:text-xl font-bold text-gray-900">
+          <h3 className="text-lg sm:text-xl font-bold text-foreground">
             {formatPrice(property.price, property.currency)}
           </h3>
           <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-full">
@@ -127,17 +127,17 @@ export default function SellerPropertyCard({
         </div>
 
         <h2
-          className="text-md sm:text-lg font-semibold text-gray-800 mb-2 line-clamp-1 cursor-pointer hover:text-blue-600"
+          className="text-md sm:text-lg font-semibold text-foreground mb-2 line-clamp-1 cursor-pointer hover:text-primary"
           onClick={() => navigate(`/property/${property._id}`)}
         >
           {property.title}
         </h2>
 
-        <p className="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-2">
+        <p className="text-xs sm:text-sm text-muted-foreground mb-3 line-clamp-2">
           {property.description}
         </p>
 
-        <div className="flex items-start gap-2 text-gray-500">
+        <div className="flex items-start gap-2 text-muted-foreground">
           <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
           <p className="text-xs sm:text-sm line-clamp-2">{property.address}</p>
         </div>

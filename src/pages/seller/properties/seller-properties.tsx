@@ -143,10 +143,10 @@ export default function SellerProperties() {
   const Header = (
     <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+        <h1 className="text-2xl md:text-3xl font-bold text-foreground">
           {t("pages.seller_properties_page.my_properties")}
         </h1>
-        <p className="text-gray-600 mt-1 text-sm">
+        <p className="text-muted-foreground mt-1 text-sm">
           {t("pages.seller_properties_page.total_properties", {
             count: data?.totalItems ?? 0,
           })}
@@ -154,7 +154,7 @@ export default function SellerProperties() {
       </div>
       <Button
         onClick={handleCreateProperty}
-        className="bg-blue-600 hover:bg-blue-700 text-white self-start lg:self-auto"
+        className="bg-primary hover:bg-primary/90 text-white self-start lg:self-auto"
         size="lg"
       >
         <Plus className="w-5 h-5 mr-1" />
@@ -202,7 +202,7 @@ export default function SellerProperties() {
           <div className="relative flex-1">
             <Search
               size={16}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/70"
             />
             <Input
               placeholder={t("pages.seller_properties_page.search", {
@@ -228,8 +228,8 @@ export default function SellerProperties() {
                   className={cn(
                     "flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium transition-colors",
                     active
-                      ? "bg-blue-600 text-white shadow-sm"
-                      : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50",
+                      ? "bg-primary text-white shadow-sm"
+                      : "bg-white border border-border/60 text-gray-700 hover:bg-gray-50",
                   )}
                 >
                   {opt.key === "all" && <Filter size={12} />}
@@ -256,17 +256,17 @@ export default function SellerProperties() {
             <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
               <Home className="w-8 h-8 text-blue-500" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <h3 className="text-xl font-semibold text-foreground mb-2">
               {t("pages.seller_properties_page.no_properties_found")}
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-muted-foreground mb-6">
               {t(
                 "pages.seller_properties_page.you_have_not_added_any_properties_yet",
               )}
             </p>
             <Button
               onClick={handleCreateProperty}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              className="bg-primary hover:bg-primary/90 text-white"
             >
               <Plus className="w-4 h-4 mr-1" />
               {t("pages.seller_properties_page.add_first_property")}
@@ -276,7 +276,7 @@ export default function SellerProperties() {
       ) : filtered.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-xl border border-dashed">
           <Search className="mx-auto h-10 w-10 text-gray-300" />
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-sm text-muted-foreground">
             {t("pages.seller_properties_page.no_results", {
               defaultValue: "No properties match your filter",
             })}
@@ -341,7 +341,7 @@ export default function SellerProperties() {
                 {data.totalPages > 5 &&
                   currentPage < data.totalPages - 2 && (
                     <>
-                      <span className="px-1 text-gray-400">...</span>
+                      <span className="px-1 text-muted-foreground/70">...</span>
                       <Button
                         variant="outline"
                         size="sm"

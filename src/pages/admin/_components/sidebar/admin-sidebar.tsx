@@ -22,6 +22,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { useLocation, useNavigate } from "react-router-dom";
 import { adminService } from "../../_services/admin.service";
@@ -190,80 +191,83 @@ export default function AdminSidebar() {
   // Desktop Sidebar
   const DesktopSidebar = () => (
     <div
-      className={`hidden md:flex flex-col h-screen bg-background border-r transition-all duration-300 w-64`}
+      className="hidden md:flex flex-col h-screen bg-sidebar text-sidebar-foreground transition-all duration-300 w-64"
     >
-      <div className={`flex items-center p-4 border-b gap-3`}>
-        <Avatar className="h-10 w-10">
+      <div className="flex items-center p-4 border-b border-sidebar-border gap-3">
+        <Avatar className="h-10 w-10 border border-sidebar-border">
           <AvatarImage src="https://github.com/shadcn.png" alt="Admin" />
-          <AvatarFallback>AD</AvatarFallback>
+          <AvatarFallback className="bg-sidebar-primary text-sidebar-primary-foreground text-xs font-semibold">
+            AD
+          </AvatarFallback>
         </Avatar>
         <div className="flex-1 overflow-hidden">
-          <p className="font-medium truncate">Admin User</p>
-          <p className="text-xs text-muted-foreground truncate">
+          <p className="font-medium truncate text-sm">Admin User</p>
+          <p className="text-xs text-sidebar-foreground/60 truncate">
             admin@example.com
           </p>
         </div>
       </div>
       {/* Navigation Menu */}
       <div className="flex-1 overflow-y-auto p-2">
-        <nav className="space-y-1">
+        <nav className="space-y-0.5">
           {menuItems.map((item) => (
-            <Button
+            <button
               key={item.id}
-              variant={activeItem === item.id ? "secondary" : "ghost"}
-              className={`w-full justify-start px-3`}
+              type="button"
+              className={cn(
+                "w-full flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-all",
+                activeItem === item.id
+                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                  : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground",
+              )}
               onClick={() => handleItemClick(item.id, item.path)}
             >
-              <div className="flex items-center w-full">
-                <span className="flex-shrink-0">{item.icon}</span>
-                <span className="ml-3 flex-1 text-left">{item.label}</span>
-                {item.badge !== null && (
-                  <Badge variant="secondary" className="ml-auto">
-                    {item.badge}
-                  </Badge>
-                )}
-              </div>
-            </Button>
+              <span className="flex-shrink-0">{item.icon}</span>
+              <span className="flex-1 text-left truncate">{item.label}</span>
+              {item.badge !== null && (
+                <Badge variant="default" className="ml-auto">
+                  {item.badge}
+                </Badge>
+              )}
+            </button>
           ))}
         </nav>
       </div>
 
-      <Separator />
+      <Separator className="bg-sidebar-border" />
 
       {/* Bottom Navigation */}
-      <div className="p-2 space-y-1">
+      <div className="p-2 space-y-0.5">
         {bottomItems.map((item) => (
-          <Button
+          <button
             key={item.id}
-            variant="ghost"
-            className={`w-full justify-start px-3`}
+            type="button"
+            className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all"
             onClick={() => handleItemClick(item.id, item.path)}
           >
-            <div className="flex items-center w-full">
-              <span className="flex-shrink-0">{item.icon}</span>
-              <span className="ml-3 flex-1 text-left">{item.label}</span>
-              {item.badge !== null && (
-                <Badge variant="secondary" className="ml-auto">
-                  {item.badge}
-                </Badge>
-              )}
-            </div>
-          </Button>
+            <span className="flex-shrink-0">{item.icon}</span>
+            <span className="flex-1 text-left truncate">{item.label}</span>
+            {item.badge !== null && (
+              <Badge variant="default" className="ml-auto">
+                {item.badge}
+              </Badge>
+            )}
+          </button>
         ))}
       </div>
 
-      <Separator />
+      <Separator className="bg-sidebar-border" />
 
       {/* Logout */}
-      <div className="p-4">
-        <Button
-          variant="ghost"
-          className={`w-full justify-start px-3`}
+      <div className="p-3">
+        <button
+          type="button"
+          className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium bg-destructive/15 text-destructive hover:bg-destructive/25 transition-all"
           onClick={handleLogout}
         >
           <LogOut className="h-5 w-5" />
-          <span className="ml-3">Logout</span>
-        </Button>
+          <span>Logout</span>
+        </button>
       </div>
     </div>
   );

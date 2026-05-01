@@ -98,8 +98,8 @@ export default function ProjectsFilterBar({ value, onChange, total }: Props) {
             onClick={() => onChange({ ...value, status: "" })}
             className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium transition-colors ${
               !value.status
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                ? "bg-primary text-primary-foreground"
+                : "bg-muted text-foreground/70 hover:bg-accent"
             }`}
           >
             {t("common.all", "All")}
@@ -113,8 +113,8 @@ export default function ProjectsFilterBar({ value, onChange, total }: Props) {
               }
               className={`whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                 value.status === s
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-foreground/70 hover:bg-accent"
               }`}
             >
               {t(`pages.projects.status.${s}`, s.replace("_", " "))}
@@ -134,7 +134,7 @@ export default function ProjectsFilterBar({ value, onChange, total }: Props) {
               <Filter size={14} />
               {t("pages.projects.filters.more", "More")}
               {activeCount > 0 && (
-                <span className="ml-1 rounded-full bg-blue-600 px-1.5 text-[11px] font-bold text-white">
+                <span className="ml-1 rounded-full bg-primary px-1.5 text-[11px] font-bold text-primary-foreground">
                   {activeCount}
                 </span>
               )}

@@ -52,10 +52,10 @@ function Chip({
         <button
           type="button"
           className={cn(
-            "flex h-9 items-center gap-1.5 rounded-full border px-3 text-sm whitespace-nowrap transition-colors",
+            "flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-xs font-medium whitespace-nowrap transition-all",
             hasValue
-              ? "border-blue-500 bg-blue-50 font-medium text-blue-700"
-              : "border-gray-200 bg-white text-gray-700 hover:border-gray-300",
+              ? "border-primary bg-primary/10 text-foreground shadow-sm"
+              : "border-border bg-card text-foreground/70 hover:border-foreground/30 hover:text-foreground",
           )}
         >
           {label}
@@ -145,11 +145,11 @@ export default function MapFilterBar() {
       : t("pages.map_page.filters.beds", "Beds");
 
   return (
-    <div className="pointer-events-auto flex items-center gap-2 overflow-x-auto rounded-full border border-gray-200 bg-white/95 p-1.5 shadow-lg backdrop-blur-sm">
-      <SlidersHorizontal size={16} className="ml-2 text-gray-400 shrink-0" />
+    <div className="pointer-events-auto flex items-center gap-2 overflow-x-auto rounded-full border border-border/60 bg-card/95 p-1.5 shadow-card backdrop-blur">
+      <SlidersHorizontal size={14} className="ml-2 text-muted-foreground shrink-0" />
 
       {/* Category */}
-      <div className="flex gap-1 rounded-full bg-gray-100 p-1">
+      <div className="flex gap-1 rounded-full bg-muted p-1">
         {CATEGORIES.map((c) => (
           <button
             key={c.key}
@@ -160,8 +160,8 @@ export default function MapFilterBar() {
             className={cn(
               "rounded-full px-3 py-1 text-xs font-medium transition-colors whitespace-nowrap",
               currentCategory === c.key
-                ? "bg-white text-blue-700 shadow-sm"
-                : "text-gray-600 hover:text-gray-900",
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-foreground/70 hover:text-foreground",
             )}
           >
             {t(c.labelKey)}
@@ -221,10 +221,10 @@ export default function MapFilterBar() {
                   type="button"
                   onClick={() => toggleBedroom(room)}
                   className={cn(
-                    "rounded-full border px-3 py-1 text-sm transition-colors",
+                    "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
                     active
-                      ? "border-blue-500 bg-blue-500 text-white"
-                      : "border-gray-200 hover:border-gray-300",
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border hover:border-foreground/30",
                   )}
                 >
                   {room === "7" ? "7+" : room}
@@ -253,10 +253,10 @@ export default function MapFilterBar() {
                   type="button"
                   onClick={() => toggleAmenity(a.value)}
                   className={cn(
-                    "rounded-full border px-3 py-1 text-sm transition-colors",
+                    "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
                     active
-                      ? "border-blue-500 bg-blue-500 text-white"
-                      : "border-gray-200 hover:border-gray-300",
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border hover:border-foreground/30",
                   )}
                 >
                   {t(a.labelKey, a.fallback)}
@@ -304,10 +304,10 @@ export default function MapFilterBar() {
                       })
                     }
                     className={cn(
-                      "rounded-full border px-3 py-1 text-xs transition-colors",
+                      "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
                       active
-                        ? "border-blue-500 bg-blue-500 text-white"
-                        : "border-gray-200 hover:border-gray-300",
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border hover:border-foreground/30",
                     )}
                   >
                     {t(s.labelKey, s.fallback)}
@@ -323,11 +323,11 @@ export default function MapFilterBar() {
         <button
           type="button"
           onClick={clearAll}
-          className="ml-1 flex h-8 items-center gap-1 rounded-full bg-red-50 px-3 text-xs font-medium text-red-600 hover:bg-red-100 shrink-0"
+          className="ml-1 flex h-8 items-center gap-1 rounded-full bg-destructive/10 px-3 text-xs font-medium text-destructive hover:bg-destructive/15 shrink-0"
         >
           <X size={14} />
           {t("common.clear_all", "Clear")}
-          <span className="rounded-full bg-red-100 px-1.5">{activeCount}</span>
+          <span className="rounded-full bg-destructive/15 px-1.5">{activeCount}</span>
         </button>
       )}
     </div>

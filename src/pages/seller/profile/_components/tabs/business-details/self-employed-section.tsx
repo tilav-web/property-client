@@ -180,7 +180,7 @@ export default function SelfEmployedSection({
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900">
+      <h3 className="text-lg font-semibold text-foreground">
         {t("pages.self_employed_section.self_employed_entrepreneur_details")}
       </h3>
 
@@ -336,7 +336,7 @@ export default function SelfEmployedSection({
               />
               <label
                 htmlFor="passport_file"
-                className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+                className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-primary transition-colors cursor-pointer"
               >
                 <Upload size={16} />
                 {t("pages.self_employed_section.upload")}
@@ -351,7 +351,7 @@ export default function SelfEmployedSection({
                 </button>
               )}
             </div>
-            <p className="text-sm text-gray-500 flex items-center gap-1">
+            <p className="text-sm text-muted-foreground flex items-center gap-1">
               <FileText size={14} />
               {t("pages.self_employed_section.pdf_format_accepted")}
             </p>
@@ -379,7 +379,7 @@ export default function SelfEmployedSection({
               />
               <label
                 htmlFor="self_employment_certificate"
-                className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+                className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-primary transition-colors cursor-pointer"
               >
                 <Upload size={16} />
                 {t("pages.self_employed_section.upload")}
@@ -396,7 +396,7 @@ export default function SelfEmployedSection({
                 </button>
               )}
             </div>
-            <p className="text-sm text-gray-500 flex items-center gap-1">
+            <p className="text-sm text-muted-foreground flex items-center gap-1">
               <FileText size={14} />
               {t("pages.self_employed_section.pdf_format_accepted")}
             </p>

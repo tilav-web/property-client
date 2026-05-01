@@ -152,10 +152,10 @@ export default function PropertyForm() {
                         done &&
                           "border-green-500 bg-green-500 text-white",
                         active &&
-                          "border-blue-500 bg-blue-500 text-white shadow-md",
+                          "border-primary bg-blue-500 text-white shadow-md",
                         !done &&
                           !active &&
-                          "border-gray-300 bg-white text-gray-400",
+                          "border-border bg-white text-muted-foreground/70",
                       )}
                     >
                       {done ? <Check size={14} /> : s.num}
@@ -163,7 +163,7 @@ export default function PropertyForm() {
                     <span
                       className={cn(
                         "hidden sm:inline text-sm font-medium",
-                        active ? "text-blue-700" : "text-gray-500",
+                        active ? "text-blue-700" : "text-muted-foreground",
                       )}
                     >
                       {s.title}

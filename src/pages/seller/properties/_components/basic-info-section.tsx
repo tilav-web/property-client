@@ -71,7 +71,7 @@ export default function BasicInfoSection({
             placeholder="Masalan: 3 xonali yangi ta'mirli kvartira"
             value={data.title}
             onChange={(e) => setData({ ...data, title: e.target.value })}
-            className="border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+            className="border-2 focus:border-primary focus:ring-1 focus:ring-blue-200"
             disabled={isSubmitting} // Disable during submission
           />
         </div>
@@ -84,7 +84,7 @@ export default function BasicInfoSection({
             placeholder="Qo'shimcha ma'lumotlar, afzalliklar..."
             value={data.description}
             onChange={(e) => setData({ ...data, description: e.target.value })}
-            className="border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 min-h-[100px] resize-y"
+            className="border-2 focus:border-primary focus:ring-1 focus:ring-blue-200 min-h-[100px] resize-y"
             disabled={isSubmitting} // Disable during submission
           />
         </div>
@@ -92,7 +92,7 @@ export default function BasicInfoSection({
         {/* Address Input */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-gray-500" />
+            <MapPin className="w-4 h-4 text-muted-foreground" />
             <Label className="font-medium">To'liq manzil *</Label>
           </div>
           <Textarea
@@ -100,7 +100,7 @@ export default function BasicInfoSection({
             placeholder="Tuman, ko'cha, uy raqami..."
             value={data.address}
             onChange={(e) => setData({ ...data, address: e.target.value })}
-            className="border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 min-h-[80px] resize-y"
+            className="border-2 focus:border-primary focus:ring-1 focus:ring-blue-200 min-h-[80px] resize-y"
             disabled={isSubmitting} // Disable during submission
           />
         </div>
@@ -118,7 +118,7 @@ export default function BasicInfoSection({
                 placeholder="Masalan: 85000000"
                 value={data.price}
                 onChange={(e) => setData({ ...data, price: e.target.value })}
-                className="border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+                className="border-2 focus:border-primary focus:ring-1 focus:ring-blue-200"
                 disabled={isSubmitting} // Disable during submission
               />
               <Select
@@ -128,7 +128,7 @@ export default function BasicInfoSection({
                 }
                 disabled={isSubmitting}
               >
-                <SelectTrigger className="w-[100px] border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200">
+                <SelectTrigger className="w-[100px] border-2 focus:border-primary focus:ring-1 focus:ring-blue-200">
                   <SelectValue placeholder="Valyuta" />
                 </SelectTrigger>
                 <SelectContent>
@@ -150,7 +150,7 @@ export default function BasicInfoSection({
               onValueChange={(v) => setCategory(v as CategoryType)}
               disabled={isSubmitting} // Disable during submission
             >
-              <SelectTrigger className="border-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-200">
+              <SelectTrigger className="border-2 focus:border-primary focus:ring-1 focus:ring-blue-200">
                 <SelectValue placeholder="Kategoriyani tanlang" />
               </SelectTrigger>
               <SelectContent>
@@ -179,7 +179,7 @@ export default function BasicInfoSection({
 
         {/* Summary */}
         <div className="pt-4 border-t">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
               <div
                 className={`w-2 h-2 rounded-full ${

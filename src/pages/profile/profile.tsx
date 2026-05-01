@@ -91,7 +91,7 @@ export default function Profile() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div className="flex items-center gap-3">
             <div>
-              <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl lg:text-3xl font-bold font-display text-foreground">
                 {t("pages.profile_page.my_account")}
               </h1>
               <p className="text-sm text-gray-600 mt-1">{user?.email.value}</p>
@@ -146,7 +146,7 @@ export default function Profile() {
 
             <Button
               onClick={() => navigate("/seller/profile")}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold h-10"
+              className="bg-foreground text-background hover:bg-foreground/90 font-semibold h-10 rounded-full active:scale-[0.98] transition-all"
             >
               <span className="hidden sm:inline">
                 {t("common.sell_or_rent")}
@@ -194,22 +194,22 @@ export default function Profile() {
             <TabsList className="h-auto w-full flex-col sm:flex-row items-stretch sm:items-center bg-gray-50 border-b border-gray-200 p-0 rounded-none">
               <TabsTrigger
                 value="account_details"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:bg-white data-[state=active]:text-blue-600 text-gray-600 hover:text-gray-900 flex-1 sm:flex-none"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-card data-[state=active]:text-foreground text-muted-foreground hover:text-foreground flex-1 sm:flex-none"
               >
                 {t("pages.profile_page.personal_information")}
               </TabsTrigger>
               <TabsTrigger
                 value="saved_properties"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:bg-white data-[state=active]:text-blue-600 text-gray-600 hover:text-gray-900 flex-1 sm:flex-none"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-card data-[state=active]:text-foreground text-muted-foreground hover:text-foreground flex-1 sm:flex-none"
               >
                 {t("pages.profile_page.saved_properties")}
-                <span className="ml-2 bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded-full">
+                <span className="ml-2 bg-accent text-foreground text-xs font-semibold px-2 py-0.5 rounded-full">
                   {savedProperties.length}
                 </span>
               </TabsTrigger>
               <TabsTrigger
                 value="notification"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:bg-white data-[state=active]:text-blue-600 text-gray-600 hover:text-gray-900 flex-1 sm:flex-none"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-card data-[state=active]:text-foreground text-muted-foreground hover:text-foreground flex-1 sm:flex-none"
               >
                 {t("pages.profile_page.search_notification")}
                 <span
@@ -224,7 +224,7 @@ export default function Profile() {
               </TabsTrigger>
               <TabsTrigger
                 value="contact_properties"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:bg-white data-[state=active]:text-blue-600 text-gray-600 hover:text-gray-900 flex-1 sm:flex-none"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-card data-[state=active]:text-foreground text-muted-foreground hover:text-foreground flex-1 sm:flex-none"
               >
                 {t("pages.profile_page.my_approved_offers")}
                 <span className="ml-2 bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded-full">

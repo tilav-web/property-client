@@ -91,13 +91,13 @@ export default function OtpConfirmation() {
         <div className="mx-auto w-full max-w-md">
           <div className="bg-white py-8 px-6 sm:px-10">
             <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="font-display text-3xl text-foreground">
                 {t("pages.otp_page.confirm_code")}
               </h2>
-              <p className="text-gray-600 mt-2 text-sm">
+              <p className="text-muted-foreground mt-2 text-sm">
                 {t("pages.otp_page.code_sent_to")}
               </p>
-              <p className="font-medium text-gray-900 mt-1 text-lg">
+              <p className="font-medium text-foreground mt-1 text-lg">
                 email@example.com
               </p>
             </div>
@@ -118,7 +118,7 @@ export default function OtpConfirmation() {
                   </InputOTPGroup>
                 </InputOTP>
               </div>
-              <div className="text-center text-sm text-gray-600">
+              <div className="text-center text-sm text-muted-foreground">
                 <p>{t("pages.otp_page.enter_code")}</p>
               </div>
               <div className="text-center">
@@ -144,7 +144,7 @@ export default function OtpConfirmation() {
               <Button
                 type="button"
                 variant="link"
-                className="text-gray-600 hover:text-gray-500"
+                className="text-muted-foreground hover:text-gray-500"
                 onClick={() => window.history.back()}
               >
                 {t("pages.otp_page.go_back")}

@@ -76,7 +76,7 @@ export default function DeveloperForm({ developer, onSaved }: Props) {
       <div>
         <Label>Ta'rif</Label>
         <textarea
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+          className="w-full rounded-md border border-border px-3 py-2 text-sm"
           rows={3}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -179,7 +179,7 @@ export default function DeveloperForm({ developer, onSaved }: Props) {
       <Button
         type="submit"
         disabled={submitting}
-        className="w-full bg-blue-600 hover:bg-blue-700"
+        className="w-full bg-primary hover:bg-primary/90"
       >
         {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         {developer ? "Yangilash" : "Yaratish"}

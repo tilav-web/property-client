@@ -125,8 +125,8 @@ function PropertyMap({ coordinates }: { coordinates: [number, number] }) {
 
   if (!coordinates) {
     return (
-      <div className="w-full h-[30vh] lg:h-[60vh] rounded-xl bg-gray-200 flex items-center justify-center">
-        <span className="text-gray-500">{t("common.no_coordinates_available")}</span>
+      <div className="w-full h-[30vh] lg:h-[60vh] rounded-2xl bg-muted flex items-center justify-center">
+        <span className="text-muted-foreground">{t("common.no_coordinates_available")}</span>
       </div>
     );
   }
@@ -226,29 +226,29 @@ export default function ApartmentSale({
             </div>
           </div>
           <div>
-            <h2 className="mb-4 text-xl font-semibold">{apartment.title}</h2>
-            <p className="mb-4 text-gray-600">{apartment.description}</p>
+            <h2 className="mb-4 font-display text-2xl text-foreground">{apartment.title}</h2>
+            <p className="mb-4 text-muted-foreground">{apartment.description}</p>
 
-            <h3 className="mb-2 font-medium text-gray-800">
+            <h3 className="mb-2 font-semibold text-foreground">
               {t("pages.property_page.property_details")}
             </h3>{" "}
             {/* Translated */}
-            <ul className="space-y-1 text-gray-600">
-              <li className="before:content-['-'] before:mr-2 before:text-gray-800">
+            <ul className="space-y-1 text-muted-foreground">
+              <li className="before:content-['-'] before:mr-2 before:text-foreground">
                 <span className="font-medium">
                   {t("pages.property_page.address")}:
                 </span>{" "}
                 {apartment.address}
               </li>{" "}
               {/* Translated */}
-              <li className="before:content-['-'] before:mr-2 before:text-gray-800">
+              <li className="before:content-['-'] before:mr-2 before:text-foreground">
                 <span className="font-medium">
                   {t("pages.property_page.category")}:
                 </span>{" "}
                 {t(`categories.${apartment.category}`)}
               </li>{" "}
               {/* Translated and dynamic */}
-              <li className="before:content-['-'] before:mr-2 before:text-gray-800">
+              <li className="before:content-['-'] before:mr-2 before:text-foreground">
                 <span className="font-medium">
                   {t("pages.property_page.furnished")}:
                 </span>{" "}
@@ -259,7 +259,7 @@ export default function ApartmentSale({
                 )}
               </li>{" "}
               {/* Translated and dynamic */}
-              <li className="before:content-['-'] before:mr-2 before:text-gray-800">
+              <li className="before:content-['-'] before:mr-2 before:text-foreground">
                 <span className="font-medium">
                   {t("pages.property_page.repair_type")}:
                 </span>{" "}
@@ -268,7 +268,7 @@ export default function ApartmentSale({
                   : t("common.not_specified")}
               </li>{" "}
               {/* Translated and dynamic */}
-              <li className="before:content-['-'] before:mr-2 before:text-gray-800">
+              <li className="before:content-['-'] before:mr-2 before:text-foreground">
                 <span className="font-medium">
                   {t("pages.property_page.heating")}:
                 </span>{" "}
@@ -293,7 +293,7 @@ export default function ApartmentSale({
             <div className="flex items-center gap-3">
               <Building2 className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
+                <span className="text-muted-foreground text-sm">
                   {t("pages.property_page.category")}
                 </span>{" "}
                 {/* Translated */}
@@ -307,7 +307,7 @@ export default function ApartmentSale({
             <div className="flex items-center gap-3">
               <Bed className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
+                <span className="text-muted-foreground text-sm">
                   {t("pages.property_page.bedrooms")}
                 </span>{" "}
                 {/* Translated */}
@@ -320,7 +320,7 @@ export default function ApartmentSale({
             <div className="flex items-center gap-3">
               <Rotate3D className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">{t("pages.property_page.floor")}</span>
+                <span className="text-muted-foreground text-sm">{t("pages.property_page.floor")}</span>
                 <p className="font-medium text-gray-800">
                   {apartment.floor_level || 0} /{" "}
                   {apartment.total_floors || t("common.not_specified")}
@@ -332,7 +332,7 @@ export default function ApartmentSale({
             <div className="flex items-center gap-3">
               <Home className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
+                <span className="text-muted-foreground text-sm">
                   {t("pages.property_page.heating")}
                 </span>{" "}
                 {/* Translated */}
@@ -350,7 +350,7 @@ export default function ApartmentSale({
             <div className="flex items-center gap-3">
               <Maximize className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
+                <span className="text-muted-foreground text-sm">
                   {t("pages.property_page.area")}
                 </span>{" "}
                 {/* Translated */}
@@ -364,7 +364,7 @@ export default function ApartmentSale({
             <div className="flex items-center gap-3">
               <Bath className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">
+                <span className="text-muted-foreground text-sm">
                   {t("pages.property_page.bathrooms")}
                 </span>{" "}
                 {/* Translated */}
@@ -377,7 +377,7 @@ export default function ApartmentSale({
             <div className="flex items-center gap-3">
               <Wrench className="w-5 h-5 text-gray-500" />
               <div className="flex items-center gap-4">
-                <span className="text-gray-600 text-sm">{t("pages.property_page.repair_type")}</span>
+                <span className="text-muted-foreground text-sm">{t("pages.property_page.repair_type")}</span>
                 <p className="font-medium text-gray-800">
                   {apartment.repair_type
                     ? t(`enums.repair_type.${apartment.repair_type}`)

@@ -62,8 +62,8 @@ export default function HeroSection({
   const resolvedSubtitle = subtitleText ?? (subtitle ? t(subtitle) : "");
 
   return (
-    <div className={cn("relative w-full", className)}>
-      <div className="relative h-[340px] w-full transition-all duration-300 md:h-[520px]">
+    <div className={cn("relative w-full overflow-hidden", className)}>
+      <div className="relative h-[420px] w-full transition-all duration-300 md:h-[600px] lg:h-[680px]">
         <img
           src={img}
           srcSet={imgSrcSet}
@@ -77,21 +77,21 @@ export default function HeroSection({
           className="h-full w-full object-cover"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40" />
+        {/* Premium dark gradient — pastdan kuchliroq */}
+        <div className="absolute inset-0 bg-gradient-to-b from-foreground/30 via-foreground/20 to-foreground/60" />
 
-        {/* Content overlay — title, subtitle, va search controls */}
+        {/* Content overlay */}
         <div className="absolute inset-0 flex flex-col items-center justify-center px-4 py-6">
           {resolvedTitle ? (
             <h1
-              className="mb-2 text-center text-3xl leading-tight text-white drop-shadow-lg md:max-w-4xl md:text-5xl"
-              style={{ fontFamily: "Edu NSW ACT Foundation" }}
+              className="font-display mb-3 text-center text-4xl font-semibold leading-[1.1] tracking-tight text-white drop-shadow-2xl md:max-w-4xl md:text-6xl lg:text-7xl"
             >
               {resolvedTitle}
             </h1>
           ) : null}
 
           {resolvedSubtitle ? (
-            <p className="mb-4 text-center text-base text-white/90 drop-shadow md:text-lg">
+            <p className="mb-2 text-center text-base text-white/90 drop-shadow md:text-lg max-w-2xl">
               {resolvedSubtitle}
             </p>
           ) : null}

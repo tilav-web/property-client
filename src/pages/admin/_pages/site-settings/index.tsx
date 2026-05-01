@@ -142,16 +142,16 @@ export default function AdminSiteSettingsPage() {
   };
 
   if (isLoading) {
-    return <div className="p-6 text-gray-500">Yuklanmoqda...</div>;
+    return <div className="p-6 text-muted-foreground">Yuklanmoqda...</div>;
   }
 
   return (
     <div className="p-6">
       <div className="mb-6 flex items-center gap-3">
-        <Settings className="h-6 w-6 text-blue-600" />
+        <Settings className="h-6 w-6 text-primary" />
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Sayt sozlamalari</h1>
-          <p className="text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-foreground">Sayt sozlamalari</h1>
+          <p className="text-sm text-muted-foreground">
             Hero rasm va matnlarni har bir sahifa uchun alohida sozlash
           </p>
         </div>
@@ -159,7 +159,7 @@ export default function AdminSiteSettingsPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="max-w-3xl space-y-5 rounded-2xl border border-gray-200 bg-white p-6"
+        className="max-w-3xl space-y-5 rounded-2xl border border-border/60 bg-card p-6"
       >
         {SLOTS.map((cfg) => {
           const currentImg = data?.[cfg.imageField] as string | null;
@@ -168,16 +168,16 @@ export default function AdminSiteSettingsPage() {
           return (
             <div
               key={cfg.slot}
-              className="rounded-xl border border-gray-200 p-4"
+              className="rounded-xl border border-border/60 p-4"
             >
               <div className="mb-3 flex items-start justify-between">
                 <div>
-                  <h3 className="font-semibold text-gray-900">{cfg.label}</h3>
-                  <p className="text-xs text-gray-500">{cfg.description}</p>
+                  <h3 className="font-semibold text-foreground">{cfg.label}</h3>
+                  <p className="text-xs text-muted-foreground">{cfg.description}</p>
                 </div>
               </div>
 
-              <div className="overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+              <div className="overflow-hidden rounded-lg border border-border/60 bg-gray-50">
                 {preview || currentImg ? (
                   <img
                     src={preview || (currentImg as string)}
@@ -185,14 +185,14 @@ export default function AdminSiteSettingsPage() {
                     className="aspect-[16/6] w-full object-cover"
                   />
                 ) : (
-                  <div className="flex aspect-[16/6] items-center justify-center text-sm text-gray-400">
+                  <div className="flex aspect-[16/6] items-center justify-center text-sm text-muted-foreground/70">
                     Rasm yo'q (default ishlatiladi)
                   </div>
                 )}
               </div>
 
               <div className="mt-3 flex flex-wrap items-center gap-2">
-                <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm hover:bg-gray-50">
+                <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-border bg-white px-3 py-1.5 text-sm hover:bg-accent">
                   <Upload size={14} />
                   {file ? file.name.slice(0, 24) : "Rasm tanlash"}
                   <input
@@ -226,7 +226,7 @@ export default function AdminSiteSettingsPage() {
               </div>
 
               <div className="mt-3">
-                <Label className="text-xs text-gray-500">
+                <Label className="text-xs text-muted-foreground">
                   SrcSet (ixtiyoriy)
                 </Label>
                 <textarea
@@ -236,15 +236,15 @@ export default function AdminSiteSettingsPage() {
                     setSrcsets((s) => ({ ...s, [cfg.slot]: e.target.value }))
                   }
                   placeholder="https://.../hero-800.webp 800w, https://.../hero-1600.webp 1600w"
-                  className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-xs font-mono"
+                  className="mt-1 w-full rounded-md border border-border px-3 py-2 text-xs font-mono"
                 />
               </div>
             </div>
           );
         })}
 
-        <div className="rounded-xl border border-gray-200 p-4">
-          <h3 className="mb-3 font-semibold text-gray-900">
+        <div className="rounded-xl border border-border/60 p-4">
+          <h3 className="mb-3 font-semibold text-foreground">
             Bosh sahifa matni (override)
           </h3>
           <div className="space-y-3">
@@ -266,7 +266,7 @@ export default function AdminSiteSettingsPage() {
           </div>
         </div>
 
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-muted-foreground">
           Tavsiya: 1600×600 px, WebP yoki JPG. 1.5 MB dan kichik.
         </p>
 
@@ -274,7 +274,7 @@ export default function AdminSiteSettingsPage() {
           <Button
             type="submit"
             disabled={updateMutation.isPending}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-primary hover:bg-primary/90"
           >
             {updateMutation.isPending && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -41,13 +41,13 @@ export default function SellerPhysicalRegister() {
           </div>
         </div>
 
-        <div className="mt-6 bg-white border border-gray-200 rounded-lg p-6">
-          <h4 className="font-semibold text-gray-900 mb-4">
+        <div className="mt-6 bg-white border border-border/60 rounded-lg p-6">
+          <h4 className="font-semibold text-foreground mb-4">
             Tasdiqlash Jarayoni
           </h4>
           <div className="space-y-3">
             <div className="flex items-center">
-              <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+              <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
                 <span className="text-white text-sm">1</span>
               </div>
               <span className="ml-3 text-gray-700">
@@ -66,7 +66,7 @@ export default function SellerPhysicalRegister() {
               <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
                 <span className="text-white text-sm">3</span>
               </div>
-              <span className="ml-3 text-gray-500">Profil tasdiqlanadi</span>
+              <span className="ml-3 text-muted-foreground">Profil tasdiqlanadi</span>
             </div>
           </div>
         </div>

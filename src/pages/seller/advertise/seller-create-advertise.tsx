@@ -106,8 +106,8 @@ export default function SellerCreateAdvertise() {
   return (
     <div className="container mx-auto p-6 w-full">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Reklama Yaratish</h1>
-        <p className="text-gray-600 mt-2">
+        <h1 className="text-3xl font-bold text-foreground">Reklama Yaratish</h1>
+        <p className="text-muted-foreground mt-2">
           Reklama turini tanlang va ma'lumotlarni to'ldiring. Pastda reklamangiz
           qanday ko'rinishini ko'rasiz.
         </p>
@@ -126,7 +126,7 @@ export default function SellerCreateAdvertise() {
               <Label htmlFor="adImage" className="text-sm">
                 Reklama Rasmı *
               </Label>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center transition-colors hover:border-gray-400">
+              <div className="border-2 border-dashed border-border rounded-lg p-4 text-center transition-colors hover:border-gray-400">
                 <input
                   type="file"
                   id="adImage"
@@ -147,19 +147,19 @@ export default function SellerCreateAdvertise() {
                         <p className="text-green-600 font-medium text-sm">
                           Rasm yuklandi
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-muted-foreground">
                           Yangilash uchun yana bosing
                         </p>
                       </div>
                     </div>
                   ) : (
                     <div className="space-y-2">
-                      <i className="fas fa-cloud-upload-alt text-3xl text-gray-400"></i>
+                      <i className="fas fa-cloud-upload-alt text-3xl text-muted-foreground/70"></i>
                       <div>
-                        <p className="text-gray-600 font-medium text-sm">
+                        <p className="text-muted-foreground font-medium text-sm">
                           Rasm yuklash
                         </p>
-                        <p className="text-xs text-gray-500">PNG, JPG, WEBP</p>
+                        <p className="text-xs text-muted-foreground">PNG, JPG, WEBP</p>
                       </div>
                     </div>
                   )}
@@ -247,7 +247,7 @@ export default function SellerCreateAdvertise() {
               <div className="text-center p-4 bg-blue-50 rounded-lg">
                 <i className="fas fa-expand-arrows-alt text-blue-500 text-lg mb-2"></i>
                 <p className="font-medium">O'lcham</p>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   {adType === "aside" && "395xAuto (kenglik)"}
                   {adType === "banner" && "100%x302px (kenglik x balandlik)"}
                   {adType === "image" && "Adaptiv o'lcham (konteynerga moslashadi)"}
@@ -257,7 +257,7 @@ export default function SellerCreateAdvertise() {
               <div className="text-center p-4 bg-green-50 rounded-lg">
                 <i className="fas fa-mouse-pointer text-green-500 text-lg mb-2"></i>
                 <p className="font-medium">Harakat</p>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   {adType === "aside" && "Yon panelda joylashadi"}
                   {adType === "banner" && "Sahifa yuqorisida"}
                   {adType === "image" && "Kontent ichida, hover effekti"}
@@ -267,7 +267,7 @@ export default function SellerCreateAdvertise() {
               <div className="text-center p-4 bg-purple-50 rounded-lg">
                 <i className="fas fa-mobile-alt text-purple-500 text-lg mb-2"></i>
                 <p className="font-medium">Responsive</p>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   {adType === "aside" && "Mobilda ko'rinmaydi"}
                   {adType === "banner" && "Barcha qurilmalarda"}
                   {adType === "image" && "Barcha qurilmalarda"}

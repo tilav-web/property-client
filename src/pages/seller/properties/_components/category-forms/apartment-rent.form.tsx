@@ -269,7 +269,7 @@ export default function ApartmentRentForm({
                     "flex items-center gap-2 rounded-lg border px-3 py-2 text-sm transition-all",
                     active
                       ? "border-indigo-500 bg-indigo-500 text-white shadow-sm"
-                      : "border-gray-200 bg-white text-gray-700 hover:border-indigo-300",
+                      : "border-border/60 bg-white text-gray-700 hover:border-indigo-300",
                   )}
                 >
                   <span className="text-base">{AMENITY_ICONS[amenity]}</span>
@@ -292,7 +292,7 @@ export default function ApartmentRentForm({
               "flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors md:w-1/2",
               formData.furnished
                 ? "border-indigo-500 bg-indigo-50"
-                : "border-gray-200 bg-white hover:bg-gray-50",
+                : "border-border/60 bg-white hover:bg-gray-50",
             )}
           >
             <Checkbox

@@ -8,7 +8,7 @@ export default function SellerProfile() {
   if (!seller) {
     return (
       <div className="flex justify-center items-center h-64">
-        <p className="text-gray-500">No seller data available</p>
+        <p className="text-muted-foreground">No seller data available</p>
       </div>
     );
   }
@@ -26,7 +26,7 @@ export default function SellerProfile() {
   if (!sellerData) {
     return (
       <div className="flex justify-center items-center h-64">
-        <p className="text-gray-500">
+        <p className="text-muted-foreground">
           No seller data available for {business_type} type
         </p>
       </div>
@@ -55,10 +55,10 @@ export default function SellerProfile() {
         <div className="border-b pb-4 mb-6">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">
+              <h1 className="text-2xl font-bold text-foreground">
                 {first_name} {last_name}
               </h1>
-              <p className="text-gray-600">{middle_name}</p>
+              <p className="text-muted-foreground">{middle_name}</p>
             </div>
             <div className="flex flex-col items-end">
               <span
@@ -72,7 +72,7 @@ export default function SellerProfile() {
               >
                 {status?.charAt(0).toUpperCase() + status?.slice(1)}
               </span>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-muted-foreground mt-1">
                 {business_type?.replace("_", " ").toUpperCase()}
               </p>
             </div>
@@ -86,42 +86,42 @@ export default function SellerProfile() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-500">
+              <label className="block text-sm font-medium text-muted-foreground">
                 First Name
               </label>
-              <p className="mt-1 text-gray-900">{first_name}</p>
+              <p className="mt-1 text-foreground">{first_name}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-500">
+              <label className="block text-sm font-medium text-muted-foreground">
                 Last Name
               </label>
-              <p className="mt-1 text-gray-900">{last_name}</p>
+              <p className="mt-1 text-foreground">{last_name}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-500">
+              <label className="block text-sm font-medium text-muted-foreground">
                 Middle Name
               </label>
-              <p className="mt-1 text-gray-900">{middle_name}</p>
+              <p className="mt-1 text-foreground">{middle_name}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-500">
+              <label className="block text-sm font-medium text-muted-foreground">
                 Birth Date
               </label>
-              <p className="mt-1 text-gray-900">
+              <p className="mt-1 text-foreground">
                 {birth_date ? new Date(birth_date).toLocaleDateString() : "N/A"}
               </p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-500">
+              <label className="block text-sm font-medium text-muted-foreground">
                 Passport
               </label>
-              <p className="mt-1 text-gray-900">{passport}</p>
+              <p className="mt-1 text-foreground">{passport}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-500">
+              <label className="block text-sm font-medium text-muted-foreground">
                 JSHShIR
               </label>
-              <p className="mt-1 text-gray-900">{jshshir}</p>
+              <p className="mt-1 text-foreground">{jshshir}</p>
             </div>
           </div>
         </div>
@@ -144,7 +144,7 @@ export default function SellerProfile() {
                   Passport File
                 </h3>
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-muted-foreground">
                     File <File />
                   </p>
                   <a
@@ -166,7 +166,7 @@ export default function SellerProfile() {
                     Self-Employment Certificate
                   </h3>
                   <div className="flex items-center justify-between">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-muted-foreground">
                       File <File />
                     </p>
 

@@ -72,7 +72,7 @@ export default function PhysicalPersonForm() {
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900">
+      <h3 className="text-lg font-semibold text-foreground">
         {t("physical_seller_register.physical_person_details")}
       </h3>
 

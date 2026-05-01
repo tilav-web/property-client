@@ -79,7 +79,7 @@ export default function UserDetailsTab({
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900">
+      <h3 className="text-lg font-semibold text-foreground">
         {t("user_details_tab.personal_details")}
       </h3>
 

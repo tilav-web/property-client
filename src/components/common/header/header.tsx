@@ -97,44 +97,43 @@ export default function Header({ className }: IHeaderProps) {
   return (
     <header
       className={cn(
-        "w-full bg-white border-b border-gray-200 shadow-sm",
+        "sticky top-0 z-40 w-full bg-background/95 backdrop-blur border-b border-border/60",
         className,
       )}
     >
       <div className="container mx-auto">
         <div className="flex items-center justify-between gap-4 py-3 px-4 lg:px-6">
-          <div className="flex items-center gap-4">
+          {/* Left: Logo + Mobile Menu */}
+          <div className="flex items-center gap-3">
             <Sheet>
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"
-                  size="icon"
+                  size="icon-sm"
                   className="lg:hidden"
                   aria-label="Open menu"
                 >
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-80">
+              <SheetContent side="left" className="w-80 bg-background">
                 <div className="flex flex-col h-full">
-                  <Link to="/" className="flex items-center gap-2 border-b p-4">
+                  <Link to="/" className="flex items-center gap-2 border-b border-border/60 p-4">
                     <img
-                      className="w-full h-auto object-cover"
+                      className="w-32 h-auto object-contain"
                       src={logo}
-                      alt="logo"
-                      width={2966}
-                      height={935}
+                      alt="Amaar Properties"
                       decoding="async"
                     />
                   </Link>
 
-                  <nav className="flex-1 py-6">
-                    <div className="space-y-2">
+                  <nav className="flex-1 py-6 px-3">
+                    <div className="space-y-1">
                       {navItems.map((item) => (
                         <Link
                           key={item.label}
                           to={item.href}
-                          className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition-colors"
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-foreground/80 hover:bg-accent hover:text-foreground transition-colors"
                         >
                           <item.icon className="h-4 w-4" />
                           <span>{item.label}</span>
@@ -145,11 +144,11 @@ export default function Header({ className }: IHeaderProps) {
                 </div>
               </SheetContent>
             </Sheet>
-            <Link to="/" className="flex items-center gap-2 max-w-36">
+            <Link to="/" className="flex items-center max-w-32 lg:max-w-36">
               <img
-                className="w-full h-auto object-cover"
+                className="w-full h-auto object-contain"
                 src={logo}
-                alt="logo"
+                alt="Amaar Properties"
                 width={2966}
                 height={935}
                 decoding="async"
@@ -157,59 +156,67 @@ export default function Header({ className }: IHeaderProps) {
             </Link>
           </div>
 
-          <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center">
+          {/* Center: Nav links */}
+          <nav className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => (
               <Link
                 key={item.label}
                 to={item.href}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors whitespace-nowrap"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium text-foreground/70 hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap"
               >
-                <item.icon className="h-4 w-4" />
+                <item.icon className="h-3.5 w-3.5" />
                 {item.label}
               </Link>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          {/* Right: Actions */}
+          <div className="flex items-center gap-1">
+            {/* Phone */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
                   aria-label="Call Amaar Properties"
-                  className="mr-4 animate-pulse-call border-0 bg-transparent p-0"
+                  className="hidden sm:flex items-center justify-center size-9 rounded-full hover:bg-accent transition-colors animate-pulse-call"
                 >
-                  <PhoneCall size={18} className="cursor-pointer" />
+                  <PhoneCall size={16} className="text-foreground/80" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48 select-none">
+              <DropdownMenuContent align="end" className="w-52 select-none">
                 <DropdownMenuItem asChild>
                   <a href="tel:+601139029480" className="flex items-center gap-2">
-                    <span>🇲🇾</span> +60 113 902 9480
+                    <span className="text-base">🇲🇾</span>
+                    <span className="font-medium">+60 113 902 9480</span>
                   </a>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <a href="tel:+971562911117" className="flex items-center gap-2">
-                    <span>🇦🇪</span> +971 56 291 1117
+                    <span className="text-base">🇦🇪</span>
+                    <span className="font-medium">+971 56 291 1117</span>
                   </a>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+
             <CurrencySwitcher />
+
+            {/* Language */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-1 rounded-full px-3"
                 >
-                  <Globe className="h-4 w-4" />
-                  <span className="text-sm uppercase hidden sm:inline">
+                  <Globe className="h-3.5 w-3.5" />
+                  <span className="text-xs font-semibold uppercase hidden sm:inline">
                     {i18n.language}
                   </span>
                   <ChevronDown className="h-3 w-3" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-32 select-none">
+              <DropdownMenuContent align="end" className="w-36 select-none">
                 {languages.map((lan) => (
                   <DropdownMenuItem
                     key={lan}
@@ -217,47 +224,60 @@ export default function Header({ className }: IHeaderProps) {
                     className="flex items-center gap-2 select-none"
                   >
                     <span
-                      className={`w-2 h-2 rounded-full ${
-                        lan === i18n.language ? "bg-green-500" : "bg-gray-300"
+                      className={`size-1.5 rounded-full ${
+                        lan === i18n.language ? "bg-primary" : "bg-muted-foreground/30"
                       }`}
-                    ></span>
+                    />
                     {t(`common.header.languages.${lan}`)}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
+
+            {/* User */}
             {user ? (
               <>
                 <NotificationIcon />
-                <div
+                <button
                   onClick={() => navigate("/profile")}
-                  className="cursor-pointer"
+                  className="ml-1 rounded-full hover:ring-2 hover:ring-primary/30 transition-all"
+                  aria-label="Profile"
                 >
-                  <Avatar>
+                  <Avatar className="size-9 border border-border">
                     <AvatarImage
-                      src={`${
-                        user?.avatar ? user?.avatar : defaultImageAvatar
-                      }`}
+                      src={user?.avatar ? user.avatar : defaultImageAvatar}
                       className="object-cover"
                     />
-                    <AvatarFallback>
+                    <AvatarFallback className="bg-primary/10 text-foreground text-xs font-semibold">
                       {user?.first_name?.slice(0, 1) ?? ""}
                       {user?.last_name?.slice(0, 1) ?? ""}
                     </AvatarFallback>
                   </Avatar>
-                </div>
+                </button>
               </>
             ) : (
               <Button
-                variant="ghost"
                 size="sm"
-                className="flex items-center gap-2"
+                className="ml-1 hidden sm:flex"
                 onClick={openLoginDialog}
               >
                 <User className="h-4 w-4" />
-                <span className="hidden sm:block">{t("common.login")}</span>
+                <span>{t("common.login")}</span>
               </Button>
             )}
+
+            {!user && (
+              <Button
+                size="icon-sm"
+                variant="ghost"
+                className="sm:hidden"
+                onClick={openLoginDialog}
+                aria-label="Login"
+              >
+                <User className="h-4 w-4" />
+              </Button>
+            )}
+
             <Dialog open={isLoginDialogOpen} onOpenChange={closeLoginDialog}>
               <DialogContent>
                 <DialogHeader>

@@ -228,7 +228,7 @@ export default function LocationSection({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="mb-4 text-gray-600">
+        <p className="mb-4 text-muted-foreground">
           {t("pages.location_section.description")}
         </p>
 
@@ -237,14 +237,14 @@ export default function LocationSection({
             {t("pages.location_section.search_label")}
           </label>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground/70" />
             <input
               ref={searchInputRef}
               id="location-search"
               type="text"
               placeholder={t("pages.location_section.search_placeholder")}
               disabled={isSubmitting}
-              className="h-12 w-full rounded-lg border border-gray-300 pl-10 pr-4 text-base outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/20 disabled:cursor-not-allowed disabled:bg-gray-100"
+              className="h-12 w-full rounded-lg border border-border pl-10 pr-4 text-base outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/20 disabled:cursor-not-allowed disabled:bg-gray-100"
             />
           </div>
         </div>
@@ -255,7 +255,7 @@ export default function LocationSection({
         >
           {isMapLoading && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-gray-500">{t("pages.map_page.loading_map")}</p>
+              <p className="text-muted-foreground">{t("pages.map_page.loading_map")}</p>
             </div>
           )}
           <div
@@ -269,7 +269,7 @@ export default function LocationSection({
           )}
         </div>
 
-        <p className="mt-4 text-sm text-gray-600">
+        <p className="mt-4 text-sm text-muted-foreground">
           {t("pages.location_section.coordinates")}: {location.lat.toFixed(6)},{" "}
           {location.lng.toFixed(6)}
         </p>

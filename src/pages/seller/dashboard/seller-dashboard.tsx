@@ -70,10 +70,10 @@ const StatCard = ({
           {icon}
         </div>
       </div>
-      <div className="text-3xl font-bold text-gray-900">{value ?? 0}</div>
-      <p className="mt-1 text-sm font-medium text-gray-600">{title}</p>
+      <div className="text-3xl font-bold text-foreground">{value ?? 0}</div>
+      <p className="mt-1 text-sm font-medium text-muted-foreground">{title}</p>
       {description && (
-        <p className="mt-1 text-xs text-gray-400">{description}</p>
+        <p className="mt-1 text-xs text-muted-foreground">{description}</p>
       )}
     </CardContent>
   </Card>
@@ -102,12 +102,12 @@ const PropertyMiniCard = ({ property }: { property: IProperty }) => {
         />
       ) : (
         <div className="h-20 w-20 flex-shrink-0 rounded-lg bg-gray-100 flex items-center justify-center">
-          <Home className="h-6 w-6 text-gray-400" />
+          <Home className="h-6 w-6 text-muted-foreground" />
         </div>
       )}
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-2">
-          <h4 className="line-clamp-1 text-sm font-semibold text-gray-900 group-hover:text-blue-600">
+          <h4 className="line-clamp-1 text-sm font-semibold text-foreground group-hover:text-primary">
             {titleText}
           </h4>
           <div className="flex shrink-0 gap-1">
@@ -118,10 +118,10 @@ const PropertyMiniCard = ({ property }: { property: IProperty }) => {
             )}
           </div>
         </div>
-        <p className="text-sm font-bold text-blue-600 mt-0.5">
+        <p className="text-sm font-bold text-primary mt-0.5">
           {formatPrice(property.price, property.currency)}
         </p>
-        <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-gray-500">
+        <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-muted-foreground">
           {ap.bedrooms !== undefined && <span>🛏 {ap.bedrooms}</span>}
           {ap.area !== undefined && <span>📐 {ap.area}m²</span>}
           <span className="flex items-center gap-0.5">
@@ -150,10 +150,10 @@ const InquiryMiniCard = ({ inquiry }: { inquiry: IInquiry }) => {
     <div className="flex flex-col gap-2 rounded-xl border bg-white p-3">
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="truncate text-sm font-semibold text-gray-900">
+          <p className="truncate text-sm font-semibold text-foreground">
             {inquiry.user.first_name}
           </p>
-          <p className="truncate text-xs text-gray-500">
+          <p className="truncate text-xs text-muted-foreground">
             {inquiry.property.title}
           </p>
         </div>
@@ -163,14 +163,14 @@ const InquiryMiniCard = ({ inquiry }: { inquiry: IInquiry }) => {
           {inquiry.status}
         </Badge>
       </div>
-      <p className="line-clamp-2 text-xs text-gray-600">{inquiry.comment}</p>
+      <p className="line-clamp-2 text-xs text-muted-foreground">{inquiry.comment}</p>
       <div className="flex items-center justify-between text-xs">
-        <span className="font-semibold text-blue-600">
+        <span className="font-semibold text-primary">
           {inquiry.offered_price
             ? formatPrice(inquiry.offered_price, inquiry.property.currency)
             : ""}
         </span>
-        <span className="text-gray-400">
+        <span className="text-muted-foreground">
           {new Date(inquiry.createdAt).toLocaleDateString()}
         </span>
       </div>
@@ -274,7 +274,7 @@ export default function SellerDashboard() {
                 defaultValue: "Properties",
               })}
               value={dashboardData?.totalProperties}
-              icon={<Home className="w-5 h-5 text-blue-600" />}
+              icon={<Home className="w-5 h-5 text-primary" />}
               accent="bg-blue-50"
             />
             <StatCard
@@ -310,7 +310,7 @@ export default function SellerDashboard() {
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2">
-                  <TrendingUp size={18} className="text-blue-600" />
+                  <TrendingUp size={18} className="text-primary" />
                   {t("seller_dashboard.analytics", {
                     defaultValue: "Analytics",
                   })}
@@ -381,7 +381,7 @@ export default function SellerDashboard() {
               {isInquiriesLoading ? (
                 <Loading />
               ) : recentInquiries.length === 0 ? (
-                <p className="text-sm text-gray-500 py-6 text-center">
+                <p className="text-sm text-muted-foreground py-6 text-center">
                   {t("seller_dashboard.no_inquiries", {
                     defaultValue: "No inquiries yet",
                   })}
@@ -400,7 +400,7 @@ export default function SellerDashboard() {
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
               <CardTitle className="flex items-center gap-2">
-                <Home size={18} className="text-blue-600" />
+                <Home size={18} className="text-primary" />
                 {t("seller_dashboard.recent_properties", {
                   defaultValue: "Recent properties",
                 })}
@@ -425,7 +425,7 @@ export default function SellerDashboard() {
             ) : !propertiesData?.properties?.length ? (
               <div className="py-8 text-center">
                 <Home className="mx-auto h-12 w-12 text-gray-300" />
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mt-2 text-sm text-muted-foreground">
                   {t("seller_dashboard.no_properties", {
                     defaultValue: "No properties yet",
                   })}

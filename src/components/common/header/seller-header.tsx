@@ -69,7 +69,7 @@ export default function SellerHeader({
   };
 
   return (
-    <header className=" bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <header className="bg-card/95 backdrop-blur-md border-b border-border/60">
       <div className="flex items-center justify-between p-4">
         {/* Left Side - Mobile Menu */}
         <div className="flex items-center gap-4">
@@ -90,14 +90,14 @@ export default function SellerHeader({
 
           {/* Welcome Message - Desktop Only */}
           <div className="hidden md:flex items-center gap-3">
-            <div className="w-1 h-6 bg-green-500 rounded-full" />
+            <div className="w-1 h-6 bg-primary rounded-full" />
             <div>
-              <h2 className="text-sm font-semibold text-gray-900">
+              <h2 className="text-sm font-semibold text-foreground">
                 {t("common.seller_header.welcome", {
                   name: user?.first_name || t("common.seller_header.seller"),
                 })}
               </h2>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted-foreground">
                 {t("common.seller_header.seller_panel")}
               </p>
             </div>
@@ -107,7 +107,7 @@ export default function SellerHeader({
         {/* Center - Search Bar (Desktop) */}
         <div className="hidden md:flex flex-1 max-w-md mx-8">
           <div className="relative w-full">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
               placeholder={t("common.seller_header.search_placeholder")}
@@ -155,7 +155,7 @@ export default function SellerHeader({
                   <span
                     className={`w-2 h-2 rounded-full ${
                       lan === user?.lan || lan === lanValue
-                        ? "bg-green-500"
+                        ? "bg-primary"
                         : "bg-gray-300"
                     }`}
                   ></span>
@@ -168,10 +168,10 @@ export default function SellerHeader({
           {/* User Profile */}
           <div className="flex items-center gap-2">
             <div className="hidden sm:flex flex-col items-end">
-              <span className="text-sm font-medium text-gray-900">
+              <span className="text-sm font-medium text-foreground">
                 {getFullName()}
               </span>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-muted-foreground">
                 {t("common.seller_header.seller")}
               </span>
             </div>

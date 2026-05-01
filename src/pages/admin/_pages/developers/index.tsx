@@ -39,8 +39,8 @@ export default function AdminDevelopersPage() {
     <div className="p-6">
       <div className="mb-6 flex items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Developers</h1>
-          <p className="text-sm text-gray-500">Loyiha qurish kompaniyalari</p>
+          <h1 className="text-2xl font-bold text-foreground">Developers</h1>
+          <p className="text-sm text-muted-foreground">Loyiha qurish kompaniyalari</p>
         </div>
         <Button onClick={() => setCreating(true)} className="gap-2">
           <Plus size={16} /> Yangi developer
@@ -57,9 +57,9 @@ export default function AdminDevelopersPage() {
       </div>
 
       {isLoading ? (
-        <div className="py-10 text-center text-gray-500">Yuklanmoqda...</div>
+        <div className="py-10 text-center text-muted-foreground">Yuklanmoqda...</div>
       ) : items.length === 0 ? (
-        <div className="py-10 text-center text-gray-500">
+        <div className="py-10 text-center text-muted-foreground">
           Developerlar yo'q. Yangi qo'shing.
         </div>
       ) : (
@@ -67,7 +67,7 @@ export default function AdminDevelopersPage() {
           {items.map((d) => (
             <div
               key={d._id}
-              className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-3"
+              className="flex items-center gap-3 rounded-xl border border-border/60 bg-white p-3"
             >
               <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-lg bg-gray-50">
                 {d.logo ? (
@@ -81,8 +81,8 @@ export default function AdminDevelopersPage() {
                 )}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate font-semibold text-gray-900">{d.name}</p>
-                <p className="text-xs text-gray-500">
+                <p className="truncate font-semibold text-foreground">{d.name}</p>
+                <p className="text-xs text-muted-foreground">
                   {d.projects_count} loyiha
                 </p>
               </div>

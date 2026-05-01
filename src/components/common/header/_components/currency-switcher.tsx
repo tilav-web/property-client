@@ -23,11 +23,11 @@ export default function CurrencySwitcher() {
         <Button
           variant="ghost"
           size="sm"
-          className="flex items-center gap-1"
+          className="flex items-center gap-1 rounded-full px-3"
           aria-label="Select currency"
         >
-          <DollarSign className="h-4 w-4" />
-          <span className="text-sm font-medium hidden sm:inline">
+          <DollarSign className="h-3.5 w-3.5" />
+          <span className="text-xs font-semibold hidden sm:inline">
             {meta.code}
           </span>
           <ChevronDown className="h-3 w-3" />

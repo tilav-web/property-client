@@ -98,17 +98,17 @@ export default function ForgotPassword() {
           {/* Step 1: Identifier (email/phone) */}
           {step === "identifier" && (
             <>
-              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-yellow-50">
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-accent">
                 {authMethod === "email" ? (
                   <Mail className="h-7 w-7 text-yellow-600" />
                 ) : (
                   <Phone className="h-7 w-7 text-yellow-600" />
                 )}
               </div>
-              <h1 className="mb-2 text-2xl font-bold text-gray-900">
+              <h1 className="mb-2 font-display text-3xl text-foreground">
                 {t("pages.forgot_password.title")}
               </h1>
-              <p className="mb-6 text-sm text-gray-500">
+              <p className="mb-6 text-sm text-muted-foreground">
                 {t("pages.forgot_password.subtitle")}
               </p>
 
@@ -151,7 +151,7 @@ export default function ForgotPassword() {
 
               <form onSubmit={handleSendOtp} className="space-y-4">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                  <label className="mb-1 block text-sm font-medium text-foreground">
                     {authMethod === "email"
                       ? t("pages.login_page.email")
                       : t("pages.login_page.phone", "Phone")}
@@ -176,7 +176,7 @@ export default function ForgotPassword() {
                 <Button
                   type="submit"
                   disabled={isLoading || !identifier}
-                  className="h-11 w-full bg-yellow-400 font-semibold text-black hover:bg-yellow-500"
+                  className="h-11 w-full bg-primary font-semibold text-primary-foreground hover:bg-primary/90 rounded-full active:scale-[0.98] transition-all"
                 >
                   {isLoading && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -188,7 +188,7 @@ export default function ForgotPassword() {
               <div className="mt-6 text-center">
                 <Link
                   to="/auth/login"
-                  className="text-sm text-gray-500 hover:text-gray-700"
+                  className="text-sm text-muted-foreground hover:text-foreground"
                 >
                   <ArrowLeft size={14} className="mr-1 inline" />
                   {t("pages.login_page.sign_in")}
@@ -205,16 +205,16 @@ export default function ForgotPassword() {
                   setStep("identifier");
                   setError("");
                 }}
-                className="mb-4 flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
+                className="mb-4 flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
               >
                 <ArrowLeft size={16} />
                 {t("common.back")}
               </button>
 
-              <h1 className="mb-2 text-2xl font-bold text-gray-900">
+              <h1 className="mb-2 font-display text-3xl text-foreground">
                 {t("pages.otp_page.confirm_code")}
               </h1>
-              <p className="mb-1 text-sm text-gray-500">
+              <p className="mb-1 text-sm text-muted-foreground">
                 {t("pages.otp_page.code_sent_to")}
               </p>
               <p className="mb-6 text-sm font-medium text-gray-800">
@@ -246,7 +246,7 @@ export default function ForgotPassword() {
                 <Button
                   type="submit"
                   disabled={otpCode.length < 6}
-                  className="h-11 w-full bg-yellow-400 font-semibold text-black hover:bg-yellow-500"
+                  className="h-11 w-full bg-primary font-semibold text-primary-foreground hover:bg-primary/90 rounded-full active:scale-[0.98] transition-all"
                 >
                   {t("pages.forgot_password.verify_code")}
                 </Button>
@@ -271,22 +271,22 @@ export default function ForgotPassword() {
                   setStep("otp");
                   setError("");
                 }}
-                className="mb-4 flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700"
+                className="mb-4 flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
               >
                 <ArrowLeft size={16} />
                 {t("common.back")}
               </button>
 
-              <h1 className="mb-2 text-2xl font-bold text-gray-900">
+              <h1 className="mb-2 font-display text-3xl text-foreground">
                 {t("pages.forgot_password.new_password_title")}
               </h1>
-              <p className="mb-6 text-sm text-gray-500">
+              <p className="mb-6 text-sm text-muted-foreground">
                 {t("pages.forgot_password.new_password_subtitle")}
               </p>
 
               <form onSubmit={handleResetPassword} className="space-y-4">
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                  <label className="mb-1 block text-sm font-medium text-foreground">
                     {t("pages.forgot_password.new_password")}
                   </label>
                   <input
@@ -300,7 +300,7 @@ export default function ForgotPassword() {
                 </div>
 
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                  <label className="mb-1 block text-sm font-medium text-foreground">
                     {t("pages.forgot_password.confirm_password")}
                   </label>
                   <input
@@ -318,7 +318,7 @@ export default function ForgotPassword() {
                 <Button
                   type="submit"
                   disabled={isLoading || !newPassword || !confirmPassword}
-                  className="h-11 w-full bg-yellow-400 font-semibold text-black hover:bg-yellow-500"
+                  className="h-11 w-full bg-primary font-semibold text-primary-foreground hover:bg-primary/90 rounded-full active:scale-[0.98] transition-all"
                 >
                   {isLoading && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -335,14 +335,14 @@ export default function ForgotPassword() {
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-50">
                 <CheckCircle className="h-8 w-8 text-green-600" />
               </div>
-              <h1 className="mb-2 text-2xl font-bold text-gray-900">
+              <h1 className="mb-2 font-display text-3xl text-foreground">
                 {t("pages.forgot_password.success_title")}
               </h1>
-              <p className="mb-6 text-sm text-gray-500">
+              <p className="mb-6 text-sm text-muted-foreground">
                 {t("pages.forgot_password.success_subtitle")}
               </p>
               <Link to="/auth/login">
-                <Button className="h-11 w-full bg-yellow-400 font-semibold text-black hover:bg-yellow-500">
+                <Button className="h-11 w-full bg-primary font-semibold text-primary-foreground hover:bg-primary/90 rounded-full active:scale-[0.98] transition-all">
                   {t("pages.login_page.sign_in")}
                 </Button>
               </Link>

@@ -1,16 +1,7 @@
 import { Link } from "react-router-dom";
 import type { IProperty } from "@/interfaces/property/property.interface";
 import { Badge } from "@/components/ui/badge";
-import {
-  MapPin,
-  Bed,
-  Bath,
-  Star,
-  Heart,
-  Eye,
-  Square,
-  Calendar,
-} from "lucide-react";
+import { MapPin, Bed, Bath, Star, Heart, Square, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -21,6 +12,8 @@ interface PropertyCardProps {
   property: IProperty;
   className?: string;
 }
+
+const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
 export default function PropertyCard({
   property,
@@ -39,29 +32,17 @@ export default function PropertyCard({
     is_premium,
     createdAt,
     rating,
-    liked,
-    saved,
   } = property;
 
   const isNew =
-    new Date(createdAt).getTime() > Date.now() - 3 * 24 * 60 * 60 * 1000; // 3 days
+    new Date(createdAt).getTime() > Date.now() - SEVEN_DAYS_MS;
 
   const getImageUrl = (photo: string) => {
-    if (photo.startsWith("http")) {
-      return photo;
-    }
+    if (photo.startsWith("http")) return photo;
     return `${import.meta.env.VITE_API_URL}/uploads/photos/${photo}`;
   };
 
   const isRent = category.includes("RENT");
-
-  const formatAddress = (address: string) => {
-    const maxLength = 40;
-    if (address.length > maxLength) {
-      return address.substring(0, maxLength) + "...";
-    }
-    return address;
-  };
 
   const handleSaveClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -69,14 +50,18 @@ export default function PropertyCard({
     setIsSaved(!isSaved);
   };
 
-  const propertyData = property as any;
+  const propertyData = property as unknown as {
+    bedrooms?: number;
+    bathrooms?: number;
+    area?: number;
+  };
   const hasBedBath = propertyData.bedrooms && propertyData.bathrooms;
 
   return (
     <Link to={`/property/${_id}`} className={cn("block group", className)}>
-      <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-200 h-full flex flex-col">
-        {/* Image Section - Fixed Height */}
-        <div className="relative h-48 overflow-hidden">
+      <article className="bg-card rounded-2xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-0.5 border border-border/60 h-full flex flex-col">
+        {/* Image */}
+        <div className="relative aspect-[4/3] overflow-hidden bg-muted">
           <img
             src={photos?.[0] ? getImageUrl(photos[0]) : "/placeholder.svg"}
             alt={title}
@@ -84,148 +69,107 @@ export default function PropertyCard({
             decoding="async"
             width={800}
             height={600}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
 
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-
-          {/* Top Badges */}
-          <div className="absolute top-3 left-3 flex flex-col gap-2">
+          {/* Top-left badges */}
+          <div className="absolute top-3 left-3 flex flex-col gap-1.5">
             {is_premium && (
-              <Badge className="bg-amber-500 text-white border-0 px-3 py-1 rounded-lg shadow-md">
-                <Star className="w-3 h-3 mr-1 fill-current" />
+              <Badge variant="default" className="shadow-sm">
+                <Star className="size-2.5 mr-1 fill-current" />
                 {t("common.premium")}
               </Badge>
             )}
             {isNew && (
-              <Badge className="bg-red-500 text-white border-0 px-3 py-1 rounded-lg shadow-md">
-                <Calendar className="w-3 h-3 mr-1" />
+              <Badge variant="secondary" className="shadow-sm">
+                <Sparkles className="size-2.5 mr-1" />
                 {t("common.new")}
               </Badge>
             )}
             <DistanceBadge distanceMeters={property.distance_m} />
           </div>
 
-          {/* Save Button */}
+          {/* Save heart */}
           <button
             onClick={handleSaveClick}
-            className="absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-colors duration-200 shadow-md"
+            className="absolute top-3 right-3 size-9 rounded-full bg-card/90 backdrop-blur hover:bg-card hover:scale-110 transition-all flex items-center justify-center shadow-card"
             aria-label={t("common.save_property")}
           >
             <Heart
               className={cn(
-                "w-5 h-5 transition-colors duration-200",
-                isSaved ? "fill-red-500 text-red-500" : "text-gray-600"
+                "size-4 transition-all",
+                isSaved
+                  ? "fill-destructive text-destructive scale-110"
+                  : "text-foreground/70",
               )}
             />
           </button>
+
+          {/* Bottom rating overlay */}
+          {rating > 0 && (
+            <div className="absolute bottom-3 right-3 flex items-center gap-1 rounded-full bg-card/95 backdrop-blur px-2.5 py-1 text-xs font-semibold shadow-card">
+              <Star className="size-3 fill-primary text-primary" />
+              <span>{rating.toFixed(1)}</span>
+            </div>
+          )}
         </div>
 
-        {/* Content Section - Flexible Height */}
+        {/* Body */}
         <div className="p-4 flex-1 flex flex-col">
-          {/* Category and Price Section */}
-          <div className="flex items-start justify-between mb-3">
-            <Badge
-              variant={isRent ? "outline" : "default"}
-              className="capitalize font-medium px-3 py-1"
-            >
+          {/* Category pill */}
+          <div className="mb-2">
+            <span className="inline-block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
               {t(`categories.${category}`)}
-            </Badge>
-
-            <div className="text-right">
-              <Price
-                amount={price}
-                currency={currency}
-                className="justify-end text-base text-gray-900"
-              />
-            </div>
+            </span>
           </div>
 
-          {/* Title - Fixed height with line-clamp */}
-          <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors min-h-[1.75rem]">
+          {/* Title */}
+          <h3 className="font-display text-lg leading-tight text-foreground line-clamp-1 group-hover:text-primary transition-colors">
             {title}
           </h3>
 
-          {/* Address - Fixed height with line-clamp */}
-          <div className="flex items-start gap-2 mb-3 min-h-[1.5rem]">
-            <MapPin className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-gray-600 flex-1">
-              {formatAddress(address)}
-            </p>
+          {/* Address */}
+          <div className="mt-1.5 flex items-start gap-1.5 text-sm text-muted-foreground">
+            <MapPin className="size-3.5 mt-0.5 flex-shrink-0" />
+            <p className="line-clamp-1">{address}</p>
           </div>
 
-          {/* Property Features - Fixed height */}
-          <div className="mb-4 min-h-[2rem]">
-            {hasBedBath && (
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-md bg-gray-100">
-                    <Bed className="w-4 h-4 text-gray-600" />
-                  </div>
-                  <span className="text-sm font-medium text-gray-800">
-                    {propertyData.bedrooms} {t("common.bedrooms")}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-md bg-gray-100">
-                    <Bath className="w-4 h-4 text-gray-600" />
-                  </div>
-                  <span className="text-sm font-medium text-gray-800">
-                    {propertyData.bathrooms} {t("common.bathrooms")}
-                  </span>
-                </div>
-
-                {propertyData.area && (
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 rounded-md bg-gray-100">
-                      <Square className="w-4 h-4 text-gray-600" />
-                    </div>
-                    <span className="text-sm font-medium text-gray-800">
-                      {propertyData.area} {t("common.sqft")}
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Footer Stats - Fixed height */}
-          <div className="flex items-center justify-between pt-3 border-t border-gray-100 mt-auto">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1 text-sm text-gray-500">
-                <Eye className="w-4 h-4" />
-                <span>{liked || 0}</span>
-              </div>
-
-              <div className="flex items-center gap-1 text-sm text-gray-500">
-                <Heart className="w-4 h-4" />
-                <span>{saved || 0}</span>
-              </div>
-
-              {rating > 0 && (
-                <div className="flex items-center gap-1 text-sm">
-                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  <span className="font-medium text-gray-800">
-                    {rating.toFixed(1)}
-                  </span>
-                </div>
+          {/* Features */}
+          {hasBedBath && (
+            <div className="mt-3 flex items-center gap-3 text-xs text-foreground/70">
+              <span className="flex items-center gap-1">
+                <Bed className="size-3.5" />
+                {propertyData.bedrooms}
+              </span>
+              <span className="flex items-center gap-1">
+                <Bath className="size-3.5" />
+                {propertyData.bathrooms}
+              </span>
+              {propertyData.area && (
+                <span className="flex items-center gap-1">
+                  <Square className="size-3.5" />
+                  {propertyData.area} m²
+                </span>
               )}
             </div>
+          )}
 
-            <Badge variant="secondary" className="text-xs font-normal">
-              {new Date(createdAt).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-              })}
-            </Badge>
+          {/* Price footer */}
+          <div className="mt-4 pt-3 border-t border-border/60 flex items-end justify-between gap-2">
+            <Price
+              amount={price}
+              currency={currency}
+              className="text-base"
+              originalClassName="text-xs"
+            />
+            {isRent && (
+              <span className="text-[11px] text-muted-foreground font-medium">
+                / {t("common.month", "month")}
+              </span>
+            )}
           </div>
         </div>
-
-        {/* Hover Effect */}
-        <div className="absolute inset-0 border-2 border-transparent group-hover:border-gray-300 rounded-xl pointer-events-none transition-colors duration-300" />
-      </div>
+      </article>
     </Link>
   );
 }

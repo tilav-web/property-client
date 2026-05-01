@@ -43,72 +43,97 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Amaar Properties Design System
+   * Brand: refined gold (sariq) + rich black (qora) on warm cream
+   * Inspired by luxury real estate (Hermès / Compass / Airbnb Plus) */
+  --radius: 0.75rem;
+
+  /* Backgrounds */
+  --background: #faf8f2;          /* Warm cream — pure white o'rniga */
+  --foreground: #0a0a0a;          /* Rich black */
+  --card: #ffffff;                /* Surface (kartalar) */
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+
+  /* Primary — refined gold */
+  --primary: #d4a017;             /* Gold (logo brand) */
+  --primary-foreground: #0a0a0a;  /* Black text on gold */
+
+  /* Secondary — black (high contrast CTA) */
+  --secondary: #0a0a0a;
+  --secondary-foreground: #faf8f2;
+
+  /* Muted (for subtle backgrounds) */
+  --muted: #f3efe6;               /* Warm cream tinted */
+  --muted-foreground: #6b6258;    /* Warm gray */
+
+  /* Accent (hover/highlights) */
+  --accent: #fef3c7;              /* Light gold tint */
+  --accent-foreground: #0a0a0a;
+
+  --destructive: #b91c1c;         /* Crimson */
+  --border: #e8e2d6;              /* Warm border */
+  --input: #e8e2d6;
+  --ring: #d4a017;                /* Focus ring = primary */
+
+  /* Charts */
+  --chart-1: #d4a017;
+  --chart-2: #0a0a0a;
+  --chart-3: #15803d;
+  --chart-4: #b45309;
+  --chart-5: #78716c;
+
+  /* Sidebar (admin/seller) */
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #faf8f2;
+  --sidebar-primary: #d4a017;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #faf8f2;
+  --sidebar-border: #1a1a1a;
+  --sidebar-ring: #d4a017;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #0a0a0a;
+  --foreground: #faf8f2;
+  --card: #1a1a1a;
+  --card-foreground: #faf8f2;
+  --popover: #1a1a1a;
+  --popover-foreground: #faf8f2;
+  --primary: #d4a017;
+  --primary-foreground: #0a0a0a;
+  --secondary: #faf8f2;
+  --secondary-foreground: #0a0a0a;
+  --muted: #1a1a1a;
+  --muted-foreground: #a8a29e;
+  --accent: #2a2418;
+  --accent-foreground: #faf8f2;
+  --destructive: #ef4444;
+  --border: #2a2a2a;
+  --input: #2a2a2a;
+  --ring: #d4a017;
+  --chart-1: #d4a017;
+  --chart-2: #faf8f2;
+  --chart-3: #15803d;
+  --chart-4: #b45309;
+  --chart-5: #78716c;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #faf8f2;
+  --sidebar-primary: #d4a017;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #faf8f2;
+  --sidebar-border: #1a1a1a;
+  --sidebar-ring: #d4a017;
+}
+
+@theme inline {
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --font-display: "Playfair Display", "Inter", Georgia, serif;
 }
 
 @layer base {
@@ -117,18 +142,50 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family:
+      "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Display font (Playfair Display) — sarlavhalar uchun */
+  .font-display,
+  h1.display,
+  h2.display {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 }
 
-/* Fonts */
+/* Custom shadows — soft warm */
+.shadow-card {
+  box-shadow:
+    0 1px 3px rgba(20, 16, 5, 0.04),
+    0 4px 12px rgba(20, 16, 5, 0.05);
+}
+.shadow-card-hover {
+  box-shadow:
+    0 2px 4px rgba(20, 16, 5, 0.06),
+    0 12px 24px rgba(20, 16, 5, 0.08);
+}
+.shadow-elevated {
+  box-shadow:
+    0 1px 2px rgba(20, 16, 5, 0.05),
+    0 8px 24px rgba(20, 16, 5, 0.08),
+    0 24px 48px rgba(20, 16, 5, 0.06);
+}
 
+/* Edu NSW Foundation — eski font (orqaga moslik uchun saqlangan) */
 @font-face {
   font-family: "Edu NSW ACT Foundation";
   src: url("./fonts/EduNSWACTFoundation-VariableFont_wght.ttf")
     format("truetype");
-  font-weight: 100 900; /* Variable font uchun vaznlar diapazoni */
+  font-weight: 100 900;
   font-style: normal;
-  font-display: swap; /* Tez yuklash uchun */
+  font-display: swap;
 }
 
 button {

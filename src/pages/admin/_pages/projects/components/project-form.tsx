@@ -136,7 +136,7 @@ export default function ProjectForm({ project, onSaved }: Props) {
             required
             value={developer}
             onChange={(e) => setDeveloper(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+            className="w-full rounded-md border border-border px-3 py-2 text-sm"
           >
             <option value="">— Tanlang —</option>
             {developersList?.items?.map((d) => (
@@ -151,7 +151,7 @@ export default function ProjectForm({ project, onSaved }: Props) {
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as TProjectStatus)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+            className="w-full rounded-md border border-border px-3 py-2 text-sm"
           >
             {STATUSES.map((s) => (
               <option key={s} value={s}>
@@ -178,7 +178,7 @@ export default function ProjectForm({ project, onSaved }: Props) {
           rows={3}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+          className="w-full rounded-md border border-border px-3 py-2 text-sm"
         />
       </div>
 
@@ -280,7 +280,7 @@ export default function ProjectForm({ project, onSaved }: Props) {
           {unitTypes.map((u, i) => (
             <div
               key={i}
-              className="flex flex-wrap items-end gap-2 rounded-lg border border-gray-200 p-2"
+              className="flex flex-wrap items-end gap-2 rounded-lg border border-border/60 p-2"
             >
               <select
                 value={u.category}
@@ -292,7 +292,7 @@ export default function ProjectForm({ project, onSaved }: Props) {
                   };
                   setUnitTypes(next);
                 }}
-                className="rounded-md border border-gray-300 px-2 py-1 text-xs"
+                className="rounded-md border border-border px-2 py-1 text-xs"
               >
                 {UNIT_CATEGORIES.map((c) => (
                   <option key={c} value={c}>
@@ -365,7 +365,7 @@ export default function ProjectForm({ project, onSaved }: Props) {
           {paymentPlans.map((p, i) => (
             <div
               key={i}
-              className="flex flex-wrap items-end gap-2 rounded-lg border border-gray-200 p-2"
+              className="flex flex-wrap items-end gap-2 rounded-lg border border-border/60 p-2"
             >
               <Input
                 placeholder="Nom (10/90)"
@@ -464,7 +464,7 @@ export default function ProjectForm({ project, onSaved }: Props) {
             href={project.brochure}
             target="_blank"
             rel="noopener"
-            className="text-xs text-blue-600 hover:underline"
+            className="text-xs text-primary hover:underline"
           >
             Joriy brochure
           </a>
@@ -474,7 +474,7 @@ export default function ProjectForm({ project, onSaved }: Props) {
       <Button
         type="submit"
         disabled={submitting}
-        className="w-full bg-blue-600 hover:bg-blue-700"
+        className="w-full bg-primary hover:bg-primary/90"
       >
         {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         {project ? "Yangilash" : "Yaratish"}

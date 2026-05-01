@@ -201,7 +201,7 @@ export default function MchjSection({
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900">{t("mchj_section.mchj_details")}</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t("mchj_section.mchj_details")}</h3>
 
       <form onSubmit={formik.handleSubmit} className="space-y-4">
         {/* Kompaniya nomi */}
@@ -300,7 +300,7 @@ export default function MchjSection({
 
         {/* Majburiy hujjatlar */}
         <div className="space-y-4">
-          <h4 className="font-medium text-gray-900">{t("mchj_section.required_documents")}</h4>
+          <h4 className="font-medium text-foreground">{t("mchj_section.required_documents")}</h4>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* MCHJ guvohnomasi */}
@@ -321,7 +321,7 @@ export default function MchjSection({
                 />
                 <label
                   htmlFor="mchj_license"
-                  className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-primary transition-colors cursor-pointer"
                 >
                   <Upload size={16} />
                   {t("mchj_section.upload")}
@@ -356,7 +356,7 @@ export default function MchjSection({
                 />
                 <label
                   htmlFor="ustav_file"
-                  className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-primary transition-colors cursor-pointer"
                 >
                   <Upload size={16} />
                   {t("mchj_section.upload")}
@@ -395,7 +395,7 @@ export default function MchjSection({
                 />
                 <label
                   htmlFor="director_appointment_file"
-                  className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-primary transition-colors cursor-pointer"
                 >
                   <Upload size={16} />
                   {t("mchj_section.upload")}
@@ -436,7 +436,7 @@ export default function MchjSection({
                 />
                 <label
                   htmlFor="director_passport_file"
-                  className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-primary transition-colors cursor-pointer"
                 >
                   <Upload size={16} />
                   {t("mchj_section.upload")}
@@ -473,7 +473,7 @@ export default function MchjSection({
                 />
                 <label
                   htmlFor="legal_address_file"
-                  className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-primary transition-colors cursor-pointer"
                 >
                   <Upload size={16} />
                   {t("mchj_section.upload")}
@@ -508,7 +508,7 @@ export default function MchjSection({
                 />
                 <label
                   htmlFor="kadastr_file"
-                  className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-primary transition-colors cursor-pointer"
                 >
                   <Upload size={16} />
                   {t("mchj_section.upload")}
@@ -560,7 +560,7 @@ export default function MchjSection({
               />
               <label
                 htmlFor="vat_file"
-                className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+                className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-primary transition-colors cursor-pointer"
               >
                 <Upload size={16} />
                 {t("mchj_section.upload")}
@@ -575,7 +575,7 @@ export default function MchjSection({
                 </button>
               )}
             </div>
-            <p className="text-sm text-gray-500 flex items-center gap-1">
+            <p className="text-sm text-muted-foreground flex items-center gap-1">
               <FileText size={14} />
               {t("mchj_section.pdf_format_accepted")}
             </p>

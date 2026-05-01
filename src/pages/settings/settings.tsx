@@ -109,7 +109,7 @@ export default function SettingsPage() {
       <BackButton className="mb-4" />
 
       <div className="mb-6 flex items-center gap-3">
-        <SettingsIcon className="h-6 w-6 text-blue-600" />
+        <SettingsIcon className="h-6 w-6 text-primary" />
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
             {t("pages.settings.title", "Settings")}
@@ -217,7 +217,7 @@ export default function SettingsPage() {
                 <Button
                   type="submit"
                   disabled={submitting}
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
                 >
                   {submitting && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -288,7 +288,7 @@ export default function SettingsPage() {
                   onClick={() => handleLanguageChange(l.code)}
                   className={`flex items-center justify-between rounded-lg border px-3 py-2 text-sm transition-colors ${
                     i18n.language === l.code
-                      ? "border-blue-600 bg-blue-50 text-blue-700"
+                      ? "border-primary bg-accent text-foreground"
                       : "border-gray-200 hover:bg-gray-50"
                   }`}
                 >
@@ -321,7 +321,7 @@ export default function SettingsPage() {
                     onClick={() => handleCurrencyChange(code as CurrencyCode)}
                     className={`flex items-center justify-between rounded-lg border px-3 py-2 text-sm transition-colors ${
                       active
-                        ? "border-blue-600 bg-blue-50 text-blue-700"
+                        ? "border-primary bg-accent text-foreground"
                         : "border-gray-200 hover:bg-gray-50"
                     }`}
                   >

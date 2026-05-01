@@ -104,7 +104,7 @@ export default function BankAccountNumberTab({
 
   return (
     <div className="space-y-6">
-      <h3 className="text-lg font-semibold text-gray-900">{t("bank_account_number_tab.bank_account_number")}</h3>
+      <h3 className="text-lg font-semibold text-foreground">{t("bank_account_number_tab.bank_account_number")}</h3>
 
       <form>
         <div className="space-y-4">

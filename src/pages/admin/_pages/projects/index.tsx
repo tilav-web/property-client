@@ -38,8 +38,8 @@ export default function AdminProjectsPage() {
     <div className="p-6">
       <div className="mb-6 flex items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Projects</h1>
-          <p className="text-sm text-gray-500">Off-plan loyihalar</p>
+          <h1 className="text-2xl font-bold text-foreground">Projects</h1>
+          <p className="text-sm text-muted-foreground">Off-plan loyihalar</p>
         </div>
         <Button onClick={() => setCreating(true)} className="gap-2">
           <Plus size={16} /> Yangi loyiha
@@ -47,15 +47,15 @@ export default function AdminProjectsPage() {
       </div>
 
       {isLoading ? (
-        <div className="py-10 text-center text-gray-500">Yuklanmoqda...</div>
+        <div className="py-10 text-center text-muted-foreground">Yuklanmoqda...</div>
       ) : items.length === 0 ? (
-        <div className="py-10 text-center text-gray-500">
+        <div className="py-10 text-center text-muted-foreground">
           Loyihalar yo'q. Yangi qo'shing.
         </div>
       ) : (
-        <div className="overflow-hidden rounded-lg border border-gray-200">
+        <div className="overflow-hidden rounded-lg border border-border/60">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-left text-xs uppercase text-gray-500">
+            <thead className="bg-gray-50 text-left text-xs uppercase text-muted-foreground">
               <tr>
                 <th className="p-3">Nom</th>
                 <th className="p-3">Developer</th>
@@ -82,10 +82,10 @@ export default function AdminProjectsPage() {
                         <span className="font-medium">{p.name}</span>
                       </div>
                       {p.city && (
-                        <p className="text-xs text-gray-500">{p.city}</p>
+                        <p className="text-xs text-muted-foreground">{p.city}</p>
                       )}
                     </td>
-                    <td className="p-3 text-gray-700">{dev?.name ?? "—"}</td>
+                    <td className="p-3 text-foreground">{dev?.name ?? "—"}</td>
                     <td className="p-3">
                       <span className="rounded-md bg-gray-100 px-2 py-0.5 text-xs">
                         {p.status}
@@ -96,7 +96,7 @@ export default function AdminProjectsPage() {
                         ? formatPrice(p.launch_price, p.currency)
                         : "—"}
                     </td>
-                    <td className="p-3 text-gray-600">
+                    <td className="p-3 text-muted-foreground">
                       {p.delivery_date ?? "—"}
                     </td>
                     <td className="p-3">

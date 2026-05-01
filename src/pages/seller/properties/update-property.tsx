@@ -448,8 +448,8 @@ export default function UpdateProperty() {
               htmlFor="photo-upload"
               className="w-full h-32 flex flex-col items-center justify-center border-2 border-dashed rounded-md cursor-pointer hover:bg-gray-50"
             >
-              <Upload className="h-8 w-8 text-gray-400" />
-              <span className="text-sm text-gray-500">Rasm yuklash</span>
+              <Upload className="h-8 w-8 text-muted-foreground/70" />
+              <span className="text-sm text-muted-foreground">Rasm yuklash</span>
               <Input
                 id="photo-upload"
                 type="file"
@@ -495,8 +495,8 @@ export default function UpdateProperty() {
               htmlFor="video-upload"
               className="w-full h-32 flex flex-col items-center justify-center border-2 border-dashed rounded-md cursor-pointer hover:bg-gray-50"
             >
-              <Upload className="h-8 w-8 text-gray-400" />
-              <span className="text-sm text-gray-500">Video yuklash</span>
+              <Upload className="h-8 w-8 text-muted-foreground/70" />
+              <span className="text-sm text-muted-foreground">Video yuklash</span>
               <Input
                 id="video-upload"
                 type="file"

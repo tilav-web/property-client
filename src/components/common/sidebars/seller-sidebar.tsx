@@ -102,38 +102,38 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "flex flex-col h-screen overflow-y-auto bg-primary text-primary-foreground shadow-lg",
+        "flex flex-col h-screen overflow-y-auto bg-sidebar text-sidebar-foreground",
         "transition-transform duration-300 ease-in-out",
-        "md:relative md:translate-x-0", // Always visible on desktop
-        isOpen ? "translate-x-0" : "-translate-x-full", // Mobile toggle
+        "md:relative md:translate-x-0",
+        isOpen ? "translate-x-0" : "-translate-x-full",
         "z-50"
       )}
     >
-      <div className="p-6 border-b border-primary-foreground/20 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">
+      <div className="p-6 border-b border-sidebar-border flex items-center justify-between">
+        <h1 className="font-display text-2xl text-sidebar-foreground">
           {t("common.seller_sidebar.title")}
         </h1>
-        {/* Close button for mobile sidebar */}
         <Button
           variant="ghost"
           size="icon"
           onClick={onClose}
-          className="md:hidden text-primary-foreground hover:bg-primary-foreground/10"
+          className="md:hidden text-sidebar-foreground hover:bg-sidebar-accent"
         >
           <X className="h-5 w-5" />
         </Button>
       </div>
-      <nav className="flex-1 px-4 py-6 space-y-2">
+      <nav className="flex-1 px-3 py-6 space-y-1">
         {user?.role && seller?.status === "approved"
           ? menuItems[user?.role]?.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
-                onClick={onClose} // Close sidebar on navigation for mobile
+                onClick={onClose}
                 className={({ isActive }) =>
                   cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-primary-foreground/10",
-                    isActive && "bg-primary-foreground/20"
+                    "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all hover:bg-sidebar-accent",
+                    isActive &&
+                      "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90"
                   )
                 }
               >
@@ -146,11 +146,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               <NavLink
                 key={item.to}
                 to={item.to}
-                onClick={onClose} // Close sidebar on navigation for mobile
+                onClick={onClose}
                 className={({ isActive }) =>
                   cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-primary-foreground/10",
-                    isActive && "bg-primary-foreground/20"
+                    "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all hover:bg-sidebar-accent",
+                    isActive &&
+                      "bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90"
                   )
                 }
               >
@@ -159,11 +160,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               </NavLink>
             ))}
       </nav>
-      <div className="p-4 border-t border-primary-foreground/20 space-y-4">
+      <div className="p-3 border-t border-sidebar-border space-y-1">
         <NavLink
           to="/settings"
-          onClick={onClose} // Close sidebar on navigation for mobile
-          className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-primary-foreground/10"
+          onClick={onClose}
+          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all hover:bg-sidebar-accent"
         >
           <Settings className="h-5 w-5" />
           <span>{t("common.seller_sidebar.settings")}</span>
@@ -171,7 +172,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         <Link
           to="/"
           onClick={onClose}
-          className="flex items-center gap-3 rounded-lg px-3 py-2 transition-all bg-red-300/30"
+          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all bg-destructive/15 text-destructive hover:bg-destructive/25"
         >
           <ArrowLeftToLine className="h-5 w-5" />
           <span>{t("common.back")}</span>

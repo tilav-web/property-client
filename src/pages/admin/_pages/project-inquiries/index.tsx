@@ -36,8 +36,8 @@ const METHOD_ICON: Record<IAdminProjectInquiry["contact_method"], typeof Mail> =
   };
 
 const STATUS_COLOR: Record<TProjectInquiryStatus, string> = {
-  new: "bg-blue-100 text-blue-700",
-  seen: "bg-gray-100 text-gray-700",
+  new: "bg-accent text-foreground",
+  seen: "bg-gray-100 text-foreground",
   contacted: "bg-amber-100 text-amber-800",
   closed: "bg-emerald-100 text-emerald-800",
 };
@@ -76,18 +76,18 @@ export default function AdminProjectInquiriesPage() {
   return (
     <div className="p-6">
       <div className="mb-4 flex items-center gap-3">
-        <Inbox className="h-6 w-6 text-blue-600" />
+        <Inbox className="h-6 w-6 text-primary" />
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-foreground">
             Loyiha so'rovlari
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             Foydalanuvchilardan kelgan murojaatlar
           </p>
         </div>
       </div>
 
-      <div className="mb-4 flex flex-wrap gap-1 rounded-full border border-gray-200 bg-white p-1 w-fit">
+      <div className="mb-4 flex flex-wrap gap-1 rounded-full border border-border/60 bg-white p-1 w-fit">
         {STATUS_TABS.map((tab) => (
           <button
             key={tab.key}
@@ -96,8 +96,8 @@ export default function AdminProjectInquiriesPage() {
             className={cn(
               "whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-medium",
               status === tab.key
-                ? "bg-blue-600 text-white"
-                : "text-gray-600 hover:text-gray-900",
+                ? "bg-primary text-white"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             {tab.label}
@@ -106,9 +106,9 @@ export default function AdminProjectInquiriesPage() {
       </div>
 
       {isLoading ? (
-        <div className="py-10 text-center text-gray-500">Yuklanmoqda...</div>
+        <div className="py-10 text-center text-muted-foreground">Yuklanmoqda...</div>
       ) : items.length === 0 ? (
-        <div className="py-10 text-center text-gray-500">
+        <div className="py-10 text-center text-muted-foreground">
           So'rovlar yo'q.
         </div>
       ) : (
@@ -118,19 +118,19 @@ export default function AdminProjectInquiriesPage() {
             return (
               <div
                 key={inq._id}
-                className="rounded-xl border border-gray-200 bg-white p-4"
+                className="rounded-xl border border-border/60 bg-white p-4"
               >
                 <div className="mb-2 flex flex-wrap items-start justify-between gap-2">
                   <div>
                     <Link
                       to={`/project/${inq.project._id}`}
                       target="_blank"
-                      className="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 hover:underline"
+                      className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
                     >
                       {inq.project.name}
                       <ExternalLink size={12} />
                     </Link>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       {new Date(inq.createdAt).toLocaleString()}
                     </p>
                   </div>
@@ -145,9 +145,9 @@ export default function AdminProjectInquiriesPage() {
                 </div>
 
                 <div className="mb-2 flex items-center gap-2 text-sm">
-                  <Icon size={14} className="text-gray-400" />
+                  <Icon size={14} className="text-muted-foreground/70" />
                   <span className="font-medium">{inq.full_name}</span>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-muted-foreground">
                     via {inq.contact_method}
                   </span>
                 </div>
@@ -156,7 +156,7 @@ export default function AdminProjectInquiriesPage() {
                   {inq.email && (
                     <a
                       href={`mailto:${inq.email}`}
-                      className="flex items-center gap-1 text-blue-600 hover:underline"
+                      className="flex items-center gap-1 text-primary hover:underline"
                     >
                       <Mail size={12} /> {inq.email}
                     </a>
@@ -164,7 +164,7 @@ export default function AdminProjectInquiriesPage() {
                   {inq.phone && (
                     <a
                       href={`tel:${inq.phone}`}
-                      className="flex items-center gap-1 text-blue-600 hover:underline"
+                      className="flex items-center gap-1 text-primary hover:underline"
                     >
                       <Phone size={12} /> {inq.phone}
                     </a>
@@ -172,7 +172,7 @@ export default function AdminProjectInquiriesPage() {
                 </div>
 
                 {inq.message && (
-                  <p className="mb-3 whitespace-pre-line rounded-lg bg-gray-50 p-3 text-sm text-gray-700">
+                  <p className="mb-3 whitespace-pre-line rounded-lg bg-gray-50 p-3 text-sm text-foreground">
                     {inq.message}
                   </p>
                 )}

@@ -30,10 +30,10 @@ export default function BusinessTypeTab({
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-gray-900">
+      <h3 className="text-lg font-semibold text-foreground">
         {t("business_type_tab.choose_business_type")}
       </h3>
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-muted-foreground">
         {t("business_type_tab.choose_one_of_the_following")}
       </p>
 
@@ -42,11 +42,11 @@ export default function BusinessTypeTab({
         onValueChange={(value) => setBusinessType(value)}
         className="flex flex-col gap-4"
       >
-        <div className="flex items-center h-12 px-2 gap-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+        <div className="flex items-center h-12 px-2 gap-2 rounded-lg border border-border/60 hover:bg-gray-50 transition-colors">
           <RadioGroupItem
             value="ytt"
             id="ytt"
-            className="text-blue-600 border-blue-600"
+            className="text-primary border-blue-600"
           />
           <Label
             htmlFor="ytt"
@@ -56,11 +56,11 @@ export default function BusinessTypeTab({
           </Label>
         </div>
 
-        <div className="flex items-center h-12 px-2 gap-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+        <div className="flex items-center h-12 px-2 gap-2 rounded-lg border border-border/60 hover:bg-gray-50 transition-colors">
           <RadioGroupItem
             value="mchj"
             id="mchj"
-            className="text-blue-600 border-blue-600"
+            className="text-primary border-blue-600"
           />
           <Label
             htmlFor="mchj"

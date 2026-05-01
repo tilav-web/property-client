@@ -67,14 +67,14 @@ export default function Register() {
           </div>
         </div>
         <div className="bg-white py-8 px-6 sm:px-10">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+          <h2 className="font-display text-3xl text-foreground mb-6 text-center">
             {t("pages.register_page.create_account")}
           </h2>
           <div className="space-y-3 mb-6">
             <button
               disabled={formik.isSubmitting}
               onClick={() => userService.googleLogin()}
-              className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 transition-colors"
+              className="w-full flex justify-center items-center gap-2 h-12 px-4 border border-border rounded-full text-sm font-semibold text-foreground bg-card hover:bg-accent disabled:opacity-50 transition-all active:scale-[0.98]"
             >
               <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
                 <path
@@ -100,7 +100,7 @@ export default function Register() {
             <button
               disabled={formik.isSubmitting}
               onClick={() => userService.appleLogin()}
-              className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 transition-colors"
+              className="w-full flex justify-center items-center gap-2 h-12 px-4 border border-border rounded-full text-sm font-semibold text-foreground bg-card hover:bg-accent disabled:opacity-50 transition-all active:scale-[0.98]"
             >
               <svg
                 className="w-5 h-5 mr-3"
@@ -115,7 +115,7 @@ export default function Register() {
             <button
               disabled={formik.isSubmitting}
               onClick={() => userService.facebookLogin()}
-              className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 transition-colors"
+              className="w-full flex justify-center items-center gap-2 h-12 px-4 border border-border rounded-full text-sm font-semibold text-foreground bg-card hover:bg-accent disabled:opacity-50 transition-all active:scale-[0.98]"
             >
               <svg
                 className="w-5 h-5 mr-3 text-blue-600"
@@ -133,7 +133,7 @@ export default function Register() {
               <div className="w-full border-t border-gray-300" />
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">{t("pages.login_page.or")}</span>
+              <span className="px-3 bg-card text-muted-foreground">{t("pages.login_page.or")}</span>
             </div>
           </div>
           <form onSubmit={formik.handleSubmit} className="space-y-6">
@@ -149,7 +149,7 @@ export default function Register() {
                     "flex-1 rounded-md py-2 text-sm font-medium transition-colors",
                     authMethod === "email"
                       ? "bg-white text-blue-700 shadow-sm"
-                      : "text-gray-600 hover:text-gray-900",
+                      : "text-muted-foreground hover:text-gray-900",
                   )}
                 >
                   {t("pages.login_page.email")}
@@ -164,7 +164,7 @@ export default function Register() {
                     "flex-1 rounded-md py-2 text-sm font-medium transition-colors",
                     authMethod === "phone"
                       ? "bg-white text-blue-700 shadow-sm"
-                      : "text-gray-600 hover:text-gray-900",
+                      : "text-muted-foreground hover:text-gray-900",
                   )}
                 >
                   {t("pages.login_page.phone", "Phone")}
@@ -175,7 +175,7 @@ export default function Register() {
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="identifier"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-foreground"
               >
                 {authMethod === "email"
                   ? t("pages.login_page.email")
@@ -206,7 +206,7 @@ export default function Register() {
 
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-foreground"
               >
                 {t("pages.login_page.password")}
               </label>
@@ -237,7 +237,7 @@ export default function Register() {
                 />
               </div>
               <div className="ml-3 text-sm">
-                <label htmlFor="agree-to-terms" className="text-gray-700">
+                <label htmlFor="agree-to-terms" className="text-foreground">
                   <Trans i18nKey="pages.register_page.terms_and_conditions">
                     I agree to the <Link to="#" className="text-blue-600 hover:text-blue-500">Terms</Link> and <Link to="#" className="text-blue-600 hover:text-blue-500">Privacy Policy</Link>
                   </Trans>

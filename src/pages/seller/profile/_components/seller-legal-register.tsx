@@ -83,7 +83,7 @@ export default function SellerLegalRegister() {
                 value="business_type"
               >
                 <CircleCheck className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
-                <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
+                <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-primary flex-1 text-start">
                   {t("seller_register_page.business_form")}
                 </p>
               </TabsTrigger>
@@ -93,7 +93,7 @@ export default function SellerLegalRegister() {
                 value="user_details"
               >
                 <User className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
-                <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
+                <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-primary flex-1 text-start">
                   {t("seller_register_page.personal_details")}
                 </p>
               </TabsTrigger>
@@ -103,7 +103,7 @@ export default function SellerLegalRegister() {
                 value="busisess_details"
               >
                 <ClipboardList className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
-                <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
+                <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-primary flex-1 text-start">
                   {t("seller_register_page.business_details")}
                 </p>
               </TabsTrigger>
@@ -113,7 +113,7 @@ export default function SellerLegalRegister() {
                 value="bank_account_number"
               >
                 <Landmark className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
-                <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
+                <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-primary flex-1 text-start">
                   {t("seller_register_page.bank_account_number")}
                 </p>
               </TabsTrigger>
@@ -123,14 +123,14 @@ export default function SellerLegalRegister() {
                 value="commissioner"
               >
                 <Users className="group-data-[state=active]:text-blue-500 group-data-[state=active]:opacity-100 opacity-50 !w-6 !h-6" />
-                <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-blue-500 flex-1 text-start">
+                <p className="text-base group-data-[state=active]:border-b-3 border-b-3 border-inherit group-data-[state=active]:border-primary flex-1 text-start">
                   {t("seller_register_page.commissioner")}
                 </p>
               </TabsTrigger>
             </TabsList>
             <div className="bg-blue-500/10 px-6 py-4 rounded-xl">
               <div className="flex items-center justify-between">
-                <p className="mb-2 text-gray-800 font-medium">
+                <p className="mb-2 text-foreground font-medium">
                   {t("seller_register_page.process")}
                 </p>
                 <p className="text-sm">

@@ -82,18 +82,18 @@ export default function AdminExchangeRatesPage() {
   };
 
   if (isLoading) {
-    return <div className="p-6 text-gray-500">Yuklanmoqda...</div>;
+    return <div className="p-6 text-muted-foreground">Yuklanmoqda...</div>;
   }
 
   return (
     <div className="p-6">
       <div className="mb-6 flex items-center gap-3">
-        <Coins className="h-6 w-6 text-blue-600" />
+        <Coins className="h-6 w-6 text-primary" />
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-foreground">
             Valyuta kurslari
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             Bazaviy valyuta: <span className="font-semibold">{base}</span>.
             Kurslar 1 {base} = X {`{valyuta}`} ko'rinishida saqlanadi.
           </p>
@@ -104,7 +104,7 @@ export default function AdminExchangeRatesPage() {
         <div
           className={`mb-4 flex items-center gap-3 rounded-xl border p-4 ${
             isStale
-              ? "border-red-200 bg-red-50 text-red-700"
+              ? "border-destructive/30 bg-destructive/10 text-destructive"
               : "border-emerald-200 bg-emerald-50 text-emerald-700"
           }`}
         >
@@ -130,7 +130,7 @@ export default function AdminExchangeRatesPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="max-w-3xl space-y-5 rounded-2xl border border-gray-200 bg-white p-6"
+        className="max-w-3xl space-y-5 rounded-2xl border border-border/60 bg-card p-6"
       >
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {SUPPORTED_CURRENCIES.map((code) => {
@@ -140,15 +140,15 @@ export default function AdminExchangeRatesPage() {
               <div key={code}>
                 <Label className="mb-1 flex items-center gap-2">
                   <span className="font-bold">{meta.code}</span>
-                  <span className="text-xs text-gray-500">{meta.name}</span>
+                  <span className="text-xs text-muted-foreground">{meta.name}</span>
                   {isBase && (
-                    <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-medium text-blue-700">
+                    <span className="rounded-full bg-accent px-2 py-0.5 text-[10px] font-medium text-foreground">
                       base
                     </span>
                   )}
                 </Label>
                 <div className="flex items-center gap-2">
-                  <span className="whitespace-nowrap text-sm text-gray-500">
+                  <span className="whitespace-nowrap text-sm text-muted-foreground">
                     1 {base} =
                   </span>
                   <Input
@@ -162,7 +162,7 @@ export default function AdminExchangeRatesPage() {
                     }
                     placeholder="0"
                   />
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-medium text-foreground">
                     {meta.symbol}
                   </span>
                 </div>
@@ -179,7 +179,7 @@ export default function AdminExchangeRatesPage() {
             onChange={(e) => setNotes(e.target.value)}
             maxLength={500}
             placeholder="Masalan: bank kursi + 1% markup"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+            className="w-full rounded-md border border-border px-3 py-2 text-sm"
           />
         </div>
 
@@ -187,7 +187,7 @@ export default function AdminExchangeRatesPage() {
           <Button
             type="submit"
             disabled={updateMutation.isPending}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-primary hover:bg-primary/90"
           >
             {updateMutation.isPending && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

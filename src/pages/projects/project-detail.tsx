@@ -41,7 +41,7 @@ export default function ProjectDetailPage() {
   if (loading) {
     return (
       <div className="flex h-60 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -60,7 +60,7 @@ export default function ProjectDetailPage() {
   return (
     <div className="py-6">
       {/* Hero */}
-      <div className="mb-6 overflow-hidden rounded-2xl border border-gray-200 bg-white">
+      <div className="mb-6 overflow-hidden rounded-2xl border border-border/60 bg-card">
         <div className="relative h-64 bg-gray-100 sm:h-80">
           {project.photos?.[0] && (
             <img
@@ -101,7 +101,7 @@ export default function ProjectDetailPage() {
                   {developer.name}
                 </Link>
               )}
-              <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+              <h1 className="font-display text-3xl text-foreground sm:text-4xl">
                 {project.name}
               </h1>
               {project.address && (
@@ -111,24 +111,21 @@ export default function ProjectDetailPage() {
               )}
             </div>
             {project.launch_price !== undefined && (
-              <div className="rounded-xl bg-blue-50 p-4 text-right">
-                <p className="text-xs uppercase tracking-wide text-blue-600">
+              <div className="rounded-2xl bg-accent p-4 text-right">
+                <p className="text-[11px] uppercase tracking-wider text-foreground/60 font-semibold">
                   {t("pages.projects.launch_price", "Launch price")}
                 </p>
                 <Price
                   amount={project.launch_price}
                   currency={project.currency}
-                  className="justify-end text-xl text-blue-900"
+                  className="mt-1 justify-end text-xl text-foreground"
                 />
               </div>
             )}
           </div>
 
           <div className="mt-6 flex flex-wrap gap-2">
-            <Button
-              onClick={() => setContactOpen(true)}
-              className="bg-blue-600 hover:bg-blue-700"
-            >
+            <Button onClick={() => setContactOpen(true)}>
               <MessageSquare size={16} className="mr-2" />
               {t("pages.projects.contact_us", "Contact us")}
             </Button>
@@ -146,8 +143,8 @@ export default function ProjectDetailPage() {
 
       {/* Description */}
       {project.description && (
-        <div className="mb-6 rounded-2xl border border-gray-200 bg-white p-6">
-          <h2 className="mb-3 text-lg font-semibold text-gray-900">
+        <div className="mb-6 rounded-2xl border border-border/60 bg-card p-6">
+          <h2 className="mb-3 font-display text-xl text-foreground">
             {t("pages.projects.about", "About this project")}
           </h2>
           <p className="whitespace-pre-line text-sm leading-relaxed text-gray-700">
@@ -158,15 +155,15 @@ export default function ProjectDetailPage() {
 
       {/* Unit types */}
       {project.unit_types?.length > 0 && (
-        <div className="mb-6 rounded-2xl border border-gray-200 bg-white p-6">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">
+        <div className="mb-6 rounded-2xl border border-border/60 bg-card p-6">
+          <h2 className="mb-4 font-display text-xl text-foreground">
             {t("pages.projects.unit_types", "Unit types")}
           </h2>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {project.unit_types.map((u, idx) => (
               <div
                 key={idx}
-                className="rounded-xl border border-gray-200 p-4"
+                className="rounded-xl border border-border/60 p-4"
               >
                 <p className="text-sm font-semibold capitalize text-gray-900">
                   {t(`enums.project_unit.${u.category}`, u.category)}
@@ -216,15 +213,15 @@ export default function ProjectDetailPage() {
 
       {/* Payment plans */}
       {project.payment_plans?.length > 0 && (
-        <div className="mb-6 rounded-2xl border border-gray-200 bg-white p-6">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">
+        <div className="mb-6 rounded-2xl border border-border/60 bg-card p-6">
+          <h2 className="mb-4 font-display text-xl text-foreground">
             {t("pages.projects.payment_plans", "Payment plans")}
           </h2>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {project.payment_plans.map((p, idx) => (
               <div
                 key={idx}
-                className="rounded-xl border border-gray-200 p-4"
+                className="rounded-xl border border-border/60 p-4"
               >
                 <p className="text-sm font-semibold text-gray-900">{p.name}</p>
                 {p.deposit_percent !== undefined && (
@@ -243,8 +240,8 @@ export default function ProjectDetailPage() {
 
       {/* Photo gallery */}
       {project.photos?.length > 1 && (
-        <div className="mb-6 rounded-2xl border border-gray-200 bg-white p-6">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">
+        <div className="mb-6 rounded-2xl border border-border/60 bg-card p-6">
+          <h2 className="mb-4 font-display text-xl text-foreground">
             {t("pages.projects.gallery", "Gallery")}
           </h2>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">

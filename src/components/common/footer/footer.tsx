@@ -8,41 +8,47 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
-      <div className="container mx-auto px-4 py-12">
+    <footer className="bg-foreground text-background/80 mt-12">
+      <div className="container mx-auto px-4 lg:px-8 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand & Contact */}
-          <div>
-            <Link to="/" className="inline-block mb-5">
+          <div className="space-y-5">
+            <Link to="/" className="inline-block">
               <img
                 src={logo}
                 alt="Amaar Properties"
                 className="h-10 w-auto brightness-0 invert"
               />
             </Link>
-            <p className="text-sm text-gray-400 mb-6">
+            <p className="text-sm text-background/60 leading-relaxed">
               {t("common.footer.description")}
             </p>
-            <div className="space-y-3">
+            <div className="space-y-3 pt-2">
               <a
                 href="tel:+601139029480"
-                className="flex items-center gap-3 text-sm hover:text-white transition-colors"
+                className="flex items-center gap-3 text-sm text-background/70 hover:text-primary transition-colors"
               >
-                <Phone size={16} />
+                <span className="flex items-center justify-center size-8 rounded-full bg-background/5">
+                  <Phone size={14} />
+                </span>
                 <span>+60 113 902 9480</span>
               </a>
               <a
                 href="tel:+971562911117"
-                className="flex items-center gap-3 text-sm hover:text-white transition-colors"
+                className="flex items-center gap-3 text-sm text-background/70 hover:text-primary transition-colors"
               >
-                <Phone size={16} />
+                <span className="flex items-center justify-center size-8 rounded-full bg-background/5">
+                  <Phone size={14} />
+                </span>
                 <span>+971 56 291 1117</span>
               </a>
               <a
                 href="mailto:info@amaarproperties.com"
-                className="flex items-center gap-3 text-sm hover:text-white transition-colors"
+                className="flex items-center gap-3 text-sm text-background/70 hover:text-primary transition-colors"
               >
-                <Mail size={16} />
+                <span className="flex items-center justify-center size-8 rounded-full bg-background/5">
+                  <Mail size={14} />
+                </span>
                 <span>info@amaarproperties.com</span>
               </a>
             </div>
@@ -50,14 +56,14 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-semibold mb-5">
+            <h3 className="font-display text-lg text-background mb-5">
               {t("common.footer.quick_links")}
             </h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   to="/filter-nav?category=APARTMENT_SALE"
-                  className="text-sm hover:text-white transition-colors"
+                  className="text-sm text-background/70 hover:text-primary transition-colors"
                 >
                   {t("common.buy")}
                 </Link>
@@ -65,17 +71,33 @@ export default function Footer() {
               <li>
                 <Link
                   to="/filter-nav?category=APARTMENT_RENT"
-                  className="text-sm hover:text-white transition-colors"
+                  className="text-sm text-background/70 hover:text-primary transition-colors"
                 >
                   {t("common.rent_apartments")}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/filter-nav?is_new=1"
-                  className="text-sm hover:text-white transition-colors"
+                  to="/projects"
+                  className="text-sm text-background/70 hover:text-primary transition-colors"
                 >
                   {t("common.new_projects")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/developers"
+                  className="text-sm text-background/70 hover:text-primary transition-colors"
+                >
+                  {t("pages.developers.title", "Developers")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/map"
+                  className="text-sm text-background/70 hover:text-primary transition-colors"
+                >
+                  {t("common.map_nav", "Map")}
                 </Link>
               </li>
             </ul>
@@ -83,14 +105,14 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="text-white font-semibold mb-5">
+            <h3 className="font-display text-lg text-background mb-5">
               {t("common.footer.company")}
             </h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   to="#"
-                  className="text-sm hover:text-white transition-colors"
+                  className="text-sm text-background/70 hover:text-primary transition-colors"
                 >
                   {t("common.footer.about")}
                 </Link>
@@ -98,7 +120,7 @@ export default function Footer() {
               <li>
                 <Link
                   to="#"
-                  className="text-sm hover:text-white transition-colors"
+                  className="text-sm text-background/70 hover:text-primary transition-colors"
                 >
                   {t("common.footer.privacy_policy")}
                 </Link>
@@ -106,9 +128,17 @@ export default function Footer() {
               <li>
                 <Link
                   to="#"
-                  className="text-sm hover:text-white transition-colors"
+                  className="text-sm text-background/70 hover:text-primary transition-colors"
                 >
                   {t("common.footer.terms_of_service")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/ai-chat"
+                  className="text-sm text-background/70 hover:text-primary transition-colors"
+                >
+                  {t("common.ai_chat", "AI Assistant")}
                 </Link>
               </li>
             </ul>
@@ -116,44 +146,44 @@ export default function Footer() {
 
           {/* Offices & Social */}
           <div>
-            <h3 className="text-white font-semibold mb-5">
+            <h3 className="font-display text-lg text-background mb-5">
               {t("common.footer.offices")}
             </h3>
-            <div className="space-y-4 mb-6">
-              <div className="flex items-start gap-3 text-sm">
-                <MapPin size={16} className="mt-0.5 flex-shrink-0" />
+            <div className="space-y-4 mb-7">
+              <div className="flex items-start gap-3 text-sm text-background/70">
+                <MapPin size={16} className="mt-0.5 flex-shrink-0 text-primary" />
                 <span>{t("common.footer.office_malaysia")}</span>
               </div>
-              <div className="flex items-start gap-3 text-sm">
-                <MapPin size={16} className="mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-3 text-sm text-background/70">
+                <MapPin size={16} className="mt-0.5 flex-shrink-0 text-primary" />
                 <span>{t("common.footer.office_uae")}</span>
               </div>
             </div>
 
-            <h3 className="text-white font-semibold mb-4">
+            <h3 className="font-display text-lg text-background mb-4">
               {t("common.footer.follow_us")}
             </h3>
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <a
                 href="#"
                 aria-label="Facebook"
-                className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors"
+                className="size-10 bg-background/5 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all"
               >
-                <Facebook size={18} />
+                <Facebook size={16} />
               </a>
               <a
                 href="#"
                 aria-label="Instagram"
-                className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-pink-600 transition-colors"
+                className="size-10 bg-background/5 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all"
               >
-                <Instagram size={18} />
+                <Instagram size={16} />
               </a>
               <a
                 href="#"
                 aria-label="Telegram"
-                className="w-9 h-9 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-sky-500 transition-colors"
+                className="size-10 bg-background/5 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all"
               >
-                <Send size={18} />
+                <Send size={16} />
               </a>
             </div>
           </div>
@@ -161,12 +191,12 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-gray-800">
-        <div className="container mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-gray-500">
+      <div className="border-t border-background/10">
+        <div className="container mx-auto px-4 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-background/50">
             &copy; {currentYear} Amaar Properties. {t("common.footer.all_rights_reserved")}
           </p>
-          <p className="text-xs text-gray-600">
+          <p className="text-xs text-background/40">
             {t("common.footer.made_with_love")}
           </p>
         </div>

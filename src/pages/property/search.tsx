@@ -235,13 +235,13 @@ export default function SearchPage() {
       {/* No results */}
       {hasNoResults && (
         <div className="mt-12 flex flex-col items-center gap-4 py-16 text-center">
-          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
-            <Search size={32} className="text-gray-400" />
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+            <Search size={28} className="text-muted-foreground" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="font-display text-2xl text-foreground">
             {t("pages.main_page.no_results_title") || "No properties found"}
           </h2>
-          <p className="max-w-md text-gray-500">
+          <p className="max-w-md text-sm text-muted-foreground">
             {t("pages.main_page.no_results_subtitle") ||
               "Try adjusting your filters or search for a different location"}
           </p>

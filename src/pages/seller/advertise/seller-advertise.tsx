@@ -124,10 +124,10 @@ export default function SellerAdvertise() {
       {/* Sarlavha va yangi property tugmasi */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground">
             {t("pages.seller_advertises_page.my_advertises")}
           </h1>
-          <p className="text-gray-600 mt-2">
+          <p className="text-muted-foreground mt-2">
             {t("pages.seller_advertises_page.total_edvertise", {
               count: advertises.length,
             })}
@@ -135,7 +135,7 @@ export default function SellerAdvertise() {
         </div>
         <Button
           onClick={handleCreateAdvertise}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
+          className="bg-primary hover:bg-primary/90 text-white"
           size="lg"
         >
           <Plus className="w-5 h-5 mr-2" />
@@ -149,19 +149,19 @@ export default function SellerAdvertise() {
         <div className="text-center py-12 bg-gray-50 rounded-xl">
           <div className="max-w-md mx-auto">
             <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Plus className="w-8 h-8 text-gray-400" />
+              <Plus className="w-8 h-8 text-muted-foreground/70" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <h3 className="text-xl font-semibold text-foreground mb-2">
               {t("pages.seller_advertises_page.no_advertises_found")}
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-muted-foreground mb-6">
               {t(
                 "pages.seller_advertises_page.you_have_not_added_any_advertises_yet"
               )}
             </p>
             <Button
               onClick={handleCreateAdvertise}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              className="bg-primary hover:bg-primary/90 text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
               {t("pages.seller_advertises_page.add_first_property")}
