@@ -10,7 +10,6 @@ import {
   Menu,
   FileText,
   Bell,
-  CreditCard,
   BriefcaseBusiness,
   Tags,
   Building2,
@@ -120,13 +119,6 @@ export default function AdminSidebar() {
       icon: <Settings className="h-5 w-5" />,
       badge: null,
       path: "/admin/site-settings",
-    },
-    {
-      id: "billing",
-      label: "Billing",
-      icon: <CreditCard className="h-5 w-5" />,
-      badge: null,
-      path: "/admin/billing",
     },
   ];
 
