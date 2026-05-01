@@ -145,7 +145,7 @@ export default function SellerPhysicalData() {
       ? sellerData.self_employment_certificate
       : undefined;
 
-  const formatDate = (date?: string) =>
+  const formatDate = (date?: string | Date) =>
     date
       ? new Date(date).toLocaleDateString("en-US", {
           year: "numeric",

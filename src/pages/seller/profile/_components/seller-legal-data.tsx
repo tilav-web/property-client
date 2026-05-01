@@ -113,7 +113,7 @@ export default function SellerLegalData() {
     );
   }
 
-  const formatDate = (date: string) =>
+  const formatDate = (date: string | Date) =>
     new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
