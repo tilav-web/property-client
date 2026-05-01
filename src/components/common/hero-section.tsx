@@ -63,7 +63,7 @@ export default function HeroSection({
 
   return (
     <div className={cn("relative w-full overflow-hidden", className)}>
-      <div className="relative h-[420px] w-full transition-all duration-300 md:h-[600px] lg:h-[680px]">
+      <div className="relative min-h-[480px] w-full transition-all duration-300 md:min-h-[620px] lg:min-h-[700px]">
         <img
           src={img}
           srcSet={imgSrcSet}
@@ -74,35 +74,32 @@ export default function HeroSection({
           decoding="async"
           width={imageWidth}
           height={imageHeight}
-          className="h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover"
         />
 
-        {/* Premium dark gradient — pastdan kuchliroq */}
+        {/* Premium dark gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-foreground/30 via-foreground/20 to-foreground/60" />
 
-        {/* Content overlay */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-4 py-6">
+        {/* Centered content stack — title + subtitle + search */}
+        <div className="relative z-10 flex min-h-[480px] flex-col items-center justify-center gap-6 px-4 py-12 md:min-h-[620px] md:py-16 lg:min-h-[700px]">
           {resolvedTitle ? (
-            <h1
-              className="font-display mb-3 text-center text-4xl font-semibold leading-[1.1] tracking-tight text-white drop-shadow-2xl md:max-w-4xl md:text-6xl lg:text-7xl"
-            >
+            <h1 className="font-display text-center text-4xl font-semibold leading-[1.1] tracking-tight text-white drop-shadow-2xl md:max-w-4xl md:text-5xl lg:text-6xl">
               {resolvedTitle}
             </h1>
           ) : null}
 
           {resolvedSubtitle ? (
-            <p className="mb-2 text-center text-base text-white/90 drop-shadow md:text-lg max-w-2xl">
+            <p className="-mt-3 max-w-2xl text-center text-base text-white/90 drop-shadow md:text-lg">
               {resolvedSubtitle}
             </p>
           ) : null}
-        </div>
 
-        {/* Search controls — absolute positioned */}
-        {shouldLoadSearchControls ? (
-          <Suspense fallback={null}>
-            <HeroSearchControls />
-          </Suspense>
-        ) : null}
+          {shouldLoadSearchControls ? (
+            <Suspense fallback={null}>
+              <HeroSearchControls />
+            </Suspense>
+          ) : null}
+        </div>
       </div>
     </div>
   );

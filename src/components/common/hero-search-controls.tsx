@@ -318,7 +318,7 @@ export default function HeroSearchControls() {
         type="button"
         onClick={() => setMobileSearchActive(true)}
         aria-label={t("common.search")}
-        className="absolute bottom-6 left-1/2 z-30 flex w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 items-center rounded-full border border-white/20 bg-card/95 p-2 shadow-elevated backdrop-blur"
+        className="relative z-10 flex w-full max-w-sm items-center rounded-full border border-white/20 bg-card/95 p-2 shadow-elevated backdrop-blur"
       >
         <div className="mr-3 rounded-full bg-primary p-2 text-primary-foreground">
           <Search size={18} aria-hidden="true" />
@@ -435,7 +435,7 @@ export default function HeroSearchControls() {
 
   // ─── DESKTOP ───
   return (
-    <div className="absolute bottom-6 left-1/2 z-30 w-full max-w-4xl -translate-x-1/2 px-4">
+    <div className="relative z-10 w-full max-w-4xl px-4">
       {/* Tabs - pill style like PropertyFinder */}
       <div className="mb-3 flex justify-center">
         <div className="inline-flex items-center gap-1 rounded-full bg-card/90 px-2 py-1.5 shadow-elevated backdrop-blur">
