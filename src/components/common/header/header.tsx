@@ -97,7 +97,7 @@ export default function Header({ className }: IHeaderProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 w-full bg-background/95 backdrop-blur border-b border-border/60",
+        "sticky top-0 z-50 w-full bg-background/95 backdrop-blur border-b border-border/60",
         className,
       )}
     >

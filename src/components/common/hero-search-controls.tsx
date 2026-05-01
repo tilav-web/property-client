@@ -55,7 +55,7 @@ const RoomButton = memo(
       onClick={onToggle}
       className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
         isSelected
-          ? "border-yellow-500 bg-yellow-400 text-black"
+          ? "border-primary bg-primary text-black"
           : "border-gray-300 bg-white text-gray-700 hover:border-gray-400"
       }`}
     >
@@ -256,7 +256,7 @@ export default function HeroSearchControls() {
           placeholder={t("pages.main_page.search_filters.min")}
           value={minPrice}
           onChange={(e) => setMinPrice(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary"
         />
         <span className="text-gray-400">—</span>
         <input
@@ -264,7 +264,7 @@ export default function HeroSearchControls() {
           placeholder={t("pages.main_page.search_filters.max")}
           value={maxPrice}
           onChange={(e) => setMaxPrice(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary"
         />
       </div>
     </div>
@@ -277,7 +277,7 @@ export default function HeroSearchControls() {
           type="checkbox"
           checked={furnished}
           onChange={(e) => setFurnished(e.target.checked)}
-          className="h-4 w-4 rounded border-gray-300 accent-yellow-500"
+          className="h-4 w-4 rounded border-gray-300 accent-primary"
         />
         <span className="text-sm text-gray-700">
           {t("pages.main_page.search_filters.furnished")}
@@ -297,7 +297,7 @@ export default function HeroSearchControls() {
           placeholder={t("pages.main_page.search_filters.min")}
           value={minArea}
           onChange={(e) => setMinArea(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary"
         />
         <span className="text-gray-400">—</span>
         <input
@@ -305,7 +305,7 @@ export default function HeroSearchControls() {
           placeholder={t("pages.main_page.search_filters.max")}
           value={maxArea}
           onChange={(e) => setMaxArea(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary"
         />
       </div>
     </div>
@@ -318,9 +318,9 @@ export default function HeroSearchControls() {
         type="button"
         onClick={() => setMobileSearchActive(true)}
         aria-label={t("common.search")}
-        className="absolute bottom-6 left-1/2 z-40 flex w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 items-center rounded-full border border-white/20 bg-white/95 p-2 shadow-xl backdrop-blur"
+        className="absolute bottom-6 left-1/2 z-30 flex w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 items-center rounded-full border border-white/20 bg-card/95 p-2 shadow-elevated backdrop-blur"
       >
-        <div className="mr-3 rounded-full bg-yellow-400 p-2 text-black">
+        <div className="mr-3 rounded-full bg-primary p-2 text-primary-foreground">
           <Search size={18} aria-hidden="true" />
         </div>
         <span className="flex-1 text-left text-sm text-gray-500">
@@ -358,8 +358,8 @@ export default function HeroSearchControls() {
                 onClick={() => setActiveTab(tab.key)}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                   activeTab === tab.key
-                    ? "bg-yellow-400 text-black"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-foreground/70 hover:bg-accent"
                 }`}
               >
                 {tab.label}
@@ -371,7 +371,7 @@ export default function HeroSearchControls() {
           <div className="relative">
             <Search className="absolute left-3 top-3 text-gray-400" size={18} />
             <input
-              className="h-12 w-full rounded-lg border border-gray-300 pl-10 pr-4 text-base outline-none focus:border-yellow-500"
+              className="h-12 w-full rounded-lg border border-gray-300 pl-10 pr-4 text-base outline-none focus:border-primary"
               placeholder={t("pages.main_page.search_filters.location_placeholder")}
               value={tagSearch}
               onChange={(e) => {
@@ -422,7 +422,7 @@ export default function HeroSearchControls() {
 
         <div className="border-t bg-gray-50 p-4">
           <Button
-            className="h-12 w-full rounded-xl bg-yellow-400 text-lg font-bold text-black hover:bg-yellow-500"
+            className="h-12 w-full rounded-xl bg-primary text-lg font-bold text-black hover:bg-primary/90"
             onClick={handleSearch}
           >
             <Search className="mr-2" size={20} />
@@ -435,19 +435,19 @@ export default function HeroSearchControls() {
 
   // ─── DESKTOP ───
   return (
-    <div className="absolute bottom-6 left-1/2 z-40 w-full max-w-4xl -translate-x-1/2 px-4">
+    <div className="absolute bottom-6 left-1/2 z-30 w-full max-w-4xl -translate-x-1/2 px-4">
       {/* Tabs - pill style like PropertyFinder */}
       <div className="mb-3 flex justify-center">
-        <div className="inline-flex items-center gap-1 rounded-full bg-white/90 px-2 py-1.5 shadow-lg backdrop-blur">
+        <div className="inline-flex items-center gap-1 rounded-full bg-card/90 px-2 py-1.5 shadow-elevated backdrop-blur">
           {tabs.map((tab) => (
             <button
               key={tab.key}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
+              className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${
                 activeTab === tab.key
-                  ? "bg-yellow-400 text-black shadow-sm"
-                  : "text-gray-600 hover:text-gray-900"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-foreground/70 hover:text-foreground"
               }`}
             >
               {tab.label}
@@ -457,7 +457,7 @@ export default function HeroSearchControls() {
       </div>
 
       {/* Search box */}
-      <div className="rounded-2xl bg-white p-4 shadow-2xl">
+      <div className="rounded-2xl bg-card p-4 shadow-elevated">
         {/* Main search row */}
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
@@ -481,7 +481,7 @@ export default function HeroSearchControls() {
             )}
 
             <input
-              className="h-12 w-full rounded-full border border-gray-200 bg-gray-50 pl-10 pr-4 text-sm outline-none transition-colors focus:border-yellow-400 focus:bg-white"
+              className="h-12 w-full rounded-full border border-gray-200 bg-gray-50 pl-10 pr-4 text-sm outline-none transition-colors focus:border-primary focus:bg-white"
               placeholder={t("pages.main_page.search_filters.location_placeholder")}
               value={tagSearch}
               onChange={(e) => {
@@ -503,7 +503,7 @@ export default function HeroSearchControls() {
                     <div
                       key={tag._id}
                       onClick={() => handleTagSelect(tag.value)}
-                      className="cursor-pointer px-4 py-2.5 text-sm hover:bg-yellow-50"
+                      className="cursor-pointer px-4 py-2.5 text-sm hover:bg-accent"
                     >
                       {tag.value}
                     </div>
@@ -519,7 +519,7 @@ export default function HeroSearchControls() {
 
           <Button
             onClick={handleSearch}
-            className="h-12 rounded-xl bg-yellow-400 px-8 font-bold text-black hover:bg-yellow-500"
+            className="h-12 rounded-xl bg-primary px-8 font-bold text-black hover:bg-primary/90"
           >
             <Search size={18} className="mr-2" />
             {t("pages.main_page.search_filters.find")}
@@ -544,7 +544,7 @@ export default function HeroSearchControls() {
                     if (mapped) setActiveTab(mapped[0] as DealTab);
                     setOpenPropertyType(false);
                   }}
-                  className="flex cursor-pointer justify-between rounded-md px-3 py-2 text-sm hover:bg-yellow-50"
+                  className="flex cursor-pointer justify-between rounded-md px-3 py-2 text-sm hover:bg-accent"
                 >
                   <span>{t(`categories.${cat.category}`)}</span>
                   <span className="text-gray-400">({cat.count})</span>

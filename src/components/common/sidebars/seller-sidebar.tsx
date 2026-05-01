@@ -128,6 +128,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               <NavLink
                 key={item.to}
                 to={item.to}
+                end={item.to === "/seller"}
                 onClick={onClose}
                 className={({ isActive }) =>
                   cn(
@@ -146,6 +147,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               <NavLink
                 key={item.to}
                 to={item.to}
+                end={item.to === "/seller"}
                 onClick={onClose}
                 className={({ isActive }) =>
                   cn(
