@@ -802,6 +802,117 @@
         "price_max": "Price max",
         "delivery_year": "Delivery year"
       }
+    },
+    "home_features": {
+      "title": "Home search, simplified",
+      "subtitle": "Find, track and secure properties with the most powerful search experience in Malaysia.",
+      "tools_title": "Unlock exclusive tools & insights",
+      "tools_desc": "AI search, market trends and price comparisons across all areas.",
+      "alerts_title": "Be notified of any price change",
+      "alerts_desc": "Set alerts for new listings and price drops in your favorite areas.",
+      "save_title": "Save and track your properties",
+      "save_desc": "Build your shortlist and review listings any time across devices.",
+      "value_title": "Track properties to see what they're worth",
+      "value_desc": "AI-powered valuation reveals fair market prices and 6-month forecasts."
+    },
+    "communities": {
+      "title": "Find your perfect area",
+      "subtitle": "Curated areas across Malaysia for every lifestyle and budget.",
+      "popular_title": "Popular Communities",
+      "popular_desc": "Most loved neighborhoods — KLCC, Mont Kiara, Bangsar.",
+      "popular_cta": "Explore Popular Areas",
+      "budget_title": "Budget-Friendly",
+      "budget_desc": "Discover communities within your budget without compromise.",
+      "budget_cta": "Explore Affordable Areas",
+      "family_title": "Family-Friendly",
+      "family_desc": "Best schools, parks and quiet neighborhoods for your family.",
+      "family_cta": "Explore Family Areas",
+      "invest_title": "Best for Investment",
+      "invest_desc": "High-yield areas with strong rental demand and capital growth.",
+      "invest_cta": "Invest in the Best"
+    },
+    "mortgage": {
+      "title": "Mortgage Cashback",
+      "subtitle": "Check if you qualify for 1% Mortgage Cashback:",
+      "check_resident": "You're a Malaysian resident or expat",
+      "check_no_home": "You don't currently own a home in Malaysia",
+      "check_amount": "You require a mortgage over RM 500,000",
+      "name_label": "Name (optional)",
+      "name_placeholder": "Your name",
+      "phone_label": "Phone number",
+      "phone_required": "Please enter your phone number",
+      "apply": "Apply",
+      "success": "Thanks! We'll contact you within 24 hours."
+    },
+    "valuation": {
+      "beta": "BETA",
+      "title": "Your property's future?",
+      "title_2": "Let's find out.",
+      "subtitle": "Your dream home starts with clarity. Discover what a property is worth today and where it's headed over the next six months.",
+      "cta": "Try AI Assistant",
+      "estimate": "Estimated value"
+    },
+    "explore": {
+      "title": "Explore more",
+      "subtitle": "Browse listings by area and category across Malaysia.",
+      "invest": "Invest",
+      "find_apartments": "Find apartments",
+      "find_apartments_buy": "Find apartments to buy",
+      "find_projects": "New off-plan projects",
+      "apartments_kl": "Apartments for rent in Kuala Lumpur",
+      "studio_kl": "Studio Apartments for rent in KL",
+      "furnished_kl": "Furnished Apartments for rent in KL",
+      "apartments_penang": "Apartments for rent in Penang",
+      "apartments_jb": "Apartments for rent in Johor Bahru",
+      "apartments_selangor": "Apartments for rent in Selangor",
+      "apartments_monthly": "Monthly Apartments for rent",
+      "apartments_montkiara": "Apartments for rent in Mont Kiara",
+      "apartments_bangsar": "Apartments for rent in Bangsar",
+      "apartments_klcc": "Apartments for rent in KLCC",
+      "buy_kl": "Apartments for sale in Kuala Lumpur",
+      "buy_studio_kl": "Studio Apartments for sale in KL",
+      "buy_penang": "Apartments for sale in Penang",
+      "buy_jb": "Apartments for sale in Johor Bahru",
+      "buy_montkiara": "Apartments for sale in Mont Kiara",
+      "buy_bangsar": "Apartments for sale in Bangsar",
+      "buy_klcc": "Apartments for sale in KLCC",
+      "buy_subang": "Apartments for sale in Subang Jaya",
+      "projects_kl": "New projects in Kuala Lumpur",
+      "projects_penang": "New projects in Penang",
+      "projects_jb": "New projects in Johor Bahru",
+      "projects_pre_launch": "Pre-launch projects",
+      "projects_on_sale": "Projects on sale",
+      "developers_all": "All developers"
+    },
+    "list_property": {
+      "title": "Looking to advertise a property? We can help.",
+      "subtitle": "Reach thousands of buyers and renters across Malaysia and Central Asia.",
+      "cta": "List your property with us"
+    },
+    "seller_profile": {
+      "stats": {
+        "properties": "Properties",
+        "views": "Views",
+        "saved": "Saved",
+        "rating": "Rating"
+      },
+      "tabs": {
+        "overview": "Overview",
+        "business": "Business",
+        "bank": "Bank",
+        "documents": "Documents",
+        "social": "Social"
+      },
+      "personal_information": "Personal Information",
+      "documents_description": "All your verification documents",
+      "no_business_data": "No business details available",
+      "no_bank_data": "No bank account information",
+      "no_documents": "No documents uploaded",
+      "complete_kyc_hint": "Upload your passport to complete KYC",
+      "no_data_for_type": "No data available for {{type}} type",
+      "not_set": "Not set",
+      "social_description": "How buyers can reach you",
+      "add_social_hint": "Add at least one social channel so buyers can contact you faster."
     }
   },
   "categories": {

@@ -801,6 +801,117 @@
         "price_max": "Harga maks",
         "delivery_year": "Tahun siap"
       }
+    },
+    "home_features": {
+      "title": "Carian rumah, dipermudahkan",
+      "subtitle": "Cari, jejak dan dapatkan hartanah dengan pengalaman carian paling berkuasa di Malaysia.",
+      "tools_title": "Buka kunci alat dan analisis eksklusif",
+      "tools_desc": "Carian AI, trend pasaran dan perbandingan harga di semua kawasan.",
+      "alerts_title": "Dapatkan notifikasi perubahan harga",
+      "alerts_desc": "Tetapkan amaran untuk penyenaraian baru dan penurunan harga di kawasan kegemaran.",
+      "save_title": "Simpan dan jejak hartanah anda",
+      "save_desc": "Bina senarai pendek anda dan semak penyenaraian bila-bila masa.",
+      "value_title": "Jejak nilai hartanah",
+      "value_desc": "Penilaian AI mendedahkan harga pasaran adil dan ramalan 6 bulan."
+    },
+    "communities": {
+      "title": "Cari kawasan ideal anda",
+      "subtitle": "Kawasan terpilih di seluruh Malaysia untuk setiap gaya hidup dan bajet.",
+      "popular_title": "Komuniti Popular",
+      "popular_desc": "Kejiranan paling digemari — KLCC, Mont Kiara, Bangsar.",
+      "popular_cta": "Terokai Kawasan Popular",
+      "budget_title": "Mesra Bajet",
+      "budget_desc": "Cari komuniti dalam bajet anda tanpa kompromi.",
+      "budget_cta": "Terokai Kawasan Berpatutan",
+      "family_title": "Mesra Keluarga",
+      "family_desc": "Sekolah, taman dan kejiranan tenang terbaik untuk keluarga anda.",
+      "family_cta": "Terokai Kawasan Keluarga",
+      "invest_title": "Terbaik untuk Pelaburan",
+      "invest_desc": "Kawasan hasil tinggi dengan permintaan sewa kuat dan pertumbuhan modal.",
+      "invest_cta": "Labur dalam Yang Terbaik"
+    },
+    "mortgage": {
+      "title": "Pulangan Wang Gadai Janji",
+      "subtitle": "Periksa kelayakan untuk Pulangan Wang Gadai Janji 1%:",
+      "check_resident": "Anda penduduk atau ekspatriat Malaysia",
+      "check_no_home": "Anda kini tidak memiliki rumah di Malaysia",
+      "check_amount": "Anda memerlukan gadai janji melebihi RM 500,000",
+      "name_label": "Nama (pilihan)",
+      "name_placeholder": "Nama anda",
+      "phone_label": "Nombor telefon",
+      "phone_required": "Sila masukkan nombor telefon anda",
+      "apply": "Mohon",
+      "success": "Terima kasih! Kami akan hubungi dalam 24 jam."
+    },
+    "valuation": {
+      "beta": "BETA",
+      "title": "Masa depan hartanah anda?",
+      "title_2": "Mari ketahui.",
+      "subtitle": "Rumah impian anda bermula dengan kejelasan. Ketahui nilai hartanah hari ini dan ke mana arahnya 6 bulan akan datang.",
+      "cta": "Cuba Pembantu AI",
+      "estimate": "Nilai anggaran"
+    },
+    "explore": {
+      "title": "Terokai lebih lanjut",
+      "subtitle": "Imbas penyenaraian mengikut kawasan dan kategori di Malaysia.",
+      "invest": "Pelaburan",
+      "find_apartments": "Cari apartmen",
+      "find_apartments_buy": "Cari apartmen untuk dibeli",
+      "find_projects": "Projek off-plan baru",
+      "apartments_kl": "Apartmen sewa di Kuala Lumpur",
+      "studio_kl": "Apartmen studio sewa di KL",
+      "furnished_kl": "Apartmen berperabot sewa di KL",
+      "apartments_penang": "Apartmen sewa di Pulau Pinang",
+      "apartments_jb": "Apartmen sewa di Johor Bahru",
+      "apartments_selangor": "Apartmen sewa di Selangor",
+      "apartments_monthly": "Apartmen sewa bulanan",
+      "apartments_montkiara": "Sewa di Mont Kiara",
+      "apartments_bangsar": "Sewa di Bangsar",
+      "apartments_klcc": "Sewa di KLCC",
+      "buy_kl": "Apartmen untuk dijual di Kuala Lumpur",
+      "buy_studio_kl": "Apartmen studio dijual di KL",
+      "buy_penang": "Apartmen dijual di Pulau Pinang",
+      "buy_jb": "Apartmen dijual di Johor Bahru",
+      "buy_montkiara": "Dijual di Mont Kiara",
+      "buy_bangsar": "Dijual di Bangsar",
+      "buy_klcc": "Dijual di KLCC",
+      "buy_subang": "Dijual di Subang Jaya",
+      "projects_kl": "Projek baru di Kuala Lumpur",
+      "projects_penang": "Projek baru di Pulau Pinang",
+      "projects_jb": "Projek baru di Johor Bahru",
+      "projects_pre_launch": "Projek pra-pelancaran",
+      "projects_on_sale": "Projek dalam jualan",
+      "developers_all": "Semua pemaju"
+    },
+    "list_property": {
+      "title": "Mahu mengiklankan hartanah? Kami boleh bantu.",
+      "subtitle": "Capai ribuan pembeli dan penyewa di seluruh Malaysia dan Asia Tengah.",
+      "cta": "Senaraikan hartanah anda dengan kami"
+    },
+    "seller_profile": {
+      "stats": {
+        "properties": "Hartanah",
+        "views": "Tontonan",
+        "saved": "Disimpan",
+        "rating": "Penarafan"
+      },
+      "tabs": {
+        "overview": "Gambaran",
+        "business": "Perniagaan",
+        "bank": "Bank",
+        "documents": "Dokumen",
+        "social": "Sosial"
+      },
+      "personal_information": "Maklumat Peribadi",
+      "documents_description": "Semua dokumen pengesahan anda",
+      "no_business_data": "Tiada butiran perniagaan",
+      "no_bank_data": "Tiada maklumat akaun bank",
+      "no_documents": "Tiada dokumen dimuat naik",
+      "complete_kyc_hint": "Muat naik pasport untuk melengkapkan KYC",
+      "no_data_for_type": "Tiada data untuk jenis {{type}}",
+      "not_set": "Belum ditetapkan",
+      "social_description": "Cara pembeli boleh menghubungi anda",
+      "add_social_hint": "Tambahkan sekurang-kurangnya satu saluran sosial supaya pembeli dapat menghubungi anda dengan lebih cepat."
     }
   },
   "categories": {

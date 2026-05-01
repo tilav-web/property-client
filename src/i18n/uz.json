@@ -801,6 +801,117 @@
         "price_max": "Max narx",
         "delivery_year": "Topshirilish yili"
       }
+    },
+    "home_features": {
+      "title": "Uy qidirish, soddalashtirildi",
+      "subtitle": "Malayziya bo'ylab eng kuchli qidiruv bilan mulkni topish, kuzatish va sotib olish.",
+      "tools_title": "Eksklyuziv vositalar va tahlillar",
+      "tools_desc": "AI qidiruv, bozor tendensiyalari va barcha hududlar bo'yicha narx solishtirish.",
+      "alerts_title": "Narx o'zgarishlaridan xabar oling",
+      "alerts_desc": "Sevimli hududlaringizdagi yangi e'lonlar va narx tushishlari uchun ogohlantirishlar.",
+      "save_title": "Mulklaringizni saqlang va kuzating",
+      "save_desc": "Tanlangan ro'yxatingizni yarating va istalgan vaqtda istalgan qurilmadan ko'ring.",
+      "value_title": "Mulk qiymatini kuzating",
+      "value_desc": "AI yordamidagi narx baholash adolatli bozor narxini va 6 oylik prognozni ko'rsatadi."
+    },
+    "communities": {
+      "title": "O'zingizga mos hududni toping",
+      "subtitle": "Malayziya bo'ylab har bir turmush tarzi va byudjet uchun saralangan hududlar.",
+      "popular_title": "Mashhur hududlar",
+      "popular_desc": "Eng sevimli mahallalar — KLCC, Mont Kiara, Bangsar.",
+      "popular_cta": "Mashhur hududlarni ko'rish",
+      "budget_title": "Byudjet uchun qulay",
+      "budget_desc": "Byudjetingizga mos hududlarni murosaga kelmasdan toping.",
+      "budget_cta": "Arzon hududlarni ko'rish",
+      "family_title": "Oilaga mos",
+      "family_desc": "Oilangiz uchun eng yaxshi maktablar, parklar va tinch mahallalar.",
+      "family_cta": "Oilaviy hududlarni ko'rish",
+      "invest_title": "Investitsiya uchun eng yaxshi",
+      "invest_desc": "Yuqori daromadli, ijara talabi yuqori va kapital o'sishi yaxshi hududlar.",
+      "invest_cta": "Eng yaxshilariga investitsiya"
+    },
+    "mortgage": {
+      "title": "Ipoteka Cashback",
+      "subtitle": "1% Ipoteka Cashback uchun mosligingizni tekshiring:",
+      "check_resident": "Siz Malayziya rezidenti yoki ekspatsiz",
+      "check_no_home": "Hozirda Malayziyada uyingiz yo'q",
+      "check_amount": "Sizga RM 500,000 dan ortiq ipoteka kerak",
+      "name_label": "Ism (ixtiyoriy)",
+      "name_placeholder": "Ismingiz",
+      "phone_label": "Telefon raqami",
+      "phone_required": "Iltimos telefon raqamingizni kiriting",
+      "apply": "Ariza topshirish",
+      "success": "Rahmat! Biz 24 soat ichida bog'lanamiz."
+    },
+    "valuation": {
+      "beta": "BETA",
+      "title": "Mulkingizning kelajagi?",
+      "title_2": "Bilib olaylik.",
+      "subtitle": "Orzudagi uyingiz aniqlikdan boshlanadi. Mulk bugun qancha turishini va keyingi 6 oyda qaerga borishini bilib oling.",
+      "cta": "AI yordamchini sinab ko'ring",
+      "estimate": "Taxminiy qiymat"
+    },
+    "explore": {
+      "title": "Ko'proq ko'ring",
+      "subtitle": "Malayziya bo'ylab e'lonlarni hudud va kategoriya bo'yicha ko'rib chiqing.",
+      "invest": "Investitsiya",
+      "find_apartments": "Kvartira topish",
+      "find_apartments_buy": "Sotuvdagi kvartiralarni topish",
+      "find_projects": "Yangi off-plan loyihalar",
+      "apartments_kl": "Kuala Lumpur'da ijaradagi kvartiralar",
+      "studio_kl": "KL'da ijaradagi studio kvartiralar",
+      "furnished_kl": "KL'da jihozli ijara kvartiralar",
+      "apartments_penang": "Penang'da ijaradagi kvartiralar",
+      "apartments_jb": "Johor Bahru'da ijaradagi kvartiralar",
+      "apartments_selangor": "Selangor'da ijaradagi kvartiralar",
+      "apartments_monthly": "Oylik ijara kvartiralar",
+      "apartments_montkiara": "Mont Kiara'da ijara",
+      "apartments_bangsar": "Bangsar'da ijara",
+      "apartments_klcc": "KLCC'da ijara",
+      "buy_kl": "Kuala Lumpur'da sotuvdagi kvartiralar",
+      "buy_studio_kl": "KL'da sotuvdagi studio kvartiralar",
+      "buy_penang": "Penang'da sotuvdagi kvartiralar",
+      "buy_jb": "Johor Bahru'da sotuvdagi kvartiralar",
+      "buy_montkiara": "Mont Kiara'da sotuvdagi kvartiralar",
+      "buy_bangsar": "Bangsar'da sotuvdagi kvartiralar",
+      "buy_klcc": "KLCC'da sotuvdagi kvartiralar",
+      "buy_subang": "Subang Jaya'da sotuvdagi kvartiralar",
+      "projects_kl": "Kuala Lumpur'dagi yangi loyihalar",
+      "projects_penang": "Penang'dagi yangi loyihalar",
+      "projects_jb": "Johor Bahru'dagi yangi loyihalar",
+      "projects_pre_launch": "Tez orada chiqadigan loyihalar",
+      "projects_on_sale": "Sotuvdagi loyihalar",
+      "developers_all": "Barcha developerlar"
+    },
+    "list_property": {
+      "title": "Mulk reklama qilmoqchimisiz? Biz yordam beramiz.",
+      "subtitle": "Malayziya va Markaziy Osiyodagi minglab xaridor va ijarachilarga yetib boring.",
+      "cta": "Mulkingizni biz bilan joylashtiring"
+    },
+    "seller_profile": {
+      "stats": {
+        "properties": "Mulklar",
+        "views": "Ko'rishlar",
+        "saved": "Saqlangan",
+        "rating": "Reyting"
+      },
+      "tabs": {
+        "overview": "Umumiy",
+        "business": "Biznes",
+        "bank": "Bank",
+        "documents": "Hujjatlar",
+        "social": "Ijtimoiy"
+      },
+      "personal_information": "Shaxsiy ma'lumotlar",
+      "documents_description": "Barcha tasdiqlash hujjatlaringiz",
+      "no_business_data": "Biznes tafsilotlari mavjud emas",
+      "no_bank_data": "Bank hisobi ma'lumotlari yo'q",
+      "no_documents": "Hujjat yuklangan emas",
+      "complete_kyc_hint": "KYC ni yakunlash uchun pasportingizni yuklang",
+      "no_data_for_type": "{{type}} turi uchun ma'lumot yo'q",
+      "not_set": "O'rnatilmagan",
+      "social_description": "Xaridorlar siz bilan qanday bog'lanishi mumkin",
+      "add_social_hint": "Xaridorlar tezroq bog'lana olishi uchun kamida bitta ijtimoiy kanal qo'shing."
     }
   },
   "categories": {
