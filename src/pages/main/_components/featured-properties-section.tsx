@@ -11,12 +11,12 @@ function FeaturedSkeleton() {
   return (
     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="animate-pulse rounded-xl bg-gray-100">
-          <div className="h-48 rounded-t-xl bg-gray-200" />
+        <div key={i} className="animate-pulse rounded-2xl bg-muted/60">
+          <div className="aspect-[4/3] rounded-t-2xl bg-muted" />
           <div className="space-y-3 p-4">
-            <div className="h-4 w-2/3 rounded bg-gray-200" />
-            <div className="h-3 w-full rounded bg-gray-200" />
-            <div className="h-3 w-1/2 rounded bg-gray-200" />
+            <div className="h-4 w-2/3 rounded bg-muted" />
+            <div className="h-3 w-full rounded bg-muted" />
+            <div className="h-3 w-1/2 rounded bg-muted" />
           </div>
         </div>
       ))}
@@ -40,11 +40,11 @@ function FeaturedProperties() {
 
   if (isError || !properties?.properties?.length) {
     return (
-      <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 py-16 text-center">
-        <h3 className="text-lg font-semibold text-gray-600">
+      <div className="rounded-2xl border border-dashed border-border/60 bg-card/50 py-16 text-center">
+        <h3 className="font-display text-xl text-foreground">
           {t("pages.main_page.featured_properties.showcase_title")}
         </h3>
-        <p className="mt-2 text-sm text-gray-400">
+        <p className="mt-2 text-sm text-muted-foreground">
           {t("pages.main_page.featured_properties.showcase_description")}
         </p>
       </div>
@@ -67,15 +67,15 @@ export default function FeaturedPropertiesSection() {
     <section className="py-12 [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
       <div className="mb-8 flex items-end justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
+          <h2 className="font-display text-3xl text-foreground sm:text-4xl">
             {t("pages.main_page.featured_properties.title")}
           </h2>
-          <p className="mt-1.5 text-gray-500">
+          <p className="mt-2 text-muted-foreground">
             {t("pages.main_page.featured_properties.subtitle")}
           </p>
         </div>
         <Link to="/search" className="hidden sm:block">
-          <Button variant="outline" className="gap-2 rounded-lg">
+          <Button variant="outline" className="gap-2">
             {t("pages.main_page.featured_properties.view_all")}
             <ArrowRight size={16} />
           </Button>
