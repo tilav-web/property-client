@@ -45,11 +45,11 @@ export default function AdminLayout() {
   }
 
   return (
-    <div className="flex items-stretch">
-      <aside className="h-screen">
+    <div className="flex items-stretch h-screen">
+      <aside className="h-screen flex-shrink-0">
         <AdminSidebar />
       </aside>
-      <main className="overflow-y-auto w-screen">
+      <main className="flex-1 h-screen overflow-y-auto bg-background">
         <Outlet />
       </main>
     </div>
