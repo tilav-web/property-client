@@ -1,34 +1,133 @@
 import { useSellerStore } from "@/stores/seller.store";
-import { File } from "lucide-react";
+import {
+  Calendar,
+  CheckCircle2,
+  CreditCard,
+  Download,
+  FileText,
+  Share2,
+  User,
+  XCircle,
+} from "lucide-react";
+import { useTranslation } from "react-i18next";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 import SellerSocials from "./seller-socials";
+import SellerProfileHeader from "./seller-profile-header";
 
-export default function SellerProfile() {
+interface FieldProps {
+  label: string;
+  value?: string | React.ReactNode;
+  mono?: boolean;
+}
+
+function Field({ label, value, mono = false }: FieldProps) {
+  return (
+    <div className="space-y-1">
+      <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
+        {label}
+      </p>
+      <div
+        className={`text-sm font-medium text-foreground ${mono ? "font-mono" : ""}`}
+      >
+        {value || <span className="text-muted-foreground/60">—</span>}
+      </div>
+    </div>
+  );
+}
+
+interface SectionProps {
+  icon: React.ReactNode;
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+}
+
+function Section({ icon, title, description, children }: SectionProps) {
+  return (
+    <section className="rounded-2xl border border-border/60 bg-card p-6">
+      <div className="mb-5 flex items-center gap-3">
+        <div className="flex size-10 items-center justify-center rounded-xl bg-accent text-foreground">
+          {icon}
+        </div>
+        <div>
+          <h2 className="font-display text-xl text-foreground">{title}</h2>
+          {description && (
+            <p className="text-sm text-muted-foreground">{description}</p>
+          )}
+        </div>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+interface DocCardProps {
+  href: string;
+  label: string;
+  view: string;
+}
+
+function DocCard({ href, label, view }: DocCardProps) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex items-center gap-3 rounded-xl border border-border/60 bg-card p-4 transition-all hover:border-primary hover:bg-accent"
+    >
+      <div className="flex size-10 items-center justify-center rounded-lg bg-accent text-foreground transition-colors group-hover:bg-card">
+        <FileText className="size-4" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-semibold text-foreground truncate">
+          {label}
+        </p>
+        <p className="text-xs text-muted-foreground">{view}</p>
+      </div>
+      <Download className="size-4 text-muted-foreground transition-colors group-hover:text-foreground" />
+    </a>
+  );
+}
+
+export default function SellerPhysicalData() {
   const { seller } = useSellerStore();
+  const { t } = useTranslation();
 
   if (!seller) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <p className="text-muted-foreground">No seller data available</p>
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="text-center space-y-3">
+          <XCircle className="w-12 h-12 mx-auto text-muted-foreground" />
+          <p className="text-muted-foreground">
+            {t("seller_data_page.no_seller_data")}
+          </p>
+        </div>
       </div>
     );
   }
 
-  const { self_employed, physical, status, business_type, passport } = seller;
+  const { self_employed, physical, business_type, passport, bank_account } =
+    seller;
 
-  // business_type ga qarab ma'lumotlarni tanlash
-  const sellerData =
-    business_type === "physical"
-      ? physical
-      : business_type === "self_employed"
-      ? self_employed
-      : null;
+  const sellerData = business_type === "physical" ? physical : self_employed;
 
   if (!sellerData) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <p className="text-muted-foreground">
-          No seller data available for {business_type} type
-        </p>
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="text-center space-y-3">
+          <XCircle className="w-12 h-12 mx-auto text-muted-foreground" />
+          <p className="text-muted-foreground">
+            {t("pages.seller_profile.no_data_for_type", {
+              type: business_type,
+              defaultValue: `No data available for ${business_type} type`,
+            })}
+          </p>
+        </div>
       </div>
     );
   }
@@ -46,144 +145,189 @@ export default function SellerProfile() {
       ? sellerData.self_employment_certificate
       : undefined;
 
+  const formatDate = (date?: string) =>
+    date
+      ? new Date(date).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : "";
+
   return (
-    <div className="max-w-4xl mx-auto space-y-8 py-8">
-      <SellerSocials />
+    <div className="container mx-auto max-w-6xl px-4 py-8 space-y-6">
+      <SellerProfileHeader />
 
-      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-        {/* Header Section */}
-        <div className="border-b pb-4 mb-6">
-          <div className="flex justify-between items-start">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">
-                {first_name} {last_name}
-              </h1>
-              <p className="text-muted-foreground">{middle_name}</p>
-            </div>
-            <div className="flex flex-col items-end">
-              <span
-                className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  status === "approved"
-                    ? "bg-green-100 text-green-800"
-                    : status === "in_progress"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : "bg-red-100 text-red-800"
-                }`}
-              >
-                {status?.charAt(0).toUpperCase() + status?.slice(1)}
-              </span>
-              <p className="text-sm text-muted-foreground mt-1">
-                {business_type?.replace("_", " ").toUpperCase()}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Personal Information Section */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">
-            Personal Information
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-muted-foreground">
-                First Name
-              </label>
-              <p className="mt-1 text-foreground">{first_name}</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-muted-foreground">
-                Last Name
-              </label>
-              <p className="mt-1 text-foreground">{last_name}</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-muted-foreground">
-                Middle Name
-              </label>
-              <p className="mt-1 text-foreground">{middle_name}</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-muted-foreground">
-                Birth Date
-              </label>
-              <p className="mt-1 text-foreground">
-                {birth_date ? new Date(birth_date).toLocaleDateString() : "N/A"}
-              </p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-muted-foreground">
-                Passport
-              </label>
-              <p className="mt-1 text-foreground">{passport}</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-muted-foreground">
-                JSHShIR
-              </label>
-              <p className="mt-1 text-foreground">{jshshir}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Documents Section */}
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">
-            Documents
-          </h2>
-          <div
-            className={`grid gap-4 ${
-              passport_file && self_employment_certificate
-                ? "grid-cols-1 md:grid-cols-2"
-                : "grid-cols-1"
-            }`}
+      <Tabs defaultValue="overview" className="space-y-5">
+        <TabsList className="bg-card border border-border/60 p-1 h-11">
+          <TabsTrigger
+            value="overview"
+            className="data-[state=active]:bg-foreground data-[state=active]:text-background gap-1.5 rounded-full px-4"
           >
-            {passport_file && (
-              <div className="border rounded-lg p-4">
-                <h3 className="font-medium text-gray-700 mb-2">
-                  Passport File
-                </h3>
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-muted-foreground">
-                    File <File />
+            <User size={14} />
+            {t("pages.seller_profile.tabs.overview", "Overview")}
+          </TabsTrigger>
+          {bank_account && (
+            <TabsTrigger
+              value="bank"
+              className="data-[state=active]:bg-foreground data-[state=active]:text-background gap-1.5 rounded-full px-4"
+            >
+              <CreditCard size={14} />
+              {t("pages.seller_profile.tabs.bank", "Bank")}
+            </TabsTrigger>
+          )}
+          <TabsTrigger
+            value="documents"
+            className="data-[state=active]:bg-foreground data-[state=active]:text-background gap-1.5 rounded-full px-4"
+          >
+            <FileText size={14} />
+            {t("pages.seller_profile.tabs.documents", "Documents")}
+          </TabsTrigger>
+          <TabsTrigger
+            value="social"
+            className="data-[state=active]:bg-foreground data-[state=active]:text-background gap-1.5 rounded-full px-4"
+          >
+            <Share2 size={14} />
+            {t("pages.seller_profile.tabs.social", "Social")}
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="space-y-5">
+          <Section
+            icon={<User className="size-5" />}
+            title={t(
+              "pages.seller_profile.personal_information",
+              "Personal Information",
+            )}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Field
+                label={t("seller_data_page.first_name", "First Name")}
+                value={first_name}
+              />
+              <Field
+                label={t("seller_data_page.last_name", "Last Name")}
+                value={last_name}
+              />
+              <Field
+                label={t("seller_data_page.middle_name", "Middle Name")}
+                value={middle_name}
+              />
+              <Field
+                label={t("seller_data_page.birth_date", "Birth Date")}
+                value={
+                  birth_date && (
+                    <span className="inline-flex items-center gap-1.5">
+                      <Calendar className="size-3.5 text-muted-foreground" />
+                      {formatDate(birth_date)}
+                    </span>
+                  )
+                }
+              />
+              <Field
+                label={t("seller_data_page.passport", "Passport")}
+                value={passport}
+                mono
+              />
+              <Field
+                label={t("seller_data_page.jshshir", "JSHShIR")}
+                value={jshshir}
+                mono
+              />
+            </div>
+          </Section>
+        </TabsContent>
+
+        {bank_account && (
+          <TabsContent value="bank" className="space-y-5">
+            <Section
+              icon={<CreditCard className="size-5" />}
+              title={t("seller_data_page.bank_account")}
+              description={t("seller_data_page.your_banking_information")}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Field
+                  label={t("seller_data_page.bank_name")}
+                  value={bank_account.bank_name}
+                />
+                <Field
+                  label={t("seller_data_page.account_number")}
+                  value={bank_account.account_number}
+                  mono
+                />
+                <Field
+                  label={t("seller_data_page.owner_full_name")}
+                  value={bank_account.owner_full_name}
+                />
+                <Field
+                  label={t("seller_data_page.mfo")}
+                  value={bank_account.mfo}
+                  mono
+                />
+                <Field
+                  label={t("seller_data_page.swift_code")}
+                  value={bank_account.swift_code}
+                  mono
+                />
+              </div>
+            </Section>
+          </TabsContent>
+        )}
+
+        <TabsContent value="documents" className="space-y-5">
+          <Section
+            icon={<FileText className="size-5" />}
+            title={t("seller_data_page.documents")}
+            description={t(
+              "pages.seller_profile.documents_description",
+              "All your verification documents",
+            )}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {passport_file && (
+                <DocCard
+                  href={passport_file}
+                  label={t("seller_data_page.passport_file")}
+                  view={t("seller_data_page.view_document")}
+                />
+              )}
+              {self_employment_certificate && (
+                <DocCard
+                  href={self_employment_certificate}
+                  label={t(
+                    "pages.seller_data_page.self_employment_certificate",
+                  )}
+                  view={t("seller_data_page.view_document")}
+                />
+              )}
+            </div>
+            {!passport_file && !self_employment_certificate && (
+              <div className="rounded-xl border border-dashed border-border/60 p-8 text-center">
+                <FileText className="mx-auto size-8 text-muted-foreground/60" />
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {t(
+                    "pages.seller_profile.no_documents",
+                    "No documents uploaded",
+                  )}
+                </p>
+                {!passport_file && (
+                  <p className="mt-1 text-xs text-emerald-700 inline-flex items-center gap-1">
+                    <CheckCircle2 className="size-3" />
+                    {t(
+                      "pages.seller_profile.complete_kyc_hint",
+                      "Upload your passport to complete KYC",
+                    )}
                   </p>
-                  <a
-                    href={passport_file}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm hover:bg-blue-200 transition-colors"
-                  >
-                    View
-                  </a>
-                </div>
+                )}
               </div>
             )}
+          </Section>
+        </TabsContent>
 
-            {business_type === "self_employed" &&
-              self_employment_certificate && (
-                <div className="border rounded-lg p-4">
-                  <h3 className="font-medium text-gray-700 mb-2">
-                    Self-Employment Certificate
-                  </h3>
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm text-muted-foreground">
-                      File <File />
-                    </p>
-
-                    <a
-                      href={self_employment_certificate}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3 py-1 bg-blue-100 text-blue-700 rounded text-sm hover:bg-blue-200 transition-colors"
-                    >
-                      View
-                    </a>
-                  </div>
-                </div>
-              )}
-          </div>
-        </div>
-      </div>
+        <TabsContent value="social" className="space-y-5">
+          <SellerSocials />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
