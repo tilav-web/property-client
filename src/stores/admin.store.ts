@@ -1,12 +1,5 @@
 import { create } from "zustand";
-
-interface IAdmin {
-  _id: string;
-  email: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
+import type { IAdmin } from "@/interfaces/admin/admin.interface";
 
 interface AdminState {
   admin: undefined | null | IAdmin;
