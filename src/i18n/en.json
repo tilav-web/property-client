@@ -161,7 +161,8 @@
       }
     },
     "clear": "Clear",
-    "apply": "Apply"
+    "apply": "Apply",
+    "rent": "Rent"
   },
   "general": {
     "actions": "Actions",
@@ -527,11 +528,17 @@
       },
       "transactions": {
         "title": "Browse property transactions",
-        "subtitle": "Powered by property transaction data for your area.",
+        "subtitle": "Powered by Malaysia property transaction data for your area.",
         "new_rentals": "New rentals",
         "new_sales": "New sales",
         "listings": "Listings",
-        "total": "Transactions"
+        "total": "Transactions",
+        "start_searching": "Start searching",
+        "view_all": "View all transactions",
+        "rented": "Rented",
+        "sold": "Sold",
+        "search_placeholder": "Search any location in Malaysia",
+        "renewed": "Renewed rentals"
       },
       "list_property_cta": {
         "title": "Looking to sell or rent your property?",
@@ -801,6 +808,19 @@
         "price_min": "Price min",
         "price_max": "Price max",
         "delivery_year": "Delivery year"
+      },
+      "off_plan": "Off-Plan",
+      "delivery_date": "Delivery Date",
+      "payment_plan": "Payment Plan",
+      "multiple": "Multiple",
+      "view_details": "View details",
+      "unit": {
+        "apartment": "Apartment",
+        "townhouse": "Townhouse",
+        "villa": "Villa",
+        "penthouse": "Penthouse",
+        "studio": "Studio",
+        "office": "Office"
       }
     },
     "home_features": {
@@ -913,6 +933,28 @@
       "not_set": "Not set",
       "social_description": "How buyers can reach you",
       "add_social_hint": "Add at least one social channel so buyers can contact you faster."
+    },
+    "travel_times": {
+      "title": "Search by travel times",
+      "location_label": "Selected location",
+      "max_time": "Max travel time",
+      "mins": "mins",
+      "peak_hours": "Peak hours",
+      "confirm": "Confirm",
+      "tag_prefix": "max",
+      "tag_to": "to"
+    },
+    "explore_projects": {
+      "title": "Explore new projects in Malaysia",
+      "subtitle": "Discover the latest off-plan properties and be informed.",
+      "empty": "No projects available in this city yet.",
+      "see_all": "See all New Projects"
+    },
+    "compare_prices": {
+      "title": "Compare prices by area",
+      "subtitle": "Understand what your budget unlocks across different areas.",
+      "legend_title": "Malaysia prices",
+      "legend_note": "Average asking prices across Malaysia's most active neighborhoods."
     }
   },
   "categories": {
@@ -1315,5 +1357,11 @@
     "video_recommended_description": "Upload at least one video to help buyers decide.",
     "photos_suffix": "photos",
     "videos_suffix": "videos"
+  },
+  "cities": {
+    "kl": "Kuala Lumpur",
+    "penang": "Penang",
+    "jb": "Johor Bahru",
+    "selangor": "Selangor"
   }
 }

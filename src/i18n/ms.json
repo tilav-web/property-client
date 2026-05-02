@@ -161,7 +161,8 @@
       }
     },
     "clear": "Kosongkan",
-    "apply": "Sahkan"
+    "apply": "Sahkan",
+    "rent": "Sewa"
   },
   "general": {
     "actions": "Tindakan",
@@ -526,11 +527,17 @@
       },
       "transactions": {
         "title": "Semak transaksi hartanah",
-        "subtitle": "Berdasarkan data transaksi hartanah di kawasan anda.",
+        "subtitle": "Berdasarkan data transaksi hartanah Malaysia di kawasan anda.",
         "new_rentals": "Sewaan baharu",
         "new_sales": "Jualan baharu",
         "listings": "Senarai",
-        "total": "Transaksi"
+        "total": "Transaksi",
+        "start_searching": "Mulakan carian",
+        "view_all": "Semua transaksi",
+        "rented": "Disewa",
+        "sold": "Dijual",
+        "search_placeholder": "Cari mana-mana lokasi di Malaysia",
+        "renewed": "Sewaan diperbaharui"
       },
       "list_property_cta": {
         "title": "Ingin jual atau sewakan hartanah anda?",
@@ -800,6 +807,19 @@
         "price_min": "Harga min",
         "price_max": "Harga maks",
         "delivery_year": "Tahun siap"
+      },
+      "off_plan": "Off-Plan",
+      "delivery_date": "Tarikh siap",
+      "payment_plan": "Pelan pembayaran",
+      "multiple": "Pelbagai",
+      "view_details": "Lihat butiran",
+      "unit": {
+        "apartment": "Pangsapuri",
+        "townhouse": "Rumah teres",
+        "villa": "Vila",
+        "penthouse": "Penthaus",
+        "studio": "Studio",
+        "office": "Pejabat"
       }
     },
     "home_features": {
@@ -912,6 +932,28 @@
       "not_set": "Belum ditetapkan",
       "social_description": "Cara pembeli boleh menghubungi anda",
       "add_social_hint": "Tambahkan sekurang-kurangnya satu saluran sosial supaya pembeli dapat menghubungi anda dengan lebih cepat."
+    },
+    "travel_times": {
+      "title": "Cari mengikut masa perjalanan",
+      "location_label": "Lokasi dipilih",
+      "max_time": "Masa perjalanan maks.",
+      "mins": "min",
+      "peak_hours": "Waktu puncak",
+      "confirm": "Sahkan",
+      "tag_prefix": "maks.",
+      "tag_to": "ke"
+    },
+    "explore_projects": {
+      "title": "Terokai projek baharu di Malaysia",
+      "subtitle": "Temui hartanah off-plan terkini dan kekal terkini.",
+      "empty": "Belum ada projek di bandar ini.",
+      "see_all": "Lihat semua projek baharu"
+    },
+    "compare_prices": {
+      "title": "Bandingkan harga mengikut kawasan",
+      "subtitle": "Fahami apa yang bajet anda boleh capai di kawasan berbeza.",
+      "legend_title": "Harga Malaysia",
+      "legend_note": "Purata harga jualan di kawasan paling aktif di Malaysia."
     }
   },
   "categories": {
@@ -1314,5 +1356,11 @@
     "video_recommended_description": "Muat naik sekurang-kurangnya satu video untuk membantu pembeli.",
     "photos_suffix": "gambar",
     "videos_suffix": "video"
+  },
+  "cities": {
+    "kl": "Kuala Lumpur",
+    "penang": "Pulau Pinang",
+    "jb": "Johor Bahru",
+    "selangor": "Selangor"
   }
 }

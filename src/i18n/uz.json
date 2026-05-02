@@ -161,7 +161,8 @@
       }
     },
     "clear": "Tozalash",
-    "apply": "Qo'llash"
+    "apply": "Qo'llash",
+    "rent": "Ijara"
   },
   "general": {
     "actions": "Amallar",
@@ -525,12 +526,18 @@
         "new_projects_desc": "Eng so'nggi qurilish va off-plan mulklarni kashf eting"
       },
       "transactions": {
-        "title": "Mulk tranzaksiyalarini ko'rish",
-        "subtitle": "Hududingizdagi mulk tranzaksiya ma'lumotlari asosida.",
+        "title": "Ko'chmas mulk bitimlari",
+        "subtitle": "Malaysiyadagi tranzaksiya ma'lumotlari asosida.",
         "new_rentals": "Yangi ijaralar",
         "new_sales": "Yangi sotuvlar",
         "listings": "E'lonlar",
-        "total": "Tranzaksiyalar"
+        "total": "Tranzaksiyalar",
+        "start_searching": "Qidiruvni boshlash",
+        "view_all": "Barcha bitimlar",
+        "rented": "Ijara",
+        "sold": "Sotilgan",
+        "search_placeholder": "Malaysiyadagi har qanday joyni qidiring",
+        "renewed": "Yangilangan ijaralar"
       },
       "list_property_cta": {
         "title": "Mulkingizni sotish yoki ijaraga bermoqchimisiz?",
@@ -800,6 +807,19 @@
         "price_min": "Min narx",
         "price_max": "Max narx",
         "delivery_year": "Topshirilish yili"
+      },
+      "off_plan": "Off-Plan",
+      "delivery_date": "Topshirish sanasi",
+      "payment_plan": "To'lov rejasi",
+      "multiple": "Aralash",
+      "view_details": "Batafsil",
+      "unit": {
+        "apartment": "Kvartira",
+        "townhouse": "Taunhaus",
+        "villa": "Villa",
+        "penthouse": "Penthaus",
+        "studio": "Studiya",
+        "office": "Ofis"
       }
     },
     "home_features": {
@@ -912,6 +932,28 @@
       "not_set": "O'rnatilmagan",
       "social_description": "Xaridorlar siz bilan qanday bog'lanishi mumkin",
       "add_social_hint": "Xaridorlar tezroq bog'lana olishi uchun kamida bitta ijtimoiy kanal qo'shing."
+    },
+    "travel_times": {
+      "title": "Yo'l vaqti bo'yicha qidirish",
+      "location_label": "Tanlangan joy",
+      "max_time": "Maks. yo'l vaqti",
+      "mins": "daq.",
+      "peak_hours": "Tig'iz soatlar",
+      "confirm": "Tasdiqlash",
+      "tag_prefix": "maks.",
+      "tag_to": "gacha"
+    },
+    "explore_projects": {
+      "title": "Malaysiyadagi yangi loyihalar",
+      "subtitle": "Eng so'nggi off-plan ko'chmas mulklarni kashf eting.",
+      "empty": "Bu shaharda hozircha loyihalar mavjud emas.",
+      "see_all": "Barcha yangi loyihalar"
+    },
+    "compare_prices": {
+      "title": "Hududlar bo'yicha narxlarni solishtirish",
+      "subtitle": "Byudjetingiz turli hududlarda nima ochishini bilib oling.",
+      "legend_title": "Malaysiya narxlari",
+      "legend_note": "Malaysiyaning eng faol tumanlari bo'yicha o'rtacha narxlar."
     }
   },
   "categories": {
@@ -1314,5 +1356,11 @@
     "video_recommended_description": "Obyekt haqida to'liq tasavvur berish uchun kamida bitta video yuklang.",
     "photos_suffix": "ta rasm",
     "videos_suffix": "ta video"
+  },
+  "cities": {
+    "kl": "Kuala-Lumpur",
+    "penang": "Penang",
+    "jb": "Johor Bahru",
+    "selangor": "Selangor"
   }
 }
