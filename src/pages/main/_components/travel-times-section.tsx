@@ -6,7 +6,6 @@ import { propertyService } from "@/services/property.service";
 import type { IProperty } from "@/interfaces/property/property.interface";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import {
