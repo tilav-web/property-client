@@ -207,3 +207,12 @@ html {
 .animate-pulse-call:hover {
   animation: vibrate-call 0.2s linear infinite;
 }
+
+/* Hide native scrollbar on carousel rows while keeping scroll */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

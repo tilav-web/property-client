@@ -21,9 +21,6 @@ const MortgageCashbackSection = lazy(
 const ValuationTeaserSection = lazy(
   () => import("./_components/valuation-teaser-section"),
 );
-const SuperchargeSection = lazy(
-  () => import("./_components/supercharge-section"),
-);
 const ExploreMoreSection = lazy(
   () => import("./_components/explore-more-section"),
 );
@@ -128,19 +125,16 @@ export default function Main() {
             {/* 4. Mortgage Cashback */}
             <MortgageCashbackSection />
 
-            {/* 5. AI valuation teaser (dark feature) */}
+            {/* 5. AI valuation teaser (dark feature, kept) */}
             <ValuationTeaserSection />
 
-            {/* 6. Supercharge your search — feature pills */}
-            <SuperchargeSection />
-
-            {/* 7. Popular communities — 4 illustration cards */}
+            {/* 6. Supercharge your search — illustration cards with tabs */}
             <CommunitiesSection />
 
-            {/* 8. Explore more — city + category links */}
+            {/* 7. Explore more — city + category links */}
             <ExploreMoreSection />
 
-            {/* 9. List your property CTA */}
+            {/* 8. List your property CTA */}
             <ListPropertyCta />
           </Suspense>
         ) : (
