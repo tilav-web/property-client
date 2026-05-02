@@ -26,14 +26,16 @@ export default function DevelopersPage() {
   }, []);
 
   return (
-    <div className="py-6">
-      <div className="mb-6 flex items-center gap-3">
-        <Building2 className="h-7 w-7 text-blue-600" />
+    <div className="py-8">
+      <div className="mb-8 flex items-center gap-3">
+        <div className="flex size-12 items-center justify-center rounded-2xl bg-accent text-foreground">
+          <Building2 className="h-6 w-6" />
+        </div>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="font-display text-3xl text-foreground sm:text-4xl">
             {t("pages.developers.title", "Developers")}
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="mt-1 text-sm text-muted-foreground">
             {t(
               "pages.developers.subtitle",
               "Major developers and their projects",
@@ -42,33 +44,53 @@ export default function DevelopersPage() {
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex h-40 items-center justify-center">
-          <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
-        </div>
-      ) : items.length === 0 ? (
-        <div className="py-12 text-center text-gray-500">
-          {t("pages.developers.empty", "No developers yet")}
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {items.map((d) => (
-            <DeveloperCard key={d._id} developer={d} />
-          ))}
-        </div>
-      )}
+      {renderDevelopersBody({
+        loading,
+        items,
+        emptyText: t("pages.developers.empty", "No developers yet"),
+      })}
     </div>
   );
 }
 
-export function DeveloperCard({ developer }: { developer: IDeveloper }) {
+function renderDevelopersBody({
+  loading,
+  items,
+  emptyText,
+}: {
+  loading: boolean;
+  items: IDeveloper[];
+  emptyText: string;
+}) {
+  if (loading) {
+    return (
+      <div className="flex h-40 items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+      </div>
+    );
+  }
+  if (items.length === 0) {
+    return (
+      <div className="py-12 text-center text-muted-foreground">{emptyText}</div>
+    );
+  }
+  return (
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+      {items.map((d) => (
+        <DeveloperCard key={d._id} developer={d} />
+      ))}
+    </div>
+  );
+}
+
+export function DeveloperCard({ developer }: Readonly<{ developer: IDeveloper }>) {
   const { t } = useTranslation();
   return (
     <Link
       to={`/developer/${developer._id}`}
-      className="group flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-shadow hover:shadow-md"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card-hover"
     >
-      <div className="flex h-32 items-center justify-center bg-gray-50 p-6">
+      <div className="flex h-32 items-center justify-center bg-accent/40 p-6">
         {developer.logo ? (
           <img
             src={developer.logo}
@@ -76,14 +98,14 @@ export function DeveloperCard({ developer }: { developer: IDeveloper }) {
             className="max-h-full max-w-full object-contain"
           />
         ) : (
-          <Building2 className="h-12 w-12 text-gray-300" />
+          <Building2 className="h-12 w-12 text-foreground/30" />
         )}
       </div>
-      <div className="p-3">
-        <h3 className="truncate text-sm font-semibold text-gray-900 group-hover:text-blue-600">
+      <div className="p-4">
+        <h3 className="truncate text-sm font-semibold text-foreground group-hover:text-primary">
           {developer.name}
         </h3>
-        <p className="mt-0.5 text-xs text-gray-500">
+        <p className="mt-0.5 text-xs text-muted-foreground">
           {developer.projects_count}{" "}
           {t("pages.developers.projects_count", "projects")}
         </p>

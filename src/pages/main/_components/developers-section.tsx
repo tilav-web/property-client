@@ -29,16 +29,24 @@ export default function DevelopersSection() {
   if (!loading && items.length === 0) return null;
 
   return (
-    <section className="mt-12">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900 sm:text-2xl">
-          <Building2 className="h-6 w-6 text-blue-600" />
-          {t("pages.developers.section_title", "Projects by developers")}
-        </h2>
+    <section className="py-12">
+      <div className="mb-8 flex items-end justify-between gap-4">
+        <div>
+          <h2 className="font-display text-3xl text-foreground sm:text-4xl">
+            {t("pages.developers.section_title", "Projects by developers")}
+          </h2>
+          <p className="mt-2 text-muted-foreground">
+            {t(
+              "pages.developers.section_subtitle",
+              "Discover trusted developers shaping Malaysia's skyline.",
+            )}
+          </p>
+        </div>
         <Link
           to="/developers"
-          className="rounded-full bg-blue-50 px-4 py-1.5 text-sm font-medium text-blue-700 hover:bg-blue-100"
+          className="hidden flex-shrink-0 rounded-full border border-border px-4 py-1.5 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary sm:inline-flex"
         >
+          <Building2 className="mr-1.5 h-4 w-4" />
           {t("pages.developers.see_all", "See all")}
         </Link>
       </div>
@@ -48,7 +56,7 @@ export default function DevelopersSection() {
           {Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className="h-44 animate-pulse rounded-xl bg-gray-100"
+              className="h-44 animate-pulse rounded-2xl bg-muted/60"
             />
           ))}
         </div>
@@ -59,6 +67,16 @@ export default function DevelopersSection() {
           ))}
         </div>
       )}
+
+      <div className="mt-6 text-center sm:hidden">
+        <Link
+          to="/developers"
+          className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-1.5 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+        >
+          <Building2 className="h-4 w-4" />
+          {t("pages.developers.see_all", "See all")}
+        </Link>
+      </div>
     </section>
   );
 }
