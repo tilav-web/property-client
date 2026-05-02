@@ -1,16 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { propertyService } from "@/services/property.service";
 import { useQuery } from "@tanstack/react-query";
-import {
-  BarChart3,
-  Building2,
-  TrendingUp,
-  ArrowUpRight,
-  Search,
-} from "lucide-react";
+import { ArrowUpRight, BarChart3, Search, TrendingUp } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 interface TransactionStats {
   newRentals: { avgPrice: number; count: number };
@@ -25,13 +21,10 @@ function formatNumber(num: number): string {
   return num.toLocaleString();
 }
 
-function formatPrice(price: number): string {
-  return price.toLocaleString();
-}
-
 export default function TransactionsSection() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<"rented" | "sold">("rented");
+  const [search, setSearch] = useState("");
 
   const { data: stats, isLoading } = useQuery<TransactionStats>({
     queryKey: ["transaction-stats"],
@@ -44,162 +37,177 @@ export default function TransactionsSection() {
   const totalTx = stats?.totalTransactions ?? 0;
   const growth = stats?.growthPercent ?? 0;
 
+  const showAvg = activeTab === "rented" ? rentAvg : saleAvg;
+
   return (
-    <section className="py-10 [content-visibility:auto] [contain-intrinsic-size:1px_400px]">
-      <div className="rounded-2xl border border-gray-100 bg-gradient-to-br from-gray-50 to-white p-6 shadow-sm md:p-10">
-        <div className="grid items-center gap-8 md:grid-cols-2">
+    <section className="py-12">
+      <div className="rounded-3xl bg-accent/40 p-4 sm:p-6">
+        <div className="grid grid-cols-1 gap-8 rounded-2xl border border-border/50 bg-card p-6 sm:p-10 lg:grid-cols-2">
           {/* Left side */}
-          <div>
-            {/* Icon */}
-            <div className="mb-6 flex h-20 w-20 items-center justify-center">
-              <div className="relative">
-                <div className="flex h-16 w-14 items-end gap-1">
-                  <div className="h-8 w-3 rounded-t bg-purple-400" />
-                  <div className="h-12 w-3 rounded-t bg-green-400" />
-                  <div className="h-6 w-3 rounded-t bg-yellow-400" />
-                  <div className="h-10 w-3 rounded-t bg-blue-400" />
-                </div>
-                <BarChart3
-                  size={24}
-                  className="absolute -right-2 -top-1 text-green-600"
-                />
+          <div className="flex flex-col">
+            {/* Stylized chart icon */}
+            <div className="mb-6 flex size-20 items-end gap-1">
+              <div className="h-10 w-3.5 rounded-t-md bg-violet-300" />
+              <div className="h-16 w-3.5 rounded-t-md bg-emerald-300" />
+              <div className="h-7 w-3.5 rounded-t-md bg-primary" />
+              <div className="relative h-12 w-3.5 rounded-t-md bg-rose-300">
+                <span className="absolute -right-1.5 -top-3 text-xs font-bold text-rose-500">
+                  %
+                </span>
               </div>
             </div>
 
-            <h2 className="mb-2 text-2xl font-bold text-gray-900 md:text-3xl">
-              {t("pages.main_page.transactions.title")}
+            <h2 className="font-display text-3xl text-foreground sm:text-4xl">
+              {t(
+                "pages.main_page.transactions.title",
+                "Browse property transactions",
+              )}
             </h2>
-            <p className="mb-6 max-w-md text-sm text-gray-500">
-              {t("pages.main_page.transactions.subtitle")}
+            <p className="mt-3 max-w-md text-sm text-muted-foreground sm:text-base">
+              {t(
+                "pages.main_page.transactions.subtitle",
+                "Powered by Malaysia property transaction data for your area.",
+              )}
             </p>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <Link to="/search">
                 <Button
                   variant="outline"
-                  className="rounded-full px-6 font-medium"
+                  size="lg"
+                  className="rounded-full border-foreground/15 bg-card font-semibold"
                 >
-                  <Search size={16} className="mr-2" />
-                  {t("pages.main_page.search_filters.find")}
+                  {t("pages.main_page.transactions.start_searching", "Start searching")}
                 </Button>
               </Link>
-              <Link to="/search">
-                <Button
-                  variant="link"
-                  className="font-medium text-green-700 hover:text-green-800"
-                >
-                  {t("pages.main_page.featured_properties.view_all")}
-                </Button>
+              <Link
+                to="/search"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-primary underline-offset-2 hover:underline"
+              >
+                {t("pages.main_page.transactions.view_all", "View all transactions")}
+                <ArrowUpRight className="size-4" />
               </Link>
             </div>
           </div>
 
-          {/* Right side — stats cards */}
-          <div>
-            {/* Tabs */}
-            <div className="mb-4 flex items-center gap-4">
-              <div className="inline-flex rounded-full border bg-white p-1">
+          {/* Right side — tabs + search + stats */}
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="inline-flex flex-shrink-0 rounded-full border border-border bg-background p-1">
                 <button
                   type="button"
                   onClick={() => setActiveTab("rented")}
-                  className={`rounded-full px-5 py-1.5 text-sm font-medium transition-colors ${
+                  className={cn(
+                    "rounded-full px-5 py-1.5 text-sm font-semibold transition-colors",
                     activeTab === "rented"
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
                 >
-                  {t("pages.main_page.search_tabs.rent")}
+                  {t("pages.main_page.transactions.rented", "Rented")}
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveTab("sold")}
-                  className={`rounded-full px-5 py-1.5 text-sm font-medium transition-colors ${
+                  className={cn(
+                    "rounded-full px-5 py-1.5 text-sm font-semibold transition-colors",
                     activeTab === "sold"
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
                 >
-                  {t("pages.main_page.search_tabs.buy")}
+                  {t("pages.main_page.transactions.sold", "Sold")}
                 </button>
+              </div>
+
+              <div className="relative flex-1">
+                <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={t(
+                    "pages.main_page.transactions.search_placeholder",
+                    "Search any location in Malaysia",
+                  )}
+                  className="rounded-full pl-10"
+                />
               </div>
             </div>
 
-            {/* Stats cards */}
-            <div className="grid grid-cols-3 gap-3">
-              {/* New rentals / New sales */}
-              <div className="rounded-xl border border-blue-100 bg-blue-50/50 p-4 text-center">
-                <div className="mb-1 flex items-center justify-center gap-1.5">
-                  <Building2 size={14} className="text-gray-500" />
-                  <p className="text-xs font-medium text-gray-600">
-                    {activeTab === "rented"
-                      ? t("pages.main_page.transactions.new_rentals")
-                      : t("pages.main_page.transactions.new_sales")}
-                  </p>
-                </div>
-                {isLoading ? (
-                  <div className="mx-auto mt-2 h-6 w-20 animate-pulse rounded bg-blue-200" />
-                ) : (
-                  <p className="text-lg font-bold text-gray-900">
-                    {formatPrice(activeTab === "rented" ? rentAvg : saleAvg)}
-                  </p>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <StatCard
+                label={
+                  activeTab === "rented"
+                    ? t("pages.main_page.transactions.new_rentals", "New rentals")
+                    : t("pages.main_page.transactions.new_sales", "New sales")
+                }
+                value={
+                  isLoading
+                    ? null
+                    : `${showAvg.toLocaleString()} ${stats?.newRentals?.avgPrice ? "RM" : ""}`
+                }
+              />
+              <StatCard
+                label={t(
+                  "pages.main_page.transactions.renewed",
+                  "Renewed rentals",
                 )}
-              </div>
-
-              {/* Count */}
-              <div className="rounded-xl border border-blue-100 bg-blue-50/50 p-4 text-center">
-                <div className="mb-1 flex items-center justify-center gap-1.5">
-                  <Search size={14} className="text-gray-500" />
-                  <p className="text-xs font-medium text-gray-600">
-                    {t("pages.main_page.transactions.listings")}
-                  </p>
-                </div>
-                {isLoading ? (
-                  <div className="mx-auto mt-2 h-6 w-16 animate-pulse rounded bg-blue-200" />
-                ) : (
-                  <p className="text-lg font-bold text-gray-900">
-                    {activeTab === "rented"
-                      ? stats?.newRentals.count ?? 0
-                      : stats?.sales.count ?? 0}
-                  </p>
-                )}
-              </div>
-
-              {/* Total transactions */}
-              <div className="rounded-xl border border-cyan-200 bg-cyan-50 p-4 text-center">
-                <div className="mb-1 flex items-center justify-center gap-1.5">
-                  <TrendingUp size={14} className="text-gray-500" />
-                  <p className="text-xs font-medium text-gray-600">
-                    {t("pages.main_page.transactions.total")}
-                  </p>
-                </div>
-                {isLoading ? (
-                  <div className="mx-auto mt-2 h-6 w-16 animate-pulse rounded bg-cyan-200" />
-                ) : (
-                  <>
-                    <p className="text-lg font-bold text-gray-900">
-                      {formatNumber(totalTx)}
-                    </p>
-                    {growth !== 0 && (
-                      <p
-                        className={`mt-0.5 flex items-center justify-center text-xs font-semibold ${
-                          growth > 0 ? "text-green-600" : "text-red-500"
-                        }`}
-                      >
-                        {growth > 0 ? "+" : ""}
-                        {growth}%
-                        <ArrowUpRight
-                          size={12}
-                          className={growth < 0 ? "rotate-90" : ""}
-                        />
-                      </p>
-                    )}
-                  </>
-                )}
-              </div>
+                value={isLoading ? null : `${rentAvg.toLocaleString()} RM`}
+              />
+              <StatCard
+                label={t("pages.main_page.transactions.total", "Transactions")}
+                value={isLoading ? null : formatNumber(totalTx)}
+                badge={
+                  growth !== 0 ? (
+                    <span
+                      className={cn(
+                        "inline-flex items-center gap-0.5 rounded-full bg-card px-1.5 py-0.5 text-[11px] font-semibold",
+                        growth > 0 ? "text-emerald-600" : "text-rose-500",
+                      )}
+                    >
+                      {growth > 0 ? "+" : ""}
+                      {growth}%
+                      <TrendingUp
+                        className={cn(
+                          "size-3",
+                          growth < 0 && "rotate-180",
+                        )}
+                      />
+                    </span>
+                  ) : null
+                }
+              />
             </div>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function StatCard({
+  label,
+  value,
+  badge,
+}: Readonly<{
+  label: string;
+  value: string | null;
+  badge?: React.ReactNode;
+}>) {
+  return (
+    <div className="rounded-2xl bg-accent/50 p-4 text-center">
+      <p className="text-xs font-medium text-muted-foreground">{label}</p>
+      {value === null ? (
+        <div className="mx-auto mt-2 h-6 w-24 animate-pulse rounded bg-muted/60" />
+      ) : (
+        <p className="mt-1 font-display text-xl font-semibold text-foreground sm:text-2xl">
+          {value}
+        </p>
+      )}
+      {badge && <div className="mt-1 flex justify-center">{badge}</div>}
+
+      {/* Tiny bar chart hint icon */}
+      <BarChart3 className="mx-auto mt-2 size-4 text-foreground/20" />
+    </div>
   );
 }

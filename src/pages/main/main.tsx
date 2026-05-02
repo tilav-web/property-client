@@ -6,6 +6,15 @@ import { siteSettingsService } from "@/services/site-settings.service";
 const HomeFeaturesSection = lazy(
   () => import("./_components/home-features-section"),
 );
+const TravelTimesSection = lazy(
+  () => import("./_components/travel-times-section"),
+);
+const TransactionsSection = lazy(
+  () => import("./_components/transactions-section"),
+);
+const ExploreProjectsSection = lazy(
+  () => import("./_components/explore-projects-section"),
+);
 const FeaturedPropertiesSection = lazy(
   () => import("./_components/featured-properties-section"),
 );
@@ -20,6 +29,9 @@ const MortgageCashbackSection = lazy(
 );
 const ValuationTeaserSection = lazy(
   () => import("./_components/valuation-teaser-section"),
+);
+const ComparePricesSection = lazy(
+  () => import("./_components/compare-prices-section"),
 );
 const ExploreMoreSection = lazy(
   () => import("./_components/explore-more-section"),
@@ -113,28 +125,40 @@ export default function Main() {
       <div className="container mx-auto px-4 lg:px-8">
         {showDeferredSections ? (
           <Suspense fallback={<DeferredHomeFallback />}>
-            {/* 1. Home search, simplified — 4 feature cards */}
+            {/* 1. Home search, simplified — dark banner + 4 feature cards */}
             <HomeFeaturesSection />
 
-            {/* 2. Featured properties carousel */}
+            {/* 2. Search by travel times — slider + property carousel */}
+            <TravelTimesSection />
+
+            {/* 3. Browse property transactions */}
+            <TransactionsSection />
+
+            {/* 4. Explore new projects — off-plan grid with city tabs */}
+            <ExploreProjectsSection />
+
+            {/* 5. Featured properties carousel */}
             <FeaturedPropertiesSection />
 
-            {/* 3. Projects by developers (logo grid) */}
+            {/* 6. Projects by developers — logo carousel */}
             <DevelopersSection />
 
-            {/* 4. Mortgage Cashback */}
+            {/* 7. Mortgage Cashback */}
             <MortgageCashbackSection />
 
-            {/* 5. AI valuation teaser (dark feature, kept) */}
+            {/* 8. AI valuation teaser (dark feature, kept) */}
             <ValuationTeaserSection />
 
-            {/* 6. Supercharge your search — illustration cards with tabs */}
+            {/* 9. Compare prices by area — bar chart legend */}
+            <ComparePricesSection />
+
+            {/* 10. Supercharge your search — illustration cards with tabs */}
             <CommunitiesSection />
 
-            {/* 7. Explore more — city + category links */}
+            {/* 11. Explore more — city + category links */}
             <ExploreMoreSection />
 
-            {/* 8. List your property CTA */}
+            {/* 12. List your property CTA */}
             <ListPropertyCta />
           </Suspense>
         ) : (
