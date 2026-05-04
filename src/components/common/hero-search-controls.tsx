@@ -55,7 +55,7 @@ const RoomButton = memo(
       onClick={onToggle}
       className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
         isSelected
-          ? "border-primary bg-primary text-black"
+          ? "border-primary bg-primary text-primary-foreground"
           : "border-gray-300 bg-white text-gray-700 hover:border-gray-400"
       }`}
     >
@@ -422,7 +422,7 @@ export default function HeroSearchControls() {
 
         <div className="border-t bg-gray-50 p-4">
           <Button
-            className="h-12 w-full rounded-xl bg-primary text-lg font-bold text-black hover:bg-primary/90"
+            className="h-12 w-full rounded-xl bg-primary text-lg font-bold text-primary-foreground hover:bg-primary/90"
             onClick={handleSearch}
           >
             <Search className="mr-2" size={20} />
@@ -519,7 +519,7 @@ export default function HeroSearchControls() {
 
           <Button
             onClick={handleSearch}
-            className="h-12 rounded-xl bg-primary px-8 font-bold text-black hover:bg-primary/90"
+            className="h-12 rounded-xl bg-primary px-8 font-bold text-primary-foreground hover:bg-primary/90"
           >
             <Search size={18} className="mr-2" />
             {t("pages.main_page.search_filters.find")}
