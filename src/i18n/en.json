@@ -833,7 +833,8 @@
       "save_title": "Save and track your properties",
       "save_desc": "Build your shortlist and review listings any time across devices.",
       "value_title": "Track properties to see what they're worth",
-      "value_desc": "AI-powered valuation reveals fair market prices and 6-month forecasts."
+      "value_desc": "AI-powered valuation reveals fair market prices and 6-month forecasts.",
+      "search_hint": "Try AI search"
     },
     "communities": {
       "title": "Find your perfect area",
@@ -849,7 +850,8 @@
       "family_cta": "Explore Family Areas",
       "invest_title": "Best for Investment",
       "invest_desc": "High-yield areas with strong rental demand and capital growth.",
-      "invest_cta": "Invest in the Best"
+      "invest_cta": "Invest in the Best",
+      "luxury_cta": "Explore Luxury"
     },
     "mortgage": {
       "title": "Mortgage Cashback",
@@ -870,7 +872,8 @@
       "title_2": "Let's find out.",
       "subtitle": "Your dream home starts with clarity. Discover what a property is worth today and where it's headed over the next six months.",
       "cta": "Try AI Assistant",
-      "estimate": "Estimated value"
+      "estimate": "Estimated value",
+      "today": "Today"
     },
     "explore": {
       "title": "Explore more",
@@ -955,6 +958,10 @@
       "subtitle": "Understand what your budget unlocks across different areas.",
       "legend_title": "Malaysia prices",
       "legend_note": "Average asking prices across Malaysia's most active neighborhoods."
+    },
+    "developers": {
+      "projects_count": "projects",
+      "see_all": "All developers in Malaysia"
     }
   },
   "categories": {

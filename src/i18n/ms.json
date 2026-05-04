@@ -832,7 +832,8 @@
       "save_title": "Simpan dan jejak hartanah anda",
       "save_desc": "Bina senarai pendek anda dan semak penyenaraian bila-bila masa.",
       "value_title": "Jejak nilai hartanah",
-      "value_desc": "Penilaian AI mendedahkan harga pasaran adil dan ramalan 6 bulan."
+      "value_desc": "Penilaian AI mendedahkan harga pasaran adil dan ramalan 6 bulan.",
+      "search_hint": "Cuba carian AI"
     },
     "communities": {
       "title": "Cari kawasan ideal anda",
@@ -848,7 +849,8 @@
       "family_cta": "Terokai Kawasan Keluarga",
       "invest_title": "Terbaik untuk Pelaburan",
       "invest_desc": "Kawasan hasil tinggi dengan permintaan sewa kuat dan pertumbuhan modal.",
-      "invest_cta": "Labur dalam Yang Terbaik"
+      "invest_cta": "Labur dalam Yang Terbaik",
+      "luxury_cta": "Terokai Mewah"
     },
     "mortgage": {
       "title": "Pulangan Wang Gadai Janji",
@@ -869,7 +871,8 @@
       "title_2": "Mari ketahui.",
       "subtitle": "Rumah impian anda bermula dengan kejelasan. Ketahui nilai hartanah hari ini dan ke mana arahnya 6 bulan akan datang.",
       "cta": "Cuba Pembantu AI",
-      "estimate": "Nilai anggaran"
+      "estimate": "Nilai anggaran",
+      "today": "Hari ini"
     },
     "explore": {
       "title": "Terokai lebih lanjut",
@@ -954,6 +957,10 @@
       "subtitle": "Fahami apa yang bajet anda boleh capai di kawasan berbeza.",
       "legend_title": "Harga Malaysia",
       "legend_note": "Purata harga jualan di kawasan paling aktif di Malaysia."
+    },
+    "developers": {
+      "projects_count": "projek",
+      "see_all": "Semua pemaju di Malaysia"
     }
   },
   "categories": {

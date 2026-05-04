@@ -832,7 +832,8 @@
       "save_title": "Mulklaringizni saqlang va kuzating",
       "save_desc": "Tanlangan ro'yxatingizni yarating va istalgan vaqtda istalgan qurilmadan ko'ring.",
       "value_title": "Mulk qiymatini kuzating",
-      "value_desc": "AI yordamidagi narx baholash adolatli bozor narxini va 6 oylik prognozni ko'rsatadi."
+      "value_desc": "AI yordamidagi narx baholash adolatli bozor narxini va 6 oylik prognozni ko'rsatadi.",
+      "search_hint": "AI qidiruvni sinab ko'ring"
     },
     "communities": {
       "title": "O'zingizga mos hududni toping",
@@ -848,7 +849,8 @@
       "family_cta": "Oilaviy hududlarni ko'rish",
       "invest_title": "Investitsiya uchun eng yaxshi",
       "invest_desc": "Yuqori daromadli, ijara talabi yuqori va kapital o'sishi yaxshi hududlar.",
-      "invest_cta": "Eng yaxshilariga investitsiya"
+      "invest_cta": "Eng yaxshilariga investitsiya",
+      "luxury_cta": "Lyuksni ko'rish"
     },
     "mortgage": {
       "title": "Ipoteka Cashback",
@@ -869,7 +871,8 @@
       "title_2": "Bilib olaylik.",
       "subtitle": "Orzudagi uyingiz aniqlikdan boshlanadi. Mulk bugun qancha turishini va keyingi 6 oyda qaerga borishini bilib oling.",
       "cta": "AI yordamchini sinab ko'ring",
-      "estimate": "Taxminiy qiymat"
+      "estimate": "Taxminiy qiymat",
+      "today": "Bugun"
     },
     "explore": {
       "title": "Ko'proq ko'ring",
@@ -954,6 +957,10 @@
       "subtitle": "Byudjetingiz turli hududlarda nima ochishini bilib oling.",
       "legend_title": "Malaysiya narxlari",
       "legend_note": "Malaysiyaning eng faol tumanlari bo'yicha o'rtacha narxlar."
+    },
+    "developers": {
+      "projects_count": "loyiha",
+      "see_all": "Malaysiyadagi barcha quruvchilar"
     }
   },
   "categories": {
