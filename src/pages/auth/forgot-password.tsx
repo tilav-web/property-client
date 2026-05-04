@@ -100,9 +100,9 @@ export default function ForgotPassword() {
             <>
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-accent">
                 {authMethod === "email" ? (
-                  <Mail className="h-7 w-7 text-yellow-600" />
+                  <Mail className="h-7 w-7 text-primary" />
                 ) : (
-                  <Phone className="h-7 w-7 text-yellow-600" />
+                  <Phone className="h-7 w-7 text-primary" />
                 )}
               </div>
               <h1 className="mb-2 font-display text-3xl text-foreground">
@@ -167,7 +167,7 @@ export default function ForgotPassword() {
                         ? "email@example.com"
                         : "+998901234567"
                     }
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/20"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
 
@@ -255,7 +255,7 @@ export default function ForgotPassword() {
                   type="button"
                   onClick={handleResendOtp}
                   disabled={isLoading}
-                  className="w-full text-center text-sm text-yellow-700 hover:underline disabled:opacity-50"
+                  className="w-full text-center text-sm text-primary hover:underline disabled:opacity-50"
                 >
                   {t("pages.otp_page.resend_code")}
                 </button>
@@ -295,7 +295,7 @@ export default function ForgotPassword() {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/20"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
 
@@ -309,7 +309,7 @@ export default function ForgotPassword() {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/20"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
 

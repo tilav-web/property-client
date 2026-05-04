@@ -173,7 +173,7 @@ export default function EllipsisVerticalButton({
               <Bookmark
                 className={cn(
                   "w-4 h-4",
-                  isSaved && "fill-yellow-500 text-yellow-500",
+                  isSaved && "fill-primary text-primary",
                 )}
               />
               <span>

@@ -21,14 +21,14 @@ function DeveloperLogoCard({
       className={cn(
         "group flex w-44 flex-shrink-0 flex-col snap-start overflow-hidden rounded-2xl border bg-card transition-all hover:-translate-y-0.5 hover:shadow-card-hover",
         active
-          ? "border-foreground/40 bg-foreground text-background hover:bg-foreground"
+          ? "border-primary bg-primary text-background hover:bg-primary"
           : "border-border/60 hover:border-primary/40",
       )}
     >
       <div
         className={cn(
           "flex h-32 items-center justify-center px-6",
-          active ? "bg-foreground" : "bg-card",
+          active ? "bg-primary" : "bg-card",
         )}
       >
         {developer.logo ? (

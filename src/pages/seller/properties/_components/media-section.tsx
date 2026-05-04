@@ -335,13 +335,13 @@ export default function MediaSection({
 
               {/* Help Text */}
               {videos.length === 0 && (
-                <div className="flex items-start gap-3 p-4 bg-yellow-50 rounded-xl border border-yellow-200">
-                  <FileWarning className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-4 bg-accent rounded-xl border border-primary/30">
+                  <FileWarning className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium text-yellow-800">
+                    <p className="font-medium text-primary">
                       {t("media_section.video_recommended_title")}
                     </p>
-                    <p className="text-sm text-yellow-700 mt-1">
+                    <p className="text-sm text-primary mt-1">
                       {t("media_section.video_recommended_description")}
                     </p>
                   </div>

@@ -22,7 +22,7 @@ interface Props {
 const statusConfig = {
   pending: {
     label: "Kutilmoqda",
-    color: "bg-yellow-100 text-yellow-800 border-yellow-200",
+    color: "bg-accent text-primary border-primary/30",
     icon: Clock,
   },
   approved: {
@@ -187,7 +187,7 @@ export default function AdvertiseCard({ advertise, onEdit, onDelete }: Props) {
               className={`text-xs ${
                 advertise?.payment_status === "paid"
                   ? "bg-green-100 text-green-800 hover:bg-green-100"
-                  : "bg-yellow-100 text-yellow-800 hover:bg-yellow-100"
+                  : "bg-accent text-primary hover:bg-accent"
               }`}
             >
               {advertise?.payment_status === "paid"

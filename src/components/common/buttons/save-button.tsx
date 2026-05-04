@@ -41,7 +41,7 @@ export default function SaveButton({ property, compact = false }: Props) {
       onClick={handleClick}
       className={cn(
         "bg-white flex items-center gap-2 px-3 py-2 rounded border border-black text-sm min-w-0 hover:bg-gray-50 transition-colors",
-        isSaved && "bg-yellow-50",
+        isSaved && "bg-accent",
       )}
       title={
         isSaved
@@ -56,7 +56,7 @@ export default function SaveButton({ property, compact = false }: Props) {
       <Bookmark
         className={cn(
           "w-4 h-4",
-          isSaved && "fill-yellow-500 text-yellow-500",
+          isSaved && "fill-primary text-primary",
         )}
       />
       {!compact && (

@@ -44,89 +44,89 @@
 
 :root {
   /* Amaar Properties Design System
-   * Brand: refined gold (sariq) + rich black (qora) on warm cream
-   * Inspired by luxury real estate (Hermès / Compass / Airbnb Plus) */
+   * Brand palette inspired by Property Finder UAE:
+   * deep indigo primary + soft lavender accents on pure white. */
   --radius: 0.75rem;
 
-  /* Backgrounds */
-  --background: #faf8f2;          /* Warm cream — pure white o'rniga */
-  --foreground: #0a0a0a;          /* Rich black */
-  --card: #ffffff;                /* Surface (kartalar) */
-  --card-foreground: #0a0a0a;
+  /* Backgrounds — pure white with cool dark slate text */
+  --background: #ffffff;
+  --foreground: #0f1b2d;          /* Dark slate (PF body) */
+  --card: #ffffff;
+  --card-foreground: #0f1b2d;
   --popover: #ffffff;
-  --popover-foreground: #0a0a0a;
+  --popover-foreground: #0f1b2d;
 
-  /* Primary — refined gold */
-  --primary: #d4a017;             /* Gold (logo brand) */
-  --primary-foreground: #0a0a0a;  /* Black text on gold */
+  /* Primary — Property Finder deep indigo */
+  --primary: #4e3a9f;
+  --primary-foreground: #ffffff;
 
-  /* Secondary — black (high contrast CTA) */
-  --secondary: #0a0a0a;
-  --secondary-foreground: #faf8f2;
+  /* Secondary — dark slate (high contrast CTA on white) */
+  --secondary: #0f1b2d;
+  --secondary-foreground: #ffffff;
 
-  /* Muted (for subtle backgrounds) */
-  --muted: #f3efe6;               /* Warm cream tinted */
-  --muted-foreground: #6b6258;    /* Warm gray */
+  /* Muted (subtle gray surfaces) */
+  --muted: #f4f5f7;
+  --muted-foreground: #697586;
 
-  /* Accent (hover/highlights) */
-  --accent: #fef3c7;              /* Light gold tint */
-  --accent-foreground: #0a0a0a;
+  /* Accent — soft lavender (PF section card backgrounds) */
+  --accent: #efeafa;
+  --accent-foreground: #4e3a9f;
 
-  --destructive: #b91c1c;         /* Crimson */
-  --border: #e8e2d6;              /* Warm border */
-  --input: #e8e2d6;
-  --ring: #d4a017;                /* Focus ring = primary */
+  --destructive: #e53935;          /* Apply / alert red */
+  --border: #e5e7eb;               /* Cool light border */
+  --input: #e5e7eb;
+  --ring: #4e3a9f;                 /* Focus ring = primary */
 
   /* Charts */
-  --chart-1: #d4a017;
-  --chart-2: #0a0a0a;
-  --chart-3: #15803d;
-  --chart-4: #b45309;
-  --chart-5: #78716c;
+  --chart-1: #4e3a9f;
+  --chart-2: #0f1b2d;
+  --chart-3: #2eaa70;
+  --chart-4: #f97316;
+  --chart-5: #697586;
 
-  /* Sidebar (admin/seller) */
-  --sidebar: #0a0a0a;
-  --sidebar-foreground: #faf8f2;
-  --sidebar-primary: #d4a017;
-  --sidebar-primary-foreground: #0a0a0a;
-  --sidebar-accent: #1a1a1a;
-  --sidebar-accent-foreground: #faf8f2;
-  --sidebar-border: #1a1a1a;
-  --sidebar-ring: #d4a017;
+  /* Sidebar (admin/seller) — PF-style light nav */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f1b2d;
+  --sidebar-primary: #4e3a9f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #efeafa;
+  --sidebar-accent-foreground: #4e3a9f;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #4e3a9f;
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #faf8f2;
-  --card: #1a1a1a;
-  --card-foreground: #faf8f2;
-  --popover: #1a1a1a;
-  --popover-foreground: #faf8f2;
-  --primary: #d4a017;
-  --primary-foreground: #0a0a0a;
-  --secondary: #faf8f2;
-  --secondary-foreground: #0a0a0a;
-  --muted: #1a1a1a;
-  --muted-foreground: #a8a29e;
-  --accent: #2a2418;
-  --accent-foreground: #faf8f2;
+  --background: #0f1b2d;
+  --foreground: #ffffff;
+  --card: #1a2540;
+  --card-foreground: #ffffff;
+  --popover: #1a2540;
+  --popover-foreground: #ffffff;
+  --primary: #7c6cd1;
+  --primary-foreground: #ffffff;
+  --secondary: #ffffff;
+  --secondary-foreground: #0f1b2d;
+  --muted: #1a2540;
+  --muted-foreground: #a8b1c4;
+  --accent: #2a2050;
+  --accent-foreground: #efeafa;
   --destructive: #ef4444;
-  --border: #2a2a2a;
-  --input: #2a2a2a;
-  --ring: #d4a017;
-  --chart-1: #d4a017;
-  --chart-2: #faf8f2;
-  --chart-3: #15803d;
-  --chart-4: #b45309;
-  --chart-5: #78716c;
-  --sidebar: #0a0a0a;
-  --sidebar-foreground: #faf8f2;
-  --sidebar-primary: #d4a017;
-  --sidebar-primary-foreground: #0a0a0a;
-  --sidebar-accent: #1a1a1a;
-  --sidebar-accent-foreground: #faf8f2;
-  --sidebar-border: #1a1a1a;
-  --sidebar-ring: #d4a017;
+  --border: #2a2540;
+  --input: #2a2540;
+  --ring: #7c6cd1;
+  --chart-1: #7c6cd1;
+  --chart-2: #ffffff;
+  --chart-3: #2eaa70;
+  --chart-4: #f97316;
+  --chart-5: #a8b1c4;
+  --sidebar: #0f1b2d;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #7c6cd1;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a2540;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #2a2540;
+  --sidebar-ring: #7c6cd1;
 }
 
 @theme inline {

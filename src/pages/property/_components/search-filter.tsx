@@ -78,7 +78,7 @@ function FilterChip({
           className={cn(
             "flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm transition-colors",
             hasValue
-              ? "border-yellow-400 bg-yellow-50 font-medium text-yellow-800"
+              ? "border-yellow-400 bg-accent font-medium text-primary"
               : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
           )}
         >
@@ -230,7 +230,7 @@ const SearchFilterHeader: React.FC = () => {
             className={cn(
               "rounded-t-lg px-4 py-2.5 text-sm font-medium transition-colors",
               currentCategory === tab.key
-                ? "border-b-2 border-yellow-400 bg-yellow-50 text-yellow-800"
+                ? "border-b-2 border-yellow-400 bg-accent text-primary"
                 : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
             )}
           >
@@ -271,7 +271,7 @@ const SearchFilterHeader: React.FC = () => {
                     currentTag ? "" : t("pages.main_page.search_filters.location_placeholder")
                   }
                   className={cn(
-                    "h-11 w-full rounded-lg border border-gray-200 bg-gray-50 pr-4 text-sm outline-none transition-colors focus:border-yellow-500 focus:bg-white",
+                    "h-11 w-full rounded-lg border border-gray-200 bg-gray-50 pr-4 text-sm outline-none transition-colors focus:border-primary focus:bg-white",
                     currentTag ? "pl-32" : "pl-10"
                   )}
                   value={tagSearch}
@@ -343,7 +343,7 @@ const SearchFilterHeader: React.FC = () => {
                       className={cn(
                         "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
                         currentBedrooms.includes(room)
-                          ? "border-yellow-500 bg-yellow-400 text-black"
+                          ? "border-primary bg-primary text-black"
                           : "border-gray-200 text-gray-700 hover:border-gray-300"
                       )}
                     >
@@ -368,7 +368,7 @@ const SearchFilterHeader: React.FC = () => {
                       className={cn(
                         "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
                         currentBathrooms.includes(room)
-                          ? "border-yellow-500 bg-yellow-400 text-black"
+                          ? "border-primary bg-primary text-black"
                           : "border-gray-200 text-gray-700 hover:border-gray-300"
                       )}
                     >
@@ -394,7 +394,7 @@ const SearchFilterHeader: React.FC = () => {
                   defaultValue={currentMinPrice}
                   onBlur={(e) => updateSearchParams({ minPrice: e.target.value || null })}
                   onKeyDown={commitOnEnter("minPrice")}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary"
                 />
                 <span className="text-gray-400">—</span>
                 <input
@@ -403,7 +403,7 @@ const SearchFilterHeader: React.FC = () => {
                   defaultValue={currentMaxPrice}
                   onBlur={(e) => updateSearchParams({ maxPrice: e.target.value || null })}
                   onKeyDown={commitOnEnter("maxPrice")}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary"
                 />
               </div>
             </div>
@@ -433,7 +433,7 @@ const SearchFilterHeader: React.FC = () => {
                   className={cn(
                     "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
                     !currentCurrency
-                      ? "border-yellow-500 bg-yellow-50 text-yellow-800"
+                      ? "border-primary bg-accent text-primary"
                       : "border-gray-200 text-gray-700 hover:border-gray-300"
                   )}
                 >
@@ -447,7 +447,7 @@ const SearchFilterHeader: React.FC = () => {
                     className={cn(
                       "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
                       currentCurrency === code
-                        ? "border-yellow-500 bg-yellow-50 text-yellow-800"
+                        ? "border-primary bg-accent text-primary"
                         : "border-gray-200 text-gray-700 hover:border-gray-300"
                     )}
                   >
@@ -472,7 +472,7 @@ const SearchFilterHeader: React.FC = () => {
                   defaultValue={currentMinArea}
                   onBlur={(e) => updateSearchParams({ minArea: e.target.value || null })}
                   onKeyDown={commitOnEnter("minArea")}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary"
                 />
                 <span className="text-gray-400">—</span>
                 <input
@@ -481,7 +481,7 @@ const SearchFilterHeader: React.FC = () => {
                   defaultValue={currentMaxArea}
                   onBlur={(e) => updateSearchParams({ maxArea: e.target.value || null })}
                   onKeyDown={commitOnEnter("maxArea")}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-yellow-500"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary"
                 />
               </div>
             </div>
@@ -572,7 +572,7 @@ const SearchFilterHeader: React.FC = () => {
             className={cn(
               "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
               currentIsNew
-                ? "border-yellow-400 bg-yellow-50 text-yellow-800"
+                ? "border-yellow-400 bg-accent text-primary"
                 : "border-gray-200 text-gray-700 hover:border-gray-300"
             )}
           >
@@ -589,7 +589,7 @@ const SearchFilterHeader: React.FC = () => {
             className={cn(
               "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
               currentIsPremium
-                ? "border-yellow-400 bg-yellow-50 text-yellow-800"
+                ? "border-yellow-400 bg-accent text-primary"
                 : "border-gray-200 text-gray-700 hover:border-gray-300"
             )}
           >

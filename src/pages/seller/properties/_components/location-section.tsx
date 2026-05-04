@@ -244,7 +244,7 @@ export default function LocationSection({
               type="text"
               placeholder={t("pages.location_section.search_placeholder")}
               disabled={isSubmitting}
-              className="h-12 w-full rounded-lg border border-border pl-10 pr-4 text-base outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/20 disabled:cursor-not-allowed disabled:bg-gray-100"
+              className="h-12 w-full rounded-lg border border-border pl-10 pr-4 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:bg-gray-100"
             />
           </div>
         </div>

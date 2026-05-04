@@ -14,7 +14,7 @@ function HowItWorks() {
       icon: <Search className="h-8 w-8" />,
       title: t("pages.main_page.how_it_works.step1_title"),
       description: t("pages.main_page.how_it_works.step1_desc"),
-      color: "bg-yellow-50 text-yellow-600",
+      color: "bg-accent text-primary",
       step: "01",
     },
     {
@@ -102,7 +102,7 @@ function MapCta() {
           <Link to="/map">
             <Button
               size="lg"
-              className="h-12 rounded-xl bg-yellow-400 px-8 font-semibold text-black hover:bg-yellow-500"
+              className="h-12 rounded-xl bg-primary px-8 font-semibold text-black hover:bg-primary/90"
             >
               {t("pages.main_page.map.button")}
               <ArrowRight className="ml-2 h-5 w-5" />

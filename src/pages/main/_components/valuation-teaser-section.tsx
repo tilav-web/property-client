@@ -7,21 +7,21 @@ export default function ValuationTeaserSection() {
 
   return (
     <section className="py-12">
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-foreground via-foreground to-foreground/95 p-6 text-background sm:p-10 lg:p-14">
-        {/* Decorative gold gradient blobs */}
-        <div className="pointer-events-none absolute -right-16 -top-16 size-72 rounded-full bg-primary/20 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-20 left-1/2 size-96 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-primary/90 p-6 text-background sm:p-10 lg:p-14">
+        {/* Decorative blobs */}
+        <div className="pointer-events-none absolute -right-16 -top-16 size-72 rounded-full bg-white/15 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 left-1/2 size-96 -translate-x-1/2 rounded-full bg-white/10 blur-3xl" />
 
         <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
           <div>
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-primary/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-destructive px-3 py-1 text-xs font-semibold uppercase tracking-wide text-background">
               <Sparkles className="size-3" />
               {t("pages.valuation.beta", "BETA")}
             </div>
             <h2 className="mt-4 font-display text-3xl leading-tight text-background sm:text-4xl lg:text-5xl">
               {t("pages.valuation.title", "Your property's future?")}
               <br />
-              <span className="text-primary">
+              <span className="text-background/90">
                 {t("pages.valuation.title_2", "Let's find out.")}
               </span>
             </h2>
@@ -33,7 +33,7 @@ export default function ValuationTeaserSection() {
             </p>
             <Link
               to="/ai-chat"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 active:scale-[0.98]"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-background px-6 py-3 text-sm font-semibold text-primary transition-all hover:bg-background/90 active:scale-[0.98]"
             >
               {t("pages.valuation.cta", "Try AI Assistant")}
               <ArrowRight className="size-4" />

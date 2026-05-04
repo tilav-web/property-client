@@ -34,10 +34,10 @@ export default function HomeFeaturesSection() {
 
   return (
     <section className="py-10 md:py-14">
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-foreground via-foreground to-foreground/95 px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
-        {/* Decorative gold blobs */}
-        <div className="pointer-events-none absolute -right-20 -top-24 size-72 rounded-full bg-primary/15 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-primary/10 blur-3xl" />
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-primary/90 px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
+        {/* Decorative blobs */}
+        <div className="pointer-events-none absolute -right-20 -top-24 size-72 rounded-full bg-white/15 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-white/10 blur-3xl" />
 
         <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
           {/* Left — title + subtitle + decorative phone */}
@@ -54,7 +54,7 @@ export default function HomeFeaturesSection() {
 
             {/* Decorative search pill — stand-in for the PF phone mockup */}
             <div className="mt-8 hidden max-w-sm rounded-2xl border border-background/15 bg-background/5 p-4 backdrop-blur-sm sm:flex sm:items-center sm:gap-3">
-              <div className="flex size-9 flex-shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+              <div className="flex size-9 flex-shrink-0 items-center justify-center rounded-full bg-background text-primary">
                 <Search className="size-4" />
               </div>
               <div className="min-w-0 flex-1">

@@ -20,7 +20,7 @@ const STATS = [
     icon: Users,
     value: "10K+",
     labelKey: "pages.main_page.app_banner.happy_users",
-    color: "text-yellow-600 bg-yellow-50",
+    color: "text-primary bg-accent",
   },
 ];
 
@@ -59,7 +59,7 @@ export default function AppStatsBanner() {
             </div>
 
             <Link to="/search" className="mt-8 inline-block">
-              <Button className="h-12 rounded-xl bg-yellow-400 px-8 font-semibold text-black hover:bg-yellow-500">
+              <Button className="h-12 rounded-xl bg-primary px-8 font-semibold text-black hover:bg-primary/90">
                 {t("pages.main_page.app_banner.get_started")}
                 <ArrowRight className="ml-2" size={18} />
               </Button>

@@ -11,11 +11,11 @@ export default function SellerPhysicalRegister() {
   if (seller?.status === "completed")
     return (
       <div className="max-w-2xl mx-auto p-6">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+        <div className="bg-accent border border-primary/30 rounded-lg p-6">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <svg
-                className="h-6 w-6 text-yellow-600"
+                className="h-6 w-6 text-primary"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -29,10 +29,10 @@ export default function SellerPhysicalRegister() {
               </svg>
             </div>
             <div className="ml-3">
-              <h3 className="text-yellow-800 font-semibold text-lg">
+              <h3 className="text-primary font-semibold text-lg">
                 Profilingiz Tasdiqlanishini Kutmoqda
               </h3>
-              <p className="text-yellow-700 mt-1">
+              <p className="text-primary mt-1">
                 Sizning seller profilingiz admin tomonidan ko'rib chiqilmoqda.
                 Odatda bu jarayon 24-48 soat davom etadi. Profilingiz
                 tasdiqlangandan so'ng sizga xabar beramiz.
@@ -55,7 +55,7 @@ export default function SellerPhysicalRegister() {
               </span>
             </div>
             <div className="flex items-center">
-              <div className="w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
+              <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
                 <span className="text-white text-sm">2</span>
               </div>
               <span className="ml-3 text-gray-700">
