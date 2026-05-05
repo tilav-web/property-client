@@ -1,73 +1,41 @@
-# React + TypeScript + Vite
+# Amaar Properties — Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Malayziya ko'chmas mulk bozorining mijozlar va admin uchun web-interfeysi. React 19 + Vite asosida qurilgan SPA: ko'p tilli (uz / ru / en / ms), AI orqali tabiiy tilda qidiruv, xarita orqali e'lonlarni ko'rish, real-time chat va admin panel.
 
-Currently, two official plugins are available:
+## Texnologiyalar
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Framework:** React 19 + Vite 7 + TypeScript
+- **Stil:** Tailwind CSS v4 + Radix UI
+- **State:** Zustand (mahalliy holat) + TanStack Query (server holati)
+- **Form:** React Hook Form + Zod / Formik + Yup
+- **Router:** React Router 7
+- **i18n:** i18next (uz / ru / en / ms)
+- **Xarita:** Google Maps + Leaflet
+- **Real-time:** Socket.IO Client
 
-## React Compiler
+## Loyihani ishga tushirish
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# 1. Bog'liqliklarni o'rnatish
+npm install
 
-## Expanding the ESLint configuration
+# 2. .env faylini sozlash (VITE_API_URL, VITE_GOOGLE_MAPS_KEY, va h.k.)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# 3. Development rejimda ishga tushirish
+npm run dev
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# 4. Production build
+npm run build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Foydali skriptlar
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run lint     # ESLint tekshiruvi
+npm run build    # TypeScript + Vite build
 ```
+
+---
+
+**Tilovov Shavqiddin**
