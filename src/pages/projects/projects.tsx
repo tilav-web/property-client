@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Loader2, Map as MapIcon, ListIcon, Sparkles } from "lucide-react";
@@ -65,6 +65,7 @@ export default function ProjectsPage() {
   const [bbox, setBbox] = useState<[number, number, number, number] | null>(
     null,
   );
+  const lastBboxSignatureRef = useRef<string | null>(null);
 
   // Fetch projects whenever filters or bbox change
   useEffect(() => {
@@ -124,7 +125,14 @@ export default function ProjectsPage() {
 
   const handleBoundsChange = useCallback(
     (b: [number, number, number, number]) => {
-      setBbox(b);
+      const rounded = b.map((coord) =>
+        Number(coord.toFixed(4)),
+      ) as [number, number, number, number];
+      const signature = rounded.join(",");
+
+      if (lastBboxSignatureRef.current === signature) return;
+      lastBboxSignatureRef.current = signature;
+      setBbox(rounded);
     },
     [],
   );

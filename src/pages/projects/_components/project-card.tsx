@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Calendar, MapPin, Bed, Sparkles } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import Price from "@/components/common/price";
@@ -12,7 +13,7 @@ const STATUS_COLORS: Record<string, string> = {
 
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
-export default function ProjectCard({ project }: { project: IProject }) {
+function ProjectCard({ project }: { project: IProject }) {
   const { t } = useTranslation();
   const photo = project.photos?.[0];
 
@@ -110,3 +111,5 @@ export default function ProjectCard({ project }: { project: IProject }) {
     </div>
   );
 }
+
+export default memo(ProjectCard);

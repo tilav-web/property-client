@@ -237,13 +237,7 @@ export default function ProjectsMap({
       mEl.classList.toggle("ring-blue-300", id === selectedId);
       mEl.classList.toggle("scale-110", id === selectedId);
     }
-    if (mapRef.current) {
-      const coords = projects.find((p) => p._id === selectedId)?.location
-        ?.coordinates;
-      if (coords)
-        mapRef.current.panTo({ lat: coords[1], lng: coords[0] });
-    }
-  }, [selectedId, projects]);
+  }, [selectedId]);
 
   const handleResetView = useCallback(() => {
     if (!mapRef.current) return;
