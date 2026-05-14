@@ -115,6 +115,7 @@ export default function ApartmentCard({
             currency={property.currency}
             className="text-base"
             originalClassName="text-xs"
+            layout="stacked"
           />
         </div>
       </div>

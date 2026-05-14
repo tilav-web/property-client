@@ -161,6 +161,7 @@ export default function PropertyCard({
               currency={currency}
               className="text-base"
               originalClassName="text-xs"
+              layout="stacked"
             />
             {isRent && (
               <span className="text-[11px] text-muted-foreground font-medium">
