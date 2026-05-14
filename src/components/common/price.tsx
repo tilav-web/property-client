@@ -3,7 +3,11 @@ import { useExchangeRates } from "@/hooks/use-exchange-rates";
 import { convertPrice, formatPrice } from "@/utils/format-price";
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
-import { type CurrencyCode, DEFAULT_CURRENCY } from "@/constants/currencies";
+import {
+  type CurrencyCode,
+  DEFAULT_CURRENCY,
+  DEFAULT_EXCHANGE_RATES,
+} from "@/constants/currencies";
 
 interface PriceProps {
   amount: number | null | undefined;
@@ -37,15 +41,18 @@ export default function Price({
   const sourceCurrency = currency ?? DEFAULT_CURRENCY;
   const sourceUpper = sourceCurrency.toUpperCase();
   const isSameCurrency = sourceUpper === display;
+  const effectiveRates = {
+    ...DEFAULT_EXCHANGE_RATES,
+    ...(rates?.rates ?? {}),
+  };
 
   const converted = isSameCurrency
     ? amount
-    : convertPrice(amount, sourceUpper, display, rates?.rates);
+    : convertPrice(amount, sourceUpper, display, effectiveRates);
 
   const ratesAvailable =
-    !!rates?.rates &&
-    !!rates.rates[sourceUpper as CurrencyCode] &&
-    !!rates.rates[display];
+    !!effectiveRates[sourceUpper as CurrencyCode] &&
+    !!effectiveRates[display];
 
   const useConverted = isSameCurrency || ratesAvailable;
 

@@ -19,6 +19,8 @@ export interface CurrencyMeta {
   country: string;
 }
 
+export type CurrencyRateMap = Partial<Record<CurrencyCode, number>>;
+
 export const CURRENCIES: Record<CurrencyCode, CurrencyMeta> = {
   [CurrencyCode.MYR]: {
     code: CurrencyCode.MYR,
@@ -79,3 +81,12 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyMeta> = {
 export const DEFAULT_CURRENCY: CurrencyCode = CurrencyCode.MYR;
 
 export const SUPPORTED_CURRENCIES: CurrencyCode[] = Object.values(CurrencyCode);
+
+export const DEFAULT_EXCHANGE_RATES: CurrencyRateMap = {
+  [CurrencyCode.USD]: 1,
+  [CurrencyCode.MYR]: 4.7,
+  [CurrencyCode.UZS]: 12600,
+  [CurrencyCode.IDR]: 16500,
+  [CurrencyCode.SGD]: 1.34,
+  [CurrencyCode.THB]: 36,
+};

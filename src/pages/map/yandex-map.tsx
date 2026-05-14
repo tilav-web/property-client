@@ -17,6 +17,7 @@ import {
 } from "./_components/map-filters";
 import { useCurrencyStore } from "@/stores/currency.store";
 import { useExchangeRates } from "@/hooks/use-exchange-rates";
+import { DEFAULT_EXCHANGE_RATES } from "@/constants/currencies";
 
 declare global {
   interface Window {
@@ -43,6 +44,13 @@ export default function MapPage() {
   const { t } = useTranslation();
   const { display } = useCurrencyStore();
   const { data: exchangeRates } = useExchangeRates();
+  const effectiveRates = useMemo(
+    () => ({
+      ...DEFAULT_EXCHANGE_RATES,
+      ...(exchangeRates?.rates ?? {}),
+    }),
+    [exchangeRates?.rates],
+  );
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [showZoomMessage, setShowZoomMessage] = useState(false);
@@ -251,11 +259,11 @@ export default function MapPage() {
         p.photos && p.photos.length > 0 ? p.photos[0] : fallback;
       const convertedPrice =
         p.price && p.currency
-          ? convertPrice(p.price, p.currency, display, exchangeRates?.rates)
+          ? convertPrice(p.price, p.currency, display, effectiveRates)
           : p.price;
       const priceStr = p.price
         ? escapeHtml(
-            p.currency === display || !exchangeRates?.rates
+            p.currency === display
               ? formatPrice(p.price, p.currency)
               : `${formatPrice(convertedPrice, display)} (~${formatPrice(p.price, p.currency)})`,
           )
@@ -273,7 +281,7 @@ export default function MapPage() {
           </div>
         </div>`;
     },
-    [display, exchangeRates?.rates, t],
+    [display, effectiveRates, t],
   );
 
   // Diff-based marker updates — add new, remove gone, keep existing

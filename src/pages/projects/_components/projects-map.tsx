@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { useCurrencyStore } from "@/stores/currency.store";
 import { useExchangeRates } from "@/hooks/use-exchange-rates";
+import { DEFAULT_EXCHANGE_RATES } from "@/constants/currencies";
 
 declare global {
   interface Window {
@@ -87,6 +88,10 @@ export default function ProjectsMap({
   const { t } = useTranslation();
   const { display } = useCurrencyStore();
   const { data: exchangeRates } = useExchangeRates();
+  const effectiveRates = {
+    ...DEFAULT_EXCHANGE_RATES,
+    ...(exchangeRates?.rates ?? {}),
+  };
   const geo = useGeolocation();
   const [locating, setLocating] = useState(false);
   const userMarkerRef = useRef<any>(null);
@@ -128,18 +133,18 @@ export default function ProjectsMap({
 
   const formatDisplayPrice = useCallback(
     (amount: number, currency?: string) => {
-      if (!currency || currency === display || !exchangeRates?.rates) {
+      if (!currency || currency === display) {
         return formatPrice(amount, currency);
       }
       const converted = convertPrice(
         amount,
         currency,
         display,
-        exchangeRates.rates,
+        effectiveRates,
       );
       return `${formatPrice(converted, display)} (~${formatPrice(amount, currency)})`;
     },
-    [display, exchangeRates?.rates],
+    [display, effectiveRates],
   );
 
   // Init map
