@@ -32,13 +32,11 @@ export default function Register() {
             description: t("pages.register_page.error_select_role"),
           });
 
-        const cleaned = values.identifier.replaceAll(/[\s-]/g, "");
-        const isPhone = PHONE_REGEX.test(cleaned);
-
         const data = await userService.register({
           role,
-          email: isPhone ? undefined : values.identifier,
-          phone: isPhone ? cleaned : undefined,
+          identifier: PHONE_REGEX.test(values.identifier.replaceAll(/[\s-]/g, ""))
+            ? values.identifier.replaceAll(/[\s-]/g, "")
+            : values.identifier.trim(),
           password: values.password,
         });
         toast.success(t("common.success"), {

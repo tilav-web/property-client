@@ -22,21 +22,20 @@ class UserService {
   }
 
   async register({
-    email,
-    phone,
+    identifier,
     role,
     password,
   }: {
-    email?: string;
-    phone?: string;
+    identifier: string;
     role: string;
     password: string;
   }) {
     try {
-      const payload: Record<string, string> = { role, password };
-      if (email) payload.email = email;
-      if (phone) payload.phone = phone;
-      const res = await apiInstance.post(API_ENDPOINTS.USER.register, payload);
+      const res = await apiInstance.post(API_ENDPOINTS.USER.register, {
+        identifier,
+        role,
+        password,
+      });
       return res.data;
     } catch (error) {
       console.error(error);
