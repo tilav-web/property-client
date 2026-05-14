@@ -72,6 +72,8 @@ export default function ApartmentSaleCard({
               amount={apartment.price}
               currency={apartment.currency}
               className="text-xl lg:text-2xl text-[#FF0000]"
+              originalClassName="text-xs text-gray-500"
+              layout="stacked"
             />
           </div>
           <p className="text-sm hidden lg:block md:text-base text-gray-700 font-bold line-clamp-2">

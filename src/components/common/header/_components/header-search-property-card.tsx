@@ -138,6 +138,8 @@ export default function HeaderSearchPropertyCard({
             amount={property.price}
             currency={property.currency}
             className="text-lg text-green-700"
+            originalClassName="text-[11px] text-gray-500"
+            layout="stacked"
           />
         </div>
 

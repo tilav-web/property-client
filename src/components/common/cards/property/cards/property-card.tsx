@@ -92,6 +92,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                 amount={property.price}
                 currency={property.currency}
                 className="text-2xl text-gray-900"
+                originalClassName="text-sm text-gray-500"
                 layout="stacked"
               />
               <div className="flex items-center gap-1.5 mt-1">
