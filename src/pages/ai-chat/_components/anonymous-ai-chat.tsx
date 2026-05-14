@@ -9,8 +9,8 @@ import {
   type AiCompactProperty,
   type AnonymousAiHistoryItem,
 } from "@/services/chat.service";
-import { formatPrice } from "@/utils/format-price";
 import MessageInput from "@/pages/messages/_components/message-input";
+import Price from "@/components/common/price";
 
 interface LocalMessage {
   id: string;
@@ -228,7 +228,7 @@ function PropertyCard({ property }: { property: AiCompactProperty }) {
           )}
           {property.price !== undefined && (
             <p className="mt-1 text-sm font-bold text-emerald-600">
-              {formatPrice(property.price, property.currency)}
+              <Price amount={property.price} currency={property.currency} />
             </p>
           )}
           <div className="mt-1 flex items-center gap-2 text-[11px] text-gray-500">

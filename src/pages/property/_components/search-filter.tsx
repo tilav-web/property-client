@@ -15,6 +15,7 @@ import { useDebounce } from "use-debounce";
 import { tagService } from "@/services/tag.service";
 import type { ITag } from "@/interfaces/tag/tag.interface";
 import { CURRENCIES, SUPPORTED_CURRENCIES } from "@/constants/currencies";
+import { useCurrencyStore } from "@/stores/currency.store";
 import {
   Select,
   SelectContent,
@@ -105,6 +106,7 @@ function FilterChip({
 const SearchFilterHeader: React.FC = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { setDisplay } = useCurrencyStore();
 
   const [openTag, setOpenTag] = useState(false);
   const [tagSearch, setTagSearch] = useState("");
@@ -464,7 +466,10 @@ const SearchFilterHeader: React.FC = () => {
                   <button
                     key={code}
                     type="button"
-                    onClick={() => updateSearchParams({ currency: code })}
+                    onClick={() => {
+                      setDisplay(code);
+                      updateSearchParams({ currency: code });
+                    }}
                     className={cn(
                       "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
                       currentCurrency === code

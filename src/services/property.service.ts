@@ -2,6 +2,7 @@ import type { CategoryFilterType } from "@/interfaces/types/category-filter.type
 import type { CategoryType } from "@/interfaces/types/category.type";
 import type { CurrencyCode } from "@/constants/currencies";
 import apiInstance from "@/lib/api-instance";
+import { useCurrencyStore } from "@/stores/currency.store";
 import { API_ENDPOINTS } from "@/utils/shared";
 
 export type SortOption =
@@ -46,7 +47,10 @@ class PropertyService {
   async findAll(params: FindAllParams) {
     try {
       const res = await apiInstance.get(API_ENDPOINTS.PROPERTIES.base, {
-        params,
+        params: {
+          currency: useCurrencyStore.getState().display,
+          ...params,
+        },
       });
       return res.data;
     } catch (error) {

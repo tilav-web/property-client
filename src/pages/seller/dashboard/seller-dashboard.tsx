@@ -22,7 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { statisticService } from "@/services/statistic.service";
-import { formatPrice } from "@/utils/format-price";
+import Price from "@/components/common/price";
 import Loading from "@/components/common/loadings/loading";
 import { propertyService } from "@/services/property.service";
 import { inquiryService } from "@/services/inquiry.service";
@@ -119,7 +119,7 @@ const PropertyMiniCard = ({ property }: { property: IProperty }) => {
           </div>
         </div>
         <p className="text-sm font-bold text-primary mt-0.5">
-          {formatPrice(property.price, property.currency)}
+          <Price amount={property.price} currency={property.currency} />
         </p>
         <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-muted-foreground">
           {ap.bedrooms !== undefined && <span>🛏 {ap.bedrooms}</span>}
@@ -167,7 +167,12 @@ const InquiryMiniCard = ({ inquiry }: { inquiry: IInquiry }) => {
       <div className="flex items-center justify-between text-xs">
         <span className="font-semibold text-primary">
           {inquiry.offered_price
-            ? formatPrice(inquiry.offered_price, inquiry.property.currency)
+            ? (
+                <Price
+                  amount={inquiry.offered_price}
+                  currency={inquiry.property.currency}
+                />
+              )
             : ""}
         </span>
         <span className="text-muted-foreground">

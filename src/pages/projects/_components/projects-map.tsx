@@ -2,11 +2,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { IProject } from "@/interfaces/project/project.interface";
 import { googleMapKey, googleMapId } from "@/utils/shared";
-import { formatPrice } from "@/utils/format-price";
+import { convertPrice, formatPrice } from "@/utils/format-price";
 import { Loader2, Locate } from "lucide-react";
 import { useGeolocation } from "@/hooks/use-geolocation";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
+import { useCurrencyStore } from "@/stores/currency.store";
+import { useExchangeRates } from "@/hooks/use-exchange-rates";
 
 declare global {
   interface Window {
@@ -83,6 +85,8 @@ export default function ProjectsMap({
   initialCenter,
 }: Props) {
   const { t } = useTranslation();
+  const { display } = useCurrencyStore();
+  const { data: exchangeRates } = useExchangeRates();
   const geo = useGeolocation();
   const [locating, setLocating] = useState(false);
   const userMarkerRef = useRef<any>(null);
@@ -121,6 +125,22 @@ export default function ProjectsMap({
   useEffect(() => {
     onMarkerClickRef.current = onMarkerClick;
   }, [onMarkerClick]);
+
+  const formatDisplayPrice = useCallback(
+    (amount: number, currency?: string) => {
+      if (!currency || currency === display || !exchangeRates?.rates) {
+        return formatPrice(amount, currency);
+      }
+      const converted = convertPrice(
+        amount,
+        currency,
+        display,
+        exchangeRates.rates,
+      );
+      return `${formatPrice(converted, display)} (~${formatPrice(amount, currency)})`;
+    },
+    [display, exchangeRates?.rates],
+  );
 
   // Init map
   useEffect(() => {
@@ -185,7 +205,7 @@ export default function ProjectsMap({
         pin.className =
           "rounded-md bg-blue-600 text-white px-2 py-1 text-xs font-bold shadow-md cursor-pointer hover:bg-blue-700 transition";
         pin.textContent = p.launch_price
-          ? formatPrice(p.launch_price, p.currency)
+          ? formatDisplayPrice(p.launch_price, p.currency)
           : (p.name?.slice(0, 14) ?? "");
 
         marker = new window.google.maps.marker.AdvancedMarkerElement({
@@ -202,7 +222,7 @@ export default function ProjectsMap({
               <div style="max-width:220px">
                 <div style="font-weight:600;font-size:14px">${escapeHtml(p.name)}</div>
                 ${p.address ? `<div style="font-size:12px;color:#666;margin-top:2px">${escapeHtml(p.address)}</div>` : ""}
-                ${p.launch_price ? `<div style="font-weight:700;color:#1e40af;margin-top:4px">${escapeHtml(formatPrice(p.launch_price, p.currency))}</div>` : ""}
+                ${p.launch_price ? `<div style="font-weight:700;color:#1e40af;margin-top:4px">${escapeHtml(formatDisplayPrice(p.launch_price, p.currency))}</div>` : ""}
               </div>`;
             infoRef.current.setContent(html);
             infoRef.current.setPosition({ lat: coords[1], lng: coords[0] });
@@ -220,7 +240,7 @@ export default function ProjectsMap({
         markersRef.current.delete(id);
       }
     }
-  }, [projects]);
+  }, [formatDisplayPrice, projects]);
 
   // Highlight selected marker
   useEffect(() => {

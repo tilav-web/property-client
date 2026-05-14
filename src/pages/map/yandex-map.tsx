@@ -8,13 +8,15 @@ import { useMapStore } from "@/stores/map.store";
 import { googleMapKey, googleMapId } from "@/utils/shared";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { Locate, Search as SearchIcon, X } from "lucide-react";
-import { formatPrice } from "@/utils/format-price";
+import { convertPrice, formatPrice } from "@/utils/format-price";
 import MapFilterBar from "./_components/map-filter-bar";
 import {
   buildMapFilters,
   escapeHtml,
   filterSignature,
 } from "./_components/map-filters";
+import { useCurrencyStore } from "@/stores/currency.store";
+import { useExchangeRates } from "@/hooks/use-exchange-rates";
 
 declare global {
   interface Window {
@@ -39,6 +41,8 @@ const getAreaKey = (lat: number, lng: number): string => {
 
 export default function MapPage() {
   const { t } = useTranslation();
+  const { display } = useCurrencyStore();
+  const { data: exchangeRates } = useExchangeRates();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [showZoomMessage, setShowZoomMessage] = useState(false);
@@ -63,7 +67,10 @@ export default function MapPage() {
   );
 
   const filters = useMemo(() => buildMapFilters(searchParams), [searchParams]);
-  const currentFilterSig = useMemo(() => filterSignature(filters), [filters]);
+  const currentFilterSig = useMemo(
+    () => `${filterSignature(filters)}|currency:${display}`,
+    [display, filters],
+  );
 
   const mergedProperties = useMapStore((s) => s.mergedProperties);
   const setFilterSig = useMapStore((s) => s.setFilterSig);
@@ -242,8 +249,16 @@ export default function MapPage() {
         "https://via.placeholder.com/300x200.png?text=No+Image";
       const image =
         p.photos && p.photos.length > 0 ? p.photos[0] : fallback;
+      const convertedPrice =
+        p.price && p.currency
+          ? convertPrice(p.price, p.currency, display, exchangeRates?.rates)
+          : p.price;
       const priceStr = p.price
-        ? escapeHtml(formatPrice(p.price, p.currency))
+        ? escapeHtml(
+            p.currency === display || !exchangeRates?.rates
+              ? formatPrice(p.price, p.currency)
+              : `${formatPrice(convertedPrice, display)} (~${formatPrice(p.price, p.currency)})`,
+          )
         : "";
       return `
         <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;width:280px;border-radius:12px;overflow:hidden">
@@ -258,7 +273,7 @@ export default function MapPage() {
           </div>
         </div>`;
     },
-    [t],
+    [display, exchangeRates?.rates, t],
   );
 
   // Diff-based marker updates — add new, remove gone, keep existing

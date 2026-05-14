@@ -5,7 +5,6 @@ import { Bot, Check, Home, Loader2, X } from "lucide-react";
 import type { IChatMessage } from "@/interfaces/chat/chat-message.interface";
 import { MessageType } from "@/interfaces/chat/message-type";
 import { cn } from "@/lib/utils";
-import { formatPrice } from "@/utils/format-price";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import Price from "@/components/common/price";
 
 export type TResponseStatus = "approved" | "rejected";
 
@@ -144,7 +144,7 @@ export default function MessageBubble({
           </div>
           {price !== null && (
             <div className="text-lg font-bold">
-              {formatPrice(price, currency)}
+              <Price amount={price} currency={currency} />
             </div>
           )}
           {comment && <div className="mt-1 text-sm">{comment}</div>}
@@ -416,7 +416,7 @@ function AiPropertyCard({
               isMine ? "text-white" : "text-blue-600",
             )}
           >
-            {formatPrice(property.price, property.currency)}
+            <Price amount={property.price} currency={property.currency} />
           </p>
         )}
         <div

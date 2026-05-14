@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import FilterNavLayoutBlock from "./_components/filter-nav-layout-block";
 import { useLanguageStore } from "@/stores/language.store";
+import { useCurrencyStore } from "@/stores/currency.store";
 import BannerAds from "@/components/common/ads/banner-ads";
 import ImageAds from "@/components/common/ads/image-ads";
 import ImageAdsSkeleton from "@/components/common/ads/image-ads-skeleton";
@@ -28,10 +29,11 @@ export default function FilterNav() {
   const is_new = params.get("is_new");
   const { t } = useTranslation();
   const { language } = useLanguageStore();
+  const { display } = useCurrencyStore();
 
   const queryKey = useMemo(
-    () => ["filter-nav-layout", category, language],
-    [category, language]
+    () => ["filter-nav-layout", category, language, display],
+    [category, display, language]
   );
 
   const { data: siteSettings } = useQuery({

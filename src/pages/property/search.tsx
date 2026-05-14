@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import FilterNavLayoutBlock from "./_components/filter-nav-layout-block";
 import { useLanguageStore } from "@/stores/language.store";
+import { useCurrencyStore } from "@/stores/currency.store";
 import type { CategoryType } from "@/interfaces/types/category.type";
 import type { CategoryFilterType } from "@/interfaces/types/category-filter.type";
 import type { CurrencyCode } from "@/constants/currencies";
@@ -116,12 +117,13 @@ export default function SearchPage() {
   const [params] = useSearchParams();
   const { t } = useTranslation();
   const { language } = useLanguageStore();
+  const { display } = useCurrencyStore();
 
   const filters = useMemo(() => buildFilters(params), [params]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery<PropertyPage>({
-      queryKey: ["property-search", filters, language],
+      queryKey: ["property-search", filters, language, display],
       queryFn: async ({ pageParam }) => {
         const data = await propertyService.findAll({
           ...filters,

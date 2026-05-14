@@ -15,6 +15,7 @@ import BannerAds from "@/components/common/ads/banner-ads";
 import ImageAds from "@/components/common/ads/image-ads";
 import ImageAdsSkeleton from "@/components/common/ads/image-ads-skeleton";
 import BannerAdsSkeleton from "@/components/common/ads/banner-ads-skeleton";
+import { useCurrencyStore } from "@/stores/currency.store";
 
 interface PropertyPage {
   properties: PropertyType[];
@@ -27,6 +28,7 @@ export default function Category() {
   const [params] = useSearchParams();
   const filterCategory = params.get("filterCategory") as CategoryFilterType;
   const { t } = useTranslation();
+  const { display } = useCurrencyStore();
 
   const {
     data,
@@ -36,7 +38,7 @@ export default function Category() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery<PropertyPage>({
-    queryKey: ["category-page", filterCategory],
+    queryKey: ["category-page", filterCategory, display],
     queryFn: async ({ pageParam = 1 }) => {
               const result = await propertyService.findAll({
                 filterCategory,
