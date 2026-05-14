@@ -59,7 +59,10 @@ function ProjectCard({ project }: { project: IProject }) {
               STATUS_COLORS[project.status] || "bg-gray-100 text-gray-700"
             }`}
           >
-            {t(`pages.projects.status.${project.status}`, project.status.replace("_", " "))}
+            {t(
+              `pages.projects.status.${project.status}`,
+              project.status.replace("_", " "),
+            )}
           </span>
           {project.delivery_date && (
             <span className="flex items-center gap-1 rounded-md bg-white/90 px-2 py-0.5 text-[11px] font-medium text-gray-700 backdrop-blur-sm">

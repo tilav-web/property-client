@@ -15,12 +15,15 @@ import HeartButton from "@/components/common/buttons/heart-button";
 import EllipsisVerticalButton from "@/components/common/buttons/ellipsis-vertical-button";
 import type { CategoryType } from "@/interfaces/types/category.type";
 import Price from "@/components/common/price";
+import { useTranslation } from "react-i18next";
 
 interface PropertyCardProps {
   property: IProperty;
 }
 
 export default function PropertyCard({ property }: PropertyCardProps) {
+  const { t } = useTranslation();
+
   if (!property) return null;
 
   const getCategoryIcon = (category: CategoryType) => {
@@ -31,17 +34,6 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         return <Home className="h-4 w-4" />;
       default:
         return <Building className="h-4 w-4" />;
-    }
-  };
-
-  const getCategoryText = (category: CategoryType) => {
-    switch (category) {
-      case "APARTMENT_RENT":
-        return "Ijaraga kvartira";
-      case "APARTMENT_SALE":
-        return "Sotiladigan kvartira";
-      default:
-        return "Mulk";
     }
   };
 
@@ -61,7 +53,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           <div className="absolute top-3 left-3 z-10">
             <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0 shadow-lg">
               <Zap className="h-3 w-3 mr-1" />
-              Premium
+              {t("common.premium")}
             </Badge>
           </div>
         )}
@@ -77,7 +69,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
               <Building className="h-12 w-12 mb-2" />
-              <span className="text-sm">Rasm mavjud emas</span>
+              <span className="text-sm">{t("common.no_data_available")}</span>
             </div>
           )}
 
@@ -100,12 +92,13 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                 amount={property.price}
                 currency={property.currency}
                 className="text-2xl text-gray-900"
+                layout="stacked"
               />
               <div className="flex items-center gap-1.5 mt-1">
                 <Badge variant="outline" className="flex items-center gap-1.5">
                   {getCategoryIcon(property.category)}
                   <span className="text-xs font-medium">
-                    {getCategoryText(property.category)}
+                    {t(`categories.${property.category}`, property.category)}
                   </span>
                 </Badge>
               </div>
@@ -119,7 +112,9 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                   {property.rating.toFixed(1)}
                 </span>
               </div>
-              <span className="text-xs text-gray-500 mt-1">reyting</span>
+              <span className="text-xs text-gray-500 mt-1">
+                {t("seller_profile.stats.rating")}
+              </span>
             </div>
           </div>
 
@@ -151,10 +146,10 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             </div>
 
             <div className="flex items-center gap-4">
-              <button title={`Saved ${property.saved}`}>
+              <button title={t("common.buttons.property_actions.saved")}>
                 <Bookmark className="h-5 w-5 text-amber-400 cursor-pointer" />
               </button>
-              <button title={`Liked ${property.liked}`}>
+              <button title={t("common.buttons.property_actions.save")}>
                 <Heart className="h-5 w-5 text-red-400 cursor-pointer" />
               </button>
             </div>
