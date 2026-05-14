@@ -19,10 +19,10 @@ export const useCurrentLanguage = () => {
     uz: string;
     ru: string;
     en: string;
+    ms?: string;
   }): string => {
     const lang = getCurrentLanguage();
-    const backendLang = lang === "ms" ? "en" : lang;
-    return text?.[backendLang] || text?.en || "";
+    return text?.[lang] || text?.en || "";
   };
 
   return {

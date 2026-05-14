@@ -43,12 +43,12 @@ export default function Profile() {
   const { savedProperties } = useSaveStore();
   const { inquiryResponses, fetchMyInquiryResponses } =
     useInquiryResponseStore();
-  const { user, logout } = useUserStore();
+  const { user, setUser, logout } = useUserStore();
   const { logout: sellerLogout } = useSellerStore();
   const { setLanguage } = useLanguageStore();
   const unreadNotifications = useNotificationStore((s) => s.unreadCount);
 
-  const languages = Object.values<ILanguage>(["en", "ru", "uz"]);
+  const languages: ILanguage[] = ["en", "ms", "ru", "uz"];
 
   useEffect(() => {
     fetchMyInquiryResponses();
@@ -57,10 +57,10 @@ export default function Profile() {
   const handleChangeUserLan = async (lan: ILanguage) => {
     try {
       if (user) {
-        const backendLan = lan === "ms" ? "en" : lan;
         const formData = new FormData();
-        formData.append("lan", backendLan);
-        await userService.update(formData);
+        formData.append("lan", lan);
+        const data = await userService.update(formData);
+        setUser(data);
       }
       setLanguage(lan);
       await ensureLanguageResources(lan);

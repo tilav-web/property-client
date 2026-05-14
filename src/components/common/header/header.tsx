@@ -59,9 +59,8 @@ export default function Header({ className }: IHeaderProps) {
   const handleChangeUserLan = async (lan: ILanguage) => {
     try {
       if (user) {
-        const backendLan = lan === "ms" ? "en" : lan;
         const formData = new FormData();
-        formData.append("lan", backendLan);
+        formData.append("lan", lan);
         const data = await userService.update(formData);
         setUser(data);
       }

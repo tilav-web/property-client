@@ -12,6 +12,13 @@ import { useRealtime } from "@/hooks/use-realtime";
 import { useChatStore } from "@/stores/chat.store";
 import { useNotificationStore } from "@/stores/notification.store";
 import FloatingChatButton from "@/components/common/floating-chat-button";
+import type { ILanguage } from "@/interfaces/language/language.interface";
+
+const SUPPORTED_LANGUAGES: ILanguage[] = ["uz", "ru", "en", "ms"];
+
+const isSupportedLanguage = (language: unknown): language is ILanguage =>
+  typeof language === "string" &&
+  SUPPORTED_LANGUAGES.includes(language as ILanguage);
 
 export default function RootLayout() {
   const { setUser, user, logout } = useUserStore();
@@ -32,14 +39,10 @@ export default function RootLayout() {
   const { i18n } = useTranslation();
 
   useEffect(() => {
-    const resolvedLanguage =
-      user?.lan ?? handleStorage({ key: "language" }) ?? "en";
+    const storedLanguage = handleStorage({ key: "language" });
+    const resolvedLanguage = storedLanguage ?? user?.lan ?? "en";
 
-    if (
-      resolvedLanguage !== "uz" &&
-      resolvedLanguage !== "ru" &&
-      resolvedLanguage !== "en"
-    ) {
+    if (!isSupportedLanguage(resolvedLanguage)) {
       return;
     }
 

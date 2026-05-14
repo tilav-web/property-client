@@ -42,8 +42,7 @@ export default function UserDetailsTab({
     validationSchema: userDetailsSchema(t),
     onSubmit: async (values) => {
       try {
-        const backendValues = { ...values, lan: values.lan === "ms" ? "en" : values.lan };
-        const data = await sellerService.createSeller(backendValues);
+        const data = await sellerService.createSeller(values);
         setUser(data.user);
         setSeller(data.seller);
         handleSelectTab("busisess_details");
