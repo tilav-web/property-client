@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDebounce } from "use-debounce";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import {
   Popover,
   PopoverContent,
@@ -15,6 +16,7 @@ import { propertyService } from "@/services/property.service";
 import { tagService } from "@/services/tag.service";
 import { useLanguageStore } from "@/stores/language.store";
 import {
+  Bot,
   ChevronDown,
   Search,
   SlidersHorizontal,
@@ -128,6 +130,7 @@ export default function HeroSearchControls() {
   const [openArea, setOpenArea] = useState(false);
 
   const [tagSearch, setTagSearch] = useState("");
+  const [aiSearchEnabled, setAiSearchEnabled] = useState(false);
   const [debouncedTagSearch] = useDebounce(tagSearch, TAG_DEBOUNCE_MS);
   const [showTagResults, setShowTagResults] = useState(false);
   const [selectedTag, setSelectedTag] = useState("");
@@ -163,7 +166,64 @@ export default function HeroSearchControls() {
     setTagSearch("");
   }, []);
 
+  const buildAiPrompt = useCallback(() => {
+    const prompt = tagSearch.trim() || selectedTag;
+    const filters: string[] = [];
+
+    if (activeTab) filters.push(`deal: ${activeTab}`);
+    const category = DEAL_TAB_TO_CATEGORY[activeTab];
+    if (category) filters.push(`category: ${category}`);
+    if (selectedTag) filters.push(`location/tag: ${selectedTag}`);
+    if (selectedBedrooms.length) {
+      filters.push(`bedrooms: ${selectedBedrooms.join(", ")}`);
+    }
+    if (selectedBathrooms.length) {
+      filters.push(`bathrooms: ${selectedBathrooms.join(", ")}`);
+    }
+    if (minPrice || maxPrice) {
+      filters.push(`price: ${minPrice || "0"}-${maxPrice || "any"}`);
+    }
+    if (minArea || maxArea) {
+      filters.push(`area m2: ${minArea || "0"}-${maxArea || "any"}`);
+    }
+    if (furnished) filters.push("furnished: yes");
+
+    return [
+      prompt ||
+        t("pages.main_page.search_filters.ai_default_prompt", {
+          defaultValue: "Find suitable properties for me",
+        }),
+      filters.length
+        ? `${t("pages.main_page.search_filters.selected_filters", {
+            defaultValue: "Selected filters",
+          })}: ${filters.join("; ")}`
+        : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+  }, [
+    activeTab,
+    furnished,
+    maxArea,
+    maxPrice,
+    minArea,
+    minPrice,
+    selectedBathrooms,
+    selectedBedrooms,
+    selectedTag,
+    tagSearch,
+    t,
+  ]);
+
   const handleSearch = useCallback(() => {
+    if (aiSearchEnabled) {
+      const queryParams = new URLSearchParams();
+      queryParams.set("prompt", buildAiPrompt());
+      navigate(`/ai-chat?${queryParams.toString()}`);
+      setMobileSearchActive(false);
+      return;
+    }
+
     const queryParams = new URLSearchParams();
 
     const category = DEAL_TAB_TO_CATEGORY[activeTab];
@@ -182,7 +242,9 @@ export default function HeroSearchControls() {
     setMobileSearchActive(false);
   }, [
     navigate,
+    aiSearchEnabled,
     activeTab,
+    buildAiPrompt,
     selectedTag,
     tagSearch,
     selectedBedrooms,
@@ -324,7 +386,9 @@ export default function HeroSearchControls() {
           <Search size={18} aria-hidden="true" />
         </div>
         <span className="flex-1 text-left text-sm text-gray-500">
-          {t("pages.main_page.search_filters.location_placeholder")}
+          {aiSearchEnabled
+            ? t("pages.main_page.search_filters.ai_placeholder")
+            : t("pages.main_page.search_filters.location_placeholder")}
         </span>
         <div className="ml-2 border-l p-2">
           <SlidersHorizontal size={18} className="text-gray-400" aria-hidden="true" />
@@ -372,14 +436,33 @@ export default function HeroSearchControls() {
             <Search className="absolute left-3 top-3 text-gray-400" size={18} />
             <input
               className="h-12 w-full rounded-lg border border-gray-300 pl-10 pr-4 text-base outline-none focus:border-primary"
-              placeholder={t("pages.main_page.search_filters.location_placeholder")}
+              placeholder={
+                aiSearchEnabled
+                  ? t("pages.main_page.search_filters.ai_placeholder")
+                  : t("pages.main_page.search_filters.location_placeholder")
+              }
               value={tagSearch}
               onChange={(e) => {
                 setTagSearch(e.target.value);
-                setShowTagResults(true);
+                if (!aiSearchEnabled) setShowTagResults(true);
               }}
             />
           </div>
+
+          <label className="flex items-center justify-between rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm font-semibold text-indigo-700">
+            <span className="flex items-center gap-2">
+              <Bot size={18} />
+              {t("pages.main_page.search_filters.ai_search")}
+            </span>
+            <Switch
+              checked={aiSearchEnabled}
+              onCheckedChange={(checked) => {
+                setAiSearchEnabled(checked);
+                setShowTagResults(false);
+              }}
+              aria-label={t("pages.main_page.search_filters.ai_search")}
+            />
+          </label>
 
           {selectedTag && (
             <Badge
@@ -482,13 +565,21 @@ export default function HeroSearchControls() {
 
             <input
               className="h-12 w-full rounded-full border border-gray-200 bg-gray-50 pl-10 pr-4 text-sm outline-none transition-colors focus:border-primary focus:bg-white"
-              placeholder={t("pages.main_page.search_filters.location_placeholder")}
+              placeholder={
+                aiSearchEnabled
+                  ? t("pages.main_page.search_filters.ai_placeholder")
+                  : t("pages.main_page.search_filters.location_placeholder")
+              }
               value={tagSearch}
               onChange={(e) => {
                 setTagSearch(e.target.value);
-                setShowTagResults(true);
+                if (!aiSearchEnabled) setShowTagResults(true);
               }}
-              onFocus={() => debouncedTagSearch.length > 0 && setShowTagResults(true)}
+              onFocus={() =>
+                !aiSearchEnabled &&
+                debouncedTagSearch.length > 0 &&
+                setShowTagResults(true)
+              }
             />
 
             {/* Tag search results dropdown */}
@@ -524,6 +615,25 @@ export default function HeroSearchControls() {
             <Search size={18} className="mr-2" />
             {t("pages.main_page.search_filters.find")}
           </Button>
+
+          <label
+            className={`flex h-12 items-center gap-2 rounded-xl border px-3 text-sm font-semibold transition-colors ${
+              aiSearchEnabled
+                ? "border-indigo-300 bg-indigo-50 text-indigo-700"
+                : "border-gray-200 bg-white text-gray-700"
+            }`}
+          >
+            <Bot size={16} />
+            <span>{t("pages.main_page.search_filters.ai_search")}</span>
+            <Switch
+              checked={aiSearchEnabled}
+              onCheckedChange={(checked) => {
+                setAiSearchEnabled(checked);
+                setShowTagResults(false);
+              }}
+              aria-label={t("pages.main_page.search_filters.ai_search")}
+            />
+          </label>
         </div>
 
         {/* Filter chips row */}

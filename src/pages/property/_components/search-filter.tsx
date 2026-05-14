@@ -1,14 +1,13 @@
 import React, { useState, useCallback } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Bot, Search, X, ChevronDown, Tag } from "lucide-react";
+import { X, ChevronDown, Tag } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
@@ -105,12 +104,10 @@ function FilterChip({
 
 const SearchFilterHeader: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [openTag, setOpenTag] = useState(false);
   const [tagSearch, setTagSearch] = useState("");
-  const [aiSearchEnabled, setAiSearchEnabled] = useState(false);
   const [debouncedTagSearch] = useDebounce(tagSearch, TAG_DEBOUNCE_MS);
 
   // URL dan joriy filterlarni o'qish
@@ -172,100 +169,6 @@ const SearchFilterHeader: React.FC = () => {
   }, [updateSearchParams]);
 
   const clearAll = () => setSearchParams(new URLSearchParams());
-
-  const buildAiPrompt = useCallback(() => {
-    const prompt = tagSearch.trim() || currentSearch || currentTag;
-    const filters: string[] = [];
-
-    if (currentCategory !== "all") filters.push(`category: ${currentCategory}`);
-    if (currentTag) filters.push(`location/tag: ${currentTag}`);
-    if (currentBedrooms.length) {
-      filters.push(`bedrooms: ${currentBedrooms.join(", ")}`);
-    }
-    if (currentBathrooms.length) {
-      filters.push(`bathrooms: ${currentBathrooms.join(", ")}`);
-    }
-    if (currentMinPrice || currentMaxPrice) {
-      filters.push(
-        `price: ${currentMinPrice || "0"}-${currentMaxPrice || "any"} ${currentCurrency || ""}`.trim(),
-      );
-    } else if (currentCurrency) {
-      filters.push(`currency: ${currentCurrency}`);
-    }
-    if (currentMinArea || currentMaxArea) {
-      filters.push(
-        `area m2: ${currentMinArea || "0"}-${currentMaxArea || "any"}`,
-      );
-    }
-    if (currentFurnished) filters.push("furnished: yes");
-    if (currentParking) filters.push("parking: yes");
-    if (currentIsNew) filters.push("new property: yes");
-    if (currentIsPremium) filters.push("premium: yes");
-    if (currentAmenities.length) {
-      filters.push(`amenities: ${currentAmenities.join(", ")}`);
-    }
-    if (currentNearEnabled) {
-      filters.push(`near me radius: ${currentNearRadius} km`);
-    }
-    if (currentSort && currentSort !== "newest") {
-      filters.push(`sort: ${currentSort}`);
-    }
-
-    return [
-      prompt ||
-        t("pages.main_page.search_filters.ai_default_prompt", {
-          defaultValue: "Find suitable properties for me",
-        }),
-      filters.length
-        ? `${t("pages.main_page.search_filters.selected_filters", {
-            defaultValue: "Selected filters",
-          })}: ${filters.join("; ")}`
-        : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
-  }, [
-    currentAmenities,
-    currentBathrooms,
-    currentBedrooms,
-    currentCategory,
-    currentCurrency,
-    currentFurnished,
-    currentIsNew,
-    currentIsPremium,
-    currentMaxArea,
-    currentMaxPrice,
-    currentMinArea,
-    currentMinPrice,
-    currentNearEnabled,
-    currentNearRadius,
-    currentParking,
-    currentSearch,
-    currentSort,
-    currentTag,
-    tagSearch,
-    t,
-  ]);
-
-  const handleSearch = useCallback(() => {
-    if (aiSearchEnabled) {
-      const params = new URLSearchParams();
-      params.set("prompt", buildAiPrompt());
-      navigate(`/ai-chat?${params.toString()}`);
-      return;
-    }
-
-    updateSearchParams({
-      search: tagSearch.trim() || currentSearch || null,
-    });
-  }, [
-    aiSearchEnabled,
-    buildAiPrompt,
-    currentSearch,
-    navigate,
-    tagSearch,
-    updateSearchParams,
-  ]);
 
   // Active filter count
   const activeFilterCount =
@@ -370,11 +273,9 @@ const SearchFilterHeader: React.FC = () => {
                 )}
                 <input
                   placeholder={
-                    aiSearchEnabled
-                      ? t("pages.main_page.search_filters.ai_placeholder")
-                      : currentTag
-                        ? ""
-                        : t("pages.main_page.search_filters.location_placeholder")
+                    currentTag
+                      ? ""
+                      : t("pages.main_page.search_filters.location_placeholder")
                   }
                   className={cn(
                     "h-11 w-full rounded-lg border border-gray-200 bg-gray-50 pr-4 text-sm outline-none transition-colors focus:border-primary focus:bg-white",
@@ -383,83 +284,50 @@ const SearchFilterHeader: React.FC = () => {
                   value={tagSearch}
                   onChange={(e) => {
                     setTagSearch(e.target.value);
-                    if (!aiSearchEnabled) setOpenTag(true);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      handleSearch();
-                    }
+                    setOpenTag(true);
                   }}
                 />
               </div>
             </PopoverTrigger>
-            {!aiSearchEnabled && (
-              <PopoverContent
-                className="w-64 p-1"
-                align="start"
-                onOpenAutoFocus={(e) => e.preventDefault()}
-              >
-                <Command>
-                  <CommandList>
-                    {isTagsLoading && (
-                      <div className="p-4 text-center text-sm">
-                        {t("common.loading")}
+            <PopoverContent
+              className="w-64 p-1"
+              align="start"
+              onOpenAutoFocus={(e) => e.preventDefault()}
+            >
+              <Command>
+                <CommandList>
+                  {isTagsLoading && (
+                    <div className="p-4 text-center text-sm">
+                      {t("common.loading")}
+                    </div>
+                  )}
+                  {!isTagsLoading &&
+                    fetchedTags.length === 0 &&
+                    debouncedTagSearch.length > 0 && (
+                      <div className="py-6 text-center text-sm">
+                        {t("common.no_tags_found")}
                       </div>
                     )}
-                    {!isTagsLoading &&
-                      fetchedTags.length === 0 &&
-                      debouncedTagSearch.length > 0 && (
-                        <div className="py-6 text-center text-sm">
-                          {t("common.no_tags_found")}
-                        </div>
-                      )}
-                    <CommandGroup>
-                      {fetchedTags.map((tag: ITag) => (
-                        <CommandItem
-                          key={tag._id}
-                          onSelect={() => handleTagSelect(tag.value)}
-                          value={tag.value}
-                          className="cursor-pointer capitalize"
-                        >
-                          {tag.value}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            )}
+                  <CommandGroup>
+                    {fetchedTags.map((tag: ITag) => (
+                      <CommandItem
+                        key={tag._id}
+                        onSelect={() => handleTagSelect(tag.value)}
+                        value={tag.value}
+                        className="cursor-pointer capitalize"
+                      >
+                        {tag.value}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
           </Popover>
         </div>
 
         {/* Filter chips */}
         <div className="flex flex-wrap items-center gap-2">
-          <Button onClick={handleSearch} className="gap-2">
-            <Search size={16} />
-            {t("pages.main_page.search_filters.find")}
-          </Button>
-
-          <label
-            className={cn(
-              "flex h-10 items-center gap-2 rounded-lg border px-3 text-sm font-medium transition-colors",
-              aiSearchEnabled
-                ? "border-indigo-300 bg-indigo-50 text-indigo-700"
-                : "border-gray-200 bg-white text-gray-700",
-            )}
-          >
-            <Bot size={16} />
-            <span>{t("pages.main_page.search_filters.ai_search")}</span>
-            <Switch
-              checked={aiSearchEnabled}
-              onCheckedChange={(checked) => {
-                setAiSearchEnabled(checked);
-                setOpenTag(false);
-              }}
-              aria-label={t("pages.main_page.search_filters.ai_search")}
-            />
-          </label>
-
           {/* Beds & Baths */}
           <FilterChip
             label={t("pages.main_page.search_filters.beds_baths")}
