@@ -491,6 +491,10 @@
       },
       "search_filters": {
         "location_placeholder": "Bandar, komuniti atau bangunan",
+        "ai_placeholder": "Terangkan keperluan anda, contoh apartmen 2 bilik dekat KLCC",
+        "ai_search": "Carian AI",
+        "ai_default_prompt": "Cari hartanah yang sesuai untuk saya",
+        "selected_filters": "Penapis dipilih",
         "find": "Cari",
         "property_type": "Jenis hartanah",
         "beds_baths": "Bilik",

@@ -1,13 +1,14 @@
 import React, { useState, useCallback } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { X, ChevronDown, Tag } from "lucide-react";
+import { Bot, Search, X, ChevronDown, Tag } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
@@ -31,7 +32,11 @@ const AMENITIES = [
   { value: "pool", labelKey: "amenities.pool", fallback: "Pool" },
   { value: "balcony", labelKey: "amenities.balcony", fallback: "Balcony" },
   { value: "security", labelKey: "amenities.security", fallback: "Security" },
-  { value: "air_conditioning", labelKey: "amenities.air_conditioning", fallback: "A/C" },
+  {
+    value: "air_conditioning",
+    labelKey: "amenities.air_conditioning",
+    fallback: "A/C",
+  },
   { value: "parking", labelKey: "amenities.parking", fallback: "Parking" },
   { value: "elevator", labelKey: "amenities.elevator", fallback: "Elevator" },
 ] as const;
@@ -79,7 +84,7 @@ function FilterChip({
             "flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm transition-colors",
             hasValue
               ? "border-yellow-400 bg-accent font-medium text-primary"
-              : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+              : "border-gray-200 bg-white text-gray-700 hover:border-gray-300",
           )}
         >
           {label}
@@ -100,16 +105,19 @@ function FilterChip({
 
 const SearchFilterHeader: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [openTag, setOpenTag] = useState(false);
   const [tagSearch, setTagSearch] = useState("");
+  const [aiSearchEnabled, setAiSearchEnabled] = useState(false);
   const [debouncedTagSearch] = useDebounce(tagSearch, TAG_DEBOUNCE_MS);
 
   // URL dan joriy filterlarni o'qish
   const currentTag = searchParams.get("tag") || "";
   const currentSearch = searchParams.get("search") || "";
-  const currentCategory = searchParams.get("category") || searchParams.get("filterCategory") || "all";
+  const currentCategory =
+    searchParams.get("category") || searchParams.get("filterCategory") || "all";
   const currentBedrooms = searchParams.getAll("bedrooms");
   const currentBathrooms = searchParams.getAll("bathrooms");
   const currentMinPrice = searchParams.get("minPrice") || "";
@@ -147,7 +155,7 @@ const SearchFilterHeader: React.FC = () => {
       });
       setSearchParams(newParams);
     },
-    [searchParams, setSearchParams]
+    [searchParams, setSearchParams],
   );
 
   const handleTagSelect = useCallback(
@@ -156,7 +164,7 @@ const SearchFilterHeader: React.FC = () => {
       setTagSearch("");
       setOpenTag(false);
     },
-    [updateSearchParams]
+    [updateSearchParams],
   );
 
   const removeTag = useCallback(() => {
@@ -164,6 +172,100 @@ const SearchFilterHeader: React.FC = () => {
   }, [updateSearchParams]);
 
   const clearAll = () => setSearchParams(new URLSearchParams());
+
+  const buildAiPrompt = useCallback(() => {
+    const prompt = tagSearch.trim() || currentSearch || currentTag;
+    const filters: string[] = [];
+
+    if (currentCategory !== "all") filters.push(`category: ${currentCategory}`);
+    if (currentTag) filters.push(`location/tag: ${currentTag}`);
+    if (currentBedrooms.length) {
+      filters.push(`bedrooms: ${currentBedrooms.join(", ")}`);
+    }
+    if (currentBathrooms.length) {
+      filters.push(`bathrooms: ${currentBathrooms.join(", ")}`);
+    }
+    if (currentMinPrice || currentMaxPrice) {
+      filters.push(
+        `price: ${currentMinPrice || "0"}-${currentMaxPrice || "any"} ${currentCurrency || ""}`.trim(),
+      );
+    } else if (currentCurrency) {
+      filters.push(`currency: ${currentCurrency}`);
+    }
+    if (currentMinArea || currentMaxArea) {
+      filters.push(
+        `area m2: ${currentMinArea || "0"}-${currentMaxArea || "any"}`,
+      );
+    }
+    if (currentFurnished) filters.push("furnished: yes");
+    if (currentParking) filters.push("parking: yes");
+    if (currentIsNew) filters.push("new property: yes");
+    if (currentIsPremium) filters.push("premium: yes");
+    if (currentAmenities.length) {
+      filters.push(`amenities: ${currentAmenities.join(", ")}`);
+    }
+    if (currentNearEnabled) {
+      filters.push(`near me radius: ${currentNearRadius} km`);
+    }
+    if (currentSort && currentSort !== "newest") {
+      filters.push(`sort: ${currentSort}`);
+    }
+
+    return [
+      prompt ||
+        t("pages.main_page.search_filters.ai_default_prompt", {
+          defaultValue: "Find suitable properties for me",
+        }),
+      filters.length
+        ? `${t("pages.main_page.search_filters.selected_filters", {
+            defaultValue: "Selected filters",
+          })}: ${filters.join("; ")}`
+        : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+  }, [
+    currentAmenities,
+    currentBathrooms,
+    currentBedrooms,
+    currentCategory,
+    currentCurrency,
+    currentFurnished,
+    currentIsNew,
+    currentIsPremium,
+    currentMaxArea,
+    currentMaxPrice,
+    currentMinArea,
+    currentMinPrice,
+    currentNearEnabled,
+    currentNearRadius,
+    currentParking,
+    currentSearch,
+    currentSort,
+    currentTag,
+    tagSearch,
+    t,
+  ]);
+
+  const handleSearch = useCallback(() => {
+    if (aiSearchEnabled) {
+      const params = new URLSearchParams();
+      params.set("prompt", buildAiPrompt());
+      navigate(`/ai-chat?${params.toString()}`);
+      return;
+    }
+
+    updateSearchParams({
+      search: tagSearch.trim() || currentSearch || null,
+    });
+  }, [
+    aiSearchEnabled,
+    buildAiPrompt,
+    currentSearch,
+    navigate,
+    tagSearch,
+    updateSearchParams,
+  ]);
 
   // Active filter count
   const activeFilterCount =
@@ -231,7 +333,7 @@ const SearchFilterHeader: React.FC = () => {
               "rounded-t-lg px-4 py-2.5 text-sm font-medium transition-colors",
               currentCategory === tab.key
                 ? "border-b-2 border-yellow-400 bg-accent text-primary"
-                : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                : "text-gray-500 hover:bg-gray-50 hover:text-gray-700",
             )}
           >
             {t(tab.label)}
@@ -268,59 +370,96 @@ const SearchFilterHeader: React.FC = () => {
                 )}
                 <input
                   placeholder={
-                    currentTag ? "" : t("pages.main_page.search_filters.location_placeholder")
+                    aiSearchEnabled
+                      ? t("pages.main_page.search_filters.ai_placeholder")
+                      : currentTag
+                        ? ""
+                        : t("pages.main_page.search_filters.location_placeholder")
                   }
                   className={cn(
                     "h-11 w-full rounded-lg border border-gray-200 bg-gray-50 pr-4 text-sm outline-none transition-colors focus:border-primary focus:bg-white",
-                    currentTag ? "pl-32" : "pl-10"
+                    currentTag ? "pl-32" : "pl-10",
                   )}
                   value={tagSearch}
                   onChange={(e) => {
                     setTagSearch(e.target.value);
-                    setOpenTag(true);
+                    if (!aiSearchEnabled) setOpenTag(true);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleSearch();
+                    }
                   }}
                 />
               </div>
             </PopoverTrigger>
-            <PopoverContent
-              className="w-64 p-1"
-              align="start"
-              onOpenAutoFocus={(e) => e.preventDefault()}
-            >
-              <Command>
-                <CommandList>
-                  {isTagsLoading && (
-                    <div className="p-4 text-center text-sm">
-                      {t("common.loading")}
-                    </div>
-                  )}
-                  {!isTagsLoading &&
-                    fetchedTags.length === 0 &&
-                    debouncedTagSearch.length > 0 && (
-                      <div className="py-6 text-center text-sm">
-                        {t("common.no_tags_found")}
+            {!aiSearchEnabled && (
+              <PopoverContent
+                className="w-64 p-1"
+                align="start"
+                onOpenAutoFocus={(e) => e.preventDefault()}
+              >
+                <Command>
+                  <CommandList>
+                    {isTagsLoading && (
+                      <div className="p-4 text-center text-sm">
+                        {t("common.loading")}
                       </div>
                     )}
-                  <CommandGroup>
-                    {fetchedTags.map((tag: ITag) => (
-                      <CommandItem
-                        key={tag._id}
-                        onSelect={() => handleTagSelect(tag.value)}
-                        value={tag.value}
-                        className="cursor-pointer capitalize"
-                      >
-                        {tag.value}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
+                    {!isTagsLoading &&
+                      fetchedTags.length === 0 &&
+                      debouncedTagSearch.length > 0 && (
+                        <div className="py-6 text-center text-sm">
+                          {t("common.no_tags_found")}
+                        </div>
+                      )}
+                    <CommandGroup>
+                      {fetchedTags.map((tag: ITag) => (
+                        <CommandItem
+                          key={tag._id}
+                          onSelect={() => handleTagSelect(tag.value)}
+                          value={tag.value}
+                          className="cursor-pointer capitalize"
+                        >
+                          {tag.value}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            )}
           </Popover>
         </div>
 
         {/* Filter chips */}
         <div className="flex flex-wrap items-center gap-2">
+          <Button onClick={handleSearch} className="gap-2">
+            <Search size={16} />
+            {t("pages.main_page.search_filters.find")}
+          </Button>
+
+          <label
+            className={cn(
+              "flex h-10 items-center gap-2 rounded-lg border px-3 text-sm font-medium transition-colors",
+              aiSearchEnabled
+                ? "border-indigo-300 bg-indigo-50 text-indigo-700"
+                : "border-gray-200 bg-white text-gray-700",
+            )}
+          >
+            <Bot size={16} />
+            <span>{t("pages.main_page.search_filters.ai_search")}</span>
+            <Switch
+              checked={aiSearchEnabled}
+              onCheckedChange={(checked) => {
+                setAiSearchEnabled(checked);
+                setOpenTag(false);
+              }}
+              aria-label={t("pages.main_page.search_filters.ai_search")}
+            />
+          </label>
+
           {/* Beds & Baths */}
           <FilterChip
             label={t("pages.main_page.search_filters.beds_baths")}
@@ -328,7 +467,9 @@ const SearchFilterHeader: React.FC = () => {
           >
             <div className="space-y-4">
               <div>
-                <p className="mb-2 text-sm font-semibold">{t("pages.main_page.search_filters.beds")}</p>
+                <p className="mb-2 text-sm font-semibold">
+                  {t("pages.main_page.search_filters.beds")}
+                </p>
                 <div className="flex flex-wrap gap-1.5">
                   {BEDROOMS.map((room) => (
                     <button
@@ -344,16 +485,22 @@ const SearchFilterHeader: React.FC = () => {
                         "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
                         currentBedrooms.includes(room)
                           ? "border-primary bg-primary text-black"
-                          : "border-gray-200 text-gray-700 hover:border-gray-300"
+                          : "border-gray-200 text-gray-700 hover:border-gray-300",
                       )}
                     >
-                      {room === "0" ? t("pages.main_page.search_filters.studio") : room === "7" ? "7+" : room}
+                      {room === "0"
+                        ? t("pages.main_page.search_filters.studio")
+                        : room === "7"
+                          ? "7+"
+                          : room}
                     </button>
                   ))}
                 </div>
               </div>
               <div>
-                <p className="mb-2 text-sm font-semibold">{t("pages.main_page.search_filters.baths")}</p>
+                <p className="mb-2 text-sm font-semibold">
+                  {t("pages.main_page.search_filters.baths")}
+                </p>
                 <div className="flex flex-wrap gap-1.5">
                   {BATHROOMS.map((room) => (
                     <button
@@ -369,7 +516,7 @@ const SearchFilterHeader: React.FC = () => {
                         "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
                         currentBathrooms.includes(room)
                           ? "border-primary bg-primary text-black"
-                          : "border-gray-200 text-gray-700 hover:border-gray-300"
+                          : "border-gray-200 text-gray-700 hover:border-gray-300",
                       )}
                     >
                       {room === "7" ? "7+" : room}
@@ -386,13 +533,17 @@ const SearchFilterHeader: React.FC = () => {
             hasValue={!!(currentMinPrice || currentMaxPrice)}
           >
             <div className="space-y-3">
-              <p className="text-sm font-semibold">{t("pages.main_page.search_filters.price")}</p>
+              <p className="text-sm font-semibold">
+                {t("pages.main_page.search_filters.price")}
+              </p>
               <div className="flex items-center gap-2">
                 <input
                   type="number"
                   placeholder={t("pages.main_page.search_filters.min")}
                   defaultValue={currentMinPrice}
-                  onBlur={(e) => updateSearchParams({ minPrice: e.target.value || null })}
+                  onBlur={(e) =>
+                    updateSearchParams({ minPrice: e.target.value || null })
+                  }
                   onKeyDown={commitOnEnter("minPrice")}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary"
                 />
@@ -401,7 +552,9 @@ const SearchFilterHeader: React.FC = () => {
                   type="number"
                   placeholder={t("pages.main_page.search_filters.max")}
                   defaultValue={currentMaxPrice}
-                  onBlur={(e) => updateSearchParams({ maxPrice: e.target.value || null })}
+                  onBlur={(e) =>
+                    updateSearchParams({ maxPrice: e.target.value || null })
+                  }
                   onKeyDown={commitOnEnter("maxPrice")}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary"
                 />
@@ -434,7 +587,7 @@ const SearchFilterHeader: React.FC = () => {
                     "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
                     !currentCurrency
                       ? "border-primary bg-accent text-primary"
-                      : "border-gray-200 text-gray-700 hover:border-gray-300"
+                      : "border-gray-200 text-gray-700 hover:border-gray-300",
                   )}
                 >
                   {t("common.all")}
@@ -448,7 +601,7 @@ const SearchFilterHeader: React.FC = () => {
                       "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
                       currentCurrency === code
                         ? "border-primary bg-accent text-primary"
-                        : "border-gray-200 text-gray-700 hover:border-gray-300"
+                        : "border-gray-200 text-gray-700 hover:border-gray-300",
                     )}
                   >
                     {CURRENCIES[code].symbol} ({code})
@@ -464,13 +617,17 @@ const SearchFilterHeader: React.FC = () => {
             hasValue={!!(currentMinArea || currentMaxArea)}
           >
             <div className="space-y-3">
-              <p className="text-sm font-semibold">{t("pages.main_page.search_filters.area_sqft")}</p>
+              <p className="text-sm font-semibold">
+                {t("pages.main_page.search_filters.area_sqft")}
+              </p>
               <div className="flex items-center gap-2">
                 <input
                   type="number"
                   placeholder={t("pages.main_page.search_filters.min")}
                   defaultValue={currentMinArea}
-                  onBlur={(e) => updateSearchParams({ minArea: e.target.value || null })}
+                  onBlur={(e) =>
+                    updateSearchParams({ minArea: e.target.value || null })
+                  }
                   onKeyDown={commitOnEnter("minArea")}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary"
                 />
@@ -479,7 +636,9 @@ const SearchFilterHeader: React.FC = () => {
                   type="number"
                   placeholder={t("pages.main_page.search_filters.max")}
                   defaultValue={currentMaxArea}
-                  onBlur={(e) => updateSearchParams({ maxArea: e.target.value || null })}
+                  onBlur={(e) =>
+                    updateSearchParams({ maxArea: e.target.value || null })
+                  }
                   onKeyDown={commitOnEnter("maxArea")}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-primary"
                 />
@@ -573,7 +732,7 @@ const SearchFilterHeader: React.FC = () => {
               "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
               currentIsNew
                 ? "border-yellow-400 bg-accent text-primary"
-                : "border-gray-200 text-gray-700 hover:border-gray-300"
+                : "border-gray-200 text-gray-700 hover:border-gray-300",
             )}
           >
             {t("common.new")}
@@ -590,7 +749,7 @@ const SearchFilterHeader: React.FC = () => {
               "rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
               currentIsPremium
                 ? "border-yellow-400 bg-accent text-primary"
-                : "border-gray-200 text-gray-700 hover:border-gray-300"
+                : "border-gray-200 text-gray-700 hover:border-gray-300",
             )}
           >
             {t("common.premium")}
@@ -655,12 +814,18 @@ const SearchFilterHeader: React.FC = () => {
       {/* Active filter badges */}
       {activeFilterCount > 0 && (
         <div className="flex flex-wrap items-center gap-2 border-t bg-gray-50/50 px-4 py-3">
-          <span className="text-xs text-gray-400">{t("common.active_filters")}:</span>
+          <span className="text-xs text-gray-400">
+            {t("common.active_filters")}:
+          </span>
 
           {currentTag && (
             <Badge variant="secondary" className="gap-1 capitalize">
               {currentTag}
-              <X size={12} className="cursor-pointer" onClick={() => removeTag()} />
+              <X
+                size={12}
+                className="cursor-pointer"
+                onClick={() => removeTag()}
+              />
             </Badge>
           )}
           {currentSearch && (
@@ -679,13 +844,16 @@ const SearchFilterHeader: React.FC = () => {
               <X
                 size={12}
                 className="cursor-pointer"
-                onClick={() => updateSearchParams({ category: null, filterCategory: null })}
+                onClick={() =>
+                  updateSearchParams({ category: null, filterCategory: null })
+                }
               />
             </Badge>
           )}
           {currentBedrooms.length > 0 && (
             <Badge variant="secondary" className="gap-1">
-              {t("pages.main_page.search_filters.beds")}: {currentBedrooms.join(", ")}
+              {t("pages.main_page.search_filters.beds")}:{" "}
+              {currentBedrooms.join(", ")}
               <X
                 size={12}
                 className="cursor-pointer"
@@ -695,7 +863,8 @@ const SearchFilterHeader: React.FC = () => {
           )}
           {currentBathrooms.length > 0 && (
             <Badge variant="secondary" className="gap-1">
-              {t("pages.main_page.search_filters.baths")}: {currentBathrooms.join(", ")}
+              {t("pages.main_page.search_filters.baths")}:{" "}
+              {currentBathrooms.join(", ")}
               <X
                 size={12}
                 className="cursor-pointer"
@@ -705,17 +874,21 @@ const SearchFilterHeader: React.FC = () => {
           )}
           {(currentMinPrice || currentMaxPrice) && (
             <Badge variant="secondary" className="gap-1">
-              {t("pages.main_page.search_filters.price")}: {currentMinPrice || "0"} — {currentMaxPrice || "∞"}
+              {t("pages.main_page.search_filters.price")}:{" "}
+              {currentMinPrice || "0"} — {currentMaxPrice || "∞"}
               <X
                 size={12}
                 className="cursor-pointer"
-                onClick={() => updateSearchParams({ minPrice: null, maxPrice: null })}
+                onClick={() =>
+                  updateSearchParams({ minPrice: null, maxPrice: null })
+                }
               />
             </Badge>
           )}
           {currentCurrency && (
             <Badge variant="secondary" className="gap-1">
-              {CURRENCIES[currentCurrency as keyof typeof CURRENCIES]?.symbol ?? currentCurrency}
+              {CURRENCIES[currentCurrency as keyof typeof CURRENCIES]?.symbol ??
+                currentCurrency}
               <X
                 size={12}
                 className="cursor-pointer"
@@ -726,10 +899,7 @@ const SearchFilterHeader: React.FC = () => {
           {currentAmenities.length > 0 && (
             <Badge variant="secondary" className="gap-1">
               {currentAmenities
-                .map(
-                  (a) =>
-                    AMENITIES.find((x) => x.value === a)?.fallback ?? a,
-                )
+                .map((a) => AMENITIES.find((x) => x.value === a)?.fallback ?? a)
                 .join(", ")}
               <X
                 size={12}
@@ -768,11 +938,14 @@ const SearchFilterHeader: React.FC = () => {
           )}
           {(currentMinArea || currentMaxArea) && (
             <Badge variant="secondary" className="gap-1">
-              {t("pages.main_page.search_filters.area_sqft")}: {currentMinArea || "0"} — {currentMaxArea || "∞"}
+              {t("pages.main_page.search_filters.area_sqft")}:{" "}
+              {currentMinArea || "0"} — {currentMaxArea || "∞"}
               <X
                 size={12}
                 className="cursor-pointer"
-                onClick={() => updateSearchParams({ minArea: null, maxArea: null })}
+                onClick={() =>
+                  updateSearchParams({ minArea: null, maxArea: null })
+                }
               />
             </Badge>
           )}

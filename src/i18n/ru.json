@@ -480,6 +480,10 @@
       },
       "search_filters": {
         "location_placeholder": "Город, район или здание",
+        "ai_placeholder": "Опишите, что нужно, например 2-комнатная квартира рядом с KLCC",
+        "ai_search": "AI поиск",
+        "ai_default_prompt": "Найди подходящую недвижимость для меня",
+        "selected_filters": "Выбранные фильтры",
         "find": "Найти",
         "property_type": "Тип недвижимости",
         "beds_baths": "Комнаты",

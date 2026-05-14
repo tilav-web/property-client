@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { useUserStore } from "@/stores/user.store";
@@ -12,6 +12,8 @@ import AnonymousAiChat from "./_components/anonymous-ai-chat";
 export default function AiChatPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const initialPrompt = searchParams.get("prompt") ?? "";
   const user = useUserStore((s) => s.user);
   const upsertConversation = useChatStore((s) => s.upsertConversation);
   const setActive = useChatStore((s) => s.setActive);
@@ -71,7 +73,7 @@ export default function AiChatPage() {
       <div className="-mx-4 sm:mx-0 sm:py-4">
         <div className="px-4 sm:px-0 mb-2 sm:mb-3">{backButton}</div>
         <div className="flex h-[calc(100vh-115px)] sm:h-[calc(100vh-150px)] overflow-hidden border border-gray-200 bg-white sm:rounded-xl sm:shadow-sm">
-          <AnonymousAiChat onBack={handleBack} />
+          <AnonymousAiChat onBack={handleBack} initialPrompt={initialPrompt} />
         </div>
       </div>
     );
@@ -108,7 +110,11 @@ export default function AiChatPage() {
       <div className="px-4 sm:px-0 mb-2 sm:mb-3">{backButton}</div>
       <div className="flex h-[calc(100vh-115px)] sm:h-[calc(100vh-150px)] overflow-hidden border border-gray-200 bg-white sm:rounded-xl sm:shadow-sm">
         <div className="flex w-full flex-col">
-          <MessagePanel conversation={conversation} onBack={handleBack} />
+          <MessagePanel
+            conversation={conversation}
+            onBack={handleBack}
+            initialPrompt={initialPrompt}
+          />
         </div>
       </div>
     </div>

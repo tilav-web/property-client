@@ -491,6 +491,10 @@
       },
       "search_filters": {
         "location_placeholder": "Shahar, tuman yoki bino",
+        "ai_placeholder": "Nima kerakligini yozing, masalan KLCC yaqinida 2 xonali kvartira",
+        "ai_search": "AI qidiruv",
+        "ai_default_prompt": "Menga mos mulklarni topib ber",
+        "selected_filters": "Tanlangan filterlar",
         "find": "Qidirish",
         "property_type": "Mulk turi",
         "beds_baths": "Xonalar",

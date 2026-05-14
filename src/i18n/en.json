@@ -458,6 +458,10 @@
       },
       "search_filters": {
         "location_placeholder": "City, community or building",
+        "ai_placeholder": "Describe what you need, e.g. 2-bedroom apartment near KLCC",
+        "ai_search": "AI search",
+        "ai_default_prompt": "Find suitable properties for me",
+        "selected_filters": "Selected filters",
         "find": "Search",
         "property_type": "Property type",
         "beds_baths": "Beds & Baths",

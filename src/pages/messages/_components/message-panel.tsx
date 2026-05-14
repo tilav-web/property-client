@@ -20,6 +20,7 @@ import MessageInput from "./message-input";
 interface Props {
   conversation: IConversation;
   onBack?: () => void;
+  initialPrompt?: string;
 }
 
 function getLocalizedTitle(
@@ -39,7 +40,7 @@ function getLocalizedTitle(
   return "";
 }
 
-export default function MessagePanel({ conversation, onBack }: Props) {
+export default function MessagePanel({ conversation, onBack, initialPrompt }: Props) {
   const { t, i18n } = useTranslation();
   const me = useUserStore((s) => s.user);
   const peer = conversation.participants.find((p) => p._id !== me?._id);
@@ -128,6 +129,7 @@ export default function MessagePanel({ conversation, onBack }: Props) {
   useConversationSubscription(conversation._id);
 
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const initialPromptSentRef = useRef(false);
   const [autoScroll, setAutoScroll] = useState(true);
 
   useEffect(() => {
@@ -183,6 +185,14 @@ export default function MessagePanel({ conversation, onBack }: Props) {
       console.error("send failed:", err);
     }
   };
+
+  useEffect(() => {
+    const prompt = initialPrompt?.trim();
+    if (!prompt || initialPromptSentRef.current || !conversation._id) return;
+    initialPromptSentRef.current = true;
+    handleSend(prompt);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [conversation._id, initialPrompt]);
 
   const handleTyping = (typing: boolean) => {
     if (isAiPeer) return; // AI'ga typing yubormaymiz

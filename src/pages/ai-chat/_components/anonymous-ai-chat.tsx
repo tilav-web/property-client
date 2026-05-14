@@ -22,16 +22,18 @@ interface LocalMessage {
 
 interface Props {
   onBack?: () => void;
+  initialPrompt?: string;
 }
 
 const newId = () =>
   `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
-export default function AnonymousAiChat({ onBack }: Props) {
+export default function AnonymousAiChat({ onBack, initialPrompt }: Props) {
   const { t } = useTranslation();
   const [messages, setMessages] = useState<LocalMessage[]>([]);
   const [sending, setSending] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const initialPromptSentRef = useRef(false);
 
   // Welcome xabari
   useEffect(() => {
@@ -97,6 +99,13 @@ export default function AnonymousAiChat({ onBack }: Props) {
     },
     [messages, sending, t],
   );
+
+  useEffect(() => {
+    const prompt = initialPrompt?.trim();
+    if (!prompt || sending || initialPromptSentRef.current) return;
+    initialPromptSentRef.current = true;
+    handleSend(prompt);
+  }, [handleSend, initialPrompt, sending]);
 
   const peerHeader = useMemo(
     () => (
