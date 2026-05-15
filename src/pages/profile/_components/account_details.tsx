@@ -76,10 +76,10 @@ export default function AccountDetails() {
   return (
     <div className="w-full">
       {/* Avatar Section */}
-      <div className="mb-8 pb-8 border-b border-gray-200">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+      <div className="mb-6 border-b border-gray-200 pb-6 sm:mb-8 sm:pb-8">
+        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:gap-6 sm:text-left">
           <div className="relative group">
-            <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center rounded-2xl border-2 border-gray-300 overflow-hidden shadow-md">
+            <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl border border-gray-200 bg-accent shadow-sm sm:h-32 sm:w-32">
               <img
                 src={
                   previewAvatar ||
@@ -94,7 +94,8 @@ export default function AccountDetails() {
               <button
                 type="button"
                 onClick={triggerFileInput}
-                className="absolute inset-0 bg-black/40 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                className="absolute inset-0 flex cursor-pointer items-center justify-center rounded-2xl bg-black/45 text-white opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100"
+                aria-label={t("pages.account_details_page.change_avatar_instruction")}
               >
                 <Camera className="w-6 h-6 text-white" />
               </button>
@@ -109,13 +110,16 @@ export default function AccountDetails() {
             />
           </div>
 
-          <div className="flex-1">
-            <h2 className="text-2xl font-bold text-gray-900">
-              {formik.values.first_name} {formik.values.last_name}
+          <div className="min-w-0 flex-1">
+            <h2 className="truncate text-xl font-bold text-gray-900 sm:text-2xl">
+              {`${formik.values.first_name} ${formik.values.last_name}`.trim() ||
+                t("pages.profile_page.my_account")}
             </h2>
-            <p className="text-gray-600 mt-1">{formik.values.email}</p>
+            <p className="mt-1 truncate text-sm text-gray-600">
+              {formik.values.email}
+            </p>
             {isEditing && (
-              <p className="text-xs text-gray-500 mt-3">
+              <p className="mt-3 text-xs text-gray-500">
                 {t("pages.account_details_page.change_avatar_instruction")}
               </p>
             )}
@@ -125,9 +129,9 @@ export default function AccountDetails() {
 
       {/* Form */}
       <form onSubmit={formik.handleSubmit}>
-        <div className="space-y-6 mb-8">
+        <div className="mb-6 space-y-5 sm:mb-8 sm:space-y-6">
           {/* First & Last Name */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
             <div className="space-y-2">
               <Label
                 htmlFor="first_name"
@@ -145,9 +149,9 @@ export default function AccountDetails() {
                   disabled={!isEditing}
                   className={`transition-all ${
                     !isEditing
-                      ? "bg-gray-100 border-gray-200 cursor-not-allowed"
-                      : "border-blue-300 focus:border-blue-500"
-                  } h-11`}
+                      ? "bg-gray-50 border-gray-200 cursor-not-allowed text-gray-700"
+                      : "border-primary/40 focus:border-primary"
+                  } h-12 rounded-xl`}
                 />
               </div>
               {formik.touched.first_name && formik.errors.first_name && (
@@ -174,9 +178,9 @@ export default function AccountDetails() {
                   disabled={!isEditing}
                   className={`transition-all ${
                     !isEditing
-                      ? "bg-gray-100 border-gray-200 cursor-not-allowed"
-                      : "border-blue-300 focus:border-blue-500"
-                  } h-11`}
+                      ? "bg-gray-50 border-gray-200 cursor-not-allowed text-gray-700"
+                      : "border-primary/40 focus:border-primary"
+                  } h-12 rounded-xl`}
                 />
               </div>
               {formik.touched.last_name && formik.errors.last_name && (
@@ -201,7 +205,7 @@ export default function AccountDetails() {
               type="email"
               value={formik.values.email}
               disabled
-              className="bg-gray-100 border-gray-200 cursor-not-allowed h-11"
+              className="h-12 cursor-not-allowed rounded-xl border-gray-200 bg-gray-50 text-gray-700"
             />
           </div>
 
@@ -221,10 +225,10 @@ export default function AccountDetails() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               disabled={!isEditing}
-              className={`transition-all h-11 ${
+              className={`h-12 rounded-xl transition-all ${
                 !isEditing
-                  ? "bg-gray-100 border-gray-200 cursor-not-allowed"
-                  : "border-blue-300 focus:border-blue-500"
+                  ? "bg-gray-50 border-gray-200 cursor-not-allowed text-gray-700"
+                  : "border-primary/40 focus:border-primary"
               }`}
               placeholder="+998 90 123 45 67"
             />
@@ -237,7 +241,7 @@ export default function AccountDetails() {
 
           {/* Password */}
           {isEditing && (
-            <div className="space-y-2 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <div className="space-y-2 rounded-xl border border-primary/15 bg-accent/50 p-4">
               <Label
                 htmlFor="password"
                 className="text-sm font-semibold text-gray-700"
@@ -254,7 +258,7 @@ export default function AccountDetails() {
                 placeholder={t(
                   "pages.account_details_page.new_password_placeholder"
                 )}
-                className="border-blue-300 focus:border-blue-500 h-11"
+                className="h-12 rounded-xl border-primary/40 focus:border-primary"
               />
               {formik.touched.password && formik.errors.password && (
                 <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
@@ -269,12 +273,12 @@ export default function AccountDetails() {
         </div>
 
         {/* Buttons */}
-        <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-6 border-t border-gray-200">
+        <div className="flex flex-col-reverse gap-3 border-t border-gray-200 pt-5 sm:flex-row sm:justify-end sm:pt-6">
           {!isEditing ? (
             <Button
               type="button"
               onClick={handleEdit}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold h-11 gap-2"
+              className="h-12 w-full gap-2 rounded-xl bg-primary font-semibold text-primary-foreground hover:bg-primary/90 sm:h-11 sm:w-auto"
             >
               <Edit2 className="w-4 h-4" />
               {t("pages.account_details_page.edit")}
@@ -286,7 +290,7 @@ export default function AccountDetails() {
                 onClick={handleCancel}
                 variant="outline"
                 disabled={loading}
-                className="h-11 border-gray-300"
+                className="h-12 w-full rounded-xl border-gray-300 sm:h-11 sm:w-auto"
               >
                 <X className="w-4 h-4 mr-2" />
                 {t("pages.account_details_page.cancel")}
@@ -294,7 +298,7 @@ export default function AccountDetails() {
               <Button
                 type="submit"
                 disabled={loading || !formik.isValid}
-                className="bg-green-600 hover:bg-green-700 text-white font-semibold h-11 gap-2 disabled:opacity-50"
+                className="h-12 w-full gap-2 rounded-xl bg-green-600 font-semibold text-white hover:bg-green-700 disabled:opacity-50 sm:h-11 sm:w-auto"
               >
                 {loading ? (
                   <>

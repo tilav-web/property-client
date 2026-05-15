@@ -184,7 +184,7 @@ export default function Header({ className }: IHeaderProps) {
                             : t("common.header.login_title")}
                         </p>
                         <p className="truncate text-xs text-muted-foreground">
-                          {user?.email ? String(user.email) : t("common.sell_or_rent")}
+                          {user?.email?.value ? String(user.email.value) : t("common.sell_or_rent")}
                         </p>
                       </div>
                       {!user ? (
