@@ -399,43 +399,75 @@ export default function HeroSearchControls() {
 
   if (isMobile && mobileSearchActive) {
     return (
-      <div className="animate-in fade-in zoom-in fixed inset-0 z-[100] flex flex-col bg-white duration-200">
-        <div className="flex items-center justify-between border-b p-4">
-          <h2 className="text-lg font-bold">{t("common.search")}</h2>
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label="Close search"
-            onClick={() => setMobileSearchActive(false)}
-          >
-            <X size={24} />
-          </Button>
-        </div>
+      <div
+        className="animate-in fade-in fixed inset-0 z-[9999] flex items-end bg-foreground/45 p-2 backdrop-blur-sm duration-200 sm:p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-label={t("common.search")}
+        onClick={() => setMobileSearchActive(false)}
+      >
+        <Button
+          variant="outline"
+          size="icon"
+          className="fixed right-4 top-4 z-[10000] size-11 rounded-full border-gray-200 bg-white text-foreground shadow-elevated"
+          aria-label="Close search"
+          onClick={() => setMobileSearchActive(false)}
+        >
+          <X size={20} />
+        </Button>
 
-        <div className="flex-1 space-y-5 overflow-y-auto p-4">
-          {/* Tabs */}
-          <div className="flex flex-wrap gap-2">
-            {tabs.map((tab) => (
-              <button
-                key={tab.key}
-                type="button"
-                onClick={() => setActiveTab(tab.key)}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                  activeTab === tab.key
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted text-foreground/70 hover:bg-accent"
-                }`}
+        <div
+          className="animate-in slide-in-from-bottom-6 flex max-h-[calc(100dvh-5rem)] w-full flex-col overflow-hidden rounded-t-3xl border border-border/70 bg-white shadow-elevated duration-200 sm:mx-auto sm:max-w-lg sm:rounded-3xl"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="sticky top-0 z-10 border-b border-gray-200 bg-white/95 px-4 py-3 backdrop-blur">
+            <div className="mb-3 flex items-center justify-between">
+              <div>
+                <h2 className="text-lg font-bold text-foreground">
+                  {t("common.search")}
+                </h2>
+                <p className="text-xs text-muted-foreground">
+                  {t("pages.main_page.search_filters.selected_filters", {
+                    defaultValue: "Selected filters",
+                  })}
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                size="icon"
+                className="size-10 rounded-full border-gray-200 bg-white"
+                aria-label="Close search"
+                onClick={() => setMobileSearchActive(false)}
               >
-                {tab.label}
-              </button>
-            ))}
+                <X size={18} />
+              </Button>
+            </div>
+
+            {/* Tabs */}
+            <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setActiveTab(tab.key)}
+                  className={`h-10 shrink-0 rounded-full px-4 text-sm font-semibold transition-colors ${
+                    activeTab === tab.key
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "bg-muted text-foreground/70 hover:bg-accent"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
 
+          <div className="flex-1 space-y-5 overflow-y-auto px-4 py-4">
           {/* Search input */}
           <div className="relative">
             <Search className="absolute left-3 top-3 text-gray-400" size={18} />
             <input
-              className="h-12 w-full rounded-lg border border-gray-300 pl-10 pr-4 text-base outline-none focus:border-primary"
+              className="h-12 w-full rounded-xl border border-gray-300 bg-gray-50 pl-10 pr-4 text-base outline-none transition-colors focus:border-primary focus:bg-white"
               placeholder={
                 aiSearchEnabled
                   ? t("pages.main_page.search_filters.ai_placeholder")
@@ -449,7 +481,7 @@ export default function HeroSearchControls() {
             />
           </div>
 
-          <label className="flex items-center justify-between rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm font-semibold text-indigo-700">
+          <label className="flex items-center justify-between rounded-xl border border-primary/15 bg-accent/50 px-4 py-3 text-sm font-semibold text-primary">
             <span className="flex items-center gap-2">
               <Bot size={18} />
               {t("pages.main_page.search_filters.ai_search")}
@@ -475,7 +507,7 @@ export default function HeroSearchControls() {
           )}
 
           {showTagResults && (tagSearch || isTagsLoading) && (
-            <div className="max-h-40 overflow-y-auto rounded-lg border bg-gray-50 p-2">
+            <div className="max-h-44 overflow-y-auto rounded-xl border border-gray-200 bg-gray-50 p-2">
               {isTagsLoading ? (
                 <div className="p-2 text-center text-sm">{t("common.loading")}</div>
               ) : fetchedTags.length > 0 ? (
@@ -503,14 +535,22 @@ export default function HeroSearchControls() {
           {amenitiesContent}
         </div>
 
-        <div className="border-t bg-gray-50 p-4">
-          <Button
-            className="h-12 w-full rounded-xl bg-primary text-lg font-bold text-primary-foreground hover:bg-primary/90"
-            onClick={handleSearch}
-          >
-            <Search className="mr-2" size={20} />
-            {t("pages.main_page.search_filters.find")}
-          </Button>
+          <div className="grid grid-cols-[0.38fr_0.62fr] gap-2 border-t border-gray-200 bg-white p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+            <Button
+              variant="outline"
+              className="h-12 rounded-xl border-gray-300 font-semibold"
+              onClick={() => setMobileSearchActive(false)}
+            >
+              {t("common.cancel")}
+            </Button>
+            <Button
+              className="h-12 rounded-xl bg-primary text-base font-bold text-primary-foreground hover:bg-primary/90"
+              onClick={handleSearch}
+            >
+              <Search className="mr-2" size={18} />
+              {t("pages.main_page.search_filters.find")}
+            </Button>
+          </div>
         </div>
       </div>
     );
