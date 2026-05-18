@@ -78,7 +78,26 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyMeta> = {
   },
 };
 
-export const DEFAULT_CURRENCY: CurrencyCode = CurrencyCode.MYR;
+/**
+ * ENV'dan default currency'ni o'qiydi. Aniqlanmagan bo'lsa VITE_COUNTRY'ga
+ * qarab tanlaydi (UZ -> UZS, MY -> MYR), hech narsa berilmasa UZS.
+ *
+ * Bu helper country.ts'siz ham ishlatilishi kerak (circular dependency'dan
+ * saqlanish uchun). UI komponentlarda esa COUNTRY_CONFIG.defaultCurrency
+ * tavsiya etiladi.
+ */
+function resolveDefaultCurrency(): CurrencyCode {
+  const raw = (import.meta.env?.VITE_DEFAULT_CURRENCY as string | undefined)
+    ?.toUpperCase();
+  const valid = Object.values(CurrencyCode) as string[];
+  if (raw && valid.includes(raw)) return raw as CurrencyCode;
+  const country = (import.meta.env?.VITE_COUNTRY as string | undefined)
+    ?.toUpperCase();
+  if (country === "MY") return CurrencyCode.MYR;
+  return CurrencyCode.UZS;
+}
+
+export const DEFAULT_CURRENCY: CurrencyCode = resolveDefaultCurrency();
 
 export const SUPPORTED_CURRENCIES: CurrencyCode[] = Object.values(CurrencyCode);
 
