@@ -11,6 +11,7 @@ import {
   Share2,
   Stars,
   User,
+  Wallet,
   X,
 } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
@@ -69,6 +70,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         icon: <Share2 className="h-5 w-5" />,
         text: t("common.seller_sidebar.advertise"),
       },
+      {
+        to: "/seller/transactions",
+        icon: <Wallet className="h-5 w-5" />,
+        text: t("common.seller_sidebar.transactions", "Mening to'lovlarim"),
+      },
     ],
     legal: [
       {
@@ -95,6 +101,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         to: "/seller/advertise",
         icon: <Share2 className="h-5 w-5" />,
         text: t("common.seller_sidebar.advertise"),
+      },
+      {
+        to: "/seller/transactions",
+        icon: <Wallet className="h-5 w-5" />,
+        text: t("common.seller_sidebar.transactions", "Mening to'lovlarim"),
       },
     ],
   };

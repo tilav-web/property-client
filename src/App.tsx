@@ -46,6 +46,9 @@ const AdminExchangeRatesPage = lazy(
 const AdminNotificationsPage = lazy(
   () => import("./pages/admin/_pages/notifications"),
 );
+const AdminPaymentsPage = lazy(
+  () => import("./pages/admin/_pages/payments"),
+);
 const AdminSettingsPage = lazy(
   () => import("./pages/admin/_pages/settings"),
 );
@@ -96,6 +99,9 @@ const SellerProperties = lazy(
 );
 const UpdateProperty = lazy(
   () => import("./pages/seller/properties/update-property")
+);
+const SellerTransactions = lazy(
+  () => import("./pages/seller/transactions/seller-transactions")
 );
 const Unauthorized = lazy(() => import("./pages/unauthorized/unauthorized"));
 
@@ -329,6 +335,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/seller/transactions",
+        element: withSuspense(
+          <SellerLayout>
+            <SellerTransactions />
+          </SellerLayout>
+        ),
+      },
+      {
         path: "/unauthorized",
         element: withSuspense(<Unauthorized />),
       },
@@ -397,6 +411,10 @@ const router = createBrowserRouter([
       {
         path: "notifications",
         element: withSuspense(<AdminNotificationsPage />),
+      },
+      {
+        path: "payments",
+        element: withSuspense(<AdminPaymentsPage />),
       },
       {
         path: "settings",

@@ -12,14 +12,25 @@ import {
   Bookmark,
   Edit2,
   Trash2,
+  Sparkles,
 } from "lucide-react";
 import type { IProperty } from "@/interfaces/property/property.interface";
 import { useNavigate } from "react-router-dom";
 import Price from "@/components/common/price";
+import { PremiumUpgradeDialog } from "./premium-upgrade-dialog";
+import { useState } from "react";
 
 interface SellerPropertyCardProps {
   property: IProperty;
   handleSelectPropertyToDelete: (propertyId: string) => void;
+}
+
+function isPremiumActive(property: IProperty): boolean {
+  if (!property.is_premium) return false;
+  const until = (property as IProperty & { is_premium_until?: string | null })
+    .is_premium_until;
+  if (!until) return true;
+  return new Date(until).getTime() > Date.now();
 }
 
 export default function SellerPropertyCard({
@@ -27,6 +38,8 @@ export default function SellerPropertyCard({
   handleSelectPropertyToDelete,
 }: SellerPropertyCardProps) {
   const navigate = useNavigate();
+  const [premiumDialogOpen, setPremiumDialogOpen] = useState(false);
+  const premiumActive = isPremiumActive(property);
 
   const handleShare = () => {
     const shareUrl = `${window.location.origin}/property/${property._id}`;
@@ -164,6 +177,17 @@ export default function SellerPropertyCard({
               </div>
             </div>
             <div className="flex gap-1">
+              {!premiumActive && property.status === "APPROVED" && (
+                <Button
+                  onClick={() => setPremiumDialogOpen(true)}
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-8 border-amber-500 text-amber-600 hover:bg-amber-50"
+                  title="Premium qilish"
+                >
+                  <Sparkles className="w-4 h-4" />
+                </Button>
+              )}
               <Button
                 onClick={handleShare}
                 variant="outline"
@@ -197,6 +221,13 @@ export default function SellerPropertyCard({
           </div>
         </div>
       </CardFooter>
+
+      <PremiumUpgradeDialog
+        open={premiumDialogOpen}
+        onOpenChange={setPremiumDialogOpen}
+        propertyId={property._id}
+        propertyTitle={property.title}
+      />
     </Card>
   );
 }

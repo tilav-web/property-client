@@ -68,15 +68,32 @@ export const API_ENDPOINTS = {
       dashboard: '/admins/statistics/dashboard',
     },
     admins: '/admins',
+    payments: {
+      base: '/admins/payments',
+      approve: (id: string) => `/admins/payments/${id}/approve`,
+      reject: (id: string) => `/admins/payments/${id}/reject`,
+    },
+    notifications: {
+      base: '/admins/notifications',
+      unreadCount: '/admins/notifications/unread-count',
+      readAll: '/admins/notifications/read-all',
+      readOne: (id: string) => `/admins/notifications/${id}/read`,
+      remove: (id: string) => `/admins/notifications/${id}`,
+    },
   },
   PROPERTIES: {
     base: "/properties",
     my: "/properties/my",
     message: "/properties/message",
+    upgradePremium: (id: string) => `/properties/${id}/upgrade-premium`,
     tags: {
       base: "tags",
       findTags: "/tags",
     },
+  },
+  TRANSACTIONS: {
+    my: "/transactions/my",
+    one: (id: string) => `/transactions/${id}`,
   },
   SELLER: {
     base: "/sellers",

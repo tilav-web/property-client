@@ -16,7 +16,12 @@ import {
   Sparkles,
   Inbox,
   Coins,
+  Wallet,
 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { adminPaymentService } from "../../_services/admin-payment.service";
+import { adminNotificationService } from "../../_services/admin-notification.service";
+import { useAdminNotificationSocket } from "@/hooks/use-admin-notification-socket";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -34,6 +39,26 @@ export default function AdminSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const adminLogout = useAdminStore((state) => state.logout);
+
+  // Real-time admin notifications (Socket.IO)
+  useAdminNotificationSocket({
+    onNew: (payload) => {
+      toast.info(payload.title, { description: payload.body });
+    },
+  });
+
+  // Sidebar badge'lari uchun real-time count'lar
+  const { data: pendingPayments } = useQuery({
+    queryKey: ["admin-payments-awaiting-count"],
+    queryFn: () => adminPaymentService.listAwaiting({ page: 1, limit: 1 }),
+    refetchInterval: 60_000,
+  });
+
+  const { data: unreadNotifications } = useQuery({
+    queryKey: ["admin-notifications-unread-count"],
+    queryFn: () => adminNotificationService.unreadCount(),
+    refetchInterval: 60_000,
+  });
 
   const menuItems = [
     {
@@ -77,6 +102,16 @@ export default function AdminSidebar() {
       icon: <BarChart3 className="h-5 w-5" />,
       badge: null,
       path: "/admin/ads",
+    },
+    {
+      id: "payments",
+      label: "Payments",
+      icon: <Wallet className="h-5 w-5" />,
+      badge:
+        pendingPayments?.total && pendingPayments.total > 0
+          ? String(pendingPayments.total)
+          : null,
+      path: "/admin/payments",
     },
     {
       id: "developers",
@@ -127,7 +162,10 @@ export default function AdminSidebar() {
       id: "notifications",
       label: "Notifications",
       icon: <Bell className="h-5 w-5" />,
-      badge: null,
+      badge:
+        unreadNotifications?.count && unreadNotifications.count > 0
+          ? String(unreadNotifications.count)
+          : null,
       path: "/admin/notifications",
     },
     {
