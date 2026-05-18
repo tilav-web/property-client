@@ -68,7 +68,8 @@
       "feedback": "Fikr-mulohazalar",
       "properties": "Mulklar",
       "settings": "Sozlamalar",
-      "advertise": "Reklama"
+      "advertise": "Reklama",
+      "transactions": "Mening to'lovlarim"
     },
     "footer": {
       "description": "Mukammal mulkni topishda ishonchli hamkoringiz. Ishonch bilan sotib oling, ijaraga oling va investitsiya qiling.",
@@ -1373,5 +1374,73 @@
     "penang": "Penang",
     "jb": "Johor Bahru",
     "selangor": "Selangor"
+  },
+  "payment": {
+    "premium": {
+      "make_premium": "Premium qilish",
+      "badge": "Premium",
+      "dialog_title": "E'lonni premium qilish",
+      "description_intro": "Premium e'lon qidiruv natijalarida yuqorida ko'rsatiladi va \"Premium\" badge bilan ajralib turadi.",
+      "description_flow": "Tasdiqlasangiz, to'lov sahifasi (Payme) ochiladi. To'lov muvaffaqiyatli bo'lgach, admin tasdig'idan keyin premium yoqiladi.",
+      "amount": "Summa:",
+      "duration": "Muddat:",
+      "days": "{{count}} kun",
+      "after_pay_info": "\"To'lovga o'tish\" tugmasini bosib Payme sahifasiga o'ting. To'lov muvaffaqiyatli bo'lgach, admin tasdiqlashidan so'ng e'loningiz premium bo'ladi.",
+      "start_payment": "To'lovni boshlash",
+      "go_to_payment": "To'lovga o'tish",
+      "cancel": "Bekor qilish",
+      "close": "Yopish"
+    },
+    "transactions": {
+      "title": "Mening to'lovlarim",
+      "subtitle": "Premium upgrade va reklama to'lovlari tarixi.",
+      "filter_type": "Turi",
+      "filter_all": "Hammasi",
+      "type_advertise": "Reklama",
+      "type_premium": "E'lon premium",
+      "empty": "To'lovlar topilmadi",
+      "reason": "Sabab",
+      "status": {
+        "pending": "Kutilmoqda",
+        "success": "To'langan",
+        "failed": "Xato",
+        "cancelled": "Bekor qilingan"
+      },
+      "approval": {
+        "awaiting": "Admin tasdig'i kutilmoqda",
+        "approved": "Admin tasdiqladi",
+        "rejected": "Admin rad etdi"
+      }
+    },
+    "admin_payments": {
+      "title": "Tasdiqlash kutilayotgan to'lovlar",
+      "subtitle": "To'lov muvaffaqiyatli bo'lgan, ammo admin tasdig'i kutilmoqda.",
+      "filter_type": "Turi",
+      "filter_all": "Hammasi",
+      "type_advertise": "Reklama",
+      "type_premium": "E'lon premium",
+      "empty": "Tasdiqlash kutilayotgan to'lovlar yo'q",
+      "user": "Foydalanuvchi:",
+      "total": "Jami: {{count}}",
+      "approve": "Tasdiqlash",
+      "reject": "Rad etish",
+      "approve_success": "To'lov tasdiqlandi",
+      "reject_success": "To'lov rad etildi",
+      "refresh": "Yangilash",
+      "error_generic": "Xato yuz berdi",
+      "reject_dialog": {
+        "title": "To'lovni rad etish",
+        "description": "Sabab yozing. Refund Payme dashboard'idan qo'lda qilinishi kerak.",
+        "placeholder": "Rad etish sababi...",
+        "cancel": "Bekor qilish",
+        "confirm": "Rad etish"
+      },
+      "time": {
+        "now": "hozir",
+        "minutes_ago": "{{count}} daq oldin",
+        "hours_ago": "{{count}} soat oldin",
+        "days_ago": "{{count}} kun oldin"
+      }
+    }
   }
 }

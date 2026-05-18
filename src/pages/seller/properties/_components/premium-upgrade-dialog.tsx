@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { Loader2, Sparkles, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -28,6 +29,7 @@ export function PremiumUpgradeDialog({
   propertyId,
   propertyTitle,
 }: Props) {
+  const { t } = useTranslation();
   const [result, setResult] = useState<IStartPremiumUpgradeResult | null>(null);
 
   const startMutation = useMutation({
@@ -38,7 +40,7 @@ export function PremiumUpgradeDialog({
     onError: (err: unknown) => {
       const msg =
         (err as { response?: { data?: { message?: string } } })?.response?.data
-          ?.message ?? "Xato yuz berdi";
+          ?.message ?? t("payment.admin_payments.error_generic");
       toast.error(msg);
     },
   });
@@ -57,7 +59,7 @@ export function PremiumUpgradeDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-amber-500" />
-            E'lonni premium qilish
+            {t("payment.premium.dialog_title")}
           </DialogTitle>
           <DialogDescription className="line-clamp-2">
             {propertyTitle}
@@ -67,19 +69,14 @@ export function PremiumUpgradeDialog({
         {!result ? (
           <>
             <div className="text-sm space-y-2">
-              <p>
-                Premium e'lon qidiruv natijalarida yuqorida ko'rsatiladi va
-                "Premium" badge bilan ajralib turadi.
-              </p>
+              <p>{t("payment.premium.description_intro")}</p>
               <p className="text-muted-foreground">
-                Tasdiqlasangiz, to'lov sahifasi (Payme) ochiladi. To'lov
-                muvaffaqiyatli bo'lgach, admin tasdig'idan keyin premium
-                yoqiladi.
+                {t("payment.premium.description_flow")}
               </p>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={close}>
-                Bekor qilish
+                {t("payment.premium.cancel")}
               </Button>
               <Button
                 onClick={() => startMutation.mutate()}
@@ -90,7 +87,7 @@ export function PremiumUpgradeDialog({
                 ) : (
                   <Sparkles className="w-4 h-4 mr-2" />
                 )}
-                To'lovni boshlash
+                {t("payment.premium.start_payment")}
               </Button>
             </DialogFooter>
           </>
@@ -99,27 +96,29 @@ export function PremiumUpgradeDialog({
             <div className="text-sm space-y-3">
               <div className="rounded-lg border p-3 bg-amber-50/50">
                 <div className="flex items-baseline justify-between">
-                  <span className="text-muted-foreground">Summa:</span>
+                  <span className="text-muted-foreground">
+                    {t("payment.premium.amount")}
+                  </span>
                   <span className="text-xl font-bold">
                     {formatPrice(result.amount, { code: result.currency })}
                   </span>
                 </div>
                 <div className="flex items-baseline justify-between mt-1">
-                  <span className="text-muted-foreground">Muddat:</span>
+                  <span className="text-muted-foreground">
+                    {t("payment.premium.duration")}
+                  </span>
                   <span className="font-medium">
-                    {result.durationDays} kun
+                    {t("payment.premium.days", { count: result.durationDays })}
                   </span>
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">
-                "To'lovga o'tish" tugmasini bosib Payme sahifasiga o'ting. To'lov
-                muvaffaqiyatli bo'lgach, admin tasdiqlashidan so'ng e'loningiz
-                premium bo'ladi.
+                {t("payment.premium.after_pay_info")}
               </p>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={close}>
-                Yopish
+                {t("payment.premium.close")}
               </Button>
               <Button asChild>
                 <a
@@ -128,7 +127,7 @@ export function PremiumUpgradeDialog({
                   rel="noopener noreferrer"
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
-                  To'lovga o'tish
+                  {t("payment.premium.go_to_payment")}
                 </a>
               </Button>
             </DialogFooter>

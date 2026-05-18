@@ -67,7 +67,8 @@
       "feedback": "Feedback",
       "properties": "Properties",
       "settings": "Settings",
-      "advertise": "Advertise"
+      "advertise": "Advertise",
+      "transactions": "My payments"
     },
     "footer": {
       "description": "Your trusted partner in finding the perfect property. Buy, rent, and invest with confidence.",
@@ -1374,5 +1375,73 @@
     "penang": "Penang",
     "jb": "Johor Bahru",
     "selangor": "Selangor"
+  },
+  "payment": {
+    "premium": {
+      "make_premium": "Make premium",
+      "badge": "Premium",
+      "dialog_title": "Upgrade listing to premium",
+      "description_intro": "Premium listings are shown at the top of search results and highlighted with a \"Premium\" badge.",
+      "description_flow": "Once confirmed, the payment page (Payme) will open. After successful payment, premium is activated upon admin approval.",
+      "amount": "Amount:",
+      "duration": "Duration:",
+      "days": "{{count}} days",
+      "after_pay_info": "Click \"Go to payment\" to open the Payme page. After successful payment and admin approval, your listing becomes premium.",
+      "start_payment": "Start payment",
+      "go_to_payment": "Go to payment",
+      "cancel": "Cancel",
+      "close": "Close"
+    },
+    "transactions": {
+      "title": "My payments",
+      "subtitle": "Premium upgrade and advertise payment history.",
+      "filter_type": "Type",
+      "filter_all": "All",
+      "type_advertise": "Advertise",
+      "type_premium": "Listing premium",
+      "empty": "No payments found",
+      "reason": "Reason",
+      "status": {
+        "pending": "Pending",
+        "success": "Paid",
+        "failed": "Failed",
+        "cancelled": "Cancelled"
+      },
+      "approval": {
+        "awaiting": "Awaiting admin approval",
+        "approved": "Approved by admin",
+        "rejected": "Rejected by admin"
+      }
+    },
+    "admin_payments": {
+      "title": "Payments awaiting approval",
+      "subtitle": "Payment was successful, but admin approval is pending.",
+      "filter_type": "Type",
+      "filter_all": "All",
+      "type_advertise": "Advertise",
+      "type_premium": "Listing premium",
+      "empty": "No payments awaiting approval",
+      "user": "User:",
+      "total": "Total: {{count}}",
+      "approve": "Approve",
+      "reject": "Reject",
+      "approve_success": "Payment approved",
+      "reject_success": "Payment rejected",
+      "refresh": "Refresh",
+      "error_generic": "An error occurred",
+      "reject_dialog": {
+        "title": "Reject payment",
+        "description": "Provide a reason. Refund must be done manually via Payme dashboard.",
+        "placeholder": "Rejection reason...",
+        "cancel": "Cancel",
+        "confirm": "Reject"
+      },
+      "time": {
+        "now": "just now",
+        "minutes_ago": "{{count}}m ago",
+        "hours_ago": "{{count}}h ago",
+        "days_ago": "{{count}}d ago"
+      }
+    }
   }
 }

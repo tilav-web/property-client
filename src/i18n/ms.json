@@ -67,7 +67,8 @@
       "feedback": "Maklum Balas",
       "properties": "Hartanah",
       "settings": "Tetapan",
-      "advertise": "Iklan"
+      "advertise": "Iklan",
+      "transactions": "Pembayaran saya"
     },
     "footer": {
       "description": "Rakan kongsi dipercayai anda dalam mencari hartanah yang sempurna. Beli, sewa, dan melabur dengan yakin.",
@@ -1373,5 +1374,73 @@
     "penang": "Pulau Pinang",
     "jb": "Johor Bahru",
     "selangor": "Selangor"
+  },
+  "payment": {
+    "premium": {
+      "make_premium": "Jadikan premium",
+      "badge": "Premium",
+      "dialog_title": "Naik taraf hartanah ke premium",
+      "description_intro": "Hartanah premium dipaparkan di bahagian atas hasil carian dan diserlahkan dengan lencana \"Premium\".",
+      "description_flow": "Setelah disahkan, halaman pembayaran (Payme) akan dibuka. Selepas pembayaran berjaya, premium diaktifkan setelah kelulusan admin.",
+      "amount": "Jumlah:",
+      "duration": "Tempoh:",
+      "days": "{{count}} hari",
+      "after_pay_info": "Klik \"Teruskan ke pembayaran\" untuk membuka halaman Payme. Selepas pembayaran berjaya dan kelulusan admin, hartanah anda akan menjadi premium.",
+      "start_payment": "Mulakan pembayaran",
+      "go_to_payment": "Teruskan ke pembayaran",
+      "cancel": "Batal",
+      "close": "Tutup"
+    },
+    "transactions": {
+      "title": "Pembayaran saya",
+      "subtitle": "Sejarah pembayaran naik taraf premium dan iklan.",
+      "filter_type": "Jenis",
+      "filter_all": "Semua",
+      "type_advertise": "Iklan",
+      "type_premium": "Hartanah premium",
+      "empty": "Tiada pembayaran ditemui",
+      "reason": "Sebab",
+      "status": {
+        "pending": "Menunggu",
+        "success": "Dibayar",
+        "failed": "Gagal",
+        "cancelled": "Dibatalkan"
+      },
+      "approval": {
+        "awaiting": "Menunggu kelulusan admin",
+        "approved": "Diluluskan oleh admin",
+        "rejected": "Ditolak oleh admin"
+      }
+    },
+    "admin_payments": {
+      "title": "Pembayaran menunggu kelulusan",
+      "subtitle": "Pembayaran berjaya, tetapi kelulusan admin sedang menunggu.",
+      "filter_type": "Jenis",
+      "filter_all": "Semua",
+      "type_advertise": "Iklan",
+      "type_premium": "Hartanah premium",
+      "empty": "Tiada pembayaran menunggu kelulusan",
+      "user": "Pengguna:",
+      "total": "Jumlah: {{count}}",
+      "approve": "Luluskan",
+      "reject": "Tolak",
+      "approve_success": "Pembayaran diluluskan",
+      "reject_success": "Pembayaran ditolak",
+      "refresh": "Muat semula",
+      "error_generic": "Ralat berlaku",
+      "reject_dialog": {
+        "title": "Tolak pembayaran",
+        "description": "Berikan sebab. Bayaran balik mesti dilakukan secara manual melalui papan pemuka Payme.",
+        "placeholder": "Sebab penolakan...",
+        "cancel": "Batal",
+        "confirm": "Tolak"
+      },
+      "time": {
+        "now": "baru sahaja",
+        "minutes_ago": "{{count}} min lalu",
+        "hours_ago": "{{count}} jam lalu",
+        "days_ago": "{{count}} hari lalu"
+      }
+    }
   }
 }

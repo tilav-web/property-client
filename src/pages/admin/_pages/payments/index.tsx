@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   AlertCircle,
   CheckCircle2,
@@ -35,24 +36,23 @@ import {
 } from "@/interfaces/payment/payment.interface";
 import { formatPrice } from "@/utils/format-price";
 
-const ORDER_TYPE_LABEL: Record<OrderType, string> = {
-  ADVERTISE: "Reklama",
-  PROPERTY_PREMIUM: "E'lon premium",
-};
-
-function formatRelative(dateStr: string): string {
-  const ms = Date.now() - new Date(dateStr).getTime();
-  const m = Math.floor(ms / 60000);
-  if (m < 1) return "hozir";
-  if (m < 60) return `${m} daq oldin`;
-  const h = Math.floor(m / 60);
-  if (h < 24) return `${h} soat oldin`;
-  const d = Math.floor(h / 24);
-  if (d < 7) return `${d} kun oldin`;
-  return new Date(dateStr).toLocaleDateString();
+function useRelativeTime() {
+  const { t } = useTranslation();
+  return (dateStr: string): string => {
+    const ms = Date.now() - new Date(dateStr).getTime();
+    const m = Math.floor(ms / 60000);
+    if (m < 1) return t("payment.admin_payments.time.now");
+    if (m < 60) return t("payment.admin_payments.time.minutes_ago", { count: m });
+    const h = Math.floor(m / 60);
+    if (h < 24) return t("payment.admin_payments.time.hours_ago", { count: h });
+    const d = Math.floor(h / 24);
+    if (d < 7) return t("payment.admin_payments.time.days_ago", { count: d });
+    return new Date(dateStr).toLocaleDateString();
+  };
 }
 
 export default function AdminPaymentsPage() {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const orderType = (searchParams.get("orderType") as OrderType) || undefined;
   const page = Number(searchParams.get("page") ?? 1);
@@ -72,7 +72,7 @@ export default function AdminPaymentsPage() {
   const approveMutation = useMutation({
     mutationFn: (id: string) => adminPaymentService.approve(id),
     onSuccess: () => {
-      toast.success("To'lov tasdiqlandi");
+      toast.success(t("payment.admin_payments.approve_success"));
       queryClient.invalidateQueries({ queryKey: ["admin-payments-awaiting"] });
       queryClient.invalidateQueries({
         queryKey: ["admin-notifications-unread-count"],
@@ -81,7 +81,7 @@ export default function AdminPaymentsPage() {
     onError: (err: unknown) => {
       const msg =
         (err as { response?: { data?: { message?: string } } })?.response?.data
-          ?.message ?? "Xato yuz berdi";
+          ?.message ?? t("payment.admin_payments.error_generic");
       toast.error(msg);
     },
   });
@@ -90,7 +90,7 @@ export default function AdminPaymentsPage() {
     mutationFn: ({ id, reason }: { id: string; reason: string }) =>
       adminPaymentService.reject(id, reason),
     onSuccess: () => {
-      toast.success("To'lov rad etildi");
+      toast.success(t("payment.admin_payments.reject_success"));
       setRejectTarget(null);
       setRejectReason("");
       queryClient.invalidateQueries({ queryKey: ["admin-payments-awaiting"] });
@@ -101,7 +101,7 @@ export default function AdminPaymentsPage() {
     onError: (err: unknown) => {
       const msg =
         (err as { response?: { data?: { message?: string } } })?.response?.data
-          ?.message ?? "Xato yuz berdi";
+          ?.message ?? t("payment.admin_payments.error_generic");
       toast.error(msg);
     },
   });
@@ -113,9 +113,11 @@ export default function AdminPaymentsPage() {
     <div className="p-4 md:p-6">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
         <div>
-          <h1 className="text-2xl font-bold">Tasdiqlash kutilayotgan to'lovlar</h1>
+          <h1 className="text-2xl font-bold">
+            {t("payment.admin_payments.title")}
+          </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            To'lov muvaffaqiyatli bo'lgan, ammo admin tasdig'i kutilmoqda.
+            {t("payment.admin_payments.subtitle")}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -131,12 +133,18 @@ export default function AdminPaymentsPage() {
             }}
           >
             <SelectTrigger className="w-48">
-              <SelectValue placeholder="Turi" />
+              <SelectValue placeholder={t("payment.admin_payments.filter_type")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Hammasi</SelectItem>
-              <SelectItem value="ADVERTISE">Reklama</SelectItem>
-              <SelectItem value="PROPERTY_PREMIUM">E'lon premium</SelectItem>
+              <SelectItem value="all">
+                {t("payment.admin_payments.filter_all")}
+              </SelectItem>
+              <SelectItem value="ADVERTISE">
+                {t("payment.admin_payments.type_advertise")}
+              </SelectItem>
+              <SelectItem value="PROPERTY_PREMIUM">
+                {t("payment.admin_payments.type_premium")}
+              </SelectItem>
             </SelectContent>
           </Select>
           <Button
@@ -144,7 +152,7 @@ export default function AdminPaymentsPage() {
             size="icon"
             onClick={() => refetch()}
             disabled={isFetching}
-            title="Yangilash"
+            title={t("payment.admin_payments.refresh")}
           >
             <RefreshCw
               className={`h-4 w-4 ${isFetching ? "animate-spin" : ""}`}
@@ -160,7 +168,7 @@ export default function AdminPaymentsPage() {
       ) : items.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
           <Inbox className="h-12 w-12 mb-3" />
-          <p>Tasdiqlash kutilayotgan to'lovlar yo'q</p>
+          <p>{t("payment.admin_payments.empty")}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -174,7 +182,7 @@ export default function AdminPaymentsPage() {
             />
           ))}
           <p className="text-xs text-muted-foreground text-right pt-2">
-            Jami: {total}
+            {t("payment.admin_payments.total", { count: total })}
           </p>
         </div>
       )}
@@ -190,15 +198,17 @@ export default function AdminPaymentsPage() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>To'lovni rad etish</DialogTitle>
+            <DialogTitle>
+              {t("payment.admin_payments.reject_dialog.title")}
+            </DialogTitle>
             <DialogDescription>
-              Sabab yozing. Refund Payme dashboard'idan qo'lda qilinishi kerak.
+              {t("payment.admin_payments.reject_dialog.description")}
             </DialogDescription>
           </DialogHeader>
           <Textarea
             value={rejectReason}
             onChange={(e) => setRejectReason(e.target.value)}
-            placeholder="Rad etish sababi..."
+            placeholder={t("payment.admin_payments.reject_dialog.placeholder")}
             rows={4}
             minLength={3}
             maxLength={500}
@@ -211,11 +221,13 @@ export default function AdminPaymentsPage() {
                 setRejectReason("");
               }}
             >
-              Bekor qilish
+              {t("payment.admin_payments.reject_dialog.cancel")}
             </Button>
             <Button
               variant="destructive"
-              disabled={rejectReason.trim().length < 3 || rejectMutation.isPending}
+              disabled={
+                rejectReason.trim().length < 3 || rejectMutation.isPending
+              }
               onClick={() => {
                 if (!rejectTarget) return;
                 rejectMutation.mutate({
@@ -229,7 +241,7 @@ export default function AdminPaymentsPage() {
               ) : (
                 <XCircle className="h-4 w-4 mr-2" />
               )}
-              Rad etish
+              {t("payment.admin_payments.reject_dialog.confirm")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -246,57 +258,59 @@ interface PaymentCardProps {
 }
 
 function PaymentCard({ tx, onApprove, onReject, isApproving }: PaymentCardProps) {
+  const { t } = useTranslation();
+  const relTime = useRelativeTime();
   const user = typeof tx.user === "object" ? tx.user : null;
+
+  const orderTypeLabel: Record<string, string> = {
+    ADVERTISE: t("payment.admin_payments.type_advertise"),
+    PROPERTY_PREMIUM: t("payment.admin_payments.type_premium"),
+  };
+
   return (
     <div className="border rounded-lg p-4 bg-card hover:bg-accent/30 transition-colors">
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex items-start justify-between gap-4 flex-wrap">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <Badge variant="secondary">
-              {ORDER_TYPE_LABEL[tx.orderType] ?? tx.orderType}
+              {orderTypeLabel[tx.orderType] ?? tx.orderType}
             </Badge>
             <Badge variant="outline">{tx.provider}</Badge>
             <span className="text-xs text-muted-foreground">
-              {formatRelative(tx.createdAt)}
+              {relTime(tx.createdAt)}
             </span>
           </div>
           <div className="mt-2 text-xl font-semibold">
             {formatPrice(tx.amount, { code: tx.currency })}
           </div>
-          <div className="text-xs text-muted-foreground mt-1 font-mono">
+          <div className="text-xs text-muted-foreground mt-1 font-mono break-all">
             tx: {tx._id}
             <br />
             order: {tx.orderId}
           </div>
           {user && (
             <div className="text-sm mt-2">
-              <span className="text-muted-foreground">Foydalanuvchi:</span>{" "}
+              <span className="text-muted-foreground">
+                {t("payment.admin_payments.user")}
+              </span>{" "}
               {user.first_name ?? ""} {user.last_name ?? ""}{" "}
               {user.email ? `(${user.email})` : ""}
               {user.phone ? ` ${user.phone}` : ""}
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-2 shrink-0">
-          <Button
-            size="sm"
-            onClick={onApprove}
-            disabled={isApproving}
-          >
+        <div className="flex flex-row md:flex-col gap-2 shrink-0">
+          <Button size="sm" onClick={onApprove} disabled={isApproving}>
             {isApproving ? (
               <Loader2 className="h-4 w-4 animate-spin mr-2" />
             ) : (
               <CheckCircle2 className="h-4 w-4 mr-2" />
             )}
-            Tasdiqlash
+            {t("payment.admin_payments.approve")}
           </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={onReject}
-          >
+          <Button size="sm" variant="outline" onClick={onReject}>
             <AlertCircle className="h-4 w-4 mr-2" />
-            Rad etish
+            {t("payment.admin_payments.reject")}
           </Button>
         </div>
       </div>

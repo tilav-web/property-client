@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import Price from "@/components/common/price";
 import { PremiumUpgradeDialog } from "./premium-upgrade-dialog";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface SellerPropertyCardProps {
   property: IProperty;
@@ -38,6 +39,7 @@ export default function SellerPropertyCard({
   handleSelectPropertyToDelete,
 }: SellerPropertyCardProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [premiumDialogOpen, setPremiumDialogOpen] = useState(false);
   const premiumActive = isPremiumActive(property);
 
@@ -82,7 +84,7 @@ export default function SellerPropertyCard({
         <div className="absolute top-3 left-3 flex flex-col gap-2">
           {property.is_premium && (
             <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
-              Premium
+              {t("payment.premium.badge")}
             </Badge>
           )}
           {property.status === "APPROVED" && (
@@ -183,7 +185,7 @@ export default function SellerPropertyCard({
                   variant="outline"
                   size="icon"
                   className="h-8 w-8 border-amber-500 text-amber-600 hover:bg-amber-50"
-                  title="Premium qilish"
+                  title={t("payment.premium.make_premium")}
                 >
                   <Sparkles className="w-4 h-4" />
                 </Button>
