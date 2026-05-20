@@ -458,8 +458,8 @@ export default function Header({ className }: IHeaderProps) {
             )}
 
             <Dialog open={isLoginDialogOpen} onOpenChange={closeLoginDialog}>
-              <DialogContent>
-                <DialogHeader>
+              <DialogContent className="w-[95vw] max-w-md max-h-[92vh] overflow-y-auto p-0 sm:p-0 gap-0">
+                <DialogHeader className="sr-only">
                   <DialogTitle>{t("common.header.login_title")}</DialogTitle>
                   <DialogDescription></DialogDescription>
                 </DialogHeader>

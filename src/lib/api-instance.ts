@@ -55,6 +55,13 @@ apiInstance.interceptors.response.use(
       }
     }
 
+    // 401 - user login emas yoki refresh ham fail bo'ldi. Silent reject -
+    // toast ko'rsatish UI'ning vazifasi (login modal ochish va h.k.).
+    // Public sahifalarda 401 odatdiy holat (anonymous user), toast yomon UX.
+    if (error.response?.status === 401) {
+      return Promise.reject(error);
+    }
+
     if (error.response?.status === 429) {
       toast.error("Error", {
         description: "Too Many Requests",
