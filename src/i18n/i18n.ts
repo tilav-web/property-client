@@ -98,12 +98,9 @@ function replaceCountryNames(text: string, language: ILanguage): string {
         .replace(/Malaysia/g, targetName);
     case "ru":
       // Малайзия, Малайзии, Малайзию, Малайзией -> Узбекистан, Узбекистана, ...
-      return text
-        .replace(/Малайзи[яиюей]/g, (match) => {
-          // Eng oddiy: hammasini "Узбекистан" qilib qo'yamiz
-          // (grammatika ko'pchilik kontekstda tushuniladi)
-          return targetName;
-        });
+      // Eng oddiy: barcha Малайзи* shakllarini "Узбекистан" qilib qo'yamiz
+      // (grammatika ko'pchilik kontekstda tushuniladi)
+      return text.replace(/Малайзи[яиюей]/g, targetName);
     case "uz":
       // Malayziya, Malayziyada, Malayziya bo'ylab -> O'zbekiston, ...
       return text
