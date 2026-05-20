@@ -100,7 +100,7 @@ export function PremiumUpgradeDialog({
                     {t("payment.premium.amount")}
                   </span>
                   <span className="text-xl font-bold">
-                    {formatPrice(result.amount, { code: result.currency })}
+                    {formatPrice(result.amount, result.currency)}
                   </span>
                 </div>
                 <div className="flex items-baseline justify-between mt-1">

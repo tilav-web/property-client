@@ -281,7 +281,7 @@ function PaymentCard({ tx, onApprove, onReject, isApproving }: PaymentCardProps)
             </span>
           </div>
           <div className="mt-2 text-xl font-semibold">
-            {formatPrice(tx.amount, { code: tx.currency })}
+            {formatPrice(tx.amount, tx.currency)}
           </div>
           <div className="text-xs text-muted-foreground mt-1 font-mono break-all">
             tx: {tx._id}

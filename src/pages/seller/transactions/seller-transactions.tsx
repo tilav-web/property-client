@@ -153,7 +153,7 @@ function TransactionRow({ tx }: { tx: ITransaction }) {
             <Badge variant="outline">{tx.provider}</Badge>
           </div>
           <div className="mt-2 text-xl font-semibold">
-            {formatPrice(tx.amount, { code: tx.currency })}
+            {formatPrice(tx.amount, tx.currency)}
           </div>
           {tx.adminRejectReason && (
             <div className="mt-2 text-sm text-red-600">
