@@ -71,12 +71,37 @@ export function useVoiceRecorder(options: Options = {}) {
 
   const start = useCallback(async () => {
     if (!isSupported) {
-      setError("Voice recording is not supported in this browser");
+      setError(
+        "Brauzer ovoz yozishni qo'llab-quvvatlamaydi. Chrome yoki Safari'ning yangi versiyasini ishlating.",
+      );
       return false;
     }
     if (state !== "idle") return false;
     setError(null);
     setState("requesting");
+
+    // Avval Permissions API'da mikrofon holatini tekshirib olamiz. Agar
+    // "denied" bo'lsa, getUserMedia chaqirsak ham brauzer ruxsat so'rovini
+    // ko'rsatmaydi — darhol NotAllowedError qaytaradi. Bu holatda user'ga
+    // aniq yo'l-yo'riq ko'rsatish kerak: brauzer sozlamalaridan ochish.
+    try {
+      if (navigator.permissions?.query) {
+        const status = await navigator.permissions.query({
+          name: "microphone" as PermissionName,
+        });
+        if (status.state === "denied") {
+          setError(
+            "Mikrofonga ruxsat bloklangan. Brauzer manzil qatorining chap tomonidagi qulf belgisini bosib, mikrofonga ruxsat bering va sahifani yangilang.",
+          );
+          setState("idle");
+          return false;
+        }
+      }
+    } catch {
+      // Permissions API ba'zi brauzerlarda mikrofon nomini bilmaydi —
+      // bu xato emas, oddiy getUserMedia bilan davom etamiz
+    }
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
@@ -117,11 +142,19 @@ export function useVoiceRecorder(options: Options = {}) {
       return true;
     } catch (err) {
       console.error("Voice recorder start failed", err);
-      setError(
-        err instanceof Error && err.name === "NotAllowedError"
-          ? "Mikrofonga ruxsat berilmadi"
-          : "Mikrofonga kira olmadik",
-      );
+      const e = err as Error & { name?: string };
+      let msg: string;
+      if (e?.name === "NotAllowedError" || e?.name === "SecurityError") {
+        msg =
+          "Mikrofonga ruxsat berilmadi. Brauzer manzil qatorining chap tomonidagi qulf belgisini bosib, mikrofonga ruxsat bering va sahifani yangilang.";
+      } else if (e?.name === "NotFoundError" || e?.name === "OverconstrainedError") {
+        msg = "Mikrofon topilmadi. Mikrofon ulanganligini tekshiring.";
+      } else if (e?.name === "NotReadableError") {
+        msg = "Mikrofonni boshqa dastur ishlatyapti. Yopib qayta urining.";
+      } else {
+        msg = "Mikrofonga kira olmadik. Brauzer sozlamalarini tekshiring.";
+      }
+      setError(msg);
       cleanup();
       setState("idle");
       return false;

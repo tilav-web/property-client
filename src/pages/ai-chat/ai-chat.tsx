@@ -5,10 +5,15 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { useUserStore } from "@/stores/user.store";
 import { useChatStore } from "@/stores/chat.store";
 import { chatService } from "@/services/chat.service";
-import type { IConversation } from "@/interfaces/chat/conversation.interface";
-import MessagePanel from "@/pages/messages/_components/message-panel";
 import AnonymousAiChat from "./_components/anonymous-ai-chat";
 
+/**
+ * /ai-chat sahifasi:
+ *  - Anonim foydalanuvchi: AnonymousAiChat (login shart emas, history client'da)
+ *  - Login foydalanuvchi: AI suhbatni ochib /messages?c=<id>'ga redirect qiladi.
+ *    Telegram-style: AI bot conversation list'da pinned bo'ladi va xuddi
+ *    boshqa chat kabi ochiladi.
+ */
 export default function AiChatPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -16,15 +21,10 @@ export default function AiChatPage() {
   const initialPrompt = searchParams.get("prompt") ?? "";
   const user = useUserStore((s) => s.user);
   const upsertConversation = useChatStore((s) => s.upsertConversation);
-  const setActive = useChatStore((s) => s.setActive);
-  const conversations = useChatStore((s) => s.conversations);
 
-  const [conversation, setConversation] = useState<IConversation | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Anonim foydalanuvchi uchun authenticated flow ishlamaydi —
-    // alohida AnonymousAiChat komponenti ishlaydi.
     if (!user?._id) return;
 
     let cancelled = false;
@@ -33,8 +33,10 @@ export default function AiChatPage() {
         const conv = await chatService.openAiConversation();
         if (cancelled) return;
         upsertConversation(conv);
-        setActive(conv._id);
-        setConversation(conv);
+        const initial = initialPrompt
+          ? `&prompt=${encodeURIComponent(initialPrompt)}`
+          : "";
+        navigate(`/messages?c=${conv._id}${initial}`, { replace: true });
       } catch (err) {
         console.error("Failed to open AI conversation", err);
         if (!cancelled)
@@ -46,39 +48,22 @@ export default function AiChatPage() {
     return () => {
       cancelled = true;
     };
-  }, [user?._id, upsertConversation, setActive, t]);
-
-  useEffect(() => {
-    if (!conversation?._id) return;
-    const fresh = conversations.find((c) => c._id === conversation._id);
-    if (fresh && fresh !== conversation) setConversation(fresh);
-  }, [conversations, conversation]);
+  }, [user?._id, upsertConversation, navigate, initialPrompt, t]);
 
   const handleBack = () => navigate(-1);
 
-  const backButton = (
-    <button
-      type="button"
-      onClick={handleBack}
-      className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
-    >
-      <ArrowLeft size={16} />
-      {t("common.back", "Orqaga")}
-    </button>
-  );
-
-  // Anonymous (login bo'lmagan) foydalanuvchi
+  // Anonim foydalanuvchi
   if (!user?._id) {
     return (
       <div className="-mx-4 sm:mx-0 sm:py-4">
-        <div className="px-4 sm:px-0 mb-2 sm:mb-3">{backButton}</div>
-        <div className="flex h-[calc(100vh-115px)] sm:h-[calc(100vh-150px)] overflow-hidden border border-gray-200 bg-white sm:rounded-xl sm:shadow-sm">
+        <div className="flex h-[calc(100vh-65px)] sm:h-[calc(100vh-115px)] overflow-hidden bg-white sm:rounded-xl sm:border sm:border-gray-200">
           <AnonymousAiChat onBack={handleBack} initialPrompt={initialPrompt} />
         </div>
       </div>
     );
   }
 
+  // Login user — redirect kutilmoqda
   if (error) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 text-center">
@@ -86,37 +71,21 @@ export default function AiChatPage() {
         <button
           type="button"
           onClick={() => navigate("/")}
-          className="mt-4 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 active:scale-[0.98] transition-all"
+          className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
         >
+          <ArrowLeft size={16} />
           {t("common.back", "Orqaga")}
         </button>
       </div>
     );
   }
 
-  if (!conversation) {
-    return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3 text-muted-foreground">
-        <Loader2 size={28} className="animate-spin text-primary" />
-        <p className="text-sm">
-          {t("pages.ai_chat.loading", "AI yordamchi yuklanmoqda...")}
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className="-mx-4 sm:mx-0 sm:py-4">
-      <div className="px-4 sm:px-0 mb-2 sm:mb-3">{backButton}</div>
-      <div className="flex h-[calc(100vh-115px)] sm:h-[calc(100vh-150px)] overflow-hidden border border-gray-200 bg-white sm:rounded-xl sm:shadow-sm">
-        <div className="flex w-full flex-col">
-          <MessagePanel
-            conversation={conversation}
-            onBack={handleBack}
-            initialPrompt={initialPrompt}
-          />
-        </div>
-      </div>
+    <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3 text-muted-foreground">
+      <Loader2 size={28} className="animate-spin text-primary" />
+      <p className="text-sm">
+        {t("pages.ai_chat.loading", "AI yordamchi yuklanmoqda...")}
+      </p>
     </div>
   );
 }

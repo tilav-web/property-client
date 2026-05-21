@@ -1,6 +1,7 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { formatDistanceToNow } from "date-fns";
-import { Bot } from "lucide-react";
+import { Bot, Pin } from "lucide-react";
 import type { IConversation } from "@/interfaces/chat/conversation.interface";
 import { useUserStore } from "@/stores/user.store";
 import { cn } from "@/lib/utils";
@@ -20,7 +21,23 @@ export default function ConversationList({
   const { t } = useTranslation();
   const me = useUserStore((s) => s.user);
 
-  if (!conversations.length) {
+  // AI yordamchi suhbati har doim yuqorida (telegram-style pinned bot).
+  // Qolganlari lastMessageAt bo'yicha (eng yangi yuqorida).
+  const sorted = useMemo(() => {
+    const list = [...conversations];
+    list.sort((a, b) => {
+      const aIsAi = a.participants.some((p) => p.isAI && p._id !== me?._id);
+      const bIsAi = b.participants.some((p) => p.isAI && p._id !== me?._id);
+      if (aIsAi && !bIsAi) return -1;
+      if (!aIsAi && bIsAi) return 1;
+      const aTime = new Date(a.lastMessageAt).getTime();
+      const bTime = new Date(b.lastMessageAt).getTime();
+      return bTime - aTime;
+    });
+    return list;
+  }, [conversations, me?._id]);
+
+  if (!sorted.length) {
     return (
       <div className="flex h-full items-center justify-center p-6 text-center text-sm text-gray-500">
         {t("pages.messages.empty_list", {
@@ -32,7 +49,7 @@ export default function ConversationList({
 
   return (
     <ul className="divide-y divide-gray-100">
-      {conversations.map((c) => {
+      {sorted.map((c) => {
         const peer = c.participants.find((p) => p._id !== me?._id);
         const isAiPeer = Boolean(peer?.isAI);
         const name = isAiPeer
@@ -76,9 +93,18 @@ export default function ConversationList({
               )}
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between gap-2">
-                  <p className="truncate text-sm font-medium text-gray-900">
-                    {name}
-                  </p>
+                  <div className="flex min-w-0 items-center gap-1.5">
+                    {isAiPeer && (
+                      <Pin
+                        size={11}
+                        className="flex-shrink-0 text-indigo-500"
+                        aria-label="Pinned"
+                      />
+                    )}
+                    <p className="truncate text-sm font-medium text-gray-900">
+                      {name}
+                    </p>
+                  </div>
                   <span className="flex-shrink-0 text-xs text-gray-400">
                     {formatDistanceToNow(new Date(c.lastMessageAt), {
                       addSuffix: false,
