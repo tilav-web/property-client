@@ -21,19 +21,27 @@ export default function SubLayout({ children }: { children: ReactNode }) {
 
   if (user === undefined) return <Loading />;
 
+  // Chat route'larida outer = flex column + h-dvh; main = flex-1 min-h-0
+  // overflow-hidden. Bu mobile brauzerda manzil paneli qisqarganda ham chat
+  // input doim ko'rinadi (100vh hisoblamasdan, dynamic viewport bilan).
+  if (isChatRoute) {
+    return (
+      <div className="flex h-[100dvh] flex-col overflow-hidden">
+        <Header />
+        <main className="min-h-0 flex-1 select-none overflow-hidden">
+          {children}
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div id="index" className="h-screen overflow-y-auto">
       <Header />
-      <main
-        className={
-          isChatRoute
-            ? "select-none"
-            : "container mx-auto select-none pb-12 px-4"
-        }
-      >
+      <main className="container mx-auto select-none pb-12 px-4">
         {children}
       </main>
-      {!isChatRoute && <Footer />}
+      <Footer />
     </div>
   );
 }

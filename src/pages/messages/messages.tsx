@@ -64,7 +64,7 @@ export default function MessagesPage() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-65px)] overflow-hidden bg-white">
+    <div className="flex h-full overflow-hidden bg-white">
       {/* Left: conversation list */}
       <aside
         className={cn(

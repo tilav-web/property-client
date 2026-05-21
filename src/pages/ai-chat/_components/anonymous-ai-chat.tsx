@@ -243,7 +243,7 @@ export default function AnonymousAiChat({ onBack, initialPrompt }: Props) {
   );
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex h-full w-full flex-col">
       {peerHeader}
 
       <div

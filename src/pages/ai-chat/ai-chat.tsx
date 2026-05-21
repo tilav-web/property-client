@@ -55,7 +55,7 @@ export default function AiChatPage() {
   // Anonim foydalanuvchi
   if (!user?._id) {
     return (
-      <div className="flex h-[calc(100vh-65px)] overflow-hidden bg-white">
+      <div className="flex h-full overflow-hidden bg-white">
         <AnonymousAiChat onBack={handleBack} initialPrompt={initialPrompt} />
       </div>
     );
