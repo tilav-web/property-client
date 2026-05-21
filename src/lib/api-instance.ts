@@ -62,6 +62,12 @@ apiInstance.interceptors.response.use(
       return Promise.reject(error);
     }
 
+    // 402 Payment Required — voice quota tugaganida UI o'zi handle qiladi
+    // (premium modal ochadi). Toast bu yerda chiqarmaymiz.
+    if (error.response?.status === 402) {
+      return Promise.reject(error);
+    }
+
     if (error.response?.status === 429) {
       toast.error("Error", {
         description: "Too Many Requests",

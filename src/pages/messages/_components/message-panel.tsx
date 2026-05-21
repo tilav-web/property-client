@@ -10,6 +10,8 @@ import { useChatStore } from "@/stores/chat.store";
 import { useUserStore } from "@/stores/user.store";
 import { chatService } from "@/services/chat.service";
 import { inquiryResponseService } from "@/services/inquiry-response.service";
+import { isVoiceQuotaError } from "@/services/voice-premium.service";
+import VoicePremiumModal from "@/components/common/voice-premium-modal";
 import { socketManager } from "@/lib/socket";
 import { useConversationSubscription } from "@/hooks/use-realtime";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -131,6 +133,11 @@ export default function MessagePanel({ conversation, onBack, initialPrompt }: Pr
   const scrollerRef = useRef<HTMLDivElement>(null);
   const initialPromptSentRef = useRef(false);
   const [autoScroll, setAutoScroll] = useState(true);
+  const [quotaModal, setQuotaModal] = useState<{
+    open: boolean;
+    dailyLimit?: number;
+    usedToday?: number;
+  }>({ open: false });
 
   useEffect(() => {
     loadInitialMessages(conversation._id);
@@ -201,6 +208,46 @@ export default function MessagePanel({ conversation, onBack, initialPrompt }: Pr
       conversationId: conversation._id,
       typing,
     });
+  };
+
+  const handleSendVoice = async (audio: Blob) => {
+    try {
+      const reply = await chatService.sendVoice(conversation._id, audio, {
+        language: i18n.language,
+      });
+      // Server WebSocket orqali ikkala xabarni (user transcript + AI javob) emit
+      // qiladi — UI yangilanadi. Lekin AI javob audio'sini darhol o'ynaymiz.
+      if (reply.audioBase64) {
+        const binary = atob(reply.audioBase64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        const blob = new Blob([bytes], {
+          type: reply.audioMimeType ?? "audio/mpeg",
+        });
+        const url = URL.createObjectURL(blob);
+        const el = new Audio(url);
+        el.onended = () => URL.revokeObjectURL(url);
+        el.play().catch(() => {});
+      }
+    } catch (err) {
+      console.error("voice send failed", err);
+      const ax = err as AxiosError;
+      const data = ax.response?.data;
+      if (ax.response?.status === 402 && isVoiceQuotaError(data)) {
+        setQuotaModal({
+          open: true,
+          dailyLimit: data.dailyLimit,
+          usedToday: data.usedToday,
+        });
+      } else {
+        toast.error(
+          t("pages.messages.voice.send_error", {
+            defaultValue: "Ovozli xabar yuborilmadi",
+          }),
+        );
+      }
+      throw err;
+    }
   };
 
   const propertyTitle = getLocalizedTitle(
@@ -315,7 +362,20 @@ export default function MessagePanel({ conversation, onBack, initialPrompt }: Pr
         )}
       </div>
 
-      <MessageInput onSend={handleSend} onTyping={handleTyping} />
+      <MessageInput
+        onSend={handleSend}
+        onTyping={handleTyping}
+        onSendVoice={isAiPeer ? handleSendVoice : undefined}
+      />
+
+      <VoicePremiumModal
+        open={quotaModal.open}
+        onOpenChange={(open) =>
+          setQuotaModal((prev) => ({ ...prev, open }))
+        }
+        dailyLimit={quotaModal.dailyLimit}
+        usedToday={quotaModal.usedToday}
+      />
     </div>
   );
 }

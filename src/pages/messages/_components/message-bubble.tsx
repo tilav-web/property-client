@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
-import { Bot, Check, Home, Loader2, X } from "lucide-react";
+import { Bot, Check, Home, Loader2, Mic, X } from "lucide-react";
 import type { IChatMessage } from "@/interfaces/chat/chat-message.interface";
 import { MessageType } from "@/interfaces/chat/message-type";
 import { cn } from "@/lib/utils";
@@ -318,10 +318,22 @@ export default function MessageBubble({
     : [];
   const searchQuery =
     typeof meta.searchQuery === "string" ? meta.searchQuery : "";
+  const isVoice = meta.voice === true;
 
   const bubbleContent = (
     <div className={cn(bubbleBase, bubbleColor)}>
-      <div className="whitespace-pre-wrap">{message.body}</div>
+      <div className="whitespace-pre-wrap">
+        {isVoice && (
+          <Mic
+            size={12}
+            className={cn(
+              "mr-1 inline-block",
+              isMine ? "text-white/80" : "text-indigo-500",
+            )}
+          />
+        )}
+        {message.body}
+      </div>
       {searchQuery && properties.length > 0 && (
         <div className="mt-1 text-[10px] italic opacity-70">
           🔍 {searchQuery}

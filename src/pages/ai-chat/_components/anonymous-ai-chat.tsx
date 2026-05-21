@@ -3,14 +3,18 @@ import { useTranslation } from "react-i18next";
 import { ArrowLeft, Bot, ExternalLink, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import type { AxiosError } from "axios";
 import { cn } from "@/lib/utils";
 import {
   chatService,
   type AiCompactProperty,
   type AnonymousAiHistoryItem,
 } from "@/services/chat.service";
+import { isVoiceQuotaError } from "@/services/voice-premium.service";
 import MessageInput from "@/pages/messages/_components/message-input";
 import Price from "@/components/common/price";
+import { useCurrentLanguage } from "@/hooks/use-language";
+import VoicePremiumModal from "@/components/common/voice-premium-modal";
 
 interface LocalMessage {
   id: string;
@@ -18,6 +22,8 @@ interface LocalMessage {
   content: string;
   properties?: AiCompactProperty[];
   noResults?: boolean;
+  voice?: boolean;
+  audioUrl?: string;
 }
 
 interface Props {
@@ -30,10 +36,24 @@ const newId = () =>
 
 export default function AnonymousAiChat({ onBack, initialPrompt }: Props) {
   const { t } = useTranslation();
+  const { currentLanguage } = useCurrentLanguage();
   const [messages, setMessages] = useState<LocalMessage[]>([]);
   const [sending, setSending] = useState(false);
+  const [quotaModal, setQuotaModal] = useState<{
+    open: boolean;
+    dailyLimit?: number;
+    usedToday?: number;
+  }>({ open: false });
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const initialPromptSentRef = useRef(false);
+  const audioUrlsRef = useRef<string[]>([]);
+
+  useEffect(() => {
+    const urls = audioUrlsRef;
+    return () => {
+      urls.current.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, []);
 
   // Welcome xabari
   useEffect(() => {
@@ -107,6 +127,89 @@ export default function AnonymousAiChat({ onBack, initialPrompt }: Props) {
     handleSend(prompt);
   }, [handleSend, initialPrompt, sending]);
 
+  const handleSendVoice = useCallback(
+    async (audio: Blob) => {
+      if (sending) return;
+      const placeholderId = newId();
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: placeholderId,
+          role: "user",
+          content: t("pages.ai_chat.voice_processing", {
+            defaultValue: "🎤 Ovoz qayta ishlanmoqda...",
+          }),
+          voice: true,
+        },
+      ]);
+      setSending(true);
+      try {
+        const history: AnonymousAiHistoryItem[] = messages
+          .filter((m) => m.role === "user" || m.role === "assistant")
+          .map((m) => ({ role: m.role, content: m.content }));
+        const reply = await chatService.askAiAnonymousVoice(audio, {
+          history,
+          language: currentLanguage,
+        });
+
+        let audioUrl: string | undefined;
+        if (reply.audioBase64) {
+          const binary = atob(reply.audioBase64);
+          const bytes = new Uint8Array(binary.length);
+          for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+          const blob = new Blob([bytes], {
+            type: reply.audioMimeType ?? "audio/mpeg",
+          });
+          audioUrl = URL.createObjectURL(blob);
+          audioUrlsRef.current.push(audioUrl);
+        }
+
+        setMessages((prev) => {
+          const next = prev.map((m) =>
+            m.id === placeholderId
+              ? { ...m, content: reply.transcript }
+              : m,
+          );
+          next.push({
+            id: newId(),
+            role: "assistant",
+            content: reply.body,
+            properties: reply.properties,
+            noResults: reply.noResults,
+            audioUrl,
+          });
+          return next;
+        });
+
+        if (audioUrl) {
+          const audioEl = new Audio(audioUrl);
+          audioEl.play().catch(() => {});
+        }
+      } catch (err) {
+        console.error("AI voice reply failed", err);
+        const ax = err as AxiosError;
+        const data = ax.response?.data;
+        if (ax.response?.status === 402 && isVoiceQuotaError(data)) {
+          setQuotaModal({
+            open: true,
+            dailyLimit: data.dailyLimit,
+            usedToday: data.usedToday,
+          });
+        } else {
+          toast.error(
+            t("pages.ai_chat.voice_error", {
+              defaultValue: "Ovozli javob olinmadi, qayta urining",
+            }),
+          );
+        }
+        setMessages((prev) => prev.filter((m) => m.id !== placeholderId));
+      } finally {
+        setSending(false);
+      }
+    },
+    [currentLanguage, messages, sending, t],
+  );
+
   const peerHeader = useMemo(
     () => (
       <div className="flex items-center gap-3 border-b bg-white px-4 py-3">
@@ -163,8 +266,21 @@ export default function AnonymousAiChat({ onBack, initialPrompt }: Props) {
       </div>
 
       <div className="border-t bg-white">
-        <MessageInput onSend={handleSend} disabled={sending} />
+        <MessageInput
+          onSend={handleSend}
+          onSendVoice={handleSendVoice}
+          disabled={sending}
+        />
       </div>
+
+      <VoicePremiumModal
+        open={quotaModal.open}
+        onOpenChange={(open) =>
+          setQuotaModal((prev) => ({ ...prev, open }))
+        }
+        dailyLimit={quotaModal.dailyLimit}
+        usedToday={quotaModal.usedToday}
+      />
     </div>
   );
 }

@@ -10,6 +10,9 @@ export interface ISiteSettings {
   hero_image_buy_srcset?: string | null;
   hero_image_rent?: string | null;
   hero_image_rent_srcset?: string | null;
+  voice_daily_free_limit?: number;
+  voice_premium_price?: number;
+  voice_premium_duration_days?: number;
 }
 
 export type HeroSlot = "main" | "buy" | "rent";
