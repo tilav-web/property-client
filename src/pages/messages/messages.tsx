@@ -64,57 +64,56 @@ export default function MessagesPage() {
   };
 
   return (
-    <div className="container mx-auto max-w-6xl px-0 sm:px-4 py-0 sm:py-4">
-      <div className="flex h-[calc(100vh-65px)] overflow-hidden border border-border/60 bg-white sm:rounded-xl sm:shadow-sm">
-        {/* Left: conversation list */}
-        <aside
-          className={cn(
-            "w-full border-r border-border/60 lg:w-80 lg:flex-shrink-0",
-            mobilePanel === "panel" ? "hidden lg:block" : "block",
-          )}
-        >
-          <div className="flex items-center gap-2 border-b bg-white px-4 py-4">
-            <MessageSquare size={18} className="text-primary" />
-            <h1 className="text-base font-semibold text-foreground">
-              {t("pages.messages.title", { defaultValue: "Xabarlar" })}
-            </h1>
-          </div>
-          <div className="h-[calc(100%-57px)] overflow-y-auto">
-            {loadingConversations && !conversations.length ? (
-              <div className="p-6 text-center text-sm text-muted-foreground">
-                {t("common.loading")}
-              </div>
-            ) : (
-              <ConversationList
-                conversations={conversations}
-                activeId={activeConversationId}
-                onSelect={handleSelect}
-              />
-            )}
-          </div>
-        </aside>
-
-        {/* Right: panel */}
-        <main
-          className={cn(
-            "min-w-0 flex-1",
-            mobilePanel === "list" ? "hidden lg:block" : "block",
-          )}
-        >
-          {active ? (
-            <MessagePanel conversation={active} onBack={handleBack} />
-          ) : (
-            <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center text-muted-foreground">
-              <MessageSquare size={40} className="text-gray-300" />
-              <p className="text-sm">
-                {t("pages.messages.select_prompt", {
-                  defaultValue: "Chapdan suhbatni tanlang",
-                })}
-              </p>
+    <div className="flex h-[calc(100vh-65px)] overflow-hidden bg-white">
+      {/* Left: conversation list */}
+      <aside
+        className={cn(
+          "w-full border-r border-gray-200 lg:w-80 lg:flex-shrink-0",
+          mobilePanel === "panel" ? "hidden lg:flex" : "flex",
+          "flex-col",
+        )}
+      >
+        <div className="flex items-center gap-2 border-b border-gray-200 bg-white px-4 py-3">
+          <MessageSquare size={18} className="text-primary" />
+          <h1 className="text-base font-semibold text-foreground">
+            {t("pages.messages.title", { defaultValue: "Xabarlar" })}
+          </h1>
+        </div>
+        <div className="flex-1 overflow-y-auto">
+          {loadingConversations && !conversations.length ? (
+            <div className="p-6 text-center text-sm text-muted-foreground">
+              {t("common.loading")}
             </div>
+          ) : (
+            <ConversationList
+              conversations={conversations}
+              activeId={activeConversationId}
+              onSelect={handleSelect}
+            />
           )}
-        </main>
-      </div>
+        </div>
+      </aside>
+
+      {/* Right: panel */}
+      <main
+        className={cn(
+          "min-w-0 flex-1",
+          mobilePanel === "list" ? "hidden lg:block" : "block",
+        )}
+      >
+        {active ? (
+          <MessagePanel conversation={active} onBack={handleBack} />
+        ) : (
+          <div className="flex h-full flex-col items-center justify-center gap-3 bg-gray-50 p-6 text-center text-muted-foreground">
+            <MessageSquare size={40} className="text-gray-300" />
+            <p className="text-sm">
+              {t("pages.messages.select_prompt", {
+                defaultValue: "Chapdan suhbatni tanlang",
+              })}
+            </p>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
