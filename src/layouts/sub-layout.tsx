@@ -5,9 +5,14 @@ import { useUserStore } from "@/stores/user.store";
 import { useEffect, type ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 
+// Chat route'larida footer va main padding/container yo'q — chat to'liq
+// ekrandan foydalanadi (telegram-style).
+const CHAT_ROUTE_PREFIXES = ["/messages", "/ai-chat", "/chat"];
+
 export default function SubLayout({ children }: { children: ReactNode }) {
   const { user } = useUserStore();
   const { pathname } = useLocation();
+  const isChatRoute = CHAT_ROUTE_PREFIXES.some((p) => pathname.startsWith(p));
 
   useEffect(() => {
     const index = document.querySelector("#index");
@@ -19,10 +24,16 @@ export default function SubLayout({ children }: { children: ReactNode }) {
   return (
     <div id="index" className="h-screen overflow-y-auto">
       <Header />
-      <main className="container mx-auto select-none pb-12 px-4">
+      <main
+        className={
+          isChatRoute
+            ? "select-none"
+            : "container mx-auto select-none pb-12 px-4"
+        }
+      >
         {children}
       </main>
-      <Footer />
+      {!isChatRoute && <Footer />}
     </div>
   );
 }
