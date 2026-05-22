@@ -17,6 +17,7 @@ import {
   Inbox,
   Coins,
   Wallet,
+  Trees,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { adminPaymentService } from "../../_services/admin-payment.service";
@@ -154,6 +155,13 @@ export default function AdminSidebar() {
       icon: <Settings className="h-5 w-5" />,
       badge: null,
       path: "/admin/site-settings",
+    },
+    {
+      id: "communities",
+      label: "Communities",
+      icon: <Trees className="h-5 w-5" />,
+      badge: null,
+      path: "/admin/communities",
     },
   ];
 

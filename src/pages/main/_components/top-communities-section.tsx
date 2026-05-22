@@ -1,244 +1,93 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
 import {
   Award,
+  Briefcase,
   Bus,
   ChevronLeft,
   ChevronRight,
   Leaf,
   Plane,
+  Sparkles,
   Star,
   TreePine,
   Trees,
   Users,
   Wallet,
+  type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  communityService,
+  type ICommunity,
+  type ICommunityFilter,
+} from "@/services/community.service";
 
-interface FilterPill {
-  key: string;
-  labelKey: string;
-  fallback: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
-
-const FILTERS: FilterPill[] = [
-  { key: "popular", labelKey: "pages.top_communities.popular", fallback: "Mashhur", icon: Award },
-  { key: "budget", labelKey: "pages.top_communities.budget", fallback: "Arzon", icon: Wallet },
-  { key: "business", labelKey: "pages.top_communities.business", fallback: "Biznes uchun", icon: Bus },
-  { key: "eco", labelKey: "pages.top_communities.eco", fallback: "Ekologik toza", icon: Leaf },
-  { key: "expats", labelKey: "pages.top_communities.expats", fallback: "Chet ellik", icon: Plane },
-  { key: "family", labelKey: "pages.top_communities.family", fallback: "Oilaviy", icon: Users },
-  { key: "green", labelKey: "pages.top_communities.green", fallback: "Yashil hududlar", icon: TreePine },
-];
-
-interface Community {
-  key: string;
-  name: string;
-  rating: number;
-  /** Tailwind gradient class — toza CSS, rasm o'rniga */
-  gradient: string;
-  /** Card top icon */
-  emoji: string;
-  searchHref: string;
-}
-
-const COMMUNITIES_BY_FILTER: Record<string, Community[]> = {
-  popular: [
-    {
-      key: "qarshi-markaz",
-      name: "Qarshi markaz",
-      rating: 4.6,
-      gradient: "from-sky-300 via-indigo-300 to-purple-300",
-      emoji: "🏛",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-    {
-      key: "yangi-qarshi",
-      name: "Yangi Qarshi",
-      rating: 4.5,
-      gradient: "from-emerald-300 via-teal-300 to-cyan-300",
-      emoji: "🏙",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-    {
-      key: "cosmos-rayoni",
-      name: "Cosmos rayoni",
-      rating: 4.4,
-      gradient: "from-amber-300 via-orange-300 to-rose-300",
-      emoji: "🛍",
-      searchHref: "/filter-nav?category=APARTMENT_RENT",
-    },
-    {
-      key: "shahrisabz",
-      name: "Shahrisabz",
-      rating: 4.7,
-      gradient: "from-rose-300 via-pink-300 to-fuchsia-300",
-      emoji: "🏯",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-    {
-      key: "kitob",
-      name: "Kitob",
-      rating: 4.2,
-      gradient: "from-violet-300 via-purple-300 to-indigo-300",
-      emoji: "⛰",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-    {
-      key: "yakkabog",
-      name: "Yakkabog'",
-      rating: 4.1,
-      gradient: "from-lime-300 via-emerald-300 to-teal-300",
-      emoji: "🌳",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-  ],
-  budget: [
-    {
-      key: "guzor",
-      name: "G'uzor",
-      rating: 4.0,
-      gradient: "from-slate-300 via-gray-300 to-zinc-300",
-      emoji: "🏘",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-    {
-      key: "qamashi",
-      name: "Qamashi",
-      rating: 3.9,
-      gradient: "from-stone-300 via-neutral-300 to-zinc-300",
-      emoji: "🏘",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-    {
-      key: "koson",
-      name: "Koson",
-      rating: 4.1,
-      gradient: "from-amber-200 via-yellow-200 to-orange-200",
-      emoji: "🌾",
-      searchHref: "/filter-nav?category=APARTMENT_RENT",
-    },
-    {
-      key: "chiroqchi",
-      name: "Chiroqchi",
-      rating: 3.8,
-      gradient: "from-emerald-200 via-green-200 to-lime-200",
-      emoji: "🏞",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-  ],
-  business: [
-    {
-      key: "qarshi-markaz-biz",
-      name: "Qarshi markaz",
-      rating: 4.8,
-      gradient: "from-blue-300 via-sky-300 to-cyan-300",
-      emoji: "🏢",
-      searchHref: "/filter-nav?category=APARTMENT_RENT",
-    },
-    {
-      key: "yangi-qarshi-biz",
-      name: "Yangi Qarshi",
-      rating: 4.5,
-      gradient: "from-indigo-300 via-blue-300 to-sky-300",
-      emoji: "🏢",
-      searchHref: "/filter-nav?category=APARTMENT_RENT",
-    },
-  ],
-  eco: [
-    {
-      key: "shahrisabz-eco",
-      name: "Shahrisabz",
-      rating: 4.6,
-      gradient: "from-green-300 via-emerald-300 to-teal-300",
-      emoji: "🌿",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-    {
-      key: "kitob-eco",
-      name: "Kitob",
-      rating: 4.4,
-      gradient: "from-teal-300 via-cyan-300 to-sky-300",
-      emoji: "🌲",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-  ],
-  expats: [
-    {
-      key: "qarshi-markaz-exp",
-      name: "Qarshi markaz",
-      rating: 4.5,
-      gradient: "from-purple-300 via-pink-300 to-rose-300",
-      emoji: "🌍",
-      searchHref: "/filter-nav?category=APARTMENT_RENT",
-    },
-    {
-      key: "yangi-qarshi-exp",
-      name: "Yangi Qarshi",
-      rating: 4.3,
-      gradient: "from-fuchsia-300 via-purple-300 to-violet-300",
-      emoji: "🌍",
-      searchHref: "/filter-nav?category=APARTMENT_RENT",
-    },
-  ],
-  family: [
-    {
-      key: "yangi-qarshi-fam",
-      name: "Yangi Qarshi",
-      rating: 4.7,
-      gradient: "from-pink-300 via-rose-300 to-red-300",
-      emoji: "👨‍👩‍👧",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-    {
-      key: "shahrisabz-fam",
-      name: "Shahrisabz",
-      rating: 4.6,
-      gradient: "from-rose-300 via-orange-300 to-amber-300",
-      emoji: "👨‍👩‍👧",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-  ],
-  green: [
-    {
-      key: "shahrisabz-grn",
-      name: "Shahrisabz",
-      rating: 4.7,
-      gradient: "from-green-400 via-emerald-400 to-teal-400",
-      emoji: "🌳",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-    {
-      key: "kitob-grn",
-      name: "Kitob",
-      rating: 4.5,
-      gradient: "from-emerald-400 via-green-400 to-lime-400",
-      emoji: "🌲",
-      searchHref: "/filter-nav?category=APARTMENT_SALE",
-    },
-  ],
+const ICONS: Record<string, LucideIcon> = {
+  Award,
+  Wallet,
+  Briefcase,
+  Bus,
+  Leaf,
+  Plane,
+  Users,
+  TreePine,
+  Trees,
+  Sparkles,
 };
 
 const REGIONS = ["Qashqadaryo", "Toshkent", "Samarqand", "Buxoro"];
 
-function CommunityCard({ community }: Readonly<{ community: Community }>) {
+/** Card image fallback — admin rasm yuklamagan bo'lsa, gradient + emoji. */
+const GRADIENTS = [
+  "from-sky-300 via-indigo-300 to-purple-300",
+  "from-emerald-300 via-teal-300 to-cyan-300",
+  "from-amber-300 via-orange-300 to-rose-300",
+  "from-rose-300 via-pink-300 to-fuchsia-300",
+  "from-violet-300 via-purple-300 to-indigo-300",
+  "from-lime-300 via-emerald-300 to-teal-300",
+];
+
+function gradientFor(name: string): string {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) | 0;
+  return GRADIENTS[Math.abs(h) % GRADIENTS.length];
+}
+
+function buildSearchHref(c: ICommunity): string {
+  if (c.searchHref) return c.searchHref;
+  return `/filter-nav?category=APARTMENT_SALE&address=${encodeURIComponent(c.name)}`;
+}
+
+function CommunityCard({ community }: Readonly<{ community: ICommunity }>) {
   const { t } = useTranslation();
   const stars = Math.round(community.rating);
+  const href = buildSearchHref(community);
   return (
     <div className="flex w-[280px] flex-shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-border/60 bg-card shadow-card transition-all hover:-translate-y-0.5 hover:shadow-card-hover">
-      {/* Image / gradient */}
       <div
         className={cn(
-          "relative flex h-[180px] items-center justify-center bg-gradient-to-br text-5xl",
-          community.gradient,
+          "relative h-[180px] overflow-hidden",
+          !community.image && `flex items-center justify-center bg-gradient-to-br text-5xl ${gradientFor(community.name)}`,
         )}
       >
-        <span className="drop-shadow-md" aria-hidden="true">
-          {community.emoji}
-        </span>
-        {/* Rating overlay */}
+        {community.image ? (
+          <img
+            src={community.image}
+            alt={community.name}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <span aria-hidden="true">🏘</span>
+        )}
+        {community.badge && (
+          <span className="absolute right-2 top-2 rounded-md bg-amber-500 px-2 py-0.5 text-[10px] font-bold uppercase text-white">
+            {community.badge}
+          </span>
+        )}
         <div className="absolute bottom-2 left-2 flex items-center gap-1 rounded-md bg-black/70 px-2 py-1 text-xs font-semibold text-white">
           <span>{community.rating.toFixed(1)}</span>
           <div className="flex">
@@ -252,21 +101,27 @@ function CommunityCard({ community }: Readonly<{ community: Community }>) {
           </div>
         </div>
       </div>
-      {/* Body */}
       <div className="flex flex-1 flex-col gap-3 p-4">
-        <h3 className="text-sm font-semibold text-foreground">{community.name}</h3>
+        <h3 className="text-sm font-semibold text-foreground">
+          {community.name}
+        </h3>
+        {community.propertyCount > 0 && (
+          <p className="text-xs text-muted-foreground">
+            {community.propertyCount} {t("pages.top_communities.properties", { defaultValue: "ta mulk" })}
+          </p>
+        )}
         <div className="mt-auto grid grid-cols-2 gap-2">
           <Link
-            to={community.searchHref}
+            to={href}
             className="inline-flex items-center justify-center rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
           >
             {t("pages.top_communities.search", { defaultValue: "Qidiruv" })}
           </Link>
           <Link
-            to={community.searchHref}
+            to={href}
             className="inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-xs font-semibold text-primary hover:underline"
           >
-            {t("pages.top_communities.explore", { defaultValue: "Hududni ko'rish" })}
+            {t("pages.top_communities.explore", { defaultValue: "Ko'rish" })}
           </Link>
         </div>
       </div>
@@ -276,12 +131,36 @@ function CommunityCard({ community }: Readonly<{ community: Community }>) {
 
 export default function TopCommunitiesSection() {
   const { t } = useTranslation();
-  const [activeFilter, setActiveFilter] = useState<string>("popular");
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [region, setRegion] = useState(REGIONS[0]);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
-  const communities =
-    COMMUNITIES_BY_FILTER[activeFilter] ?? COMMUNITIES_BY_FILTER.popular;
+  const { data: filters = [] } = useQuery({
+    queryKey: ["community-filters"],
+    queryFn: () => communityService.listFilters(),
+    staleTime: 10 * 60 * 1000,
+  });
+
+  const { data: communities = [], isLoading } = useQuery({
+    queryKey: ["communities", { region, filter: activeFilter }],
+    queryFn: () =>
+      communityService.list({
+        region,
+        filter: activeFilter ?? undefined,
+      }),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  // Birinchi filterni avtomatik tanlash (Mashhur)
+  const effectiveActiveFilter = useMemo(() => {
+    if (activeFilter) return activeFilter;
+    return filters[0]?._id ?? null;
+  }, [activeFilter, filters]);
+
+  // Section hech qachon community yo'q bo'lsa yashir
+  if (!isLoading && filters.length === 0 && communities.length === 0) {
+    return null;
+  }
 
   const scrollBy = (direction: number) => {
     scrollerRef.current?.scrollBy({ left: direction, behavior: "smooth" });
@@ -323,22 +202,23 @@ export default function TopCommunitiesSection() {
       {/* Filter pills + region dropdown */}
       <div className="mb-6 flex flex-wrap items-center gap-2">
         <div className="flex flex-1 flex-wrap items-center gap-2 overflow-x-auto">
-          {FILTERS.map((f) => {
-            const Icon = f.icon;
+          {filters.map((f: ICommunityFilter) => {
+            const Icon = ICONS[f.icon] ?? Sparkles;
+            const active = effectiveActiveFilter === f._id;
             return (
               <button
-                key={f.key}
+                key={f._id}
                 type="button"
-                onClick={() => setActiveFilter(f.key)}
+                onClick={() => setActiveFilter(f._id)}
                 className={cn(
                   "inline-flex flex-shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all sm:text-sm",
-                  activeFilter === f.key
+                  active
                     ? "border-primary bg-primary/10 text-primary"
                     : "border-border bg-card text-foreground hover:border-primary/40",
                 )}
               >
                 <Icon className="size-3.5" />
-                {t(f.labelKey, f.fallback)}
+                {f.name}
               </button>
             );
           })}
@@ -358,14 +238,31 @@ export default function TopCommunitiesSection() {
       </div>
 
       {/* Cards scroller */}
-      <div
-        ref={scrollerRef}
-        className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2"
-      >
-        {communities.map((c) => (
-          <CommunityCard key={c.key} community={c} />
-        ))}
-      </div>
+      {isLoading ? (
+        <div className="flex gap-4 overflow-x-auto pb-2">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className="h-[320px] w-[280px] flex-shrink-0 animate-pulse rounded-2xl bg-muted/60"
+            />
+          ))}
+        </div>
+      ) : communities.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-border/60 p-12 text-center text-sm text-muted-foreground">
+          {t("pages.top_communities.empty", {
+            defaultValue: "Bu kategoriyada hozircha tumanlar yo'q",
+          })}
+        </div>
+      ) : (
+        <div
+          ref={scrollerRef}
+          className="hide-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2"
+        >
+          {communities.map((c) => (
+            <CommunityCard key={c._id} community={c} />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

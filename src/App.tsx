@@ -40,6 +40,9 @@ const AdminProjectInquiriesPage = lazy(
 const AdminSiteSettingsPage = lazy(
   () => import("./pages/admin/_pages/site-settings"),
 );
+const AdminCommunitiesPage = lazy(
+  () => import("./pages/admin/_pages/communities"),
+);
 const AdminExchangeRatesPage = lazy(
   () => import("./pages/admin/_pages/exchange-rates"),
 );
@@ -403,6 +406,10 @@ const router = createBrowserRouter([
       {
         path: "site-settings",
         element: withSuspense(<AdminSiteSettingsPage />),
+      },
+      {
+        path: "communities",
+        element: withSuspense(<AdminCommunitiesPage />),
       },
       {
         path: "exchange-rates",
