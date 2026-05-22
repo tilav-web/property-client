@@ -9,6 +9,11 @@ export interface CreateAdvertiseResponse {
   provider: "PAYME" | "CLICK" | "NONE";
 }
 
+export interface CheckoutUrlResponse {
+  checkoutUrl: string;
+  transactionId: string;
+}
+
 class AdvertiseService {
   async create(dto: FormData): Promise<CreateAdvertiseResponse> {
     try {
@@ -75,6 +80,13 @@ class AdvertiseService {
       console.error(error);
       throw error;
     }
+  }
+
+  async getCheckoutUrl(id: string): Promise<CheckoutUrlResponse> {
+    const res = await apiInstance.get<CheckoutUrlResponse>(
+      `${API_ENDPOINTS.ADVERTISE.base}/${id}/checkout-url`,
+    );
+    return res.data;
   }
 
   async findOneByType(type: AdvertiseType) {

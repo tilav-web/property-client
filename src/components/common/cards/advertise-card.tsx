@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import {
   Calendar,
@@ -8,9 +10,13 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
+  CreditCard,
+  Loader2,
 } from "lucide-react";
+import { toast } from "sonner";
 import AdvertiseCardDropdownMenu from "@/pages/seller/advertise/_components/advertise-card-dropdown-menu";
 import type { IAdvertise } from "@/interfaces/advertise/advertise.interface";
+import { advertiseService } from "@/services/advertise.service";
 
 interface Props {
   advertise: IAdvertise;
@@ -49,7 +55,15 @@ const typeConfig = {
   image: { label: "Rasm", color: "bg-orange-50 text-orange-700" },
 } as const;
 
-export default function AdvertiseCard({ advertise, onEdit, onDelete }: Props) {
+/** Active reklama uchun necha kun qolganini hisoblaydi. */
+function daysRemaining(to: string | null | undefined): number | null {
+  if (!to) return null;
+  const ms = new Date(to).getTime() - Date.now();
+  if (ms <= 0) return 0;
+  return Math.ceil(ms / (1000 * 60 * 60 * 24));
+}
+
+export default function AdvertiseCard({ advertise, onEdit, onDelete }: Readonly<Props>) {
   // Agar status yoki type noto‘g‘ri bo‘lsa — default holatni tanlaymiz
   const statusInfo =
     statusConfig[
@@ -187,16 +201,72 @@ export default function AdvertiseCard({ advertise, onEdit, onDelete }: Props) {
               className={`text-xs ${
                 advertise?.payment_status === "paid"
                   ? "bg-green-100 text-green-800 hover:bg-green-100"
-                  : "bg-accent text-primary hover:bg-accent"
+                  : "bg-amber-100 text-amber-800 hover:bg-amber-100"
               }`}
             >
               {advertise?.payment_status === "paid"
                 ? "To'langan"
-                : "Kutilmoqda"}
+                : "To'lanmagan"}
             </Badge>
           </div>
+
+          {/* Aktiv reklamada qancha kun qolgani */}
+          {advertise?.status === "approved" &&
+            advertise?.payment_status === "paid" &&
+            (() => {
+              const left = daysRemaining(advertise.to);
+              if (left === null) return null;
+              if (left === 0) {
+                return (
+                  <div className="rounded-lg bg-gray-100 px-3 py-2 text-xs font-medium text-gray-700">
+                    ⏱ Muddati tugagan
+                  </div>
+                );
+              }
+              return (
+                <div className="rounded-lg bg-emerald-50 px-3 py-2 text-xs font-medium text-emerald-800">
+                  ⏱ {left} kun qoldi (jami {advertise.days ?? 0} kundan)
+                </div>
+              );
+            })()}
+
+          {/* To'lash tugmasi — faqat payment_status PENDING */}
+          {advertise?._id && advertise?.payment_status !== "paid" && (
+            <PayButton advertiseId={String(advertise._id)} />
+          )}
         </div>
       </CardContent>
     </Card>
+  );
+}
+
+function PayButton({ advertiseId }: Readonly<{ advertiseId: string }>) {
+  const [loading, setLoading] = useState(false);
+  const handle = async () => {
+    setLoading(true);
+    try {
+      const res = await advertiseService.getCheckoutUrl(advertiseId);
+      window.open(res.checkoutUrl, "_blank", "noopener,noreferrer");
+      toast.success("Payme yangi tab'da ochildi");
+    } catch (err) {
+      console.error(err);
+      toast.error("To'lov sahifasi ochilmadi");
+    } finally {
+      setLoading(false);
+    }
+  };
+  return (
+    <Button
+      onClick={handle}
+      disabled={loading}
+      className="w-full bg-amber-600 hover:bg-amber-700"
+    >
+      {loading ? (
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      ) : (
+        <CreditCard className="mr-2 h-4 w-4" />
+      )}
+      To'lash (Payme)
+    </Button>
   );
 }
