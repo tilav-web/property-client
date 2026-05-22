@@ -5,29 +5,32 @@ import { ChevronDown, Home } from "lucide-react";
 
 interface AreaPrice {
   area: string;
-  rent: number; // RM / month
-  buy: number; // RM
+  rent: number; // so'm / oy
+  buy: number; // so'm
 }
 
+// Qashqadaryo viloyati tumanlari va Qarshi shahar mahallalari uchun
+// taxminiy o'rtacha narxlar (oylik ijara so'mda, sotuv so'mda)
 const AREAS: AreaPrice[] = [
-  { area: "Mont Kiara", rent: 5800, buy: 1_650_000 },
-  { area: "KLCC", rent: 7400, buy: 2_350_000 },
-  { area: "Bangsar", rent: 5200, buy: 1_400_000 },
-  { area: "Bukit Jalil", rent: 3100, buy: 850_000 },
-  { area: "Cheras", rent: 2500, buy: 650_000 },
-  { area: "Damansara", rent: 4200, buy: 1_180_000 },
-  { area: "Subang Jaya", rent: 2900, buy: 720_000 },
-  { area: "Putrajaya", rent: 2300, buy: 580_000 },
-  { area: "Setapak", rent: 2100, buy: 520_000 },
+  { area: "Qarshi markaz", rent: 4_500_000, buy: 850_000_000 },
+  { area: "Yangi Qarshi", rent: 3_800_000, buy: 720_000_000 },
+  { area: "Cosmos rayoni", rent: 4_200_000, buy: 780_000_000 },
+  { area: "Shahrisabz", rent: 3_200_000, buy: 580_000_000 },
+  { area: "Kitob", rent: 2_500_000, buy: 420_000_000 },
+  { area: "Yakkabog'", rent: 2_100_000, buy: 360_000_000 },
+  { area: "Koson", rent: 2_000_000, buy: 340_000_000 },
+  { area: "Qamashi", rent: 1_800_000, buy: 300_000_000 },
+  { area: "G'uzor", rent: 1_700_000, buy: 280_000_000 },
 ];
 
-const TYPES = ["Apartment", "Studio", "Condo", "Villa"] as const;
-const BEDS = ["Studio", "1 Bed", "2 Beds", "3 Beds", "4+ Beds"] as const;
+const TYPES = ["Kvartira", "Studiya", "Kottedj", "Villa"] as const;
+const BEDS = ["Studiya", "1 xonali", "2 xonali", "3 xonali", "4+ xonali"] as const;
 
 function formatCurrency(value: number) {
-  if (value >= 1_000_000) return `RM ${(value / 1_000_000).toFixed(2)}M`;
-  if (value >= 1_000) return `RM ${(value / 1_000).toFixed(0)}k`;
-  return `RM ${value.toLocaleString()}`;
+  if (value >= 1_000_000_000) return `${(value / 1_000_000_000).toFixed(2)} mlrd so'm`;
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(0)} mln so'm`;
+  if (value >= 1_000) return `${(value / 1_000).toFixed(0)}k so'm`;
+  return `${value.toLocaleString()} so'm`;
 }
 
 export default function ComparePricesSection() {
@@ -105,7 +108,7 @@ export default function ComparePricesSection() {
           {/* Left — legend */}
           <div className="rounded-2xl border border-border/60 bg-card p-5">
             <p className="text-sm font-semibold text-foreground">
-              {t("pages.compare_prices.legend_title", "Malaysia prices")}
+              {t("pages.compare_prices.legend_title", "Qashqadaryo prices")}
             </p>
             <div className="mt-4 flex gap-3">
               <div className="flex h-32 w-2 flex-col overflow-hidden rounded-full">
@@ -136,7 +139,7 @@ export default function ComparePricesSection() {
             <p className="mt-4 text-[11px] leading-relaxed text-muted-foreground">
               {t(
                 "pages.compare_prices.legend_note",
-                "Average asking prices across Malaysia's most active neighborhoods.",
+                "Average asking prices across Qashqadaryo's most active neighborhoods.",
               )}
             </p>
           </div>

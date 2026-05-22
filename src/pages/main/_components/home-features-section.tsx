@@ -1,8 +1,19 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { BellRing, Bookmark, LineChart, Sparkles } from "lucide-react";
+import { ArrowRight, BellRing, Bookmark, LineChart, Sparkles } from "lucide-react";
 import { siteSettingsService } from "@/services/site-settings.service";
 import mobileMockup from "@/assets/images/mobile.jpg";
+
+/** Rotatsiyada chiqadigan AI promptlar — har 2 sekundda almashinadi. */
+const AI_PROMPTS = [
+  "Toshkentda 2 xonali kvartira sotib olish",
+  "Samarqandda arzon ijara, oyiga 3 mln gacha",
+  "Yangi binoda hovuzli kvartira",
+  "Qarshida 3 xonali sotuvga uy, markazda",
+];
+const PROMPT_ROTATE_MS = 2000;
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -160,11 +171,25 @@ function GooglePlayBadge({ href }: Readonly<{ href: string }>) {
 
 export default function HomeFeaturesSection() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [promptIndex, setPromptIndex] = useState(0);
   const { data: settings } = useQuery({
     queryKey: ["public-site-settings"],
     queryFn: () => siteSettingsService.get(),
     staleTime: 5 * 60 * 1000,
   });
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setPromptIndex((i) => (i + 1) % AI_PROMPTS.length);
+    }, PROMPT_ROTATE_MS);
+    return () => clearInterval(id);
+  }, []);
+
+  const activePrompt = AI_PROMPTS[promptIndex];
+  const handlePromptClick = () => {
+    navigate(`/ai-chat?prompt=${encodeURIComponent(activePrompt)}`);
+  };
 
   const appStoreUrl = settings?.app_store_url?.trim() || null;
   const playStoreUrl = settings?.play_store_url?.trim() || null;
@@ -173,23 +198,39 @@ export default function HomeFeaturesSection() {
 
   return (
     <section className="py-10 md:py-14">
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-primary/90 px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
-        {/* Decorative blobs */}
-        <div className="pointer-events-none absolute -right-20 -top-24 size-72 rounded-full bg-white/15 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-white/10 blur-3xl" />
-
-        <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_1fr_0.9fr]">
-          {/* Left — title + subtitle + download CTAs */}
-          <div className="text-background">
+      <div className="relative h-[500px] overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-primary/90 px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
+        <div className="relative grid h-full grid-cols-1 gap-10 lg:grid-cols-[1.1fr_1fr_0.9fr]">
+          {/* Left — title + subtitle + download CTAs (vertikal markazlashgan) */}
+          <div className="flex h-full flex-col justify-center text-background">
             <h2 className="font-display text-3xl leading-tight sm:text-4xl lg:text-5xl">
               {t("pages.home_features.title", "Home search, simplified")}
             </h2>
-            <p className="mt-4 max-w-md text-sm text-background/80 sm:text-base">
-              {t(
-                "pages.home_features.subtitle",
-                "Download the app to find, track and secure a property, right from your pocket.",
-              )}
-            </p>
+            <button
+              type="button"
+              onClick={handlePromptClick}
+              className="group mt-5 flex w-full max-w-md items-center gap-3 rounded-2xl border border-background/20 bg-background/10 px-4 py-3 text-left backdrop-blur-sm transition-all hover:border-background/40 hover:bg-background/15"
+              aria-label={t("pages.home_features.try_ai_aria", {
+                defaultValue: "AI bilan qidirish",
+              })}
+            >
+              <span className="flex size-9 flex-shrink-0 items-center justify-center rounded-full bg-background text-primary">
+                <Sparkles className="size-4" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-[10px] uppercase tracking-wide text-background/60">
+                  {t("pages.home_features.try_ai_label", {
+                    defaultValue: "AI bilan qidirish",
+                  })}
+                </span>
+                <span
+                  key={promptIndex}
+                  className="block truncate text-sm font-medium text-background animate-in fade-in slide-in-from-bottom-1 duration-500 sm:text-base"
+                >
+                  {activePrompt}
+                </span>
+              </span>
+              <ArrowRight className="size-5 flex-shrink-0 text-background/70 transition-transform group-hover:translate-x-1" />
+            </button>
 
             {(hasStoreBadges || qrImage) && (
               <div className="mt-6 flex items-center gap-5">
@@ -213,8 +254,8 @@ export default function HomeFeaturesSection() {
             )}
           </div>
 
-          {/* Middle — 2x2 feature card grid */}
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+          {/* Middle — 2x2 feature card grid (vertikal markazlashgan) */}
+          <div className="grid h-full grid-cols-2 content-center gap-3 sm:gap-4">
             <FeatureCard
               icon={<Sparkles className="size-5" />}
               bg="bg-primary/15"
@@ -257,7 +298,7 @@ export default function HomeFeaturesSection() {
               Telefon o'lchami kichraytirilgan + container balandligi oshirilgan
               -> telefon tepa va pastdan teng masofada (markazlashgan),
               kesilmaydi. Doira telefondan biroz katta. */}
-          <div className="relative h-[480px] w-full sm:h-[520px] lg:h-[560px]">
+          <div className="relative h-full min-h-[400px] w-full">
             {/* Ochiq ko'k doira — telefondan biroz katta, markazlashgan */}
             <div
               aria-hidden="true"
@@ -269,7 +310,7 @@ export default function HomeFeaturesSection() {
             <img
               src={mobileMockup}
               alt="Mobile app preview"
-              className="absolute left-1/2 top-1/2 z-[1] w-[220px] -translate-x-1/2 -translate-y-1/2 -rotate-[6deg] rounded-[2rem] border-[5px] border-gray-900 object-cover shadow-2xl sm:w-[250px] lg:w-[280px]"
+              className="absolute left-1/2 top-1/2 z-[1] w-[220px] -translate-x-1/2 -translate-y-1/2 rotate-[12deg] rounded-[2rem] border-[5px] border-gray-900 object-cover shadow-2xl sm:w-[250px] lg:w-[280px]"
               loading="lazy"
             />
 

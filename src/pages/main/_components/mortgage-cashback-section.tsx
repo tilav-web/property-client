@@ -15,15 +15,15 @@ export default function MortgageCashbackSection() {
   const checks = [
     t(
       "pages.mortgage.check_resident",
-      "You're a Malaysian resident or expat",
+      "You are a resident of Uzbekistan",
     ),
     t(
       "pages.mortgage.check_no_home",
-      "You don't currently own a home in Malaysia",
+      "You don't currently own a home",
     ),
     t(
       "pages.mortgage.check_amount",
-      "You require a mortgage over RM 500,000",
+      "You require a mortgage over 500,000,000 so'm",
     ),
   ];
 

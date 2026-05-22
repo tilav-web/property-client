@@ -114,13 +114,13 @@ export default function DevelopersSection() {
           <h2 className="font-display text-3xl text-foreground sm:text-4xl">
             {t(
               "pages.developers.section_title",
-              "Projects by developers in Malaysia",
+              "Projects by developers in Uzbekistan",
             )}
           </h2>
           <p className="mt-2 text-muted-foreground">
             {t(
               "pages.developers.section_subtitle",
-              "Discover trusted developers shaping Malaysia's skyline.",
+              "Discover trusted developers shaping Uzbekistan's skyline.",
             )}
           </p>
         </div>
@@ -172,7 +172,7 @@ export default function DevelopersSection() {
           className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-5 py-2 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
         >
           <Building2 className="h-4 w-4" />
-          {t("pages.developers.see_all", "All developers in Malaysia")}
+          {t("pages.developers.see_all", "All developers in Uzbekistan")}
         </Link>
       </div>
     </section>

@@ -4,14 +4,14 @@ import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 
 const CITIES = [
-  "Kuala Lumpur",
-  "Penang",
-  "Johor Bahru",
-  "Selangor",
-  "Kota Kinabalu",
-  "Kuching",
-  "Ipoh",
-  "Putrajaya",
+  "Qarshi",
+  "Shahrisabz",
+  "Yakkabog'",
+  "Koson",
+  "Kitob",
+  "Chiroqchi",
+  "Qamashi",
+  "G'uzor",
 ];
 
 interface ExploreCategory {
@@ -29,32 +29,32 @@ const RENT_CATEGORIES: ExploreCategory[] = [
     links: [
       {
         labelKey: "pages.explore.apartments_kl",
-        fallback: "Apartments for rent in Kuala Lumpur",
+        fallback: "Apartments for rent in Qarshi",
         href: "/filter-nav?category=APARTMENT_RENT",
       },
       {
         labelKey: "pages.explore.studio_kl",
-        fallback: "Studio Apartments for rent in KL",
+        fallback: "Studio Apartments for rent in Qarshi",
         href: "/filter-nav?category=APARTMENT_RENT",
       },
       {
         labelKey: "pages.explore.furnished_kl",
-        fallback: "Furnished Apartments for rent in KL",
+        fallback: "Furnished Apartments for rent in Qarshi",
         href: "/filter-nav?category=APARTMENT_RENT",
       },
       {
         labelKey: "pages.explore.apartments_penang",
-        fallback: "Apartments for rent in Penang",
+        fallback: "Apartments for rent in Shahrisabz",
         href: "/filter-nav?category=APARTMENT_RENT",
       },
       {
         labelKey: "pages.explore.apartments_jb",
-        fallback: "Apartments for rent in Johor Bahru",
+        fallback: "Apartments for rent in Yakkabog'",
         href: "/filter-nav?category=APARTMENT_RENT",
       },
       {
         labelKey: "pages.explore.apartments_selangor",
-        fallback: "Apartments for rent in Selangor",
+        fallback: "Apartments for rent in Qashqadaryo",
         href: "/filter-nav?category=APARTMENT_RENT",
       },
       {
@@ -64,17 +64,17 @@ const RENT_CATEGORIES: ExploreCategory[] = [
       },
       {
         labelKey: "pages.explore.apartments_montkiara",
-        fallback: "Apartments for rent in Mont Kiara",
+        fallback: "Apartments for rent in Yangi Qarshi",
         href: "/filter-nav?category=APARTMENT_RENT",
       },
       {
         labelKey: "pages.explore.apartments_bangsar",
-        fallback: "Apartments for rent in Bangsar",
+        fallback: "Apartments for rent in Qarshi center",
         href: "/filter-nav?category=APARTMENT_RENT",
       },
       {
         labelKey: "pages.explore.apartments_klcc",
-        fallback: "Apartments for rent in KLCC",
+        fallback: "Apartments for rent near Cosmos",
         href: "/filter-nav?category=APARTMENT_RENT",
       },
     ],
@@ -89,42 +89,42 @@ const BUY_CATEGORIES: ExploreCategory[] = [
     links: [
       {
         labelKey: "pages.explore.buy_kl",
-        fallback: "Apartments for sale in Kuala Lumpur",
+        fallback: "Apartments for sale in Qarshi",
         href: "/filter-nav?category=APARTMENT_SALE",
       },
       {
         labelKey: "pages.explore.buy_studio_kl",
-        fallback: "Studio Apartments for sale in KL",
+        fallback: "Studio Apartments for sale in Qarshi",
         href: "/filter-nav?category=APARTMENT_SALE",
       },
       {
         labelKey: "pages.explore.buy_penang",
-        fallback: "Apartments for sale in Penang",
+        fallback: "Apartments for sale in Shahrisabz",
         href: "/filter-nav?category=APARTMENT_SALE",
       },
       {
         labelKey: "pages.explore.buy_jb",
-        fallback: "Apartments for sale in Johor Bahru",
+        fallback: "Apartments for sale in Yakkabog'",
         href: "/filter-nav?category=APARTMENT_SALE",
       },
       {
         labelKey: "pages.explore.buy_montkiara",
-        fallback: "Apartments for sale in Mont Kiara",
+        fallback: "Apartments for sale in Yangi Qarshi",
         href: "/filter-nav?category=APARTMENT_SALE",
       },
       {
         labelKey: "pages.explore.buy_bangsar",
-        fallback: "Apartments for sale in Bangsar",
+        fallback: "Apartments for sale in Qarshi center",
         href: "/filter-nav?category=APARTMENT_SALE",
       },
       {
         labelKey: "pages.explore.buy_klcc",
-        fallback: "Apartments for sale in KLCC",
+        fallback: "Apartments for sale near Cosmos",
         href: "/filter-nav?category=APARTMENT_SALE",
       },
       {
         labelKey: "pages.explore.buy_subang",
-        fallback: "Apartments for sale in Subang Jaya",
+        fallback: "Apartments for sale in Koson",
         href: "/filter-nav?category=APARTMENT_SALE",
       },
     ],
@@ -139,18 +139,18 @@ const INVEST_CATEGORIES: ExploreCategory[] = [
     links: [
       {
         labelKey: "pages.explore.projects_kl",
-        fallback: "New projects in Kuala Lumpur",
-        href: "/projects?city=Kuala%20Lumpur",
+        fallback: "New projects in Qarshi",
+        href: "/projects?city=Qarshi",
       },
       {
         labelKey: "pages.explore.projects_penang",
-        fallback: "New projects in Penang",
-        href: "/projects?city=Penang",
+        fallback: "New projects in Shahrisabz",
+        href: "/projects?city=Shahrisabz",
       },
       {
         labelKey: "pages.explore.projects_jb",
-        fallback: "New projects in Johor Bahru",
-        href: "/projects?city=Johor%20Bahru",
+        fallback: "New projects in Yakkabog'",
+        href: "/projects?city=Yakkabog",
       },
       {
         labelKey: "pages.explore.projects_pre_launch",
@@ -197,7 +197,7 @@ export default function ExploreMoreSection() {
         <p className="mt-2 text-muted-foreground">
           {t(
             "pages.explore.subtitle",
-            "Browse listings by area and category across Malaysia.",
+            "Browse listings by area and category across Qashqadaryo.",
           )}
         </p>
       </div>

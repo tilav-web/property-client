@@ -10,10 +10,10 @@ import { Bed, Building2, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const CITIES = [
-  { key: "Kuala Lumpur", labelKey: "cities.kl", fallback: "Kuala Lumpur" },
-  { key: "Penang", labelKey: "cities.penang", fallback: "Penang" },
-  { key: "Johor Bahru", labelKey: "cities.jb", fallback: "Johor Bahru" },
-  { key: "Selangor", labelKey: "cities.selangor", fallback: "Selangor" },
+  { key: "Qarshi", labelKey: "cities.kl", fallback: "Qarshi" },
+  { key: "Shahrisabz", labelKey: "cities.penang", fallback: "Shahrisabz" },
+  { key: "Yakkabog'", labelKey: "cities.jb", fallback: "Yakkabog'" },
+  { key: "Qashqadaryo", labelKey: "cities.selangor", fallback: "Qashqadaryo" },
 ];
 
 function ProjectGridCard({ project }: Readonly<{ project: IProject }>) {
@@ -184,7 +184,7 @@ export default function ExploreProjectsSection() {
         <h2 className="font-display text-3xl text-foreground sm:text-4xl">
           {t(
             "pages.explore_projects.title",
-            "Explore new projects in Malaysia",
+            "Explore new projects in Qashqadaryo",
           )}
         </h2>
         <p className="mt-2 text-muted-foreground">

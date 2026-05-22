@@ -66,7 +66,7 @@ export default function TransactionsSection() {
             <p className="mt-3 max-w-md text-sm text-muted-foreground sm:text-base">
               {t(
                 "pages.main_page.transactions.subtitle",
-                "Powered by Malaysia property transaction data for your area.",
+                "Powered by Qashqadaryo property transaction data for your area.",
               )}
             </p>
 
@@ -127,7 +127,7 @@ export default function TransactionsSection() {
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder={t(
                     "pages.main_page.transactions.search_placeholder",
-                    "Search any location in Malaysia",
+                    "Search any location in Qashqadaryo",
                   )}
                   className="rounded-full pl-10"
                 />
@@ -144,7 +144,7 @@ export default function TransactionsSection() {
                 value={
                   isLoading
                     ? null
-                    : `${showAvg.toLocaleString()} ${stats?.newRentals?.avgPrice ? "RM" : ""}`
+                    : `${showAvg.toLocaleString()} ${stats?.newRentals?.avgPrice ? "so'm" : ""}`
                 }
               />
               <StatCard
@@ -152,7 +152,7 @@ export default function TransactionsSection() {
                   "pages.main_page.transactions.renewed",
                   "Renewed rentals",
                 )}
-                value={isLoading ? null : `${rentAvg.toLocaleString()} RM`}
+                value={isLoading ? null : `${rentAvg.toLocaleString()} so'm`}
               />
               <StatCard
                 label={t("pages.main_page.transactions.total", "Transactions")}

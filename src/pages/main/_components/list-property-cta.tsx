@@ -22,7 +22,7 @@ export default function ListPropertyCta() {
             <p className="mt-1 text-sm text-muted-foreground">
               {t(
                 "pages.main_page.list_property_cta.description",
-                "Reach thousands of buyers and renters across Malaysia and Central Asia.",
+                "Reach thousands of buyers and renters across Uzbekistan.",
               )}
             </p>
           </div>

@@ -105,7 +105,7 @@ export default function CommunitiesSection() {
         <p className="mt-2 text-muted-foreground">
           {t(
             "pages.main_page.home_search_simplified_desc",
-            "Explore the most home listings in Malaysia. With the most reliable information. All at your fingertips.",
+            "Explore the most home listings in Qashqadaryo. With the most reliable information. All at your fingertips.",
           )}
         </p>
       </div>
@@ -199,7 +199,7 @@ export default function CommunitiesSection() {
           )}
           description={t(
             "pages.communities.luxury_desc",
-            "Browse top-tier residences in Malaysia's most prestigious neighborhoods.",
+            "Browse top-tier residences in Qashqadaryo's most prestigious neighborhoods.",
           )}
           link="/filter-nav?category=APARTMENT_SALE"
           cta={t("pages.communities.luxury_cta", "Explore Luxury")}

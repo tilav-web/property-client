@@ -21,10 +21,10 @@ import {
 import PropertyCard from "@/components/common/property-card";
 
 const LANDMARKS = [
-  "KLCC / Petronas Twin Towers",
-  "KL Sentral",
-  "Mid Valley",
-  "Sunway Pyramid",
+  "Qarshi markazi",
+  "Cosmos savdo markazi",
+  "Qarshi bozori",
+  "Universitet kampus",
 ];
 
 const MODES = [

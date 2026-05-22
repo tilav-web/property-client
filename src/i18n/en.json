@@ -78,8 +78,8 @@
       "privacy_policy": "Privacy Policy",
       "terms_of_service": "Terms of Service",
       "offices": "Our Offices",
-      "office_malaysia": "Kuala Lumpur, Malaysia",
-      "office_uae": "Dubai, UAE",
+      "office_malaysia": "Qarshi, Uzbekistan",
+      "office_uae": "Toshkent, Uzbekistan",
       "follow_us": "Follow Us",
       "all_rights_reserved": "All rights reserved.",
       "made_with_love": "Made with love by Tilav Web"
@@ -330,7 +330,7 @@
       "no_property_selected": "No property selected for deletion."
     },
     "hero": {
-      "title": "Dream homes in the heart of Malaysia",
+      "title": "Find your perfect home",
       "search": {
         "search_placeholder": "Search with City or Country...",
         "dropdown_menu": {
@@ -459,7 +459,7 @@
       },
       "search_filters": {
         "location_placeholder": "City, community or building",
-        "ai_placeholder": "Describe what you need, e.g. 2-bedroom apartment near KLCC",
+        "ai_placeholder": "Describe what you need, e.g. 2-bedroom apartment in Qarshi center",
         "ai_search": "AI search",
         "ai_default_prompt": "Find suitable properties for me",
         "selected_filters": "Selected filters",
@@ -533,7 +533,7 @@
       },
       "transactions": {
         "title": "Browse property transactions",
-        "subtitle": "Powered by Malaysia property transaction data for your area.",
+        "subtitle": "Powered by Qashqadaryo property transaction data for your area.",
         "new_rentals": "New rentals",
         "new_sales": "New sales",
         "listings": "Listings",
@@ -542,7 +542,7 @@
         "view_all": "View all transactions",
         "rented": "Rented",
         "sold": "Sold",
-        "search_placeholder": "Search any location in Malaysia",
+        "search_placeholder": "Search any location in Qashqadaryo",
         "renewed": "Renewed rentals"
       },
       "list_property_cta": {
@@ -704,7 +704,7 @@
       "confirm_mortgage": "Confirm mortgage"
     },
     "category_page": {
-      "title": "Dream apartments in the heart of Malaysia",
+      "title": "Find your perfect apartment",
       "no_more_results": "All information is displayed!",
       "select_category_prompt": "No information found"
     },
@@ -830,7 +830,7 @@
     },
     "home_features": {
       "title": "Home search, simplified",
-      "subtitle": "Find, track and secure properties with the most powerful search experience in Malaysia.",
+      "subtitle": "Find, track and secure properties with the most powerful search experience.",
       "tools_title": "Unlock exclusive tools & insights",
       "tools_desc": "AI search, market trends and price comparisons across all areas.",
       "alerts_title": "Be notified of any price change",
@@ -843,9 +843,9 @@
     },
     "communities": {
       "title": "Find your perfect area",
-      "subtitle": "Curated areas across Malaysia for every lifestyle and budget.",
-      "popular_title": "Popular Communities",
-      "popular_desc": "Most loved neighborhoods — KLCC, Mont Kiara, Bangsar.",
+      "subtitle": "Curated districts across Qashqadaryo for every lifestyle and budget.",
+      "popular_title": "Popular Districts",
+      "popular_desc": "Most loved neighborhoods — Qarshi center, Yangi Qarshi, Shahrisabz.",
       "popular_cta": "Explore Popular Areas",
       "budget_title": "Budget-Friendly",
       "budget_desc": "Discover communities within your budget without compromise.",
@@ -861,9 +861,9 @@
     "mortgage": {
       "title": "Mortgage Cashback",
       "subtitle": "Check if you qualify for 1% Mortgage Cashback:",
-      "check_resident": "You're a Malaysian resident or expat",
-      "check_no_home": "You don't currently own a home in Malaysia",
-      "check_amount": "You require a mortgage over RM 500,000",
+      "check_resident": "You are a resident of Uzbekistan",
+      "check_no_home": "You don't currently own a home",
+      "check_amount": "You require a mortgage over 500,000,000 so'm",
       "name_label": "Name (optional)",
       "name_placeholder": "Your name",
       "phone_label": "Phone number",
@@ -882,39 +882,39 @@
     },
     "explore": {
       "title": "Explore more",
-      "subtitle": "Browse listings by area and category across Malaysia.",
+      "subtitle": "Browse listings by district and category across Qashqadaryo.",
       "invest": "Invest",
       "find_apartments": "Find apartments",
       "find_apartments_buy": "Find apartments to buy",
       "find_projects": "New off-plan projects",
-      "apartments_kl": "Apartments for rent in Kuala Lumpur",
-      "studio_kl": "Studio Apartments for rent in KL",
-      "furnished_kl": "Furnished Apartments for rent in KL",
-      "apartments_penang": "Apartments for rent in Penang",
-      "apartments_jb": "Apartments for rent in Johor Bahru",
-      "apartments_selangor": "Apartments for rent in Selangor",
+      "apartments_kl": "Apartments for rent in Qarshi",
+      "studio_kl": "Studio Apartments for rent in Qarshi",
+      "furnished_kl": "Furnished Apartments for rent in Qarshi",
+      "apartments_penang": "Apartments for rent in Shahrisabz",
+      "apartments_jb": "Apartments for rent in Yakkabog'",
+      "apartments_selangor": "Apartments for rent in Qashqadaryo",
       "apartments_monthly": "Monthly Apartments for rent",
-      "apartments_montkiara": "Apartments for rent in Mont Kiara",
-      "apartments_bangsar": "Apartments for rent in Bangsar",
-      "apartments_klcc": "Apartments for rent in KLCC",
-      "buy_kl": "Apartments for sale in Kuala Lumpur",
-      "buy_studio_kl": "Studio Apartments for sale in KL",
-      "buy_penang": "Apartments for sale in Penang",
-      "buy_jb": "Apartments for sale in Johor Bahru",
-      "buy_montkiara": "Apartments for sale in Mont Kiara",
-      "buy_bangsar": "Apartments for sale in Bangsar",
-      "buy_klcc": "Apartments for sale in KLCC",
-      "buy_subang": "Apartments for sale in Subang Jaya",
-      "projects_kl": "New projects in Kuala Lumpur",
-      "projects_penang": "New projects in Penang",
-      "projects_jb": "New projects in Johor Bahru",
+      "apartments_montkiara": "Apartments for rent in Yangi Qarshi",
+      "apartments_bangsar": "Apartments for rent in Qarshi center",
+      "apartments_klcc": "Apartments for rent near Cosmos",
+      "buy_kl": "Apartments for sale in Qarshi",
+      "buy_studio_kl": "Studio Apartments for sale in Qarshi",
+      "buy_penang": "Apartments for sale in Shahrisabz",
+      "buy_jb": "Apartments for sale in Yakkabog'",
+      "buy_montkiara": "Apartments for sale in Yangi Qarshi",
+      "buy_bangsar": "Apartments for sale in Qarshi center",
+      "buy_klcc": "Apartments for sale near Cosmos",
+      "buy_subang": "Apartments for sale in Koson",
+      "projects_kl": "New projects in Qarshi",
+      "projects_penang": "New projects in Shahrisabz",
+      "projects_jb": "New projects in Yakkabog'",
       "projects_pre_launch": "Pre-launch projects",
       "projects_on_sale": "Projects on sale",
       "developers_all": "All developers"
     },
     "list_property": {
       "title": "Looking to advertise a property? We can help.",
-      "subtitle": "Reach thousands of buyers and renters across Malaysia and Central Asia.",
+      "subtitle": "Reach thousands of buyers and renters across Uzbekistan.",
       "cta": "List your property with us"
     },
     "seller_profile": {
@@ -953,20 +953,20 @@
       "tag_to": "to"
     },
     "explore_projects": {
-      "title": "Explore new projects in Malaysia",
+      "title": "Explore new projects in Qashqadaryo",
       "subtitle": "Discover the latest off-plan properties and be informed.",
       "empty": "No projects available in this city yet.",
       "see_all": "See all New Projects"
     },
     "compare_prices": {
-      "title": "Compare prices by area",
-      "subtitle": "Understand what your budget unlocks across different areas.",
-      "legend_title": "Malaysia prices",
-      "legend_note": "Average asking prices across Malaysia's most active neighborhoods."
+      "title": "Compare prices by district",
+      "subtitle": "Understand what your budget unlocks across different districts.",
+      "legend_title": "Qashqadaryo prices",
+      "legend_note": "Average asking prices across Qashqadaryo's most active neighborhoods."
     },
     "developers": {
       "projects_count": "projects",
-      "see_all": "All developers in Malaysia"
+      "see_all": "All developers in Uzbekistan"
     }
   },
   "categories": {
@@ -1371,10 +1371,10 @@
     "videos_suffix": "videos"
   },
   "cities": {
-    "kl": "Kuala Lumpur",
-    "penang": "Penang",
-    "jb": "Johor Bahru",
-    "selangor": "Selangor"
+    "kl": "Qarshi",
+    "penang": "Shahrisabz",
+    "jb": "Yakkabog'",
+    "selangor": "Qashqadaryo"
   },
   "payment": {
     "premium": {

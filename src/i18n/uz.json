@@ -79,8 +79,8 @@
       "privacy_policy": "Maxfiylik siyosati",
       "terms_of_service": "Foydalanish shartlari",
       "offices": "Ofislarimiz",
-      "office_malaysia": "Kuala Lumpur, Malayziya",
-      "office_uae": "Dubay, BAA",
+      "office_malaysia": "Qarshi, O'zbekiston",
+      "office_uae": "Toshkent, O'zbekiston",
       "follow_us": "Bizni kuzating",
       "all_rights_reserved": "Barcha huquqlar himoyalangan.",
       "made_with_love": "Tilav Web tomonidan yaratilgan"
@@ -330,7 +330,7 @@
       "no_property_selected": "O'chirish uchun mulk tanlanmagan."
     },
     "hero": {
-      "title": "Malaysia markazida orzudagi uylar",
+      "title": "Orzudagi uyingizni toping",
       "search": {
         "search_placeholder": "Shahar yoki mamlakat bo'yicha qidiruv...",
         "dropdown_menu": {
@@ -492,7 +492,7 @@
       },
       "search_filters": {
         "location_placeholder": "Shahar, tuman yoki bino",
-        "ai_placeholder": "Nima kerakligini yozing, masalan KLCC yaqinida 2 xonali kvartira",
+        "ai_placeholder": "Nima kerakligini yozing, masalan Qarshi markazida 2 xonali kvartira",
         "ai_search": "AI qidiruv",
         "ai_default_prompt": "Menga mos mulklarni topib ber",
         "selected_filters": "Tanlangan filterlar",
@@ -703,7 +703,7 @@
       "confirm_mortgage": "Ipotekani tasdiqlash"
     },
     "category_page": {
-      "title": "Malaysia markazida orzudagi uylar",
+      "title": "Orzudagi kvartirangizni toping",
       "no_more_results": "Barcha ma'lumotlar ko'rsatildi!",
       "select_category_prompt": "Ma'lumot topilmadi"
     },
@@ -829,7 +829,7 @@
     },
     "home_features": {
       "title": "Uy qidirish, soddalashtirildi",
-      "subtitle": "Malayziya bo'ylab eng kuchli qidiruv bilan mulkni topish, kuzatish va sotib olish.",
+      "subtitle": "Eng kuchli qidiruv bilan mulkni topish, kuzatish va sotib olish.",
       "tools_title": "Eksklyuziv vositalar va tahlillar",
       "tools_desc": "AI qidiruv, bozor tendensiyalari va barcha hududlar bo'yicha narx solishtirish.",
       "alerts_title": "Narx o'zgarishlaridan xabar oling",
@@ -842,9 +842,9 @@
     },
     "communities": {
       "title": "O'zingizga mos hududni toping",
-      "subtitle": "Malayziya bo'ylab har bir turmush tarzi va byudjet uchun saralangan hududlar.",
-      "popular_title": "Mashhur hududlar",
-      "popular_desc": "Eng sevimli mahallalar — KLCC, Mont Kiara, Bangsar.",
+      "subtitle": "Qashqadaryo bo'ylab har bir turmush tarzi va byudjet uchun saralangan tumanlar.",
+      "popular_title": "Mashhur tumanlar",
+      "popular_desc": "Eng sevimli mahallalar — Qarshi markaz, Yangi Qarshi, Shahrisabz.",
       "popular_cta": "Mashhur hududlarni ko'rish",
       "budget_title": "Byudjet uchun qulay",
       "budget_desc": "Byudjetingizga mos hududlarni murosaga kelmasdan toping.",
@@ -860,9 +860,9 @@
     "mortgage": {
       "title": "Ipoteka Cashback",
       "subtitle": "1% Ipoteka Cashback uchun mosligingizni tekshiring:",
-      "check_resident": "Siz Malayziya rezidenti yoki ekspatsiz",
-      "check_no_home": "Hozirda Malayziyada uyingiz yo'q",
-      "check_amount": "Sizga RM 500,000 dan ortiq ipoteka kerak",
+      "check_resident": "Siz O'zbekiston fuqarosisiz",
+      "check_no_home": "Hozirda uyingiz yo'q",
+      "check_amount": "Sizga 500 000 000 so'mdan ortiq ipoteka kerak",
       "name_label": "Ism (ixtiyoriy)",
       "name_placeholder": "Ismingiz",
       "phone_label": "Telefon raqami",
@@ -881,39 +881,39 @@
     },
     "explore": {
       "title": "Ko'proq ko'ring",
-      "subtitle": "Malayziya bo'ylab e'lonlarni hudud va kategoriya bo'yicha ko'rib chiqing.",
+      "subtitle": "Qashqadaryo bo'ylab e'lonlarni tuman va kategoriya bo'yicha ko'rib chiqing.",
       "invest": "Investitsiya",
       "find_apartments": "Kvartira topish",
       "find_apartments_buy": "Sotuvdagi kvartiralarni topish",
-      "find_projects": "Yangi off-plan loyihalar",
-      "apartments_kl": "Kuala Lumpur'da ijaradagi kvartiralar",
-      "studio_kl": "KL'da ijaradagi studio kvartiralar",
-      "furnished_kl": "KL'da jihozli ijara kvartiralar",
-      "apartments_penang": "Penang'da ijaradagi kvartiralar",
-      "apartments_jb": "Johor Bahru'da ijaradagi kvartiralar",
-      "apartments_selangor": "Selangor'da ijaradagi kvartiralar",
+      "find_projects": "Yangi loyihalar",
+      "apartments_kl": "Qarshida ijaradagi kvartiralar",
+      "studio_kl": "Qarshida ijaradagi studio kvartiralar",
+      "furnished_kl": "Qarshida jihozli ijara kvartiralar",
+      "apartments_penang": "Shahrisabzda ijaradagi kvartiralar",
+      "apartments_jb": "Yakkabog'da ijaradagi kvartiralar",
+      "apartments_selangor": "Qashqadaryoda ijaradagi kvartiralar",
       "apartments_monthly": "Oylik ijara kvartiralar",
-      "apartments_montkiara": "Mont Kiara'da ijara",
-      "apartments_bangsar": "Bangsar'da ijara",
-      "apartments_klcc": "KLCC'da ijara",
-      "buy_kl": "Kuala Lumpur'da sotuvdagi kvartiralar",
-      "buy_studio_kl": "KL'da sotuvdagi studio kvartiralar",
-      "buy_penang": "Penang'da sotuvdagi kvartiralar",
-      "buy_jb": "Johor Bahru'da sotuvdagi kvartiralar",
-      "buy_montkiara": "Mont Kiara'da sotuvdagi kvartiralar",
-      "buy_bangsar": "Bangsar'da sotuvdagi kvartiralar",
-      "buy_klcc": "KLCC'da sotuvdagi kvartiralar",
-      "buy_subang": "Subang Jaya'da sotuvdagi kvartiralar",
-      "projects_kl": "Kuala Lumpur'dagi yangi loyihalar",
-      "projects_penang": "Penang'dagi yangi loyihalar",
-      "projects_jb": "Johor Bahru'dagi yangi loyihalar",
+      "apartments_montkiara": "Yangi Qarshida ijara",
+      "apartments_bangsar": "Qarshi markazida ijara",
+      "apartments_klcc": "Cosmos yaqinida ijara",
+      "buy_kl": "Qarshida sotuvdagi kvartiralar",
+      "buy_studio_kl": "Qarshida sotuvdagi studio kvartiralar",
+      "buy_penang": "Shahrisabzda sotuvdagi kvartiralar",
+      "buy_jb": "Yakkabog'da sotuvdagi kvartiralar",
+      "buy_montkiara": "Yangi Qarshida sotuvdagi kvartiralar",
+      "buy_bangsar": "Qarshi markazida sotuvdagi kvartiralar",
+      "buy_klcc": "Cosmos yaqinida sotuvdagi kvartiralar",
+      "buy_subang": "Kosonda sotuvdagi kvartiralar",
+      "projects_kl": "Qarshidagi yangi loyihalar",
+      "projects_penang": "Shahrisabzdagi yangi loyihalar",
+      "projects_jb": "Yakkabog'dagi yangi loyihalar",
       "projects_pre_launch": "Tez orada chiqadigan loyihalar",
       "projects_on_sale": "Sotuvdagi loyihalar",
       "developers_all": "Barcha developerlar"
     },
     "list_property": {
       "title": "Mulk reklama qilmoqchimisiz? Biz yordam beramiz.",
-      "subtitle": "Malayziya va Markaziy Osiyodagi minglab xaridor va ijarachilarga yetib boring.",
+      "subtitle": "O'zbekistondagi minglab xaridor va ijarachilarga yetib boring.",
       "cta": "Mulkingizni biz bilan joylashtiring"
     },
     "seller_profile": {
@@ -952,20 +952,20 @@
       "tag_to": "gacha"
     },
     "explore_projects": {
-      "title": "Malaysiyadagi yangi loyihalar",
-      "subtitle": "Eng so'nggi off-plan ko'chmas mulklarni kashf eting.",
+      "title": "Qashqadaryodagi yangi loyihalar",
+      "subtitle": "Eng so'nggi ko'chmas mulklarni kashf eting.",
       "empty": "Bu shaharda hozircha loyihalar mavjud emas.",
       "see_all": "Barcha yangi loyihalar"
     },
     "compare_prices": {
-      "title": "Hududlar bo'yicha narxlarni solishtirish",
-      "subtitle": "Byudjetingiz turli hududlarda nima ochishini bilib oling.",
-      "legend_title": "Malaysiya narxlari",
-      "legend_note": "Malaysiyaning eng faol tumanlari bo'yicha o'rtacha narxlar."
+      "title": "Tumanlar bo'yicha narxlarni solishtirish",
+      "subtitle": "Byudjetingiz turli tumanlarda nima ochishini bilib oling.",
+      "legend_title": "Qashqadaryo narxlari",
+      "legend_note": "Qashqadaryoning eng faol tumanlari bo'yicha o'rtacha narxlar."
     },
     "developers": {
       "projects_count": "loyiha",
-      "see_all": "Malaysiyadagi barcha quruvchilar"
+      "see_all": "O'zbekistondagi barcha quruvchilar"
     }
   },
   "categories": {
@@ -1370,10 +1370,10 @@
     "videos_suffix": "ta video"
   },
   "cities": {
-    "kl": "Kuala-Lumpur",
-    "penang": "Penang",
-    "jb": "Johor Bahru",
-    "selangor": "Selangor"
+    "kl": "Qarshi",
+    "penang": "Shahrisabz",
+    "jb": "Yakkabog'",
+    "selangor": "Qashqadaryo"
   },
   "payment": {
     "premium": {

@@ -78,7 +78,7 @@
       "privacy_policy": "Dasar Privasi",
       "terms_of_service": "Terma Perkhidmatan",
       "offices": "Pejabat Kami",
-      "office_malaysia": "Kuala Lumpur, Malaysia",
+      "office_malaysia": "Qarshi, Uzbekistan",
       "office_uae": "Dubai, UAE",
       "follow_us": "Ikuti Kami",
       "all_rights_reserved": "Hak cipta terpelihara.",
@@ -330,7 +330,7 @@
       "no_property_selected": "Tiada hartanah dipilih untuk dipadam."
     },
     "hero": {
-      "title": "Rumah impian di jantung Malaysia",
+      "title": "Cari rumah idaman anda",
       "search": {
         "search_placeholder": "Cari dengan Bandar atau Negara...",
         "dropdown_menu": {
@@ -492,7 +492,7 @@
       },
       "search_filters": {
         "location_placeholder": "Bandar, komuniti atau bangunan",
-        "ai_placeholder": "Terangkan keperluan anda, contoh apartmen 2 bilik dekat KLCC",
+        "ai_placeholder": "Terangkan keperluan anda, contoh apartmen 2 bilik dekat pusat Qarshi",
         "ai_search": "Carian AI",
         "ai_default_prompt": "Cari hartanah yang sesuai untuk saya",
         "selected_filters": "Penapis dipilih",
@@ -532,7 +532,7 @@
       },
       "transactions": {
         "title": "Semak transaksi hartanah",
-        "subtitle": "Berdasarkan data transaksi hartanah Malaysia di kawasan anda.",
+        "subtitle": "Berdasarkan data transaksi hartanah Qashqadaryo di kawasan anda.",
         "new_rentals": "Sewaan baharu",
         "new_sales": "Jualan baharu",
         "listings": "Senarai",
@@ -541,7 +541,7 @@
         "view_all": "Semua transaksi",
         "rented": "Disewa",
         "sold": "Dijual",
-        "search_placeholder": "Cari mana-mana lokasi di Malaysia",
+        "search_placeholder": "Cari mana-mana lokasi di Qashqadaryo",
         "renewed": "Sewaan diperbaharui"
       },
       "list_property_cta": {
@@ -703,7 +703,7 @@
       "confirm_mortgage": "Sahkan pinjaman perumahan"
     },
     "category_page": {
-      "title": "Apartment impian di jantung Malaysia",
+      "title": "Cari apartmen idaman anda",
       "no_more_results": "Semua maklumat telah dipaparkan!",
       "select_category_prompt": "Tiada maklumat ditemui"
     },
@@ -829,7 +829,7 @@
     },
     "home_features": {
       "title": "Carian rumah, dipermudahkan",
-      "subtitle": "Cari, jejak dan dapatkan hartanah dengan pengalaman carian paling berkuasa di Malaysia.",
+      "subtitle": "Cari, jejak dan dapatkan hartanah dengan pengalaman carian paling berkuasa.",
       "tools_title": "Buka kunci alat dan analisis eksklusif",
       "tools_desc": "Carian AI, trend pasaran dan perbandingan harga di semua kawasan.",
       "alerts_title": "Dapatkan notifikasi perubahan harga",
@@ -842,9 +842,9 @@
     },
     "communities": {
       "title": "Cari kawasan ideal anda",
-      "subtitle": "Kawasan terpilih di seluruh Malaysia untuk setiap gaya hidup dan bajet.",
+      "subtitle": "Daerah terpilih di seluruh Qashqadaryo untuk setiap gaya hidup dan bajet.",
       "popular_title": "Komuniti Popular",
-      "popular_desc": "Kejiranan paling digemari — KLCC, Mont Kiara, Bangsar.",
+      "popular_desc": "Kejiranan paling digemari — pusat Qarshi, Qarshi Baharu, Shahrisabz.",
       "popular_cta": "Terokai Kawasan Popular",
       "budget_title": "Mesra Bajet",
       "budget_desc": "Cari komuniti dalam bajet anda tanpa kompromi.",
@@ -860,9 +860,9 @@
     "mortgage": {
       "title": "Pulangan Wang Gadai Janji",
       "subtitle": "Periksa kelayakan untuk Pulangan Wang Gadai Janji 1%:",
-      "check_resident": "Anda penduduk atau ekspatriat Malaysia",
-      "check_no_home": "Anda kini tidak memiliki rumah di Malaysia",
-      "check_amount": "Anda memerlukan gadai janji melebihi RM 500,000",
+      "check_resident": "Anda penduduk Uzbekistan",
+      "check_no_home": "Anda kini tidak memiliki rumah",
+      "check_amount": "Anda memerlukan gadai janji melebihi 500,000,000 so'm",
       "name_label": "Nama (pilihan)",
       "name_placeholder": "Nama anda",
       "phone_label": "Nombor telefon",
@@ -881,39 +881,39 @@
     },
     "explore": {
       "title": "Terokai lebih lanjut",
-      "subtitle": "Imbas penyenaraian mengikut kawasan dan kategori di Malaysia.",
+      "subtitle": "Imbas penyenaraian mengikut daerah dan kategori di Qashqadaryo.",
       "invest": "Pelaburan",
       "find_apartments": "Cari apartmen",
       "find_apartments_buy": "Cari apartmen untuk dibeli",
       "find_projects": "Projek off-plan baru",
-      "apartments_kl": "Apartmen sewa di Kuala Lumpur",
+      "apartments_kl": "Apartmen sewa di Qarshi",
       "studio_kl": "Apartmen studio sewa di KL",
       "furnished_kl": "Apartmen berperabot sewa di KL",
       "apartments_penang": "Apartmen sewa di Pulau Pinang",
-      "apartments_jb": "Apartmen sewa di Johor Bahru",
-      "apartments_selangor": "Apartmen sewa di Selangor",
+      "apartments_jb": "Apartmen sewa di Yakkabog",
+      "apartments_selangor": "Apartmen sewa di Qashqadaryo",
       "apartments_monthly": "Apartmen sewa bulanan",
-      "apartments_montkiara": "Sewa di Mont Kiara",
-      "apartments_bangsar": "Sewa di Bangsar",
-      "apartments_klcc": "Sewa di KLCC",
-      "buy_kl": "Apartmen untuk dijual di Kuala Lumpur",
+      "apartments_montkiara": "Sewa di Qarshi Baharu",
+      "apartments_bangsar": "Sewa di pusat Qarshi",
+      "apartments_klcc": "Sewa di Cosmos",
+      "buy_kl": "Apartmen untuk dijual di Qarshi",
       "buy_studio_kl": "Apartmen studio dijual di KL",
       "buy_penang": "Apartmen dijual di Pulau Pinang",
-      "buy_jb": "Apartmen dijual di Johor Bahru",
-      "buy_montkiara": "Dijual di Mont Kiara",
-      "buy_bangsar": "Dijual di Bangsar",
-      "buy_klcc": "Dijual di KLCC",
-      "buy_subang": "Dijual di Subang Jaya",
-      "projects_kl": "Projek baru di Kuala Lumpur",
+      "buy_jb": "Apartmen dijual di Yakkabog",
+      "buy_montkiara": "Dijual di Qarshi Baharu",
+      "buy_bangsar": "Dijual di pusat Qarshi",
+      "buy_klcc": "Dijual di Cosmos",
+      "buy_subang": "Dijual di Koson",
+      "projects_kl": "Projek baru di Qarshi",
       "projects_penang": "Projek baru di Pulau Pinang",
-      "projects_jb": "Projek baru di Johor Bahru",
+      "projects_jb": "Projek baru di Yakkabog",
       "projects_pre_launch": "Projek pra-pelancaran",
       "projects_on_sale": "Projek dalam jualan",
       "developers_all": "Semua pemaju"
     },
     "list_property": {
       "title": "Mahu mengiklankan hartanah? Kami boleh bantu.",
-      "subtitle": "Capai ribuan pembeli dan penyewa di seluruh Malaysia dan Asia Tengah.",
+      "subtitle": "Capai ribuan pembeli dan penyewa di seluruh Uzbekistan.",
       "cta": "Senaraikan hartanah anda dengan kami"
     },
     "seller_profile": {
@@ -952,7 +952,7 @@
       "tag_to": "ke"
     },
     "explore_projects": {
-      "title": "Terokai projek baharu di Malaysia",
+      "title": "Terokai projek baharu di Qashqadaryo",
       "subtitle": "Temui hartanah off-plan terkini dan kekal terkini.",
       "empty": "Belum ada projek di bandar ini.",
       "see_all": "Lihat semua projek baharu"
@@ -960,12 +960,12 @@
     "compare_prices": {
       "title": "Bandingkan harga mengikut kawasan",
       "subtitle": "Fahami apa yang bajet anda boleh capai di kawasan berbeza.",
-      "legend_title": "Harga Malaysia",
-      "legend_note": "Purata harga jualan di kawasan paling aktif di Malaysia."
+      "legend_title": "Harga Qashqadaryo",
+      "legend_note": "Purata harga jualan di kawasan paling aktif di Qashqadaryo."
     },
     "developers": {
       "projects_count": "projek",
-      "see_all": "Semua pemaju di Malaysia"
+      "see_all": "Semua pemaju di Uzbekistan"
     }
   },
   "categories": {
@@ -1370,10 +1370,10 @@
     "videos_suffix": "video"
   },
   "cities": {
-    "kl": "Kuala Lumpur",
+    "kl": "Qarshi",
     "penang": "Pulau Pinang",
-    "jb": "Johor Bahru",
-    "selangor": "Selangor"
+    "jb": "Yakkabog",
+    "selangor": "Qashqadaryo"
   },
   "payment": {
     "premium": {
