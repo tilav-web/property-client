@@ -211,7 +211,7 @@ export default function AdvertiseCard({ advertise, onEdit, onDelete }: Readonly<
           </div>
 
           {/* Aktiv reklamada qancha kun qolgani */}
-          {advertise?.status === "approved" &&
+          {advertise?.status === "APPROVED" &&
             advertise?.payment_status === "paid" &&
             (() => {
               const left = daysRemaining(advertise.to);
