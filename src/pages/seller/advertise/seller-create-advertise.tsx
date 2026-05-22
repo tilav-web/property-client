@@ -30,6 +30,11 @@ export default function SellerCreateAdvertise() {
     totalPrice: number;
     currency: string;
   }>();
+  const [paymentPending, setPaymentPending] = useState<{
+    url: string;
+    amount: number;
+    currency: string;
+  } | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -75,14 +80,28 @@ export default function SellerCreateAdvertise() {
       formData.append("image", selectedImage);
 
       const data = await advertiseService.create(formData);
-      console.log(data);
-      toast.success("Muvaffaqiyatli", {
-        description: "Reklama muvaffaqiyatli yaratildi!",
-      });
       setTargetUrl("");
       setDays("1");
       setSelectedImage(null);
       setImagePreview("");
+
+      if (data.checkoutUrl) {
+        // To'lov shart (UZ) -> Payme yangi tab'da ochamiz
+        toast.success("Reklama yaratildi", {
+          description: "To'lov sahifasiga yo'naltirilyapsiz...",
+        });
+        window.open(data.checkoutUrl, "_blank", "noopener,noreferrer");
+        setPaymentPending({
+          url: data.checkoutUrl,
+          amount: priceCalculus?.totalPrice ?? 0,
+          currency: priceCalculus?.currency ?? "",
+        });
+      } else {
+        // PAYMENT_PROVIDER=none (MY) -> admin qo'lda tasdiqlaydi
+        toast.success("Reklama yaratildi", {
+          description: "Admin tasdiqlashini kuting",
+        });
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -112,6 +131,48 @@ export default function SellerCreateAdvertise() {
           qanday ko'rinishini ko'rasiz.
         </p>
       </div>
+
+      {paymentPending && (
+        <div className="mb-6 flex items-start gap-4 rounded-2xl border border-amber-200 bg-amber-50 p-5">
+          <div className="flex size-10 flex-shrink-0 items-center justify-center rounded-full bg-amber-500 text-white">
+            💳
+          </div>
+          <div className="flex-1">
+            <h3 className="font-semibold text-amber-900">
+              To'lov kutilmoqda
+            </h3>
+            <p className="mt-1 text-sm text-amber-800">
+              Reklama yaratildi. Faollashishi uchun Payme orqali{" "}
+              <strong>
+                {paymentPending.amount.toLocaleString()}{" "}
+                {paymentPending.currency}
+              </strong>{" "}
+              to'lash kerak. Yangi tab ochilgan bo'lishi kerak — agar yopib
+              qo'ygan bo'lsangiz, qaytadan bosing.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Button
+                onClick={() =>
+                  window.open(
+                    paymentPending.url,
+                    "_blank",
+                    "noopener,noreferrer",
+                  )
+                }
+                className="bg-amber-600 hover:bg-amber-700"
+              >
+                Payme'ga o'tish
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setPaymentPending(null)}
+              >
+                Yopish
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Card className="mb-8">
         <CardHeader className="pb-4">

@@ -2,10 +2,20 @@ import type { AdvertiseType } from "@/interfaces/advertise/advertise.interface";
 import apiInstance from "@/lib/api-instance";
 import { API_ENDPOINTS } from "@/utils/shared";
 
+export interface CreateAdvertiseResponse {
+  advertise: AdvertiseType;
+  transactionId: string | null;
+  checkoutUrl: string | null;
+  provider: "PAYME" | "CLICK" | "NONE";
+}
+
 class AdvertiseService {
-  async create(dto: FormData) {
+  async create(dto: FormData): Promise<CreateAdvertiseResponse> {
     try {
-      const res = await apiInstance.post(API_ENDPOINTS.ADVERTISE.base, dto);
+      const res = await apiInstance.post<CreateAdvertiseResponse>(
+        API_ENDPOINTS.ADVERTISE.base,
+        dto,
+      );
       return res.data;
     } catch (error) {
       console.error(error);
