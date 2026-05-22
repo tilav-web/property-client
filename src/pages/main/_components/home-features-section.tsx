@@ -254,24 +254,41 @@ export default function HomeFeaturesSection() {
           </div>
 
           {/* Right — telefon mockup + dekorativ doira orqada */}
-          <div className="relative flex justify-center lg:justify-end">
-            {/* Dekorativ ochiq doira (reference dizayndagi kabi) */}
-            <div className="pointer-events-none absolute right-0 top-1/2 size-[280px] -translate-y-1/2 rounded-full bg-sky-100/70 blur-sm sm:size-[320px] lg:right-4 lg:size-[340px]" />
-            {/* Star/sparkle decorations */}
-            <div className="pointer-events-none absolute right-2 top-4 text-pink-400">
-              <svg viewBox="0 0 24 24" className="size-5" fill="currentColor">
-                <path d="M12 2L14 10L22 12L14 14L12 22L10 14L2 12L10 10Z" />
-              </svg>
-            </div>
-            <div className="pointer-events-none absolute bottom-8 left-2 text-pink-300">
-              <svg viewBox="0 0 24 24" className="size-4" fill="currentColor">
-                <path d="M12 2L14 10L22 12L14 14L12 22L10 14L2 12L10 10Z" />
-              </svg>
-            </div>
+          <div className="relative flex min-h-[420px] items-center justify-center lg:justify-end">
+            {/* Dekorativ ochiq ko'k doira (aniq ko'rinadigan, blur emas) */}
+            <div className="pointer-events-none absolute left-1/2 top-1/2 size-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-200/80 sm:size-[360px] lg:left-auto lg:right-2 lg:translate-x-0 lg:size-[380px]" />
+
+            {/* Pink sparkle decorations — 4 ta turli o'lcham */}
+            <svg
+              className="pointer-events-none absolute right-2 top-2 size-6 text-pink-400 lg:right-8 lg:top-4"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" />
+            </svg>
+            <svg
+              className="pointer-events-none absolute bottom-6 left-1 size-7 text-pink-400 lg:bottom-12 lg:left-2"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" />
+            </svg>
+            <svg
+              className="pointer-events-none absolute right-12 top-24 size-4 text-pink-300"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" />
+            </svg>
+
+            {/* Telefon — biroz aylantirilgan (reference dizayndagi kabi) */}
             <img
               src={mobileMockup}
               alt="Mobile app preview"
-              className="relative z-10 w-[240px] drop-shadow-2xl sm:w-[280px] lg:w-[300px]"
+              className="relative z-10 w-[240px] rotate-[8deg] drop-shadow-2xl sm:w-[280px] lg:w-[300px]"
               loading="lazy"
             />
           </div>
