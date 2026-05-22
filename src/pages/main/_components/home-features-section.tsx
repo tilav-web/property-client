@@ -254,43 +254,45 @@ export default function HomeFeaturesSection() {
           </div>
 
           {/* Right — telefon mockup + dekorativ doira + sparkle accent'lar.
-              Parent'ga aniq height berildi, rasm absolute joylashgan,
-              z-index past — PropertyFinder layoutdagi kabi. */}
-          <div className="relative h-[460px] w-full sm:h-[500px] lg:h-[520px]">
-            {/* Ochiq ko'k doira (orqa fon, markazlashgan) */}
+              Telefon o'lchami kichraytirilgan + container balandligi oshirilgan
+              -> telefon tepa va pastdan teng masofada (markazlashgan),
+              kesilmaydi. Doira telefondan biroz katta. */}
+          <div className="relative h-[480px] w-full sm:h-[520px] lg:h-[560px]">
+            {/* Ochiq ko'k doira — telefondan biroz katta, markazlashgan */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute left-1/2 top-1/2 z-0 size-[340px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-100 sm:size-[380px]"
+              className="pointer-events-none absolute left-1/2 top-1/2 z-0 size-[320px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-100 sm:size-[360px] lg:size-[400px]"
             />
 
-            {/* Telefon — absolute, parent ichida joylashgan, borderli */}
+            {/* Telefon — to'liq markazlashgan (top-1/2 + -translate-y-1/2),
+                kichikroq o'lcham (container ichiga sig'adi) */}
             <img
               src={mobileMockup}
               alt="Mobile app preview"
-              className="absolute left-1/2 top-1/2 z-[1] w-[260px] -translate-x-1/2 -translate-y-1/2 -rotate-[8deg] rounded-[2rem] border-[6px] border-gray-900 object-cover shadow-2xl sm:w-[300px] lg:w-[320px]"
+              className="absolute left-1/2 top-1/2 z-[1] w-[220px] -translate-x-1/2 -translate-y-1/2 -rotate-[6deg] rounded-[2rem] border-[5px] border-gray-900 object-cover shadow-2xl sm:w-[250px] lg:w-[280px]"
               loading="lazy"
             />
 
-            {/* Top-right pink star */}
+            {/* Top-right pink star — doira chetida */}
             <svg
               aria-hidden="true"
-              className="pointer-events-none absolute right-4 top-4 z-[2] size-8 text-rose-400 drop-shadow sm:right-8 sm:top-6"
+              className="pointer-events-none absolute right-6 top-8 z-[2] size-7 text-rose-400 drop-shadow sm:right-10 sm:top-10"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
               <path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" />
             </svg>
 
-            {/* Bottom-right dark accent kvadrat (PF kabi) */}
+            {/* Bottom-right dark accent kvadrat */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute bottom-16 right-2 z-[2] size-6 rotate-12 rounded-sm bg-violet-900/60 sm:right-6"
+              className="pointer-events-none absolute bottom-20 right-4 z-[2] size-5 rotate-12 rounded-sm bg-violet-900/60 sm:right-8"
             />
 
             {/* Bottom-left pink star */}
             <svg
               aria-hidden="true"
-              className="pointer-events-none absolute bottom-8 left-2 z-[2] size-7 text-rose-400 drop-shadow sm:left-6"
+              className="pointer-events-none absolute bottom-12 left-4 z-[2] size-6 text-rose-400 drop-shadow sm:bottom-16 sm:left-8"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
