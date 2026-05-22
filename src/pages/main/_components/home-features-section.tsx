@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { BellRing, Bookmark, LineChart, Sparkles } from "lucide-react";
 import { siteSettingsService } from "@/services/site-settings.service";
-import mobileMockup from "@/assets/images/mobile.webp";
+import mobileMockup from "@/assets/images/mobile.jpg";
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -253,44 +253,50 @@ export default function HomeFeaturesSection() {
             />
           </div>
 
-          {/* Right — telefon mockup + dekorativ doira orqada */}
-          <div className="relative flex min-h-[420px] items-center justify-center lg:justify-end">
-            {/* Dekorativ ochiq ko'k doira (aniq ko'rinadigan, blur emas) */}
-            <div className="pointer-events-none absolute left-1/2 top-1/2 size-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-200/80 sm:size-[360px] lg:left-auto lg:right-2 lg:translate-x-0 lg:size-[380px]" />
+          {/* Right — telefon mockup PropertyFinder layout: doira ichida,
+              biroz chap tomonga aylantirilgan, sparkle/accent atrofida */}
+          <div className="flex min-h-[420px] items-center justify-center lg:justify-end">
+            <div className="relative w-fit">
+              {/* Ochiq ko'k doira — telefon orqasida markazlashgan */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 top-1/2 size-[320px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-100 sm:size-[360px]"
+              />
 
-            {/* Pink sparkle decorations — 4 ta turli o'lcham */}
-            <svg
-              className="pointer-events-none absolute right-2 top-2 size-6 text-pink-400 lg:right-8 lg:top-4"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" />
-            </svg>
-            <svg
-              className="pointer-events-none absolute bottom-6 left-1 size-7 text-pink-400 lg:bottom-12 lg:left-2"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" />
-            </svg>
-            <svg
-              className="pointer-events-none absolute right-12 top-24 size-4 text-pink-300"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" />
-            </svg>
+              {/* Top-right pink sparkle */}
+              <svg
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-3 top-1 z-20 size-7 text-rose-400 drop-shadow"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" />
+              </svg>
 
-            {/* Telefon — biroz aylantirilgan (reference dizayndagi kabi) */}
-            <img
-              src={mobileMockup}
-              alt="Mobile app preview"
-              className="relative z-10 w-[240px] rotate-[8deg] drop-shadow-2xl sm:w-[280px] lg:w-[300px]"
-              loading="lazy"
-            />
+              {/* Bottom-right dark accent — kichik to'rtburchak (PF kabi) */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-3 bottom-16 z-20 size-5 rotate-12 rounded-sm bg-violet-900/50"
+              />
+
+              {/* Bottom-left pink sparkle */}
+              <svg
+                aria-hidden="true"
+                className="pointer-events-none absolute -left-3 bottom-6 z-20 size-6 text-rose-400 drop-shadow"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z" />
+              </svg>
+
+              {/* Telefon — counter-clockwise rotation (PF kabi top-left ko'tariladi) */}
+              <img
+                src={mobileMockup}
+                alt="Mobile app preview"
+                className="relative z-10 block w-[240px] -rotate-[8deg] drop-shadow-2xl sm:w-[280px] lg:w-[300px]"
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
       </div>
