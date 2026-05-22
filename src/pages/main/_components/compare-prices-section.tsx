@@ -36,8 +36,8 @@ function formatCurrency(value: number) {
 export default function ComparePricesSection() {
   const { t } = useTranslation();
   const [mode, setMode] = useState<"rent" | "buy">("rent");
-  const [type, setType] = useState<(typeof TYPES)[number]>("Apartment");
-  const [beds, setBeds] = useState<(typeof BEDS)[number]>("1 Bed");
+  const [type, setType] = useState<(typeof TYPES)[number]>("Kvartira");
+  const [beds, setBeds] = useState<(typeof BEDS)[number]>("1 xonali");
 
   const sorted = [...AREAS].sort((a, b) =>
     mode === "rent" ? b.rent - a.rent : b.buy - a.buy,
