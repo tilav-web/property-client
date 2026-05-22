@@ -157,7 +157,7 @@ export default function Header({ className }: IHeaderProps) {
                     <SheetClose asChild>
                       <Link to="/" className="flex w-fit items-center">
                         <img
-                          className="w-32 h-auto object-contain"
+                          className="h-8 w-auto object-contain"
                           src={logo}
                           alt="Amaar Properties"
                           decoding="async"
@@ -323,9 +323,9 @@ export default function Header({ className }: IHeaderProps) {
                 </div>
               </SheetContent>
             </Sheet>
-            <Link to="/" className="flex items-center max-w-32 lg:max-w-36">
+            <Link to="/" className="flex items-center">
               <img
-                className="w-full h-auto object-contain"
+                className="h-7 w-auto object-contain sm:h-8 lg:h-9"
                 src={logo}
                 alt="Amaar Properties"
                 width={2966}

@@ -17,7 +17,7 @@ export default function Footer() {
               <img
                 src={logo}
                 alt="Amaar Properties"
-                className="h-10 w-auto brightness-0 invert"
+                className="h-7 w-auto brightness-0 invert"
               />
             </Link>
             <p className="text-sm text-background/60 leading-relaxed">
