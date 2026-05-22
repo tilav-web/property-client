@@ -9,6 +9,9 @@ export interface ISiteSettings {
   hero_image_buy_srcset?: string | null;
   hero_image_rent?: string | null;
   hero_image_rent_srcset?: string | null;
+  app_store_url?: string | null;
+  play_store_url?: string | null;
+  qr_code_image?: string | null;
 }
 
 class SiteSettingsService {

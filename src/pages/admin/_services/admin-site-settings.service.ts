@@ -13,6 +13,9 @@ export interface ISiteSettings {
   voice_daily_free_limit?: number;
   voice_premium_price?: number;
   voice_premium_duration_days?: number;
+  app_store_url?: string | null;
+  play_store_url?: string | null;
+  qr_code_image?: string | null;
 }
 
 export type HeroSlot = "main" | "buy" | "rent";

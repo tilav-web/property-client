@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { Loader2, Mic, Settings, Trash2, Upload } from "lucide-react";
+import { Loader2, Mic, Settings, Smartphone, Trash2, Upload } from "lucide-react";
 import {
   adminSiteSettingsService,
   type HeroSlot,
@@ -63,6 +63,10 @@ export default function AdminSiteSettingsPage() {
   const [voiceDailyLimit, setVoiceDailyLimit] = useState<string>("");
   const [voicePremiumPrice, setVoicePremiumPrice] = useState<string>("");
   const [voicePremiumDays, setVoicePremiumDays] = useState<string>("");
+  const [appStoreUrl, setAppStoreUrl] = useState("");
+  const [playStoreUrl, setPlayStoreUrl] = useState("");
+  const [qrCodeFile, setQrCodeFile] = useState<File | null>(null);
+  const [qrCodePreview, setQrCodePreview] = useState<string | null>(null);
   const [srcsets, setSrcsets] = useState<Record<HeroSlot, string>>({
     main: "",
     buy: "",
@@ -91,8 +95,20 @@ export default function AdminSiteSettingsPage() {
       setVoiceDailyLimit(String(data.voice_daily_free_limit ?? ""));
       setVoicePremiumPrice(String(data.voice_premium_price ?? ""));
       setVoicePremiumDays(String(data.voice_premium_duration_days ?? ""));
+      setAppStoreUrl(data.app_store_url ?? "");
+      setPlayStoreUrl(data.play_store_url ?? "");
     }
   }, [data]);
+
+  useEffect(() => {
+    if (!qrCodeFile) {
+      setQrCodePreview(null);
+      return;
+    }
+    const url = URL.createObjectURL(qrCodeFile);
+    setQrCodePreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [qrCodeFile]);
 
   useEffect(() => {
     const urls: Record<HeroSlot, string | null> = {
@@ -152,6 +168,11 @@ export default function AdminSiteSettingsPage() {
     }
     if (voicePremiumDays.trim()) {
       formData.append("voice_premium_duration_days", voicePremiumDays.trim());
+    }
+    formData.append("app_store_url", appStoreUrl.trim());
+    formData.append("play_store_url", playStoreUrl.trim());
+    if (qrCodeFile) {
+      formData.append("qr_code_image", qrCodeFile);
     }
     updateMutation.mutate(formData);
   };
@@ -326,6 +347,67 @@ export default function AdminSiteSettingsPage() {
                 onChange={(e) => setVoicePremiumDays(e.target.value)}
                 placeholder="30"
               />
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-border/60 p-4">
+          <div className="mb-3 flex items-center gap-2">
+            <Smartphone className="h-5 w-5 text-primary" />
+            <h3 className="font-semibold text-foreground">
+              Mobile ilova (App Store / Google Play)
+            </h3>
+          </div>
+          <p className="mb-3 text-xs text-muted-foreground">
+            Bosh sahifa "Download the app" sektsiyasidagi tugmalar va QR kod.
+            URL bo'sh qoldirilsa, mos badge ko'rinmaydi. QR rasm yo'q bo'lsa,
+            QR ham yashiriladi.
+          </p>
+          <div className="space-y-3">
+            <div>
+              <Label className="text-xs">App Store URL</Label>
+              <Input
+                type="url"
+                value={appStoreUrl}
+                onChange={(e) => setAppStoreUrl(e.target.value)}
+                placeholder="https://apps.apple.com/app/..."
+              />
+            </div>
+            <div>
+              <Label className="text-xs">Google Play URL</Label>
+              <Input
+                type="url"
+                value={playStoreUrl}
+                onChange={(e) => setPlayStoreUrl(e.target.value)}
+                placeholder="https://play.google.com/store/apps/details?id=..."
+              />
+            </div>
+            <div>
+              <Label className="text-xs">QR Code rasmi</Label>
+              <div className="mt-1 flex items-center gap-3">
+                {(qrCodePreview ?? data?.qr_code_image) && (
+                  <img
+                    src={qrCodePreview ?? (data?.qr_code_image as string)}
+                    alt="QR"
+                    className="h-20 w-20 rounded-md border border-border bg-white object-contain p-1"
+                  />
+                )}
+                <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-border bg-white px-3 py-1.5 text-sm hover:bg-accent">
+                  <Upload size={14} />
+                  {qrCodeFile ? qrCodeFile.name.slice(0, 20) : "QR yuklash"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) =>
+                      setQrCodeFile(e.target.files?.[0] || null)
+                    }
+                  />
+                </label>
+              </div>
+              <p className="mt-1 text-[10px] text-muted-foreground">
+                Tavsiya: kvadrat PNG, 300×300 px, transparent fon.
+              </p>
             </div>
           </div>
         </div>
