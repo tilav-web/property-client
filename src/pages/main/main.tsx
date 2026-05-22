@@ -24,6 +24,9 @@ const DevelopersSection = lazy(
 const CommunitiesSection = lazy(
   () => import("./_components/communities-section"),
 );
+const TopCommunitiesSection = lazy(
+  () => import("./_components/top-communities-section"),
+);
 const MortgageCashbackSection = lazy(
   () => import("./_components/mortgage-cashback-section"),
 );
@@ -127,6 +130,9 @@ export default function Main() {
           <Suspense fallback={<DeferredHomeFallback />}>
             {/* 1. Home search, simplified — dark banner + 4 feature cards */}
             <HomeFeaturesSection />
+
+            {/* 1.5 Top communities (PropertyFinder-style filter pills + cards) */}
+            <TopCommunitiesSection />
 
             {/* 2. Search by travel times — slider + property carousel */}
             <TravelTimesSection />
