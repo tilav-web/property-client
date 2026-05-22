@@ -173,7 +173,7 @@ export default function HomeFeaturesSection() {
 
   return (
     <section className="py-10 md:py-14">
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-primary/90 px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-primary/90 px-6 py-12 sm:px-10 sm:py-16 lg:px-14 lg:py-20">
         {/* Decorative blobs */}
         <div className="pointer-events-none absolute -right-20 -top-24 size-72 rounded-full bg-white/15 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -left-24 size-72 rounded-full bg-white/10 blur-3xl" />
@@ -254,27 +254,27 @@ export default function HomeFeaturesSection() {
           </div>
 
           {/* Right — telefon mockup + dekorativ doira + sparkle accent'lar.
-              Parent'ga aniq height berildi, rasm absolute joylashgan,
-              z-index past — PropertyFinder layoutdagi kabi. */}
-          <div className="relative h-[460px] w-full sm:h-[500px] lg:h-[520px]">
+              Telefon rasm allaqachon iPhone frame bilan keladi — qo'shimcha
+              border kerak emas. Section'ga sig'ishi uchun w-[220-260]. */}
+          <div className="relative h-[420px] w-full sm:h-[460px] lg:h-[500px]">
             {/* Ochiq ko'k doira (orqa fon, markazlashgan) */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute left-1/2 top-1/2 z-0 size-[340px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-100 sm:size-[380px]"
+              className="pointer-events-none absolute left-1/2 top-1/2 z-0 size-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-100 sm:size-[340px] lg:size-[360px]"
             />
 
-            {/* Telefon — absolute, parent ichida joylashgan, borderli */}
+            {/* Telefon — frame rasm ichida, faqat rotate + shadow */}
             <img
               src={mobileMockup}
               alt="Mobile app preview"
-              className="absolute left-1/2 top-1/2 z-[1] w-[260px] -translate-x-1/2 -translate-y-1/2 -rotate-[8deg] rounded-[2rem] border-[6px] border-gray-900 object-cover shadow-2xl sm:w-[300px] lg:w-[320px]"
+              className="absolute left-1/2 top-1/2 z-[1] w-[200px] -translate-x-1/2 -translate-y-1/2 -rotate-[8deg] drop-shadow-2xl sm:w-[230px] lg:w-[250px]"
               loading="lazy"
             />
 
             {/* Top-right pink star */}
             <svg
               aria-hidden="true"
-              className="pointer-events-none absolute right-4 top-4 z-[2] size-8 text-rose-400 drop-shadow sm:right-8 sm:top-6"
+              className="pointer-events-none absolute right-4 top-4 z-[2] size-7 text-rose-400 drop-shadow sm:right-8 sm:top-6"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -284,13 +284,13 @@ export default function HomeFeaturesSection() {
             {/* Bottom-right dark accent kvadrat (PF kabi) */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute bottom-16 right-2 z-[2] size-6 rotate-12 rounded-sm bg-violet-900/60 sm:right-6"
+              className="pointer-events-none absolute bottom-16 right-2 z-[2] size-5 rotate-12 rounded-sm bg-violet-900/60 sm:right-6"
             />
 
             {/* Bottom-left pink star */}
             <svg
               aria-hidden="true"
-              className="pointer-events-none absolute bottom-8 left-2 z-[2] size-7 text-rose-400 drop-shadow sm:left-6"
+              className="pointer-events-none absolute bottom-8 left-2 z-[2] size-6 text-rose-400 drop-shadow sm:left-6"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
