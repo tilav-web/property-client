@@ -182,7 +182,7 @@ export default function SellerCreateAdvertise() {
       try {
         const n = parseInt(days, 10);
         if (n > 0) {
-          const data = await advertiseService.priceCalculus(n);
+          const data = await advertiseService.priceCalculus(String(n));
           setPriceCalculus({
             ...data,
             pricePerDay: data.totalPrice / Math.max(n, 1),
