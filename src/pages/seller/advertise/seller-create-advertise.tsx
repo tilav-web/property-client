@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Tabs } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import {
   Calendar,
@@ -505,15 +506,12 @@ export default function SellerCreateAdvertise() {
             </CardHeader>
             <CardContent>
               <div className="rounded-xl border bg-muted/30 p-3">
-                {adType === "aside" && (
+                {/* TabsContent ichidagi komponentlar Tabs wrapper'ini talab qiladi */}
+                <Tabs value={adType}>
                   <AsideTypeTab target={targetUrl} image={imagePreview} />
-                )}
-                {adType === "banner" && (
                   <BannerTypeTab image={imagePreview} target={targetUrl} />
-                )}
-                {adType === "image" && (
                   <ImageTypeTab target={targetUrl} image={imagePreview} />
-                )}
+                </Tabs>
               </div>
             </CardContent>
           </Card>
