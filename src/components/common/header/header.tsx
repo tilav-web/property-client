@@ -49,6 +49,7 @@ import {
   SUPPORTED_CURRENCIES,
 } from "@/constants/currencies";
 import { useCurrencyStore } from "@/stores/currency.store";
+import { COUNTRY_CONFIG } from "@/constants/country";
 
 interface IHeaderProps {
   className?: string;
@@ -113,10 +114,15 @@ export default function Header({ className }: IHeaderProps) {
       ]
     : [];
 
-  const phoneNumbers = [
-    { flag: "MY", label: "+60 113 902 9480", href: "tel:+601139029480" },
-    { flag: "AE", label: "+971 56 291 1117", href: "tel:+971562911117" },
-  ];
+  const phoneNumbers =
+    COUNTRY_CONFIG.country === "UZ"
+      ? [
+          { flag: "UZ", label: "+998 90 123 45 67", href: "tel:+998901234567" },
+        ]
+      : [
+          { flag: "MY", label: "+60 113 902 9480", href: "tel:+601139029480" },
+          { flag: "AE", label: "+971 56 291 1117", href: "tel:+971562911117" },
+        ];
 
   const isActiveLink = (href: string) => {
     if (href.startsWith("/filter-nav")) {
@@ -363,18 +369,18 @@ export default function Header({ className }: IHeaderProps) {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52 select-none">
-                <DropdownMenuItem asChild>
-                  <a href="tel:+601139029480" className="flex items-center gap-2">
-                    <span className="text-base">🇲🇾</span>
-                    <span className="font-medium">+60 113 902 9480</span>
-                  </a>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <a href="tel:+971562911117" className="flex items-center gap-2">
-                    <span className="text-base">🇦🇪</span>
-                    <span className="font-medium">+971 56 291 1117</span>
-                  </a>
-                </DropdownMenuItem>
+                {phoneNumbers.map((p) => {
+                  const flag =
+                    p.flag === "UZ" ? "🇺🇿" : p.flag === "MY" ? "🇲🇾" : "🇦🇪";
+                  return (
+                    <DropdownMenuItem key={p.href} asChild>
+                      <a href={p.href} className="flex items-center gap-2">
+                        <span className="text-base">{flag}</span>
+                        <span className="font-medium">{p.label}</span>
+                      </a>
+                    </DropdownMenuItem>
+                  );
+                })}
               </DropdownMenuContent>
             </DropdownMenu>
 

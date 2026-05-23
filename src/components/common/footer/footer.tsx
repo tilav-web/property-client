@@ -2,6 +2,15 @@ import { useTranslation } from "react-i18next";
 import { Facebook, Instagram, Send, Mail, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { logo } from "@/utils/shared";
+import { COUNTRY_CONFIG } from "@/constants/country";
+
+const FOOTER_PHONES =
+  COUNTRY_CONFIG.country === "UZ"
+    ? [{ label: "+998 90 123 45 67", href: "tel:+998901234567" }]
+    : [
+        { label: "+60 113 902 9480", href: "tel:+601139029480" },
+        { label: "+971 56 291 1117", href: "tel:+971562911117" },
+      ];
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -24,24 +33,18 @@ export default function Footer() {
               {t("common.footer.description")}
             </p>
             <div className="space-y-3 pt-2">
-              <a
-                href="tel:+601139029480"
-                className="flex items-center gap-3 text-sm text-background/70 hover:text-primary transition-colors"
-              >
-                <span className="flex items-center justify-center size-8 rounded-full bg-background/5">
-                  <Phone size={14} />
-                </span>
-                <span>+60 113 902 9480</span>
-              </a>
-              <a
-                href="tel:+971562911117"
-                className="flex items-center gap-3 text-sm text-background/70 hover:text-primary transition-colors"
-              >
-                <span className="flex items-center justify-center size-8 rounded-full bg-background/5">
-                  <Phone size={14} />
-                </span>
-                <span>+971 56 291 1117</span>
-              </a>
+              {FOOTER_PHONES.map((p) => (
+                <a
+                  key={p.href}
+                  href={p.href}
+                  className="flex items-center gap-3 text-sm text-background/70 hover:text-primary transition-colors"
+                >
+                  <span className="flex items-center justify-center size-8 rounded-full bg-background/5">
+                    <Phone size={14} />
+                  </span>
+                  <span>{p.label}</span>
+                </a>
+              ))}
               <a
                 href="mailto:info@amaarproperties.com"
                 className="flex items-center gap-3 text-sm text-background/70 hover:text-primary transition-colors"

@@ -532,7 +532,7 @@
       },
       "transactions": {
         "title": "Ko'chmas mulk bitimlari",
-        "subtitle": "Malaysiyadagi tranzaksiya ma'lumotlari asosida.",
+        "subtitle": "Qashqadaryodagi tranzaksiya ma'lumotlari asosida.",
         "new_rentals": "Yangi ijaralar",
         "new_sales": "Yangi sotuvlar",
         "listings": "E'lonlar",
@@ -541,7 +541,7 @@
         "view_all": "Barcha bitimlar",
         "rented": "Ijara",
         "sold": "Sotilgan",
-        "search_placeholder": "Malaysiyadagi har qanday joyni qidiring",
+        "search_placeholder": "Qashqadaryodagi har qanday joyni qidiring",
         "renewed": "Yangilangan ijaralar"
       },
       "list_property_cta": {

@@ -3,6 +3,12 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { COUNTRY_CONFIG } from "@/constants/country";
+
+const COUNTRY_FLAGS: Record<string, string> = {
+  UZ: "🇺🇿",
+  MY: "🇲🇾",
+};
 import { Check, PiggyBank } from "lucide-react";
 import { toast } from "sonner";
 
@@ -117,7 +123,8 @@ export default function MortgageCashbackSection() {
               </Label>
               <div className="flex items-center gap-2">
                 <span className="flex h-10 items-center gap-1.5 rounded-xl border border-border bg-background px-3 text-sm font-medium text-foreground">
-                  🇲🇾 +60
+                  {COUNTRY_FLAGS[COUNTRY_CONFIG.country] ?? "🌍"}{" "}
+                  {COUNTRY_CONFIG.phoneCountryCode}
                 </span>
                 <Input
                   id="mortgage-phone"
