@@ -40,7 +40,18 @@ apiInstance.interceptors.response.use(
       _retry?: boolean;
     };
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // Refresh endpoint o'zining 401'ini retry qilmasligi kerak — aks holda
+    // cheksiz tsikl (refresh -> 401 -> refresh -> 401 -> ...). Server toza
+    // cookie yo'q anonim user uchun refresh ham 401 qaytaradi.
+    const isRefreshCall = originalRequest.url?.includes(
+      API_ENDPOINTS.USER.refreshToken,
+    );
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !isRefreshCall
+    ) {
       originalRequest._retry = true;
       try {
         const res = await apiInstance.post(API_ENDPOINTS.USER.refreshToken);
@@ -143,7 +154,15 @@ adminApi.interceptors.response.use(
       _retry?: boolean;
     };
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    const isAdminRefreshCall = originalRequest.url?.includes(
+      API_ENDPOINTS.ADMIN.refreshToken,
+    );
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !isAdminRefreshCall
+    ) {
       originalRequest._retry = true;
       try {
         const res = await adminApi.post(API_ENDPOINTS.ADMIN.refreshToken);
