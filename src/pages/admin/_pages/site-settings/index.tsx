@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { Loader2, Mic, Settings, Smartphone, Trash2, Upload } from "lucide-react";
+import { Crown, Loader2, Settings, Smartphone, Trash2, Upload } from "lucide-react";
 import {
   adminSiteSettingsService,
   type HeroSlot,
@@ -61,8 +61,11 @@ export default function AdminSiteSettingsPage() {
   const [titleOverride, setTitleOverride] = useState("");
   const [subtitleOverride, setSubtitleOverride] = useState("");
   const [voiceDailyLimit, setVoiceDailyLimit] = useState<string>("");
-  const [voicePremiumPrice, setVoicePremiumPrice] = useState<string>("");
-  const [voicePremiumDays, setVoicePremiumDays] = useState<string>("");
+  const [freePropertyLimit, setFreePropertyLimit] = useState<string>("");
+  const [premiumPrice, setPremiumPrice] = useState<string>("");
+  const [premiumDays, setPremiumDays] = useState<string>("");
+  const [premiumPropertyDiscount, setPremiumPropertyDiscount] =
+    useState<string>("");
   const [appStoreUrl, setAppStoreUrl] = useState("");
   const [playStoreUrl, setPlayStoreUrl] = useState("");
   const [qrCodeFile, setQrCodeFile] = useState<File | null>(null);
@@ -93,8 +96,18 @@ export default function AdminSiteSettingsPage() {
         rent: data.hero_image_rent_srcset ?? "",
       });
       setVoiceDailyLimit(String(data.voice_daily_free_limit ?? ""));
-      setVoicePremiumPrice(String(data.voice_premium_price ?? ""));
-      setVoicePremiumDays(String(data.voice_premium_duration_days ?? ""));
+      setFreePropertyLimit(String(data.free_property_limit ?? ""));
+      setPremiumPrice(
+        String(data.premium_price ?? data.voice_premium_price ?? ""),
+      );
+      setPremiumDays(
+        String(
+          data.premium_duration_days ?? data.voice_premium_duration_days ?? "",
+        ),
+      );
+      setPremiumPropertyDiscount(
+        String(data.premium_property_discount_percent ?? ""),
+      );
       setAppStoreUrl(data.app_store_url ?? "");
       setPlayStoreUrl(data.play_store_url ?? "");
     }
@@ -163,11 +176,20 @@ export default function AdminSiteSettingsPage() {
     if (voiceDailyLimit.trim()) {
       formData.append("voice_daily_free_limit", voiceDailyLimit.trim());
     }
-    if (voicePremiumPrice.trim()) {
-      formData.append("voice_premium_price", voicePremiumPrice.trim());
+    if (freePropertyLimit.trim()) {
+      formData.append("free_property_limit", freePropertyLimit.trim());
     }
-    if (voicePremiumDays.trim()) {
-      formData.append("voice_premium_duration_days", voicePremiumDays.trim());
+    if (premiumPrice.trim()) {
+      formData.append("premium_price", premiumPrice.trim());
+    }
+    if (premiumDays.trim()) {
+      formData.append("premium_duration_days", premiumDays.trim());
+    }
+    if (premiumPropertyDiscount.trim()) {
+      formData.append(
+        "premium_property_discount_percent",
+        premiumPropertyDiscount.trim(),
+      );
     }
     formData.append("app_store_url", appStoreUrl.trim());
     formData.append("play_store_url", playStoreUrl.trim());
@@ -304,49 +326,98 @@ export default function AdminSiteSettingsPage() {
 
         <div className="rounded-xl border border-border/60 p-4">
           <div className="mb-3 flex items-center gap-2">
-            <Mic className="h-5 w-5 text-amber-600" />
-            <h3 className="font-semibold text-foreground">Voice AI premium</h3>
+            <Crown className="h-5 w-5 text-amber-600" />
+            <h3 className="font-semibold text-foreground">Premium obuna</h3>
           </div>
           <p className="mb-3 text-xs text-muted-foreground">
-            Voice AI uchun bepul kunlik limit, premium narxi va davomiyligi.
-            Bepul limit anonim user va login user uchun bir xil (IP/User
-            bo'yicha). Premium upgrade qilingan login user uchun cheksiz.
+            Bitta Premium obuna 3 ta narsani ochadi: cheksiz Voice AI, cheksiz
+            property yaratish, va property TOP'ga chiqarishda chegirma. Reklama
+            alohida pul.
           </p>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <div>
-              <Label className="text-xs">Bepul kunlik limit</Label>
-              <Input
-                type="number"
-                min={0}
-                max={1000}
-                value={voiceDailyLimit}
-                onChange={(e) => setVoiceDailyLimit(e.target.value)}
-                placeholder="3"
-              />
+
+          <div className="mb-4">
+            <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Bepul limitlar
+            </h4>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div>
+                <Label className="text-xs">Voice — bepul kunlik limit</Label>
+                <Input
+                  type="number"
+                  min={0}
+                  max={1000}
+                  value={voiceDailyLimit}
+                  onChange={(e) => setVoiceDailyLimit(e.target.value)}
+                  placeholder="3"
+                />
+                <p className="mt-1 text-[10px] text-muted-foreground">
+                  Anonim va login user uchun bir xil (IP/User bo'yicha).
+                </p>
+              </div>
+              <div>
+                <Label className="text-xs">Bepul property limiti</Label>
+                <Input
+                  type="number"
+                  min={0}
+                  max={1000}
+                  value={freePropertyLimit}
+                  onChange={(e) => setFreePropertyLimit(e.target.value)}
+                  placeholder="3"
+                />
+                <p className="mt-1 text-[10px] text-muted-foreground">
+                  Premium bo'lmagan user maks. nechta property yarata oladi.
+                </p>
+              </div>
             </div>
-            <div>
-              <Label className="text-xs">Premium narxi</Label>
-              <Input
-                type="number"
-                min={0}
-                value={voicePremiumPrice}
-                onChange={(e) => setVoicePremiumPrice(e.target.value)}
-                placeholder="20000"
-              />
-              <p className="mt-1 text-[10px] text-muted-foreground">
-                Server valyutasida (UZ: so'm, MY: MYR)
-              </p>
-            </div>
-            <div>
-              <Label className="text-xs">Davomiyligi (kun)</Label>
-              <Input
-                type="number"
-                min={1}
-                max={365}
-                value={voicePremiumDays}
-                onChange={(e) => setVoicePremiumDays(e.target.value)}
-                placeholder="30"
-              />
+          </div>
+
+          <div>
+            <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Premium narxi & afzalliklari
+            </h4>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div>
+                <Label className="text-xs">Narxi</Label>
+                <Input
+                  type="number"
+                  min={0}
+                  value={premiumPrice}
+                  onChange={(e) => setPremiumPrice(e.target.value)}
+                  placeholder="50000"
+                />
+                <p className="mt-1 text-[10px] text-muted-foreground">
+                  Server valyutasida (UZ: so'm, MY: MYR).
+                </p>
+              </div>
+              <div>
+                <Label className="text-xs">Davomiyligi (kun)</Label>
+                <Input
+                  type="number"
+                  min={1}
+                  max={365}
+                  value={premiumDays}
+                  onChange={(e) => setPremiumDays(e.target.value)}
+                  placeholder="30"
+                />
+              </div>
+              <div>
+                <Label className="text-xs">
+                  Property TOP chegirma (%)
+                </Label>
+                <Input
+                  type="number"
+                  min={0}
+                  max={90}
+                  value={premiumPropertyDiscount}
+                  onChange={(e) =>
+                    setPremiumPropertyDiscount(e.target.value)
+                  }
+                  placeholder="50"
+                />
+                <p className="mt-1 text-[10px] text-muted-foreground">
+                  Premium user PROPERTY_PREMIUM'ni shu % arzonroq oladi (0–90).
+                </p>
+              </div>
             </div>
           </div>
         </div>

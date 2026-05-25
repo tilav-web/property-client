@@ -11,7 +11,13 @@ export interface ISiteSettings {
   hero_image_rent?: string | null;
   hero_image_rent_srcset?: string | null;
   voice_daily_free_limit?: number;
+  free_property_limit?: number;
+  premium_price?: number;
+  premium_duration_days?: number;
+  premium_property_discount_percent?: number;
+  /** @deprecated premium_price bilan birlashtirilgan */
   voice_premium_price?: number;
+  /** @deprecated premium_duration_days bilan birlashtirilgan */
   voice_premium_duration_days?: number;
   app_store_url?: string | null;
   play_store_url?: string | null;

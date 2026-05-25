@@ -14,9 +14,11 @@ import ApartmentRentForm, {
 } from "./_components/category-forms/apartment-rent.form";
 import LocationSection from "./_components/location-section";
 import { propertyService } from "@/services/property.service";
+import { isPropertyLimitError } from "@/services/premium.service";
 import { usePropertyCreationStore } from "@/stores/property-creation.store";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import PremiumModal from "@/components/common/premium-modal";
 
 function getMinPhotos(categoryData: Record<string, unknown>): number {
   const raw = (categoryData as { bedrooms?: number | string })?.bedrooms;
@@ -31,6 +33,11 @@ export default function PropertyForm() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [premiumModal, setPremiumModal] = useState<{
+    open: boolean;
+    limit?: number;
+    current?: number;
+  }>({ open: false });
 
   const {
     step,
@@ -80,9 +87,17 @@ export default function PropertyForm() {
       reset();
       navigate("/seller/properties");
     } catch (error) {
+      const data = (error as { response?: { data?: unknown } }).response?.data;
+      if (isPropertyLimitError(data)) {
+        setPremiumModal({
+          open: true,
+          limit: data.freeLimit,
+          current: data.currentCount,
+        });
+        return;
+      }
       const msg =
-        (error as { response?: { data?: { message?: string } } }).response?.data
-          ?.message ??
+        (data as { message?: string })?.message ??
         (error as Error).message ??
         "Failed to create property.";
       toast.error(msg);
@@ -276,6 +291,15 @@ export default function PropertyForm() {
         </div>
       </div>
       <Toaster />
+      <PremiumModal
+        open={premiumModal.open}
+        onOpenChange={(open) =>
+          setPremiumModal((prev) => ({ ...prev, open }))
+        }
+        kind="property"
+        limit={premiumModal.limit}
+        current={premiumModal.current}
+      />
     </div>
   );
 }
