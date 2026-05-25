@@ -147,7 +147,8 @@ export default function MediaSection({
                       <Button
                         type="button"
                         variant="outline"
-                        className="bg-white border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400"
+                        tabIndex={-1}
+                        className="pointer-events-none bg-white border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400"
                         disabled={isSubmitting}
                       >
                         {t("media_section.photo_upload_button")}
@@ -268,7 +269,8 @@ export default function MediaSection({
                       <Button
                         type="button"
                         variant="outline"
-                        className="bg-white border-purple-300 text-purple-700 hover:bg-purple-50 hover:border-purple-400"
+                        tabIndex={-1}
+                        className="pointer-events-none bg-white border-purple-300 text-purple-700 hover:bg-purple-50 hover:border-purple-400"
                         disabled={isSubmitting}
                       >
                         {t("media_section.video_upload_button")}
