@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Inbox, Loader2, RefreshCw } from "lucide-react";
+import { CreditCard, Inbox, Loader2, RefreshCw } from "lucide-react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +18,16 @@ import {
 } from "@/interfaces/payment/payment.interface";
 import { paymentService } from "@/services/payment.service";
 import { formatPrice } from "@/utils/format-price";
+
+async function openCheckout(txId: string, errorLabel: string) {
+  try {
+    const { checkoutUrl } = await paymentService.getCheckoutUrl(txId);
+    window.open(checkoutUrl, "_blank", "noopener,noreferrer");
+  } catch (err) {
+    console.error("checkout url failed", err);
+    toast.error(errorLabel);
+  }
+}
 
 function formatDate(d: string): string {
   return new Date(d).toLocaleString();
@@ -79,27 +90,45 @@ export default function SellerTransactionsPage() {
         </div>
       </div>
 
-      {isLoading ? (
-        <div className="flex items-center justify-center py-20">
-          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-        </div>
-      ) : items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
-          <Inbox className="h-12 w-12 mb-3" />
-          <p>{t("payment.transactions.empty")}</p>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {items.map((tx) => (
-            <TransactionRow key={tx._id} tx={tx} />
-          ))}
-        </div>
-      )}
+      {renderList({ isLoading, items, emptyLabel: t("payment.transactions.empty") })}
     </div>
   );
 }
 
-function TransactionRow({ tx }: { tx: ITransaction }) {
+function renderList({
+  isLoading,
+  items,
+  emptyLabel,
+}: {
+  isLoading: boolean;
+  items: ITransaction[];
+  emptyLabel: string;
+}) {
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+  if (items.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
+        <Inbox className="h-12 w-12 mb-3" />
+        <p>{emptyLabel}</p>
+      </div>
+    );
+  }
+  return (
+    <div className="space-y-3">
+      {items.map((tx) => (
+        <TransactionRow key={tx._id} tx={tx} />
+      ))}
+    </div>
+  );
+}
+
+function TransactionRow({ tx }: { readonly tx: ITransaction }) {
   const { t } = useTranslation();
 
   const statusVariant: Record<string, { label: string; className: string }> = {
@@ -134,10 +163,19 @@ function TransactionRow({ tx }: { tx: ITransaction }) {
   };
 
   const variant = statusVariant[tx.status];
+  const canPay = tx.status === "PENDING" && tx.provider === "PAYME";
+
+  const handlePay = () =>
+    openCheckout(
+      tx._id,
+      t("payment.transactions.pay_error", {
+        defaultValue: "Checkout URL olishda xatolik",
+      }),
+    );
 
   return (
     <div className="border rounded-lg p-4 bg-card">
-      <div className="flex items-start justify-between gap-4 flex-wrap">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <Badge variant="secondary">
@@ -164,6 +202,15 @@ function TransactionRow({ tx }: { tx: ITransaction }) {
             {formatDate(tx.createdAt)}
           </div>
         </div>
+        {canPay && (
+          <Button
+            onClick={handlePay}
+            className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 sm:self-center"
+          >
+            <CreditCard className="h-4 w-4 mr-2" />
+            {t("payment.transactions.pay", { defaultValue: "To'lov qilish" })}
+          </Button>
+        )}
       </div>
     </div>
   );

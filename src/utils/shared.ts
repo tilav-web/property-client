@@ -94,6 +94,7 @@ export const API_ENDPOINTS = {
   TRANSACTIONS: {
     my: "/transactions/my",
     one: (id: string) => `/transactions/${id}`,
+    checkoutUrl: (id: string) => `/transactions/${id}/checkout-url`,
   },
   SELLER: {
     base: "/sellers",

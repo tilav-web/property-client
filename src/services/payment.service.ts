@@ -26,6 +26,14 @@ class PaymentService {
     const res = await apiInstance.get(API_ENDPOINTS.TRANSACTIONS.one(id));
     return res.data;
   }
+
+  /** PENDING transaction uchun yangi Payme checkout URL. */
+  async getCheckoutUrl(id: string): Promise<{ checkoutUrl: string }> {
+    const res = await apiInstance.get(
+      API_ENDPOINTS.TRANSACTIONS.checkoutUrl(id),
+    );
+    return res.data;
+  }
 }
 
 export const paymentService = new PaymentService();
