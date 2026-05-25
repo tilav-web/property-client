@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { premiumService } from "@/services/premium.service";
 import { useUserStore } from "@/stores/user.store";
 
-export type PremiumModalKind = "voice" | "property";
+export type PremiumModalKind = "voice" | "property" | "info";
 
 interface Props {
   readonly open: boolean;
@@ -64,18 +64,14 @@ export default function PremiumModal({
     }
   };
 
-  const title =
-    kind === "voice"
-      ? t("premium.voice_limit_title", {
-          defaultValue: "Voice limit tugadi",
-        })
-      : t("premium.property_limit_title", {
-          defaultValue: "Property limit tugadi",
-        });
-
-  const description =
-    kind === "voice"
-      ? limit !== undefined
+  let title: string;
+  let description: string;
+  if (kind === "voice") {
+    title = t("premium.voice_limit_title", {
+      defaultValue: "Voice limit tugadi",
+    });
+    description =
+      limit !== undefined
         ? t("premium.voice_limit_desc_with_count", {
             defaultValue:
               "Bugun {{used}}/{{limit}} ovozli xabar ishlatildi. Cheksiz foydalanish uchun Premium oling.",
@@ -85,8 +81,13 @@ export default function PremiumModal({
         : t("premium.voice_limit_desc", {
             defaultValue:
               "Bepul kunlik limit tugadi. Cheksiz foydalanish uchun Premium oling.",
-          })
-      : limit !== undefined
+          });
+  } else if (kind === "property") {
+    title = t("premium.property_limit_title", {
+      defaultValue: "Property limit tugadi",
+    });
+    description =
+      limit !== undefined
         ? t("premium.property_limit_desc_with_count", {
             defaultValue:
               "Bepul tarifda {{limit}} ta property yaratish mumkin ({{current}} ta band). Ko'proq yaratish uchun Premium oling.",
@@ -97,6 +98,13 @@ export default function PremiumModal({
             defaultValue:
               "Bepul property yaratish limiti tugadi. Cheksiz yaratish uchun Premium oling.",
           });
+  } else {
+    title = t("premium.info_title", { defaultValue: "Premium obuna" });
+    description = t("premium.info_desc", {
+      defaultValue:
+        "Premium bilan cheksiz Voice AI, cheksiz property yaratish va TOP'ga chiqarishda chegirma olasiz.",
+    });
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

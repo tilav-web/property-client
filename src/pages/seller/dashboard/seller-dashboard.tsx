@@ -42,6 +42,7 @@ import {
 } from "recharts";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import PremiumStatusCard from "@/components/common/premium-status-card";
 
 interface StatCardProps {
   title: string;
@@ -262,6 +263,9 @@ export default function SellerDashboard() {
             </Button>
           </Link>
         </div>
+
+        {/* Premium status / upsell */}
+        <PremiumStatusCard />
 
         {/* Stat cards */}
         {isDashboardLoading ? (
