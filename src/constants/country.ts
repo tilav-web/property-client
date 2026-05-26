@@ -46,7 +46,9 @@ function readEnv(key: string): string | undefined {
 function resolveCountry(): CountryCode {
   const raw = readEnv("VITE_COUNTRY")?.toUpperCase();
   if (raw === "UZ" || raw === "MY") return raw;
-  return "UZ";
+  // Default — Malaysia (asosiy bozor). Aniq UZ deploy uchun
+  // .env'da VITE_COUNTRY=UZ majburiy.
+  return "MY";
 }
 
 function resolveCurrency(fallback: CurrencyCode): CurrencyCode {

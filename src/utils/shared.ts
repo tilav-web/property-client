@@ -7,10 +7,11 @@ import type { AdvertiseType } from "@/interfaces/advertise/advertise.interface";
 import logoMy from "@/assets/images/amaar-propert-logo-my.png";
 import logoUz from "@/assets/images/amaar-propert-logo-uz.png";
 
-const logoCountry = (import.meta.env.VITE_COUNTRY ?? "UZ")
+// Default — MY (asosiy bozor). UZ build .env'da VITE_COUNTRY=UZ kerak.
+const logoCountry = (import.meta.env.VITE_COUNTRY ?? "MY")
   .toString()
   .toUpperCase();
-const logo = logoCountry === "MY" ? logoMy : logoUz;
+const logo = logoCountry === "UZ" ? logoUz : logoMy;
 
 const heroImage = "/images/hero/home-hero-1600.webp";
 const heroImageSrcSet =

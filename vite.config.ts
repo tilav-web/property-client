@@ -36,8 +36,9 @@ const COUNTRY_META: Record<"UZ" | "MY", CountryMeta> = {
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
-  const country = (env.VITE_COUNTRY ?? "UZ").toUpperCase() as "UZ" | "MY";
-  const meta = COUNTRY_META[country] ?? COUNTRY_META.UZ;
+  // Default — MY (asosiy bozor). UZ build .env'da VITE_COUNTRY=UZ kerak.
+  const country = (env.VITE_COUNTRY ?? "MY").toUpperCase() as "UZ" | "MY";
+  const meta = COUNTRY_META[country] ?? COUNTRY_META.MY;
 
   return {
     plugins: [
