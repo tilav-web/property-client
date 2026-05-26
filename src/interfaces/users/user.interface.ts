@@ -41,6 +41,8 @@ export interface IUser {
 
   password?: string; // select:false
 
+  premiumUntil?: string | null;
+
   createdAt?: Date;
   updatedAt?: Date;
 }

@@ -4,7 +4,13 @@ import defaultImageAvatar from "@/assets/images/default-avatar.png";
 import registerHouseImage from "@/assets/images/register-house-image.jpg";
 import courtSvg from "@/assets/icons/court.svg";
 import type { AdvertiseType } from "@/interfaces/advertise/advertise.interface";
-import logo from "@/assets/images/amaar-propert-logo.png";
+import logoMy from "@/assets/images/amaar-propert-logo-my.png";
+import logoUz from "@/assets/images/amaar-propert-logo-uz.png";
+
+const logoCountry = (import.meta.env.VITE_COUNTRY ?? "UZ")
+  .toString()
+  .toUpperCase();
+const logo = logoCountry === "MY" ? logoMy : logoUz;
 
 const heroImage = "/images/hero/home-hero-1600.webp";
 const heroImageSrcSet =

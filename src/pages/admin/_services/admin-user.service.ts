@@ -76,6 +76,21 @@ class AdminUserService {
       throw error;
     }
   }
+
+  async grantPremium(userId: string, days: number) {
+    const res = await adminApi.post(
+      `${API_ENDPOINTS.ADMIN.users.base}/${userId}/premium`,
+      { days },
+    );
+    return res.data as { premiumUntil: string };
+  }
+
+  async revokePremium(userId: string) {
+    const res = await adminApi.delete(
+      `${API_ENDPOINTS.ADMIN.users.base}/${userId}/premium`,
+    );
+    return res.data as { revoked: boolean };
+  }
 }
 
 export const adminUserService = new AdminUserService();

@@ -33,7 +33,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-import { Search, Filter, MoreVertical } from "lucide-react";
+import { Search, Filter, MoreVertical, Crown } from "lucide-react";
+import { GrantPremiumDialog } from "./components/grant-premium-dialog";
 
 import {
   DropdownMenu,
@@ -60,6 +61,8 @@ const AdminUsersPage = () => {
   const [searchInput, setSearchInput] = useState(searchQuery);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
+  const [isPremiumDialogOpen, setIsPremiumDialogOpen] = useState(false);
+  const [premiumTargetUser, setPremiumTargetUser] = useState<IUser | null>(null);
 
   const { data, isLoading, isFetching, isPlaceholderData } = useQuery({
     queryKey: ["admin-users", page, limit, searchQuery, role],
@@ -214,6 +217,18 @@ const AdminUsersPage = () => {
                         <DropdownMenuItem onClick={() => handleEditClick(user)}>
                           Edit
                         </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            setPremiumTargetUser(user);
+                            setIsPremiumDialogOpen(true);
+                          }}
+                        >
+                          <Crown className="mr-2 h-4 w-4 text-amber-600" />
+                          {user.premiumUntil &&
+                          new Date(user.premiumUntil).getTime() > Date.now()
+                            ? "Premium uzaytirish"
+                            : "Premium berish"}
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -258,6 +273,15 @@ const AdminUsersPage = () => {
           onSuccess={handleEditSuccess}
         />
       )}
+
+      <GrantPremiumDialog
+        user={premiumTargetUser}
+        open={isPremiumDialogOpen}
+        onOpenChange={(open) => {
+          setIsPremiumDialogOpen(open);
+          if (!open) setPremiumTargetUser(null);
+        }}
+      />
     </div>
   );
 };
