@@ -22,6 +22,14 @@ export interface ISiteSettings {
   app_store_url?: string | null;
   play_store_url?: string | null;
   qr_code_image?: string | null;
+  /** Payme fiskal — MXIK kodlari + VAT (tasnif.soliq.uz) */
+  premium_mxik?: string;
+  premium_package_code?: string;
+  property_premium_mxik?: string;
+  property_premium_package_code?: string;
+  advertise_mxik?: string;
+  advertise_package_code?: string;
+  vat_percent?: number;
 }
 
 export type HeroSlot = "main" | "buy" | "rent";

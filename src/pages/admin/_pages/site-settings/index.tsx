@@ -70,6 +70,15 @@ export default function AdminSiteSettingsPage() {
   const [playStoreUrl, setPlayStoreUrl] = useState("");
   const [qrCodeFile, setQrCodeFile] = useState<File | null>(null);
   const [qrCodePreview, setQrCodePreview] = useState<string | null>(null);
+  // Payme fiskal (Cheklar soliq oborotida ko'rinishi uchun)
+  const [premiumMxik, setPremiumMxik] = useState<string>("");
+  const [premiumPackageCode, setPremiumPackageCode] = useState<string>("");
+  const [propertyPremiumMxik, setPropertyPremiumMxik] = useState<string>("");
+  const [propertyPremiumPackageCode, setPropertyPremiumPackageCode] =
+    useState<string>("");
+  const [advertiseMxik, setAdvertiseMxik] = useState<string>("");
+  const [advertisePackageCode, setAdvertisePackageCode] = useState<string>("");
+  const [vatPercent, setVatPercent] = useState<string>("");
   const [srcsets, setSrcsets] = useState<Record<HeroSlot, string>>({
     main: "",
     buy: "",
@@ -110,6 +119,13 @@ export default function AdminSiteSettingsPage() {
       );
       setAppStoreUrl(data.app_store_url ?? "");
       setPlayStoreUrl(data.play_store_url ?? "");
+      setPremiumMxik(data.premium_mxik ?? "");
+      setPremiumPackageCode(data.premium_package_code ?? "");
+      setPropertyPremiumMxik(data.property_premium_mxik ?? "");
+      setPropertyPremiumPackageCode(data.property_premium_package_code ?? "");
+      setAdvertiseMxik(data.advertise_mxik ?? "");
+      setAdvertisePackageCode(data.advertise_package_code ?? "");
+      setVatPercent(String(data.vat_percent ?? ""));
     }
   }, [data]);
 
@@ -195,6 +211,31 @@ export default function AdminSiteSettingsPage() {
     formData.append("play_store_url", playStoreUrl.trim());
     if (qrCodeFile) {
       formData.append("qr_code_image", qrCodeFile);
+    }
+    // Payme fiskal
+    if (premiumMxik.trim()) {
+      formData.append("premium_mxik", premiumMxik.trim());
+    }
+    if (premiumPackageCode.trim()) {
+      formData.append("premium_package_code", premiumPackageCode.trim());
+    }
+    if (propertyPremiumMxik.trim()) {
+      formData.append("property_premium_mxik", propertyPremiumMxik.trim());
+    }
+    if (propertyPremiumPackageCode.trim()) {
+      formData.append(
+        "property_premium_package_code",
+        propertyPremiumPackageCode.trim(),
+      );
+    }
+    if (advertiseMxik.trim()) {
+      formData.append("advertise_mxik", advertiseMxik.trim());
+    }
+    if (advertisePackageCode.trim()) {
+      formData.append("advertise_package_code", advertisePackageCode.trim());
+    }
+    if (vatPercent.trim()) {
+      formData.append("vat_percent", vatPercent.trim());
     }
     updateMutation.mutate(formData);
   };
@@ -419,6 +460,104 @@ export default function AdminSiteSettingsPage() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-border/60 p-4">
+          <div className="mb-3 flex items-center gap-2">
+            <Crown className="h-5 w-5 text-amber-600" />
+            <h3 className="font-semibold text-foreground">
+              Payme fiskal (Cheklar soliq oborotida)
+            </h3>
+          </div>
+          <p className="mb-3 text-xs text-muted-foreground">
+            Payme har bir to'lov uchun chek (MXIK kodi + qadoq kodi + QQS%)
+            talab qiladi.{" "}
+            <a
+              href="https://tasnif.soliq.uz/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline"
+            >
+              tasnif.soliq.uz
+            </a>{" "}
+            dan to'g'ri MXIK kodini topib kiriting. package_code MXIK ga
+            bog'liq ko'rsatiladi.
+          </p>
+
+          <div className="mb-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <Label className="text-xs">Premium MXIK (17 xonali)</Label>
+              <Input
+                value={premiumMxik}
+                onChange={(e) => setPremiumMxik(e.target.value)}
+                placeholder="10399001001000000"
+              />
+            </div>
+            <div>
+              <Label className="text-xs">Premium package_code</Label>
+              <Input
+                value={premiumPackageCode}
+                onChange={(e) => setPremiumPackageCode(e.target.value)}
+                placeholder="1"
+              />
+            </div>
+          </div>
+
+          <div className="mb-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <Label className="text-xs">Property TOP MXIK</Label>
+              <Input
+                value={propertyPremiumMxik}
+                onChange={(e) => setPropertyPremiumMxik(e.target.value)}
+                placeholder="10399001001000000"
+              />
+            </div>
+            <div>
+              <Label className="text-xs">Property TOP package_code</Label>
+              <Input
+                value={propertyPremiumPackageCode}
+                onChange={(e) =>
+                  setPropertyPremiumPackageCode(e.target.value)
+                }
+                placeholder="1"
+              />
+            </div>
+          </div>
+
+          <div className="mb-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <Label className="text-xs">Reklama MXIK</Label>
+              <Input
+                value={advertiseMxik}
+                onChange={(e) => setAdvertiseMxik(e.target.value)}
+                placeholder="10202001001000000"
+              />
+            </div>
+            <div>
+              <Label className="text-xs">Reklama package_code</Label>
+              <Input
+                value={advertisePackageCode}
+                onChange={(e) => setAdvertisePackageCode(e.target.value)}
+                placeholder="1"
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label className="text-xs">QQS foizi (%)</Label>
+            <Input
+              type="number"
+              min={0}
+              max={30}
+              value={vatPercent}
+              onChange={(e) => setVatPercent(e.target.value)}
+              placeholder="0"
+              className="w-32"
+            />
+            <p className="mt-1 text-[10px] text-muted-foreground">
+              0 = QQS to'lovchi emas. 12 = standart QQS. 15 = qisqartirilgan.
+            </p>
           </div>
         </div>
 
