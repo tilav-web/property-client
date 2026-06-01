@@ -487,30 +487,36 @@ export default function AdminSiteSettingsPage() {
 
           <div className="mb-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
-              <Label className="text-xs">Premium MXIK (17 xonali)</Label>
+              <Label className="text-xs">
+                Premium MXIK (Dasturiy ta'minot litsenziya)
+              </Label>
               <Input
                 value={premiumMxik}
                 onChange={(e) => setPremiumMxik(e.target.value)}
-                placeholder="10399001001000000"
+                placeholder="10305008003000000"
               />
             </div>
             <div>
-              <Label className="text-xs">Premium package_code</Label>
+              <Label className="text-xs">
+                Premium package_code (xizmat so'm)
+              </Label>
               <Input
                 value={premiumPackageCode}
                 onChange={(e) => setPremiumPackageCode(e.target.value)}
-                placeholder="1"
+                placeholder="1546532"
               />
             </div>
           </div>
 
           <div className="mb-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
-              <Label className="text-xs">Property TOP MXIK</Label>
+              <Label className="text-xs">
+                Property TOP MXIK (Premium bilan bir xil)
+              </Label>
               <Input
                 value={propertyPremiumMxik}
                 onChange={(e) => setPropertyPremiumMxik(e.target.value)}
-                placeholder="10399001001000000"
+                placeholder="10305008003000000"
               />
             </div>
             <div>
@@ -520,26 +526,30 @@ export default function AdminSiteSettingsPage() {
                 onChange={(e) =>
                   setPropertyPremiumPackageCode(e.target.value)
                 }
-                placeholder="1"
+                placeholder="1546532"
               />
             </div>
           </div>
 
           <div className="mb-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
-              <Label className="text-xs">Reklama MXIK</Label>
+              <Label className="text-xs">
+                Reklama MXIK (Reklama joylashtirish)
+              </Label>
               <Input
                 value={advertiseMxik}
                 onChange={(e) => setAdvertiseMxik(e.target.value)}
-                placeholder="10202001001000000"
+                placeholder="10305008004000000"
               />
             </div>
             <div>
-              <Label className="text-xs">Reklama package_code</Label>
+              <Label className="text-xs">
+                Reklama package_code (xizmat so'm)
+              </Label>
               <Input
                 value={advertisePackageCode}
                 onChange={(e) => setAdvertisePackageCode(e.target.value)}
-                placeholder="1"
+                placeholder="1546606"
               />
             </div>
           </div>
@@ -552,11 +562,12 @@ export default function AdminSiteSettingsPage() {
               max={30}
               value={vatPercent}
               onChange={(e) => setVatPercent(e.target.value)}
-              placeholder="0"
+              placeholder="12"
               className="w-32"
             />
             <p className="mt-1 text-[10px] text-muted-foreground">
-              0 = QQS to'lovchi emas. 12 = standart QQS. 15 = qisqartirilgan.
+              Soliq kodeksi bo'yicha bu MXIK'lar uchun standart 12%
+              qo'llaniladi (imtiyoz yo'q). 0 = QQS to'lovchi emas.
             </p>
           </div>
         </div>
