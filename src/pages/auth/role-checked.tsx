@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import BackButton from "@/components/common/buttons/back-button";
 import { Button } from "@/components/ui/button";
 import { roleImage1, roleImage3 } from "@/utils/shared";
-import { ArrowRightToLine } from "lucide-react";
+import { ArrowRightToLine, Check } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,19 +25,19 @@ export default function RoleChecked() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 select-none">
-      <div className="max-w-4xl w-full">
+    <div className="flex min-h-screen items-center justify-center px-4 py-5 sm:py-8 select-none">
+      <div className="w-full max-w-4xl">
         <BackButton />
-        <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-2">
+        <h1 className="mb-2 text-center text-2xl font-bold text-gray-800 sm:text-3xl md:text-4xl">
           {t("pages.role_page.title")}
         </h1>
-        <p className="text-gray-600 text-center mb-8">
+        <p className="mx-auto mb-5 max-w-md text-center text-sm text-gray-600 sm:mb-8 sm:text-base">
           {t("pages.role_page.subtitle")}
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div className="mb-5 grid grid-cols-2 gap-3 sm:mb-6 sm:gap-5 md:gap-6">
           {roles.map((role) => (
-            <div key={role.id} className="flex flex-col items-center">
+            <div key={role.id} className="flex min-w-0 flex-col items-center">
               <input
                 type="radio"
                 id={role.id}
@@ -50,15 +50,16 @@ export default function RoleChecked() {
               <label
                 htmlFor={role.id}
                 className={`
-                  relative cursor-pointer transition-all duration-300 
-                  transform hover:scale-105 group
-                  ${selectedRole === role.id ? "scale-105" : ""}
+                  relative w-full cursor-pointer transition-all duration-300 
+                  sm:transform sm:hover:scale-105
+                  ${selectedRole === role.id ? "sm:scale-105" : ""}
                 `}
               >
                 <div
                   className={`
-                  w-full h-64 md:h-80 rounded-2xl overflow-hidden 
-                  shadow-lg border-4 transition-all duration-300 bg-white
+                  h-36 w-full overflow-hidden rounded-xl
+                  border-2 bg-white shadow-md transition-all duration-300
+                  sm:h-56 sm:rounded-2xl sm:border-4 sm:shadow-lg md:h-80
                   ${
                     selectedRole === role.id
                       ? "border-blue-500"
@@ -71,15 +72,15 @@ export default function RoleChecked() {
                     alt={role.label}
                     className={`
                       w-full h-full object-cover transition-all duration-500
-                      ${selectedRole === role.id ? "scale-115" : ""}
+                      ${selectedRole === role.id ? "scale-110" : ""}
                     `}
                   />
                 </div>
                 <div
                   className={`
-                  absolute top-4 right-4 w-8 h-8 rounded-full 
-                  bg-white shadow-lg flex items-center justify-center
-                  transition-all duration-300 transform
+                  absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full
+                  bg-white shadow-lg transition-all duration-300 transform
+                  sm:right-4 sm:top-4 sm:h-8 sm:w-8
                   ${
                     selectedRole === role.id
                       ? "scale-100 bg-blue-500"
@@ -87,31 +88,22 @@ export default function RoleChecked() {
                   }
                 `}
                 >
-                  <svg
+                  <Check
                     className={`
-                      w-5 h-5 transition-all duration-300
+                      h-4 w-4 transition-all duration-300 sm:h-5 sm:w-5
                       ${
                         selectedRole === role.id
-                          ? "scale-100 text-green-500"
+                          ? "scale-100 text-white"
                           : "scale-0 text-gray-400"
                       }
                     `}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={3}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                    strokeWidth={3}
+                  />
                 </div>
               </label>
               <span
                 className={`
-                mt-4 text-lg font-semibold transition-colors duration-300
+                mt-2 max-w-full text-center text-sm font-semibold leading-snug transition-colors duration-300 sm:mt-4 sm:text-lg
                 ${selectedRole === role.id ? "text-blue-600" : "text-gray-700"}
               `}
               >
@@ -120,11 +112,12 @@ export default function RoleChecked() {
             </div>
           ))}
         </div>
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-stretch sm:justify-end">
           <Button
             onClick={handleContinue}
             disabled={!selectedRole}
             variant={"outline"}
+            className="w-full sm:w-auto"
           >
             {t("common.buttons.continue")}
             <ArrowRightToLine />
