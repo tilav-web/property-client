@@ -49,6 +49,9 @@ const AdminExchangeRatesPage = lazy(
 const AdminNotificationsPage = lazy(
   () => import("./pages/admin/_pages/notifications"),
 );
+const AdminPushNotificationsPage = lazy(
+  () => import("./pages/admin/_pages/push-notifications"),
+);
 const AdminPaymentsPage = lazy(
   () => import("./pages/admin/_pages/payments"),
 );
@@ -418,6 +421,10 @@ const router = createBrowserRouter([
       {
         path: "notifications",
         element: withSuspense(<AdminNotificationsPage />),
+      },
+      {
+        path: "push-notifications",
+        element: withSuspense(<AdminPushNotificationsPage />),
       },
       {
         path: "payments",

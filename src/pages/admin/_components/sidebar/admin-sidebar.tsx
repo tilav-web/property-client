@@ -18,6 +18,7 @@ import {
   Coins,
   Wallet,
   Trees,
+  SendHorizonal,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { adminPaymentService } from "../../_services/admin-payment.service";
@@ -162,6 +163,13 @@ export default function AdminSidebar() {
       icon: <Trees className="h-5 w-5" />,
       badge: null,
       path: "/admin/communities",
+    },
+    {
+      id: "push-notifications",
+      label: "Push notifications",
+      icon: <SendHorizonal className="h-5 w-5" />,
+      badge: null,
+      path: "/admin/push-notifications",
     },
   ];
 
