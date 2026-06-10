@@ -18,6 +18,17 @@ export interface BroadcastItem {
 }
 
 class AdminPushService {
+  async uploadImage(file: File): Promise<string> {
+    const fd = new FormData();
+    fd.append("image", file);
+    const { data } = await adminApi.post<{ url: string }>(
+      "/admins/push-notifications/image",
+      fd,
+      { headers: { "Content-Type": "multipart/form-data" } },
+    );
+    return data.url;
+  }
+
   async send(payload: SendBroadcastPayload) {
     const { data } = await adminApi.post<{
       success: boolean;

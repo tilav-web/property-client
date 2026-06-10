@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
+import TiptapImage from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -20,6 +22,9 @@ import {
   ImageIcon,
   History,
   Loader2,
+  Link2,
+  Link2Off,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,21 +56,24 @@ function ToolbarBtn({
   onClick,
   children,
   title,
+  disabled,
 }: {
   active?: boolean;
   onClick: () => void;
   children: React.ReactNode;
   title?: string;
+  disabled?: boolean;
 }) {
   return (
     <button
       type="button"
       title={title}
+      disabled={disabled}
       onMouseDown={(e) => {
         e.preventDefault();
         onClick();
       }}
-      className={`p-1.5 rounded text-sm transition-colors ${
+      className={`p-1.5 rounded text-sm transition-colors disabled:opacity-40 ${
         active
           ? "bg-primary text-primary-foreground"
           : "hover:bg-muted text-muted-foreground hover:text-foreground"
@@ -79,13 +87,21 @@ function ToolbarBtn({
 // ─── Rich text editor ───────────────────────────────────────────────────────
 function RichEditor({
   onChange,
+  onImageUpload,
+  uploadingImage,
 }: {
   onChange: (html: string) => void;
+  onImageUpload: (file: File) => Promise<string>;
+  uploadingImage: boolean;
 }) {
+  const imageInputRef = useRef<HTMLInputElement>(null);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
       Underline,
+      TiptapImage.configure({ inline: false, allowBase64: false }),
+      Link.configure({ openOnClick: false, autolink: true }),
       Placeholder.configure({ placeholder: "Notification matnini yozing…" }),
     ],
     onUpdate({ editor }) {
@@ -99,11 +115,30 @@ function RichEditor({
     },
   });
 
+  const handleImageFile = async (file: File) => {
+    const url = await onImageUpload(file);
+    editor?.chain().focus().setImage({ src: url }).run();
+  };
+
+  const handleLinkToggle = () => {
+    if (!editor) return;
+    if (editor.isActive("link")) {
+      editor.chain().focus().unsetLink().run();
+    } else {
+      const url = window.prompt("URL kiriting:");
+      if (!url) return;
+      editor
+        .chain()
+        .focus()
+        .setLink({ href: url.startsWith("http") ? url : `https://${url}` })
+        .run();
+    }
+  };
+
   if (!editor) return null;
 
   return (
     <div className="border border-border rounded-md overflow-hidden">
-      {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-0.5 p-1.5 border-b border-border bg-muted/30">
         <ToolbarBtn
           title="Bold"
@@ -160,9 +195,116 @@ function RichEditor({
         >
           <ListOrdered className="h-4 w-4" />
         </ToolbarBtn>
+        <Separator orientation="vertical" className="h-5 mx-0.5" />
+        <ToolbarBtn
+          title={editor.isActive("link") ? "Linkni olib tashlash" : "Link qo'shish"}
+          active={editor.isActive("link")}
+          onClick={handleLinkToggle}
+        >
+          {editor.isActive("link") ? (
+            <Link2Off className="h-4 w-4" />
+          ) : (
+            <Link2 className="h-4 w-4" />
+          )}
+        </ToolbarBtn>
+        <ToolbarBtn
+          title="Rasm qo'shish"
+          onClick={() => imageInputRef.current?.click()}
+          disabled={uploadingImage}
+        >
+          {uploadingImage ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <ImageIcon className="h-4 w-4" />
+          )}
+        </ToolbarBtn>
+        <input
+          ref={imageInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) void handleImageFile(file);
+            e.target.value = "";
+          }}
+        />
       </div>
-      {/* Editor area */}
       <EditorContent editor={editor} />
+    </div>
+  );
+}
+
+// ─── Cover image picker ─────────────────────────────────────────────────────
+function CoverImagePicker({
+  value,
+  onChange,
+  onUpload,
+  uploading,
+}: {
+  value: string;
+  onChange: (url: string) => void;
+  onUpload: (file: File) => Promise<string>;
+  uploading: boolean;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = async (file: File) => {
+    const url = await onUpload(file);
+    onChange(url);
+  };
+
+  return (
+    <div className="space-y-1.5">
+      <Label className="flex items-center gap-1.5">
+        <ImageIcon className="h-4 w-4" />
+        Cover rasm (ixtiyoriy)
+      </Label>
+
+      {value ? (
+        <div className="relative w-full rounded-md overflow-hidden border border-border">
+          <img
+            src={value}
+            alt="cover"
+            className="w-full max-h-48 object-cover"
+          />
+          <button
+            type="button"
+            onClick={() => onChange("")}
+            className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1 hover:bg-black/80 transition-colors"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          disabled={uploading}
+          className="w-full h-32 border-2 border-dashed border-border rounded-md flex flex-col items-center justify-center gap-2 text-muted-foreground hover:border-primary hover:text-primary transition-colors disabled:opacity-50"
+        >
+          {uploading ? (
+            <Loader2 className="h-6 w-6 animate-spin" />
+          ) : (
+            <>
+              <ImageIcon className="h-6 w-6" />
+              <span className="text-sm">Rasm tanlash</span>
+            </>
+          )}
+        </button>
+      )}
+
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) void handleFile(file);
+          e.target.value = "";
+        }}
+      />
     </div>
   );
 }
@@ -217,13 +359,17 @@ function HistoryDialog({
                     </span>
                   </div>
                 </div>
+                {item.imageUrl && (
+                  <img
+                    src={item.imageUrl}
+                    alt=""
+                    className="rounded-md max-h-28 object-cover w-full"
+                  />
+                )}
                 <div
                   className="text-xs text-muted-foreground prose prose-xs max-w-none line-clamp-2"
                   dangerouslySetInnerHTML={{ __html: item.body }}
                 />
-                {item.imageUrl && (
-                  <p className="text-xs text-blue-500 truncate">{item.imageUrl}</p>
-                )}
                 <p className="text-xs text-muted-foreground">
                   {format(new Date(item.createdAt), "dd.MM.yyyy HH:mm")}
                 </p>
@@ -250,6 +396,35 @@ export default function AdminPushNotificationsPage() {
   const [targetGroup, setTargetGroup] = useState<"all" | "premium">("all");
   const [historyOpen, setHistoryOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
+  const [uploadingEditorImage, setUploadingEditorImage] = useState(false);
+
+  const handleUploadImage = async (file: File): Promise<string> => {
+    try {
+      return await adminPushService.uploadImage(file);
+    } catch {
+      toast.error("Rasm yuklanmadi");
+      return "";
+    }
+  };
+
+  const handleUploadCover = async (file: File): Promise<string> => {
+    setUploadingCover(true);
+    try {
+      return await handleUploadImage(file);
+    } finally {
+      setUploadingCover(false);
+    }
+  };
+
+  const handleUploadEditorImage = async (file: File): Promise<string> => {
+    setUploadingEditorImage(true);
+    try {
+      return await handleUploadImage(file);
+    } finally {
+      setUploadingEditorImage(false);
+    }
+  };
 
   const mutation = useMutation({
     mutationFn: () =>
@@ -350,40 +525,29 @@ export default function AdminPushNotificationsPage() {
         {/* Body - rich text */}
         <div className="space-y-1.5">
           <Label>Matn</Label>
-          <RichEditor onChange={setBody} />
+          <RichEditor
+            onChange={setBody}
+            onImageUpload={handleUploadEditorImage}
+            uploadingImage={uploadingEditorImage}
+          />
           <p className="text-xs text-muted-foreground">
             Qurilma bildirishnomasi plain text ko'rinadi. Ilova ichida to'liq
             formatlanadi.
           </p>
         </div>
 
-        {/* Image URL */}
-        <div className="space-y-1.5">
-          <Label className="flex items-center gap-1.5">
-            <ImageIcon className="h-4 w-4" />
-            Rasm URL (ixtiyoriy)
-          </Label>
-          <Input
-            placeholder="https://…"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-          />
-          {imageUrl && (
-            <img
-              src={imageUrl}
-              alt="preview"
-              className="mt-2 rounded-md max-h-40 object-contain border border-border"
-              onError={(e) => {
-                (e.target as HTMLImageElement).style.display = "none";
-              }}
-            />
-          )}
-        </div>
+        {/* Cover image */}
+        <CoverImagePicker
+          value={imageUrl}
+          onChange={setImageUrl}
+          onUpload={handleUploadCover}
+          uploading={uploadingCover}
+        />
 
         {/* Send button */}
         <Button
           onClick={handleSend}
-          disabled={mutation.isPending}
+          disabled={mutation.isPending || uploadingCover || uploadingEditorImage}
           className="w-full"
           size="lg"
         >
