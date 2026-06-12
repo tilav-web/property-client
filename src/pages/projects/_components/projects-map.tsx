@@ -19,8 +19,8 @@ declare global {
 }
 
 const GOOGLE_MAP_SCRIPT_ID = "google-maps-script";
-const DEFAULT_CENTER: [number, number] = [3.139, 101.6869]; // Kuala Lumpur (Malaysia)
-const DEFAULT_ZOOM = 11;
+const DEFAULT_CENTER: [number, number] = [38.8447459, 65.780332]; // Qarshi, Uzbekistan
+const DEFAULT_ZOOM = 13;
 const NEAR_ME_ZOOM = 13;
 
 interface Props {
