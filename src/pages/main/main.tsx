@@ -101,7 +101,11 @@ export default function Main() {
         titleText={siteSettings?.hero_title_override || undefined}
         subtitleText={siteSettings?.hero_subtitle_override || undefined}
         img={siteSettings?.hero_image || heroImage}
-        imgSrcSet={siteSettings?.hero_image_srcset || heroImageSrcSet}
+        imgSrcSet={
+          siteSettings?.hero_image
+            ? siteSettings.hero_image_srcset || undefined
+            : heroImageSrcSet
+        }
         imageWidth={1600}
         imageHeight={1019}
       />

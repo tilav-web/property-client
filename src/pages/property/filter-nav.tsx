@@ -46,12 +46,16 @@ export default function FilterNav() {
     if (category === "APARTMENT_SALE")
       return {
         img: siteSettings?.hero_image_buy || heroImage,
-        srcset: siteSettings?.hero_image_buy_srcset || heroImageSrcSet,
+        srcset: siteSettings?.hero_image_buy
+          ? siteSettings.hero_image_buy_srcset || undefined
+          : heroImageSrcSet,
       };
     if (category === "APARTMENT_RENT")
       return {
         img: siteSettings?.hero_image_rent || heroImage,
-        srcset: siteSettings?.hero_image_rent_srcset || heroImageSrcSet,
+        srcset: siteSettings?.hero_image_rent
+          ? siteSettings.hero_image_rent_srcset || undefined
+          : heroImageSrcSet,
       };
     return { img: heroImage, srcset: heroImageSrcSet };
   }, [category, siteSettings]);
