@@ -27,8 +27,8 @@ declare global {
 }
 
 const GOOGLE_MAP_SCRIPT_ID = "google-maps-script";
-const DEFAULT_CENTER: [number, number] = [3.139, 101.6869];
-const DEFAULT_ZOOM = 12;
+const DEFAULT_CENTER: [number, number] = [38.8447459, 65.780332];
+const DEFAULT_ZOOM = 16;
 const MIN_ZOOM = 10;
 const DEBOUNCE_DELAY = 500;
 const MAP_LIMIT = 200;
