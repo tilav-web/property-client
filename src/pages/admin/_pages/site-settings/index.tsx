@@ -167,6 +167,7 @@ export default function AdminSiteSettingsPage() {
       toast.success("Sozlamalar saqlandi");
       setFiles({ main: null, buy: null, rent: null });
       queryClient.invalidateQueries({ queryKey: ["admin-site-settings"] });
+      queryClient.invalidateQueries({ queryKey: ["site-settings"] });
     },
     onError: () => toast.error("Saqlashda xatolik"),
   });
@@ -176,6 +177,7 @@ export default function AdminSiteSettingsPage() {
     onSuccess: () => {
       toast.success("Hero rasmi tozalandi");
       queryClient.invalidateQueries({ queryKey: ["admin-site-settings"] });
+      queryClient.invalidateQueries({ queryKey: ["site-settings"] });
     },
   });
 

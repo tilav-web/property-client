@@ -1,6 +1,7 @@
 import HeroSection from "@/components/common/hero-section";
 import { heroImage, heroImageSrcSet } from "@/utils/shared";
 import { Suspense, lazy, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { siteSettingsService } from "@/services/site-settings.service";
 
 const HomeFeaturesSection = lazy(
@@ -64,12 +65,12 @@ function DeferredHomeFallback() {
 
 export default function Main() {
   const [showDeferredSections, setShowDeferredSections] = useState(false);
-  const [heroOverride, setHeroOverride] = useState<{
-    img?: string;
-    srcset?: string;
-    title?: string;
-    subtitle?: string;
-  } | null>(null);
+
+  const { data: siteSettings } = useQuery({
+    queryKey: ["site-settings"],
+    queryFn: () => siteSettingsService.get(),
+    staleTime: 1000 * 60 * 5,
+  });
 
   useEffect(() => {
     const enableDeferredSections = () => setShowDeferredSections(true);
@@ -88,39 +89,19 @@ export default function Main() {
     return () => globalThis.clearTimeout(timeoutId);
   }, []);
 
-  // Site settings'dan hero override (admin paneldan o'zgartirilgan bo'lsa)
-  useEffect(() => {
-    let cancelled = false;
-    siteSettingsService
-      .get()
-      .then((s) => {
-        if (cancelled) return;
-        if (s.hero_image || s.hero_title_override || s.hero_subtitle_override) {
-          setHeroOverride({
-            img: s.hero_image ?? undefined,
-            srcset: s.hero_image_srcset ?? undefined,
-            title: s.hero_title_override ?? undefined,
-            subtitle: s.hero_subtitle_override ?? undefined,
-          });
-        }
-      })
-      .catch(() => undefined);
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   return (
     <div className="w-full">
       <HeroSection
-        title={heroOverride?.title ? "" : "pages.hero.title"}
+        title={siteSettings?.hero_title_override ? "" : "pages.hero.title"}
         subtitle={
-          heroOverride?.subtitle ? "" : "pages.main_page.hero_subheadline"
+          siteSettings?.hero_subtitle_override
+            ? ""
+            : "pages.main_page.hero_subheadline"
         }
-        titleText={heroOverride?.title}
-        subtitleText={heroOverride?.subtitle}
-        img={heroOverride?.img || heroImage}
-        imgSrcSet={heroOverride?.srcset || heroImageSrcSet}
+        titleText={siteSettings?.hero_title_override || undefined}
+        subtitleText={siteSettings?.hero_subtitle_override || undefined}
+        img={siteSettings?.hero_image || heroImage}
+        imgSrcSet={siteSettings?.hero_image_srcset || heroImageSrcSet}
         imageWidth={1600}
         imageHeight={1019}
       />
