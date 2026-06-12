@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { propertyService } from "@/services/property.service";
 import type { PropertyType } from "@/interfaces/property/property.interface";
 import { useMapStore } from "@/stores/map.store";
 import { googleMapKey, googleMapId } from "@/utils/shared";
+import { siteSettingsService } from "@/services/site-settings.service";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { Locate, Search as SearchIcon, X } from "lucide-react";
 import { convertPrice, formatPrice } from "@/utils/format-price";
@@ -27,7 +29,7 @@ declare global {
 }
 
 const GOOGLE_MAP_SCRIPT_ID = "google-maps-script";
-const DEFAULT_CENTER: [number, number] = [38.8447459, 65.780332];
+const FALLBACK_CENTER: [number, number] = [38.8447459, 65.780332];
 const DEFAULT_ZOOM = 16;
 const MIN_ZOOM = 10;
 const DEBOUNCE_DELAY = 500;
@@ -43,6 +45,19 @@ const getAreaKey = (lat: number, lng: number): string => {
 export default function MapPage() {
   const { t } = useTranslation();
   const { display } = useCurrencyStore();
+
+  const { data: siteSettings } = useQuery({
+    queryKey: ["site-settings"],
+    queryFn: () => siteSettingsService.get(),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const defaultCenterRef = useRef<[number, number]>(FALLBACK_CENTER);
+  useEffect(() => {
+    if (siteSettings?.default_map_lat && siteSettings?.default_map_lng) {
+      defaultCenterRef.current = [siteSettings.default_map_lat, siteSettings.default_map_lng];
+    }
+  }, [siteSettings]);
   const { data: exchangeRates } = useExchangeRates();
   const effectiveRates = useMemo(
     () => ({
@@ -366,8 +381,8 @@ export default function MapPage() {
       const urlLat = searchParams.get("lat");
       const urlLng = searchParams.get("lng");
 
-      let centerLat = DEFAULT_CENTER[0];
-      let centerLng = DEFAULT_CENTER[1];
+      let centerLat = defaultCenterRef.current[0];
+      let centerLng = defaultCenterRef.current[1];
       let zoom = DEFAULT_ZOOM;
       let hasQueryLocation = false;
 

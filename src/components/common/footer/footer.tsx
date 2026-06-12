@@ -3,18 +3,29 @@ import { Facebook, Instagram, Send, Mail, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { logo } from "@/utils/shared";
 import { COUNTRY_CONFIG } from "@/constants/country";
+import { useQuery } from "@tanstack/react-query";
+import { siteSettingsService } from "@/services/site-settings.service";
 
-const FOOTER_PHONES =
+const FALLBACK_PHONES =
   COUNTRY_CONFIG.country === "UZ"
-    ? [{ label: "+998 90 123 45 67", href: "tel:+998901234567" }]
-    : [
-        { label: "+60 113 902 9480", href: "tel:+601139029480" },
-        { label: "+971 56 291 1117", href: "tel:+971562911117" },
-      ];
+    ? ["+998 90 123 45 67"]
+    : ["+60 113 902 9480", "+971 56 291 1117"];
 
 export default function Footer() {
   const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
+
+  const { data: siteSettings } = useQuery({
+    queryKey: ["site-settings"],
+    queryFn: () => siteSettingsService.get(),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const footerPhones = (
+    siteSettings?.contact_phones?.length
+      ? siteSettings.contact_phones
+      : FALLBACK_PHONES
+  ).map((label) => ({ label, href: `tel:${label.replace(/\s/g, "")}` }));
 
   return (
     <footer className="bg-foreground text-background/80 mt-12">
@@ -33,7 +44,7 @@ export default function Footer() {
               {t("common.footer.description")}
             </p>
             <div className="space-y-3 pt-2">
-              {FOOTER_PHONES.map((p) => (
+              {footerPhones.map((p) => (
                 <a
                   key={p.href}
                   href={p.href}

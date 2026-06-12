@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { Crown, Loader2, Settings, Smartphone, Trash2, Upload } from "lucide-react";
+import { Crown, Loader2, MapPin, Phone, Plus, Settings, Smartphone, Trash2, Upload, X } from "lucide-react";
 import {
   adminSiteSettingsService,
   type HeroSlot,
@@ -66,6 +66,9 @@ export default function AdminSiteSettingsPage() {
   const [premiumDays, setPremiumDays] = useState<string>("");
   const [premiumPropertyDiscount, setPremiumPropertyDiscount] =
     useState<string>("");
+  const [contactPhones, setContactPhones] = useState<string[]>([""]);
+  const [defaultMapLat, setDefaultMapLat] = useState<string>("");
+  const [defaultMapLng, setDefaultMapLng] = useState<string>("");
   const [appStoreUrl, setAppStoreUrl] = useState("");
   const [playStoreUrl, setPlayStoreUrl] = useState("");
   const [qrCodeFile, setQrCodeFile] = useState<File | null>(null);
@@ -117,6 +120,9 @@ export default function AdminSiteSettingsPage() {
       setPremiumPropertyDiscount(
         String(data.premium_property_discount_percent ?? ""),
       );
+      setContactPhones(data.contact_phones?.length ? data.contact_phones : [""]);
+      setDefaultMapLat(String(data.default_map_lat ?? "38.8447459"));
+      setDefaultMapLng(String(data.default_map_lng ?? "65.780332"));
       setAppStoreUrl(data.app_store_url ?? "");
       setPlayStoreUrl(data.play_store_url ?? "");
       setPremiumMxik(data.premium_mxik ?? "");
@@ -209,6 +215,10 @@ export default function AdminSiteSettingsPage() {
         premiumPropertyDiscount.trim(),
       );
     }
+    const validPhones = contactPhones.filter((p) => p.trim());
+    formData.append("contact_phones", JSON.stringify(validPhones));
+    if (defaultMapLat.trim()) formData.append("default_map_lat", defaultMapLat.trim());
+    if (defaultMapLng.trim()) formData.append("default_map_lng", defaultMapLng.trim());
     formData.append("app_store_url", appStoreUrl.trim());
     formData.append("play_store_url", playStoreUrl.trim());
     if (qrCodeFile) {
@@ -633,6 +643,93 @@ export default function AdminSiteSettingsPage() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Telefon raqamlar */}
+        <div className="rounded-xl border border-border/60 p-4">
+          <div className="mb-3 flex items-center gap-2">
+            <Phone className="h-5 w-5 text-primary" />
+            <h3 className="font-semibold text-foreground">Aloqa telefon raqamlar</h3>
+          </div>
+          <p className="mb-3 text-xs text-muted-foreground">
+            Header va footer da ko'rinadigan telefon raqamlar. Format: +998 90 123 45 67
+          </p>
+          <div className="space-y-2">
+            {contactPhones.map((phone, idx) => (
+              <div key={idx} className="flex items-center gap-2">
+                <Input
+                  value={phone}
+                  onChange={(e) =>
+                    setContactPhones((prev) => {
+                      const next = [...prev];
+                      next[idx] = e.target.value;
+                      return next;
+                    })
+                  }
+                  placeholder="+998 90 123 45 67"
+                  className="flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="text-red-500 hover:text-red-600 shrink-0"
+                  onClick={() =>
+                    setContactPhones((prev) => prev.filter((_, i) => i !== idx))
+                  }
+                  disabled={contactPhones.length === 1}
+                >
+                  <X size={16} />
+                </Button>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="mt-1"
+              onClick={() => setContactPhones((prev) => [...prev, ""])}
+            >
+              <Plus size={14} className="mr-1" /> Raqam qo'shish
+            </Button>
+          </div>
+        </div>
+
+        {/* Default xarita joylashuvi */}
+        <div className="rounded-xl border border-border/60 p-4">
+          <div className="mb-3 flex items-center gap-2">
+            <MapPin className="h-5 w-5 text-primary" />
+            <h3 className="font-semibold text-foreground">Default xarita joylashuvi</h3>
+          </div>
+          <p className="mb-3 text-xs text-muted-foreground">
+            Barcha xarita sahifalari (/map, /projects) uchun boshlang'ich markaz.
+            Google Maps'dan koordinatalarni olish: xaritada o'ng tugma → "Bu yerning koordinatalari".
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label className="text-xs">Kenglik (Latitude)</Label>
+              <Input
+                type="number"
+                step="any"
+                value={defaultMapLat}
+                onChange={(e) => setDefaultMapLat(e.target.value)}
+                placeholder="38.8447459"
+              />
+            </div>
+            <div>
+              <Label className="text-xs">Uzunlik (Longitude)</Label>
+              <Input
+                type="number"
+                step="any"
+                value={defaultMapLng}
+                onChange={(e) => setDefaultMapLng(e.target.value)}
+                placeholder="65.780332"
+              />
+            </div>
+          </div>
+          <p className="mt-2 text-[10px] text-muted-foreground">
+            Hozirgi default: Qarshi shahri (38.8447459, 65.780332)
+          </p>
         </div>
 
         <p className="text-xs text-muted-foreground">

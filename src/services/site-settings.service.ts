@@ -12,6 +12,9 @@ export interface ISiteSettings {
   app_store_url?: string | null;
   play_store_url?: string | null;
   qr_code_image?: string | null;
+  contact_phones?: string[];
+  default_map_lat?: number;
+  default_map_lng?: number;
 }
 
 class SiteSettingsService {

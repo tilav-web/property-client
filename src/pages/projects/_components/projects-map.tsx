@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import type { IProject } from "@/interfaces/project/project.interface";
 import { googleMapKey, googleMapId } from "@/utils/shared";
+import { siteSettingsService } from "@/services/site-settings.service";
 import { convertPrice, formatPrice } from "@/utils/format-price";
 import { Loader2, Locate } from "lucide-react";
 import { useGeolocation } from "@/hooks/use-geolocation";
@@ -19,7 +21,7 @@ declare global {
 }
 
 const GOOGLE_MAP_SCRIPT_ID = "google-maps-script";
-const DEFAULT_CENTER: [number, number] = [38.8447459, 65.780332]; // Qarshi, Uzbekistan
+const FALLBACK_CENTER: [number, number] = [38.8447459, 65.780332];
 const DEFAULT_ZOOM = 13;
 const NEAR_ME_ZOOM = 13;
 
@@ -87,6 +89,12 @@ export default function ProjectsMap({
 }: Props) {
   const { t } = useTranslation();
   const { display } = useCurrencyStore();
+
+  const { data: siteSettings } = useQuery({
+    queryKey: ["site-settings"],
+    queryFn: () => siteSettingsService.get(),
+    staleTime: 1000 * 60 * 5,
+  });
   const { data: exchangeRates } = useExchangeRates();
   const effectiveRates = {
     ...DEFAULT_EXCHANGE_RATES,
@@ -154,7 +162,11 @@ export default function ProjectsMap({
       .then(() => {
         if (cancelled || !mapEl.current || mapRef.current) return;
         const useUserCenter = !!initialCenterRef.current;
-        const center = initialCenterRef.current ?? DEFAULT_CENTER;
+        const settingsCenter: [number, number] =
+          siteSettings?.default_map_lat && siteSettings?.default_map_lng
+            ? [siteSettings.default_map_lat, siteSettings.default_map_lng]
+            : FALLBACK_CENTER;
+        const center = initialCenterRef.current ?? settingsCenter;
         const map = new window.google.maps.Map(mapEl.current, {
           center: { lat: center[0], lng: center[1] },
           zoom: useUserCenter ? NEAR_ME_ZOOM : DEFAULT_ZOOM,
@@ -266,12 +278,13 @@ export default function ProjectsMap({
 
   const handleResetView = useCallback(() => {
     if (!mapRef.current) return;
-    mapRef.current.setCenter({
-      lat: DEFAULT_CENTER[0],
-      lng: DEFAULT_CENTER[1],
-    });
+    const center =
+      siteSettings?.default_map_lat && siteSettings?.default_map_lng
+        ? { lat: siteSettings.default_map_lat, lng: siteSettings.default_map_lng }
+        : { lat: FALLBACK_CENTER[0], lng: FALLBACK_CENTER[1] };
+    mapRef.current.setCenter(center);
     mapRef.current.setZoom(DEFAULT_ZOOM);
-  }, []);
+  }, [siteSettings]);
 
   const showUserMarker = useCallback((lat: number, lng: number) => {
     if (!mapRef.current) return;

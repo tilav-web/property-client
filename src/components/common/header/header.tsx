@@ -41,6 +41,7 @@ import { cn } from "@/lib/utils";
 import { useUiStore } from "@/stores/ui.store";
 import { ensureLanguageResources } from "@/i18n/i18n";
 import { lazy, Suspense } from "react";
+import { useQuery } from "@tanstack/react-query";
 import NotificationIcon from "./_components/notification-icon";
 import CurrencySwitcher from "./_components/currency-switcher";
 import {
@@ -50,6 +51,7 @@ import {
 } from "@/constants/currencies";
 import { useCurrencyStore } from "@/stores/currency.store";
 import { COUNTRY_CONFIG } from "@/constants/country";
+import { siteSettingsService } from "@/services/site-settings.service";
 
 interface IHeaderProps {
   className?: string;
@@ -114,15 +116,26 @@ export default function Header({ className }: IHeaderProps) {
       ]
     : [];
 
-  const phoneNumbers =
+  const { data: siteSettings } = useQuery({
+    queryKey: ["site-settings"],
+    queryFn: () => siteSettingsService.get(),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const FALLBACK_PHONES =
     COUNTRY_CONFIG.country === "UZ"
-      ? [
-          { flag: "UZ", label: "+998 90 123 45 67", href: "tel:+998901234567" },
-        ]
-      : [
-          { flag: "MY", label: "+60 113 902 9480", href: "tel:+601139029480" },
-          { flag: "AE", label: "+971 56 291 1117", href: "tel:+971562911117" },
-        ];
+      ? ["+998 90 123 45 67"]
+      : ["+60 113 902 9480", "+971 56 291 1117"];
+
+  const rawPhones =
+    siteSettings?.contact_phones?.length
+      ? siteSettings.contact_phones
+      : FALLBACK_PHONES;
+
+  const phoneNumbers = rawPhones.map((label) => ({
+    label,
+    href: `tel:${label.replace(/\s/g, "")}`,
+  }));
 
   const isActiveLink = (href: string) => {
     if (href.startsWith("/filter-nav")) {
@@ -271,12 +284,7 @@ export default function Header({ className }: IHeaderProps) {
                             className="flex min-h-12 items-center gap-2 rounded-xl border border-border/70 bg-background px-3 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted"
                           >
                             <PhoneCall className="h-4 w-4 text-primary" />
-                            <span className="min-w-0">
-                              <span className="block text-xs text-muted-foreground">
-                                {phone.flag}
-                              </span>
-                              <span className="block truncate text-xs">{phone.label}</span>
-                            </span>
+                            <span className="block truncate text-xs">{phone.label}</span>
                           </a>
                         ))}
                       </div>
@@ -369,18 +377,14 @@ export default function Header({ className }: IHeaderProps) {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52 select-none">
-                {phoneNumbers.map((p) => {
-                  const flag =
-                    p.flag === "UZ" ? "🇺🇿" : p.flag === "MY" ? "🇲🇾" : "🇦🇪";
-                  return (
-                    <DropdownMenuItem key={p.href} asChild>
-                      <a href={p.href} className="flex items-center gap-2">
-                        <span className="text-base">{flag}</span>
-                        <span className="font-medium">{p.label}</span>
-                      </a>
-                    </DropdownMenuItem>
-                  );
-                })}
+                {phoneNumbers.map((p) => (
+                  <DropdownMenuItem key={p.href} asChild>
+                    <a href={p.href} className="flex items-center gap-2">
+                      <PhoneCall size={14} className="text-primary" />
+                      <span className="font-medium">{p.label}</span>
+                    </a>
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
 

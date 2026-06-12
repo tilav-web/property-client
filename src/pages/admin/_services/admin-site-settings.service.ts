@@ -30,6 +30,9 @@ export interface ISiteSettings {
   advertise_mxik?: string;
   advertise_package_code?: string;
   vat_percent?: number;
+  contact_phones?: string[];
+  default_map_lat?: number;
+  default_map_lng?: number;
 }
 
 export type HeroSlot = "main" | "buy" | "rent";
