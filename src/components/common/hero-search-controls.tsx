@@ -38,8 +38,8 @@ const DEAL_TAB_TO_CATEGORY: Record<DealTab, string | undefined> = {
   rent: "APARTMENT_RENT",
   buy: "APARTMENT_SALE",
   new_projects: undefined,
-  commercial_rent: undefined,
-  commercial_buy: undefined,
+  commercial_rent: "COMMERCIAL_RENT",
+  commercial_buy: "COMMERCIAL_SALE",
 };
 
 const RoomButton = memo(

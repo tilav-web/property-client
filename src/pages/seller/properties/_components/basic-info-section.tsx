@@ -38,6 +38,8 @@ interface Props {
 const categories = [
   { value: "APARTMENT_SALE" as const, label: "Kvartira sotish" },
   { value: "APARTMENT_RENT" as const, label: "Kvartira ijarasi" },
+  { value: "COMMERCIAL_SALE" as const, label: "Noturar mulk sotish" },
+  { value: "COMMERCIAL_RENT" as const, label: "Noturar mulk ijarasi" },
 ];
 
 const currencies = SUPPORTED_CURRENCIES.map((code) => ({

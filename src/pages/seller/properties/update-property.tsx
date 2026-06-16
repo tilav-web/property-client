@@ -401,10 +401,16 @@ export default function UpdateProperty() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="APARTMENT_RENT">
-                          Apartment Rent
+                          Kvartira ijarasi
                         </SelectItem>
                         <SelectItem value="APARTMENT_SALE">
-                          Apartment Sale
+                          Kvartira sotish
+                        </SelectItem>
+                        <SelectItem value="COMMERCIAL_RENT">
+                          Noturar mulk ijarasi
+                        </SelectItem>
+                        <SelectItem value="COMMERCIAL_SALE">
+                          Noturar mulk sotish
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -517,6 +523,12 @@ export default function UpdateProperty() {
           )}
           {category === "APARTMENT_SALE" && (
             <ApartmentSaleFields control={control} />
+          )}
+          {category === "COMMERCIAL_RENT" && (
+            <CommercialRentFields control={control} />
+          )}
+          {category === "COMMERCIAL_SALE" && (
+            <CommercialSaleFields control={control} />
           )}
         </CardContent>
       </Card>
@@ -655,6 +667,140 @@ const ApartmentRentFields = ({ control }: { control: any }) => (
               onCheckedChange={field.onChange}
             />
             <Label htmlFor="furnished">Mebelli</Label>
+          </div>
+        )}
+      />
+    </div>
+  </div>
+);
+
+const CommercialRentFields = ({ control }: { control: any }) => (
+  <div className="space-y-4 animate-in fade-in">
+    <h3 className="text-lg font-medium">Ijaraga Noturar Mulk Ma'lumotlari</h3>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="space-y-2">
+        <Label htmlFor="com-rent-floor_level">Qavat</Label>
+        <Controller
+          name="floor_level"
+          control={control}
+          render={({ field }) => (
+            <Input id="com-rent-floor_level" type="number" {...field} />
+          )}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="com-rent-total_floors">Umumiy qavatlar</Label>
+        <Controller
+          name="total_floors"
+          control={control}
+          render={({ field }) => (
+            <Input id="com-rent-total_floors" type="number" {...field} />
+          )}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="com-rent-area">Maydon (kv.m)</Label>
+        <Controller
+          name="area"
+          control={control}
+          render={({ field }) => (
+            <Input id="com-rent-area" type="number" {...field} />
+          )}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="com-rent-contract_duration_months">
+          Shartnoma muddati (oy)
+        </Label>
+        <Controller
+          name="contract_duration_months"
+          control={control}
+          render={({ field }) => (
+            <Input id="com-rent-contract_duration_months" type="number" {...field} />
+          )}
+        />
+      </div>
+    </div>
+    <div className="flex flex-wrap gap-4">
+      <Controller
+        name="furnished"
+        control={control}
+        render={({ field }) => (
+          <div className="flex items-center gap-2">
+            <Switch
+              id="com-rent-furnished"
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+            <Label htmlFor="com-rent-furnished">Mebelli</Label>
+          </div>
+        )}
+      />
+    </div>
+  </div>
+);
+
+const CommercialSaleFields = ({ control }: { control: any }) => (
+  <div className="space-y-4 animate-in fade-in">
+    <h3 className="text-lg font-medium">Sotiladigan Noturar Mulk Ma'lumotlari</h3>
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="space-y-2">
+        <Label htmlFor="com-sale-floor_level">Qavat</Label>
+        <Controller
+          name="floor_level"
+          control={control}
+          render={({ field }) => (
+            <Input id="com-sale-floor_level" type="number" {...field} />
+          )}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="com-sale-total_floors">Umumiy qavatlar</Label>
+        <Controller
+          name="total_floors"
+          control={control}
+          render={({ field }) => (
+            <Input id="com-sale-total_floors" type="number" {...field} />
+          )}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="com-sale-area">Maydon (kv.m)</Label>
+        <Controller
+          name="area"
+          control={control}
+          render={({ field }) => (
+            <Input id="com-sale-area" type="number" {...field} />
+          )}
+        />
+      </div>
+    </div>
+    <div className="flex flex-wrap gap-4">
+      <Controller
+        name="furnished"
+        control={control}
+        render={({ field }) => (
+          <div className="flex items-center gap-2">
+            <Switch
+              id="com-sale-furnished"
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+            <Label htmlFor="com-sale-furnished">Mebelli</Label>
+          </div>
+        )}
+      />
+      <Controller
+        name="mortgage_available"
+        control={control}
+        render={({ field }) => (
+          <div className="flex items-center gap-2">
+            <Switch
+              id="com-sale-mortgage_available"
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+            <Label htmlFor="com-sale-mortgage_available">Ipoteka mavjud</Label>
           </div>
         )}
       />

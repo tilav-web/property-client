@@ -9,6 +9,12 @@ import BasicInfoSection from "./_components/basic-info-section";
 import ApartmentSaleForm, {
   type ApartmentSaleFormData,
 } from "./_components/category-forms/apartment-sale.form";
+import CommercialRentForm, {
+  type CommercialRentFormData,
+} from "./_components/category-forms/commercial-rent.form";
+import CommercialSaleForm, {
+  type CommercialSaleFormData,
+} from "./_components/category-forms/commercial-sale.form";
 import ApartmentRentForm, {
   type ApartmentRentFormData,
 } from "./_components/category-forms/apartment-rent.form";
@@ -217,6 +223,20 @@ export default function PropertyForm() {
             {category === "APARTMENT_RENT" && (
               <ApartmentRentForm
                 data={categoryData as ApartmentRentFormData}
+                setData={setCategoryData}
+                isSubmitting={isSubmitting}
+              />
+            )}
+            {category === "COMMERCIAL_SALE" && (
+              <CommercialSaleForm
+                data={categoryData as CommercialSaleFormData}
+                setData={setCategoryData}
+                isSubmitting={isSubmitting}
+              />
+            )}
+            {category === "COMMERCIAL_RENT" && (
+              <CommercialRentForm
+                data={categoryData as CommercialRentFormData}
                 setData={setCategoryData}
                 isSubmitting={isSubmitting}
               />
