@@ -41,6 +41,7 @@ export interface FindAllParams {
   amenities?: string[];
   furnished?: boolean;
   sort?: SortOption;
+  dealType?: 'RENT' | 'SALE';
 }
 
 class PropertyService {

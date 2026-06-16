@@ -80,6 +80,8 @@ function buildFilters(params: URLSearchParams): Partial<FindAllParams> {
   if (category) out.category = category as CategoryType;
   if (filterCategory && filterCategory !== "all")
     out.filterCategory = filterCategory as CategoryFilterType;
+  const dealType = params.get("dealType");
+  if (dealType === "RENT" || dealType === "SALE") out.dealType = dealType;
   if (is_new === "1") out.is_new = true;
   if (is_premium === "true") out.is_premium = true;
   if (rating) out.rating = Number(rating);

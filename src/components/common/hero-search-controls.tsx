@@ -42,6 +42,13 @@ const DEAL_TAB_TO_CATEGORY: Record<DealTab, string | undefined> = {
   commercial_buy: "COMMERCIAL_SALE",
 };
 
+const DEAL_TAB_TO_DEAL_TYPE: Partial<Record<DealTab, "RENT" | "SALE">> = {
+  rent: "RENT",
+  buy: "SALE",
+};
+
+type PropertySubType = "all" | "apartment" | "commercial";
+
 const RoomButton = memo(
   ({
     label,
@@ -122,6 +129,7 @@ export default function HeroSearchControls() {
   const isMobile = useIsMobile();
 
   const [activeTab, setActiveTab] = useState<DealTab>("rent");
+  const [propertySubType, setPropertySubType] = useState<PropertySubType>("all");
   const [mobileSearchActive, setMobileSearchActive] = useState(false);
   const [openBedsBaths, setOpenBedsBaths] = useState(false);
   const [openPrice, setOpenPrice] = useState(false);
@@ -154,6 +162,11 @@ export default function HeroSearchControls() {
     queryFn: () => tagService.findTags(debouncedTagSearch),
     enabled: debouncedTagSearch.length > 0,
   });
+
+  const handleTabChange = useCallback((tab: DealTab) => {
+    setActiveTab(tab);
+    setPropertySubType("all");
+  }, []);
 
   const handleTagSelect = useCallback((tag: string) => {
     setSelectedTag(tag);
@@ -226,8 +239,17 @@ export default function HeroSearchControls() {
 
     const queryParams = new URLSearchParams();
 
-    const category = DEAL_TAB_TO_CATEGORY[activeTab];
-    if (category) queryParams.set("category", category);
+    const dealType = DEAL_TAB_TO_DEAL_TYPE[activeTab];
+    if (dealType && propertySubType === "all") {
+      queryParams.set("dealType", dealType);
+    } else {
+      const categoryMap: Record<string, Record<PropertySubType, string | undefined>> = {
+        rent: { all: undefined, apartment: "APARTMENT_RENT", commercial: "COMMERCIAL_RENT" },
+        buy: { all: undefined, apartment: "APARTMENT_SALE", commercial: "COMMERCIAL_SALE" },
+      };
+      const category = categoryMap[activeTab]?.[propertySubType] ?? DEAL_TAB_TO_CATEGORY[activeTab];
+      if (category) queryParams.set("category", category);
+    }
     if (selectedTag) queryParams.set("tag", selectedTag);
     if (tagSearch && !selectedTag) queryParams.set("search", tagSearch);
     selectedBedrooms.forEach((b) => queryParams.append("bdr", b));
@@ -244,6 +266,7 @@ export default function HeroSearchControls() {
     navigate,
     aiSearchEnabled,
     activeTab,
+    propertySubType,
     buildAiPrompt,
     selectedTag,
     tagSearch,
@@ -449,7 +472,7 @@ export default function HeroSearchControls() {
                 <button
                   key={tab.key}
                   type="button"
-                  onClick={() => setActiveTab(tab.key)}
+                  onClick={() => handleTabChange(tab.key)}
                   className={`h-10 shrink-0 rounded-full px-4 text-sm font-semibold transition-colors ${
                     activeTab === tab.key
                       ? "bg-primary text-primary-foreground shadow-sm"
@@ -460,6 +483,32 @@ export default function HeroSearchControls() {
                 </button>
               ))}
             </div>
+            {/* Sub-filter for rent/buy on mobile */}
+            {(activeTab === "rent" || activeTab === "buy") && (
+              <div className="flex gap-1.5 overflow-x-auto pb-1 hide-scrollbar">
+                {(["all", "apartment", "commercial"] as PropertySubType[]).map((sub) => {
+                  const labels: Record<PropertySubType, string> = {
+                    all: t("pages.main_page.search_tabs.sub_all", { defaultValue: "Barchasi" }),
+                    apartment: t("pages.main_page.search_tabs.sub_apartment", { defaultValue: "Kvartira" }),
+                    commercial: t("pages.main_page.search_tabs.sub_commercial", { defaultValue: "Noturar mulk" }),
+                  };
+                  return (
+                    <button
+                      key={sub}
+                      type="button"
+                      onClick={() => setPropertySubType(sub)}
+                      className={`h-8 shrink-0 rounded-full px-3 text-xs font-semibold transition-colors ${
+                        propertySubType === sub
+                          ? "bg-primary/90 text-primary-foreground shadow-sm"
+                          : "bg-muted/70 text-foreground/60 hover:bg-accent"
+                      }`}
+                    >
+                      {labels[sub]}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           <div className="flex-1 space-y-5 overflow-y-auto px-4 py-4">
@@ -560,13 +609,13 @@ export default function HeroSearchControls() {
   return (
     <div className="relative z-10 w-full max-w-4xl px-4">
       {/* Tabs - pill style like PropertyFinder */}
-      <div className="mb-3 flex justify-center">
+      <div className="mb-3 flex flex-col items-center gap-2">
         <div className="inline-flex items-center gap-1 rounded-full bg-card/90 px-2 py-1.5 shadow-elevated backdrop-blur">
           {tabs.map((tab) => (
             <button
               key={tab.key}
               type="button"
-              onClick={() => setActiveTab(tab.key)}
+              onClick={() => handleTabChange(tab.key)}
               className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${
                 activeTab === tab.key
                   ? "bg-primary text-primary-foreground shadow-sm"
@@ -577,6 +626,32 @@ export default function HeroSearchControls() {
             </button>
           ))}
         </div>
+        {/* Sub-filter: only for rent/buy tabs */}
+        {(activeTab === "rent" || activeTab === "buy") && (
+          <div className="inline-flex items-center gap-1 rounded-full bg-card/80 px-1.5 py-1 shadow backdrop-blur">
+            {(["all", "apartment", "commercial"] as PropertySubType[]).map((sub) => {
+              const labels: Record<PropertySubType, string> = {
+                all: t("pages.main_page.search_tabs.sub_all", { defaultValue: "Barchasi" }),
+                apartment: t("pages.main_page.search_tabs.sub_apartment", { defaultValue: "Kvartira" }),
+                commercial: t("pages.main_page.search_tabs.sub_commercial", { defaultValue: "Noturar mulk" }),
+              };
+              return (
+                <button
+                  key={sub}
+                  type="button"
+                  onClick={() => setPropertySubType(sub)}
+                  className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
+                    propertySubType === sub
+                      ? "bg-primary/90 text-primary-foreground shadow-sm"
+                      : "text-foreground/60 hover:text-foreground"
+                  }`}
+                >
+                  {labels[sub]}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Search box */}

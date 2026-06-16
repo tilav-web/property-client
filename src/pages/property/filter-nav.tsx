@@ -26,14 +26,15 @@ interface PropertyPage {
 export default function FilterNav() {
   const [params] = useSearchParams();
   const category = params.get("category") as CategoryType;
+  const dealTypeParam = params.get("dealType") as "RENT" | "SALE" | null;
   const is_new = params.get("is_new");
   const { t } = useTranslation();
   const { language } = useLanguageStore();
   const { display } = useCurrencyStore();
 
   const queryKey = useMemo(
-    () => ["filter-nav-layout", category, language, display],
-    [category, display, language]
+    () => ["filter-nav-layout", category, dealTypeParam, language, display],
+    [category, dealTypeParam, display, language]
   );
 
   const { data: siteSettings } = useQuery({
@@ -43,14 +44,16 @@ export default function FilterNav() {
   });
 
   const heroSlot = useMemo(() => {
-    if (category === "APARTMENT_SALE")
+    const isSale = category === "APARTMENT_SALE" || category === "COMMERCIAL_SALE" || dealTypeParam === "SALE";
+    const isRent = category === "APARTMENT_RENT" || category === "COMMERCIAL_RENT" || dealTypeParam === "RENT";
+    if (isSale)
       return {
         img: siteSettings?.hero_image_buy || heroImage,
         srcset: siteSettings?.hero_image_buy
           ? siteSettings.hero_image_buy_srcset || undefined
           : heroImageSrcSet,
       };
-    if (category === "APARTMENT_RENT")
+    if (isRent)
       return {
         img: siteSettings?.hero_image_rent || heroImage,
         srcset: siteSettings?.hero_image_rent
@@ -58,14 +61,14 @@ export default function FilterNav() {
           : heroImageSrcSet,
       };
     return { img: heroImage, srcset: heroImageSrcSet };
-  }, [category, siteSettings]);
+  }, [category, dealTypeParam, siteSettings]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery<PropertyPage>({
       queryKey,
       queryFn: async ({ pageParam }) => {
         const data = await propertyService.findAll({
-          category,
+          ...(dealTypeParam ? { dealType: dealTypeParam } : { category }),
           page: pageParam as number,
           limit: 8,
           is_new: is_new === "1" ? true : is_new === "0" ? false : undefined,
