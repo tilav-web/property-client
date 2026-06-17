@@ -101,7 +101,7 @@ export const usePropertyCreationStore = create<PropertyCreationState>(
         videos: state.videos.filter((v) => v.preview !== preview),
       })),
 
-    setCategory: (category) => set({ category }),
+    setCategory: (category) => set({ category, categoryData: {} }),
     setCommonData: (data) => set({ commonData: data }),
 
     setCategoryData: (data) => set({ categoryData: data }),
