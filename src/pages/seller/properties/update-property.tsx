@@ -412,6 +412,12 @@ export default function UpdateProperty() {
                         <SelectItem value="COMMERCIAL_SALE">
                           Noturar mulk sotish
                         </SelectItem>
+                        <SelectItem value="LAND_SALE">Yer sotish</SelectItem>
+                        <SelectItem value="LAND_RENT">Yer ijarasi</SelectItem>
+                        <SelectItem value="GARAGE_SALE">Garaj sotish</SelectItem>
+                        <SelectItem value="GARAGE_RENT">Garaj ijarasi</SelectItem>
+                        <SelectItem value="HOVLI_SALE">Hovli sotish</SelectItem>
+                        <SelectItem value="HOVLI_RENT">Hovli ijarasi</SelectItem>
                       </SelectContent>
                     </Select>
                   )}
@@ -529,6 +535,24 @@ export default function UpdateProperty() {
           )}
           {category === "COMMERCIAL_SALE" && (
             <CommercialSaleFields control={control} />
+          )}
+          {category === "LAND_SALE" && (
+            <LandSaleFields control={control} />
+          )}
+          {category === "LAND_RENT" && (
+            <LandRentFields control={control} />
+          )}
+          {category === "GARAGE_SALE" && (
+            <GarageSaleFields control={control} />
+          )}
+          {category === "GARAGE_RENT" && (
+            <GarageRentFields control={control} />
+          )}
+          {category === "HOVLI_SALE" && (
+            <HovliSaleFields control={control} />
+          )}
+          {category === "HOVLI_RENT" && (
+            <HovliRentFields control={control} />
           )}
         </CardContent>
       </Card>
@@ -892,6 +916,166 @@ const ApartmentSaleFields = ({ control }: { control: any }) => (
           </div>
         )}
       />
+    </div>
+  </div>
+);
+
+const LandSaleFields = ({ control }: { control: any }) => (
+  <div className="space-y-4 animate-in fade-in">
+    <h3 className="text-lg font-medium">Yer sotish ma'lumotlari</h3>
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="space-y-2">
+        <Label>Maydon (m²)</Label>
+        <Controller name="area" control={control} render={({ field }) => <Input type="number" {...field} />} />
+      </div>
+      <div className="space-y-2">
+        <Label>Yer turi</Label>
+        <Controller name="land_type" control={control} render={({ field }) => (
+          <Select value={field.value ?? ""} onValueChange={field.onChange}>
+            <SelectTrigger><SelectValue placeholder="Tanlang" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="RESIDENTIAL">Turar-joy uchun</SelectItem>
+              <SelectItem value="COMMERCIAL">Tijorat uchun</SelectItem>
+              <SelectItem value="AGRICULTURAL">Qishloq xo'jaligi</SelectItem>
+            </SelectContent>
+          </Select>
+        )} />
+      </div>
+    </div>
+    <div className="flex flex-wrap gap-4">
+      {(["is_electricity", "is_water", "is_gas", "road_access", "mortgage_available"] as const).map((key) => (
+        <Controller key={key} name={key} control={control} render={({ field }) => (
+          <div className="flex items-center gap-2">
+            <Switch id={`ls_${key}`} checked={!!field.value} onCheckedChange={field.onChange} />
+            <Label htmlFor={`ls_${key}`}>{({ is_electricity: "Elektr", is_water: "Suv", is_gas: "Gaz", road_access: "Yo'l", mortgage_available: "Ipoteka" } as Record<string, string>)[key]}</Label>
+          </div>
+        )} />
+      ))}
+    </div>
+  </div>
+);
+
+const LandRentFields = ({ control }: { control: any }) => (
+  <div className="space-y-4 animate-in fade-in">
+    <h3 className="text-lg font-medium">Yer ijarasi ma'lumotlari</h3>
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="space-y-2">
+        <Label>Maydon (m²)</Label>
+        <Controller name="area" control={control} render={({ field }) => <Input type="number" {...field} />} />
+      </div>
+      <div className="space-y-2">
+        <Label>Yer turi</Label>
+        <Controller name="land_type" control={control} render={({ field }) => (
+          <Select value={field.value ?? ""} onValueChange={field.onChange}>
+            <SelectTrigger><SelectValue placeholder="Tanlang" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="RESIDENTIAL">Turar-joy uchun</SelectItem>
+              <SelectItem value="COMMERCIAL">Tijorat uchun</SelectItem>
+              <SelectItem value="AGRICULTURAL">Qishloq xo'jaligi</SelectItem>
+            </SelectContent>
+          </Select>
+        )} />
+      </div>
+    </div>
+    <div className="flex flex-wrap gap-4">
+      {(["is_electricity", "is_water", "is_gas", "road_access"] as const).map((key) => (
+        <Controller key={key} name={key} control={control} render={({ field }) => (
+          <div className="flex items-center gap-2">
+            <Switch id={`lr_${key}`} checked={!!field.value} onCheckedChange={field.onChange} />
+            <Label htmlFor={`lr_${key}`}>{({ is_electricity: "Elektr", is_water: "Suv", is_gas: "Gaz", road_access: "Yo'l" } as Record<string, string>)[key]}</Label>
+          </div>
+        )} />
+      ))}
+    </div>
+  </div>
+);
+
+const GarageSaleFields = ({ control }: { control: any }) => (
+  <div className="space-y-4 animate-in fade-in">
+    <h3 className="text-lg font-medium">Garaj sotish ma'lumotlari</h3>
+    <div className="max-w-xs space-y-2">
+      <Label>Maydon (m²)</Label>
+      <Controller name="area" control={control} render={({ field }) => <Input type="number" {...field} />} />
+    </div>
+    <div className="flex flex-wrap gap-4">
+      {(["has_pit", "has_electricity", "is_heated", "mortgage_available"] as const).map((key) => (
+        <Controller key={key} name={key} control={control} render={({ field }) => (
+          <div className="flex items-center gap-2">
+            <Switch id={`gs_${key}`} checked={!!field.value} onCheckedChange={field.onChange} />
+            <Label htmlFor={`gs_${key}`}>{({ has_pit: "Ko'rikxona", has_electricity: "Elektr", is_heated: "Isitish", mortgage_available: "Ipoteka" } as Record<string, string>)[key]}</Label>
+          </div>
+        )} />
+      ))}
+    </div>
+  </div>
+);
+
+const GarageRentFields = ({ control }: { control: any }) => (
+  <div className="space-y-4 animate-in fade-in">
+    <h3 className="text-lg font-medium">Garaj ijarasi ma'lumotlari</h3>
+    <div className="max-w-xs space-y-2">
+      <Label>Maydon (m²)</Label>
+      <Controller name="area" control={control} render={({ field }) => <Input type="number" {...field} />} />
+    </div>
+    <div className="flex flex-wrap gap-4">
+      {(["has_pit", "has_electricity", "is_heated"] as const).map((key) => (
+        <Controller key={key} name={key} control={control} render={({ field }) => (
+          <div className="flex items-center gap-2">
+            <Switch id={`gr_${key}`} checked={!!field.value} onCheckedChange={field.onChange} />
+            <Label htmlFor={`gr_${key}`}>{({ has_pit: "Ko'rikxona", has_electricity: "Elektr", is_heated: "Isitish" } as Record<string, string>)[key]}</Label>
+          </div>
+        )} />
+      ))}
+    </div>
+  </div>
+);
+
+const HovliSaleFields = ({ control }: { control: any }) => (
+  <div className="space-y-4 animate-in fade-in">
+    <h3 className="text-lg font-medium">Hovli sotish ma'lumotlari</h3>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {(["rooms", "area", "land_area", "floors"] as const).map((key) => (
+        <div key={key} className="space-y-2">
+          <Label>{({ rooms: "Xonalar", area: "Uy maydoni (m²)", land_area: "Yer maydoni (m²)", floors: "Qavatlar" } as Record<string, string>)[key]}</Label>
+          <Controller name={key} control={control} render={({ field }) => <Input type="number" {...field} />} />
+        </div>
+      ))}
+    </div>
+    <div className="flex flex-wrap gap-4">
+      {(["furnished", "mortgage_available"] as const).map((key) => (
+        <Controller key={key} name={key} control={control} render={({ field }) => (
+          <div className="flex items-center gap-2">
+            <Switch id={`hvs_${key}`} checked={!!field.value} onCheckedChange={field.onChange} />
+            <Label htmlFor={`hvs_${key}`}>{key === "furnished" ? "Jihozlangan" : "Ipoteka"}</Label>
+          </div>
+        )} />
+      ))}
+    </div>
+  </div>
+);
+
+const HovliRentFields = ({ control }: { control: any }) => (
+  <div className="space-y-4 animate-in fade-in">
+    <h3 className="text-lg font-medium">Hovli ijarasi ma'lumotlari</h3>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {(["rooms", "area", "land_area", "floors"] as const).map((key) => (
+        <div key={key} className="space-y-2">
+          <Label>{({ rooms: "Xonalar", area: "Uy maydoni (m²)", land_area: "Yer maydoni (m²)", floors: "Qavatlar" } as Record<string, string>)[key]}</Label>
+          <Controller name={key} control={control} render={({ field }) => <Input type="number" {...field} />} />
+        </div>
+      ))}
+      <div className="space-y-2">
+        <Label>Shartnoma muddati (oy)</Label>
+        <Controller name="contract_duration_months" control={control} render={({ field }) => <Input type="number" {...field} />} />
+      </div>
+    </div>
+    <div className="flex flex-wrap gap-4">
+      <Controller name="furnished" control={control} render={({ field }) => (
+        <div className="flex items-center gap-2">
+          <Switch id="hvr_furnished" checked={!!field.value} onCheckedChange={field.onChange} />
+          <Label htmlFor="hvr_furnished">Jihozlangan</Label>
+        </div>
+      )} />
     </div>
   </div>
 );

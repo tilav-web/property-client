@@ -40,6 +40,12 @@ const categories = [
   { value: "APARTMENT_RENT" as const, label: "Kvartira ijarasi" },
   { value: "COMMERCIAL_SALE" as const, label: "Noturar mulk sotish" },
   { value: "COMMERCIAL_RENT" as const, label: "Noturar mulk ijarasi" },
+  { value: "LAND_SALE" as const, label: "Yer sotish" },
+  { value: "LAND_RENT" as const, label: "Yer ijarasi" },
+  { value: "GARAGE_SALE" as const, label: "Garaj sotish" },
+  { value: "GARAGE_RENT" as const, label: "Garaj ijarasi" },
+  { value: "HOVLI_SALE" as const, label: "Hovli sotish" },
+  { value: "HOVLI_RENT" as const, label: "Hovli ijarasi" },
 ];
 
 const currencies = SUPPORTED_CURRENCIES.map((code) => ({

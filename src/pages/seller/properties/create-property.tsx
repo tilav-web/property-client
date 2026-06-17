@@ -15,6 +15,24 @@ import CommercialRentForm, {
 import CommercialSaleForm, {
   type CommercialSaleFormData,
 } from "./_components/category-forms/commercial-sale.form";
+import LandSaleForm, {
+  type LandSaleFormData,
+} from "./_components/category-forms/land-sale.form";
+import LandRentForm, {
+  type LandRentFormData,
+} from "./_components/category-forms/land-rent.form";
+import GarageSaleForm, {
+  type GarageSaleFormData,
+} from "./_components/category-forms/garage-sale.form";
+import GarageRentForm, {
+  type GarageRentFormData,
+} from "./_components/category-forms/garage-rent.form";
+import HovliSaleForm, {
+  type HovliSaleFormData,
+} from "./_components/category-forms/hovli-sale.form";
+import HovliRentForm, {
+  type HovliRentFormData,
+} from "./_components/category-forms/hovli-rent.form";
 import ApartmentRentForm, {
   type ApartmentRentFormData,
 } from "./_components/category-forms/apartment-rent.form";
@@ -237,6 +255,48 @@ export default function PropertyForm() {
             {category === "COMMERCIAL_RENT" && (
               <CommercialRentForm
                 data={categoryData as CommercialRentFormData}
+                setData={setCategoryData}
+                isSubmitting={isSubmitting}
+              />
+            )}
+            {category === "LAND_SALE" && (
+              <LandSaleForm
+                data={categoryData as LandSaleFormData}
+                setData={setCategoryData}
+                isSubmitting={isSubmitting}
+              />
+            )}
+            {category === "LAND_RENT" && (
+              <LandRentForm
+                data={categoryData as LandRentFormData}
+                setData={setCategoryData}
+                isSubmitting={isSubmitting}
+              />
+            )}
+            {category === "GARAGE_SALE" && (
+              <GarageSaleForm
+                data={categoryData as GarageSaleFormData}
+                setData={setCategoryData}
+                isSubmitting={isSubmitting}
+              />
+            )}
+            {category === "GARAGE_RENT" && (
+              <GarageRentForm
+                data={categoryData as GarageRentFormData}
+                setData={setCategoryData}
+                isSubmitting={isSubmitting}
+              />
+            )}
+            {category === "HOVLI_SALE" && (
+              <HovliSaleForm
+                data={categoryData as HovliSaleFormData}
+                setData={setCategoryData}
+                isSubmitting={isSubmitting}
+              />
+            )}
+            {category === "HOVLI_RENT" && (
+              <HovliRentForm
+                data={categoryData as HovliRentFormData}
                 setData={setCategoryData}
                 isSubmitting={isSubmitting}
               />

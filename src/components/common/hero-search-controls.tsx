@@ -47,7 +47,7 @@ const DEAL_TAB_TO_DEAL_TYPE: Partial<Record<DealTab, "RENT" | "SALE">> = {
   buy: "SALE",
 };
 
-type PropertySubType = "all" | "apartment" | "commercial";
+type PropertySubType = "all" | "apartment" | "commercial" | "land" | "garage" | "hovli";
 
 const RoomButton = memo(
   ({
@@ -244,8 +244,8 @@ export default function HeroSearchControls() {
       queryParams.set("dealType", dealType);
     } else {
       const categoryMap: Record<string, Record<PropertySubType, string | undefined>> = {
-        rent: { all: undefined, apartment: "APARTMENT_RENT", commercial: "COMMERCIAL_RENT" },
-        buy: { all: undefined, apartment: "APARTMENT_SALE", commercial: "COMMERCIAL_SALE" },
+        rent: { all: undefined, apartment: "APARTMENT_RENT", commercial: "COMMERCIAL_RENT", land: "LAND_RENT", garage: "GARAGE_RENT", hovli: "HOVLI_RENT" },
+        buy: { all: undefined, apartment: "APARTMENT_SALE", commercial: "COMMERCIAL_SALE", land: "LAND_SALE", garage: "GARAGE_SALE", hovli: "HOVLI_SALE" },
       };
       const category = categoryMap[activeTab]?.[propertySubType] ?? DEAL_TAB_TO_CATEGORY[activeTab];
       if (category) queryParams.set("category", category);
@@ -486,11 +486,14 @@ export default function HeroSearchControls() {
             {/* Sub-filter for rent/buy on mobile */}
             {(activeTab === "rent" || activeTab === "buy") && (
               <div className="flex gap-1.5 overflow-x-auto pb-1 hide-scrollbar">
-                {(["all", "apartment", "commercial"] as PropertySubType[]).map((sub) => {
+                {(["all", "apartment", "commercial", "land", "garage", "hovli"] as PropertySubType[]).map((sub) => {
                   const labels: Record<PropertySubType, string> = {
                     all: t("pages.main_page.search_tabs.sub_all", { defaultValue: "Barchasi" }),
                     apartment: t("pages.main_page.search_tabs.sub_apartment", { defaultValue: "Kvartira" }),
                     commercial: t("pages.main_page.search_tabs.sub_commercial", { defaultValue: "Noturar mulk" }),
+                    land: t("pages.main_page.search_tabs.sub_land", { defaultValue: "Yer" }),
+                    garage: t("pages.main_page.search_tabs.sub_garage", { defaultValue: "Garaj" }),
+                    hovli: t("pages.main_page.search_tabs.sub_hovli", { defaultValue: "Hovli" }),
                   };
                   return (
                     <button
@@ -629,11 +632,14 @@ export default function HeroSearchControls() {
         {/* Sub-filter: only for rent/buy tabs */}
         {(activeTab === "rent" || activeTab === "buy") && (
           <div className="inline-flex items-center gap-1 rounded-full bg-card/80 px-1.5 py-1 shadow backdrop-blur">
-            {(["all", "apartment", "commercial"] as PropertySubType[]).map((sub) => {
+            {(["all", "apartment", "commercial", "land", "garage", "hovli"] as PropertySubType[]).map((sub) => {
               const labels: Record<PropertySubType, string> = {
                 all: t("pages.main_page.search_tabs.sub_all", { defaultValue: "Barchasi" }),
                 apartment: t("pages.main_page.search_tabs.sub_apartment", { defaultValue: "Kvartira" }),
                 commercial: t("pages.main_page.search_tabs.sub_commercial", { defaultValue: "Noturar mulk" }),
+                land: t("pages.main_page.search_tabs.sub_land", { defaultValue: "Yer" }),
+                garage: t("pages.main_page.search_tabs.sub_garage", { defaultValue: "Garaj" }),
+                hovli: t("pages.main_page.search_tabs.sub_hovli", { defaultValue: "Hovli" }),
               };
               return (
                 <button

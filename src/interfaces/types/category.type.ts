@@ -2,13 +2,25 @@ export type CategoryType =
   | "APARTMENT_SALE"
   | "APARTMENT_RENT"
   | "COMMERCIAL_SALE"
-  | "COMMERCIAL_RENT";
+  | "COMMERCIAL_RENT"
+  | "LAND_SALE"
+  | "LAND_RENT"
+  | "GARAGE_SALE"
+  | "GARAGE_RENT"
+  | "HOVLI_SALE"
+  | "HOVLI_RENT";
 
 export const categories: CategoryType[] = [
   "APARTMENT_SALE",
   "APARTMENT_RENT",
   "COMMERCIAL_SALE",
   "COMMERCIAL_RENT",
+  "LAND_SALE",
+  "LAND_RENT",
+  "GARAGE_SALE",
+  "GARAGE_RENT",
+  "HOVLI_SALE",
+  "HOVLI_RENT",
 ];
 
 export const categorieType = {
@@ -16,4 +28,10 @@ export const categorieType = {
   APARTMENT_RENT: "APARTMENT_RENT",
   COMMERCIAL_SALE: "COMMERCIAL_SALE",
   COMMERCIAL_RENT: "COMMERCIAL_RENT",
+  LAND_SALE: "LAND_SALE",
+  LAND_RENT: "LAND_RENT",
+  GARAGE_SALE: "GARAGE_SALE",
+  GARAGE_RENT: "GARAGE_RENT",
+  HOVLI_SALE: "HOVLI_SALE",
+  HOVLI_RENT: "HOVLI_RENT",
 };
