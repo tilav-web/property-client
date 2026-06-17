@@ -52,6 +52,9 @@ const AdminNotificationsPage = lazy(
 const AdminPushNotificationsPage = lazy(
   () => import("./pages/admin/_pages/push-notifications"),
 );
+const AdminAppVersionPage = lazy(
+  () => import("./pages/admin/_pages/app-version"),
+);
 const AdminPaymentsPage = lazy(
   () => import("./pages/admin/_pages/payments"),
 );
@@ -425,6 +428,10 @@ const router = createBrowserRouter([
       {
         path: "push-notifications",
         element: withSuspense(<AdminPushNotificationsPage />),
+      },
+      {
+        path: "app-version",
+        element: withSuspense(<AdminAppVersionPage />),
       },
       {
         path: "payments",
