@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { getColumns } from "./components/columns";
 import {
@@ -81,7 +81,18 @@ export default function AdminProperties() {
   };
 
   const navigate = useNavigate();
-  const columns = getColumns(openEditModal, navigate);
+
+  const { mutate: approve } = useMutation({
+    mutationFn: (id: string) => adminPropertyService.updateStatus(id, 'APPROVED'),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-properties"] }),
+  });
+
+  const { mutate: reject } = useMutation({
+    mutationFn: (id: string) => adminPropertyService.updateStatus(id, 'REJECTED'),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-properties"] }),
+  });
+
+  const columns = getColumns(openEditModal, navigate, approve, reject);
 
   const buildParams = (overrides: Record<string, string | undefined>) => {
     const base: Record<string, string> = {

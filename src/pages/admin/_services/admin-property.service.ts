@@ -32,11 +32,22 @@ class AdminPropertyService {
 
   async updateProperty(
     id: string,
-    payload: Partial<IAdminProperty>, // Changed to Partial<IAdminProperty>
-  ): Promise<IAdminProperty> { // Changed to IAdminProperty
-    const { data } = await adminApi.put( // Changed from patch to put
+    payload: Partial<IAdminProperty>,
+  ): Promise<IAdminProperty> {
+    const { data } = await adminApi.put(
       `${API_ENDPOINTS.ADMIN.properties}/${id}`,
       payload,
+    );
+    return data;
+  }
+
+  async updateStatus(
+    id: string,
+    status: 'APPROVED' | 'REJECTED' | 'PENDING',
+  ): Promise<IAdminProperty> {
+    const { data } = await adminApi.put(
+      `${API_ENDPOINTS.ADMIN.properties}/${id}`,
+      { status },
     );
     return data;
   }
