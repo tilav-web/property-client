@@ -217,6 +217,11 @@
       "NEW": "Новый",
       "RENOVATED": "Отремонтированный",
       "OLD": "Старый"
+    },
+    "land_type": {
+      "RESIDENTIAL": "Жилое",
+      "COMMERCIAL": "Коммерческое",
+      "AGRICULTURAL": "Сельскохозяйственное"
     }
   },
   "pages": {
@@ -691,7 +696,20 @@
       "interest_rate": "Процентная ставка",
       "estimate_monthly_payment": "Рассчитайте ваш ежемесячный ипотечный платеж",
       "monthly_payment": "Ежемесячный платеж",
-      "confirm_mortgage": "Подтвердить ипотеку"
+      "confirm_mortgage": "Подтвердить ипотеку",
+      "mortgage": "Ипотека",
+      "contract_duration": "Срок договора",
+      "rooms": "Комнаты",
+      "floors": "Этажей",
+      "land_area": "Площадь участка",
+      "land_type": "Тип земли",
+      "electricity": "Электричество",
+      "water": "Вода",
+      "gas": "Газ",
+      "road_access": "Подъезд",
+      "pit": "Смотровая яма",
+      "heated": "Отопление",
+      "mortgage_available": "Ипотека доступна"
     },
     "category_page": {
       "title": "Найдите квартиру своей мечты",
@@ -962,7 +980,15 @@
   "categories": {
     "APARTMENT": "Квартиры",
     "APARTMENT_SALE": "Продажа квартир",
-    "APARTMENT_RENT": "Аренда квартир"
+    "APARTMENT_RENT": "Аренда квартир",
+    "COMMERCIAL_SALE": "Продажа коммерческой",
+    "COMMERCIAL_RENT": "Аренда коммерческой",
+    "LAND_SALE": "Продажа земли",
+    "LAND_RENT": "Аренда земли",
+    "GARAGE_SALE": "Продажа гаража",
+    "GARAGE_RENT": "Аренда гаража",
+    "HOVLI_SALE": "Продажа дома",
+    "HOVLI_RENT": "Аренда дома"
   },
   "seller_dashboard_page": {
     "title": "Панель управления"

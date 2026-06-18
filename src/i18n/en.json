@@ -217,6 +217,11 @@
       "CENTRAL": "Central",
       "INDIVIDUAL": "Individual",
       "NONE": "None"
+    },
+    "land_type": {
+      "RESIDENTIAL": "Residential",
+      "COMMERCIAL": "Commercial",
+      "AGRICULTURAL": "Agricultural"
     }
   },
   "pages": {
@@ -701,7 +706,20 @@
       "interest_rate": "Interest rate",
       "estimate_monthly_payment": "Estimate your monthly mortgage payment",
       "monthly_payment": "Monthly payment",
-      "confirm_mortgage": "Confirm mortgage"
+      "confirm_mortgage": "Confirm mortgage",
+      "mortgage": "Mortgage",
+      "contract_duration": "Contract duration",
+      "rooms": "Rooms",
+      "floors": "Floors",
+      "land_area": "Land area",
+      "land_type": "Land type",
+      "electricity": "Electricity",
+      "water": "Water",
+      "gas": "Gas",
+      "road_access": "Road access",
+      "pit": "Inspection pit",
+      "heated": "Heated",
+      "mortgage_available": "Mortgage available"
     },
     "category_page": {
       "title": "Find your perfect apartment",
@@ -972,7 +990,15 @@
   "categories": {
     "APARTMENT": "Apartments",
     "APARTMENT_SALE": "Apartment for sale",
-    "APARTMENT_RENT": "Apartment for rent"
+    "APARTMENT_RENT": "Apartment for rent",
+    "COMMERCIAL_SALE": "Commercial for sale",
+    "COMMERCIAL_RENT": "Commercial for rent",
+    "LAND_SALE": "Land for sale",
+    "LAND_RENT": "Land for rent",
+    "GARAGE_SALE": "Garage for sale",
+    "GARAGE_RENT": "Garage for rent",
+    "HOVLI_SALE": "House for sale",
+    "HOVLI_RENT": "House for rent"
   },
   "seller_dashboard_page": {
     "title": "Dashboard"

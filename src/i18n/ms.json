@@ -217,6 +217,11 @@
       "CENTRAL": "Berpusat",
       "INDIVIDUAL": "Individu",
       "NONE": "Tiada"
+    },
+    "land_type": {
+      "RESIDENTIAL": "Kediaman",
+      "COMMERCIAL": "Komersial",
+      "AGRICULTURAL": "Pertanian"
     }
   },
   "pages": {
@@ -700,7 +705,20 @@
       "interest_rate": "Kadar faedah",
       "estimate_monthly_payment": "Anggarkan bayaran bulanan pinjaman perumahan anda",
       "monthly_payment": "Bayaran bulanan",
-      "confirm_mortgage": "Sahkan pinjaman perumahan"
+      "confirm_mortgage": "Sahkan pinjaman perumahan",
+      "mortgage": "Gadaian",
+      "contract_duration": "Tempoh kontrak",
+      "rooms": "Bilik",
+      "floors": "Tingkat",
+      "land_area": "Keluasan tanah",
+      "land_type": "Jenis tanah",
+      "electricity": "Elektrik",
+      "water": "Air",
+      "gas": "Gas",
+      "road_access": "Akses jalan",
+      "pit": "Lubang pemeriksaan",
+      "heated": "Berpemanas",
+      "mortgage_available": "Gadaian tersedia"
     },
     "category_page": {
       "title": "Cari apartmen idaman anda",
@@ -971,7 +989,15 @@
   "categories": {
     "APARTMENT": "Apartment",
     "APARTMENT_SALE": "Apartment untuk dijual",
-    "APARTMENT_RENT": "Apartment untuk disewa"
+    "APARTMENT_RENT": "Apartment untuk disewa",
+    "COMMERCIAL_SALE": "Komersial untuk dijual",
+    "COMMERCIAL_RENT": "Komersial untuk disewa",
+    "LAND_SALE": "Tanah untuk dijual",
+    "LAND_RENT": "Tanah untuk disewa",
+    "GARAGE_SALE": "Garaj untuk dijual",
+    "GARAGE_RENT": "Garaj untuk disewa",
+    "HOVLI_SALE": "Rumah untuk dijual",
+    "HOVLI_RENT": "Rumah untuk disewa"
   },
   "seller_dashboard_page": {
     "title": "Papan Pemuka"

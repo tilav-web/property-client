@@ -217,6 +217,11 @@
       "NEW": "Yangi",
       "RENOVATED": "Ta'mirlangan",
       "OLD": "Eski"
+    },
+    "land_type": {
+      "RESIDENTIAL": "Turar-joy",
+      "COMMERCIAL": "Tijorat",
+      "AGRICULTURAL": "Qishloq xo'jaligi"
     }
   },
   "pages": {
@@ -700,7 +705,20 @@
       "interest_rate": "Foiz stavkasi",
       "estimate_monthly_payment": "Oylik ipoteka to'lovingizni hisoblang",
       "monthly_payment": "Oylik to'lov",
-      "confirm_mortgage": "Ipotekani tasdiqlash"
+      "confirm_mortgage": "Ipotekani tasdiqlash",
+      "mortgage": "Ipoteka",
+      "contract_duration": "Shartnoma muddati",
+      "rooms": "Xonalar",
+      "floors": "Qavatlar soni",
+      "land_area": "Yer maydoni",
+      "land_type": "Yer turi",
+      "electricity": "Elektr",
+      "water": "Suv",
+      "gas": "Gaz",
+      "road_access": "Yo'l kirishi",
+      "pit": "Ko'rikxona",
+      "heated": "Isitish",
+      "mortgage_available": "Ipoteka mavjud"
     },
     "category_page": {
       "title": "Orzudagi kvartirangizni toping",
@@ -971,7 +989,15 @@
   "categories": {
     "APARTMENT": "Kvartiralar",
     "APARTMENT_SALE": "Kvartira sotuvi",
-    "APARTMENT_RENT": "Kvartira ijarasi"
+    "APARTMENT_RENT": "Kvartira ijarasi",
+    "COMMERCIAL_SALE": "Noturar joy sotuvi",
+    "COMMERCIAL_RENT": "Noturar joy ijarasi",
+    "LAND_SALE": "Yer sotuvi",
+    "LAND_RENT": "Yer ijarasi",
+    "GARAGE_SALE": "Garaj sotuvi",
+    "GARAGE_RENT": "Garaj ijarasi",
+    "HOVLI_SALE": "Hovli sotuvi",
+    "HOVLI_RENT": "Hovli ijarasi"
   },
   "seller_dashboard_page": {
     "title": "Boshqaruv paneli"
