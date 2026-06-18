@@ -21,6 +21,7 @@ class AdminUserService {
     limit?: number;
     role?: UserRole;
     search?: string;
+    isPremium?: boolean;
   }) {
     try {
       const res = await adminApi.get(API_ENDPOINTS.ADMIN.users.base, {
