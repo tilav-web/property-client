@@ -50,6 +50,7 @@ export const API_ENDPOINTS = {
     refreshToken: "/users/auth/refresh-token",
     me: "/users/auth/me",
     logout: "/users/auth/logout",
+    deleteMe: "/users/auth/me",
     like: "/users/auth/like",
     likes: "/users/auth/likes",
     auth: {

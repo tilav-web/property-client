@@ -163,6 +163,11 @@ class UserService {
   appleLogin() {
     window.location.href = API_ENDPOINTS.USER.auth.apple;
   }
+
+  async deleteAccount(): Promise<{ deleted: boolean }> {
+    const res = await apiInstance.delete(API_ENDPOINTS.USER.deleteMe);
+    return res.data;
+  }
 }
 
 export const userService = new UserService();

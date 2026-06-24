@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,12 +11,21 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   Eye,
   EyeOff,
   Loader2,
   Lock,
   Settings as SettingsIcon,
   Sliders,
+  Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -40,9 +50,10 @@ const LANGUAGES: { code: ILanguage; label: string }[] = [
 
 export default function SettingsPage() {
   const { t, i18n } = useTranslation();
-  const { user, setUser } = useUserStore();
+  const { user, setUser, logout: clearUser } = useUserStore();
   const { display, setDisplay } = useCurrencyStore();
   const { setLanguage } = useLanguageStore();
+  const navigate = useNavigate();
 
   // Account state
   const [currentPassword, setCurrentPassword] = useState("");
@@ -51,6 +62,26 @@ export default function SettingsPage() {
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  // Delete account state
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDeleteAccount = async () => {
+    setDeleting(true);
+    try {
+      await userService.deleteAccount();
+      clearUser();
+      toast.success(t("pages.settings.delete_account.success", "Hisobingiz o'chirildi"));
+      navigate("/");
+    } catch {
+      toast.error(t("pages.settings.delete_account.error", "Xatolik yuz berdi"));
+    } finally {
+      setDeleting(false);
+      setDeleteDialogOpen(false);
+    }
+  };
 
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -268,6 +299,31 @@ export default function SettingsPage() {
           </div>
         </TabsContent>
 
+          {/* DANGER ZONE */}
+          <div className="mt-4 rounded-2xl border border-red-200 bg-white p-6">
+            <h2 className="mb-1 text-lg font-semibold text-red-700">
+              {t("pages.settings.delete_account.title", "Xavfli zona")}
+            </h2>
+            <p className="mb-4 text-sm text-gray-500">
+              {t(
+                "pages.settings.delete_account.subtitle",
+                "Hisobingizni o'chirsangiz, barcha ma'lumotlaringiz (e'lonlar, saqlangan, yoqtirilgan) butunlay o'chiriladi va qaytarib bo'lmaydi.",
+              )}
+            </p>
+            <Button
+              variant="outline"
+              className="border-red-300 text-red-600 hover:bg-red-50 hover:text-red-700"
+              onClick={() => {
+                setDeleteConfirmText("");
+                setDeleteDialogOpen(true);
+              }}
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              {t("pages.settings.delete_account.button", "Hisobni o'chirish")}
+            </Button>
+          </div>
+        </TabsContent>
+
         {/* DISPLAY TAB */}
         <TabsContent value="display">
           <div className="rounded-2xl border border-gray-200 bg-white p-6">
@@ -340,6 +396,53 @@ export default function SettingsPage() {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Delete account confirmation dialog */}
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+              <Trash2 className="h-6 w-6 text-red-600" />
+            </div>
+            <DialogTitle className="text-center text-red-700">
+              {t("pages.settings.delete_account.confirm_title", "Hisobni o'chirish")}
+            </DialogTitle>
+            <DialogDescription className="text-center">
+              {t(
+                "pages.settings.delete_account.confirm_desc",
+                "Bu amalni bekor qilib bo'lmaydi. Davom etish uchun quyidagi maydonga \"O'CHIRISH\" so'zini yozing.",
+              )}
+            </DialogDescription>
+          </DialogHeader>
+
+          <Input
+            placeholder={t("pages.settings.delete_account.confirm_placeholder", "O'CHIRISH")}
+            value={deleteConfirmText}
+            onChange={(e) => setDeleteConfirmText(e.target.value)}
+            className="border-red-200 focus-visible:ring-red-400"
+          />
+
+          <DialogFooter className="gap-2 sm:flex-col">
+            <Button
+              variant="destructive"
+              className="w-full"
+              disabled={deleteConfirmText !== t("pages.settings.delete_account.confirm_keyword", "O'CHIRISH") || deleting}
+              onClick={handleDeleteAccount}
+            >
+              {deleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {t("pages.settings.delete_account.confirm_button", "Ha, hisobni o'chir")}
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => setDeleteDialogOpen(false)}
+              disabled={deleting}
+            >
+              {t("pages.settings.delete_account.cancel", "Bekor qilish")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -92,6 +92,11 @@ class AdminUserService {
     );
     return res.data as { revoked: boolean };
   }
+
+  async deleteUser(userId: string): Promise<{ deleted: boolean }> {
+    const res = await adminApi.delete(`${API_ENDPOINTS.ADMIN.users.base}/${userId}`);
+    return res.data;
+  }
 }
 
 export const adminUserService = new AdminUserService();

@@ -34,7 +34,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-import { Search, Filter, MoreVertical, Crown, Loader2 } from "lucide-react";
+import { Search, Filter, MoreVertical, Crown, Loader2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { GrantPremiumDialog } from "./components/grant-premium-dialog";
 
@@ -77,6 +77,21 @@ const AdminUsersPage = () => {
     },
     onError: () => toast.error("Premium berishda xatolik"),
   });
+
+  const deleteUser = useMutation({
+    mutationFn: (id: string) => adminUserService.deleteUser(id),
+    onSuccess: () => {
+      toast.success("Foydalanuvchi o'chirildi");
+      void queryClient.invalidateQueries({ queryKey: ["admin-users"] });
+    },
+    onError: () => toast.error("O'chirishda xatolik"),
+  });
+
+  const handleDeleteUser = (user: IUser) => {
+    const name = `${user.first_name ?? ""} ${user.last_name ?? ""}`.trim() || user.email.value;
+    if (!window.confirm(`"${name}" foydalanuvchisini o'chirasizmi? Barcha e'lonlari ham o'chib ketadi.`)) return;
+    deleteUser.mutate(user._id);
+  };
 
   const { data, isLoading, isFetching, isPlaceholderData } = useQuery({
     queryKey: ["admin-users", page, limit, searchQuery, role, isPremium],
@@ -291,6 +306,18 @@ const AdminUsersPage = () => {
                           >
                             <Crown className="mr-2 h-4 w-4 text-amber-600" />
                             Premium (boshqa muddat)
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="text-red-600 focus:text-red-700"
+                            onClick={() => handleDeleteUser(user)}
+                            disabled={deleteUser.isPending && deleteUser.variables === user._id}
+                          >
+                            {deleteUser.isPending && deleteUser.variables === user._id ? (
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            ) : (
+                              <Trash2 className="mr-2 h-4 w-4" />
+                            )}
+                            Foydalanuvchini o'chirish
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
