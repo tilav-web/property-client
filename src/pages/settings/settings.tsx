@@ -297,7 +297,6 @@ export default function SettingsPage() {
               </div>
             </div>
           </div>
-        </TabsContent>
 
           {/* DANGER ZONE */}
           <div className="mt-4 rounded-2xl border border-red-200 bg-white p-6">
