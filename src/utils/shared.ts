@@ -163,5 +163,6 @@ export const API_ENDPOINTS = {
   INQUIRY: {
     base: "/inquiry",
     myResponses: "/inquiry/my-responses",
+    mySent: "/inquiry/my-sent",
   },
 };

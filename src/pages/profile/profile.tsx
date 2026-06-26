@@ -13,6 +13,7 @@ import {
 import AccountDetails from "./_components/account_details";
 import SavedPropertiesTab from "./_components/saved-properties-tab";
 import InquiryResponsesTab from "./_components/inquiry-responses-tab";
+import MyInquiriesTab from "./_components/my-inquiries-tab";
 import NotificationsTab from "./_components/notifications-tab";
 import { useNotificationStore } from "@/stores/notification.store";
 import { useSaveStore } from "@/stores/save.store";
@@ -24,6 +25,7 @@ import {
   ChevronDown,
   Globe,
   LogOut,
+  SendHorizonal,
   Settings as SettingsIcon,
   UserRound,
 } from "lucide-react";
@@ -251,6 +253,13 @@ export default function Profile() {
                     {approvedOffersCount}
                   </span>
                 </TabsTrigger>
+                <TabsTrigger
+                  value="my_inquiries"
+                  className="h-11 shrink-0 flex-none rounded-xl px-3 text-sm data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
+                >
+                  <SendHorizonal className="h-4 w-4" />
+                  <span>Mening takliflarim</span>
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -266,6 +275,9 @@ export default function Profile() {
               </TabsContent>
               <TabsContent className="min-h-96 m-0" value="contact_properties">
                 <InquiryResponsesTab />
+              </TabsContent>
+              <TabsContent className="min-h-96 m-0" value="my_inquiries">
+                <MyInquiriesTab />
               </TabsContent>
             </div>
           </Tabs>
