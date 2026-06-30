@@ -1,4 +1,4 @@
-import { useCallback, type ReactNode } from "react";
+import { useState, useCallback, type ReactNode } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
@@ -6,6 +6,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -33,8 +39,8 @@ const SORT_OPTIONS = [
 
 const CATEGORIES = [
   { key: "all", labelKey: "common.all" },
-  { key: "APARTMENT_SALE", labelKey: "common.buy" },
-  { key: "APARTMENT_RENT", labelKey: "common.rent_apartments" },
+  { key: "APARTMENT_SALE", labelKey: "pages.map_page.filters.buy" },
+  { key: "APARTMENT_RENT", labelKey: "common.rent" },
 ] as const;
 
 function Chip({
@@ -77,6 +83,7 @@ function Chip({
 export default function MapFilterBar() {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   const currentCategory = searchParams.get("category") || "all";
   const currentBedrooms = searchParams.getAll("bedrooms");
@@ -144,165 +151,109 @@ export default function MapFilterBar() {
       ? `${t("pages.map_page.filters.beds", "Beds")}: ${currentBedrooms.join(",")}`
       : t("pages.map_page.filters.beds", "Beds");
 
-  return (
-    <div className="pointer-events-auto flex items-center gap-2 overflow-x-auto rounded-full border border-border/60 bg-card/95 p-1.5 shadow-card backdrop-blur">
-      <SlidersHorizontal size={14} className="ml-2 text-muted-foreground shrink-0" />
+  const categoryTabs = (
+    <div className="flex gap-1 rounded-full bg-muted p-1">
+      {CATEGORIES.map((c) => (
+        <button
+          key={c.key}
+          type="button"
+          onClick={() =>
+            updateParams({ category: c.key === "all" ? null : c.key })
+          }
+          className={cn(
+            "rounded-full px-3 py-1 text-xs font-medium transition-colors whitespace-nowrap",
+            currentCategory === c.key
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-foreground/70 hover:text-foreground",
+          )}
+        >
+          {t(c.labelKey)}
+        </button>
+      ))}
+    </div>
+  );
 
-      {/* Category */}
-      <div className="flex gap-1 rounded-full bg-muted p-1">
-        {CATEGORIES.map((c) => (
-          <button
-            key={c.key}
-            type="button"
-            onClick={() =>
-              updateParams({ category: c.key === "all" ? null : c.key })
-            }
-            className={cn(
-              "rounded-full px-3 py-1 text-xs font-medium transition-colors whitespace-nowrap",
-              currentCategory === c.key
-                ? "bg-primary text-primary-foreground shadow-sm"
-                : "text-foreground/70 hover:text-foreground",
-            )}
-          >
-            {t(c.labelKey)}
-          </button>
-        ))}
+  return (
+    <>
+      {/* ── MOBILE bar ─────────────────────────────────────────── */}
+      <div className="pointer-events-auto flex md:hidden items-center gap-2 rounded-full border border-border/60 bg-card/95 p-1.5 shadow-card backdrop-blur">
+        <div className="flex-1 min-w-0">{categoryTabs}</div>
+
+        <button
+          type="button"
+          onClick={() => setSheetOpen(true)}
+          className={cn(
+            "flex shrink-0 h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-all",
+            activeCount > 0
+              ? "border-primary bg-primary/10 text-foreground"
+              : "border-border bg-card text-foreground/70",
+          )}
+        >
+          <SlidersHorizontal size={13} />
+          {t("pages.map_page.filters.title", "Filters")}
+          {activeCount > 0 && (
+            <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground leading-none">
+              {activeCount}
+            </span>
+          )}
+        </button>
       </div>
 
-      {/* Price */}
-      <Chip label={priceLabel} hasValue={!!(currentMinPrice || currentMaxPrice)}>
-        <div className="space-y-3">
-          <p className="text-sm font-semibold">
-            {t("pages.map_page.filters.price_range", "Price range")}
-          </p>
-          <div className="flex items-center gap-2">
-            <input
-              type="number"
-              inputMode="numeric"
-              placeholder={t("common.min", "Min")}
-              defaultValue={currentMinPrice}
-              onBlur={(e) => updateParams({ minPrice: e.target.value || null })}
-              className="h-9 w-full rounded-md border border-gray-200 px-2 text-sm outline-none focus:border-blue-500"
-            />
-            <span className="text-gray-400">—</span>
-            <input
-              type="number"
-              inputMode="numeric"
-              placeholder={t("common.max", "Max")}
-              defaultValue={currentMaxPrice}
-              onBlur={(e) => updateParams({ maxPrice: e.target.value || null })}
-              className="h-9 w-full rounded-md border border-gray-200 px-2 text-sm outline-none focus:border-blue-500"
-            />
+      {/* ── DESKTOP bar ────────────────────────────────────────── */}
+      <div className="pointer-events-auto hidden md:flex items-center gap-2 overflow-x-auto rounded-full border border-border/60 bg-card/95 p-1.5 shadow-card backdrop-blur">
+        <SlidersHorizontal size={14} className="ml-2 text-muted-foreground shrink-0" />
+
+        {categoryTabs}
+
+        <Chip label={priceLabel} hasValue={!!(currentMinPrice || currentMaxPrice)}>
+          <div className="space-y-3">
+            <p className="text-sm font-semibold">
+              {t("pages.map_page.filters.price_range", "Price range")}
+            </p>
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                inputMode="numeric"
+                placeholder={t("common.min", "Min")}
+                defaultValue={currentMinPrice}
+                onBlur={(e) => updateParams({ minPrice: e.target.value || null })}
+                className="h-9 w-full rounded-md border border-gray-200 px-2 text-sm outline-none focus:border-blue-500"
+              />
+              <span className="text-gray-400">—</span>
+              <input
+                type="number"
+                inputMode="numeric"
+                placeholder={t("common.max", "Max")}
+                defaultValue={currentMaxPrice}
+                onBlur={(e) => updateParams({ maxPrice: e.target.value || null })}
+                className="h-9 w-full rounded-md border border-gray-200 px-2 text-sm outline-none focus:border-blue-500"
+              />
+            </div>
+            {(currentMinPrice || currentMaxPrice) && (
+              <button
+                type="button"
+                onClick={() => updateParams({ minPrice: null, maxPrice: null })}
+                className="text-xs text-blue-600 hover:underline"
+              >
+                {t("common.clear", "Clear")}
+              </button>
+            )}
           </div>
-          {(currentMinPrice || currentMaxPrice) && (
-            <button
-              type="button"
-              onClick={() => updateParams({ minPrice: null, maxPrice: null })}
-              className="text-xs text-blue-600 hover:underline"
-            >
-              {t("common.clear", "Clear")}
-            </button>
-          )}
-        </div>
-      </Chip>
+        </Chip>
 
-      {/* Bedrooms */}
-      <Chip label={bedroomsLabel} hasValue={currentBedrooms.length > 0}>
-        <div className="space-y-2">
-          <p className="text-sm font-semibold">
-            {t("pages.map_page.filters.bedrooms", "Bedrooms")}
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {BEDROOMS.map((room) => {
-              const active = currentBedrooms.includes(room);
-              return (
-                <button
-                  key={room}
-                  type="button"
-                  onClick={() => toggleBedroom(room)}
-                  className={cn(
-                    "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
-                    active
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border hover:border-foreground/30",
-                  )}
-                >
-                  {room === "7" ? "7+" : room}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </Chip>
-
-      {/* Amenities */}
-      <Chip
-        label={t("pages.map_page.filters.amenities", "Amenities")}
-        hasValue={currentAmenities.length > 0}
-      >
-        <div className="space-y-2">
-          <p className="text-sm font-semibold">
-            {t("pages.map_page.filters.amenities", "Amenities")}
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {AMENITIES.map((a) => {
-              const active = currentAmenities.includes(a.value);
-              return (
-                <button
-                  key={a.value}
-                  type="button"
-                  onClick={() => toggleAmenity(a.value)}
-                  className={cn(
-                    "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
-                    active
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border hover:border-foreground/30",
-                  )}
-                >
-                  {t(a.labelKey, a.fallback)}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </Chip>
-
-      {/* More (furnished, sort) */}
-      <Chip
-        label={t("pages.map_page.filters.more", "More")}
-        hasValue={currentFurnished || (!!currentSort && currentSort !== "newest")}
-      >
-        <div className="space-y-4">
-          <label className="flex cursor-pointer items-center justify-between">
-            <span className="text-sm">
-              {t("pages.map_page.filters.furnished", "Furnished")}
-            </span>
-            <input
-              type="checkbox"
-              checked={currentFurnished}
-              onChange={(e) =>
-                updateParams({ furnished: e.target.checked ? "true" : null })
-              }
-              className="h-4 w-4 accent-blue-500"
-            />
-          </label>
-
-          <div>
-            <p className="mb-2 text-sm font-semibold">
-              {t("pages.map_page.filters.sort", "Sort")}
+        <Chip label={bedroomsLabel} hasValue={currentBedrooms.length > 0}>
+          <div className="space-y-2">
+            <p className="text-sm font-semibold">
+              {t("pages.map_page.filters.bedrooms", "Bedrooms")}
             </p>
             <div className="flex flex-wrap gap-1.5">
-              {SORT_OPTIONS.map((s) => {
-                const active = currentSort === s.value;
+              {BEDROOMS.map((room) => {
+                const active = currentBedrooms.includes(room);
                 return (
                   <button
-                    key={s.value}
+                    key={room}
                     type="button"
-                    onClick={() =>
-                      updateParams({
-                        sort: active || s.value === "newest" ? null : s.value,
-                      })
-                    }
+                    onClick={() => toggleBedroom(room)}
                     className={cn(
                       "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
                       active
@@ -310,26 +261,280 @@ export default function MapFilterBar() {
                         : "border-border hover:border-foreground/30",
                     )}
                   >
-                    {t(s.labelKey, s.fallback)}
+                    {room === "7" ? "7+" : room}
                   </button>
                 );
               })}
             </div>
           </div>
-        </div>
-      </Chip>
+        </Chip>
 
-      {activeCount > 0 && (
-        <button
-          type="button"
-          onClick={clearAll}
-          className="ml-1 flex h-8 items-center gap-1 rounded-full bg-destructive/10 px-3 text-xs font-medium text-destructive hover:bg-destructive/15 shrink-0"
+        <Chip
+          label={t("pages.map_page.filters.amenities", "Amenities")}
+          hasValue={currentAmenities.length > 0}
         >
-          <X size={14} />
-          {t("common.clear_all", "Clear")}
-          <span className="rounded-full bg-destructive/15 px-1.5">{activeCount}</span>
-        </button>
-      )}
-    </div>
+          <div className="space-y-2">
+            <p className="text-sm font-semibold">
+              {t("pages.map_page.filters.amenities", "Amenities")}
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {AMENITIES.map((a) => {
+                const active = currentAmenities.includes(a.value);
+                return (
+                  <button
+                    key={a.value}
+                    type="button"
+                    onClick={() => toggleAmenity(a.value)}
+                    className={cn(
+                      "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                      active
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border hover:border-foreground/30",
+                    )}
+                  >
+                    {t(a.labelKey, a.fallback)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </Chip>
+
+        <Chip
+          label={t("pages.map_page.filters.more", "More")}
+          hasValue={currentFurnished || (!!currentSort && currentSort !== "newest")}
+        >
+          <div className="space-y-4">
+            <label className="flex cursor-pointer items-center justify-between">
+              <span className="text-sm">
+                {t("pages.map_page.filters.furnished", "Furnished")}
+              </span>
+              <input
+                type="checkbox"
+                checked={currentFurnished}
+                onChange={(e) =>
+                  updateParams({ furnished: e.target.checked ? "true" : null })
+                }
+                className="h-4 w-4 accent-blue-500"
+              />
+            </label>
+
+            <div>
+              <p className="mb-2 text-sm font-semibold">
+                {t("pages.map_page.filters.sort", "Sort")}
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {SORT_OPTIONS.map((s) => {
+                  const active = currentSort === s.value;
+                  return (
+                    <button
+                      key={s.value}
+                      type="button"
+                      onClick={() =>
+                        updateParams({
+                          sort: active || s.value === "newest" ? null : s.value,
+                        })
+                      }
+                      className={cn(
+                        "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                        active
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border hover:border-foreground/30",
+                      )}
+                    >
+                      {t(s.labelKey, s.fallback)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </Chip>
+
+        {activeCount > 0 && (
+          <button
+            type="button"
+            onClick={clearAll}
+            className="ml-1 flex h-8 items-center gap-1 rounded-full bg-destructive/10 px-3 text-xs font-medium text-destructive hover:bg-destructive/15 shrink-0"
+          >
+            <X size={14} />
+            {t("common.clear_all", "Clear")}
+            <span className="rounded-full bg-destructive/15 px-1.5">{activeCount}</span>
+          </button>
+        )}
+      </div>
+
+      {/* ── MOBILE filter Sheet ─────────────────────────────────── */}
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+        <SheetContent
+          side="bottom"
+          className="max-h-[88vh] rounded-t-2xl gap-0 overflow-hidden flex flex-col"
+        >
+          <SheetHeader className="shrink-0 border-b border-border pr-10">
+            <SheetTitle>
+              {t("pages.map_page.filters.title", "Filters")}
+            </SheetTitle>
+          </SheetHeader>
+
+          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-6">
+            {/* Price range */}
+            <div>
+              <p className="text-sm font-semibold mb-3">
+                {t("pages.map_page.filters.price_range", "Price range")}
+              </p>
+              <div className="flex items-center gap-2">
+                <input
+                  key={`min-${sheetOpen}`}
+                  type="number"
+                  inputMode="numeric"
+                  placeholder={t("common.min", "Min")}
+                  defaultValue={currentMinPrice}
+                  onBlur={(e) =>
+                    updateParams({ minPrice: e.target.value || null })
+                  }
+                  className="h-11 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-primary"
+                />
+                <span className="shrink-0 text-sm text-muted-foreground">—</span>
+                <input
+                  key={`max-${sheetOpen}`}
+                  type="number"
+                  inputMode="numeric"
+                  placeholder={t("common.max", "Max")}
+                  defaultValue={currentMaxPrice}
+                  onBlur={(e) =>
+                    updateParams({ maxPrice: e.target.value || null })
+                  }
+                  className="h-11 w-full rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-primary"
+                />
+              </div>
+            </div>
+
+            {/* Bedrooms */}
+            <div>
+              <p className="text-sm font-semibold mb-3">
+                {t("pages.map_page.filters.bedrooms", "Bedrooms")}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {BEDROOMS.map((room) => {
+                  const active = currentBedrooms.includes(room);
+                  return (
+                    <button
+                      key={room}
+                      type="button"
+                      onClick={() => toggleBedroom(room)}
+                      className={cn(
+                        "h-11 w-11 rounded-full border text-sm font-medium transition-colors",
+                        active
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border text-foreground hover:border-foreground/40",
+                      )}
+                    >
+                      {room === "7" ? "7+" : room}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Amenities */}
+            <div>
+              <p className="text-sm font-semibold mb-3">
+                {t("pages.map_page.filters.amenities", "Amenities")}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {AMENITIES.map((a) => {
+                  const active = currentAmenities.includes(a.value);
+                  return (
+                    <button
+                      key={a.value}
+                      type="button"
+                      onClick={() => toggleAmenity(a.value)}
+                      className={cn(
+                        "rounded-full border px-4 py-2.5 text-sm font-medium transition-colors",
+                        active
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border text-foreground hover:border-foreground/40",
+                      )}
+                    >
+                      {t(a.labelKey, a.fallback)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Sort */}
+            <div>
+              <p className="text-sm font-semibold mb-3">
+                {t("pages.map_page.filters.sort", "Sort")}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {SORT_OPTIONS.map((s) => {
+                  const active = currentSort === s.value;
+                  return (
+                    <button
+                      key={s.value}
+                      type="button"
+                      onClick={() =>
+                        updateParams({
+                          sort:
+                            active || s.value === "newest" ? null : s.value,
+                        })
+                      }
+                      className={cn(
+                        "rounded-full border px-4 py-2.5 text-sm font-medium transition-colors",
+                        active
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border text-foreground hover:border-foreground/40",
+                      )}
+                    >
+                      {t(s.labelKey, s.fallback)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Furnished */}
+            <label className="flex cursor-pointer items-center justify-between py-1">
+              <span className="text-sm font-medium">
+                {t("pages.map_page.filters.furnished", "Furnished")}
+              </span>
+              <input
+                type="checkbox"
+                checked={currentFurnished}
+                onChange={(e) =>
+                  updateParams({ furnished: e.target.checked ? "true" : null })
+                }
+                className="h-5 w-5 accent-primary"
+              />
+            </label>
+          </div>
+
+          {/* Footer */}
+          <div className="shrink-0 border-t border-border px-4 py-3 flex gap-3">
+            {activeCount > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  clearAll();
+                  setSheetOpen(false);
+                }}
+                className="flex-1 h-11 rounded-xl border border-destructive/50 text-sm font-medium text-destructive transition-colors hover:bg-destructive/5"
+              >
+                {t("common.clear_all", "Clear all")} ({activeCount})
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => setSheetOpen(false)}
+              className="flex-1 h-11 rounded-xl bg-primary text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              {t("pages.map_page.filters.done", "Done")}
+            </button>
+          </div>
+        </SheetContent>
+      </Sheet>
+    </>
   );
 }
