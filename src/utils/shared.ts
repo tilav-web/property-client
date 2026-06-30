@@ -47,6 +47,8 @@ export const API_ENDPOINTS = {
     register: "/users/auth/register",
     otpConfirm: "/users/auth/confirm-otp",
     otpResend: "/users/auth/resend-otp",
+    requestPhoneVerification: "/users/auth/request-phone-verification",
+    confirmPhoneOtp: "/users/auth/confirm-phone-otp",
     refreshToken: "/users/auth/refresh-token",
     me: "/users/auth/me",
     logout: "/users/auth/logout",

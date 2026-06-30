@@ -1,5 +1,6 @@
 import SellerHeader from "@/components/common/header/seller-header";
 import Loading from "@/components/common/loadings/loading";
+import PhoneVerifyModal from "@/components/common/phone-verify-modal";
 import Sidebar from "@/components/common/sidebars/seller-sidebar";
 import RoleGuard from "@/guards/role-guard";
 import useSystem from "@/hooks/use-system";
@@ -7,45 +8,41 @@ import { sellerService } from "@/services/seller.service";
 import { useSellerStore } from "@/stores/seller.store";
 import { useUserStore } from "@/stores/user.store";
 import { useEffect, useState, type ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function SellerLayout({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user } = useUserStore();
   useSystem();
-  const navigate = useNavigate();
 
   const { seller, setSeller, logout, loading, handleLoading } =
     useSellerStore();
 
+  const needsPhoneVerification =
+    user !== undefined && user !== null && !user.phone?.isVerified;
+
   useEffect(() => {
+    if (seller !== undefined) return;
     (async () => {
+      handleLoading(true);
       try {
-        if (seller) {
-          if (seller.status !== "approved") {
-            navigate("/seller/profile");
-          }
-          return;
-        }
-        handleLoading(true);
         const data = await sellerService.findSeller();
         setSeller(data);
-        if (data.status !== "approved") {
-          navigate("/seller/profile");
-        }
-      } catch (error) {
-        console.error(error);
-        logout();
+      } catch {
+        logout(); // sets seller → null (no seller profile yet — that's OK)
       } finally {
         handleLoading(false);
       }
     })();
-  }, [setSeller, logout]);
+  }, []);
 
-  if (user === undefined && loading) return <Loading />;
+  if (user === undefined || loading) return <Loading />;
 
   return (
     <RoleGuard roles={["legal", "physical"]}>
+      <PhoneVerifyModal
+        open={!!needsPhoneVerification}
+        onSuccess={() => {}}
+      />
       <div className="flex h-screen overflow-y-auto bg-gray-50">
         {/* Desktop Sidebar */}
         <div className="hidden md:block w-64 flex-shrink-0">

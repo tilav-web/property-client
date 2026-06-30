@@ -611,7 +611,10 @@
         "amenities": "Amenities",
         "more": "More",
         "furnished": "Furnished",
-        "sort": "Sort"
+        "sort": "Sort",
+        "title": "Filters",
+        "done": "Done",
+        "buy": "Buy"
       }
     },
     "profile_page": {
@@ -1469,5 +1472,14 @@
         "days_ago": "{{count}}d ago"
       }
     }
+  },
+  "phone_verify": {
+    "title": "Verify your phone",
+    "subtitle": "To post properties, please verify your phone number.",
+    "otp_title": "Enter SMS code",
+    "otp_subtitle": "Enter the 6-digit code sent to this number.",
+    "send_otp": "Send code",
+    "confirm": "Confirm",
+    "back": "Back"
   }
 }

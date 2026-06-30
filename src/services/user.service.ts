@@ -168,6 +168,21 @@ class UserService {
     const res = await apiInstance.delete(API_ENDPOINTS.USER.deleteMe);
     return res.data;
   }
+
+  async requestPhoneVerification(phone: string): Promise<{ message: string }> {
+    const res = await apiInstance.post(
+      API_ENDPOINTS.USER.requestPhoneVerification,
+      { phone },
+    );
+    return res.data;
+  }
+
+  async confirmPhoneOtp(code: string) {
+    const res = await apiInstance.post(API_ENDPOINTS.USER.confirmPhoneOtp, {
+      code,
+    });
+    return res.data;
+  }
 }
 
 export const userService = new UserService();

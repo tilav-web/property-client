@@ -610,7 +610,10 @@
         "amenities": "Kemudahan",
         "more": "Lagi",
         "furnished": "Berperabot",
-        "sort": "Susun"
+        "sort": "Susun",
+        "title": "Penapis",
+        "done": "Selesai",
+        "buy": "Beli"
       }
     },
     "profile_page": {
@@ -1468,5 +1471,14 @@
         "days_ago": "{{count}} hari lalu"
       }
     }
+  },
+  "phone_verify": {
+    "title": "Sahkan nombor telefon",
+    "subtitle": "Untuk menyiarkan hartanah, sila sahkan nombor telefon anda.",
+    "otp_title": "Masukkan kod SMS",
+    "otp_subtitle": "Masukkan kod 6 digit yang dihantar ke nombor ini.",
+    "send_otp": "Hantar kod",
+    "confirm": "Sahkan",
+    "back": "Kembali"
   }
 }

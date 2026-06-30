@@ -610,7 +610,10 @@
         "amenities": "Qulayliklar",
         "more": "Ko'proq",
         "furnished": "Mebel bilan",
-        "sort": "Saralash"
+        "sort": "Saralash",
+        "title": "Filtrlar",
+        "done": "Tayyor",
+        "buy": "Sotish"
       }
     },
     "profile_page": {
@@ -1468,5 +1471,14 @@
         "days_ago": "{{count}} kun oldin"
       }
     }
+  },
+  "phone_verify": {
+    "title": "Telefon raqamni tasdiqlang",
+    "subtitle": "Property joylash uchun telefon raqamingizni tasdiqlang.",
+    "otp_title": "SMS kodni kiriting",
+    "otp_subtitle": "Ushbu raqamga yuborilgan 6 xonali kodni kiriting.",
+    "send_otp": "Kod yuborish",
+    "confirm": "Tasdiqlash",
+    "back": "Orqaga"
   }
 }
