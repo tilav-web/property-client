@@ -215,6 +215,10 @@ export default function SellerDashboard() {
       value: dashboardData?.totalProperties || 0,
     },
     {
+      name: t("seller_dashboard.chart.views", { defaultValue: "Views" }),
+      value: dashboardData?.totalViews || 0,
+    },
+    {
       name: t("seller_dashboard.chart.inquiries", {
         defaultValue: "Inquiries",
       }),
@@ -277,7 +281,7 @@ export default function SellerDashboard() {
             })}
           </div>
         ) : (
-          <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
             <StatCard
               title={t("seller_dashboard.stats.properties", {
                 defaultValue: "Properties",
@@ -285,6 +289,14 @@ export default function SellerDashboard() {
               value={dashboardData?.totalProperties}
               icon={<Home className="w-5 h-5 text-primary" />}
               accent="bg-blue-50"
+            />
+            <StatCard
+              title={t("seller_dashboard.stats.views", {
+                defaultValue: "Views",
+              })}
+              value={dashboardData?.totalViews}
+              icon={<Eye className="w-5 h-5 text-violet-600" />}
+              accent="bg-violet-50"
             />
             <StatCard
               title={t("seller_dashboard.stats.inquiries", {

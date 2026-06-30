@@ -27,6 +27,8 @@ export interface IProperty {
 
   liked: number;
   saved: number;
+  viewCount?: number;
+  inquiryCount?: number;
   photos?: string[];
   videos?: string[];
   contract_file?: string;

@@ -4,7 +4,9 @@ import {
   Bed,
   Building,
   Building2,
+  Eye,
   Maximize,
+  MessageSquare,
   Rotate3D,
   ShieldCheck,
   Shirt,
@@ -346,6 +348,22 @@ export default function GenericProperty({ property }: { property: any }) {
                 </li>
               )}
             </ul>
+            {(!!p.viewCount || !!p.inquiryCount) && (
+              <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
+                {!!p.viewCount && (
+                  <span className="flex items-center gap-1">
+                    <Eye className="w-4 h-4" />
+                    {p.viewCount}
+                  </span>
+                )}
+                {!!p.inquiryCount && (
+                  <span className="flex items-center gap-1">
+                    <MessageSquare className="w-4 h-4" />
+                    {p.inquiryCount}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
