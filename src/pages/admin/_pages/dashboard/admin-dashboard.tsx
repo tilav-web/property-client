@@ -65,10 +65,10 @@ export default function AdminDashboard() {
       description: "Total registered users",
     },
     {
-      title: "Total Sellers",
-      value: data?.totalSellers,
+      title: "Verified Users",
+      value: data?.verifiedUsers,
       icon: <Briefcase className="h-4 w-4 text-muted-foreground" />,
-      description: "Total registered sellers",
+      description: "Users with verified phone",
     },
     {
       title: "Total Advertisements",

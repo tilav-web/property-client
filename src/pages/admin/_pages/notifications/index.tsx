@@ -8,16 +8,14 @@ import {
   Inbox,
   Loader2,
   MessageSquare,
-  UserPlus,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { adminProjectInquiryService } from "../../_services/admin-project-inquiry.service";
-import { adminSellerService } from "../../_services/admin-seller.service";
 
 interface NotificationItem {
   id: string;
-  type: "inquiry" | "seller";
+  type: "inquiry";
   title: string;
   description: string;
   meta: string;
@@ -46,12 +44,6 @@ export default function AdminNotificationsPage() {
     refetchInterval: 60_000,
   });
 
-  const sellersQuery = useQuery({
-    queryKey: ["admin-notifications", "sellers"],
-    queryFn: () => adminSellerService.getSellers({ page: 1, limit: 20 }),
-    refetchInterval: 60_000,
-  });
-
   const items = useMemo<NotificationItem[]>(() => {
     const list: NotificationItem[] = [];
 
@@ -71,31 +63,14 @@ export default function AdminNotificationsPage() {
       });
     });
 
-    sellersQuery.data?.sellers.forEach((s) => {
-      const isPending = s.status === "in_progress";
-      list.push({
-        id: `seller-${s._id}`,
-        type: "seller",
-        title: `Yangi seller: ${s.business_type?.toUpperCase() ?? "—"}`,
-        description: `Status: ${s.status}, passport: ${s.passport ?? "—"}`,
-        meta: s.business_type ?? "",
-        href: "/admin/sellers",
-        status: s.status,
-        isUnread: isPending,
-        createdAt:
-          (s as unknown as { createdAt: string }).createdAt ||
-          new Date().toISOString(),
-      });
-    });
-
     return list.sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     );
-  }, [inquiriesQuery.data, sellersQuery.data]);
+  }, [inquiriesQuery.data]);
 
   const unreadCount = items.filter((i) => i.isUnread).length;
-  const isLoading = inquiriesQuery.isLoading || sellersQuery.isLoading;
+  const isLoading = inquiriesQuery.isLoading;
 
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-5">
@@ -112,7 +87,7 @@ export default function AdminNotificationsPage() {
               )}
             </h1>
             <p className="text-sm text-muted-foreground">
-              Loyiha so'rovlari va yangi sotuvchilar
+              Loyiha so'rovlari
             </p>
           </div>
         </div>
@@ -121,7 +96,6 @@ export default function AdminNotificationsPage() {
           size="sm"
           onClick={() => {
             inquiriesQuery.refetch();
-            sellersQuery.refetch();
           }}
         >
           Yangilash
@@ -147,18 +121,8 @@ export default function AdminNotificationsPage() {
               to={item.href}
               className="group flex items-start gap-4 p-4 hover:bg-accent transition-colors"
             >
-              <div
-                className={`flex size-10 flex-shrink-0 items-center justify-center rounded-full ${
-                  item.type === "inquiry"
-                    ? "bg-primary/15 text-primary"
-                    : "bg-emerald-100 text-emerald-700"
-                }`}
-              >
-                {item.type === "inquiry" ? (
-                  <MessageSquare className="size-4" />
-                ) : (
-                  <UserPlus className="size-4" />
-                )}
+              <div className="flex size-10 flex-shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+                <MessageSquare className="size-4" />
               </div>
 
               <div className="flex-1 min-w-0">

@@ -194,7 +194,7 @@ export default function SellerDashboard() {
     isError: isDashboardError,
   } = useQuery({
     queryKey: ["seller-dashboard"],
-    queryFn: () => statisticService.getSellerDashboard(),
+    queryFn: () => statisticService.getDashboard(),
   });
 
   const { data: propertiesData, isLoading: isPropertiesLoading } = useQuery({

@@ -70,7 +70,6 @@ export const API_ENDPOINTS = {
       base: '/admins/users'
     },
     properties: '/admins/properties',
-    sellers: '/admins/sellers',
     advertises: '/admins/advertises',
     logout: '/admins/logout',
     changePassword: '/admins/change-password',
@@ -106,20 +105,6 @@ export const API_ENDPOINTS = {
     one: (id: string) => `/transactions/${id}`,
     checkoutUrl: (id: string) => `/transactions/${id}/checkout-url`,
   },
-  SELLER: {
-    base: "/sellers",
-    me: "/sellers/me",
-    create_ytt: "/sellers/ytt",
-    create_mchj: "/sellers/mchj",
-    create_self_employed: "/sellers/self-employed",
-    create_physical: "/sellers/physical",
-  },
-  BANK_ACCOUNT: {
-    base: "/bank-accounts",
-  },
-  COMMISSIONERS: {
-    base: "/commissioners",
-  },
   REGION: {
     base: "/regions",
   },
@@ -139,7 +124,7 @@ export const API_ENDPOINTS = {
     },
   },
   STATISTICS: {
-    sellerDashboard: "/statistics/seller-dashboard",
+    dashboard: "/statistics/dashboard",
   },
   ADVERTISE: {
     base: "/advertise",

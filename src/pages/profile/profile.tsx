@@ -32,7 +32,6 @@ import {
 import type { ILanguage } from "@/interfaces/language/language.interface";
 import { userService } from "@/services/user.service";
 import { handleStorage } from "@/utils/handle-storage";
-import { useSellerStore } from "@/stores/seller.store";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -55,7 +54,6 @@ export default function Profile() {
   const { inquiryResponses, fetchMyInquiryResponses } =
     useInquiryResponseStore();
   const { user, setUser, logout } = useUserStore();
-  const { logout: sellerLogout } = useSellerStore();
   const { setLanguage } = useLanguageStore();
   const unreadNotifications = useNotificationStore((s) => s.unreadCount);
 
@@ -89,7 +87,6 @@ export default function Profile() {
       await userService.logout();
       handleStorage({ key: "access_token", value: null });
       logout();
-      sellerLogout();
       toast.success(t("common.success"), {
         description: t("common.header.logout_success"),
       });

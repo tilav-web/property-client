@@ -4,38 +4,18 @@ import PhoneVerifyModal from "@/components/common/phone-verify-modal";
 import Sidebar from "@/components/common/sidebars/seller-sidebar";
 import RoleGuard from "@/guards/role-guard";
 import useSystem from "@/hooks/use-system";
-import { sellerService } from "@/services/seller.service";
-import { useSellerStore } from "@/stores/seller.store";
 import { useUserStore } from "@/stores/user.store";
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 export default function SellerLayout({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user } = useUserStore();
   useSystem();
 
-  const { seller, setSeller, logout, loading, handleLoading } =
-    useSellerStore();
-
   const needsPhoneVerification =
     user !== undefined && user !== null && !user.phone?.isVerified;
 
-  useEffect(() => {
-    if (seller !== undefined) return;
-    (async () => {
-      handleLoading(true);
-      try {
-        const data = await sellerService.findSeller();
-        setSeller(data);
-      } catch {
-        logout(); // sets seller → null (no seller profile yet — that's OK)
-      } finally {
-        handleLoading(false);
-      }
-    })();
-  }, []);
-
-  if (user === undefined || loading) return <Loading />;
+  if (user === undefined) return <Loading />;
 
   return (
     <RoleGuard roles={["legal", "physical"]}>
@@ -44,12 +24,10 @@ export default function SellerLayout({ children }: { children: ReactNode }) {
         onSuccess={() => {}}
       />
       <div className="flex h-screen overflow-y-auto bg-gray-50">
-        {/* Desktop Sidebar */}
         <div className="hidden md:block w-64 flex-shrink-0">
           <Sidebar isOpen={true} onClose={() => setIsSidebarOpen(false)} />
         </div>
 
-        {/* Mobile Sidebar Overlay */}
         <div
           className={`fixed inset-y-0 left-0 z-50 w-64 bg-primary text-primary-foreground transform transition-transform duration-300 ease-in-out md:hidden ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -61,7 +39,6 @@ export default function SellerLayout({ children }: { children: ReactNode }) {
           />
         </div>
 
-        {/* Mobile Sidebar Backdrop */}
         {isSidebarOpen && (
           <div
             className="fixed inset-0 z-40 bg-black bg-opacity-50 md:hidden"

@@ -1,5 +1,3 @@
-import type { ISeller } from "./seller.interface";
-
 // enums ga mos string literal turlari
 export type AuthProvider = "local" | "google" | "facebook" | "github";
 // (EnumAuthProvider ichidagi qiymatlarga moslab kengaytirasan)
@@ -34,8 +32,6 @@ export interface IUser {
 
   role: UserRole;
   lan: UserLan;
-
-  seller?: ISeller;
 
   isAI?: boolean;
 

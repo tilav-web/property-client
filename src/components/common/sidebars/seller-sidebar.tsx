@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useSellerStore } from "@/stores/seller.store";
 import { useUserStore } from "@/stores/user.store";
 import {
   ArrowLeftToLine,
@@ -24,7 +23,6 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { t } = useTranslation();
   const { user } = useUserStore();
-  const { seller } = useSellerStore();
 
   const registerMenuItems = {
     physical: [
@@ -134,7 +132,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </Button>
       </div>
       <nav className="flex-1 px-3 py-6 space-y-1">
-        {user?.role && seller?.status === "approved"
+        {user?.role && user?.phone?.isVerified
           ? menuItems[user?.role]?.map((item) => (
               <NavLink
                 key={item.to}

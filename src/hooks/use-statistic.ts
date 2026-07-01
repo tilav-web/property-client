@@ -2,9 +2,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { statisticService } from "@/services/statistic.service";
 
-export const useSellerStatistics = () => {
+export const useDashboardStatistics = () => {
   return useQuery({
-    queryKey: ["seller-statistics"],
-    queryFn: () => statisticService.getSellerDashboard(),
+    queryKey: ["dashboard-statistics"],
+    queryFn: () => statisticService.getDashboard(),
   });
 };

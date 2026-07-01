@@ -86,11 +86,11 @@ export default function AdminSidebar() {
       path: "/admin/properties",
     },
     {
-      id: "sellers",
-      label: "Sellers",
+      id: "users-verified",
+      label: "Verified Users",
       icon: <BriefcaseBusiness className="h-5 w-5" />,
       badge: null,
-      path: "/admin/sellers",
+      path: "/admin/users",
     },
     {
       id: "tags",

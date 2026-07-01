@@ -92,10 +92,10 @@ export default function InquiryResponsesTab() {
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden">
-                    {response.seller.user?.avatar ? (
+                    {response.seller?.avatar ? (
                       <img
-                        src={response.seller.user?.avatar}
-                        alt={response.seller.user?.first_name || ""}
+                        src={response.seller?.avatar}
+                        alt={response.seller?.first_name || ""}
                         className="w-12 h-12 rounded-full object-cover"
                       />
                     ) : (
@@ -110,8 +110,8 @@ export default function InquiryResponsesTab() {
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="font-semibold text-gray-900">
-                      {response.seller.user?.first_name}{" "}
-                      {response.seller.user?.last_name}
+                      {response.seller?.first_name}{" "}
+                      {response.seller?.last_name}
                     </h3>
                     <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-medium">
                       {t("pages.profile_page.approved_offers.approved_badge")}
@@ -190,9 +190,9 @@ export default function InquiryResponsesTab() {
                   {t("pages.profile_page.approved_offers.property_page")}
                 </Link>
               </Button>
-              {response.seller.user?._id && (
+              {response.seller?._id && (
                 <MessageSellerButton
-                  sellerId={response.seller.user._id}
+                  sellerId={response.seller._id}
                   propertyId={response.property._id}
                   variant="default"
                   className="gap-1 bg-blue-600 hover:bg-blue-700 text-white"

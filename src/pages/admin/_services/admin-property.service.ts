@@ -16,9 +16,9 @@ class AdminPropertyService {
     return data;
   }
 
-  async findBySeller(sellerId: string): Promise<IAdminProperty[]> {
+  async findByUser(userId: string): Promise<IAdminProperty[]> {
     const { data } = await adminApi.get(
-      `${API_ENDPOINTS.ADMIN.properties}/seller/${sellerId}`,
+      `${API_ENDPOINTS.ADMIN.properties}/user/${userId}`,
     );
     return data;
   }
