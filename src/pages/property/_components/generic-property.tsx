@@ -315,9 +315,9 @@ export default function GenericProperty({ property }: { property: any }) {
                 <CommentButton property={p} />
                 {p.author?.phone?.value && <CallButton phone={p.author.phone.value} />}
                 {p.author?.email?.value && <MailButton mail={p.author.email.value} />}
-                {p.author?.seller?.whatsapp && <WhatsAppButton phone={p.author.seller.whatsapp} />}
-                {p.author?.seller?.instagram && <InstagramButton username={p.author.seller.instagram} />}
-                {p.author?.seller?.telegram && <TelegramButton username={p.author.seller.telegram} />}
+                {p.author?.whatsapp && <WhatsAppButton phone={p.author.whatsapp} />}
+                {p.author?.instagram && <InstagramButton username={p.author.instagram} />}
+                {p.author?.telegram && <TelegramButton username={p.author.telegram} />}
                 <HeartButton property={p} />
               </div>
             </div>

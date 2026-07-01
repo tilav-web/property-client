@@ -43,6 +43,10 @@ export interface IUser {
 
   premiumUntil?: string | null;
 
+  instagram?: string | null;
+  telegram?: string | null;
+  whatsapp?: string | null;
+
   createdAt?: Date;
   updatedAt?: Date;
 }

@@ -199,17 +199,17 @@ export default function ApartmentSale({
                 {apartment.author?.email?.value && (
                   <MailButton mail={apartment.author.email.value} />
                 )}
-                {apartment.author?.seller?.whatsapp && (
-                  <WhatsAppButton phone={apartment.author.seller.whatsapp} />
+                {apartment.author?.whatsapp && (
+                  <WhatsAppButton phone={apartment.author.whatsapp} />
                 )}
-                {apartment.author?.seller?.instagram && (
+                {apartment.author?.instagram && (
                   <InstagramButton
-                    username={apartment.author.seller.instagram}
+                    username={apartment.author.instagram}
                   />
                 )}
-                {apartment.author?.seller?.telegram && (
+                {apartment.author?.telegram && (
                   <TelegramButton
-                    username={apartment.author.seller.telegram}
+                    username={apartment.author.telegram}
                   />
                 )}
                 <HeartButton property={apartment} />
