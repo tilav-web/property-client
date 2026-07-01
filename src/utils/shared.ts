@@ -89,6 +89,7 @@ export const API_ENDPOINTS = {
       readOne: (id: string) => `/admins/notifications/${id}/read`,
       remove: (id: string) => `/admins/notifications/${id}`,
     },
+    inquiries: '/admins/inquiries',
   },
   PROPERTIES: {
     base: "/properties",

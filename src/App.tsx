@@ -31,6 +31,9 @@ const AdminProjectsPage = lazy(() => import("./pages/admin/_pages/projects"));
 const AdminProjectInquiriesPage = lazy(
   () => import("./pages/admin/_pages/project-inquiries"),
 );
+const AdminInquiriesPage = lazy(
+  () => import("./pages/admin/_pages/inquiries"),
+);
 const AdminSiteSettingsPage = lazy(
   () => import("./pages/admin/_pages/site-settings"),
 );
@@ -402,6 +405,10 @@ const router = createBrowserRouter([
       {
         path: "project-inquiries",
         element: withSuspense(<AdminProjectInquiriesPage />),
+      },
+      {
+        path: "inquiries",
+        element: withSuspense(<AdminInquiriesPage />),
       },
       {
         path: "site-settings",

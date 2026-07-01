@@ -15,6 +15,7 @@ import {
   Building2,
   Sparkles,
   Inbox,
+  MessageSquare,
   Coins,
   Wallet,
   Trees,
@@ -136,6 +137,13 @@ export default function AdminSidebar() {
       icon: <Inbox className="h-5 w-5" />,
       badge: null,
       path: "/admin/project-inquiries",
+    },
+    {
+      id: "inquiries",
+      label: "Property so'rovlari",
+      icon: <MessageSquare className="h-5 w-5" />,
+      badge: null,
+      path: "/admin/inquiries",
     },
     {
       id: "admins",
