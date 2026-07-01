@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Check, MoreHorizontal, X } from "lucide-react";
+import { Check, MoreHorizontal, Trash2, X } from "lucide-react";
 import type { NavigateFunction } from "react-router-dom";
 
 const STATUS_BADGE: Record<string, string> = {
@@ -23,6 +23,7 @@ export const getColumns = (
   navigate: NavigateFunction,
   onApprove: (id: string) => void,
   onReject: (id: string) => void,
+  onDelete: (id: string) => void,
 ): ColumnDef<IAdminProperty>[] => {
   return [
     {
@@ -122,6 +123,17 @@ export const getColumns = (
                 Edit Property
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="text-destructive focus:text-destructive"
+                onClick={() => {
+                  if (confirm("Bu e'lonni o'chirishni tasdiqlaysizmi?")) {
+                    onDelete(property._id);
+                  }
+                }}
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                Delete Property
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );

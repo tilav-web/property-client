@@ -92,7 +92,12 @@ export default function AdminProperties() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-properties"] }),
   });
 
-  const columns = getColumns(openEditModal, navigate, approve, reject);
+  const { mutate: deleteProperty } = useMutation({
+    mutationFn: (id: string) => adminPropertyService.deleteProperty(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-properties"] }),
+  });
+
+  const columns = getColumns(openEditModal, navigate, approve, reject, deleteProperty);
 
   const buildParams = (overrides: Record<string, string | undefined>) => {
     const base: Record<string, string> = {

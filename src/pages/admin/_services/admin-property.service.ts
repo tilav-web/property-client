@@ -51,6 +51,13 @@ class AdminPropertyService {
     );
     return data;
   }
+
+  async deleteProperty(id: string): Promise<{ deleted: boolean; id: string }> {
+    const { data } = await adminApi.delete(
+      `${API_ENDPOINTS.ADMIN.properties}/${id}`,
+    );
+    return data;
+  }
 }
 
 export const adminPropertyService = new AdminPropertyService();

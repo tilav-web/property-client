@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Suspense, lazy } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import MainLayout from "./layouts/main-layout";
 import RootLayout from "./layouts/root-layout";
 import Main from "./pages/main/main";
@@ -370,6 +370,14 @@ const router = createBrowserRouter([
       {
         path: "properties/:propertyId",
         element: withSuspense(<PropertyDetailsPage />),
+      },
+      {
+        path: "sellers",
+        element: withSuspense(<Navigate to="/admin/users" replace />),
+      },
+      {
+        path: "sellers/:id",
+        element: withSuspense(<Navigate to="/admin/users" replace />),
       },
       {
         path: "tags",
