@@ -33,6 +33,9 @@ export interface ISiteSettings {
   contact_phones?: string[];
   default_map_lat?: number;
   default_map_lng?: number;
+  /** Telegram admin bot — faqat admin GET'da keladi */
+  telegram_bot_token?: string | null;
+  telegram_admin_chat_ids?: string[];
 }
 
 export type HeroSlot = "main" | "buy" | "rent";
@@ -40,6 +43,12 @@ export type HeroSlot = "main" | "buy" | "rent";
 class AdminSiteSettingsService {
   async getPublic() {
     const { data } = await publicApi.get<ISiteSettings>("/site-settings");
+    return data;
+  }
+
+  /** To'liq sozlamalar (telegram bot token bilan) — faqat admin. */
+  async getForAdmin() {
+    const { data } = await adminApi.get<ISiteSettings>("/site-settings/admin");
     return data;
   }
 

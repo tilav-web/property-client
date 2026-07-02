@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { Crown, Loader2, MapPin, Phone, Plus, Settings, Smartphone, Trash2, Upload, X } from "lucide-react";
+import { Bot, Crown, Loader2, MapPin, Phone, Plus, Settings, Smartphone, Trash2, Upload, X } from "lucide-react";
 import {
   adminSiteSettingsService,
   type HeroSlot,
@@ -55,7 +55,8 @@ export default function AdminSiteSettingsPage() {
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ["admin-site-settings"],
-    queryFn: () => adminSiteSettingsService.getPublic(),
+    // Admin GET — telegram bot token ham keladi (public GET'da yashirilgan)
+    queryFn: () => adminSiteSettingsService.getForAdmin(),
   });
 
   const [titleOverride, setTitleOverride] = useState("");
@@ -82,6 +83,9 @@ export default function AdminSiteSettingsPage() {
   const [advertiseMxik, setAdvertiseMxik] = useState<string>("");
   const [advertisePackageCode, setAdvertisePackageCode] = useState<string>("");
   const [vatPercent, setVatPercent] = useState<string>("");
+  // Telegram admin bot
+  const [telegramBotToken, setTelegramBotToken] = useState<string>("");
+  const [telegramChatIds, setTelegramChatIds] = useState<string[]>([""]);
   const [srcsets, setSrcsets] = useState<Record<HeroSlot, string>>({
     main: "",
     buy: "",
@@ -132,6 +136,12 @@ export default function AdminSiteSettingsPage() {
       setAdvertiseMxik(data.advertise_mxik ?? "");
       setAdvertisePackageCode(data.advertise_package_code ?? "");
       setVatPercent(String(data.vat_percent ?? ""));
+      setTelegramBotToken(data.telegram_bot_token ?? "");
+      setTelegramChatIds(
+        data.telegram_admin_chat_ids?.length
+          ? data.telegram_admin_chat_ids
+          : [""],
+      );
     }
   }, [data]);
 
@@ -249,6 +259,12 @@ export default function AdminSiteSettingsPage() {
     if (vatPercent.trim()) {
       formData.append("vat_percent", vatPercent.trim());
     }
+    // Telegram (bo'sh string = token o'chirish, shuning uchun doim yuboriladi)
+    formData.append("telegram_bot_token", telegramBotToken.trim());
+    formData.append(
+      "telegram_admin_chat_ids",
+      JSON.stringify(telegramChatIds.map((id) => id.trim()).filter(Boolean)),
+    );
     updateMutation.mutate(formData);
   };
 
@@ -692,6 +708,79 @@ export default function AdminSiteSettingsPage() {
             >
               <Plus size={14} className="mr-1" /> Raqam qo'shish
             </Button>
+          </div>
+        </div>
+
+        {/* Telegram admin bot */}
+        <div className="rounded-xl border border-border/60 p-4">
+          <div className="mb-3 flex items-center gap-2">
+            <Bot className="h-5 w-5 text-primary" />
+            <h3 className="font-semibold text-foreground">Telegram bot (admin xabarnomalar)</h3>
+          </div>
+          <p className="mb-3 text-xs text-muted-foreground">
+            Yangi e'lonlar (rasmlari va tasdiqlash/rad etish tugmalari bilan)
+            va barcha admin xabarnomalari shu botga boradi. Bot yaratish:
+            Telegram'da <b>@BotFather</b> → /newbot → token'ni shu yerga
+            kiriting. Chat ID olish: botga kirib <b>/start</b> yuboring — bot
+            ID'ingizni yozib beradi.
+          </p>
+          <div className="space-y-3">
+            <div>
+              <Label className="text-xs">Bot token</Label>
+              <Input
+                type="password"
+                value={telegramBotToken}
+                onChange={(e) => setTelegramBotToken(e.target.value)}
+                placeholder="123456789:AAF..."
+                autoComplete="off"
+              />
+              <p className="mt-1 text-[10px] text-muted-foreground">
+                Bo'sh qoldirilsa Telegram xabarnomalar o'chiriladi.
+              </p>
+            </div>
+            <div>
+              <Label className="text-xs">Admin chat ID'lari</Label>
+              <div className="mt-1 space-y-2">
+                {telegramChatIds.map((id, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <Input
+                      value={id}
+                      onChange={(e) =>
+                        setTelegramChatIds((prev) => {
+                          const next = [...prev];
+                          next[idx] = e.target.value;
+                          return next;
+                        })
+                      }
+                      placeholder="123456789"
+                      className="flex-1"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="text-red-500 hover:text-red-600 shrink-0"
+                      onClick={() =>
+                        setTelegramChatIds((prev) =>
+                          prev.filter((_, i) => i !== idx),
+                        )
+                      }
+                      disabled={telegramChatIds.length === 1}
+                    >
+                      <X size={16} />
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setTelegramChatIds((prev) => [...prev, ""])}
+                >
+                  <Plus size={14} className="mr-1" /> ID qo'shish
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
 
