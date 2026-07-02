@@ -74,7 +74,7 @@
       "description": "Rakan kongsi dipercayai anda dalam mencari hartanah yang sempurna. Beli, sewa, dan melabur dengan yakin.",
       "quick_links": "Pautan Pantas",
       "company": "Syarikat",
-      "about": "Tentang Amaar",
+      "about": "Tentang {{brand}}",
       "privacy_policy": "Dasar Privasi",
       "terms_of_service": "Terma Perkhidmatan",
       "offices": "Pejabat Kami",
@@ -582,7 +582,7 @@
       "error_load": "Gagal membuka perbualan AI",
       "title": "Pembantu AI",
       "anonymous_subtitle": "Mod tetamu — perbualan tidak disimpan",
-      "welcome": "Hai! Saya pembantu AI Amaar Properties. Cari hartanah dalam teks biasa — cth: \"apartmen 2 bilik di KL\".",
+      "welcome": "Hai! Saya pembantu AI {{brand}}. Cari hartanah dalam teks biasa — cth: \"apartmen 2 bilik di KL\".",
       "thinking": "AI sedang berfikir...",
       "send_error": "Gagal dapat jawapan, sila cuba lagi"
     },

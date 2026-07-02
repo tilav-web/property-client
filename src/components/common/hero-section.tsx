@@ -1,3 +1,4 @@
+import { COUNTRY_CONFIG } from "@/constants/country";
 import { cn } from "@/lib/utils";
 import { Suspense, lazy, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -68,7 +69,7 @@ export default function HeroSection({
           src={img}
           srcSet={imgSrcSet}
           sizes={imgSizes}
-          alt={resolvedTitle || "Amaar Properties"}
+          alt={resolvedTitle || COUNTRY_CONFIG.brandName}
           fetchPriority="high"
           loading="eager"
           decoding="async"

@@ -10,6 +10,7 @@ interface CountryDefaults {
   mapCenter: [number, number];
   mapZoom: number;
   phoneCountryCode: string;
+  brandName: string;
 }
 
 const SUPPORTED_LANGUAGE_CODES: ReadonlyArray<LanguageCode> = [
@@ -27,6 +28,8 @@ const COUNTRY_DEFAULTS: Record<CountryCode, CountryDefaults> = {
     mapCenter: [41.2995, 69.2401], // Toshkent
     mapZoom: 12,
     phoneCountryCode: "+998",
+    // UZ deploy uybos.uz brendi bilan ishlaydi
+    brandName: "Uybos",
   },
   MY: {
     currency: "MYR",
@@ -35,6 +38,7 @@ const COUNTRY_DEFAULTS: Record<CountryCode, CountryDefaults> = {
     mapCenter: [3.139, 101.6869], // Kuala Lumpur
     mapZoom: 12,
     phoneCountryCode: "+60",
+    brandName: "Amaar Properties",
   },
 };
 
@@ -115,4 +119,5 @@ export const COUNTRY_CONFIG = {
   mapCenter: resolveMapCenter(defaults.mapCenter),
   mapZoom: resolveMapZoom(defaults.mapZoom),
   phoneCountryCode: resolvePhoneCountryCode(defaults.phoneCountryCode),
+  brandName: readEnv("VITE_BRAND_NAME") ?? defaults.brandName,
 } as const;

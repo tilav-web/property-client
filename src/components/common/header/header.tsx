@@ -178,7 +178,7 @@ export default function Header({ className }: IHeaderProps) {
                         <img
                           className="h-8 w-auto object-contain"
                           src={logo}
-                          alt="Amaar Properties"
+                          alt={COUNTRY_CONFIG.brandName}
                           decoding="async"
                         />
                       </Link>
@@ -341,7 +341,7 @@ export default function Header({ className }: IHeaderProps) {
               <img
                 className="h-7 w-auto object-contain sm:h-8 lg:h-9"
                 src={logo}
-                alt="Amaar Properties"
+                alt={COUNTRY_CONFIG.brandName}
                 width={2966}
                 height={935}
                 decoding="async"
@@ -370,7 +370,7 @@ export default function Header({ className }: IHeaderProps) {
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
-                  aria-label="Call Amaar Properties"
+                  aria-label={`Call ${COUNTRY_CONFIG.brandName}`}
                   className="hidden sm:flex items-center justify-center size-9 rounded-full hover:bg-accent transition-colors animate-pulse-call"
                 >
                   <PhoneCall size={16} className="text-foreground/80" />

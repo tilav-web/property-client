@@ -84,7 +84,7 @@ export default function AdminLogin() {
                   <div className="relative">
                     <input
                       type="email"
-                      placeholder="admin@amaarproperty.com"
+                      placeholder="admin@example.com"
                       className="w-full px-4 py-3 pl-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-primary transition-all duration-200 text-slate-900 dark:text-white"
                       autoComplete="email"
                     />
@@ -124,7 +124,7 @@ export default function AdminLogin() {
                     <input
                       onChange={(e) => setEmail(e.target.value)}
                       type="email"
-                      placeholder="admin@amaarproperty.com"
+                      placeholder="admin@example.com"
                       disabled={loading}
                       className="w-full px-4 py-3 pl-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-primary transition-all duration-200 text-slate-900 dark:text-white"
                     />

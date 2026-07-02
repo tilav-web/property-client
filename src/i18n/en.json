@@ -74,7 +74,7 @@
       "description": "Your trusted partner in finding the perfect property. Buy, rent, and invest with confidence.",
       "quick_links": "Quick Links",
       "company": "Company",
-      "about": "About Amaar",
+      "about": "About {{brand}}",
       "privacy_policy": "Privacy Policy",
       "terms_of_service": "Terms of Service",
       "offices": "Our Offices",
@@ -583,7 +583,7 @@
       "error_load": "Failed to open the AI conversation",
       "title": "AI assistant",
       "anonymous_subtitle": "Guest mode — chat is not saved",
-      "welcome": "Hi! I'm the Amaar Properties AI assistant. Search for properties in plain text — e.g., \"2-bedroom apartment in KL\".",
+      "welcome": "Hi! I'm the {{brand}} AI assistant. Search for properties in plain text — e.g., \"2-bedroom apartment\".",
       "thinking": "AI is thinking...",
       "send_error": "Failed to get a reply, please try again"
     },

@@ -133,7 +133,11 @@ export const i18nReady = i18n
     defaultNS: "translation",
     resources,
     initImmediate: false,
-    interpolation: { escapeValue: false },
+    interpolation: {
+      escapeValue: false,
+      // {{brand}} — barcha tarjimalarda platforma brendi (UZ: Uybos, MY: Amaar Properties)
+      defaultVariables: { brand: COUNTRY_CONFIG.brandName },
+    },
     postProcess: ["country"],
     react: { useSuspense: false },
   });

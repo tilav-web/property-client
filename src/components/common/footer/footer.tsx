@@ -36,7 +36,7 @@ export default function Footer() {
             <Link to="/" className="inline-block">
               <img
                 src={logo}
-                alt="Amaar Properties"
+                alt={COUNTRY_CONFIG.brandName}
                 className="h-7 w-auto brightness-0 invert"
               />
             </Link>
@@ -208,7 +208,7 @@ export default function Footer() {
       <div className="border-t border-background/10">
         <div className="container mx-auto px-4 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-background/50">
-            &copy; {currentYear} Amaar Properties. {t("common.footer.all_rights_reserved")}
+            &copy; {currentYear} {COUNTRY_CONFIG.brandName}. {t("common.footer.all_rights_reserved")}
           </p>
           <p className="text-xs text-background/40">
             {t("common.footer.made_with_love")}

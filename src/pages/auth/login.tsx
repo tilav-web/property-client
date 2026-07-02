@@ -1,3 +1,4 @@
+import { COUNTRY_CONFIG } from "@/constants/country";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -325,7 +326,7 @@ export default function Login() {
           <div className="absolute inset-0 bg-gradient-to-tr from-black/65 via-black/15 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-8 text-white xl:p-10">
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.08em] text-white/80">
-              Amaar Properties
+              {COUNTRY_CONFIG.brandName}
             </p>
             <h2 className="max-w-md text-3xl font-semibold leading-tight xl:text-4xl">
               {t(
