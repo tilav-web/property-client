@@ -497,7 +497,7 @@
       },
       "search_filters": {
         "location_placeholder": "Bandar, komuniti atau bangunan",
-        "ai_placeholder": "Terangkan keperluan anda, contoh apartmen 2 bilik dekat pusat Qarshi",
+        "ai_placeholder": "Terangkan keperluan anda, contoh apartmen 2 bilik dekat pusat bandar",
         "ai_search": "Carian AI",
         "ai_default_prompt": "Cari hartanah yang sesuai untuk saya",
         "selected_filters": "Penapis dipilih",
@@ -582,7 +582,7 @@
       "error_load": "Gagal membuka perbualan AI",
       "title": "Pembantu AI",
       "anonymous_subtitle": "Mod tetamu — perbualan tidak disimpan",
-      "welcome": "Hai! Saya pembantu AI {{brand}}. Cari hartanah dalam teks biasa — cth: \"apartmen 2 bilik di KL\".",
+      "welcome": "Hai! Saya pembantu AI {{brand}}. Cari hartanah dalam teks biasa — cth: \"apartmen 2 bilik di pusat bandar\".",
       "thinking": "AI sedang berfikir...",
       "send_error": "Gagal dapat jawapan, sila cuba lagi"
     },

@@ -497,7 +497,7 @@
       },
       "search_filters": {
         "location_placeholder": "Shahar, tuman yoki bino",
-        "ai_placeholder": "Nima kerakligini yozing, masalan Qarshi markazida 2 xonali kvartira",
+        "ai_placeholder": "Nima kerakligini yozing, masalan shahar markazida 2 xonali kvartira",
         "ai_search": "AI qidiruv",
         "ai_default_prompt": "Menga mos mulklarni topib ber",
         "selected_filters": "Tanlangan filterlar",
@@ -582,7 +582,7 @@
       "error_load": "AI suhbatini ochib bo'lmadi",
       "title": "AI yordamchi",
       "anonymous_subtitle": "Mehmon rejimi — suhbat saqlanmaydi",
-      "welcome": "Salom! Men {{brand}} AI yordamchisiman. Mulk qidirish uchun oddiy tilda yozing — masalan: \"Toshkentda 2 xonali kvartira\".",
+      "welcome": "Salom! Men {{brand}} AI yordamchisiman. Mulk qidirish uchun oddiy tilda yozing — masalan: \"shahar markazida 2 xonali kvartira\".",
       "thinking": "AI o'ylayapti...",
       "send_error": "Javob olinmadi, qayta urinib ko'ring"
     },

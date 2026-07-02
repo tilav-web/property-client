@@ -464,7 +464,7 @@
       },
       "search_filters": {
         "location_placeholder": "City, community or building",
-        "ai_placeholder": "Describe what you need, e.g. 2-bedroom apartment in Qarshi center",
+        "ai_placeholder": "Describe what you need, e.g. 2-bedroom apartment in the city center",
         "ai_search": "AI search",
         "ai_default_prompt": "Find suitable properties for me",
         "selected_filters": "Selected filters",

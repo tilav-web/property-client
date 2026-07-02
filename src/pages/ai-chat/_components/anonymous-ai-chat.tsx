@@ -63,7 +63,7 @@ export default function AnonymousAiChat({ onBack, initialPrompt }: Props) {
         role: "assistant",
         content: t(
           "pages.ai_chat.welcome",
-          "Salom! Men {{brand}} AI yordamchisiman. Mulk qidirish uchun oddiy tilda yozing — masalan: \"Toshkentda 2 xonali kvartira\".",
+          "Salom! Men {{brand}} AI yordamchisiman. Mulk qidirish uchun oddiy tilda yozing — masalan: \"shahar markazida 2 xonali kvartira\".",
         ),
       },
     ]);
